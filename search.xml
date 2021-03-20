@@ -1,33 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>test_my_site</title>
-      <link href="posts/7525f478/"/>
-      <url>posts/7525f478/</url>
-      
-        <content type="html"><![CDATA[<p>test</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="posts/4a17b156/"/>
-      <url>posts/4a17b156/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>记一次hw面试经历(1)</title>
+    <url>/posts/40769f33/</url>
+    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云之类的社区文章学习</p>
+<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
+<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作都可以熟悉使用。<br>&lt; !–more–&gt;</p>
+<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
+<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
+<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
+<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
+<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
+<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
+<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
+<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
+<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
+<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
+<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
+<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
+<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
+<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
+<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
+<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
+<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
+<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
+<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
+<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
+<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
+<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
+<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
+<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
+<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
+<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
+<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
+<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次hw面试经历(2)</title>
+    <url>/posts/undefined/</url>
+    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在在读，4月份有时间可以出来</p>
+<h3 id="介绍一下写的经历"><a href="#介绍一下写的经历" class="headerlink" title="介绍一下写的经历"></a>介绍一下写的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破 之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
+<h3 id="我有没有过相关的护网经验"><a href="#我有没有过相关的护网经验" class="headerlink" title="我有没有过相关的护网经验"></a>我有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
+<h3 id="我是否有使用过安全产品"><a href="#我是否有使用过安全产品" class="headerlink" title="我是否有使用过安全产品"></a>我是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
+<h3 id="你说一下常见的端口和漏洞"><a href="#你说一下常见的端口和漏洞" class="headerlink" title="你说一下常见的端口和漏洞"></a>你说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
+<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
+<h3 id="那冰蝎你就说一下"><a href="#那冰蝎你就说一下" class="headerlink" title="那冰蝎你就说一下"></a>那冰蝎你就说一下</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
 </search>
