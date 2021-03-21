@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-03-20T08:51:11.869Z</updated>
+  <updated>2021-03-21T01:43:47.548Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用proxychains4 git clone Failed to connect to 拒绝连接</title>
+    <link href="http://example.com/posts/6cfa13a3/"/>
+    <id>http://example.com/posts/6cfa13a3/</id>
+    <published>2021-03-21T01:38:29.000Z</published>
+    <updated>2021-03-21T01:43:47.548Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Ubuntu" scheme="http://example.com/categories/Ubuntu/"/>
+    
+    
+    <category term="Ubuntu" scheme="http://example.com/tags/Ubuntu/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次hw面试经历(2)</title>
