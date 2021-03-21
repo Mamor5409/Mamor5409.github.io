@@ -4,23 +4,98 @@
   
     
     <entry>
-      <title>使用proxychains4 git clone Failed to connect to 拒绝连接</title>
-      <link href="posts/6cfa13a3/"/>
-      <url>posts/6cfa13a3/</url>
+      <title>hexo文章模板设置</title>
+      <link href="posts/2b14b1c3/"/>
+      <url>posts/2b14b1c3/</url>
       
-        <content type="html"><![CDATA[<p>问题:使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>]]></content>
+        <content type="html"><![CDATA[<p>打开hexo项目文件夹张的scaffold中的<code>post.md</code>和<code>draft.md</code>,并修改<br>对应的是 <code>hexo new &lt;title&gt;</code> 默认是<code>post</code>，草稿是<code>draft</code></p><blockquote><hr><p>title: hexo文章模板设置<br>tags:<br>categories:<br>description:<br>date: 1616291706000</p><hr></blockquote>]]></content>
       
       
       <categories>
           
-          <category> Ubuntu </category>
+          <category> Hexo </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Ubuntu </tag>
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>AoiAWD环境搭建</title>
+      <link href="posts/622384de/"/>
+      <url>posts/622384de/</url>
+      
+        <content type="html"><![CDATA[<p>111</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> AWD </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> AWD </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>使用proxychains4gitclone拒绝访问</title>
+      <link href="posts/3a6e39d4/"/>
+      <url>posts/3a6e39d4/</url>
+      
+        <content type="html"><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>kali安装pip2</title>
+      <link href="posts/6b338ac1/"/>
+      <url>posts/6b338ac1/</url>
+      
+        <content type="html"><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
             
         </tags>
       
@@ -63,14 +138,14 @@
       
       <categories>
           
-          <category> hexo </category>
+          <category> Hexo </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> hexo </tag>
+            <tag> Hexo </tag>
             
         </tags>
       
