@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-12T08:05:13.152Z</updated>
+  <updated>2021-04-13T14:11:24.294Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>xss挑战之旅②</title>
+    <link href="http://example.com/posts/b04952e9/"/>
+    <id>http://example.com/posts/b04952e9/</id>
+    <published>2021-04-13T14:10:46.000Z</published>
+    <updated>2021-04-13T14:11:24.294Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="XSS" scheme="http://example.com/categories/XSS/"/>
+    
+    
+    <category term="XSS" scheme="http://example.com/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>xss挑战之旅①</title>
+    <link href="http://example.com/posts/ca3eea61/"/>
+    <id>http://example.com/posts/ca3eea61/</id>
+    <published>2021-04-13T09:06:59.000Z</published>
+    <updated>2021-04-13T14:09:25.263Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="XSS" scheme="http://example.com/categories/XSS/"/>
+    
+    
+    <category term="XSS" scheme="http://example.com/tags/XSS/"/>
+    
+  </entry>
   
   <entry>
     <title>Hacker_Tools-转</title>
@@ -78,7 +116,7 @@
     <link href="http://example.com/posts/312e3d12/"/>
     <id>http://example.com/posts/312e3d12/</id>
     <published>2021-04-12T07:17:06.000Z</published>
-    <updated>2021-04-12T14:25:37.321Z</updated>
+    <updated>2021-04-13T01:49:46.723Z</updated>
     
     
     <summary type="html"> </summary>
