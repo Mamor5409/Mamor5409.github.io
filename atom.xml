@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-18T09:53:00.207Z</updated>
+  <updated>2021-04-19T14:00:25.888Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,13 +21,17 @@
     <link href="http://example.com/posts/2b9109b5/"/>
     <id>http://example.com/posts/2b9109b5/</id>
     <published>2021-04-18T09:52:59.000Z</published>
-    <updated>2021-04-18T09:53:00.207Z</updated>
+    <updated>2021-04-19T14:00:25.888Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
+    <category term="SQLi" scheme="http://example.com/categories/SQLi/"/>
+    
+    
+    <category term="SQLi" scheme="http://example.com/tags/SQLi/"/>
     
   </entry>
   
