@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-28T15:01:44.360Z</updated>
+  <updated>2021-04-30T08:05:01.098Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DCchallenges2</title>
+    <link href="http://example.com/posts/e4e28081/"/>
+    <id>http://example.com/posts/e4e28081/</id>
+    <published>2021-04-30T07:29:30.000Z</published>
+    <updated>2021-04-30T08:05:01.098Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/categories/DCchallenges/"/>
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/tags/DCchallenges/"/>
+    
+  </entry>
   
   <entry>
     <title>DCchallenges1</title>
@@ -364,25 +383,6 @@
     <id>http://example.com/posts/d4fee3ae/</id>
     <published>2021-04-12T07:09:05.000Z</published>
     <updated>2021-04-12T07:16:17.542Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Hexo" scheme="http://example.com/categories/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo文章模板设置</title>
-    <link href="http://example.com/posts/2b14b1c3/"/>
-    <id>http://example.com/posts/2b14b1c3/</id>
-    <published>2021-03-21T01:55:06.000Z</published>
-    <updated>2021-03-21T02:01:42.301Z</updated>
     
     
     <summary type="html"> </summary>
