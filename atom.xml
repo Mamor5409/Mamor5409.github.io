@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-04-30T08:05:01.098Z</updated>
+  <updated>2021-05-01T15:08:13.702Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DCchallenges3</title>
+    <link href="http://example.com/posts/93e5b017/"/>
+    <id>http://example.com/posts/93e5b017/</id>
+    <published>2021-05-01T15:07:58.000Z</published>
+    <updated>2021-05-01T15:08:13.702Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/categories/DCchallenges/"/>
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/tags/DCchallenges/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设备磁盘/CD-ROM配置不正确</title>
+    <link href="http://example.com/posts/f1a8aa3a/"/>
+    <id>http://example.com/posts/f1a8aa3a/</id>
+    <published>2021-05-01T02:55:46.000Z</published>
+    <updated>2021-05-01T03:04:11.056Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="VM" scheme="http://example.com/categories/VM/"/>
+    
+    
+    <category term="VM" scheme="http://example.com/tags/VM/"/>
+    
+  </entry>
   
   <entry>
     <title>DCchallenges2</title>
@@ -355,44 +393,6 @@
     
     
     <category term="规划" scheme="http://example.com/tags/%E8%A7%84%E5%88%92/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>信息收集</title>
-    <link href="http://example.com/posts/312e3d12/"/>
-    <id>http://example.com/posts/312e3d12/</id>
-    <published>2021-04-12T07:17:06.000Z</published>
-    <updated>2021-04-13T01:49:46.723Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="信息收集" scheme="http://example.com/categories/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    
-    
-    <category term="信息收集" scheme="http://example.com/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo基本使用</title>
-    <link href="http://example.com/posts/d4fee3ae/"/>
-    <id>http://example.com/posts/d4fee3ae/</id>
-    <published>2021-04-12T07:09:05.000Z</published>
-    <updated>2021-04-12T07:16:17.542Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Hexo" scheme="http://example.com/categories/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
     
   </entry>
   
