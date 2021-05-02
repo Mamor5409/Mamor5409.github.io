@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-01T15:08:13.702Z</updated>
+  <updated>2021-05-02T15:45:37.487Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DCchallenges4</title>
+    <link href="http://example.com/posts/d8125b4/"/>
+    <id>http://example.com/posts/d8125b4/</id>
+    <published>2021-05-02T13:32:57.000Z</published>
+    <updated>2021-05-02T15:45:37.487Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/categories/DCchallenges/"/>
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/tags/DCchallenges/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>proxychain4配置——虚拟机无法正常走代理</title>
+    <link href="http://example.com/posts/45d6c023/"/>
+    <id>http://example.com/posts/45d6c023/</id>
+    <published>2021-05-01T15:12:01.000Z</published>
+    <updated>2021-05-01T15:12:01.552Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>DCchallenges3</title>
@@ -355,44 +389,6 @@
     
     
     <category term="工具手册" scheme="http://example.com/tags/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>github渗透测试工具集-转</title>
-    <link href="http://example.com/posts/a25c6c18/"/>
-    <id>http://example.com/posts/a25c6c18/</id>
-    <published>2021-04-12T07:44:57.000Z</published>
-    <updated>2021-04-12T07:57:39.399Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="工具手册" scheme="http://example.com/categories/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/"/>
-    
-    
-    <category term="工具手册" scheme="http://example.com/tags/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>个人规划</title>
-    <link href="http://example.com/posts/d7c4f825/"/>
-    <id>http://example.com/posts/d7c4f825/</id>
-    <published>2021-04-12T07:19:42.000Z</published>
-    <updated>2021-04-12T08:12:45.450Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="规划" scheme="http://example.com/categories/%E8%A7%84%E5%88%92/"/>
-    
-    
-    <category term="规划" scheme="http://example.com/tags/%E8%A7%84%E5%88%92/"/>
     
   </entry>
   
