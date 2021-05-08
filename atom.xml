@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-07T05:56:32.649Z</updated>
+  <updated>2021-05-08T13:12:56.621Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>DCchallenges7</title>
+    <link href="http://example.com/posts/9488740e/"/>
+    <id>http://example.com/posts/9488740e/</id>
+    <published>2021-05-08T07:44:13.000Z</published>
+    <updated>2021-05-08T13:12:56.621Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/categories/DCchallenges/"/>
+    
+    
+    <category term="DCchallenges" scheme="http://example.com/tags/DCchallenges/"/>
+    
+  </entry>
+  
+  <entry>
     <title>DCchallenges6</title>
     <link href="http://example.com/posts/e38f4498/"/>
     <id>http://example.com/posts/e38f4498/</id>
     <published>2021-05-04T06:03:46.000Z</published>
-    <updated>2021-05-07T05:56:32.649Z</updated>
+    <updated>2021-05-07T06:05:47.853Z</updated>
     
     
     <summary type="html"> </summary>
@@ -360,25 +379,6 @@
     <id>http://example.com/posts/9f0502f1/</id>
     <published>2021-04-14T13:23:25.000Z</published>
     <updated>2021-04-18T09:58:02.659Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="XSS" scheme="http://example.com/categories/XSS/"/>
-    
-    
-    <category term="XSS" scheme="http://example.com/tags/XSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>xss-labs2</title>
-    <link href="http://example.com/posts/b04952e9/"/>
-    <id>http://example.com/posts/b04952e9/</id>
-    <published>2021-04-13T14:10:46.000Z</published>
-    <updated>2021-04-18T09:53:56.495Z</updated>
     
     
     <summary type="html"> </summary>
