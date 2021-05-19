@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-11T04:58:13.300Z</updated>
+  <updated>2021-05-19T15:16:40.252Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安全狗绕过</title>
+    <link href="http://example.com/posts/d405928/"/>
+    <id>http://example.com/posts/d405928/</id>
+    <published>2021-05-19T08:20:43.000Z</published>
+    <updated>2021-05-19T15:16:40.252Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="waf" scheme="http://example.com/categories/waf/"/>
+    
+    
+    <category term="waf" scheme="http://example.com/tags/waf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>upload-labs1</title>
+    <link href="http://example.com/posts/685229a3/"/>
+    <id>http://example.com/posts/685229a3/</id>
+    <published>2021-05-18T10:19:28.000Z</published>
+    <updated>2021-05-18T10:19:28.294Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Billu_b0x</title>
+    <link href="http://example.com/posts/827ecdf7/"/>
+    <id>http://example.com/posts/827ecdf7/</id>
+    <published>2021-05-11T12:02:40.000Z</published>
+    <updated>2021-05-17T07:38:06.475Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="vulhub" scheme="http://example.com/categories/vulhub/"/>
+    
+    
+    <category term="vulhub" scheme="http://example.com/tags/vulhub/"/>
+    
+  </entry>
   
   <entry>
     <title>DCchallenges9</title>
@@ -332,63 +385,6 @@
     
     
     <category term="IDEA" scheme="http://example.com/tags/IDEA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs2</title>
-    <link href="http://example.com/posts/63ba4580/"/>
-    <id>http://example.com/posts/63ba4580/</id>
-    <published>2021-04-22T14:16:26.000Z</published>
-    <updated>2021-04-25T06:43:02.692Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://example.com/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://example.com/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs1</title>
-    <link href="http://example.com/posts/2b9109b5/"/>
-    <id>http://example.com/posts/2b9109b5/</id>
-    <published>2021-04-18T09:52:59.000Z</published>
-    <updated>2021-04-22T14:16:02.477Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://example.com/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://example.com/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo文章插入图片</title>
-    <link href="http://example.com/posts/7ecd88c4/"/>
-    <id>http://example.com/posts/7ecd88c4/</id>
-    <published>2021-04-18T09:48:46.000Z</published>
-    <updated>2021-04-28T15:02:23.113Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Hexo" scheme="http://example.com/categories/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
     
   </entry>
   
