@@ -48,8 +48,15 @@
 <meta property="og:image" content="http://example.com/posts/827ecdf7/phpinfo.png">
 <meta property="og:image" content="http://example.com/posts/827ecdf7/index.png">
 <meta property="og:image" content="http://example.com/posts/827ecdf7/file_include1.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/addphp.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/cphp.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/auth.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/sqli.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/login.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/download_phpmyconf.png">
+<meta property="og:image" content="http://example.com/posts/827ecdf7/phpmyconf.png">
 <meta property="article:published_time" content="2021-05-11T12:02:40.000Z">
-<meta property="article:modified_time" content="2021-05-17T07:38:06.475Z">
+<meta property="article:modified_time" content="2021-05-20T09:25:31.819Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="vulhub">
 <meta name="twitter:card" content="summary">
@@ -259,7 +266,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-17 15:38:06" itemprop="dateModified" datetime="2021-05-17T15:38:06+08:00">2021-05-17</time>
+                <time title="修改时间：2021-05-20 17:25:31" itemprop="dateModified" datetime="2021-05-20T17:25:31+08:00">2021-05-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,14 +291,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
+              <span>4.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -361,11 +368,7 @@
 <p>没扫出来注入点</p>
 <br/>
 
-<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试</p>
-<p>！！！！！！</p>
-<hr>
-<br/>
-
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
 <br/>
 
 <h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
@@ -379,8 +382,21 @@
 <p>发现一个<code>ica</code>的用户，可以登录ssh</p>
 <br/>
 
+
 <p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
-<p>并进行审计</p>
+<p><img src="addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
+<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
+<blockquote>
+<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
+</blockquote>
+<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
+<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
+<p>这里传马多次都没传成功，有时间再试试吧….</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="download_phpmyconf.png"><br><img src="phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#56;&#46;&#49;&#52;&#x34;">&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#56;&#46;&#49;&#52;&#x34;</a>成功登录root用户</p>
+<p>Reference</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a target="_blank" rel="noopener" href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
+</blockquote>
 
     </div>
 
@@ -510,7 +526,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">nmap扫网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">nmap扫端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫描目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8dirb%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">用dirb扫描目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.3.</span> <span class="nav-text">文件包含</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">nmap扫网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">nmap扫端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫描目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8dirb%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">用dirb扫描目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.3.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95"><span class="nav-number">2.4.</span> <span class="nav-text">后台登录</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%B8%80"><span class="nav-number">2.4.1.</span> <span class="nav-text">思路一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%BA%8C-SQL%E6%B3%A8%E5%85%A5%E5%86%8D%E5%B0%9D%E8%AF%95%E6%9F%A5%E7%9C%8Bindex-php%E7%9A%84%E6%BA%90%E7%A0%81"><span class="nav-number">2.4.2.</span> <span class="nav-text">思路二 SQL注入再尝试查看index.php的源码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%97%E5%88%B0root%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF%E4%BA%8C"><span class="nav-number">2.5.</span> <span class="nav-text">得到root权限思路二</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -526,14 +542,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -580,12 +596,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">150k</span>
+    <span title="站点总字数">152k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:16</span>
+    <span title="站点阅读时长">2:18</span>
 </div>
 
 <!--
@@ -596,7 +612,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共36.9k字</span>
+  <span class="post-count">博客全站共37.6k字</span>
 </div>
 -->
         

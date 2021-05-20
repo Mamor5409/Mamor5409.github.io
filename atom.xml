@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-05-19T15:16:40.252Z</updated>
+  <updated>2021-05-20T09:10:59.547Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>安全狗绕过</title>
+    <title>hexo设置多个标签或分类</title>
+    <link href="http://example.com/posts/d7c641b4/"/>
+    <id>http://example.com/posts/d7c641b4/</id>
+    <published>2021-05-20T09:09:20.000Z</published>
+    <updated>2021-05-20T09:10:59.547Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Hexo" scheme="http://example.com/categories/Hexo/"/>
+    
+    
+    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安全狗4.0 sqli绕过</title>
     <link href="http://example.com/posts/d405928/"/>
     <id>http://example.com/posts/d405928/</id>
     <published>2021-05-19T08:20:43.000Z</published>
-    <updated>2021-05-19T15:16:40.252Z</updated>
+    <updated>2021-05-20T09:08:51.067Z</updated>
     
     
     <summary type="html"> </summary>
@@ -30,6 +49,10 @@
     
     <category term="waf" scheme="http://example.com/categories/waf/"/>
     
+    <category term="SQLi" scheme="http://example.com/categories/waf/SQLi/"/>
+    
+    
+    <category term="SQLi" scheme="http://example.com/tags/SQLi/"/>
     
     <category term="waf" scheme="http://example.com/tags/waf/"/>
     
@@ -40,7 +63,7 @@
     <link href="http://example.com/posts/685229a3/"/>
     <id>http://example.com/posts/685229a3/</id>
     <published>2021-05-18T10:19:28.000Z</published>
-    <updated>2021-05-18T10:19:28.294Z</updated>
+    <updated>2021-05-19T15:17:18.330Z</updated>
     
     
     <summary type="html"> </summary>
@@ -55,7 +78,7 @@
     <link href="http://example.com/posts/827ecdf7/"/>
     <id>http://example.com/posts/827ecdf7/</id>
     <published>2021-05-11T12:02:40.000Z</published>
-    <updated>2021-05-17T07:38:06.475Z</updated>
+    <updated>2021-05-20T09:25:31.819Z</updated>
     
     
     <summary type="html"> </summary>
@@ -366,25 +389,6 @@
     
     
     <category term="SQLi" scheme="http://example.com/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>idea激活</title>
-    <link href="http://example.com/posts/b49b0221/"/>
-    <id>http://example.com/posts/b49b0221/</id>
-    <published>2021-04-25T05:47:07.000Z</published>
-    <updated>2021-04-25T06:39:01.917Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="IDEA" scheme="http://example.com/categories/IDEA/"/>
-    
-    
-    <category term="IDEA" scheme="http://example.com/tags/IDEA/"/>
     
   </entry>
   

