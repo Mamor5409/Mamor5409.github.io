@@ -347,14 +347,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/Linux/</loc>
+    <loc>http://example.com/tags/XSS/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/XSS/</loc>
+    <loc>http://example.com/tags/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -410,14 +410,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/%E9%9D%A2%E8%AF%95/</loc>
+    <loc>http://example.com/tags/VM/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/VM/</loc>
+    <loc>http://example.com/tags/%E9%9D%A2%E8%AF%95/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -454,14 +454,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Linux/</loc>
+    <loc>http://example.com/categories/XSS/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/XSS/</loc>
+    <loc>http://example.com/categories/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -517,7 +517,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/waf/SQLi/</loc>
+    <loc>http://example.com/categories/VM/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -531,7 +531,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/VM/</loc>
+    <loc>http://example.com/categories/waf/SQLi/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

