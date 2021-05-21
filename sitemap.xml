@@ -9,20 +9,6 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/7f295dd9/</loc>
-    
-    <lastmod>2021-05-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/e6200c63/</loc>
-    
-    <lastmod>2021-05-21</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/827ecdf7/</loc>
     
     <lastmod>2021-05-20</lastmod>
@@ -340,6 +326,13 @@
   </url>
   
   <url>
+    <loc>http://mamor5409.github.io/tags/vulhub/</loc>
+    <lastmod>2021-05-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
@@ -347,7 +340,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/vulhub/</loc>
+    <loc>http://mamor5409.github.io/tags/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -362,13 +355,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/tags/XSS/</loc>
-    <lastmod>2021-05-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/tags/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -447,6 +433,13 @@
   </url>
   
   <url>
+    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
+    <lastmod>2021-05-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/categories/DCchallenges/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
@@ -454,7 +447,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
+    <loc>http://mamor5409.github.io/categories/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -469,13 +462,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/XSS/</loc>
-    <lastmod>2021-05-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/categories/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
