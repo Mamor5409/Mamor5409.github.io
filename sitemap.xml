@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mamor5409.github.io/posts/e6200c63/</loc>
+    
+    <lastmod>2021-05-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/posts/d405928/</loc>
     
     <lastmod>2021-05-21</lastmod>
@@ -340,14 +347,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/Linux/</loc>
+    <loc>http://mamor5409.github.io/tags/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
+    <loc>http://mamor5409.github.io/tags/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -368,14 +375,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/IDEA/</loc>
+    <loc>http://mamor5409.github.io/tags/phpstudy/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/phpstudy/</loc>
+    <loc>http://mamor5409.github.io/tags/IDEA/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -447,14 +454,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/Linux/</loc>
+    <loc>http://mamor5409.github.io/categories/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
+    <loc>http://mamor5409.github.io/categories/Linux/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -475,14 +482,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/IDEA/</loc>
+    <loc>http://mamor5409.github.io/categories/phpstudy/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/phpstudy/</loc>
+    <loc>http://mamor5409.github.io/categories/IDEA/</loc>
     <lastmod>2021-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-05-20T09:10:59.547Z</updated>
+  <updated>2021-05-21T06:17:06.173Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo图片插入测试1</title>
+    <link href="http://mamor5409.github.io/posts/e6200c63/"/>
+    <id>http://mamor5409.github.io/posts/e6200c63/</id>
+    <published>2021-05-21T06:17:05.000Z</published>
+    <updated>2021-05-21T06:17:06.173Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>hexo设置多个标签或分类</title>
@@ -360,25 +375,6 @@
     <id>http://mamor5409.github.io/posts/8ad9e0b5/</id>
     <published>2021-04-25T09:01:23.000Z</published>
     <updated>2021-04-26T14:07:11.324Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs3</title>
-    <link href="http://mamor5409.github.io/posts/14bd7516/"/>
-    <id>http://mamor5409.github.io/posts/14bd7516/</id>
-    <published>2021-04-25T06:44:43.000Z</published>
-    <updated>2021-04-25T08:59:06.823Z</updated>
     
     
     <summary type="html"> </summary>
