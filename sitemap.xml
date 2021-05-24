@@ -361,14 +361,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/vulhub/</loc>
+    <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
+    <loc>http://mamor5409.github.io/tags/vulhub/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -396,14 +396,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/apt-get/</loc>
+    <loc>http://mamor5409.github.io/tags/XSS/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/XSS/</loc>
+    <loc>http://mamor5409.github.io/tags/apt-get/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -482,14 +482,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
+    <loc>http://mamor5409.github.io/categories/DCchallenges/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/DCchallenges/</loc>
+    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -517,14 +517,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/apt-get/</loc>
+    <loc>http://mamor5409.github.io/categories/XSS/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/XSS/</loc>
+    <loc>http://mamor5409.github.io/categories/apt-get/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -587,14 +587,14 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/waf/SQLi/</loc>
+    <loc>http://mamor5409.github.io/categories/VM/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/VM/</loc>
+    <loc>http://mamor5409.github.io/categories/waf/SQLi/</loc>
     <lastmod>2021-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
