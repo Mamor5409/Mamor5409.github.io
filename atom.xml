@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-05-20T09:10:59.547Z</updated>
+  <updated>2021-05-24T14:16:52.239Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,93 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu_apt-get安装时报错</title>
+    <link href="http://mamor5409.github.io/posts/e46255d2/"/>
+    <id>http://mamor5409.github.io/posts/e46255d2/</id>
+    <published>2021-05-24T14:14:44.000Z</published>
+    <updated>2021-05-24T14:16:52.239Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="apt-get" scheme="http://mamor5409.github.io/categories/apt-get/"/>
+    
+    
+    <category term="apt-get" scheme="http://mamor5409.github.io/tags/apt-get/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vulhub_flask_ssti复现</title>
+    <link href="http://mamor5409.github.io/posts/c26f17b8/"/>
+    <id>http://mamor5409.github.io/posts/c26f17b8/</id>
+    <published>2021-05-24T08:54:24.000Z</published>
+    <updated>2021-05-24T14:16:52.239Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Struts2复现s2-007</title>
+    <link href="http://mamor5409.github.io/posts/700d04cb/"/>
+    <id>http://mamor5409.github.io/posts/700d04cb/</id>
+    <published>2021-05-23T13:52:17.000Z</published>
+    <updated>2021-05-23T13:52:18.122Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Struts2复现s2-005</title>
+    <link href="http://mamor5409.github.io/posts/9e0365e7/"/>
+    <id>http://mamor5409.github.io/posts/9e0365e7/</id>
+    <published>2021-05-23T13:51:08.000Z</published>
+    <updated>2021-05-24T14:18:34.544Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Struts2" scheme="http://mamor5409.github.io/categories/Struts2/"/>
+    
+    
+    <category term="Struts2" scheme="http://mamor5409.github.io/tags/Struts2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Struts2复现s2-001</title>
+    <link href="http://mamor5409.github.io/posts/996ea1fe/"/>
+    <id>http://mamor5409.github.io/posts/996ea1fe/</id>
+    <published>2021-05-23T13:48:09.000Z</published>
+    <updated>2021-05-23T13:50:25.177Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Struts2" scheme="http://mamor5409.github.io/categories/Struts2/"/>
+    
+    
+    <category term="Struts2" scheme="http://mamor5409.github.io/tags/Struts2/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo设置多个标签或分类</title>
@@ -294,101 +381,6 @@
     
     
     <category term="DCchallenges" scheme="http://mamor5409.github.io/tags/DCchallenges/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs总结</title>
-    <link href="http://mamor5409.github.io/posts/6db7f8ba/"/>
-    <id>http://mamor5409.github.io/posts/6db7f8ba/</id>
-    <published>2021-04-27T07:49:07.000Z</published>
-    <updated>2021-04-27T07:49:23.523Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs5</title>
-    <link href="http://mamor5409.github.io/posts/fdded023/"/>
-    <id>http://mamor5409.github.io/posts/fdded023/</id>
-    <published>2021-04-27T07:48:06.000Z</published>
-    <updated>2021-04-27T07:49:23.522Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
-    <link href="http://mamor5409.github.io/posts/ccb4aa11/"/>
-    <id>http://mamor5409.github.io/posts/ccb4aa11/</id>
-    <published>2021-04-26T14:16:29.000Z</published>
-    <updated>2021-04-26T14:17:09.902Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Linux" scheme="http://mamor5409.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="http://mamor5409.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs4</title>
-    <link href="http://mamor5409.github.io/posts/8ad9e0b5/"/>
-    <id>http://mamor5409.github.io/posts/8ad9e0b5/</id>
-    <published>2021-04-25T09:01:23.000Z</published>
-    <updated>2021-04-26T14:07:11.324Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs3</title>
-    <link href="http://mamor5409.github.io/posts/14bd7516/"/>
-    <id>http://mamor5409.github.io/posts/14bd7516/</id>
-    <published>2021-04-25T06:44:43.000Z</published>
-    <updated>2021-04-25T08:59:06.823Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
     
   </entry>
   
