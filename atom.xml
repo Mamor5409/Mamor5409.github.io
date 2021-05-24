@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-05-24T14:16:52.239Z</updated>
+  <updated>2021-05-24T15:14:58.710Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu安装pip2</title>
+    <link href="http://mamor5409.github.io/posts/2a2a2884/"/>
+    <id>http://mamor5409.github.io/posts/2a2a2884/</id>
+    <published>2021-05-24T15:14:25.000Z</published>
+    <updated>2021-05-24T15:14:58.710Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Ubuntu" scheme="http://mamor5409.github.io/categories/Ubuntu/"/>
+    
+    
+    <category term="Ubuntu" scheme="http://mamor5409.github.io/tags/Ubuntu/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu_apt-get安装时报错</title>
@@ -352,25 +371,6 @@
     <id>http://mamor5409.github.io/posts/e4e28081/</id>
     <published>2021-04-30T07:29:30.000Z</published>
     <updated>2021-04-30T08:05:01.098Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/categories/DCchallenges/"/>
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/tags/DCchallenges/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DCchallenges1</title>
-    <link href="http://mamor5409.github.io/posts/7debd13b/"/>
-    <id>http://mamor5409.github.io/posts/7debd13b/</id>
-    <published>2021-04-28T14:57:54.000Z</published>
-    <updated>2021-04-28T15:01:44.360Z</updated>
     
     
     <summary type="html"> </summary>
