@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mamor5409.github.io/posts/7c19cc12/</loc>
+    
+    <lastmod>2021-06-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/posts/2825537d/</loc>
     
     <lastmod>2021-06-04</lastmod>
@@ -17,13 +24,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/posts/undefined/</loc>
-    
-    <lastmod>2021-06-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/7c19cc12/</loc>
     
     <lastmod>2021-06-04</lastmod>
     
@@ -389,6 +389,13 @@
 
   
   <url>
+    <loc>http://mamor5409.github.io/tags/AWD/</loc>
+    <lastmod>2021-06-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/tags/Aria2/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
@@ -403,7 +410,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/AWD/</loc>
+    <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -411,13 +418,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/tags/vulhub/</loc>
-    <lastmod>2021-06-04</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -552,13 +552,6 @@
 
   
   <url>
-    <loc>http://mamor5409.github.io/categories/Aria2/</loc>
-    <lastmod>2021-06-04</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/categories/AWD/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
@@ -566,7 +559,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
+    <loc>http://mamor5409.github.io/categories/Aria2/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -574,6 +567,13 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/DCchallenges/</loc>
+    <lastmod>2021-06-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/vulhub/</loc>
     <lastmod>2021-06-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
