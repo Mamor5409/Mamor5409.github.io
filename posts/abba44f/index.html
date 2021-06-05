@@ -36,15 +36,26 @@
     }
 </style>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Mamor&#39;s Blog">
-<meta property="og:url" content="http://mamor5409.github.io/categories/shiro/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E6%9C%AA%E5%AE%8C%E6%88%90/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="shiro反序列化">
+<meta property="og:url" content="http://mamor5409.github.io/posts/abba44f/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/bp1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/1.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/2.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/3.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/4.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/abba44f/shell.png">
+<meta property="article:published_time" content="2021-05-31T07:57:19.000Z">
+<meta property="article:modified_time" content="2021-06-05T03:35:29.664Z">
 <meta property="article:author" content="Mamor">
+<meta property="article:tag" content="反序列化">
+<meta property="article:tag" content="shiro">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/abba44f/bp1.png">
 
-<link rel="canonical" href="http://mamor5409.github.io/categories/shiro/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/%E6%9C%AA%E5%AE%8C%E6%88%90/">
+<link rel="canonical" href="http://mamor5409.github.io/posts/abba44f/">
 
 
 <script id="page-configurations">
@@ -52,12 +63,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: 未完成 | Mamor's Blog</title>
+  <title>shiro反序列化 | Mamor's Blog</title>
   
 
 
@@ -211,51 +222,195 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">未完成
-          <small>分类</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/abba44f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          shiro反序列化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-31 15:57:19" itemprop="dateCreated datePublished" datetime="2021-05-31T15:57:19+08:00">2021-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-05 11:35:29" itemprop="dateModified" datetime="2021-06-05T11:35:29+08:00">2021-06-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shiro/" itemprop="url" rel="index"><span itemprop="name">shiro</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shiro/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">反序列化</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>720</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        <h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><blockquote>
+<p>Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）<br>Apache Shiro是一款开源安全框架，提供身份验证、授权、密码学和会话管理。Shiro框架直观、易用，同时也能提供健壮的安全性。<br>Apache Shiro 1.2.4及以前版本中，加密的用户信息序列化后存储在名为remember-me的Cookie中。攻击者可以使用Shiro的默认密钥伪造用户Cookie，触发Java反序列化漏洞，进而在目标机器上执行任意命令。</p>
+</blockquote>
+<p>shiro 提供了RememberMe功能，对rememberMe的cookie做了加密处理，当用户成功登录后shiro在CookieRememberMeManaer类中将cookie中rememberMe字段内容分别进行 <strong>序列化，AES加密，base64编码。</strong></p>
+<p>相对的，在识别身份是会对cookie的RememberMe字段进行解密处理，解密顺序为    <strong>获取RememberMe cookie ，base64解密， AES解密， 反序列化</strong></p>
+<p>所以可以构造一个恶意对象，对其序列化，AES加密，base64编码之后作为cookie的RememberMe 字段发送出去，shiro会将RememberMe进行解密并反序列化，从而造成反序列化漏洞.</p>
+<br>
+
+<br>
+
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>kali : 192.168.87.128</p>
+<p>Ubuntu : 192.168.87.129</p>
+<p><code>docker-compose up -d</code> 访问<code>192.168.87.129:8080</code></p>
+<p>使用burpsuite抓包，勾选rememberme,账号密码分别为<code>admin</code>,<code>vulhub</code></p>
+<p><img src="/posts/abba44f/bp1.png"></p>
+<p>提交表单后,可以看到set-cookie的remeberMe=deleteMe</p>
+<br>
+
+<p><img src="/posts/abba44f/1.PNG"></p>
+<p><img src="/posts/abba44f/2.PNG"></p>
+<p>在kali上开启监听 </p>
+<p><code>nc -lvvp 6666</code></p>
+<p><img src="/posts/abba44f/3.PNG"></p>
+<p><img src="/posts/abba44f/4.PNG"></p>
+<p><img src="/posts/abba44f/shell.png"></p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-05-31T15:57:19+08:00"
-              content="2021-05-31">
-          05-31
-        </time>
-      </div>
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/posts/undefined/" itemprop="url">
-            <span itemprop="name">shiro反序列化CVE-2016-4437复现</span>
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
           </a>
-      </div>
+        </div>
 
-    </header>
-  </article>
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
 
+            <span class="label">RSS</span>
+          </a>
+        </div>
     </div>
   </div>
-  
-  
-  
 
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag"></i><i class="fa fa-tag"></i> 反序列化</a>
+              <a href="/tags/shiro/" rel="tag"></i><i class="fa fa-tag"></i> shiro</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/undefined/" rel="prev" title="Aria2RCE漏洞复现">
+      <i class="fa fa-chevron-left"></i> Aria2RCE漏洞复现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/7c19cc12/" rel="next" title="php反序列化">
+      php反序列化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -308,6 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -330,7 +486,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
