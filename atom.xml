@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-06-07T09:15:48.390Z</updated>
+  <updated>2021-06-12T10:49:42.272Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>某网站sql盲注</title>
+    <link href="http://mamor5409.github.io/posts/a615296a/"/>
+    <id>http://mamor5409.github.io/posts/a615296a/</id>
+    <published>2021-06-12T10:44:29.000Z</published>
+    <updated>2021-06-12T10:49:42.272Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
+    
+    
+    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
+    
+  </entry>
   
   <entry>
     <title>kali安装java8</title>
@@ -370,25 +389,6 @@
     <id>http://mamor5409.github.io/posts/437699f/</id>
     <published>2021-05-09T06:07:57.000Z</published>
     <updated>2021-05-09T09:59:29.098Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/categories/DCchallenges/"/>
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/tags/DCchallenges/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DCchallenges7</title>
-    <link href="http://mamor5409.github.io/posts/9488740e/"/>
-    <id>http://mamor5409.github.io/posts/9488740e/</id>
-    <published>2021-05-08T07:44:13.000Z</published>
-    <updated>2021-05-08T13:12:56.621Z</updated>
     
     
     <summary type="html"> </summary>
