@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-06-12T10:49:42.272Z</updated>
+  <updated>2021-06-19T10:35:35.786Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,116 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>zkaq内网靶场1</title>
+    <link href="http://mamor5409.github.io/posts/3796bdc4/"/>
+    <id>http://mamor5409.github.io/posts/3796bdc4/</id>
+    <published>2021-06-19T09:05:13.000Z</published>
+    <updated>2021-06-19T10:35:35.786Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="zkaq" scheme="http://mamor5409.github.io/categories/zkaq/"/>
+    
+    
+    <category term="zkaq" scheme="http://mamor5409.github.io/tags/zkaq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sqlmap_tamper</title>
+    <link href="http://mamor5409.github.io/posts/f47a5413/"/>
+    <id>http://mamor5409.github.io/posts/f47a5413/</id>
+    <published>2021-06-19T07:09:24.000Z</published>
+    <updated>2021-06-19T07:25:02.722Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="sqlmap" scheme="http://mamor5409.github.io/categories/sqlmap/"/>
+    
+    
+    <category term="sqlmap" scheme="http://mamor5409.github.io/tags/sqlmap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sqlmapos-shell使用</title>
+    <link href="http://mamor5409.github.io/posts/a92f908a/"/>
+    <id>http://mamor5409.github.io/posts/a92f908a/</id>
+    <published>2021-06-19T04:44:54.000Z</published>
+    <updated>2021-06-19T07:25:02.722Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="sqlmap" scheme="http://mamor5409.github.io/categories/sqlmap/"/>
+    
+    
+    <category term="sqlmap" scheme="http://mamor5409.github.io/tags/sqlmap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kali网络不可达</title>
+    <link href="http://mamor5409.github.io/posts/5150e44b/"/>
+    <id>http://mamor5409.github.io/posts/5150e44b/</id>
+    <published>2021-06-17T01:28:18.000Z</published>
+    <updated>2021-06-19T07:25:02.719Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="kali" scheme="http://mamor5409.github.io/categories/kali/"/>
+    
+    
+    <category term="kali" scheme="http://mamor5409.github.io/tags/kali/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>暗月内网靶机WP</title>
+    <link href="http://mamor5409.github.io/posts/ab4fb19a/"/>
+    <id>http://mamor5409.github.io/posts/ab4fb19a/</id>
+    <published>2021-06-15T06:18:55.000Z</published>
+    <updated>2021-06-19T07:31:55.119Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="moon" scheme="http://mamor5409.github.io/categories/moon/"/>
+    
+    
+    <category term="moon" scheme="http://mamor5409.github.io/tags/moon/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>phpmyadmin漏洞复现</title>
+    <link href="http://mamor5409.github.io/posts/89c61231/"/>
+    <id>http://mamor5409.github.io/posts/89c61231/</id>
+    <published>2021-06-15T01:51:36.000Z</published>
+    <updated>2021-06-19T07:25:02.721Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>某网站sql盲注</title>
@@ -59,7 +169,7 @@
     <link href="http://mamor5409.github.io/posts/37afa0e0/"/>
     <id>http://mamor5409.github.io/posts/37afa0e0/</id>
     <published>2021-06-07T01:36:28.000Z</published>
-    <updated>2021-06-08T13:17:04.340Z</updated>
+    <updated>2021-06-18T01:50:37.322Z</updated>
     
     
     <summary type="html"> </summary>
@@ -285,120 +395,6 @@
     
     
     <category term="Struts2" scheme="http://mamor5409.github.io/tags/Struts2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo设置多个标签或分类</title>
-    <link href="http://mamor5409.github.io/posts/d7c641b4/"/>
-    <id>http://mamor5409.github.io/posts/d7c641b4/</id>
-    <published>2021-05-20T09:09:20.000Z</published>
-    <updated>2021-05-20T09:10:59.547Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Hexo" scheme="http://mamor5409.github.io/categories/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="http://mamor5409.github.io/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安全狗4.0 sqli绕过</title>
-    <link href="http://mamor5409.github.io/posts/d405928/"/>
-    <id>http://mamor5409.github.io/posts/d405928/</id>
-    <published>2021-05-19T08:20:43.000Z</published>
-    <updated>2021-05-21T08:16:21.365Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="waf" scheme="http://mamor5409.github.io/categories/waf/"/>
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/waf/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-    <category term="waf" scheme="http://mamor5409.github.io/tags/waf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>upload-labs1</title>
-    <link href="http://mamor5409.github.io/posts/685229a3/"/>
-    <id>http://mamor5409.github.io/posts/685229a3/</id>
-    <published>2021-05-18T10:19:28.000Z</published>
-    <updated>2021-05-19T15:17:18.330Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Billu_b0x</title>
-    <link href="http://mamor5409.github.io/posts/827ecdf7/"/>
-    <id>http://mamor5409.github.io/posts/827ecdf7/</id>
-    <published>2021-05-11T12:02:40.000Z</published>
-    <updated>2021-05-20T09:25:31.819Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="vulhub" scheme="http://mamor5409.github.io/categories/vulhub/"/>
-    
-    
-    <category term="vulhub" scheme="http://mamor5409.github.io/tags/vulhub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DCchallenges9</title>
-    <link href="http://mamor5409.github.io/posts/73305909/"/>
-    <id>http://mamor5409.github.io/posts/73305909/</id>
-    <published>2021-05-10T14:29:13.000Z</published>
-    <updated>2021-05-11T04:58:13.300Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/categories/DCchallenges/"/>
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/tags/DCchallenges/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DCchallenges8</title>
-    <link href="http://mamor5409.github.io/posts/437699f/"/>
-    <id>http://mamor5409.github.io/posts/437699f/</id>
-    <published>2021-05-09T06:07:57.000Z</published>
-    <updated>2021-05-09T09:59:29.098Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/categories/DCchallenges/"/>
-    
-    
-    <category term="DCchallenges" scheme="http://mamor5409.github.io/tags/DCchallenges/"/>
     
   </entry>
   
