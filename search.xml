@@ -3940,7 +3940,7 @@ $R=$Z('',$X);$R();
 <p>设置完代理后 使用 mstsc 远程连接10.0.1.4 成功登录</p>
 <br>
 
-<h4 id="使用-mimikatz-读取密码"><a href="#使用-mimikatz-读取密码" class="headerlink" title="使用 mimikatz 读取密码"></a>使用 mimikatz 读取密码</h4><p>将 mimikatz通过蚁剑上传到服务器 以管理员身份运行</p>
+<h4 id="使用-mimikatz-读取密码"><a href="#使用-mimikatz-读取密码" class="headerlink" title="使用 mimikatz 读取密码"></a>使用 mimikatz 读取密码</h4><p>将 mimikatz通过蚁剑上传到服务器 以管理员身份运行（windows2012/2016不能抓）</p>
 <p>提权<code> privilege::debug</code></p>
 <p><img src="/posts/3796bdc4/mm2.png"></p>
 <p>抓取密码 <code>sekurlsa::logonpasswords</code></p>
@@ -3959,5 +3959,10 @@ $R=$Z('',$X);$R();
       <tags>
         <tag>zkaq</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>zkaq内网靶场2</title>
+    <url>/posts/ae9fec7e/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
