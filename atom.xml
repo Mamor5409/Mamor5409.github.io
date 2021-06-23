@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-06-20T11:23:37.981Z</updated>
+  <updated>2021-06-23T09:27:47.045Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,49 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>E:dpkg被中断，您必须手工运行sudodpkg</title>
+    <link href="http://mamor5409.github.io/posts/14f5ef78/"/>
+    <id>http://mamor5409.github.io/posts/14f5ef78/</id>
+    <published>2021-06-22T14:38:58.000Z</published>
+    <updated>2021-06-23T09:27:47.045Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="kali" scheme="http://mamor5409.github.io/categories/kali/"/>
+    
+    
+    <category term="kali" scheme="http://mamor5409.github.io/tags/kali/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内网渗透笔记</title>
+    <link href="http://mamor5409.github.io/posts/3a86f9fc/"/>
+    <id>http://mamor5409.github.io/posts/3a86f9fc/</id>
+    <published>2021-06-21T07:28:47.000Z</published>
+    <updated>2021-06-23T09:27:47.047Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="内网渗透" scheme="http://mamor5409.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+    
+    <category term="内网渗透" scheme="http://mamor5409.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>HiBOS酒店宽带运营系统RCE漏洞POC</title>
     <link href="http://mamor5409.github.io/posts/c20f4593/"/>
     <id>http://mamor5409.github.io/posts/c20f4593/</id>
     <published>2021-06-20T09:18:23.000Z</published>
-    <updated>2021-06-20T11:23:37.981Z</updated>
+    <updated>2021-06-20T11:28:32.381Z</updated>
     
     
     <summary type="html"> </summary>
@@ -357,40 +395,6 @@
     
     
     <category term="Ubuntu" scheme="http://mamor5409.github.io/tags/Ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu_apt-get安装时报错</title>
-    <link href="http://mamor5409.github.io/posts/e46255d2/"/>
-    <id>http://mamor5409.github.io/posts/e46255d2/</id>
-    <published>2021-05-24T14:14:44.000Z</published>
-    <updated>2021-05-24T14:16:52.239Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="apt-get" scheme="http://mamor5409.github.io/categories/apt-get/"/>
-    
-    
-    <category term="apt-get" scheme="http://mamor5409.github.io/tags/apt-get/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Struts2复现s2-007</title>
-    <link href="http://mamor5409.github.io/posts/700d04cb/"/>
-    <id>http://mamor5409.github.io/posts/700d04cb/</id>
-    <published>2021-05-23T13:52:17.000Z</published>
-    <updated>2021-05-23T13:52:18.122Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   

