@@ -71,8 +71,14 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/powercat_win7.PNG">
 <meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/powercat_dns_shell.PNG">
 <meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/powercat_dns_shell2.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_bendi1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_bendi2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai_rdesktop1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai_rdesktop2.png">
 <meta property="article:published_time" content="2021-06-23T09:35:27.000Z">
-<meta property="article:modified_time" content="2021-06-24T15:25:26.074Z">
+<meta property="article:modified_time" content="2021-06-28T14:23:43.503Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="内网渗透">
 <meta name="twitter:card" content="summary">
@@ -282,7 +288,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-24 23:25:26" itemprop="dateModified" datetime="2021-06-24T23:25:26+08:00">2021-06-24</time>
+                <time title="修改时间：2021-06-28 22:23:43" itemprop="dateModified" datetime="2021-06-28T22:23:43+08:00">2021-06-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,14 +313,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>10 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -327,7 +333,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="网络信息"><a href="#网络信息" class="headerlink" title="网络信息"></a>网络信息</h4><p><code>ipconfig /all </code>查询网络配置</p>
+        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="网络信息"><a href="#网络信息" class="headerlink" title="网络信息"></a>网络信息</h4><br>
+
+<p><code>ipconfig /all </code>查询网络配置</p>
 <h4 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h4><p><code>net user </code> 查询用户列表</p>
 <p><code>net user XXX /domain</code>   查询指定用户的详细信息</p>
 <p><code>net localgroup administrators</code> 查看当前用户权限</p>
@@ -709,8 +717,8 @@
 </ul>
 <blockquote>
 <p>client/kali ————— 跳转机 ubnutu —————-server/win2008</p>
-<p>192.168.0.128———–jump/192.168.0.129————10.10.0.131</p>
-<p>——————————–10.10.0.3———————</p>
+<p>192.168.0.128———–jump/192.168.0.129————10.10.0.135</p>
+<p>——————————–10.10.0.137———————</p>
 </blockquote>
 <p><code>ssh -L 本地端口:目标主机:目标端口  jump主机host</code></p>
 <p><code>ssh -L 2121:10.10.0.2:21 root@192.168.0.129</code></p>
@@ -722,21 +730,20 @@
 </ul>
 <blockquote>
 <p>client/ kali—————–jump/ubuntu——————-server/win2008</p>
-<p>192.168.0.128————–10.10.0.129    ———————10.10.0.131</p>
+<p>192.168.0.128————–10.10.0.129    ———————10.10.0.135</p>
 <p>——————————没有外网ip————————————</p>
 <p>—————————-但是可以连接外网——————————</p>
 </blockquote>
 <p>跳转机为纯内网环境，但是可以访问外网</p>
 <p>也就是说，跳转机可以访问kali，kali无法访问跳转机，在跳转机上建立一个与kali的连接，然后再kali上使用这个连接  然后将所有数据通过跳转机转发给目标主机的目标端口  (在这里远程主机为kali)</p>
 <p><code>ssh -R 远程主机端口:目标主机：目标主机端口 跳转机</code></p>
-<p><code>ssh -R 2121:10.10.0.131:21  10.10.0.129</code></p>
+<p><code>ssh -R 2121:10.10.0.135:21  10.10.0.129</code></p>
 <blockquote>
 <p>建立SSH隧道常用参数<br>-C 压缩传输，提高传输速度。<br> -f 将 SSH 传输转入后台执行，不占用当前 shell<br>-N 建立静默连接（建立了连接但看不到具体会话）<br> -g 允许远程主机连接本地用于转发的端口。<br> -L 本地端口转发<br> -R 远程端口转发<br> -D 动态转发（ SOCKS 代理）<br> -p 指定 SSH 端口</p>
 </blockquote>
 <ul>
 <li>动态转发</li>
 </ul>
-<p>建立一个socket，监听本地端口，有数据经过时就会通过监听的端口，然后转到ssh</p>
 <p>建立一个 socks 连接，任何支持 socks 4/5 协议的程序都可以使用这个加密通道进行访问</p>
 <p>可以参考梯 子 </p>
 <p><code>ssh -D 8080 user@host</code></p>
@@ -747,12 +754,63 @@
 </blockquote>
 <br>
 
-<h4 id="SSH隧道利用"><a href="#SSH隧道利用" class="headerlink" title="SSH隧道利用"></a>SSH隧道利用</h4><h5 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h5><br>
+<h4 id="SSH隧道利用"><a href="#SSH隧道利用" class="headerlink" title="SSH隧道利用"></a>SSH隧道利用</h4><h5 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h5><h6 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h6><blockquote>
+<p>kali 192.168.0.128（NAT）<br>winserver2008  10.10.0.139（VM18 仅主机）<br>Ubuntu 192.168.0.130（NAT）10.10.0.137（VM18 仅主机）</p>
+</blockquote>
+<br>
 
-<h5 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h5><br>
+<blockquote>
+<p>开启 winServer2008 远程连接 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Tanghongchang/p/7445786.html">https://www.cnblogs.com/Tanghongchang/p/7445786.html</a></p>
+</blockquote>
+<p>kali执行以下命令，将内网主机的3389端口映射到自己的3389端口</p>
+<p><code>ssh -CfNg -L 攻击主机端口:内网办公主机IP:内网办公主机端口 Web服务器ssh用户名@Web服务器IP</code></p>
+<p><code>ssh -CfNg -L 3333:10.10.0.139:3389 mamor@192.168.0.130 </code></p>
+<p>通过服务器 192.168.0.139作为跳板 将内网主机winServer2008 的3389端口转发到kali的3388端口，然后访问kali的3333端口即可访问到WinServer2008的3389端口了</p>
+<p>使用netstat 进行判断是否建立代理转发</p>
+<p><code>netstat -pantu | grep &quot;3333&quot;</code></p>
+<p><img src="/posts/11ff0b53/ssh_bendi1.png"></p>
+<p>（连接被重设：我先在winServer2008中打开了远程服务 然后用Vm18网段的机器测试完 之后发现winServer2008的ip变了，然后一直在找原因 为什么连不同了…然后改下ssh命令的winserver ip就好了） </p>
+<p>然后输入账号密码 即可登录到10.10.0.139 winServer2008服务器中</p>
+<p><img src="/posts/11ff0b53/ssh_bendi2.png"></p>
+<h5 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h5><p>环境</p>
+<blockquote>
+<p>kali 192.168.0.128(NAT模式)</p>
+<p>Ubuntu 10.10.0.137(VM18 仅主机)</p>
+<p>winServer2008 10.10.0.139 (VM18仅主机)0</p>
+</blockquote>
+<blockquote>
+<p>删除Ubuntu的nat 网卡，现在仅有VM18一块网卡(10.10.0.0/24网段的)</p>
+<p>但是在设置网络的时候没找到相关的文字，没成功连上外网，之后有时间整个vps复现</p>
+</blockquote>
+<p><code>ssh -R 远程主机端口:目标主机：目标主机端口 跳转机</code></p>
+<p>使用 -R 创建一个远程转发模式的隧道</p>
+<p><code>ssh -CfNg -R 3333:10.10.0.139:3389  mamor@192.168.0.130</code></p>
+<p>使用<code>netstat</code>判断代理转发是否成功建立</p>
+<p><code>netstat  -ano | grep &quot;3333&quot; </code></p>
+<p><code>rdesktop 127.0.0.1:3333</code></p>
+<br>
 
-<h5 id="动态转发"><a href="#动态转发" class="headerlink" title="动态转发"></a>动态转发</h5><br>
+<h5 id="动态转发"><a href="#动态转发" class="headerlink" title="动态转发"></a>动态转发</h5><h6 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h6><blockquote>
+<p>kali 192.168.0.128(NAT)</p>
+<p>Ubuntu 192.168.0.130(NAT) 10.10.0.137(VM18 仅主机)</p>
+<p>WinServer2008 10.10.0.139(VM18 仅主机)</p>
+</blockquote>
+<br>
 
+<p><code>ssh -CfNg -D 攻击主机端口 Web服务器ssh用户名@Web服务器IP</code></p>
+<p> <code>ssh -CfNg -D 8888  mamor@192.168.0.130</code></p>
+<p>然后使用proxychains4 代理</p>
+<p><code>sudo vim /etc/proxychains4.conf</code></p>
+<p>添加<code>socks5 127.0.0.1 8888</code></p>
+<p>然后使用<code>proxychains4 firefox 10.10.0.139 </code>成功访问到内网WinServer2008 的web页面</p>
+<p><img src="/posts/11ff0b53/ssh_dongtai1.png"></p>
+<p><img src="/posts/11ff0b53/ssh_dongtai2.png"></p>
+<p>但是 使用firefox的代理插件SwitchyOmega 无法访问内网的web页面</p>
+<p>使用proxychains4 访问WinServer2008的3389端口</p>
+<p><code>proxychains4 rdesktop 10.10.0.139:3389 </code></p>
+<p><img src="/posts/11ff0b53/ssh_dongtai_rdesktop1.png"></p>
+<p><img src="/posts/11ff0b53/ssh_dongtai_rdesktop2.png"></p>
+<p>成功访问3389端口</p>
 <br>
 
 <hr>
@@ -892,7 +950,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.</span> <span class="nav-text">网络信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">用户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">进程信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.4.</span> <span class="nav-text">本机信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.5.</span> <span class="nav-text">防火墙</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">域内信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E5%9F%9F"><span class="nav-number">2.1.</span> <span class="nav-text">判断是否有域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">域内存活主机探测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EICMP"><span class="nav-number">2.2.1.</span> <span class="nav-text">基于ICMP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Earp"><span class="nav-number">2.2.2.</span> <span class="nav-text">基于arp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eudp"><span class="nav-number">2.2.3.</span> <span class="nav-text">基于udp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8ENetBIOS"><span class="nav-number">2.2.4.</span> <span class="nav-text">基于NetBIOS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E5%9F%9F%E5%86%85%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">扫描域内端口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8telnet-%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E6%89%AB%E6%8F%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">利用telnet 命令进行扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8msf%E6%89%AB%E6%8F%8F%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.2.</span> <span class="nav-text">利用msf扫描主机端口</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.4.</span> <span class="nav-text">域内基础信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7%E5%92%8C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">2.5.</span> <span class="nav-text">查找域内用户和管理员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E5%AE%9A%E4%BD%8D%E7%AE%A1%E7%90%86%E5%91%98%E5%B7%A5%E5%85%B7"><span class="nav-number">2.6.</span> <span class="nav-text">内网定位管理员工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell"><span class="nav-number">2.7.</span> <span class="nav-text">Powershell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PowerView%E8%84%9A%E6%9C%AC"><span class="nav-number">2.7.1.</span> <span class="nav-text">PowerView脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BloodHound"><span class="nav-number">2.8.</span> <span class="nav-text">BloodHound</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E9%80%9A%E4%BF%A1%E9%9A%A7%E9%81%93%E6%8A%80%E6%9C%AF"><span class="nav-number">3.</span> <span class="nav-text">隐藏通信隧道技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E8%BF%9E%E9%80%9A%E6%80%A7%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text">内网连通性判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.</span> <span class="nav-text">网络层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ICMP%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">ICMP隧道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#icmpsh%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.2.2.</span> <span class="nav-text">icmpsh反弹shell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PingTunnel%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">PingTunnel使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.3.</span> <span class="nav-text">传输层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#lcx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">3.3.1.</span> <span class="nav-text">lcx端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#netcat"><span class="nav-number">3.3.2.</span> <span class="nav-text">netcat</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96banner%E4%BF%A1%E6%81%AF"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">获取banner信息</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%B8%BB%E6%9C%BA"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">远程连接主机</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">监听端口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">文件传输</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9"><span class="nav-number">3.3.2.6.</span> <span class="nav-text">简易聊天</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nc%E8%8E%B7%E5%8F%96shell"><span class="nav-number">3.3.3.</span> <span class="nav-text">nc获取shell</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E5%90%91shell"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">正向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#python%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">python反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bash%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.4.</span> <span class="nav-text">bash反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#php%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.5.</span> <span class="nav-text">php反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#perl%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.6.</span> <span class="nav-text">perl反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E5%BC%B9shell"><span class="nav-number">3.3.3.7.</span> <span class="nav-text">内网代理弹shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#exec%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.3.3.8.</span> <span class="nav-text">exec反弹shell</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#powercat%E4%BD%BF%E7%94%A8"><span class="nav-number">3.3.4.</span> <span class="nav-text">powercat使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E6%AD%A3%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">通过nc正向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E5%8F%8D%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">通过nc反向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%94%E5%9B%9Epowershell"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">返回powershell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat-%E7%94%9F%E6%88%90paylaod"><span class="nav-number">3.3.4.4.</span> <span class="nav-text">powercat 生成paylaod</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAdns%E9%9A%A7%E9%81%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.3.4.5.</span> <span class="nav-text">创建dns隧道连接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%BF%9B%E8%A1%8C%E8%BD%AC%E5%8F%91"><span class="nav-number">3.3.4.6.</span> <span class="nav-text">powercat作为跳板进行转发</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH%E9%9A%A7%E9%81%93"><span class="nav-number">4.</span> <span class="nav-text">SSH隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">SSH功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="nav-number">4.2.</span> <span class="nav-text">常规操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%E4%BA%8E%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="nav-number">4.3.</span> <span class="nav-text">密码登录于中间人攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH%E9%9A%A7%E9%81%93%E5%88%A9%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">SSH隧道利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.1.</span> <span class="nav-text">本地端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.2.</span> <span class="nav-text">远程端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.3.</span> <span class="nav-text">动态转发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.</span> <span class="nav-text">网络信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">用户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">进程信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.4.</span> <span class="nav-text">本机信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.5.</span> <span class="nav-text">防火墙</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">域内信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E5%9F%9F"><span class="nav-number">2.1.</span> <span class="nav-text">判断是否有域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">2.2.</span> <span class="nav-text">域内存活主机探测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EICMP"><span class="nav-number">2.2.1.</span> <span class="nav-text">基于ICMP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Earp"><span class="nav-number">2.2.2.</span> <span class="nav-text">基于arp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eudp"><span class="nav-number">2.2.3.</span> <span class="nav-text">基于udp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8ENetBIOS"><span class="nav-number">2.2.4.</span> <span class="nav-text">基于NetBIOS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E5%9F%9F%E5%86%85%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">扫描域内端口</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8telnet-%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E6%89%AB%E6%8F%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">利用telnet 命令进行扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8msf%E6%89%AB%E6%8F%8F%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.3.2.</span> <span class="nav-text">利用msf扫描主机端口</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.4.</span> <span class="nav-text">域内基础信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7%E5%92%8C%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">2.5.</span> <span class="nav-text">查找域内用户和管理员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E5%AE%9A%E4%BD%8D%E7%AE%A1%E7%90%86%E5%91%98%E5%B7%A5%E5%85%B7"><span class="nav-number">2.6.</span> <span class="nav-text">内网定位管理员工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell"><span class="nav-number">2.7.</span> <span class="nav-text">Powershell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PowerView%E8%84%9A%E6%9C%AC"><span class="nav-number">2.7.1.</span> <span class="nav-text">PowerView脚本</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BloodHound"><span class="nav-number">2.8.</span> <span class="nav-text">BloodHound</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E9%80%9A%E4%BF%A1%E9%9A%A7%E9%81%93%E6%8A%80%E6%9C%AF"><span class="nav-number">3.</span> <span class="nav-text">隐藏通信隧道技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E8%BF%9E%E9%80%9A%E6%80%A7%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text">内网连通性判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.</span> <span class="nav-text">网络层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ICMP%E9%9A%A7%E9%81%93"><span class="nav-number">3.2.1.</span> <span class="nav-text">ICMP隧道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#icmpsh%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.2.2.</span> <span class="nav-text">icmpsh反弹shell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PingTunnel%E4%BD%BF%E7%94%A8"><span class="nav-number">3.2.3.</span> <span class="nav-text">PingTunnel使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E9%9A%A7%E9%81%93"><span class="nav-number">3.3.</span> <span class="nav-text">传输层隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#lcx%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">3.3.1.</span> <span class="nav-text">lcx端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#netcat"><span class="nav-number">3.3.2.</span> <span class="nav-text">netcat</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96banner%E4%BF%A1%E6%81%AF"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">获取banner信息</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%B8%BB%E6%9C%BA"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">远程连接主机</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">监听端口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">文件传输</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9"><span class="nav-number">3.3.2.6.</span> <span class="nav-text">简易聊天</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nc%E8%8E%B7%E5%8F%96shell"><span class="nav-number">3.3.3.</span> <span class="nav-text">nc获取shell</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E5%90%91shell"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">正向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#python%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">python反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bash%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.4.</span> <span class="nav-text">bash反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#php%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.5.</span> <span class="nav-text">php反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#perl%E5%8F%8D%E5%90%91shell"><span class="nav-number">3.3.3.6.</span> <span class="nav-text">perl反向shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E5%BC%B9shell"><span class="nav-number">3.3.3.7.</span> <span class="nav-text">内网代理弹shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#exec%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.3.3.8.</span> <span class="nav-text">exec反弹shell</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#powercat%E4%BD%BF%E7%94%A8"><span class="nav-number">3.3.4.</span> <span class="nav-text">powercat使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E6%AD%A3%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">通过nc正向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%9A%E8%BF%87nc%E5%8F%8D%E5%90%91%E8%BF%9E%E6%8E%A5powercat"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">通过nc反向连接powercat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%94%E5%9B%9Epowershell"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">返回powershell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat-%E7%94%9F%E6%88%90paylaod"><span class="nav-number">3.3.4.4.</span> <span class="nav-text">powercat 生成paylaod</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAdns%E9%9A%A7%E9%81%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.3.4.5.</span> <span class="nav-text">创建dns隧道连接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#powercat%E4%BD%9C%E4%B8%BA%E8%B7%B3%E6%9D%BF%E8%BF%9B%E8%A1%8C%E8%BD%AC%E5%8F%91"><span class="nav-number">3.3.4.6.</span> <span class="nav-text">powercat作为跳板进行转发</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH%E9%9A%A7%E9%81%93"><span class="nav-number">4.</span> <span class="nav-text">SSH隧道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">SSH功能：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="nav-number">4.2.</span> <span class="nav-text">常规操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%E4%BA%8E%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="nav-number">4.3.</span> <span class="nav-text">密码登录于中间人攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH%E9%9A%A7%E9%81%93%E5%88%A9%E7%94%A8"><span class="nav-number">4.4.</span> <span class="nav-text">SSH隧道利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.1.</span> <span class="nav-text">本地端口转发</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">环境</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.2.</span> <span class="nav-text">远程端口转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%BD%AC%E5%8F%91"><span class="nav-number">4.4.3.</span> <span class="nav-text">动态转发</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83-1"><span class="nav-number">4.4.3.1.</span> <span class="nav-text">环境</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -962,12 +1020,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">209k</span>
+    <span title="站点总字数">211k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:10</span>
+    <span title="站点阅读时长">3:12</span>
 </div>
 
 <!--
@@ -978,7 +1036,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共53.9k字</span>
+  <span class="post-count">博客全站共54.4k字</span>
 </div>
 -->
         
