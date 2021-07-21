@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-07-15T08:26:17.840Z</updated>
+  <updated>2021-07-21T12:28:37.957Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次长亭安全研究员实习生面试的经历</title>
+    <link href="http://mamor5409.github.io/posts/e38ec14f/"/>
+    <id>http://mamor5409.github.io/posts/e38ec14f/</id>
+    <published>2021-07-21T12:26:56.000Z</published>
+    <updated>2021-07-21T12:28:37.957Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="面试" scheme="http://mamor5409.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+    <category term="面试" scheme="http://mamor5409.github.io/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>kali配置双网卡</title>
@@ -366,25 +385,6 @@
     
     
     <category term="kali" scheme="http://mamor5409.github.io/tags/kali/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Fastjson反序列化复现</title>
-    <link href="http://mamor5409.github.io/posts/37afa0e0/"/>
-    <id>http://mamor5409.github.io/posts/37afa0e0/</id>
-    <published>2021-06-07T01:36:28.000Z</published>
-    <updated>2021-06-18T01:50:37.322Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="反序列化" scheme="http://mamor5409.github.io/categories/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    
-    
-    <category term="反序列化" scheme="http://mamor5409.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     
   </entry>
   
