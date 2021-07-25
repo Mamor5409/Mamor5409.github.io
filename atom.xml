@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-07-21T12:28:37.957Z</updated>
+  <updated>2021-07-25T00:32:11.397Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>vulnstack2靶场</title>
+    <link href="http://mamor5409.github.io/posts/8a9ea0cb/"/>
+    <id>http://mamor5409.github.io/posts/8a9ea0cb/</id>
+    <published>2021-07-22T09:53:09.000Z</published>
+    <updated>2021-07-25T00:32:11.397Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="vulnstack" scheme="http://mamor5409.github.io/categories/vulnstack/"/>
+    
+    
+    <category term="vulnstack" scheme="http://mamor5409.github.io/tags/vulnstack/"/>
+    
+  </entry>
+  
+  <entry>
     <title>记一次长亭安全研究员实习生面试的经历</title>
     <link href="http://mamor5409.github.io/posts/e38ec14f/"/>
     <id>http://mamor5409.github.io/posts/e38ec14f/</id>
     <published>2021-07-21T12:26:56.000Z</published>
-    <updated>2021-07-21T12:28:37.957Z</updated>
+    <updated>2021-07-21T12:28:52.966Z</updated>
     
     
     <summary type="html"> </summary>
@@ -366,25 +385,6 @@
     
     
     <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kali安装java8</title>
-    <link href="http://mamor5409.github.io/posts/6cf74356/"/>
-    <id>http://mamor5409.github.io/posts/6cf74356/</id>
-    <published>2021-06-07T09:15:00.000Z</published>
-    <updated>2021-06-07T09:15:48.390Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="kali" scheme="http://mamor5409.github.io/categories/kali/"/>
-    
-    
-    <category term="kali" scheme="http://mamor5409.github.io/tags/kali/"/>
     
   </entry>
   
