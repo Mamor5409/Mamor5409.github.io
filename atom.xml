@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-07-25T00:32:11.397Z</updated>
+  <updated>2021-07-25T01:00:27.569Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vulnstack3靶场</title>
+    <link href="http://mamor5409.github.io/posts/2ce9ab7f/"/>
+    <id>http://mamor5409.github.io/posts/2ce9ab7f/</id>
+    <published>2021-07-25T01:00:27.000Z</published>
+    <updated>2021-07-25T01:00:27.569Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>vulnstack2靶场</title>
@@ -366,25 +381,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>某网站sql盲注</title>
-    <link href="http://mamor5409.github.io/posts/a615296a/"/>
-    <id>http://mamor5409.github.io/posts/a615296a/</id>
-    <published>2021-06-12T10:44:29.000Z</published>
-    <updated>2021-06-12T10:49:42.272Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/categories/SQLi/"/>
-    
-    
-    <category term="SQLi" scheme="http://mamor5409.github.io/tags/SQLi/"/>
     
   </entry>
   
