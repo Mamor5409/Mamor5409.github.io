@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-07-27T07:04:27.208Z</updated>
+  <updated>2021-07-29T10:59:15.911Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vulnstack4靶场</title>
+    <link href="http://mamor5409.github.io/posts/e94e95f1/"/>
+    <id>http://mamor5409.github.io/posts/e94e95f1/</id>
+    <published>2021-07-28T01:42:31.000Z</published>
+    <updated>2021-07-29T10:59:15.911Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="vulnstack" scheme="http://mamor5409.github.io/categories/vulnstack/"/>
+    
+    
+    <category term="vulnstack" scheme="http://mamor5409.github.io/tags/vulnstack/"/>
+    
+  </entry>
   
   <entry>
     <title>vulnstack3靶场</title>
@@ -370,21 +389,6 @@
     
     
     <category term="moon" scheme="http://mamor5409.github.io/tags/moon/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>phpmyadmin漏洞复现</title>
-    <link href="http://mamor5409.github.io/posts/89c61231/"/>
-    <id>http://mamor5409.github.io/posts/89c61231/</id>
-    <published>2021-06-15T01:51:36.000Z</published>
-    <updated>2021-06-19T07:25:02.721Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
