@@ -392,7 +392,7 @@
 <p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
 <h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
 <p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#52;&#52;">&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#49;&#x38;&#x2e;&#x31;&#52;&#52;</a>成功登录root用户</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x34;&#52;">&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#x39;&#50;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x34;&#52;</a>成功登录root用户</p>
 <p>Reference</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a target="_blank" rel="noopener" href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
@@ -549,13 +549,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -596,12 +596,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">271k</span>
+    <span title="站点总字数">274k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:06</span>
+    <span title="站点阅读时长">4:09</span>
 </div>
 
 <!--
@@ -612,7 +612,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共72.4k字</span>
+  <span class="post-count">博客全站共73.2k字</span>
 </div>
 -->
         

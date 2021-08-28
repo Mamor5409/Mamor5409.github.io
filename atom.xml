@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2021-08-22T15:10:12.864Z</updated>
+  <updated>2021-08-28T13:52:23.093Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>vulnhub-hackme靶机</title>
+    <link href="http://mamor5409.github.io/posts/9f82d7d9/"/>
+    <id>http://mamor5409.github.io/posts/9f82d7d9/</id>
+    <published>2021-08-28T09:13:02.000Z</published>
+    <updated>2021-08-28T13:52:23.093Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="vulnhub" scheme="http://mamor5409.github.io/categories/vulnhub/"/>
+    
+    
+    <category term="vulnhub" scheme="http://mamor5409.github.io/tags/vulnhub/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ntds.dit导出及解析</title>
     <link href="http://mamor5409.github.io/posts/77c245ea/"/>
     <id>http://mamor5409.github.io/posts/77c245ea/</id>
     <published>2021-08-22T02:21:01.000Z</published>
-    <updated>2021-08-22T15:10:12.864Z</updated>
+    <updated>2021-08-28T13:53:34.923Z</updated>
     
     
     <summary type="html"> </summary>
@@ -32,21 +51,6 @@
     
     
     <category term="内网渗透" scheme="http://mamor5409.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vulnhub-BLOGGER</title>
-    <link href="http://mamor5409.github.io/posts/28d2faa0/"/>
-    <id>http://mamor5409.github.io/posts/28d2faa0/</id>
-    <published>2021-08-17T12:59:27.000Z</published>
-    <updated>2021-08-21T02:55:16.608Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
