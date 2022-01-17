@@ -844,14 +844,21 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/bypass/</loc>
+    <loc>http://mamor5409.github.io/tags/POC/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/tags/POC/</loc>
+    <loc>http://mamor5409.github.io/tags/Linux/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/tags/bypass/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -866,13 +873,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/tags/Struts2/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/tags/Linux/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1091,14 +1091,21 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/bypass/</loc>
+    <loc>http://mamor5409.github.io/categories/POC/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/categories/POC/</loc>
+    <loc>http://mamor5409.github.io/categories/Linux/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/bypass/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1113,13 +1120,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/Struts2/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/categories/Linux/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
