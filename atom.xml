@@ -32,21 +32,6 @@
   </entry>
   
   <entry>
-    <title>痕迹清理-Windows篇-03(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/36f8f464/"/>
-    <id>http://mamor5409.github.io/posts/36f8f464/</id>
-    <published>2022-01-13T03:23:41.000Z</published>
-    <updated>2022-01-17T08:53:17.290Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>PE结构学习(待完成)</title>
     <link href="http://mamor5409.github.io/posts/d8527941/"/>
     <id>http://mamor5409.github.io/posts/d8527941/</id>
@@ -96,21 +81,6 @@
   </entry>
   
   <entry>
-    <title>C2隐藏-01(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/1d30524a/"/>
-    <id>http://mamor5409.github.io/posts/1d30524a/</id>
-    <published>2022-01-12T05:17:51.000Z</published>
-    <updated>2022-01-12T08:10:33.899Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>痕迹清理-Windows篇-02</title>
     <link href="http://mamor5409.github.io/posts/41ffc4f2/"/>
     <id>http://mamor5409.github.io/posts/41ffc4f2/</id>
@@ -149,30 +119,11 @@
   </entry>
   
   <entry>
-    <title>权限维持-Windows篇-02(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/9e00b16c/"/>
-    <id>http://mamor5409.github.io/posts/9e00b16c/</id>
-    <published>2022-01-12T05:15:41.000Z</published>
-    <updated>2022-01-12T08:42:09.970Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>权限维持-Windows篇-01(待完成)</title>
+    <title>权限维持-Windows篇(待完成)</title>
     <link href="http://mamor5409.github.io/posts/709e0d6/"/>
     <id>http://mamor5409.github.io/posts/709e0d6/</id>
     <published>2022-01-12T05:15:37.000Z</published>
-    <updated>2022-01-12T08:42:27.507Z</updated>
+    <updated>2022-02-21T13:54:40.308Z</updated>
     
     
     <summary type="html"> </summary>
@@ -191,7 +142,7 @@
     <link href="http://mamor5409.github.io/posts/9577635b/"/>
     <id>http://mamor5409.github.io/posts/9577635b/</id>
     <published>2022-01-12T03:03:32.000Z</published>
-    <updated>2022-01-17T09:09:13.298Z</updated>
+    <updated>2022-02-21T13:08:01.291Z</updated>
     
     
     <summary type="html"> </summary>
@@ -355,6 +306,59 @@
     
     
     <category term="提权" scheme="http://mamor5409.github.io/tags/%E6%8F%90%E6%9D%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>痕迹清理-Windows篇-01</title>
+    <link href="http://mamor5409.github.io/posts/d8f69548/"/>
+    <id>http://mamor5409.github.io/posts/d8f69548/</id>
+    <published>2021-11-18T05:16:14.000Z</published>
+    <updated>2022-01-17T08:51:13.539Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="痕迹清理" scheme="http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
+    
+    
+    <category term="痕迹清理" scheme="http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>痕迹清理-Linux篇</title>
+    <link href="http://mamor5409.github.io/posts/1b08230/"/>
+    <id>http://mamor5409.github.io/posts/1b08230/</id>
+    <published>2021-11-17T12:26:38.000Z</published>
+    <updated>2022-01-12T07:56:36.731Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="痕迹清理" scheme="http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
+    
+    
+    <category term="痕迹清理" scheme="http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python_pyc反编译</title>
+    <link href="http://mamor5409.github.io/posts/76fcd9b1/"/>
+    <id>http://mamor5409.github.io/posts/76fcd9b1/</id>
+    <published>2021-11-16T12:27:43.000Z</published>
+    <updated>2022-01-12T04:36:41.538Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
     
   </entry>
   
