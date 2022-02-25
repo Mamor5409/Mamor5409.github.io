@@ -149,21 +149,6 @@
   </entry>
   
   <entry>
-    <title>HTTP请求走私漏洞(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/10b27472/"/>
-    <id>http://mamor5409.github.io/posts/10b27472/</id>
-    <published>2022-01-12T02:42:46.000Z</published>
-    <updated>2022-01-12T07:35:20.854Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>Regexp注入</title>
     <link href="http://mamor5409.github.io/posts/6cc02bf9/"/>
     <id>http://mamor5409.github.io/posts/6cc02bf9/</id>
@@ -355,6 +340,25 @@
     
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>Modsecuity_bypass</title>
+    <link href="http://mamor5409.github.io/posts/1460cbad/"/>
+    <id>http://mamor5409.github.io/posts/1460cbad/</id>
+    <published>2021-09-11T11:53:18.000Z</published>
+    <updated>2022-01-12T08:16:32.858Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="bypass" scheme="http://mamor5409.github.io/categories/bypass/"/>
+    
+    
+    <category term="bypass" scheme="http://mamor5409.github.io/tags/bypass/"/>
     
   </entry>
   
