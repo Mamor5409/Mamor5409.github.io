@@ -15,6 +15,140 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Powershell基础学习</title>
+    <url>/posts/359bf983/</url>
+    <content><![CDATA[<h3 id="Powershell基础"><a href="#Powershell基础" class="headerlink" title="Powershell基础"></a>Powershell基础</h3><h4 id="0x00-执行策略-amp-版本信息"><a href="#0x00-执行策略-amp-版本信息" class="headerlink" title="0x00 执行策略&amp; 版本信息"></a>0x00 执行策略&amp; 版本信息</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Get-ExecutionPolicy</span></span><br><span class="line"><span class="built_in">Set-ExecutionPolicy</span></span><br><span class="line"></span><br><span class="line">Restricted：脚本不能运行</span><br><span class="line">RemoteSigned：在本地创建的脚本可以运行，但从网上下载的脚本不能运行（拥有数字证书签名的除外）。</span><br><span class="line">AllSigned：仅当前脚本受信任的发布者签名时才能运行。</span><br><span class="line">Unrestricted：允许所有脚本运行</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1.0 - windows server 2008</li>
+<li>2.0 - windows server 2008 r2、windows 7</li>
+<li>3.0 - windows server 2012、windows 8</li>
+<li>4.0 - windows server 2012 r2、windows 8.1</li>
+<li>5.0 - windows 10</li>
+<li>5.1 - windows server 2016</li>
+</ul>
+<br>
+
+<h4 id="0x01-基本语法"><a href="#0x01-基本语法" class="headerlink" title="0x01 基本语法"></a>0x01 基本语法</h4><ul>
+<li>对缩进不敏感</li>
+<li>不强制分号</li>
+<li>保留字、命令大小写区分</li>
+<li>以{}作为代码块</li>
+</ul>
+<h4 id="0x02-变量"><a href="#0x02-变量" class="headerlink" title="0x02.变量"></a>0x02.变量</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span></span><br><span class="line"><span class="comment"># 全局变量</span></span><br><span class="line"><span class="variable">$global:a</span> = <span class="number">1</span></span><br><span class="line"><span class="comment"># 脚本变量</span></span><br><span class="line"><span class="variable">$script:a</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出变量a</span></span><br><span class="line"><span class="built_in">Write-host</span> <span class="variable">$a</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$a</span></span><br><span class="line"><span class="comment"># 删除变量</span></span><br><span class="line"><span class="built_in">clear-variable</span></span><br><span class="line"><span class="comment"># 查看a的类型</span></span><br><span class="line"><span class="variable">$a</span>.GetType()</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x03-对象集合"><a href="#0x03-对象集合" class="headerlink" title="0x03 对象集合"></a>0x03 对象集合</h4><h5 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h5><br>
+
+<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><br>
+
+<h5 id="4"><a href="#4" class="headerlink" title="4"></a>4</h5><br>
+
+<h4 id="0x04-运算符"><a href="#0x04-运算符" class="headerlink" title="0x04  运算符"></a>0x04  运算符</h4><h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><ul>
+<li>-eq        等于</li>
+<li>-ne        不等于</li>
+<li>-gt        大于</li>
+<li>-ge        大于等于</li>
+<li>-lt        小于</li>
+<li>-le        小于等于</li>
+</ul>
+<h5 id="匹配运算符"><a href="#匹配运算符" class="headerlink" title="匹配运算符"></a>匹配运算符</h5><ul>
+<li>-like</li>
+<li>-notlike</li>
+<li>-match</li>
+<li>-notmatch</li>
+</ul>
+<h5 id="包含运算符"><a href="#包含运算符" class="headerlink" title="包含运算符"></a>包含运算符</h5><ul>
+<li>-contains</li>
+<li>-nocontains</li>
+<li>-match</li>
+<li>-notmatch</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="string">&quot;abc&quot;</span></span><br><span class="line"><span class="variable">$b</span> = <span class="string">&quot;a*&quot;</span></span><br><span class="line"><span class="variable">$c</span> = <span class="string">&quot;a??&quot;</span></span><br><span class="line"><span class="variable">$a</span> <span class="operator">-like</span> <span class="variable">$b</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="variable">$a</span> <span class="operator">-like</span> <span class="variable">$c</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line">----------------------</span><br><span class="line">----------------------</span><br><span class="line"><span class="variable">$a</span> = <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line"><span class="variable">$b</span> = <span class="number">1</span></span><br><span class="line"><span class="variable">$a</span> <span class="operator">-contains</span> <span class="variable">$b</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="variable">$b</span> <span class="operator">-contains</span> <span class="variable">$a</span></span><br><span class="line"><span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="0x05-控制流程"><a href="#0x05-控制流程" class="headerlink" title="0x05 控制流程"></a>0x05 控制流程</h4><h5 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h5><ul>
+<li>if else</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span></span><br><span class="line"><span class="variable">$b</span> = <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$a</span> <span class="operator">-eq</span> <span class="variable">$b</span>)&#123;</span><br><span class="line">  <span class="built_in">write-host</span> <span class="string">&quot;aaa&quot;</span> </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">elseif</span>(<span class="variable">$a</span> <span class="operator">-gt</span> <span class="variable">$b</span>)&#123;</span><br><span class="line">  <span class="built_in">write-host</span> <span class="string">&quot;bbb&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="built_in">write-host</span> <span class="string">&quot;ccc&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ccc</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>switch</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$day</span>=<span class="number">5</span></span><br><span class="line"><span class="keyword">switch</span>(<span class="variable">$day</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="number">1</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期一&quot;</span>&#125;</span><br><span class="line">  <span class="number">2</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期二&quot;</span>&#125;</span><br><span class="line">  <span class="number">3</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期三&quot;</span>&#125;</span><br><span class="line">  <span class="number">4</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期四&quot;</span>&#125;</span><br><span class="line">  <span class="number">5</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期五&quot;</span>&#125;</span><br><span class="line">  <span class="number">6</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期六&quot;</span>&#125;</span><br><span class="line">  <span class="number">7</span>&#123;<span class="built_in">echo</span> <span class="string">&quot;今天是星期日&quot;</span>&#125;</span><br><span class="line">  default&#123;<span class="built_in">echo</span> <span class="string">&quot;请输入1-7&quot;</span>&#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="comment"># 今天是星期五</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h5 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h5><ul>
+<li>for</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="variable">$i</span>=<span class="number">1</span>; <span class="variable">$i</span> <span class="operator">-lt</span> <span class="number">10</span>; <span class="variable">$i</span>=<span class="variable">$i</span>+<span class="number">1</span>)&#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>foreach</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$i</span> <span class="keyword">in</span> <span class="variable">$a</span>)&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>while </li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$i</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span>(<span class="variable">$i</span> <span class="operator">-le</span> <span class="number">5</span>)&#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>do while</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$i</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">&#125;<span class="keyword">while</span>(<span class="variable">$i</span> <span class="operator">-le</span> <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>continue</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$i</span>=<span class="number">1</span> </span><br><span class="line"><span class="keyword">while</span>(<span class="variable">$i</span> <span class="operator">-le</span> <span class="number">5</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="variable">$i</span> <span class="operator">-eq</span> <span class="number">3</span>)&#123;</span><br><span class="line">    <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>break</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="variable">$i</span>=<span class="number">1</span>; <span class="variable">$i</span> <span class="operator">-lt</span> <span class="number">5</span>; <span class="variable">$a</span>+=<span class="number">1</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="variable">$i</span> <span class="operator">-eq</span> <span class="number">3</span>)&#123;</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x06-函数"><a href="#0x06-函数" class="headerlink" title="0x06 函数"></a>0x06 函数</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span><span class="params">([int]<span class="variable">$x</span>)</span></span>&#123;</span><br><span class="line">  <span class="variable">$res</span> = <span class="variable">$x</span> * <span class="variable">$x</span></span><br><span class="line">  <span class="keyword">return</span> <span class="variable">$res</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$result</span> = func(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$result</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="0x07-Win32API"><a href="#0x07-Win32API" class="headerlink" title="0x07 Win32API"></a>0x07 Win32API</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个线程启动calc </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Add-Type</span> <span class="literal">-TypeDefinition</span> <span class="string">@&quot;    #声明</span></span><br><span class="line"><span class="string">using System;</span></span><br><span class="line"><span class="string">using System.Diagnostics;</span></span><br><span class="line"><span class="string">using System.Runtime.InteropServices;</span></span><br><span class="line"><span class="string">[StructLayout(LayoutKind.Sequential)]</span></span><br><span class="line"><span class="string">public struct PROCESS_INFORMATION</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">public IntPtr hProcess;</span></span><br><span class="line"><span class="string">public IntPtr hThread;</span></span><br><span class="line"><span class="string">public uint dwProcessId;</span></span><br><span class="line"><span class="string">public uint dwThreadId;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]</span></span><br><span class="line"><span class="string">public struct STARTUPINFO</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">public uint cb;</span></span><br><span class="line"><span class="string">public string lpReserved;</span></span><br><span class="line"><span class="string">public string lpDesktop;</span></span><br><span class="line"><span class="string">public string lpTitle;</span></span><br><span class="line"><span class="string">public uint dwX;</span></span><br><span class="line"><span class="string">public uint dwY;</span></span><br><span class="line"><span class="string">public uint dwXSize;</span></span><br><span class="line"><span class="string">public uint dwYSize;</span></span><br><span class="line"><span class="string">public uint dwXCountChars;</span></span><br><span class="line"><span class="string">public uint dwYCountChars;</span></span><br><span class="line"><span class="string">public uint dwFillAttribute;</span></span><br><span class="line"><span class="string">public uint dwFlags;</span></span><br><span class="line"><span class="string">public short wShowWindow;</span></span><br><span class="line"><span class="string">public short cbReserved2;</span></span><br><span class="line"><span class="string">public IntPtr lpReserved2;</span></span><br><span class="line"><span class="string">public IntPtr hStdInput;</span></span><br><span class="line"><span class="string">public IntPtr hStdOutput;</span></span><br><span class="line"><span class="string">public IntPtr hStdError;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">[StructLayout(LayoutKind.Sequential)]</span></span><br><span class="line"><span class="string">public struct SECURITY_ATTRIBUTES</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">public int length;</span></span><br><span class="line"><span class="string">public IntPtr lpSecurityDescriptor;</span></span><br><span class="line"><span class="string">public bool bInheritHandle;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">public static class Kernel32</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">[DllImport(&quot;kernel32.dll&quot;, SetLastError=true)]</span></span><br><span class="line"><span class="string">public static extern bool CreateProcess(</span></span><br><span class="line"><span class="string">string lpApplicationName,</span></span><br><span class="line"><span class="string">string lpCommandLine,</span></span><br><span class="line"><span class="string">ref SECURITY_ATTRIBUTES lpProcessAttributes,</span></span><br><span class="line"><span class="string">ref SECURITY_ATTRIBUTES lpThreadAttributes,</span></span><br><span class="line"><span class="string">bool bInheritHandles,</span></span><br><span class="line"><span class="string">uint dwCreationFlags,</span></span><br><span class="line"><span class="string">IntPtr lpEnvironment,</span></span><br><span class="line"><span class="string">string lpCurrentDirectory,</span></span><br><span class="line"><span class="string">ref STARTUPINFO lpStartupInfo,</span></span><br><span class="line"><span class="string">out PROCESS_INFORMATION lpProcessInformation);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&quot;@</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># StartupInfo Struct</span></span><br><span class="line"><span class="variable">$StartupInfo</span> = <span class="built_in">New-Object</span> STARTUPINFO</span><br><span class="line"><span class="variable">$StartupInfo</span>.dwFlags = <span class="number">0</span>x00000001 <span class="comment"># STARTF_USESHOWWINDOW</span></span><br><span class="line"><span class="variable">$StartupInfo</span>.wShowWindow = <span class="number">0</span>x0000 <span class="comment"># SW_HIDE</span></span><br><span class="line"><span class="variable">$StartupInfo</span>.cb = [<span class="type">System.Runtime.InteropServices.Marshal</span>]::SizeOf(<span class="variable">$StartupInfo</span>)</span><br><span class="line"><span class="comment"># Struct Size</span></span><br><span class="line"><span class="comment"># ProcessInfo Struct</span></span><br><span class="line"><span class="variable">$ProcessInfo</span> = <span class="built_in">New-Object</span> PROCESS_INFORMATION</span><br><span class="line"><span class="comment"># SECURITY_ATTRIBUTES Struct (Process &amp;amp; Thread)</span></span><br><span class="line"><span class="variable">$SecAttr</span> = <span class="built_in">New-Object</span> SECURITY_ATTRIBUTES</span><br><span class="line"><span class="variable">$SecAttr</span>.Length = [<span class="type">System.Runtime.InteropServices.Marshal</span>]::SizeOf(<span class="variable">$SecAttr</span>)</span><br><span class="line"><span class="comment"># CreateProcess In CurrentDirectory</span></span><br><span class="line"><span class="variable">$GetCurrentPath</span> = (<span class="built_in">Get-Item</span> <span class="literal">-Path</span> <span class="string">&quot;.\&quot;</span> <span class="literal">-Verbose</span>).FullName</span><br><span class="line"><span class="comment"># Call CreateProcess</span></span><br><span class="line">[<span class="type">Kernel32</span>]::CreateProcess(<span class="string">&quot;C:\Windows\System32\cmd.exe&quot;</span>, <span class="string">&quot;/c calc.exe&quot;</span>, [<span class="type">ref</span>] <span class="variable">$SecAttr</span>, [<span class="type">ref</span>] <span class="variable">$SecAttr</span>, <span class="variable">$false</span>,</span><br><span class="line"><span class="number">0</span>x08000000, [<span class="built_in">Int</span><span class="type">Ptr</span>]::Zero, <span class="variable">$GetCurrentPath</span>, [<span class="type">ref</span>] <span class="variable">$StartupInfo</span>, [<span class="type">ref</span>] <span class="variable">$ProcessInfo</span>) |<span class="built_in">out-null</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 感觉用起来比较麻烦，需要先去声明结构体啥的 再去调用</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="0x08-文件下载"><a href="#0x08-文件下载" class="headerlink" title="0x08 文件下载"></a>0x08 文件下载</h4><p><code>invoke-webrequest -Uri $url -OutFile $output</code></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line"><span class="variable">$output</span> = <span class="string">&quot;F:\1.html&quot;</span></span><br><span class="line"><span class="built_in">invoke-webrequest</span> <span class="literal">-Uri</span> <span class="variable">$url</span> <span class="literal">-OutFile</span> <span class="variable">$output</span></span><br></pre></td></tr></table></figure>
+
+<p><code>(New-Object System.Net.WebClient).DownloadFile($url,$output)</code> </p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$url</span> = <span class="string">&quot;http://www.baidu.com&quot;</span></span><br><span class="line"><span class="variable">$output</span> = <span class="string">&quot;F:\2.html&quot;</span></span><br><span class="line">(<span class="built_in">New-Object</span> System.Net.WebClient).DownloadFile(<span class="variable">$url</span>,<span class="variable">$output</span>) </span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h4 id="0x09-文件操作"><a href="#0x09-文件操作" class="headerlink" title="0x09 文件操作"></a>0x09 文件操作</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 新建目录test</span></span><br><span class="line"><span class="built_in">New-Item</span> test <span class="literal">-ItemType</span> directory </span><br><span class="line"><span class="comment"># 删除目录test</span></span><br><span class="line"><span class="built_in">Remove-Item</span> test </span><br><span class="line"><span class="comment"># 新建文件test.txt</span></span><br><span class="line"><span class="built_in">New-Item</span> test.txt <span class="literal">-ItemType</span> file </span><br><span class="line"><span class="comment"># 新建文件test.txt，内容为 test</span></span><br><span class="line"><span class="built_in">New-Item</span> test.txt <span class="literal">-ItemType</span> file <span class="literal">-value</span> <span class="string">&quot;test&quot;</span> </span><br><span class="line"><span class="comment"># 删除文件test.txt</span></span><br><span class="line"><span class="built_in">Remove-Item</span> test.txt </span><br><span class="line"><span class="comment"># 查看文件test.txt内容</span></span><br><span class="line"><span class="built_in">Get-Content</span> test.txt </span><br><span class="line"><span class="comment"># 设置文件test.txt内容t</span></span><br><span class="line"><span class="built_in">Set-Content</span> test.txt <span class="literal">-Value</span> <span class="string">&quot;test&quot;</span> </span><br><span class="line"><span class="comment"># 给文件test.txt追加内容</span></span><br><span class="line"><span class="built_in">Add-Content</span> test.txt <span class="literal">-Value</span> <span class="string">&quot;,test2&quot;</span> </span><br><span class="line"><span class="comment"># 清除文件test.txt内容</span></span><br><span class="line"><span class="built_in">Clear-Content</span> test.txt</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<h4 id="0x0a-混淆"><a href="#0x0a-混淆" class="headerlink" title="0x0a 混淆"></a>0x0a 混淆</h4><br>
+
+<h5 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h5><br>
+
+<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><br>
+
+<h5 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h5><br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;gsh3ll.top&#x2F;2021&#x2F;12&#x2F;18&#x2F;%E3%80%90%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E7%AC%94%E8%AE%B0%E3%80%91PowerShell%E5%9F%BA%E7%A1%80&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;1639161</span><br><span class="line">https:&#x2F;&#x2F;www.secrss.com&#x2F;articles&#x2F;20119</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>Yara规则学习-01</title>
     <url>/posts/db5cae05/</url>
     <content><![CDATA[<h3 id="官方demo"><a href="#官方demo" class="headerlink" title="官方demo"></a>官方demo</h3><p><a href="https://github.com/VirusTotal/yara">https://github.com/VirusTotal/yara</a></p>
