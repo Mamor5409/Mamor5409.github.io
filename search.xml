@@ -11,8 +11,24 @@
 <li>2022.2.21</li>
 </ul>
 <p>距离上次更新已经一个多月了，中间隔离了一周，然后就是过年就一直摆了…这段时间在学恶意样本分析，刚看完微尘网络的C++反汇编，不过到后面的windowsAPI那块基本上只跟了视频，没有跟着敲代码。</p>
-<p>近期计划先把之前没完善完的东西再整理下，顺便回顾一下，然后再准备春招和毕设了…然后再看一下这一两个月爆出的洞，然后再在微步上找几个样本在练下手（由于4月初要回学校呆一段时间，所以就没找实习，一个多月的实习，，，时间上有点尴尬… 计划再毕业正式工作前和朋友去一趟西藏~）如果有时间就去学一下滴水三期课程QAQ  加油咯！ </p>
+<p>近期计划先把之前没完善完的东西再整理下，顺便回顾一下，然后再准备春招和毕设了…然后再看一下这一两个月爆出的洞，然后再在微步上找几个样本在练下手（由于4月初要回学校呆一段时间，所以就没找实习，一个多月的实习，，，时间上有点尴尬… 计划再毕业正式工作前和朋友去一趟旅行~）如果有时间就去学一下滴水三期课程QAQ  加油咯！ </p>
+<ul>
+<li>2022.3.5</li>
+</ul>
+<p>最近再准备春招 刚笔试了qax 。刷了 3、4 天的牛客题目，编程题一道不会 白给… 选择不定项感觉还好，不过想都不用想 定是凉凉。说实话我挺不喜欢算法的，从大学以来就对acm这些算法不感兴趣然后选择了打CTF，接触网络安全的，记着之前秋招的时候也投过几家，同样都要考算法QAQ，然后日常白给，这次也寄了（ 本来就挺菜的，我更想倾向于把时间去学习漏洞复现 免杀 样本分析这些东西 或者去有机会去刷一下滴水，感觉去刷算法对我目前来说 真的没啥意思 就算是刷了好多题 感觉对我后续网安路上也没啥太大用途…） </p>
+<p>后续可能考虑找个实习啥的，如果时间上允许的话，但是HvV估计时间上和毕业冲突 又去不成了.去年本能去成，结果学院原因没法去😔</p>
+<p>春招都考算法 我还是想考虑走社招了(太菜了刷不动算法，而且毫无兴趣)，近期就学下样本分析，顺便复现下最近爆出的几个洞，看看文章，学学免杀，准备毕业论文了。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>spring_RCE_CVE-2022-22947复现</title>
+    <url>/posts/178b79d4/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Dll劫持学习-01</title>
+    <url>/posts/e1659c9c/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Powershell基础学习</title>
@@ -326,17 +342,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>disable_functions绕过学习(待完成)</title>
-    <url>/posts/9087228f/</url>
-    <content><![CDATA[<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg">https://mp.weixin.qq.com/s/PpKvrlwnHbhWGacXEausBg</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>PTK密钥传递攻击(待完成)</title>
-    <url>/posts/a1faa996/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>痕迹清理-Windows篇-02</title>
     <url>/posts/41ffc4f2/</url>
     <content><![CDATA[<p>单条日志清理</p>
@@ -604,11 +609,6 @@
       <tags>
         <tag>权限维持</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>SID-history攻击(待完成)</title>
-    <url>/posts/ddf87dc4/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Regexp注入</title>
