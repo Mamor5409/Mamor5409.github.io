@@ -3875,11 +3875,6 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       </tags>
   </entry>
   <entry>
-    <title>phpmyadmin漏洞复现(待完成)</title>
-    <url>/posts/89c61231/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>某网站sql盲注</title>
     <url>/posts/a615296a/</url>
     <content><![CDATA[<p><code>http://www.xxxxxx.com/products.php?id=113</code></p>
