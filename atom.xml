@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-03-22T11:25:20.439Z</updated>
+  <updated>2022-03-23T09:35:08.920Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>vulntarget-b靶机</title>
+    <link href="http://mamor5409.github.io/posts/f33996e/"/>
+    <id>http://mamor5409.github.io/posts/f33996e/</id>
+    <published>2022-03-23T09:29:44.000Z</published>
+    <updated>2022-03-23T09:35:08.920Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>vulntarget-a靶机</title>
     <link href="http://mamor5409.github.io/posts/3edb83f3/"/>
     <id>http://mamor5409.github.io/posts/3edb83f3/</id>
     <published>2022-03-22T11:15:21.000Z</published>
-    <updated>2022-03-22T11:25:20.439Z</updated>
+    <updated>2022-03-22T11:26:41.055Z</updated>
     
     
     <summary type="html"> </summary>
@@ -326,25 +341,6 @@
     <id>http://mamor5409.github.io/posts/d8f69548/</id>
     <published>2021-11-18T05:16:14.000Z</published>
     <updated>2022-01-17T08:51:13.539Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>痕迹清理-Linux篇</title>
-    <link href="http://mamor5409.github.io/posts/1b08230/"/>
-    <id>http://mamor5409.github.io/posts/1b08230/</id>
-    <published>2021-11-17T12:26:38.000Z</published>
-    <updated>2022-01-12T07:56:36.731Z</updated>
     
     
     <summary type="html"> </summary>
