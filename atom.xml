@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-03-25T03:58:07.670Z</updated>
+  <updated>2022-03-25T04:07:45.070Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux提权漏洞复现</title>
+    <link href="http://mamor5409.github.io/posts/1a565dd/"/>
+    <id>http://mamor5409.github.io/posts/1a565dd/</id>
+    <published>2022-03-25T04:02:28.000Z</published>
+    <updated>2022-03-25T04:07:45.070Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>vulntarget-b靶机</title>
@@ -332,25 +347,6 @@
     
     
     <category term="提权" scheme="http://mamor5409.github.io/tags/%E6%8F%90%E6%9D%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>痕迹清理-Windows篇-01</title>
-    <link href="http://mamor5409.github.io/posts/d8f69548/"/>
-    <id>http://mamor5409.github.io/posts/d8f69548/</id>
-    <published>2021-11-18T05:16:14.000Z</published>
-    <updated>2022-01-17T08:51:13.539Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
     
   </entry>
   
