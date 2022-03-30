@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-03-29T09:30:12.871Z</updated>
+  <updated>2022-03-30T08:27:15.653Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>powershell免杀</title>
+    <link href="http://mamor5409.github.io/posts/adb63639/"/>
+    <id>http://mamor5409.github.io/posts/adb63639/</id>
+    <published>2022-03-30T07:53:17.000Z</published>
+    <updated>2022-03-30T08:27:15.653Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="bypass" scheme="http://mamor5409.github.io/categories/bypass/"/>
+    
+    
+    <category term="bypass" scheme="http://mamor5409.github.io/tags/bypass/"/>
+    
+  </entry>
   
   <entry>
     <title>123</title>
@@ -324,25 +343,6 @@
     
     
     <category term="log4j" scheme="http://mamor5409.github.io/tags/log4j/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iptables简单使用</title>
-    <link href="http://mamor5409.github.io/posts/1d385bbc/"/>
-    <id>http://mamor5409.github.io/posts/1d385bbc/</id>
-    <published>2021-12-10T08:51:05.000Z</published>
-    <updated>2022-01-12T08:25:54.692Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="iptables" scheme="http://mamor5409.github.io/categories/iptables/"/>
-    
-    
-    <category term="iptables" scheme="http://mamor5409.github.io/tags/iptables/"/>
     
   </entry>
   
