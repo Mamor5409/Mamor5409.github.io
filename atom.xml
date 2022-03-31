@@ -111,36 +111,6 @@
   </entry>
   
   <entry>
-    <title>spring_RCE_CVE-2022-22947复现</title>
-    <link href="http://mamor5409.github.io/posts/178b79d4/"/>
-    <id>http://mamor5409.github.io/posts/178b79d4/</id>
-    <published>2022-03-04T12:29:15.000Z</published>
-    <updated>2022-03-05T07:33:47.365Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Dll劫持学习-01</title>
-    <link href="http://mamor5409.github.io/posts/e1659c9c/"/>
-    <id>http://mamor5409.github.io/posts/e1659c9c/</id>
-    <published>2022-02-28T13:39:57.000Z</published>
-    <updated>2022-03-05T07:33:47.364Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>Powershell基础学习</title>
     <link href="http://mamor5409.github.io/posts/359bf983/"/>
     <id>http://mamor5409.github.io/posts/359bf983/</id>
@@ -343,6 +313,44 @@
     
     
     <category term="log4j" scheme="http://mamor5409.github.io/tags/log4j/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iptables简单使用</title>
+    <link href="http://mamor5409.github.io/posts/1d385bbc/"/>
+    <id>http://mamor5409.github.io/posts/1d385bbc/</id>
+    <published>2021-12-10T08:51:05.000Z</published>
+    <updated>2022-01-12T08:25:54.692Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="iptables" scheme="http://mamor5409.github.io/categories/iptables/"/>
+    
+    
+    <category term="iptables" scheme="http://mamor5409.github.io/tags/iptables/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows提权篇</title>
+    <link href="http://mamor5409.github.io/posts/61d7ac81/"/>
+    <id>http://mamor5409.github.io/posts/61d7ac81/</id>
+    <published>2021-12-06T05:19:11.000Z</published>
+    <updated>2022-02-24T04:07:55.309Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="提权" scheme="http://mamor5409.github.io/categories/%E6%8F%90%E6%9D%83/"/>
+    
+    
+    <category term="提权" scheme="http://mamor5409.github.io/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
