@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-06-02T08:00:15.622Z</updated>
+  <updated>2022-06-06T09:00:36.074Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>CLMBypass</title>
+    <title>EWT检测与绕过</title>
+    <link href="http://mamor5409.github.io/posts/8f170097/"/>
+    <id>http://mamor5409.github.io/posts/8f170097/</id>
+    <published>2022-06-06T09:00:36.000Z</published>
+    <updated>2022-06-06T09:00:36.074Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CLM Bypass</title>
     <link href="http://mamor5409.github.io/posts/39eca96/"/>
     <id>http://mamor5409.github.io/posts/39eca96/</id>
     <published>2022-06-02T07:34:24.000Z</published>
-    <updated>2022-06-02T08:00:15.622Z</updated>
+    <updated>2022-06-06T08:56:04.729Z</updated>
     
     
     <summary type="html"> </summary>
@@ -66,11 +81,11 @@
   </entry>
   
   <entry>
-    <title>AMSI_Bypass学习</title>
+    <title>AMSI Bypass学习</title>
     <link href="http://mamor5409.github.io/posts/9af7df1e/"/>
     <id>http://mamor5409.github.io/posts/9af7df1e/</id>
     <published>2022-04-02T08:58:58.000Z</published>
-    <updated>2022-04-07T07:26:53.483Z</updated>
+    <updated>2022-06-06T08:56:12.771Z</updated>
     
     
     <summary type="html"> </summary>
@@ -281,7 +296,7 @@
     <link href="http://mamor5409.github.io/posts/9577635b/"/>
     <id>http://mamor5409.github.io/posts/9577635b/</id>
     <published>2022-01-12T03:03:32.000Z</published>
-    <updated>2022-06-02T08:19:45.230Z</updated>
+    <updated>2022-06-06T08:58:31.531Z</updated>
     
     
     <summary type="html"> </summary>
@@ -322,21 +337,6 @@
     
     
     <category term="信息收集" scheme="http://mamor5409.github.io/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一次XXS绕过学习</title>
-    <link href="http://mamor5409.github.io/posts/b6714d8e/"/>
-    <id>http://mamor5409.github.io/posts/b6714d8e/</id>
-    <published>2021-12-20T12:52:13.000Z</published>
-    <updated>2022-01-12T04:58:11.309Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
