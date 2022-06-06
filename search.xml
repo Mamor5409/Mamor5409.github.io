@@ -17,9 +17,16 @@
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
   </entry>
   <entry>
-    <title>EWT检测与绕过</title>
+    <title>ETW检测与绕过</title>
     <url>/posts/8f170097/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="ETW"><a href="#ETW" class="headerlink" title="ETW"></a>ETW</h3><p>ETW (<code>Event Tracing for Windows</code>)，即WIndows事件追踪，是Windows提供的原生事件跟踪日志系统。</p>
+<h3 id="ETW检测机制"><a href="#ETW检测机制" class="headerlink" title="ETW检测机制"></a>ETW检测机制</h3><h3 id="execute-assembly"><a href="#execute-assembly" class="headerlink" title="execute-assembly"></a>execute-assembly</h3><h3 id="ETW-Bypass"><a href="#ETW-Bypass" class="headerlink" title="ETW Bypass"></a>ETW Bypass</h3><h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote>
+<p><a href="https://tttang.com/archive/1612/">https://tttang.com/archive/1612/</a></p>
+<p><a href="https://idiotc4t.com/defense-evasion/memory-pacth-bypass-etw">https://idiotc4t.com/defense-evasion/memory-pacth-bypass-etw</a></p>
+<p><a href="https://docs.microsoft.com/zh-cn/windows-hardware/test/weg/instrumenting-your-code-with-etw">https://docs.microsoft.com/zh-cn/windows-hardware/test/weg/instrumenting-your-code-with-etw</a></p>
+<p><a href="https://www.anquanke.com/post/id/201222">https://www.anquanke.com/post/id/201222</a></p>
+</blockquote>
+]]></content>
   </entry>
   <entry>
     <title>CLM Bypass</title>
