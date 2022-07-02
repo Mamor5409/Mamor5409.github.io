@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-07-02T06:51:07.090Z</updated>
+  <updated>2022-07-02T15:57:31.041Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2022上半年个人总结</title>
+    <link href="http://mamor5409.github.io/posts/e7789fd3/"/>
+    <id>http://mamor5409.github.io/posts/e7789fd3/</id>
+    <published>2022-07-02T13:20:13.000Z</published>
+    <updated>2022-07-02T15:57:31.041Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>记一次红队后反思与总结</title>
@@ -32,11 +47,11 @@
   </entry>
   
   <entry>
-    <title>ETW检测与绕过</title>
+    <title>ETW检测与绕过(待完成)</title>
     <link href="http://mamor5409.github.io/posts/8f170097/"/>
     <id>http://mamor5409.github.io/posts/8f170097/</id>
     <published>2022-06-06T09:00:36.000Z</published>
-    <updated>2022-06-06T09:24:49.653Z</updated>
+    <updated>2022-07-02T06:54:05.573Z</updated>
     
     
     <summary type="html"> </summary>
@@ -312,21 +327,6 @@
     <id>http://mamor5409.github.io/posts/9577635b/</id>
     <published>2022-01-12T03:03:32.000Z</published>
     <updated>2022-06-06T08:58:31.531Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Regexp注入</title>
-    <link href="http://mamor5409.github.io/posts/6cc02bf9/"/>
-    <id>http://mamor5409.github.io/posts/6cc02bf9/</id>
-    <published>2022-01-11T09:13:14.000Z</published>
-    <updated>2022-01-12T07:14:01.877Z</updated>
     
     
     <summary type="html"> </summary>
