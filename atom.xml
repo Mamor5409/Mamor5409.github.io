@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-06-06T09:24:49.653Z</updated>
+  <updated>2022-07-02T06:51:07.090Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次红队后反思与总结</title>
+    <link href="http://mamor5409.github.io/posts/457578e1/"/>
+    <id>http://mamor5409.github.io/posts/457578e1/</id>
+    <published>2022-07-02T05:36:46.000Z</published>
+    <updated>2022-07-02T06:51:07.090Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>ETW检测与绕过</title>
@@ -318,25 +333,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>信息收集可能会用到的站点</title>
-    <link href="http://mamor5409.github.io/posts/4259031d/"/>
-    <id>http://mamor5409.github.io/posts/4259031d/</id>
-    <published>2022-01-06T10:23:24.000Z</published>
-    <updated>2022-01-12T08:45:47.589Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="信息收集" scheme="http://mamor5409.github.io/categories/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
-    
-    
-    <category term="信息收集" scheme="http://mamor5409.github.io/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"/>
     
   </entry>
   
