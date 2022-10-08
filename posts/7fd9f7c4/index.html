@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C-07_内联函数">
+<meta property="og:url" content="http://mamor5409.github.io/posts/7fd9f7c4/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-26T09:17:36.000Z">
+<meta property="article:modified_time" content="2022-10-08T04:28:12.452Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/7fd9f7c4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C-07_内联函数 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/7fd9f7c4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C-07_内联函数
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-26 17:17:36" itemprop="dateCreated datePublished" datetime="2022-09-26T17:17:36+08:00">2022-09-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-08 12:28:12" itemprop="dateModified" datetime="2022-10-08T12:28:12+08:00">2022-10-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>使用 gcc 查看正常下和 使用内联的区别   gcc -E -O xxxx.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> echo(n) printf(<span class="meta-string">&quot;%d\n&quot;</span>,n);</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> hello() printf(<span class="meta-string">&quot;helloworld!\n&quot;</span>);</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> test() &#123; printf(<span class="meta-string">&quot;123&quot;</span>);\</span></span><br><span class="line">				 <span class="built_in">printf</span>(<span class="string">&quot;456&quot;</span>);\</span><br><span class="line">				 <span class="built_in">printf</span>(<span class="string">&quot;789\n&quot;</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> f(x) f##x();   <span class="comment">//f##x   f1()</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;f1\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;f2\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	echo(<span class="number">23</span>)  <span class="comment">// ;可加可不加</span></span><br><span class="line">	hello()</span><br><span class="line">	f(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> aaaaa 110</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> aaaaa == 10</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;AAAA&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;BBBB&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> aaaaa</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;aaaa\n&quot;</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// aaaaa</span></span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>#pragma once </code>  只包含一次</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> n 0 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> n == 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> 除数不能为0   <span class="comment">// 会返回一个error</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> n 0 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> n == 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> message （<span class="meta-string">&quot;除数不能为0&quot;</span>）</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br></pre></td><td class="code"><pre><span class="line">首先三种形式的命令：宏定义，文件包含，条件编译命令。</span><br><span class="line"><span class="number">1</span>、宏定义主要是：<span class="meta">#<span class="meta-keyword">define</span>，#<span class="meta-keyword">undef</span></span></span><br><span class="line">如下：</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PI 3.1415926                    <span class="comment">/*不带参数的宏定义*/</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Max(a,b)  a&gt;b?a:b                    <span class="comment">/*带参数的宏定义*/</span></span></span><br><span class="line">说明：宏定义在C语言与C++语言中是相通的。</span><br><span class="line">下面举例说明定义宏FAILED用于检测数据的正确性。</span><br><span class="line">①<span class="meta">#<span class="meta-keyword">define</span>的应用：</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAILED(Status) ((Status)&lt;0)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> d;</span><br><span class="line"><span class="built_in">printf</span> (<span class="string">&quot;Please input a integer number(n&gt;0)/n&quot;</span>);</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span> ,&amp;d);</span><br><span class="line">&#125;<span class="keyword">while</span>(FAILED(d));</span><br><span class="line">&#125; </span><br><span class="line">其中<span class="keyword">while</span>(FAILED(d))在编译之前被无条件替换为<span class="keyword">while</span>(d&lt;<span class="number">0</span>)。 </span><br><span class="line">宏定义和调用在形式与函数比较相似，但是原理是不同。</span><br><span class="line">②<span class="meta">#<span class="meta-keyword">undef</span>的应用：</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME1 <span class="meta-string">&quot;CONST_NAME1&quot;</span></span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME1);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> CONST_NAME1</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME1); <span class="comment">/*错误，CONST_NAME1的定义已经取消*/</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME2 <span class="meta-string">&quot;CONST_NAME2&quot;</span></span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">&#125;</span><br><span class="line">在程序的编译的时候，系统提示如下信息</span><br><span class="line">error C2065: &#x27;CONST_NAME1&#x27; : undeclared identifier</span><br><span class="line">出现上述编译错误的原因是，在第二次应用符号常量CONST_NAME1时，此符号常量已经被取消定义。</span><br><span class="line"><span class="number">2</span>、文件包含：</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;文件名&gt; ，这种属于标准方式，用于编译系统指定的文件。</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> “文件名”，这种属于用户方式，查找用户当前工作的文件夹中的文件，如果不存在则再按照标准方式查询。</span></span><br><span class="line"><span class="number">3</span>、条件编译（常见的三种形式）：</span><br><span class="line">①第一种形式：</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(或者是<span class="meta-keyword">ifdef</span>)<span class="meta-string">&lt;标识符&gt;</span></span></span><br><span class="line">&lt;程序段<span class="number">1</span>&gt;</span><br><span class="line">[<span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">&lt;程序段<span class="number">2</span>&gt;]</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">②第二种形式：</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined(或者是<span class="meta-keyword">ifndef</span>)<span class="meta-string">&lt;标识符&gt;</span></span></span><br><span class="line">&lt;程序段<span class="number">1</span>&gt;</span><br><span class="line">[<span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">&lt;程序段<span class="number">2</span>&gt;]</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">③第三种形式常用与C++编译器中。</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> …</span></span><br><span class="line">[<span class="meta">#<span class="meta-keyword">elif</span> … ]</span></span><br><span class="line">[<span class="meta">#<span class="meta-keyword">elif</span> …]</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span> …</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="number">4</span>、其他条件编译命令：</span><br><span class="line">①<span class="meta">#<span class="meta-keyword">error</span>:</span></span><br><span class="line">语法格式如下：</span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> token-sequence</span></span><br><span class="line">其主要的作用是在编译的时候输出编译错误信息token-sequence，从方便程序员检查程序中出现的错误。例如下面的程序</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME1 <span class="meta-string">&quot;CONST_NAME1&quot;</span></span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME1);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> CONST_NAME1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> CONST_NAME1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> No defined Constant Symbol CONST_NAME1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME2 <span class="meta-string">&quot;CONST_NAME2&quot;</span></span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">&#125;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">在编译的时候输出如编译信息</span><br><span class="line">fatal error C1189: <span class="meta">#<span class="meta-keyword">error</span> : No defined Constant Symbol CONST_NAME1</span></span><br><span class="line">②<span class="meta"># <span class="meta-keyword">pragma</span></span></span><br><span class="line">在编写程序的时候,我们经常要用到<span class="meta">#<span class="meta-keyword">pragma</span> 指令来设定编译器的状态或者是指示编译器完成一些特定的动作. </span></span><br><span class="line">下面介绍了一下该指令的一些常用参数,希望对大家有所帮助!</span><br><span class="line">一般格式：<span class="meta">#<span class="meta-keyword">pragma</span> para </span></span><br><span class="line">一、  message 参数。 </span><br><span class="line">message </span><br><span class="line">它能够在编译信息输出窗 </span><br><span class="line">口中输出相应的信息，这对于源代码信息的控制是非常重要的。其使用方法为： </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> message(“消息文本”) </span></span><br><span class="line">当编译器遇到这条指令时就在编译输出窗口中将消息文本打印出来。 </span><br><span class="line">当我们在程序中定义了许多宏来控制源代码版本的时候，我们自己有可能都会忘记有没有正确的设置这些宏，此时我们可以用这条 </span><br><span class="line">指令在编译的时候就进行检查。假设我们希望判断自己有没有在源代码的什么地方定义了_X86这个宏可以用下面的方法 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> _X86 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> message(“_X86 macro activated!”) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> </span></span><br><span class="line">当我们定义了_X86这个宏以后，应用程序在编译时就会在编译输出窗口里显示“_ </span><br><span class="line">X86 macro activated!”。我们就不会因为不记得自己定义的一些特定的宏而抓耳挠腮了 </span><br><span class="line">二、  另一个使用得比较多的<span class="meta">#<span class="meta-keyword">pragma</span>参数是code_seg，驱动开发使用比较多，应用用不到。格式如： </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> code_seg( [ [ &#123; push | pop&#125;, ] [ identifier, ] ] [ <span class="meta-string">&quot;segment-name&quot;</span> [, <span class="meta-string">&quot;segment-class&quot;</span> ] ) </span></span><br><span class="line">该指令用来指定函数在.obj文件中存放的节,观察OBJ文件可以使用VC自带的dumpbin命令行程序,函数在.obj文件中默认的存放节 </span><br><span class="line">为.text节 </span><br><span class="line">如果code_seg没有带参数的话,则函数存放在.text节中 </span><br><span class="line">push (可选参数) 将一个记录放到内部编译器的堆栈中,可选参数可以为一个标识符或者节名 </span><br><span class="line">pop(可选参数) 将一个记录从堆栈顶端弹出,该记录可以为一个标识符或者节名 </span><br><span class="line">identifier (可选参数) 当使用push指令时,为压入堆栈的记录指派的一个标识符,当该标识符被删除的时候和其相关的堆栈中的记录将被弹出堆栈 </span><br><span class="line"><span class="string">&quot;segment-name&quot;</span> (可选参数) 表示函数存放的节名 </span><br><span class="line">例如: </span><br><span class="line"><span class="comment">//默认情况下,函数被存放在.text节中 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span> </span>&#123; <span class="comment">// stored in .text </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//将函数存放在.my_data1节中 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> code_seg(<span class="meta-string">&quot;.my_data1&quot;</span>) </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span> </span>&#123; <span class="comment">// stored in my_data1 </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//r1为标识符,将函数放入.my_data2节中 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> code_seg(push, r1, <span class="meta-string">&quot;.my_data2&quot;</span>) </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func3</span><span class="params">()</span> </span>&#123; <span class="comment">// stored in my_data2 </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; </span><br><span class="line">&#125; </span><br><span class="line">三、   <span class="meta">#<span class="meta-keyword">pragma</span> once (比较常用） </span></span><br><span class="line"> </span><br><span class="line">这是一个比较常用的指令,只要在头文件的最开始加入这条指令就能够保证头文件被编译一次 </span><br><span class="line">四、   <span class="meta">#<span class="meta-keyword">pragma</span> hdrstop表示预编译头文件到此为止，后面的头文件不进行预编译。 </span></span><br><span class="line">BCB可以预编译头文件以加快链接的速度，但如果所有头文件都进行预编译又可能占太多磁盘空间，所以使用这个选项排除一些头文件。 </span><br><span class="line">有时单元之间有依赖关系，比如单元A依赖单元B，所以单元B要先于单元A编译。你可以用<span class="meta">#<span class="meta-keyword">pragma</span> startup指定编译优先级， </span></span><br><span class="line">如果使用了<span class="meta">#<span class="meta-keyword">pragma</span> package(smart_init) ，BCB就会根据优先级的大小先后编译。 </span></span><br><span class="line">五、   <span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>指令 </span></span><br><span class="line">该指令允许有选择性的修改编译器的警告消息的行为 </span><br><span class="line">指令格式如下: </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( <span class="meta-keyword">warning</span>-specifier : <span class="meta-keyword">warning</span>-number-list [; <span class="meta-keyword">warning</span>-specifier : <span class="meta-keyword">warning</span>-number-list...] </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( push[ ,n ] ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( pop ) </span></span><br><span class="line">主要用到的警告表示有如下几个: </span><br><span class="line">once:只显示一次(警告/错误等)消息 </span><br><span class="line"><span class="keyword">default</span>:重置编译器的警告行为到默认状态 </span><br><span class="line"><span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>:四个警告级别 </span><br><span class="line">disable:禁止指定的警告信息 </span><br><span class="line">error:将指定的警告信息作为错误报告 </span><br><span class="line">如果大家对上面的解释不是很理解,可以参考一下下面的例子及说明 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( disable : 4507 34; once : 4385; <span class="meta-keyword">error</span> : 164 ) </span></span><br><span class="line">等价于： </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(disable:4507 34) <span class="comment">// 不显示4507和34号警告信息 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(once:4385) <span class="comment">// 4385号警告信息仅报告一次 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(<span class="meta-keyword">error</span>:164) <span class="comment">// 把164号警告信息作为一个错误。 </span></span></span><br><span class="line">同时这个pragma warning 也支持如下格式： </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( push [ ,n ] ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( pop ) </span></span><br><span class="line">这里n代表一个警告等级(<span class="number">1</span>--<span class="number">-4</span>)。 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( push )保存所有警告信息的现有的警告状态。 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( push, n)保存所有警告信息的现有的警告状态，并且把全局警告 </span></span><br><span class="line">等级设定为n。 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( pop )向栈中弹出最后一个警告信息，在入栈和出栈之间所作的 </span></span><br><span class="line">一切改动取消。例如： </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( push ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( disable : 4705 ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( disable : 4706 ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( disable : 4707 ) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>( pop ) </span></span><br><span class="line">在这段代码的最后，重新保存所有的警告信息(包括<span class="number">4705</span>，<span class="number">4706</span>和<span class="number">4707</span>) </span><br><span class="line">在使用标准C++进行编程的时候经常会得到很多的警告信息,而这些警告信息都是不必要的提示, </span><br><span class="line">所以我们可以使用<span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(disable:4786)来禁止该类型的警告 </span></span><br><span class="line">在vc中使用ADO的时候也会得到不必要的警告信息,这个时候我们可以通过 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> <span class="meta-keyword">warning</span>(disable:4146)来消除该类型的警告信息 </span></span><br><span class="line">六、  <span class="function">pragma <span class="title">comment</span><span class="params">(...)</span> </span></span><br><span class="line">该指令的格式为 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment( <span class="meta-string">&quot;comment-type&quot;</span> [, commentstring] ) </span></span><br><span class="line">该指令将一个注释记录放入一个对象文件或可执行文件中, </span><br><span class="line">comment-type(注释类型):可以指定为五种预定义的标识符的其中一种 </span><br><span class="line">五种预定义的标识符为: </span><br><span class="line">compiler:将编译器的版本号和名称放入目标文件中,本条注释记录将被编译器忽略 </span><br><span class="line">如果你为该记录类型提供了commentstring参数,编译器将会产生一个警告 </span><br><span class="line">例如:<span class="meta">#<span class="meta-keyword">pragma</span> comment( compiler ) </span></span><br><span class="line">exestr:将commentstring参数放入目标文件中,在链接的时候这个字符串将被放入到可执行文件中, </span><br><span class="line">当操作系统加载可执行文件的时候,该参数字符串不会被加载到内存中.但是,该字符串可以被 </span><br><span class="line">dumpbin之类的程序查找出并打印出来,你可以用这个标识符将版本号码之类的信息嵌入到可 </span><br><span class="line">执行文件中! </span><br><span class="line">lib:这是一个非常常用的关键字,用来将一个库文件链接到目标文件中 </span><br><span class="line">常用的lib关键字，可以帮我们连入一个库文件。 </span><br><span class="line">例如: </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">&quot;user32.lib&quot;</span>) </span></span><br><span class="line">该指令用来将user32.lib库文件加入到本工程中 </span><br><span class="line">linker:将一个链接选项放入目标文件中,你可以使用这个指令来代替由命令行传入的或者在开发环境中 </span><br><span class="line">设置的链接选项,你可以指定/include选项来强制包含某个对象,例如: </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(linker, <span class="meta-string">&quot;/include:__mySymbol&quot;</span>) </span></span><br><span class="line">你可以在程序中设置下列链接选项 </span><br><span class="line">/DEFAULTLIB </span><br><span class="line">/EXPORT </span><br><span class="line">/INCLUDE </span><br><span class="line">/MERGE </span><br><span class="line">/SECTION </span><br><span class="line">这些选项在这里就不一一说明了,详细信息请看msdn! </span><br><span class="line">user:将一般的注释信息放入目标文件中commentstring参数包含注释的文本信息,这个注释记录将被链接器忽略 </span><br><span class="line">例如: </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment( user, <span class="meta-string">&quot;Compiled on &quot;</span> __DATE__ <span class="meta-string">&quot; at &quot;</span> __TIME__ ) </span></span><br><span class="line">补充一个 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(n) </span></span><br><span class="line">控制对齐 如 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(push) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(1) </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">s_1</span>&#123;</span> </span><br><span class="line"><span class="keyword">char</span> szname[<span class="number">1</span>]; </span><br><span class="line"><span class="keyword">int</span> a; </span><br><span class="line">&#125;; </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(pop) </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">s_2</span>&#123;</span> </span><br><span class="line"><span class="keyword">char</span> szname[<span class="number">1</span>]; </span><br><span class="line"><span class="keyword">int</span> a; </span><br><span class="line">&#125;; </span><br><span class="line">则 </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;s_1 size : %d/n&quot;</span>, <span class="keyword">sizeof</span>(struct s_1)); </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;s_2 size : %d/n&quot;</span>, <span class="keyword">sizeof</span>(struct s_2)); </span><br><span class="line">得到<span class="number">5</span>，<span class="number">8</span>。</span><br><span class="line"> (<span class="number">5</span>) <span class="meta">#<span class="meta-keyword">pragma</span> resource <span class="meta-string">&quot;*.dfm&quot;</span>表示把*.dfm文件中的资源加入工程。*.dfm中包括窗体</span></span><br><span class="line">外观的定义。 </span><br><span class="line">件。</span><br><span class="line">(<span class="number">8</span>) progma pack（n）</span><br><span class="line">指定结构体对齐方式！<span class="meta">#<span class="meta-keyword">pragma</span> pack(n)来设定变量以n字节对齐方式。n字节对齐就是说变量存放的起始地址的偏移量有两种情况：第一、如果n大于等于该变量所占用的字节数，那么偏 移量必须满足默认的对齐方式，第二、如果n小于该变量的类型所占用的字节数，那么偏移量为n的倍数，不用满足默认的对齐方式。结构的总大小也有个约束条 件，分下面两种情况：如果n大于所有成员变量类型所占用的字节数，那么结构的总大小必须为占用空间最大的变量占用的空间数的倍数； </span></span><br><span class="line">　　否则必须为n的倍数。下面举例说明其用法。 </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(push) <span class="comment">//保存对齐状态</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(4)<span class="comment">//设定为4字节对齐</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">test</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">char</span> m1;</span><br><span class="line"><span class="keyword">double</span> m4;</span><br><span class="line"><span class="keyword">int</span> m3;</span><br><span class="line">&#125;; </span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> pack(pop)<span class="comment">//恢复对齐状态 </span></span></span><br><span class="line">为测试该功能，可以使用<span class="keyword">sizeof</span>（）测试结构体的长度！</span><br><span class="line">③<span class="meta">#<span class="meta-keyword">line</span></span></span><br><span class="line">此命令主要是为强制编译器按指定的行号，开始对源程序的代码重新编号，在调试的时候，可以按此规定输出错误代码的准确位置。</span><br><span class="line">形式<span class="number">1</span></span><br><span class="line">语法格式如下:</span><br><span class="line"><span class="meta"># <span class="meta-keyword">line</span> constant “filename”:其作用是使得其后的源代码从指定的行号constant重新开始编号，并将当前文件的名命名为filename。例如下面的程序如下：</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span> 10 <span class="meta-string">&quot;Hello.c&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME1 <span class="meta-string">&quot;CONST_NAME1&quot;</span></span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME1);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> CONST_NAME1</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME1);</span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONST_NAME2 <span class="meta-string">&quot;CONST_NAME2&quot;</span></span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s/n&quot;</span>,CONST_NAME2);</span><br><span class="line">&#125;</span><br><span class="line">提示如下的编译信息：Hello.c(15) : error C2065: &#x27;CONST_NAME1&#x27; : undeclared identifier</span><br><span class="line">表示当前文件的名称被认为是Hello.c， <span class="meta">#<span class="meta-keyword">line</span> 10 <span class="meta-string">&quot;Hello.c&quot;</span>所在的行被认为是第10行，因此提示第15行出错。</span></span><br><span class="line">形式<span class="number">2</span>语法格式如下:</span><br><span class="line"><span class="meta"># <span class="meta-keyword">line</span> constant:其作用在于编译的时候，准确输出出错代码所在的位置（行号），而在源程序中并不出现行号，从而方便程序员准确定位。</span></span><br><span class="line">④运算符#和##  #@  ‘’</span><br><span class="line">在ANSI C中为预编译指令定义了两个运算符——#和##。# 的作用是实现文本替换，例如</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HI(x) printf(<span class="meta-string">&quot;Hi,&quot;</span>#x<span class="meta-string">&quot;/n&quot;</span>);</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HI(John);</span><br><span class="line">&#125;</span><br><span class="line">程序的运行结果：Hi,John</span><br><span class="line">在预编译处理的时候, <span class="string">&quot;#x&quot;</span>的作用是将x替换为所代表的字符序列。在本程序中x为John，所以构建新串“Hi,John”。</span><br><span class="line">##的作用是串连接。例如</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONNECT(x,y) x##y</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> a1,a2,a3;</span><br><span class="line">CONNECT(a,<span class="number">1</span>)=<span class="number">0</span>;</span><br><span class="line">CONNECT(a,<span class="number">2</span>)=<span class="number">12</span>;</span><br><span class="line">a3=<span class="number">4</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;a1=%d/ta2=%d/ta3=%d&quot;</span>,a1,a2,a3);</span><br><span class="line">&#125;</span><br><span class="line">程序的运行结果为：a1=<span class="number">0</span> a2=<span class="number">12</span> a3=<span class="number">4</span></span><br><span class="line">在编译之前， CONNECT(a,<span class="number">1</span>)被翻译为a1， CONNECT(a,<span class="number">2</span>)被翻译为a2。</span><br><span class="line">⑤预定义常量</span><br><span class="line">__LINE__：当前源代码的行号，为整型常量 </span><br><span class="line">__FILE__：当前编译程序文件的名称，为字符串 </span><br><span class="line">__DATE__：编译程序文件日期，为字符串（”MM DD YYYY＂形式，如”　Jan <span class="number">19</span> <span class="number">1993</span>”） </span><br><span class="line">__TIME__：编译程序文件时间，为字符串（＂hh:mm:ss＂形式，如”<span class="number">08</span>:<span class="number">30</span>:<span class="number">23</span>”） </span><br><span class="line">__STDC__：ANSI C标志，整型常量<span class="number">1</span>,说明此程序兼容ANSI C标准。</span><br><span class="line"></span><br><span class="line"><span class="number">.2</span> <span class="meta">#<span class="meta-keyword">line</span>等</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span>指令将使编译器显示一条错误信息，然后停止编译。</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span>指令改变_LINE_与_FILE_的内容，它们是在编译程序中预先定义的标识符。</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span>指令没有正式的定义。编译器可以自定义其用途。典型的用法是禁止或允许某些烦人的警告信息。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//例10,#line举例</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span>   100          <span class="comment">//初始化行计数器 </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;    //行号100</span></span></span><br><span class="line"><span class="keyword">int</span> main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World!\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,__LINE__);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出104</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"></i><i class="fa fa-tag"></i> C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/9c5cfbfa/" rel="prev" title="C-06_32位下dll注入">
+      <i class="fa fa-chevron-left"></i> C-06_32位下dll注入
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/f42908ab/" rel="next" title="C-08_注册表读写">
+      C-08_注册表读写 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">569k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:37</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共149.2k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

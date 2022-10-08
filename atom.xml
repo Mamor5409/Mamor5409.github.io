@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-07-02T15:57:31.041Z</updated>
+  <updated>2022-10-08T04:33:21.127Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,273 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>C-13_动态获取API函数地址</title>
+    <link href="http://mamor5409.github.io/posts/9aa42a48/"/>
+    <id>http://mamor5409.github.io/posts/9aa42a48/</id>
+    <published>2022-10-07T07:09:51.000Z</published>
+    <updated>2022-10-08T04:33:21.127Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-12_PE结构</title>
+    <link href="http://mamor5409.github.io/posts/896a905d/"/>
+    <id>http://mamor5409.github.io/posts/896a905d/</id>
+    <published>2022-10-06T13:12:36.000Z</published>
+    <updated>2022-10-08T04:35:59.046Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-11_WindowsHook</title>
+    <link href="http://mamor5409.github.io/posts/71edaaad/"/>
+    <id>http://mamor5409.github.io/posts/71edaaad/</id>
+    <published>2022-10-01T07:32:26.000Z</published>
+    <updated>2022-10-08T04:40:48.678Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-10_SEH异常处理</title>
+    <link href="http://mamor5409.github.io/posts/a3f022ab/"/>
+    <id>http://mamor5409.github.io/posts/a3f022ab/</id>
+    <published>2022-10-01T02:28:13.000Z</published>
+    <updated>2022-10-08T04:47:58.651Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-09_socket编程</title>
+    <link href="http://mamor5409.github.io/posts/3ced1fa4/"/>
+    <id>http://mamor5409.github.io/posts/3ced1fa4/</id>
+    <published>2022-09-30T10:18:01.000Z</published>
+    <updated>2022-10-08T04:28:12.454Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-08_注册表读写</title>
+    <link href="http://mamor5409.github.io/posts/f42908ab/"/>
+    <id>http://mamor5409.github.io/posts/f42908ab/</id>
+    <published>2022-09-30T07:49:48.000Z</published>
+    <updated>2022-10-08T04:50:32.602Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-07_内联函数</title>
+    <link href="http://mamor5409.github.io/posts/7fd9f7c4/"/>
+    <id>http://mamor5409.github.io/posts/7fd9f7c4/</id>
+    <published>2022-09-26T09:17:36.000Z</published>
+    <updated>2022-10-08T04:28:12.452Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-06_32位下dll注入</title>
+    <link href="http://mamor5409.github.io/posts/9c5cfbfa/"/>
+    <id>http://mamor5409.github.io/posts/9c5cfbfa/</id>
+    <published>2022-09-26T07:48:24.000Z</published>
+    <updated>2022-10-08T04:52:18.859Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-05_内存补丁、断点中断、单步中断</title>
+    <link href="http://mamor5409.github.io/posts/89f9b82/"/>
+    <id>http://mamor5409.github.io/posts/89f9b82/</id>
+    <published>2022-09-24T07:44:09.000Z</published>
+    <updated>2022-10-08T04:54:21.912Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-04_进程遍历与关闭</title>
+    <link href="http://mamor5409.github.io/posts/279ff9df/"/>
+    <id>http://mamor5409.github.io/posts/279ff9df/</id>
+    <published>2022-09-24T03:16:50.000Z</published>
+    <updated>2022-10-08T04:28:12.450Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-03_加载shellcode</title>
+    <link href="http://mamor5409.github.io/posts/61fea0e9/"/>
+    <id>http://mamor5409.github.io/posts/61fea0e9/</id>
+    <published>2022-09-24T02:42:37.000Z</published>
+    <updated>2022-10-08T04:28:12.448Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-02_CreateProcess无法创建进程问题解决方法</title>
+    <link href="http://mamor5409.github.io/posts/8b05e7a5/"/>
+    <id>http://mamor5409.github.io/posts/8b05e7a5/</id>
+    <published>2022-09-22T03:06:13.000Z</published>
+    <updated>2022-10-08T04:28:12.447Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C-01</title>
+    <link href="http://mamor5409.github.io/posts/16e8cbb5/"/>
+    <id>http://mamor5409.github.io/posts/16e8cbb5/</id>
+    <published>2022-09-19T07:57:39.000Z</published>
+    <updated>2022-10-08T04:28:12.445Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
+    
+    
+    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>boshs使用</title>
+    <link href="http://mamor5409.github.io/posts/156d265c/"/>
+    <id>http://mamor5409.github.io/posts/156d265c/</id>
+    <published>2022-09-17T01:57:03.000Z</published>
+    <updated>2022-10-08T04:56:39.250Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>2022上半年个人总结</title>
     <link href="http://mamor5409.github.io/posts/e7789fd3/"/>
     <id>http://mamor5409.github.io/posts/e7789fd3/</id>
     <published>2022-07-02T13:20:13.000Z</published>
-    <updated>2022-07-02T15:57:31.041Z</updated>
+    <updated>2022-07-02T15:57:45.174Z</updated>
     
     
     <summary type="html"> </summary>
@@ -101,232 +363,6 @@
     <id>http://mamor5409.github.io/posts/7057a17a/</id>
     <published>2022-04-04T14:12:41.000Z</published>
     <updated>2022-04-08T09:35:22.429Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>AMSI Bypass学习</title>
-    <link href="http://mamor5409.github.io/posts/9af7df1e/"/>
-    <id>http://mamor5409.github.io/posts/9af7df1e/</id>
-    <published>2022-04-02T08:58:58.000Z</published>
-    <updated>2022-06-06T08:56:12.771Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>powershell免杀</title>
-    <link href="http://mamor5409.github.io/posts/adb63639/"/>
-    <id>http://mamor5409.github.io/posts/adb63639/</id>
-    <published>2022-03-30T07:53:17.000Z</published>
-    <updated>2022-04-02T08:59:27.056Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="bypass" scheme="http://mamor5409.github.io/categories/bypass/"/>
-    
-    
-    <category term="bypass" scheme="http://mamor5409.github.io/tags/bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>整理的部分面试题及答案</title>
-    <link href="http://mamor5409.github.io/posts/884863d2/"/>
-    <id>http://mamor5409.github.io/posts/884863d2/</id>
-    <published>2022-03-27T06:48:45.000Z</published>
-    <updated>2022-03-31T06:52:40.382Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Linux提权漏洞复现</title>
-    <link href="http://mamor5409.github.io/posts/1a565dd/"/>
-    <id>http://mamor5409.github.io/posts/1a565dd/</id>
-    <published>2022-03-25T04:02:28.000Z</published>
-    <updated>2022-03-25T04:07:45.070Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>vulntarget-b靶机</title>
-    <link href="http://mamor5409.github.io/posts/f33996e/"/>
-    <id>http://mamor5409.github.io/posts/f33996e/</id>
-    <published>2022-03-23T09:29:44.000Z</published>
-    <updated>2022-03-25T03:58:07.670Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>vulntarget-a靶机</title>
-    <link href="http://mamor5409.github.io/posts/3edb83f3/"/>
-    <id>http://mamor5409.github.io/posts/3edb83f3/</id>
-    <published>2022-03-22T11:15:21.000Z</published>
-    <updated>2022-03-22T11:26:41.055Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>cmd命令混淆</title>
-    <link href="http://mamor5409.github.io/posts/bac18dc8/"/>
-    <id>http://mamor5409.github.io/posts/bac18dc8/</id>
-    <published>2022-03-21T06:42:32.000Z</published>
-    <updated>2022-03-21T09:07:55.805Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Powershell基础学习</title>
-    <link href="http://mamor5409.github.io/posts/359bf983/"/>
-    <id>http://mamor5409.github.io/posts/359bf983/</id>
-    <published>2022-02-26T01:45:23.000Z</published>
-    <updated>2022-02-27T12:01:55.993Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Yara规则学习-01</title>
-    <link href="http://mamor5409.github.io/posts/db5cae05/"/>
-    <id>http://mamor5409.github.io/posts/db5cae05/</id>
-    <published>2022-02-25T02:46:45.000Z</published>
-    <updated>2022-02-25T02:47:40.521Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>PE结构学习</title>
-    <link href="http://mamor5409.github.io/posts/d8527941/"/>
-    <id>http://mamor5409.github.io/posts/d8527941/</id>
-    <published>2022-02-21T14:00:32.000Z</published>
-    <updated>2022-02-24T02:57:21.214Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>痕迹清理-Windows篇-02</title>
-    <link href="http://mamor5409.github.io/posts/41ffc4f2/"/>
-    <id>http://mamor5409.github.io/posts/41ffc4f2/</id>
-    <published>2022-01-12T05:16:18.000Z</published>
-    <updated>2022-01-17T08:52:48.820Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
-    
-    
-    <category term="痕迹清理" scheme="http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>权限维持-Linux篇</title>
-    <link href="http://mamor5409.github.io/posts/29801cba/"/>
-    <id>http://mamor5409.github.io/posts/29801cba/</id>
-    <published>2022-01-12T05:15:51.000Z</published>
-    <updated>2022-02-24T08:07:21.047Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>权限维持-Windows篇(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/709e0d6/"/>
-    <id>http://mamor5409.github.io/posts/709e0d6/</id>
-    <published>2022-01-12T05:15:37.000Z</published>
-    <updated>2022-02-24T08:16:02.848Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-    
-    <category term="权限维持" scheme="http://mamor5409.github.io/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>杂</title>
-    <link href="http://mamor5409.github.io/posts/9577635b/"/>
-    <id>http://mamor5409.github.io/posts/9577635b/</id>
-    <published>2022-01-12T03:03:32.000Z</published>
-    <updated>2022-06-06T08:58:31.531Z</updated>
     
     
     <summary type="html"> </summary>

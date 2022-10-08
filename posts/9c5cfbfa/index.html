@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C-06_32位下dll注入">
+<meta property="og:url" content="http://mamor5409.github.io/posts/9c5cfbfa/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/9c5cfbfa/6-1.png">
+<meta property="article:published_time" content="2022-09-26T07:48:24.000Z">
+<meta property="article:modified_time" content="2022-10-08T04:52:18.859Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/9c5cfbfa/6-1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/9c5cfbfa/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C-06_32位下dll注入 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/9c5cfbfa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C-06_32位下dll注入
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-26 15:48:24" itemprop="dateCreated datePublished" datetime="2022-09-26T15:48:24+08:00">2022-09-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-08 12:52:18" itemprop="dateModified" datetime="2022-10-08T12:52:18+08:00">2022-10-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>VirtualAllocEx    其他进程的地址空间申请内存</p>
+<p>WriteProcessMemory    将代码数据写入到目的进程</p>
+<p>CreateRomoteThread    在其他进程中创建线程</p>
+<ol>
+<li>将需要执行的代码写到一个dll中 </li>
+<li>在目标进程申请一块内存将dll文件名写入</li>
+<li>将目标进程地址空间中的Loadlibary当作线程函数执行</li>
+</ol>
+<h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h4><p>dll</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DLLMain</span><span class="params">(HMODULE hmodle,DWORD dwReason,<span class="keyword">void</span>* p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (dwReason)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> DLL_PROCESS_ATTACH:  <span class="comment">//进程创建时调用    刚加载时会被执行</span></span><br><span class="line">			MessageBoxA(<span class="number">0</span>, <span class="string">&quot;注入成功&quot;</span>, <span class="string">&quot;注入成功&quot;</span>, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">//case DLL_PROCESS_DETACH:  //进程销毁时调用</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>属性页  配置属性-&gt;常规-&gt; 生成dll      ； c/c++ -&gt;代码生成-&gt;Spectre缓解 改为已禁用</p>
+<p>main</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//注入之前需要对进程提权</span></span><br><span class="line"><span class="keyword">int</span>	进程提权() &#123;</span><br><span class="line">	<span class="keyword">int</span> FLAG = <span class="number">0</span>;  <span class="comment">//提权是否成功 成功为1</span></span><br><span class="line">	HANDLE 进程访问令牌 ;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (OpenProcessToken(GetCurrentProcess(), TOKEN_ALL_ACCESS,&amp;进程访问令牌)) &#123;</span><br><span class="line">		TOKEN_PRIVILEGES 令牌权限;</span><br><span class="line">		令牌权限.PrivilegeCount = <span class="number">1</span>;</span><br><span class="line">		LookupPrivilegeValue(<span class="literal">NULL</span>, SE_DEBUG_NAME, &amp;令牌权限.Privileges[<span class="number">0</span>].Luid);<span class="comment">//遍历权限</span></span><br><span class="line"></span><br><span class="line">		令牌权限.Privileges[<span class="number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<span class="comment">//开启特权</span></span><br><span class="line">		<span class="keyword">if</span> (AdjustTokenPrivileges(进程访问令牌,FALSE,&amp;令牌权限,<span class="keyword">sizeof</span>(令牌权限),<span class="literal">NULL</span>,<span class="literal">NULL</span>)) &#123;</span><br><span class="line">			FLAG = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CloseHandle(进程访问令牌);</span><br><span class="line">	<span class="keyword">return</span> FLAG;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历进程   // 目前在进程遍历时无法找到对应名 。。。</span></span><br><span class="line"><span class="keyword">int</span> _findProcess(<span class="keyword">char</span>* name) &#123;</span><br><span class="line">	HANDLE 快照 = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>);</span><br><span class="line">	PROCESSENTRY32 pe32;</span><br><span class="line">	pe32.dwSize = <span class="keyword">sizeof</span>(PROCESSENTRY32);</span><br><span class="line">	Process32First(快照, &amp;pe32);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (Process32Next(快照,&amp;pe32))&#123;</span><br><span class="line">		<span class="keyword">if</span> (_strcmpi(pe32.szExeFile, name) == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> pe32.th32ProcessID;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//找不到返回0</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//注入的exe  和 使用的dll名</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dllinject</span><span class="params">(<span class="keyword">char</span>* exename, <span class="keyword">char</span>* dllname)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;aaaa&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (进程提权() == <span class="number">1</span>) &#123;</span><br><span class="line">		HANDLE 目标进程ID = _findProcess(exename);</span><br><span class="line">		<span class="keyword">if</span> (目标进程ID!=<span class="number">0</span>) &#123;  <span class="comment">//找到目标进程</span></span><br><span class="line">			HANDLE 目标进程句柄 = OpenProcess(PROCESS_ALL_ACCESS, TRUE, 目标进程ID);</span><br><span class="line">			<span class="keyword">if</span> (目标进程句柄 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;bbbb&quot;</span>);</span><br><span class="line">				<span class="comment">//开始注入</span></span><br><span class="line">				<span class="comment">//获取dlllength  在目标申请一块内存 写入dll</span></span><br><span class="line">				<span class="keyword">int</span> dllLength = <span class="built_in">strlen</span>(dllname);</span><br><span class="line">				<span class="keyword">void</span> * dll文件名地址 = VirtualAllocEx(目标进程句柄,<span class="literal">NULL</span>, dllLength, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">				<span class="keyword">if</span> (dll文件名地址 == <span class="literal">NULL</span>) &#123;</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;分配内存失败&quot;</span>);</span><br><span class="line">				&#125; </span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;cccc&quot;</span>);</span><br><span class="line">					WriteProcessMemory(目标进程句柄, dll文件名地址, dllname, dllLength, <span class="number">0</span>); <span class="comment">//写入内存</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">//创建远程线程</span></span><br><span class="line">					HMODULE hmode = GetModuleHandleA(<span class="string">&quot;Kernel32.dll&quot;</span>);   <span class="comment">// LoadLibrary 在ker32下</span></span><br><span class="line">					LPTHREAD_START_ROUTINE 函数地址 = GetProcAddress(hmode, <span class="string">&quot;LoadLibraryA&quot;</span>); <span class="comment">// LPTHREAD_START_ROUTINE</span></span><br><span class="line"></span><br><span class="line">					HANDLE hthread =  CreateRemoteThread(目标进程句柄,<span class="literal">NULL</span>,<span class="number">0</span>,函数地址,dll文件名地址,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">					<span class="keyword">if</span> (hthread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">						<span class="built_in">printf</span>(<span class="string">&quot;创建远程线程失败&quot;</span>);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				GetLastError();</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;进程打开失败&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		GetLastError();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;进程提权失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span>* exename = <span class="string">&quot;AsmDEMO.exe&quot;</span>;</span><br><span class="line">	<span class="keyword">char</span>* dllname = <span class="string">&quot;32injectdll.dll&quot;</span>;</span><br><span class="line"></span><br><span class="line">	dllinject(exename,dllname);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用一个32位demo.exe测试</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;hellworld&quot;</span>);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>经过调试目前无法通过进程遍历找到所要测试的demo.exe ….. 原因找到了 <strong>是因为字符集问题</strong> 本来是使用的Unicode 设置成未设置 即可成功读取到进程  成功将dll注入到32位的exe下</p>
+<p><img src="/posts/9c5cfbfa/6-1.png" alt="img"></p>
+<h4 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h4><p>选择加载dll中的指定函数</p>
+<p>dll</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">_declspec(dllexport) <span class="function"><span class="keyword">void</span> <span class="title">fn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	MessageBoxA(<span class="number">0</span>, <span class="string">&quot;fn注入成功&quot;</span>, <span class="string">&quot;fn注入成功&quot;</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DLLMain</span><span class="params">(HMODULE hmodle,DWORD dwReason,<span class="keyword">void</span>* p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (dwReason)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> DLL_PROCESS_ATTACH:  <span class="comment">//进程创建时调用    刚加载时会被执行</span></span><br><span class="line">			MessageBoxA(<span class="number">0</span>, <span class="string">&quot;注入成功&quot;</span>, <span class="string">&quot;注入成功&quot;</span>, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">//case DLL_PROCESS_DETACH:  //进程销毁时调用</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_NONSTDC_NO_DEPRECATE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_DEPRECATE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//注入之前需要对进程提权</span></span><br><span class="line"><span class="keyword">int</span>	进程提权() &#123;</span><br><span class="line">	<span class="keyword">int</span> FLAG = <span class="number">0</span>;  <span class="comment">//提权是否成功 成功为1</span></span><br><span class="line">	HANDLE 进程访问令牌 ;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (OpenProcessToken(GetCurrentProcess(), TOKEN_ALL_ACCESS,&amp;进程访问令牌)) &#123;</span><br><span class="line">		TOKEN_PRIVILEGES 令牌权限;</span><br><span class="line">		令牌权限.PrivilegeCount = <span class="number">1</span>;</span><br><span class="line">		LookupPrivilegeValue(<span class="literal">NULL</span>, SE_DEBUG_NAME, &amp;令牌权限.Privileges[<span class="number">0</span>].Luid);<span class="comment">//遍历权限</span></span><br><span class="line"></span><br><span class="line">		令牌权限.Privileges[<span class="number">0</span>].Attributes = SE_PRIVILEGE_ENABLED;<span class="comment">//开启特权</span></span><br><span class="line">		<span class="keyword">if</span> (AdjustTokenPrivileges(进程访问令牌,FALSE,&amp;令牌权限,<span class="keyword">sizeof</span>(令牌权限),<span class="literal">NULL</span>,<span class="literal">NULL</span>)) &#123;</span><br><span class="line">			FLAG = <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CloseHandle(进程访问令牌);</span><br><span class="line">	<span class="keyword">return</span> FLAG;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历进程</span></span><br><span class="line"><span class="keyword">int</span> _findProcess(<span class="keyword">char</span>* name) &#123;</span><br><span class="line">	HANDLE 快照 = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>);</span><br><span class="line">	PROCESSENTRY32 pe32;</span><br><span class="line">	pe32.dwSize = <span class="keyword">sizeof</span>(PROCESSENTRY32);</span><br><span class="line">	Process32First(快照, &amp;pe32);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (Process32Next(快照, &amp;pe32)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (_strcmpi(pe32.szExeFile, name) == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;找到对应进程名!\n&quot;</span>);</span><br><span class="line">			<span class="keyword">return</span> pe32.th32ProcessID;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; <span class="comment">//找不到返回0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//注入的exe  和 使用的dll名</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dllinject</span><span class="params">(<span class="keyword">char</span>* exename, <span class="keyword">char</span>* dllname)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;加载dllinject函数\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (进程提权() == <span class="number">1</span>) &#123;</span><br><span class="line">		HANDLE 目标进程ID = _findProcess(exename);</span><br><span class="line">		<span class="keyword">if</span> (目标进程ID!=<span class="number">0</span>) &#123;  <span class="comment">//找到目标进程</span></span><br><span class="line">			HANDLE 目标进程句柄 = OpenProcess(PROCESS_ALL_ACCESS, TRUE, 目标进程ID);</span><br><span class="line">			<span class="keyword">if</span> (目标进程句柄 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;开始注入\n&quot;</span>);</span><br><span class="line">				<span class="comment">//开始注入</span></span><br><span class="line">				<span class="comment">//获取dlllength  在目标申请一块内存 写入dll</span></span><br><span class="line">				<span class="keyword">int</span> dllLength = <span class="built_in">strlen</span>(dllname);</span><br><span class="line">				<span class="keyword">void</span> * dll文件名地址 = VirtualAllocEx(目标进程句柄,<span class="literal">NULL</span>, dllLength, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">				<span class="keyword">if</span> (dll文件名地址 == <span class="literal">NULL</span>) &#123;</span><br><span class="line">					GetLastError();</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;分配内存失败\n&quot;</span>);</span><br><span class="line">				&#125; </span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;开始写入内存\n&quot;</span>);</span><br><span class="line">					WriteProcessMemory(目标进程句柄, dll文件名地址, dllname, dllLength, <span class="number">0</span>); <span class="comment">//写入内存</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">//创建远程线程</span></span><br><span class="line">					HMODULE hmode = GetModuleHandleA(<span class="string">&quot;Kernel32.dll&quot;</span>);   <span class="comment">// LoadLibrary 在ker32下</span></span><br><span class="line">					LPTHREAD_START_ROUTINE 函数地址 = GetProcAddress(hmode, <span class="string">&quot;LoadLibraryA&quot;</span>); <span class="comment">// LPTHREAD_START_ROUTINE</span></span><br><span class="line"></span><br><span class="line">					HANDLE hthread =  CreateRemoteThread(目标进程句柄,<span class="literal">NULL</span>,<span class="number">0</span>,函数地址,dll文件名地址,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">					<span class="keyword">if</span> (hthread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">						GetLastError();</span><br><span class="line">						<span class="built_in">printf</span>(<span class="string">&quot;创建远程线程失败\n&quot;</span>);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				GetLastError();</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;进程打开失败\n&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;找不到对应进程！\n&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		GetLastError();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;进程提权失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dllinjectfn</span><span class="params">(<span class="keyword">char</span>* exename, <span class="keyword">char</span>* dllname, <span class="keyword">char</span>* fnname)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;加载dllinjectfn函数\n&quot;</span>);</span><br><span class="line">	HMODULE dll模块首地址 = LoadLibrary(dllname);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">void</span>(*fn函数地址)() = (<span class="keyword">void</span>(*)()) GetProcAddress(dll模块首地址,fnname);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> 偏移量 = (<span class="keyword">char</span>*)fn函数地址 - (<span class="keyword">char</span>*)dll模块首地址;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (进程提权() == <span class="number">1</span>) &#123;</span><br><span class="line">		HANDLE 目标进程ID = _findProcess(exename);</span><br><span class="line">		<span class="keyword">if</span> (目标进程ID != <span class="number">0</span>) &#123;  <span class="comment">//找到目标进程</span></span><br><span class="line">			HANDLE 目标进程句柄 = OpenProcess(PROCESS_ALL_ACCESS, TRUE, 目标进程ID);</span><br><span class="line">			<span class="keyword">if</span> (目标进程句柄 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;开始注入\n&quot;</span>);</span><br><span class="line">				<span class="comment">//开始注入</span></span><br><span class="line">				<span class="comment">//获取dlllength  在目标申请一块内存 写入dll</span></span><br><span class="line">				<span class="keyword">int</span> dllLength = <span class="built_in">strlen</span>(dllname);</span><br><span class="line">				<span class="keyword">void</span>* dll文件名地址 = VirtualAllocEx(目标进程句柄, <span class="literal">NULL</span>, dllLength, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">				<span class="keyword">if</span> (dll文件名地址 == <span class="literal">NULL</span>) &#123;</span><br><span class="line">					GetLastError();</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;分配内存失败\n&quot;</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="built_in">printf</span>(<span class="string">&quot;开始写入内存\n&quot;</span>);</span><br><span class="line">					WriteProcessMemory(目标进程句柄, dll文件名地址, dllname, dllLength, <span class="number">0</span>); <span class="comment">//写入内存</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">//创建远程线程</span></span><br><span class="line">					HMODULE hmode = GetModuleHandleA(<span class="string">&quot;Kernel32.dll&quot;</span>);   <span class="comment">// LoadLibrary 在ker32下</span></span><br><span class="line">					LPTHREAD_START_ROUTINE 函数地址 = GetProcAddress(hmode, <span class="string">&quot;LoadLibraryA&quot;</span>); <span class="comment">// LPTHREAD_START_ROUTINE</span></span><br><span class="line"></span><br><span class="line">					HANDLE hthread = CreateRemoteThread(目标进程句柄, <span class="literal">NULL</span>, <span class="number">0</span>, 函数地址, dll文件名地址, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">					<span class="keyword">if</span> (hthread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">						GetLastError();</span><br><span class="line">						<span class="built_in">printf</span>(<span class="string">&quot;创建远程线程失败\n&quot;</span>);</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					WaitForSingleObject(hthread, INFINITE);</span><br><span class="line"></span><br><span class="line">					DWORD dll模块 = <span class="number">0</span>; <span class="comment">//初始化</span></span><br><span class="line">					GetExitCodeThread(hthread, &amp;dll模块);</span><br><span class="line">					<span class="keyword">void</span>(*fn)() = (dll模块 + 偏移量); <span class="comment">//返回一个地址   void(*)</span></span><br><span class="line">					<span class="comment">//创建一个远程线程</span></span><br><span class="line">					hthread = CreateRemoteThread(目标进程句柄, <span class="literal">NULL</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)fn, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> (hthread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">						GetLastError();</span><br><span class="line">						<span class="built_in">printf</span>(<span class="string">&quot;创建远程线程失败\n&quot;</span>);</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					WaitForSingleObject(hthread, INFINITE);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				GetLastError();</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">&quot;进程打开失败\n&quot;</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			CloseHandle(目标进程ID);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			GetLastError();</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;找不到对应进程！\n&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		GetLastError();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;进程提权失败\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span>* exename = <span class="string">&quot;test32.exe&quot;</span>;</span><br><span class="line">	<span class="keyword">char</span>* dllname = <span class="string">&quot;32injectdll.dll&quot;</span>;</span><br><span class="line">	<span class="keyword">char</span>* fnname = <span class="string">&quot;fn&quot;</span>;</span><br><span class="line">	<span class="comment">//dllinject(exename,dllname);</span></span><br><span class="line">	dllinjectfn(exename, dllname, <span class="string">&quot;fn&quot;</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"></i><i class="fa fa-tag"></i> C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/89f9b82/" rel="prev" title="C-05_内存补丁、断点中断、单步中断">
+      <i class="fa fa-chevron-left"></i> C-05_内存补丁、断点中断、单步中断
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/7fd9f7c4/" rel="next" title="C-07_内联函数">
+      C-07_内联函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">1.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">2.</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">569k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8:37</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共149.2k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
