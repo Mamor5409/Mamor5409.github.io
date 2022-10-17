@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-10-08T04:33:21.127Z</updated>
+  <updated>2022-10-17T03:40:55.419Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,101 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AppInit_DLLS及其他</title>
+    <link href="http://mamor5409.github.io/posts/5329b9a8/"/>
+    <id>http://mamor5409.github.io/posts/5329b9a8/</id>
+    <published>2022-10-17T03:34:43.000Z</published>
+    <updated>2022-10-17T03:40:55.419Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代码注入</title>
+    <link href="http://mamor5409.github.io/posts/843cce96/"/>
+    <id>http://mamor5409.github.io/posts/843cce96/</id>
+    <published>2022-10-17T03:34:27.000Z</published>
+    <updated>2022-10-17T03:39:15.743Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ZwCreateThreadEx远程线程注入</title>
+    <link href="http://mamor5409.github.io/posts/215f7b36/"/>
+    <id>http://mamor5409.github.io/posts/215f7b36/</id>
+    <published>2022-10-17T03:34:19.000Z</published>
+    <updated>2022-10-17T03:38:15.553Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>APC注入</title>
+    <link href="http://mamor5409.github.io/posts/5fe10d5b/"/>
+    <id>http://mamor5409.github.io/posts/5fe10d5b/</id>
+    <published>2022-10-17T03:33:49.000Z</published>
+    <updated>2022-10-17T03:36:59.149Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>全局钩子注入</title>
+    <link href="http://mamor5409.github.io/posts/69a3489c/"/>
+    <id>http://mamor5409.github.io/posts/69a3489c/</id>
+    <published>2022-10-17T03:33:44.000Z</published>
+    <updated>2022-10-17T03:35:53.176Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+    
+    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>C-13_动态获取API函数地址</title>
@@ -284,85 +379,6 @@
     <id>http://mamor5409.github.io/posts/e7789fd3/</id>
     <published>2022-07-02T13:20:13.000Z</published>
     <updated>2022-07-02T15:57:45.174Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>记一次红队后反思与总结</title>
-    <link href="http://mamor5409.github.io/posts/457578e1/"/>
-    <id>http://mamor5409.github.io/posts/457578e1/</id>
-    <published>2022-07-02T05:36:46.000Z</published>
-    <updated>2022-07-02T06:51:07.090Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>ETW检测与绕过(待完成)</title>
-    <link href="http://mamor5409.github.io/posts/8f170097/"/>
-    <id>http://mamor5409.github.io/posts/8f170097/</id>
-    <published>2022-06-06T09:00:36.000Z</published>
-    <updated>2022-07-02T06:54:05.573Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CLM Bypass</title>
-    <link href="http://mamor5409.github.io/posts/39eca96/"/>
-    <id>http://mamor5409.github.io/posts/39eca96/</id>
-    <published>2022-06-02T07:34:24.000Z</published>
-    <updated>2022-06-06T08:56:04.729Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>NTLM认证&amp;NTLMRelay攻击(持续更新...)</title>
-    <link href="http://mamor5409.github.io/posts/5f88ecbb/"/>
-    <id>http://mamor5409.github.io/posts/5f88ecbb/</id>
-    <published>2022-04-27T08:25:23.000Z</published>
-    <updated>2022-05-17T01:31:11.755Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="NTLM" scheme="http://mamor5409.github.io/categories/NTLM/"/>
-    
-    
-    <category term="NTLM" scheme="http://mamor5409.github.io/tags/NTLM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常见钓鱼思路总结</title>
-    <link href="http://mamor5409.github.io/posts/7057a17a/"/>
-    <id>http://mamor5409.github.io/posts/7057a17a/</id>
-    <published>2022-04-04T14:12:41.000Z</published>
-    <updated>2022-04-08T09:35:22.429Z</updated>
     
     
     <summary type="html"> </summary>
