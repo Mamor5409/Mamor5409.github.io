@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Detours使用">
+<meta property="og:url" content="http://mamor5409.github.io/posts/64796bf6/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-27T14:18:38.000Z">
+<meta property="article:modified_time" content="2022-10-27T14:28:47.251Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="R3Hook">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/64796bf6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Detours使用 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/64796bf6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Detours使用
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-27 22:18:38 / 修改时间：22:28:47" itemprop="dateCreated datePublished" datetime="2022-10-27T22:18:38+08:00">2022-10-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R3Hook/" itemprop="url" rel="index"><span itemprop="name">R3Hook</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="拦截文件创建"><a href="#拦截文件创建" class="headerlink" title="拦截文件创建"></a>拦截文件创建</h4><p>hook CreateFielA</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;detours.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;detours.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line">HANDLE (WINAPI* oldCreateFileA)(</span><br><span class="line">     LPCSTR lpFileName,</span><br><span class="line">     DWORD dwDesiredAccess,</span><br><span class="line">     DWORD dwShareMode,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpSecurityAttributes,</span><br><span class="line">     DWORD dwCreationDisposition,</span><br><span class="line">     DWORD dwFlagsAndAttributes,</span><br><span class="line">     HANDLE hTemplateFile</span><br><span class="line">)= CreateFileA;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">HANDLE WINAPI <span class="title">MyCreateFileA</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ LPCSTR lpFileName,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwDesiredAccess,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwShareMode,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwCreationDisposition,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwFlagsAndAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ HANDLE hTemplateFile</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span>* str = <span class="string">&quot;C:\\Users\\test\\Desktop\\testdemo.exe&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (!_strcmpi(str, lpFileName)) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">char</span> buf[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">        sprintf_s(buf, <span class="keyword">sizeof</span>(buf), <span class="string">&quot;拦截到创建文件请求:%s&quot;</span>, lpFileName);</span><br><span class="line">        MessageBoxA(<span class="number">0</span>,buf,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        lpFileName = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> oldCreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes,\</span><br><span class="line">            dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> oldCreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, \</span><br><span class="line">        dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldCreateFileA, MyCreateFileA);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//脱钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unhook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldCreateFileA, MyCreateFileA);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//拦截创建的文件 CreateFileA</span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    hook();</span><br><span class="line">    CreateFileA(<span class="string">&quot;C:\\Users\\test\\Desktop\\testdemo.exe&quot;</span>, GENERIC_ALL, <span class="number">0</span>, <span class="number">0</span>, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, <span class="literal">NULL</span>);</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="hook防dll注入"><a href="#hook防dll注入" class="headerlink" title="hook防dll注入"></a>hook防dll注入</h4><p>hook LoadLibraryA和GetProcAddress</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;detours.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WtsApi32.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;WtsApi32.lib&quot;</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;detours.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line">HMODULE(WINAPI* oldLoadLibraryA)(LPCSTR lpLibFileName) = LoadLibraryA;</span><br><span class="line">FARPROC(WINAPI* oldGetProcAddress)(HMODULE hModule, LPCSTR lpProcName) = GetProcAddress;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">HMODULE WINAPI <span class="title">MyLoadLibraryA</span><span class="params">(LPCSTR lpLibFileName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> oldLoadLibraryA(<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">FARPROC WINAPI <span class="title">MyGetProcAddress</span><span class="params">(HMODULE hModule, LPCSTR lpProcName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> oldGetProcAddress(<span class="number">0</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldLoadLibraryA, MyLoadLibraryA);</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldGetProcAddress, MyGetProcAddress);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//脱钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unhook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldLoadLibraryA, MyLoadLibraryA);</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;oldGetProcAddress, MyGetProcAddress);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">(  HMODULE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">                        DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">                        LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">                      )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LPWSTR  title = LPWSTR(<span class="string">L&quot;title&quot;</span>);</span><br><span class="line">    LPWSTR  message = LPWSTR(<span class="string">L&quot;inject success&quot;</span>);</span><br><span class="line">    DWORD resp;<span class="comment">//不要定义成指针</span></span><br><span class="line">    <span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line"></span><br><span class="line">        WTSSendMessageW(</span><br><span class="line">            WTS_CURRENT_SERVER_HANDLE,</span><br><span class="line">            WTSGetActiveConsoleSessionId(),</span><br><span class="line">            title, lstrlen((LPCSTR)title),</span><br><span class="line">            message, lstrlen((LPCSTR)message),</span><br><span class="line">            <span class="number">0</span>, <span class="number">0</span>, &amp;resp, FALSE);</span><br><span class="line">        hook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        unhook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="进程监控"><a href="#进程监控" class="headerlink" title="进程监控"></a>进程监控</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;detours.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WtsApi32.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;WtsApi32.lib&quot;</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;detours.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line">BOOL (WINAPI* _CreateProcessA)(</span><br><span class="line">     LPCSTR lpApplicationName,</span><br><span class="line">     LPSTR lpCommandLine,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpProcessAttributes,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpThreadAttributes,</span><br><span class="line">     BOOL bInheritHandles,</span><br><span class="line">     DWORD dwCreationFlags,</span><br><span class="line">     LPVOID lpEnvironment,</span><br><span class="line">     LPCSTR lpCurrentDirectory,</span><br><span class="line">     LPSTARTUPINFOA lpStartupInfo,</span><br><span class="line">     LPPROCESS_INFORMATION lpProcessInformation</span><br><span class="line">) = CreateProcessA;</span><br><span class="line"></span><br><span class="line">BOOL(WINAPI* _CreateProcessW)(</span><br><span class="line">     LPCWSTR lpApplicationName,</span><br><span class="line">     LPWSTR lpCommandLine,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpProcessAttributes,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpThreadAttributes,</span><br><span class="line">     BOOL bInheritHandles,</span><br><span class="line">     DWORD dwCreationFlags,</span><br><span class="line">     LPVOID lpEnvironment,</span><br><span class="line">     LPCWSTR lpCurrentDirectory,</span><br><span class="line">     LPSTARTUPINFOW lpStartupInfo,</span><br><span class="line">     LPPROCESS_INFORMATION lpProcessInformation</span><br><span class="line">) = CreateProcessW;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BOOL(WINAPI MyCreateProcessA)(</span><br><span class="line">     LPCSTR lpApplicationName,</span><br><span class="line">     LPSTR lpCommandLine,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpProcessAttributes,</span><br><span class="line">     LPSECURITY_ATTRIBUTES lpThreadAttributes,</span><br><span class="line">     BOOL bInheritHandles,</span><br><span class="line">     DWORD dwCreationFlags,</span><br><span class="line">     LPVOID lpEnvironment,</span><br><span class="line">     LPCSTR lpCurrentDirectory,</span><br><span class="line">     LPSTARTUPINFOA lpStartupInfo,</span><br><span class="line">     LPPROCESS_INFORMATION lpProcessInformation</span><br><span class="line">    ) &#123;</span><br><span class="line">    <span class="keyword">int</span> ret = _CreateProcessA( lpApplicationName,</span><br><span class="line">        lpCommandLine,</span><br><span class="line">        lpProcessAttributes,</span><br><span class="line">        lpThreadAttributes,</span><br><span class="line">        bInheritHandles,</span><br><span class="line">        dwCreationFlags,</span><br><span class="line">        lpEnvironment,</span><br><span class="line">        lpCurrentDirectory,</span><br><span class="line">        lpStartupInfo,</span><br><span class="line">        lpProcessInformation);</span><br><span class="line"></span><br><span class="line">    LPWSTR  title = LPWSTR(<span class="string">L&quot;新进程创建提示&quot;</span>);</span><br><span class="line">    DWORD resp;<span class="comment">//不要定义成指针</span></span><br><span class="line">    WTSSendMessageW(</span><br><span class="line">        WTS_CURRENT_SERVER_HANDLE,</span><br><span class="line">        WTSGetActiveConsoleSessionId(),</span><br><span class="line">        title, lstrlen((LPCSTR)title),</span><br><span class="line">        (LPWSTR)lpApplicationName, lstrlen(lpApplicationName),</span><br><span class="line">        <span class="number">0</span>, <span class="number">0</span>, &amp;resp, FALSE);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">BOOL WINAPI <span class="title">MyCreateProcessW</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPCWSTR lpApplicationName,</span></span></span><br><span class="line"><span class="function"><span class="params">    _Inout_opt_ LPWSTR lpCommandLine,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPSECURITY_ATTRIBUTES lpProcessAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPSECURITY_ATTRIBUTES lpThreadAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ BOOL bInheritHandles,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwCreationFlags,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPVOID lpEnvironment,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_opt_ LPCWSTR lpCurrentDirectory,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ LPSTARTUPINFOW lpStartupInfo,</span></span></span><br><span class="line"><span class="function"><span class="params">    _Out_ LPPROCESS_INFORMATION lpProcessInformation</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> ret = _CreateProcessW(</span><br><span class="line">        lpApplicationName,</span><br><span class="line">        lpCommandLine,</span><br><span class="line">        lpProcessAttributes,</span><br><span class="line">        lpThreadAttributes,</span><br><span class="line">        bInheritHandles,</span><br><span class="line">        dwCreationFlags,</span><br><span class="line">        lpEnvironment,</span><br><span class="line">        lpCurrentDirectory,</span><br><span class="line">        lpStartupInfo,</span><br><span class="line">        lpProcessInformation</span><br><span class="line">    );</span><br><span class="line">    LPWSTR  title = LPWSTR(<span class="string">L&quot;新进程创建提示&quot;</span>);</span><br><span class="line"></span><br><span class="line">    DWORD resp;<span class="comment">//不要定义成指针</span></span><br><span class="line">    WTSSendMessageW(</span><br><span class="line">        WTS_CURRENT_SERVER_HANDLE,</span><br><span class="line">        WTSGetActiveConsoleSessionId(),</span><br><span class="line">        title, lstrlen((LPCSTR)title),</span><br><span class="line">        (LPWSTR)lpApplicationName, lstrlen((LPCSTR)lpApplicationName),</span><br><span class="line">        <span class="number">0</span>, <span class="number">0</span>, &amp;resp, FALSE);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_CreateProcessA, MyCreateProcessA);</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_CreateProcessW, MyCreateProcessW);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//脱钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unhook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_CreateProcessA, MyCreateProcessA);</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_CreateProcessW, MyCreateProcessW);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">( HMODULE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">                       DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">                       LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">                     )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LPWSTR  title = LPWSTR(<span class="string">L&quot;提示&quot;</span>);</span><br><span class="line">    LPWSTR  message = LPWSTR(<span class="string">L&quot;注入成功&quot;</span>);</span><br><span class="line">    DWORD resp;<span class="comment">//不要定义成指针</span></span><br><span class="line">    <span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">        WTSSendMessageW(</span><br><span class="line">            WTS_CURRENT_SERVER_HANDLE,</span><br><span class="line">            WTSGetActiveConsoleSessionId(),</span><br><span class="line">            title, lstrlen(LPCSTR(title)),</span><br><span class="line">            message, lstrlen(LPCSTR(message)),</span><br><span class="line">            <span class="number">0</span>, <span class="number">0</span>, &amp;resp, FALSE);</span><br><span class="line">        hook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        unhook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="防止任务管理器结束某进程"><a href="#防止任务管理器结束某进程" class="headerlink" title="防止任务管理器结束某进程"></a>防止任务管理器结束某进程</h4><p>调用TerminateProcess 结束进程</p>
+<p>hook住openprocess 那么任务管理器在调用TerminateProcess时找不到相关句柄就无法结束任务</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;detours.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WtsApi32.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;WtsApi32.lib&quot;</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;detours.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HANDLE(WINAPI* _OpenProcess)(</span><br><span class="line">    _In_ DWORD dwDesiredAccess,</span><br><span class="line">    _In_ BOOL bInheritHandle,</span><br><span class="line">    _In_ DWORD dwProcessId</span><br><span class="line">) = OpenProcess;</span><br><span class="line"></span><br><span class="line"><span class="function">HANDLE WINAPI <span class="title">MyOpenProcess</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwDesiredAccess,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ BOOL bInheritHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">    _In_ DWORD dwProcessId</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    HWND hwnd = FindWindowW(<span class="string">L&quot;Notepad&quot;</span>, <span class="string">L&quot;无标题 - 记事本&quot;</span>); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hwnd != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">        _OpenProcess(dwDesiredAccess, bInheritHandle, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    HANDLE ret = _OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_OpenProcess, MyOpenProcess);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//脱钩</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unhook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    DetourTransactionBegin();</span><br><span class="line">    DetourUpdateThread(GetCurrentThread());</span><br><span class="line">    DetourAttach((<span class="keyword">void</span>**)&amp;_OpenProcess, MyOpenProcess);</span><br><span class="line">    DetourTransactionCommit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">(HMODULE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">    DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">    LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">    LPWSTR  title = LPWSTR(<span class="string">L&quot;提示&quot;</span>);</span><br><span class="line">    LPWSTR  message = LPWSTR(<span class="string">L&quot;注入成功&quot;</span>);</span><br><span class="line">    DWORD resp;<span class="comment">//不要定义成指针</span></span><br><span class="line">    <span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">        WTSSendMessageW(</span><br><span class="line">            WTS_CURRENT_SERVER_HANDLE,</span><br><span class="line">            WTSGetActiveConsoleSessionId(),</span><br><span class="line">            title, lstrlen(LPCWSTR(title)),</span><br><span class="line">            message, lstrlen(LPCWSTR(message)),</span><br><span class="line">            <span class="number">0</span>, <span class="number">0</span>, &amp;resp, FALSE);</span><br><span class="line">        hook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        unhook();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将dll注入到任务管理器中  然后在任务管理器下强制关闭新建的记事本 会无法关闭</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/R3Hook/" rel="tag"></i><i class="fa fa-tag"></i> R3Hook</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/caec0788/" rel="prev" title="InlineHook">
+      <i class="fa fa-chevron-left"></i> InlineHook
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/39878b26/" rel="next" title="驱动-1_开发环境配置及使用">
+      驱动-1_开发环境配置及使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%A6%E6%88%AA%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">拦截文件创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hook%E9%98%B2dll%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">hook防dll注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9B%91%E6%8E%A7"><span class="nav-number">3.</span> <span class="nav-text">进程监控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%E7%BB%93%E6%9D%9F%E6%9F%90%E8%BF%9B%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">防止任务管理器结束某进程</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">146</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">611k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:15</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共156.4k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

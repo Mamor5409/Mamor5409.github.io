@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-10-17T03:40:55.419Z</updated>
+  <updated>2022-10-27T14:19:40.019Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,117 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>栈缓冲区溢出</title>
+    <link href="http://mamor5409.github.io/posts/1f4f5284/"/>
+    <id>http://mamor5409.github.io/posts/1f4f5284/</id>
+    <published>2022-10-27T14:19:40.000Z</published>
+    <updated>2022-10-27T14:19:40.019Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>驱动-2_内核编程基础</title>
+    <link href="http://mamor5409.github.io/posts/dc4ad149/"/>
+    <id>http://mamor5409.github.io/posts/dc4ad149/</id>
+    <published>2022-10-27T14:19:24.000Z</published>
+    <updated>2022-10-27T14:19:24.283Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>驱动-1_开发环境配置及使用</title>
+    <link href="http://mamor5409.github.io/posts/39878b26/"/>
+    <id>http://mamor5409.github.io/posts/39878b26/</id>
+    <published>2022-10-27T14:19:09.000Z</published>
+    <updated>2022-10-27T14:25:25.959Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="驱动" scheme="http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/"/>
+    
+    
+    <category term="驱动" scheme="http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Detours使用</title>
+    <link href="http://mamor5409.github.io/posts/64796bf6/"/>
+    <id>http://mamor5409.github.io/posts/64796bf6/</id>
+    <published>2022-10-27T14:18:38.000Z</published>
+    <updated>2022-10-27T14:28:47.251Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>InlineHook</title>
+    <link href="http://mamor5409.github.io/posts/caec0788/"/>
+    <id>http://mamor5409.github.io/posts/caec0788/</id>
+    <published>2022-10-27T14:18:22.000Z</published>
+    <updated>2022-10-27T14:28:12.582Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IATHook</title>
+    <link href="http://mamor5409.github.io/posts/60466c61/"/>
+    <id>http://mamor5409.github.io/posts/60466c61/</id>
+    <published>2022-10-27T14:18:13.000Z</published>
+    <updated>2022-10-27T14:26:36.355Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
+    
+    
+    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AppInit_DLLS及其他</title>
     <link href="http://mamor5409.github.io/posts/5329b9a8/"/>
     <id>http://mamor5409.github.io/posts/5329b9a8/</id>
     <published>2022-10-17T03:34:43.000Z</published>
-    <updated>2022-10-17T03:40:55.419Z</updated>
+    <updated>2022-10-17T03:41:13.588Z</updated>
     
     
     <summary type="html"> </summary>
@@ -40,7 +146,7 @@
     <link href="http://mamor5409.github.io/posts/843cce96/"/>
     <id>http://mamor5409.github.io/posts/843cce96/</id>
     <published>2022-10-17T03:34:27.000Z</published>
-    <updated>2022-10-17T03:39:15.743Z</updated>
+    <updated>2022-10-17T03:41:13.589Z</updated>
     
     
     <summary type="html"> </summary>
@@ -59,7 +165,7 @@
     <link href="http://mamor5409.github.io/posts/215f7b36/"/>
     <id>http://mamor5409.github.io/posts/215f7b36/</id>
     <published>2022-10-17T03:34:19.000Z</published>
-    <updated>2022-10-17T03:38:15.553Z</updated>
+    <updated>2022-10-17T03:41:13.588Z</updated>
     
     
     <summary type="html"> </summary>
@@ -78,7 +184,7 @@
     <link href="http://mamor5409.github.io/posts/5fe10d5b/"/>
     <id>http://mamor5409.github.io/posts/5fe10d5b/</id>
     <published>2022-10-17T03:33:49.000Z</published>
-    <updated>2022-10-17T03:36:59.149Z</updated>
+    <updated>2022-10-17T03:41:13.586Z</updated>
     
     
     <summary type="html"> </summary>
@@ -97,7 +203,7 @@
     <link href="http://mamor5409.github.io/posts/69a3489c/"/>
     <id>http://mamor5409.github.io/posts/69a3489c/</id>
     <published>2022-10-17T03:33:44.000Z</published>
-    <updated>2022-10-17T03:35:53.176Z</updated>
+    <updated>2022-10-17T03:41:13.590Z</updated>
     
     
     <summary type="html"> </summary>
@@ -279,112 +385,6 @@
     
     
     <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-04_进程遍历与关闭</title>
-    <link href="http://mamor5409.github.io/posts/279ff9df/"/>
-    <id>http://mamor5409.github.io/posts/279ff9df/</id>
-    <published>2022-09-24T03:16:50.000Z</published>
-    <updated>2022-10-08T04:28:12.450Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-03_加载shellcode</title>
-    <link href="http://mamor5409.github.io/posts/61fea0e9/"/>
-    <id>http://mamor5409.github.io/posts/61fea0e9/</id>
-    <published>2022-09-24T02:42:37.000Z</published>
-    <updated>2022-10-08T04:28:12.448Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-02_CreateProcess无法创建进程问题解决方法</title>
-    <link href="http://mamor5409.github.io/posts/8b05e7a5/"/>
-    <id>http://mamor5409.github.io/posts/8b05e7a5/</id>
-    <published>2022-09-22T03:06:13.000Z</published>
-    <updated>2022-10-08T04:28:12.447Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-01</title>
-    <link href="http://mamor5409.github.io/posts/16e8cbb5/"/>
-    <id>http://mamor5409.github.io/posts/16e8cbb5/</id>
-    <published>2022-09-19T07:57:39.000Z</published>
-    <updated>2022-10-08T04:28:12.445Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>boshs使用</title>
-    <link href="http://mamor5409.github.io/posts/156d265c/"/>
-    <id>http://mamor5409.github.io/posts/156d265c/</id>
-    <published>2022-09-17T01:57:03.000Z</published>
-    <updated>2022-10-08T04:56:39.250Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2022上半年个人总结</title>
-    <link href="http://mamor5409.github.io/posts/e7789fd3/"/>
-    <id>http://mamor5409.github.io/posts/e7789fd3/</id>
-    <published>2022-07-02T13:20:13.000Z</published>
-    <updated>2022-07-02T15:57:45.174Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
