@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-10-27T14:19:40.019Z</updated>
+  <updated>2022-10-31T04:06:31.954Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,41 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>栈缓冲区溢出</title>
-    <link href="http://mamor5409.github.io/posts/1f4f5284/"/>
-    <id>http://mamor5409.github.io/posts/1f4f5284/</id>
-    <published>2022-10-27T14:19:40.000Z</published>
-    <updated>2022-10-27T14:19:40.019Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>驱动-2_内核编程基础</title>
     <link href="http://mamor5409.github.io/posts/dc4ad149/"/>
     <id>http://mamor5409.github.io/posts/dc4ad149/</id>
     <published>2022-10-27T14:19:24.000Z</published>
-    <updated>2022-10-27T14:19:24.283Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>驱动-1_开发环境配置及使用</title>
-    <link href="http://mamor5409.github.io/posts/39878b26/"/>
-    <id>http://mamor5409.github.io/posts/39878b26/</id>
-    <published>2022-10-27T14:19:09.000Z</published>
-    <updated>2022-10-27T14:25:25.959Z</updated>
+    <updated>2022-10-31T04:06:31.954Z</updated>
     
     
     <summary type="html"> </summary>
@@ -66,11 +36,49 @@
   </entry>
   
   <entry>
+    <title>驱动-1_开发环境配置及使用</title>
+    <link href="http://mamor5409.github.io/posts/39878b26/"/>
+    <id>http://mamor5409.github.io/posts/39878b26/</id>
+    <published>2022-10-27T14:19:09.000Z</published>
+    <updated>2022-10-27T14:29:46.482Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="驱动" scheme="http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/"/>
+    
+    
+    <category term="驱动" scheme="http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>栈缓冲区溢出-待完成</title>
+    <link href="http://mamor5409.github.io/posts/1f4f5284/"/>
+    <id>http://mamor5409.github.io/posts/1f4f5284/</id>
+    <published>2022-10-27T14:18:40.000Z</published>
+    <updated>2022-10-27T14:48:12.335Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="缓冲区溢出" scheme="http://mamor5409.github.io/categories/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/"/>
+    
+    
+    <category term="缓冲区溢出" scheme="http://mamor5409.github.io/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Detours使用</title>
     <link href="http://mamor5409.github.io/posts/64796bf6/"/>
     <id>http://mamor5409.github.io/posts/64796bf6/</id>
     <published>2022-10-27T14:18:38.000Z</published>
-    <updated>2022-10-27T14:28:47.251Z</updated>
+    <updated>2022-10-27T14:29:46.477Z</updated>
     
     
     <summary type="html"> </summary>
@@ -89,7 +97,7 @@
     <link href="http://mamor5409.github.io/posts/caec0788/"/>
     <id>http://mamor5409.github.io/posts/caec0788/</id>
     <published>2022-10-27T14:18:22.000Z</published>
-    <updated>2022-10-27T14:28:12.582Z</updated>
+    <updated>2022-10-27T14:29:46.480Z</updated>
     
     
     <summary type="html"> </summary>
@@ -108,7 +116,7 @@
     <link href="http://mamor5409.github.io/posts/60466c61/"/>
     <id>http://mamor5409.github.io/posts/60466c61/</id>
     <published>2022-10-27T14:18:13.000Z</published>
-    <updated>2022-10-27T14:26:36.355Z</updated>
+    <updated>2022-10-27T14:29:46.480Z</updated>
     
     
     <summary type="html"> </summary>
