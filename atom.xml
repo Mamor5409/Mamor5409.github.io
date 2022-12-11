@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2022-10-31T04:06:31.954Z</updated>
+  <updated>2022-12-11T02:10:25.153Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,313 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>进程自创建</title>
+    <link href="http://mamor5409.github.io/posts/e5191117/"/>
+    <id>http://mamor5409.github.io/posts/e5191117/</id>
+    <published>2022-12-11T01:51:25.000Z</published>
+    <updated>2022-12-11T02:10:25.153Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>父进程欺骗</title>
+    <link href="http://mamor5409.github.io/posts/7a4de097/"/>
+    <id>http://mamor5409.github.io/posts/7a4de097/</id>
+    <published>2022-12-11T01:51:18.000Z</published>
+    <updated>2022-12-11T02:08:52.946Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>进程伪装</title>
+    <link href="http://mamor5409.github.io/posts/a8a7b84c/"/>
+    <id>http://mamor5409.github.io/posts/a8a7b84c/</id>
+    <published>2022-12-11T01:51:05.000Z</published>
+    <updated>2022-12-11T02:07:25.636Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于内存补丁的ETW绕过</title>
+    <link href="http://mamor5409.github.io/posts/75320ad6/"/>
+    <id>http://mamor5409.github.io/posts/75320ad6/</id>
+    <published>2022-12-11T01:50:56.000Z</published>
+    <updated>2022-12-11T01:59:35.144Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ntdll脱钩</title>
+    <link href="http://mamor5409.github.io/posts/dabd444/"/>
+    <id>http://mamor5409.github.io/posts/dabd444/</id>
+    <published>2022-12-11T01:50:35.000Z</published>
+    <updated>2022-12-11T01:58:04.537Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用系统调用Syscall规避杀软Hook-持续完善</title>
+    <link href="http://mamor5409.github.io/posts/b3138fd/"/>
+    <id>http://mamor5409.github.io/posts/b3138fd/</id>
+    <published>2022-12-11T01:50:24.000Z</published>
+    <updated>2022-12-11T01:57:03.254Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代码混淆</title>
+    <link href="http://mamor5409.github.io/posts/3497b4c5/"/>
+    <id>http://mamor5409.github.io/posts/3497b4c5/</id>
+    <published>2022-12-11T01:36:28.000Z</published>
+    <updated>2022-12-11T01:50:00.325Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>APC注入_NtTestAlert</title>
+    <link href="http://mamor5409.github.io/posts/5788eae8/"/>
+    <id>http://mamor5409.github.io/posts/5788eae8/</id>
+    <published>2022-12-11T01:36:18.000Z</published>
+    <updated>2022-12-11T01:50:00.321Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>进程注入_AND_ProcessHollowing</title>
+    <link href="http://mamor5409.github.io/posts/5e5076eb/"/>
+    <id>http://mamor5409.github.io/posts/5e5076eb/</id>
+    <published>2022-12-11T01:35:54.000Z</published>
+    <updated>2022-12-11T01:50:00.326Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>动态获取API</title>
+    <link href="http://mamor5409.github.io/posts/224ae4c2/"/>
+    <id>http://mamor5409.github.io/posts/224ae4c2/</id>
+    <published>2022-12-11T01:35:36.000Z</published>
+    <updated>2022-12-11T01:50:00.325Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ring3Kill火绒</title>
+    <link href="http://mamor5409.github.io/posts/3fe86fb6/"/>
+    <id>http://mamor5409.github.io/posts/3fe86fb6/</id>
+    <published>2022-12-11T01:35:18.000Z</published>
+    <updated>2022-12-11T01:50:00.323Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shellcode远程加载</title>
+    <link href="http://mamor5409.github.io/posts/b8f6edd1/"/>
+    <id>http://mamor5409.github.io/posts/b8f6edd1/</id>
+    <published>2022-12-11T01:35:04.000Z</published>
+    <updated>2022-12-11T01:50:00.324Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shellcode异或</title>
+    <link href="http://mamor5409.github.io/posts/346bf539/"/>
+    <id>http://mamor5409.github.io/posts/346bf539/</id>
+    <published>2022-12-11T01:34:58.000Z</published>
+    <updated>2022-12-11T01:50:00.324Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Shellcode反转</title>
+    <link href="http://mamor5409.github.io/posts/e42a1137/"/>
+    <id>http://mamor5409.github.io/posts/e42a1137/</id>
+    <published>2022-12-11T01:34:43.000Z</published>
+    <updated>2022-12-11T01:50:00.323Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>杀软拦截规则</title>
+    <link href="http://mamor5409.github.io/posts/59de0ce9/"/>
+    <id>http://mamor5409.github.io/posts/59de0ce9/</id>
+    <published>2022-12-11T01:34:29.000Z</published>
+    <updated>2022-12-11T01:50:00.326Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
+    
+    
+    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>驱动-4-64位内核挂钩</title>
+    <link href="http://mamor5409.github.io/posts/8f299aa4/"/>
+    <id>http://mamor5409.github.io/posts/8f299aa4/</id>
+    <published>2022-10-31T04:10:37.000Z</published>
+    <updated>2022-12-11T01:50:00.327Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>驱动-3-32位内核挂钩</title>
+    <link href="http://mamor5409.github.io/posts/62289487/"/>
+    <id>http://mamor5409.github.io/posts/62289487/</id>
+    <published>2022-10-31T04:10:28.000Z</published>
+    <updated>2022-12-11T01:50:00.327Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>驱动-2_内核编程基础</title>
@@ -70,329 +377,6 @@
     
     
     <category term="缓冲区溢出" scheme="http://mamor5409.github.io/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Detours使用</title>
-    <link href="http://mamor5409.github.io/posts/64796bf6/"/>
-    <id>http://mamor5409.github.io/posts/64796bf6/</id>
-    <published>2022-10-27T14:18:38.000Z</published>
-    <updated>2022-10-27T14:29:46.477Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>InlineHook</title>
-    <link href="http://mamor5409.github.io/posts/caec0788/"/>
-    <id>http://mamor5409.github.io/posts/caec0788/</id>
-    <published>2022-10-27T14:18:22.000Z</published>
-    <updated>2022-10-27T14:29:46.480Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>IATHook</title>
-    <link href="http://mamor5409.github.io/posts/60466c61/"/>
-    <id>http://mamor5409.github.io/posts/60466c61/</id>
-    <published>2022-10-27T14:18:13.000Z</published>
-    <updated>2022-10-27T14:29:46.480Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/categories/R3Hook/"/>
-    
-    
-    <category term="R3Hook" scheme="http://mamor5409.github.io/tags/R3Hook/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AppInit_DLLS及其他</title>
-    <link href="http://mamor5409.github.io/posts/5329b9a8/"/>
-    <id>http://mamor5409.github.io/posts/5329b9a8/</id>
-    <published>2022-10-17T03:34:43.000Z</published>
-    <updated>2022-10-17T03:41:13.588Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码注入</title>
-    <link href="http://mamor5409.github.io/posts/843cce96/"/>
-    <id>http://mamor5409.github.io/posts/843cce96/</id>
-    <published>2022-10-17T03:34:27.000Z</published>
-    <updated>2022-10-17T03:41:13.589Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ZwCreateThreadEx远程线程注入</title>
-    <link href="http://mamor5409.github.io/posts/215f7b36/"/>
-    <id>http://mamor5409.github.io/posts/215f7b36/</id>
-    <published>2022-10-17T03:34:19.000Z</published>
-    <updated>2022-10-17T03:41:13.588Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>APC注入</title>
-    <link href="http://mamor5409.github.io/posts/5fe10d5b/"/>
-    <id>http://mamor5409.github.io/posts/5fe10d5b/</id>
-    <published>2022-10-17T03:33:49.000Z</published>
-    <updated>2022-10-17T03:41:13.586Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>全局钩子注入</title>
-    <link href="http://mamor5409.github.io/posts/69a3489c/"/>
-    <id>http://mamor5409.github.io/posts/69a3489c/</id>
-    <published>2022-10-17T03:33:44.000Z</published>
-    <updated>2022-10-17T03:41:13.590Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-    
-    <category term="用户态注入" scheme="http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-13_动态获取API函数地址</title>
-    <link href="http://mamor5409.github.io/posts/9aa42a48/"/>
-    <id>http://mamor5409.github.io/posts/9aa42a48/</id>
-    <published>2022-10-07T07:09:51.000Z</published>
-    <updated>2022-10-08T04:33:21.127Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-12_PE结构</title>
-    <link href="http://mamor5409.github.io/posts/896a905d/"/>
-    <id>http://mamor5409.github.io/posts/896a905d/</id>
-    <published>2022-10-06T13:12:36.000Z</published>
-    <updated>2022-10-08T04:35:59.046Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-11_WindowsHook</title>
-    <link href="http://mamor5409.github.io/posts/71edaaad/"/>
-    <id>http://mamor5409.github.io/posts/71edaaad/</id>
-    <published>2022-10-01T07:32:26.000Z</published>
-    <updated>2022-10-08T04:40:48.678Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-10_SEH异常处理</title>
-    <link href="http://mamor5409.github.io/posts/a3f022ab/"/>
-    <id>http://mamor5409.github.io/posts/a3f022ab/</id>
-    <published>2022-10-01T02:28:13.000Z</published>
-    <updated>2022-10-08T04:47:58.651Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-09_socket编程</title>
-    <link href="http://mamor5409.github.io/posts/3ced1fa4/"/>
-    <id>http://mamor5409.github.io/posts/3ced1fa4/</id>
-    <published>2022-09-30T10:18:01.000Z</published>
-    <updated>2022-10-08T04:28:12.454Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-08_注册表读写</title>
-    <link href="http://mamor5409.github.io/posts/f42908ab/"/>
-    <id>http://mamor5409.github.io/posts/f42908ab/</id>
-    <published>2022-09-30T07:49:48.000Z</published>
-    <updated>2022-10-08T04:50:32.602Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-07_内联函数</title>
-    <link href="http://mamor5409.github.io/posts/7fd9f7c4/"/>
-    <id>http://mamor5409.github.io/posts/7fd9f7c4/</id>
-    <published>2022-09-26T09:17:36.000Z</published>
-    <updated>2022-10-08T04:28:12.452Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-06_32位下dll注入</title>
-    <link href="http://mamor5409.github.io/posts/9c5cfbfa/"/>
-    <id>http://mamor5409.github.io/posts/9c5cfbfa/</id>
-    <published>2022-09-26T07:48:24.000Z</published>
-    <updated>2022-10-08T04:52:18.859Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C-05_内存补丁、断点中断、单步中断</title>
-    <link href="http://mamor5409.github.io/posts/89f9b82/"/>
-    <id>http://mamor5409.github.io/posts/89f9b82/</id>
-    <published>2022-09-24T07:44:09.000Z</published>
-    <updated>2022-10-08T04:54:21.912Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/categories/C/"/>
-    
-    
-    <category term="C" scheme="http://mamor5409.github.io/tags/C/"/>
     
   </entry>
   
