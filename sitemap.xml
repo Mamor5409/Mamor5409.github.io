@@ -2,7 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mamor5409.github.io/posts/2926e3f0/</loc>
+    
+    <lastmod>2023-03-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/18c2f5df/</loc>
+    
+    <lastmod>2023-03-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/posts/b3138fd/</loc>
+    
+    <lastmod>2023-03-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/about/index.html</loc>
     
     <lastmod>2023-02-16</lastmod>
     
@@ -128,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/1f4f5284/</loc>
-    
-    <lastmod>2022-10-27</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/39878b26/</loc>
     
     <lastmod>2022-10-27</lastmod>
@@ -194,13 +208,6 @@
     <loc>http://mamor5409.github.io/posts/5fe10d5b/</loc>
     
     <lastmod>2022-10-17</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/about/index.html</loc>
-    
-    <lastmod>2022-10-08</lastmod>
     
   </url>
   
@@ -311,13 +318,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/posts/e7789fd3/</loc>
-    
-    <lastmod>2022-07-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/8f170097/</loc>
     
     <lastmod>2022-07-02</lastmod>
     
@@ -443,13 +443,6 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/36f8f464/</loc>
-    
-    <lastmod>2022-01-17</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/41ffc4f2/</loc>
     
     <lastmod>2022-01-17</lastmod>
@@ -472,20 +465,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/posts/4259031d/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/709e0d6/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/9e00b16c/</loc>
     
     <lastmod>2022-01-12</lastmod>
     
@@ -555,13 +534,6 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/f8defd3b/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/1460cbad/</loc>
     
     <lastmod>2022-01-12</lastmod>
@@ -569,35 +541,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/ddf87dc4/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/a1faa996/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/1d30524a/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/1b08230/</loc>
-    
-    <lastmod>2022-01-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/posts/10b27472/</loc>
     
     <lastmod>2022-01-12</lastmod>
     
@@ -1173,7 +1117,7 @@
 
   <url>
     <loc>http://mamor5409.github.io/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -1181,301 +1125,308 @@
   
   <url>
     <loc>http://mamor5409.github.io/tags/Aria2/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/vulhub/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E6%8F%90%E6%9D%83/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/DCchallenges/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/kali/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/ssti/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/POC/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/bypass/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Linux/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/shiro/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Struts2/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/apt-get/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Ubuntu/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/XSS/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Hexo/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/IDEA/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/iptables/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/log4j/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/phpstudy/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/redis/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/SQLi/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/sqlmap/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/vulnhub/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/vulnstack/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/zkaq/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E8%A7%84%E5%88%92/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/moon/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/VM/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/NTLM/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/C/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/R3Hook/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Bypass/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/tags/Syscall/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/tags/TLS/</loc>
+    <lastmod>2023-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/tags/VEH/</loc>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1484,301 +1435,308 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/Aria2/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/vulhub/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E6%8F%90%E6%9D%83/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/DCchallenges/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/kali/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/ssti/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/POC/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/bypass/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Linux/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Shiro/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Struts2/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/apt-get/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Ubuntu/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/XSS/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Hexo/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/IDEA/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/iptables/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/log4j/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/phpstudy/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/redis/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/SQLi/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/sqlmap/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/vulnhub/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/vulnstack/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/zkaq/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E8%A7%84%E5%88%92/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/moon/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/VM/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/NTLM/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/C/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E7%94%A8%E6%88%B7%E6%80%81%E6%B3%A8%E5%85%A5/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/R3Hook/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/categories/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Bypass/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://mamor5409.github.io/categories/Syscall/</loc>
-    <lastmod>2023-02-16</lastmod>
+    <lastmod>2023-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/TLS/</loc>
+    <lastmod>2023-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/VEH/</loc>
+    <lastmod>2023-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

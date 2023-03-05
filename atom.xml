@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2023-02-16T10:00:47.121Z</updated>
+  <updated>2023-03-05T04:33:15.411Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,49 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>TLSCallBack</title>
+    <link href="http://mamor5409.github.io/posts/2926e3f0/"/>
+    <id>http://mamor5409.github.io/posts/2926e3f0/</id>
+    <published>2023-03-05T04:30:09.000Z</published>
+    <updated>2023-03-05T04:33:15.411Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="TLS" scheme="http://mamor5409.github.io/categories/TLS/"/>
+    
+    
+    <category term="TLS" scheme="http://mamor5409.github.io/tags/TLS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>VEH异常处理规避内存扫描</title>
+    <link href="http://mamor5409.github.io/posts/18c2f5df/"/>
+    <id>http://mamor5409.github.io/posts/18c2f5df/</id>
+    <published>2023-03-05T04:29:59.000Z</published>
+    <updated>2023-03-05T04:33:06.970Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="VEH" scheme="http://mamor5409.github.io/categories/VEH/"/>
+    
+    
+    <category term="VEH" scheme="http://mamor5409.github.io/tags/VEH/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Syscall-使用系统调用规避杀软Hook</title>
     <link href="http://mamor5409.github.io/posts/b3138fd/"/>
     <id>http://mamor5409.github.io/posts/b3138fd/</id>
-    <published>2022-12-11T11:50:24.000Z</published>
-    <updated>2023-02-16T10:00:47.121Z</updated>
+    <published>2023-02-16T10:00:24.000Z</published>
+    <updated>2023-03-05T04:26:39.057Z</updated>
     
     
     <summary type="html"> </summary>
@@ -339,44 +377,6 @@
     
     
     <category term="驱动" scheme="http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>驱动-1_开发环境配置及使用</title>
-    <link href="http://mamor5409.github.io/posts/39878b26/"/>
-    <id>http://mamor5409.github.io/posts/39878b26/</id>
-    <published>2022-10-27T14:19:09.000Z</published>
-    <updated>2022-10-27T14:29:46.482Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="驱动" scheme="http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/"/>
-    
-    
-    <category term="驱动" scheme="http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>栈缓冲区溢出-待完成</title>
-    <link href="http://mamor5409.github.io/posts/1f4f5284/"/>
-    <id>http://mamor5409.github.io/posts/1f4f5284/</id>
-    <published>2022-10-27T14:18:40.000Z</published>
-    <updated>2022-10-27T14:48:12.335Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="缓冲区溢出" scheme="http://mamor5409.github.io/categories/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/"/>
-    
-    
-    <category term="缓冲区溢出" scheme="http://mamor5409.github.io/tags/%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/"/>
     
   </entry>
   
