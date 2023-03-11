@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2023-03-05T04:33:15.411Z</updated>
+  <updated>2023-03-11T08:01:49.185Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Disable_functions Bypass</title>
+    <link href="http://mamor5409.github.io/posts/fbcae803/"/>
+    <id>http://mamor5409.github.io/posts/fbcae803/</id>
+    <published>2023-03-11T07:53:38.000Z</published>
+    <updated>2023-03-11T08:01:49.185Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>TLSCallBack</title>
     <link href="http://mamor5409.github.io/posts/2926e3f0/"/>
     <id>http://mamor5409.github.io/posts/2926e3f0/</id>
     <published>2023-03-05T04:30:09.000Z</published>
-    <updated>2023-03-05T04:33:15.411Z</updated>
+    <updated>2023-03-05T04:33:47.043Z</updated>
     
     
     <summary type="html"> </summary>
@@ -40,7 +55,7 @@
     <link href="http://mamor5409.github.io/posts/18c2f5df/"/>
     <id>http://mamor5409.github.io/posts/18c2f5df/</id>
     <published>2023-03-05T04:29:59.000Z</published>
-    <updated>2023-03-05T04:33:06.970Z</updated>
+    <updated>2023-03-05T04:33:47.044Z</updated>
     
     
     <summary type="html"> </summary>
@@ -358,25 +373,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>驱动-2_内核编程基础</title>
-    <link href="http://mamor5409.github.io/posts/dc4ad149/"/>
-    <id>http://mamor5409.github.io/posts/dc4ad149/</id>
-    <published>2022-10-27T14:19:24.000Z</published>
-    <updated>2022-10-31T04:06:31.954Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="驱动" scheme="http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/"/>
-    
-    
-    <category term="驱动" scheme="http://mamor5409.github.io/tags/%E9%A9%B1%E5%8A%A8/"/>
     
   </entry>
   
