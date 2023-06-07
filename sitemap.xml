@@ -1803,6 +1803,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://mamor5409.github.io/tags/syscall/</loc>
+    <lastmod>2023-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -2108,6 +2115,13 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/VEH/</loc>
+    <lastmod>2023-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/syscall/</loc>
     <lastmod>2023-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

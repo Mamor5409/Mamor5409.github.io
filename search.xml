@@ -154,6 +154,12 @@
 <p><a href="https://www.codeproject.com/Articles/543542/Windows-x64-system-service-hooks-and-advanced-debu">https://www.codeproject.com/Articles/543542/Windows-x64-system-service-hooks-and-advanced-debu</a></p>
 <p><a href="https://passthehashbrowns.github.io/detecting-direct-syscalls-with-frida">https://passthehashbrowns.github.io/detecting-direct-syscalls-with-frida</a></p>
 ]]></content>
+      <categories>
+        <category>syscall</category>
+      </categories>
+      <tags>
+        <tag>syscall</tag>
+      </tags>
   </entry>
   <entry>
     <title>nodejs下vm2沙箱逃逸</title>
