@@ -17,6 +17,21 @@
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
   </entry>
   <entry>
+    <title>hexo_error_at_node:internal/main/run_main_module</title>
+    <url>/posts/d2fe5b0/</url>
+    <content><![CDATA[<p>今天本想更新几篇文章到博客上，结果在上传生成后 界面出现问题 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;lineno&#x27; of module exports inside circular dependency</span><br><span class="line">(Use `node --trace-warnings ...` to show where the warning was created)</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;column&#x27; of module exports inside circular dependency</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;filename&#x27; of module exports inside circular dependency</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;lineno&#x27; of module exports inside circular dependency</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;column&#x27; of module exports inside circular dependency</span><br><span class="line">(node:2633) Warning: Accessing non-existent property &#x27;filename&#x27; of module exports inside circular dependency</span><br></pre></td></tr></table></figure>
+
+<p>node –trace-warnings a    查看一下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node:internal/modules/cjs/loader:959</span><br><span class="line">  throw err;</span><br><span class="line">  ^</span><br><span class="line"></span><br><span class="line">Error: Cannot find module &#x27;/Users/XXX/Blog/Hexo/a&#x27;</span><br><span class="line">    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:956:15)</span><br><span class="line">    at Function.Module._load (node:internal/modules/cjs/loader:804:27)</span><br><span class="line">    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)</span><br><span class="line">    at node:internal/main/run_main_module:17:47 &#123;</span><br><span class="line">  code: &#x27;MODULE_NOT_FOUND&#x27;,</span><br><span class="line">  requireStack: []</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案 <a href="https://github.com/nodejs/help/issues/2644">https://github.com/nodejs/help/issues/2644</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.npm cache clean --force(这条命令无法用 则使用 npm cache verify)</span><br><span class="line">2.delete node_modules folder</span><br><span class="line">3.delete package-lock.json file</span><br><span class="line">4.npm install</span><br></pre></td></tr></table></figure>
+
+<p>之后便可以顺利运行了</p>
+]]></content>
+  </entry>
+  <entry>
     <title>geacon_pro使用</title>
     <url>/posts/c91c8eaa/</url>
     <content><![CDATA[<p>查看cs teamserver下的 key文件</p>
