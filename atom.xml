@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2023-06-07T01:30:41.900Z</updated>
+  <updated>2023-06-07T01:31:07.361Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://mamor5409.github.io/posts/d2fe5b0/"/>
     <id>http://mamor5409.github.io/posts/d2fe5b0/</id>
     <published>2023-06-07T01:26:10.000Z</published>
-    <updated>2023-06-07T01:30:41.900Z</updated>
+    <updated>2023-06-07T01:31:07.361Z</updated>
     
     
     <summary type="html"> </summary>
@@ -52,6 +52,21 @@
     <id>http://mamor5409.github.io/posts/e65cfe16/</id>
     <published>2023-05-25T08:48:24.000Z</published>
     <updated>2023-06-07T01:08:26.100Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Syscall Detect</title>
+    <link href="http://mamor5409.github.io/posts/973bd040/"/>
+    <id>http://mamor5409.github.io/posts/973bd040/</id>
+    <published>2023-05-06T05:55:07.000Z</published>
+    <updated>2023-06-07T01:39:15.796Z</updated>
     
     
     <summary type="html"> </summary>
@@ -350,21 +365,6 @@
     
     
     <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shellcode异或</title>
-    <link href="http://mamor5409.github.io/posts/346bf539/"/>
-    <id>http://mamor5409.github.io/posts/346bf539/</id>
-    <published>2022-12-11T01:34:58.000Z</published>
-    <updated>2022-12-11T01:50:00.324Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
