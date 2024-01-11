@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2023-10-23T10:55:59.985Z</updated>
+  <updated>2024-01-11T05:45:00.157Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,30 +17,49 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Escalate_Linux</title>
-    <link href="http://mamor5409.github.io/posts/c474af54/"/>
-    <id>http://mamor5409.github.io/posts/c474af54/</id>
-    <published>2023-10-23T10:43:12.000Z</published>
-    <updated>2023-10-23T10:55:59.985Z</updated>
+    <title>CTF密码学之AES加密</title>
+    <link href="http://mamor5409.github.io/posts/b568ee4f/"/>
+    <id>http://mamor5409.github.io/posts/b568ee4f/</id>
+    <published>2024-01-11T05:44:11.000Z</published>
+    <updated>2024-01-11T05:45:00.157Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
-    <category term="OSCP打靶" scheme="http://mamor5409.github.io/categories/OSCP%E6%89%93%E9%9D%B6/"/>
+    <category term="CTF" scheme="http://mamor5409.github.io/categories/CTF/"/>
     
     
-    <category term="OSCP打靶" scheme="http://mamor5409.github.io/tags/OSCP%E6%89%93%E9%9D%B6/"/>
+    <category term="CTF" scheme="http://mamor5409.github.io/tags/CTF/"/>
     
   </entry>
   
   <entry>
     <title>MoeCTF_WriteUp</title>
-    <link href="http://mamor5409.github.io/posts/6963a0c7/"/>
-    <id>http://mamor5409.github.io/posts/6963a0c7/</id>
-    <published>2023-10-23T10:42:53.000Z</published>
-    <updated>2023-10-23T10:50:56.453Z</updated>
+    <link href="http://mamor5409.github.io/posts/undefined/"/>
+    <id>http://mamor5409.github.io/posts/undefined/</id>
+    <published>2023-10-24T00:39:22.000Z</published>
+    <updated>2023-10-24T00:49:49.443Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="CTF" scheme="http://mamor5409.github.io/categories/CTF/"/>
+    
+    
+    <category term="CTF" scheme="http://mamor5409.github.io/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Escalate_Linux</title>
+    <link href="http://mamor5409.github.io/posts/c474af54/"/>
+    <id>http://mamor5409.github.io/posts/c474af54/</id>
+    <published>2023-10-23T10:43:12.000Z</published>
+    <updated>2023-10-24T01:48:13.759Z</updated>
     
     
     <summary type="html"> </summary>
@@ -336,25 +355,6 @@
     <id>http://mamor5409.github.io/posts/5e5076eb/</id>
     <published>2022-12-11T01:35:54.000Z</published>
     <updated>2022-12-11T01:50:00.326Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>动态获取API</title>
-    <link href="http://mamor5409.github.io/posts/224ae4c2/"/>
-    <id>http://mamor5409.github.io/posts/224ae4c2/</id>
-    <published>2022-12-11T01:35:36.000Z</published>
-    <updated>2022-12-11T01:50:00.325Z</updated>
     
     
     <summary type="html"> </summary>

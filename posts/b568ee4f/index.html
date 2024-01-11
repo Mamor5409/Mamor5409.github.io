@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="CTF密码学之AES加密">
+<meta property="og:url" content="http://mamor5409.github.io/posts/b568ee4f/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-11T05:44:11.000Z">
+<meta property="article:modified_time" content="2024-01-11T05:45:00.157Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/b568ee4f/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CTF密码学之AES加密 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/b568ee4f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTF密码学之AES加密
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-11 13:44:11 / 修改时间：13:45:00" itemprop="dateCreated datePublished" datetime="2024-01-11T13:44:11+08:00">2024-01-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>AES加密算法是密码学中的高级加密标准，属于对称、分组加密算法，在CTF现代密码学中作为一个比较常考的题目，本篇会对AES加密算法做较为详细的讲解，并对一些AES题型进行分析总结。</p>
+<h3 id="AES基础"><a href="#AES基础" class="headerlink" title="AES基础"></a>AES基础</h3><p>AES算法，是DES算法的替代者，属于当今最为流行的对称加密算法之一。 要想具体了解学习AES算法，首先要清楚三个基本概念：<strong>密钥、填充、模式</strong>。</p>
+<h4 id="密钥"><a href="#密钥" class="headerlink" title="密钥"></a>密钥</h4><p>密钥是AES算法实现加密和解密的根本。AES支持3种长度的密码  128位、192位、256位。</p>
+<p>从安全性来看，AES256安全性最高。从性能来看，AES128性能最高。其本质原因是他们的加密处理轮数不同。</p>
+<p>AES的加密标准中，每个分组的 长度固定为128bits(16Bytes)，密钥长度为128bits，192bits，256bits,不同的密钥长度有不同的加密轮数,根据长度不同可以分为AES-128，AES-192，AES-256。</p>
+<table>
+<thead>
+<tr>
+<th>AES加密</th>
+<th>密钥长度</th>
+<th>分组长度</th>
+<th>加密轮数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AES-128</td>
+<td>128bits</td>
+<td>128bits</td>
+<td>10</td>
+</tr>
+<tr>
+<td>AES-192</td>
+<td>192bits</td>
+<td>128bits</td>
+<td>12</td>
+</tr>
+<tr>
+<td>AES-256</td>
+<td>256bits</td>
+<td>128bits</td>
+<td>14</td>
+</tr>
+</tbody></table>
+<h4 id="填充"><a href="#填充" class="headerlink" title="填充"></a>填充</h4><p>在AES加密中 有六种填充模式，分别为 <strong>NoPadding, PKCS#5, PKCS#7, ISO 10126, ANSI X9.23和ZerosPadding</strong> 。</p>
+<ul>
+<li>Nopadding ：不进行填充</li>
+<li>ZerosPadding：缺少的字节全部使用 0x00填充</li>
+<li>PKCS#5 &amp; PKCS#7：缺少几个字节就填充几个字节，值为填充的字符数</li>
+</ul>
+<blockquote>
+<p>例如,AAAAAAAA  BBBBBBBB CCCCCCCC    刚好分成3个分组       </p>
+<pre><code>     AAAAAAAA  BBBBBBBB CCCCC\____    缺少3个字节 所以使用 0x03进行填充      
+</code></pre>
+<p> (这里例子的A B C 均视为一个字节 以pkcs5为例 8个字节为一组)</p>
+<p>如果明文块小于16个字节(128bit) 那么在明文块末尾补足响应数量的字符，且每个字符的值为填充字符数（缺少的字符数）</p>
+<p>比如明文按照16个字节为一组的话：{1,2,3,4,5,a,b,c,d,e}，缺少6个字节【128/8-10=6】，则补全为{1,2,3,4,5,a,b,c,d,e,6,6,6,6,6,6}</p>
+<p>【不同在于 PKCS5 限定了块大小为 8bytes，而PKCS7没有限定，在AES加密当中严格来说是不能使用pkcs5的，因为AES的块大小是 <strong>16bytes</strong>，而 pkcs5 只能用于 <strong>8bytes</strong>，通常我们在AES加密中所说的 pkcs5 指的就是 pkcs7】</p>
+</blockquote>
+<ul>
+<li>ISO 10126：最后一个字节是填充的字节数（包括最后一字节），其他全部填随机数</li>
+</ul>
+<blockquote>
+<p>… | DD DD DD DD DD DD DD DD | DD DD DD DD 81 A6 23 04 | … </p>
+</blockquote>
+<ul>
+<li>ANSI X9.23：和ISO 10126相似，最后一个字节是填充的字节数，区别在 这种方法填充的其他字节都是0，而不是随机数</li>
+</ul>
+<blockquote>
+<p>… | DD DD DD DD DD DD DD DD | DD DD DD DD 00 00 00 04 | … </p>
+</blockquote>
+<h4 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h4><p>AES分组加密的加密模式共五种可选加密模式。（如果在加密时使用了某种工作模式，则解密时也必须使用同种工作模式）</p>
+<blockquote>
+<p><strong>ECB</strong> ( Electronic Codebook Book , 电话本模式 ，默认)<br><strong>CBC</strong> ( Cipher Block Chaining , 密码分组链接模式 )<br>CTR ( Counter , 计算器模式 )<br>CFB ( Cipher FeedBack , 密码反馈模式 )<br>OFB ( Output FeedBack , 输出反馈模式 )</p>
+</blockquote>
+<p>在CTF中比较常见的为<strong>ECB模式</strong>和<strong>CBC模式</strong>，都属于分组密码算法（分组密码算法有四种模式：CBC/ECB/CFB/OCB），主要介绍下ECB模式和CBC模式。</p>
+<h5 id="ECB模式"><a href="#ECB模式" class="headerlink" title="ECB模式"></a>ECB模式</h5><p>ECB模式(电话本)，依次出来一组明文分块，每次使用相同的密钥加密。</p>
+<p>其加密模式如下所示，如果加密的明文块内容相同，那么得到的密文块也就会相同，相对来说不够安全，只适用于明文较短时。</p>
+<p>![image-20240111103200415](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103200415.png)</p>
+<h5 id="CBC模式"><a href="#CBC模式" class="headerlink" title="CBC模式"></a>CBC模式</h5><p>CBC模式(密文分组链接)，一次处理一组明文分块，每次使用相同的密钥加密。CBC模式主要引用了一个初始化向量(IV)来加强密码的随机性，保证相同明文通过相同密钥的加密结果不同。</p>
+<p>![image-20240111100913668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100913668.png)</p>
+<h3 id="AES加密流程"><a href="#AES加密流程" class="headerlink" title="AES加密流程"></a>AES加密流程</h3><p>简要步骤如下图所示：</p>
+<p>![image-20240111095635068](/Users/mamor/Library/Application Support/typora-user-images/image-20240111095635068.png)</p>
+<p>1.将明文按照128bit进行分组，拆分次若干个明文块；</p>
+<p>2.按照选择的填充模式对最后一块明文块进行填充；</p>
+<p>3.每个明文块利用AES加密器和密钥进行加密，得到对应的密文块；</p>
+<p>4.拼接所有的密文块得到最终加密的密文。</p>
+<h4 id="AES具体加密流程"><a href="#AES具体加密流程" class="headerlink" title="AES具体加密流程"></a>AES具体加密流程</h4><p>AES算法主要有四个操作处理，分别为 轮密钥加（AddRoundKey）、字节替换（SubBytes）、行位移（ShiftRows）、列混淆（MixColumns）。</p>
+<p>在进行加密前，明文和密钥都会分组为16字节(128bit)组成的块，按照自己的先后顺序，自上而下，从左往右依次排列。加密后的密文读取也是按照这个顺序。</p>
+<p>(以下多处图片均引自<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-253884.htm">https://bbs.kanxue.com/thread-253884.htm</a> 感谢这位师傅的文章 讲解的很详细)</p>
+<p>![image-20240111100221003](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100221003.png)</p>
+<p>AES算法在处理轮数上也有点不同，在最后一轮中少了列混淆处理。</p>
+<p>初始轮（1）</p>
+<ul>
+<li>轮密钥加（AddRoundKey）</li>
+</ul>
+<p>普通轮（N-1)</p>
+<ul>
+<li>字节替换（SubBytes）</li>
+<li>行位移（ShiftRows）</li>
+<li>列混淆（MixColumns）</li>
+<li>轮密钥加（AddRoundKey）</li>
+</ul>
+<p>最终轮（1） </p>
+<ul>
+<li>字节替换 （SubBytes）</li>
+<li>行位移 （ShiftRows）</li>
+<li>轮密钥加（AddRoundKey）</li>
+</ul>
+<p>![image-20240111100348613](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100348613.png)</p>
+<h5 id="轮密钥加（AddRoundKey）"><a href="#轮密钥加（AddRoundKey）" class="headerlink" title="轮密钥加（AddRoundKey）"></a>轮密钥加（AddRoundKey）</h5><p>根据传入的轮数 将状态矩阵与对应的W[i]异或，该过程中有两个输入参数，分别为明文和子密钥k  都是128位(bit) [16字节]。</p>
+<p>![image-20240111100439688](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100439688.png)</p>
+<h5 id="字节替换（SubBytes）"><a href="#字节替换（SubBytes）" class="headerlink" title="字节替换（SubBytes）"></a>字节替换（SubBytes）</h5><p>AES字节替换  简单说就是一个<strong>查表操作</strong> 。在AES中定义了一个S盒和 逆S盒</p>
+<p>![image-20240111100520753](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100520753.png)</p>
+<p>![image-20240111100529234](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100529234.png)</p>
+<p>![image-20240111100548783](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100548783.png)</p>
+<p>如上图 a[0,0]是 0x12  查s盒  [1,2]处 得到 0xC9；a[0,1]是 0xAB  查s盒 [A,B]处 也就是 [10,11] 得到  0x62。</p>
+<p>如果是逆s盒 那方法也是相同，以 0xC9为例， 查逆s盒 [C,9] 即 [13,9]，对应表中值为 0x12 </p>
+<h5 id="行位移（ShiftRows）"><a href="#行位移（ShiftRows）" class="headerlink" title="行位移（ShiftRows）"></a>行位移（ShiftRows）</h5><p>行位移  将输入的数据作为一个4x4矩阵进行处理  可以理解为 左循环位移 操作</p>
+<p>第一行保持不变，第二行左移1字节 ，第三行左移2字节，第四行左移3字节</p>
+<p>![image-20240111100626447](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100626447.png)</p>
+<p>逆向行位移</p>
+<p>第一行保持不变，第二行右移1字节，第三行右移2字节，第四行右移3字节</p>
+<p>![image-20240111100655484](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100655484.png)</p>
+<h5 id="列混淆（MixColumns）"><a href="#列混淆（MixColumns）" class="headerlink" title="列混淆（MixColumns）"></a>列混淆（MixColumns）</h5><p>列混合变换就是矩阵相乘，行位移后的状态矩阵和修补矩阵(fixed matrix) 做矩阵相乘，得出输出列。</p>
+<p>![image-20240111100738668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100738668.png)</p>
+<p>逆向列混淆</p>
+<p>在解密的逆向列混淆中 与正向列混淆的 左乘矩阵不同，互为逆矩阵。【即 数据矩阵同时乘这两个矩阵后不会发生变化】</p>
+<p>![image-20240111100750801](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100750801.png)</p>
+<h3 id="AES-ECB模式"><a href="#AES-ECB模式" class="headerlink" title="AES-ECB模式"></a>AES-ECB模式</h3><p>![image-20240111103200415](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103200415.png)</p>
+<p>1.明文经过填充后，分为不同的组block，以组的方式对数据进行处理</p>
+<p>2.密钥Key对明文块进行块加密，得到密文块</p>
+<p>3.密文块拼接后得到加密后的密文</p>
+<h3 id="AES-CBC模式"><a href="#AES-CBC模式" class="headerlink" title="AES-CBC模式"></a>AES-CBC模式</h3><h4 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h4><p>![image-20240111100913668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100913668.png)</p>
+<p>1.明文经过填充后，分为不同的组block，以组的方式对数据进行处理</p>
+<p>2.初始化向量 IV 首先和第一组明文进行 XOR 得到中间值 Midvalue</p>
+<p>3.采用密钥Key对中间值Midvalue进行块加密，删除第一组加密的密文</p>
+<p>4.第一组加密的密文 作为第二组的初始化向量IV，参与第二组的明文异或操作</p>
+<p>5.依次进行块加密，最终将得到的每一块密文拼接成密文</p>
+<h4 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h4><p>![image-20240111100947893](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100947893.png)</p>
+<ol>
+<li>将密文进行分组，第一组得到的是初始化向量，从第二组开始才是真正的密文</li>
+<li>使用加密密钥Key对密文的第一组进行解密，得到中间值Midvalue</li>
+<li>中间值Midvalue和IV进行XOR,得到该组的明文</li>
+<li>前一块密文是最后一块密文的IV，通过异或中间值得到明文</li>
+<li>块全部解密完成后拼接得到明文，密码算法校验明文填充格式是否正确</li>
+<li>校验通过得到明文，校验失败则得到密文</li>
+</ol>
+<h3 id="CTF中的AES题目分析"><a href="#CTF中的AES题目分析" class="headerlink" title="CTF中的AES题目分析"></a>CTF中的AES题目分析</h3><h4 id="1-BabyAES"><a href="#1-BabyAES" class="headerlink" title="1.BabyAES"></a>1.BabyAES</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">iv = os.urandom(<span class="number">16</span>)</span><br><span class="line">key = os.urandom(<span class="number">16</span>)</span><br><span class="line">my_aes = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">flag = <span class="built_in">open</span>(<span class="string">&#x27;flag.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">flag += (<span class="number">16</span> - <span class="built_in">len</span>(flag) % <span class="number">16</span>) * <span class="string">b&#x27;\x00&#x27;</span></span><br><span class="line">c = my_aes.encrypt(flag)</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line"><span class="built_in">print</span>(iv)</span><br><span class="line"><span class="built_in">print</span>(key)</span><br><span class="line"> </span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">b&#x27;C4:\x86Q$\xb0\xd1\x1b\xa9L\x00\xad\xa3\xff\x96 hJ\x1b~\x1c\xd1y\x87A\xfe0\xe2\xfb\xc7\xb7\x7f^\xc8\x9aP\xdaX\xc6\xdf\x17l=K\x95\xd07&#x27;</span></span><br><span class="line"><span class="string">b&#x27;\xd1\xdf\x8f)\x08w\xde\xf9yX%\xca[\xcb\x18\x80&#x27;</span></span><br><span class="line"><span class="string">b&#x27;\xa4\xa6M\xab&#123;\xf6\x97\x94&gt;hK\x9bBe]F&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>题目分析： 已知iv  key 密文c  使用AES-CBC模式，全部已知可直接AES解密得到明文flag</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line">c = <span class="string">b&#x27;C4:\x86Q$\xb0\xd1\x1b\xa9L\x00\xad\xa3\xff\x96 hJ\x1b~\x1c\xd1y\x87A\xfe0\xe2\xfb\xc7\xb7\x7f^\xc8\x9aP\xdaX\xc6\xdf\x17l=K\x95\xd07&#x27;</span></span><br><span class="line">iv = <span class="string">b&#x27;\xd1\xdf\x8f)\x08w\xde\xf9yX%\xca[\xcb\x18\x80&#x27;</span></span><br><span class="line">key = <span class="string">b&#x27;\xa4\xa6M\xab&#123;\xf6\x97\x94&gt;hK\x9bBe]F&#x27;</span></span><br><span class="line"> </span><br><span class="line">Cipher = AES.new(key,AES.MODE_CBC,iv)</span><br><span class="line">decrypted = Cipher.decrypt(c)</span><br><span class="line"><span class="built_in">print</span>(decrypted)</span><br><span class="line"><span class="comment"># b&#x27;Dest0g3&#123;d0e5fa76-e50f-76f6-9cf1-b6c2d576b6f4&#125;\x00\x00\x00&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-2020年第三届安洵杯-easyaes"><a href="#2-2020年第三届安洵杯-easyaes" class="headerlink" title="2.[2020年第三届安洵杯] easyaes"></a>2.[2020年第三届安洵杯] easyaes</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> bytes_to_long</span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">genkey</span>(<span class="params">l</span>):</span><br><span class="line">    <span class="keyword">return</span> random.getrandbits(l)</span><br><span class="line"><span class="comment"># 求iv  去除掉收尾指定字符串</span></span><br><span class="line">iv = flag.strip(<span class="string">b&#x27;flag&#123;&#x27;</span>).strip(<span class="string">b&#x27;&#125;&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">key = <span class="string">&#x27;&#x27;</span>.join([random.choice(string.ascii_letters+string.digits) <span class="keyword">for</span> _ <span class="keyword">in</span> xrange(<span class="number">16</span>)])</span><br><span class="line">LENGTH = <span class="built_in">len</span>(key)</span><br><span class="line"><span class="comment"># 16字节  所以会使用16个字符或长度为16的字符串做密码</span></span><br><span class="line"><span class="keyword">assert</span> LENGTH == <span class="number">16</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#  32字节 且为4个字符(32bit)的重复  32bit*8</span></span><br><span class="line"><span class="comment"># 每个字节由 2个十六进制字符表示 所以有 32*2=64个十六机制字符</span></span><br><span class="line">hint = os.urandom(<span class="number">4</span>) * <span class="number">8</span></span><br><span class="line"><span class="built_in">print</span>(bytes_to_long(hint)^bytes_to_long(key))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 64 / 16 =4</span></span><br><span class="line">msg = <span class="string">b&#x27;Welcome, ctfer. Dont try too hard, its no use. Have a good day!!&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypto</span>(<span class="params">message</span>):</span><br><span class="line">    aes = AES.new(key,AES.MODE_CBC,iv)</span><br><span class="line">    <span class="keyword">return</span> aes.encrypt(message)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 对msg AES加密后 转十六进制后 输出后32位</span></span><br><span class="line"><span class="built_in">print</span>(binascii.hexlify(encrypto(msg))[-<span class="number">32</span>:])</span><br><span class="line"> </span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">99748265546679089946917295913637945222843938798184123305418691873367322323659</span></span><br><span class="line"><span class="string">bc03f3ac4ff8064acbcfaf0b0bf2ba7b</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>题目分析：</p>
+<p>1.已知key长度为 16位，hint为32字节 且为4个字节的重复(32bit*8)</p>
+<p>2.已知明文message 64位</p>
+<p>AES-CBC解密流程：<br>msg[0] = decrypt(enc1,key)^iv<br>msg[1] = decrypt(enc2,key)^enc1<br>msg[2] = decrypt(enc3,key)^enc2<br>msg[3] = decrypt(enc4,key)^enc3<br>msg = msg[0]+msg[1]+msg[2]+msg[3]</p>
+<p>iv = msg[0] ^ decrypt(enc1,key)<br>enc1 = msg[1] ^ decrypt(enc2,key)<br>enc2 = msg[2] ^ decrypt(enc3,key)<br>enc3 = msg[3] ^ decrypt(enc4,key)</p>
+<p>其中 已知如下：<br>1.hint^key = tmp -&gt; key = tmp^hint<br>2.enc4<br>3.msg[0] msg[1] msg[2] msg[3]<br>所以可以推出iv来 得到flag</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">import</span> binascii, sys</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.strxor <span class="keyword">import</span> strxor</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"> </span><br><span class="line"><span class="comment"># -----------get key---------</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># tmp = hint ^ key -&gt; key = tmp ^ hint</span></span><br><span class="line">tmp = <span class="number">99748265546679089946917295913637945222843938798184123305418691873367322323659</span></span><br><span class="line"><span class="comment"># hint为32字节 key为16字节  所以异或后 tmp高位就是 hint的高位</span></span><br><span class="line"><span class="comment"># [2:10] 前面有0x 所以从第二位开始取8位</span></span><br><span class="line"><span class="comment"># 32字节 64个十六进制字符</span></span><br><span class="line">hint = <span class="built_in">int</span>(<span class="built_in">str</span>(<span class="built_in">hex</span>(tmp))[<span class="number">2</span>:<span class="number">10</span>] * <span class="number">8</span>, <span class="number">16</span>)</span><br><span class="line">key = long_to_bytes(tmp ^ hint)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># ----------get iv-----------</span></span><br><span class="line">msg = <span class="string">b&#x27;Welcome, ctfer. Dont try too hard, its no use. Have a good day!!&#x27;</span></span><br><span class="line">msgs = [msg[ii:(ii + <span class="number">16</span>)] <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(msg), <span class="number">16</span>)]</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(msgs)</span><br><span class="line"><span class="comment"># [b&#x27;Welcome, ctfer. &#x27;, b&#x27;Dont try too har&#x27;, b&#x27;d, its no use. H&#x27;, b&#x27;ave a good day!!&#x27;]</span></span><br><span class="line"> </span><br><span class="line">msgs.reverse()</span><br><span class="line"><span class="comment"># msg[3] msg[2] msg[1] msg[0]</span></span><br><span class="line"><span class="comment"># [b&#x27;ave a good day!!&#x27;, b&#x27;d, its no use. H&#x27;, b&#x27;Dont try too har&#x27;, b&#x27;Welcome, ctfer. &#x27;]</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">IV = binascii.unhexlify(<span class="string">&#x27;bc03f3ac4ff8064acbcfaf0b0bf2ba7b&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># iv = msg[0] ^ decrypt(enc1,key)</span></span><br><span class="line"><span class="comment"># enc1 = msg[1] ^ decrypt(enc2,key)</span></span><br><span class="line"><span class="comment"># enc2 = msg[2] ^ decrypt(enc3,key)</span></span><br><span class="line"><span class="comment"># enc3 = msg[3] ^ decrypt(enc4,key)</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decry</span>(<span class="params">key, IV, ms</span>):</span><br><span class="line">    aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    <span class="keyword">return</span> strxor(aes.decrypt(IV), ms)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> ms <span class="keyword">in</span> msgs:</span><br><span class="line">    IV = decry(key, IV, ms)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">b&#x27;flag&#123;&#x27;</span> + IV + <span class="string">b&#x27;&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-aes"><a href="#3-aes" class="headerlink" title="3.aes"></a>3.aes</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"> </span><br><span class="line"><span class="keyword">assert</span> flag[:<span class="number">5</span>] == <span class="string">&quot;flag&#123;&quot;</span> <span class="keyword">and</span> flag[-<span class="number">1</span>:] == <span class="string">&quot;&#125;&quot;</span></span><br><span class="line"> </span><br><span class="line">key = <span class="string">b&quot;J1fx2g1jDak1c***&quot;</span></span><br><span class="line">l = <span class="built_in">len</span>(key)</span><br><span class="line"> </span><br><span class="line">message = <span class="string">b&quot;I have had my invitation to this world&#x27;s festival, and thus my life has been blessed&quot;</span> + binascii.unhexlify(hashlib.sha256(key).hexdigest())[:<span class="number">10</span>]</span><br><span class="line"> </span><br><span class="line">iv = flag[<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">message = message + <span class="built_in">bytes</span>((l - <span class="built_in">len</span>(message) % l) * <span class="built_in">chr</span>(l - <span class="built_in">len</span>(message) % l), encoding = <span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">aes = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line"><span class="built_in">print</span>(binascii.hexlify(aes.encrypt(message)))</span><br><span class="line"><span class="comment">#******************************************************************************************************************************************************6ece036e495d363b647d7f2749c4c2f3dd78f8637b</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#题目及WP来源：https://blog.csdn.net/luochen2436/article/details/125884846</span></span><br><span class="line"><span class="comment">#记录下解题思路学习下</span></span><br></pre></td></tr></table></figure>
+
+<p>题目分析：</p>
+<p>1.key后三位未知 可爆破</p>
+<p>2.明文message 分3部分 第一部分明文已知，中间部分 10个十六进制字符  后部分为 2个0x02 共192个十六进制字符</p>
+<p>message = message + bytes((l - len(message) % l) * chr(l - len(message) % l), encoding = “utf-8”)</p>
+<p>即 bytes((16-94)%16 * chr((16-(94%16)))）</p>
+<p>= bytes(2 * chr (2) ) -&gt; 0x02 0x02</p>
+<p>3.iv = flag[5:-1] 即flag{iv} 求出iv即flag</p>
+<p>4.已知明文后21字节 根据分组 每组16字节 所以已知最后一块明文 及 倒数第二块后5字节明文</p>
+<p>![image-20240111103759978](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103759978.png)</p>
+<p>在CBC中 与ECB相比 多的部分为IV 异或一步</p>
+<p>密文 ^ key (AES_ECB)  ^ IV → 明文</p>
+<p>最后一块的明文已知，key 可通过爆破后三位</p>
+<p>最后一块的密文为  b”ssed” + binascii.unhexlify(hashlib.sha256(key).hexdigest())[:10] +  bytes((l - len(message) % l) * chr(l - len(message) % l)  如果key已知  则密文也就是已知的</p>
+<p>我们还知道倒数第二块中的后5个字节  可以作为最后一次加密的IV 的一部分进行校验，如果结果中包含 已知的5个字节，则说明key正确。</p>
+<p>IV = 明文 ^ ( 密文 ^ key )</p>
+<p>求得key后 可进而推出 IV 即 flag</p>
+<p>Plaintext[0] = Ciphertext[0] ^ key ^ IV</p>
+<p>Plaintext[1] = Ciphertext[1] ^ key ^ Ciphertext[0]</p>
+<p>Plaintext[2] = Ciphertext[2] ^ key ^ Ciphertext[1]</p>
+<p>知道最后一个明文 密文 key 以此反复推出IV</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 1. 生成key字典</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"> </span><br><span class="line">dic = string.printable[:<span class="number">62</span>]</span><br><span class="line"><span class="comment"># print(dic)</span></span><br><span class="line"><span class="comment"># 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;key_table.txt&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> dic:</span><br><span class="line">                key = <span class="string">b&quot;J1fx2g1jDak1c&quot;</span>+i.encode()+j.encode()+k.encode()</span><br><span class="line">                file.write(key+<span class="string">b&#x27;\n&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">file.close()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 2.爆破key</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xor</span>(<span class="params">m: <span class="built_in">bytes</span>, c: <span class="built_in">bytes</span></span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>([i ^ j <span class="keyword">for</span> i, j <span class="keyword">in</span> <span class="built_in">zip</span>(m, c)])</span><br><span class="line"> </span><br><span class="line">enc = binascii.unhexlify(<span class="string">&#x27;5d363b647d7f2749c4c2f3dd78f8637b&#x27;</span>)</span><br><span class="line">five_part = binascii.unhexlify(<span class="string">b&quot;6ece036e49&quot;</span>)</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;key_table.txt&quot;</span>,<span class="string">&quot;rb+&quot;</span>)</span><br><span class="line">pbar = tqdm(<span class="built_in">range</span>(<span class="number">238328</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> f:</span><br><span class="line">    key = i[:<span class="number">16</span>]</span><br><span class="line">    aes = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    dec = aes.decrypt(enc)</span><br><span class="line">    <span class="comment"># 最后一块 16个字节 4+10+2</span></span><br><span class="line">    m = <span class="string">b&quot;ssed&quot;</span> +binascii.unhexlify(hashlib.sha256(key).hexdigest())[:<span class="number">10</span>]+<span class="string">b&#x27;\x02\x02&#x27;</span></span><br><span class="line">    xor_result = xor(m,dec)</span><br><span class="line">    pbar.update(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> five_part <span class="keyword">in</span> xor_result:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[+] key:&quot;</span>,key)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">f.close()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 3.求IV</span></span><br><span class="line">l = <span class="built_in">len</span>(key)</span><br><span class="line"><span class="comment"># 192位</span></span><br><span class="line">message = <span class="string">b&quot;I have had my invitation to this world&#x27;s festival, and thus my life has been blessed&quot;</span> + binascii.unhexlify(hashlib.sha256(key).hexdigest())[:<span class="number">10</span>]</span><br><span class="line">message = message + <span class="built_in">bytes</span>((l - <span class="built_in">len</span>(message) % l) * <span class="built_in">chr</span>(l - <span class="built_in">len</span>(message) % l), encoding=<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(message),<span class="number">16</span>):</span><br><span class="line">    aes_ecb = AES.new(key,AES.MODE_ECB)</span><br><span class="line">    dec_c = aes_ecb.decrypt(enc)</span><br><span class="line">    enc = xor(message[<span class="built_in">len</span>(message)-i-<span class="number">16</span>:<span class="built_in">len</span>(message)-i],dec_c)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">b&#x27;flag&#123;&#x27;</span>+enc+<span class="string">b&#x27;&#125;&#x27;</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-moectf-ez-cbc"><a href="#4-moectf-ez-cbc" class="headerlink" title="4.moectf ez_cbc"></a>4.moectf ez_cbc</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line">  </span><br><span class="line">IV = bytes_to_long(<span class="string">b&#x27;cbc!&#x27;</span>)</span><br><span class="line">K = random.randrange(<span class="number">1</span>,<span class="number">1</span>&lt;&lt;<span class="number">30</span>)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">assert</span> flag[:<span class="number">7</span>] == <span class="string">b&#x27;moectf&#123;&#x27;</span></span><br><span class="line"><span class="keyword">assert</span> flag[-<span class="number">1</span>:] == <span class="string">b&#x27;&#125;&#x27;</span></span><br><span class="line">  </span><br><span class="line">block_length = <span class="number">4</span></span><br><span class="line">flag = flag + ((block_length - <span class="built_in">len</span>(flag) % block_length) % block_length) * <span class="string">b&#x27;\x00&#x27;</span></span><br><span class="line">plain_block = [flag[block_length * i: block_length * (i + <span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag) // block_length)]</span><br><span class="line">  </span><br><span class="line">c = []</span><br><span class="line">c0 = (IV ^ bytes_to_long(plain_block[<span class="number">0</span>])) ^ K</span><br><span class="line">c.append(c0)</span><br><span class="line">  </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(plain_block)-<span class="number">1</span>):</span><br><span class="line">    c.append(c[i] ^ bytes_to_long(plain_block[i+<span class="number">1</span>]) ^ K)</span><br><span class="line">  </span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">  </span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">[748044282, 2053864743, 734492413, 675117672, 1691099828, 1729574447, 1691102180, 657669994, 1741780405, 842228028, 1909206003, 1797919307]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#  flag 为  moectf&#123;flag&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>题目分析：</p>
+<ol>
+<li>IV已知，flag部分已知 moectg{}</li>
+<li>block_length =4 且 已知flag前四位为 moec</li>
+</ol>
+<p>所以可以通过此去恢复K</p>
+<p>密文块 = 明文块 ^ iv ^ K</p>
+<p>明文块 = 密文块 ^ iv ^ K</p>
+<p>K = 密文块 ^ 明文块 ^ iv</p>
+<p>K = IV ^ bytes_to_long(plain_block[0]) ^ c[0]</p>
+<p>  3.求得K后 进而求得m， m = K ^ c[i] ^ c[i+1]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">c = [<span class="number">748044282</span>, <span class="number">2053864743</span>, <span class="number">734492413</span>, <span class="number">675117672</span>, <span class="number">1691099828</span>, <span class="number">1729574447</span>, <span class="number">1691102180</span>, <span class="number">657669994</span>, <span class="number">1741780405</span>, <span class="number">842228028</span>, <span class="number">1909206003</span>, <span class="number">1797919307</span>]</span><br><span class="line">IV = bytes_to_long(<span class="string">b&#x27;cbc!&#x27;</span>)</span><br><span class="line">block_length = <span class="number">4</span></span><br><span class="line"> </span><br><span class="line">flag = <span class="string">b&#x27;moectf&#123;&#x27;</span></span><br><span class="line">plain_block = [flag[block_length * i: block_length * (i + <span class="number">1</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flag) // block_length)]</span><br><span class="line"> </span><br><span class="line">K = IV ^ bytes_to_long(plain_block[<span class="number">0</span>]) ^ c[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(K)</span><br><span class="line"> </span><br><span class="line">m = <span class="string">b&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(c)-<span class="number">1</span>):</span><br><span class="line">    m += long_to_bytes(c[i]^c[i+<span class="number">1</span>]^K)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(<span class="string">b&#x27;moec&#x27;</span>+m)</span><br><span class="line"><span class="comment"># 580598200</span></span><br><span class="line"><span class="comment"># b&#x27;tf&#123;es72b!a5-njad!@-#!@$sad-6bysgwy-1adsw8&#125;\x00\x00&#x27;</span></span><br><span class="line"><span class="comment"># b&#x27;moectf&#123;es72b!a5-njad!@-#!@$sad-6bysgwy-1adsw8&#125;\x00\x00&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="5-moectf-ez-chain"><a href="#5-moectf-ez-chain" class="headerlink" title="5.moectf ez_chain"></a>5.moectf ez_chain</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;key.txt&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> fs:</span><br><span class="line">    key = <span class="built_in">int</span>(fs.read().strip())</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> fs:</span><br><span class="line">    flag = fs.read().strip()</span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">len</span>(flag) == <span class="number">72</span></span><br><span class="line"> </span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line"> </span><br><span class="line">base = bytes_to_long(<span class="string">b&quot;koito&quot;</span>)</span><br><span class="line">iv = <span class="number">3735927943</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">blockize</span>(<span class="params">long</span>):</span><br><span class="line">    out = []</span><br><span class="line">    <span class="keyword">while</span> long &gt; <span class="number">0</span>:</span><br><span class="line">        out.append(long % base)</span><br><span class="line">        long //= base</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(<span class="built_in">reversed</span>(out))</span><br><span class="line"> </span><br><span class="line">blocks = blockize(m)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt_block_cbc</span>(<span class="params">blocks, iv, key</span>):</span><br><span class="line">    encrypted = [iv]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(blocks)):</span><br><span class="line">        encrypted.append(blocks[i] ^ encrypted[i] ^ key)</span><br><span class="line">    <span class="keyword">return</span> encrypted[<span class="number">1</span>:]</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(encrypt_block_cbc(blocks, iv, key))</span><br><span class="line"><span class="comment"># [8490961288, 122685644196, 349851982069, 319462619019, 74697733110, 43107579733, 465430019828, 178715374673, 425695308534, 164022852989, 435966065649, 222907886694, 420391941825, 173833246025, 329708930734]</span></span><br></pre></td></tr></table></figure>
+
+<p>题目分析：</p>
+<p>1.flag 72位，m为flag 需求项</p>
+<p>2.需要写2个解密函数 decrypt_block_cbc 和 deblockize</p>
+<p>K = 密文块 ^ 明文块 ^ iv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line">base = bytes_to_long(<span class="string">b&quot;koito&quot;</span>)</span><br><span class="line">iv = <span class="number">3735927943</span></span><br><span class="line"> </span><br><span class="line">blocks = [<span class="number">8490961288</span>, <span class="number">122685644196</span>, <span class="number">349851982069</span>, <span class="number">319462619019</span>, <span class="number">74697733110</span>, <span class="number">43107579733</span>, <span class="number">465430019828</span>, <span class="number">178715374673</span>, <span class="number">425695308534</span>, <span class="number">164022852989</span>, <span class="number">435966065649</span>, <span class="number">222907886694</span>, <span class="number">420391941825</span>, <span class="number">173833246025</span>, <span class="number">329708930734</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">blockize</span>(<span class="params">long</span>):</span><br><span class="line">    out = []</span><br><span class="line">    <span class="keyword">while</span> long &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># 取余数 存入 out</span></span><br><span class="line">        out.append(long % base)</span><br><span class="line">        long //= base</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(<span class="built_in">reversed</span>(out))</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deblockize</span>(<span class="params">blocks</span>):</span><br><span class="line">    out = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> block <span class="keyword">in</span> blocks:</span><br><span class="line">        out = out * base + block</span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt_block_cbc</span>(<span class="params">blocks, iv, key</span>):</span><br><span class="line">    encrypted = [iv]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(blocks)):</span><br><span class="line">        encrypted.append(blocks[i] ^ encrypted[i] ^ key)</span><br><span class="line">    <span class="keyword">return</span> encrypted[<span class="number">1</span>:]</span><br><span class="line"><span class="comment"># blocks[0] ^ iv ^ key =  flag[0]</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt_block_cbc</span>(<span class="params">blocks, iv, key</span>):</span><br><span class="line">    <span class="comment"># iv 初始化向量</span></span><br><span class="line">    encrypted = [iv, *blocks]</span><br><span class="line">    decrypted = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(blocks)):</span><br><span class="line">        decrypted.append(encrypted[i] ^ encrypted[i + <span class="number">1</span>] ^ key)</span><br><span class="line">    <span class="keyword">return</span> decrypted</span><br><span class="line"> </span><br><span class="line"><span class="comment">#  flag = moectf&#123;xxx&#125;</span></span><br><span class="line"><span class="comment">#  72个字符  其中 moectf 6 &#123;&#125; 2  72-2-6=64个</span></span><br><span class="line"><span class="comment">#  flag[0] = blocks[0] ^ key ^ iv</span></span><br><span class="line"><span class="comment">#  key = iv ^ blocks[0] ^ flag[0]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;flag:&quot;</span>,blockize(bytes_to_long(<span class="string">b&quot;moectf&#123;&quot;</span> + <span class="string">b&quot;0&quot;</span>*<span class="number">64</span> + <span class="string">b&quot;&#125;&quot;</span>))[<span class="number">0</span>] )</span><br><span class="line"><span class="comment"># print(blockize(bytes_to_long(b&quot;moectf&#123;&quot; + b&quot;0&quot;*64 + b&quot;&#125;&quot;)))</span></span><br><span class="line">key = blockize(bytes_to_long(<span class="string">b&quot;moectf&#123;&quot;</span> + <span class="string">b&quot;0&quot;</span>*<span class="number">64</span> + <span class="string">b&quot;&#125;&quot;</span>))[<span class="number">0</span>] ^ iv ^ blocks[<span class="number">0</span>]</span><br><span class="line">m = long_to_bytes(deblockize(decrypt_block_cbc(blocks, iv, key)))</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;key:&quot;</span>,key)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="6-Afctf-MyOwnCBC"><a href="#6-Afctf-MyOwnCBC" class="headerlink" title="6.Afctf MyOwnCBC"></a>6.Afctf MyOwnCBC</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python2.7</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Random <span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">MyOwnCBC</span>(<span class="params">key, plain</span>):</span><br><span class="line">  <span class="comment"># key 32位  但key未知</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(key)!=<span class="number">32</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;error!&quot;</span></span><br><span class="line">	cipher_txt = <span class="string">b&quot;&quot;</span></span><br><span class="line">	cipher_arr = []</span><br><span class="line">	<span class="comment"># 自定义加密 ECB </span></span><br><span class="line">	cipher = AES.new(key, AES.MODE_ECB, <span class="string">&quot;&quot;</span>)</span><br><span class="line">	<span class="comment"># 等价于 cipher = AES.new(key, AES.MODE_ECB)</span></span><br><span class="line">	plain = [plain[i:i+<span class="number">32</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(plain), <span class="number">32</span>)]</span><br><span class="line">  	<span class="comment"># 32位(16字节)为一组 然后进行ECB加密</span></span><br><span class="line">	<span class="built_in">print</span> plain</span><br><span class="line">  	<span class="comment"># 加密后 存入密文数组 	</span></span><br><span class="line">	cipher_arr.append(cipher.encrypt(plain[<span class="number">0</span>]))</span><br><span class="line">	cipher_txt += cipher_arr[<span class="number">0</span>]</span><br><span class="line">	</span><br><span class="line">  	<span class="comment"># cipher_txt = [cipher_arr[i]] 	</span></span><br><span class="line">  	<span class="comment"># 上一个密文 作为 下一个密文的密钥key进行加密</span></span><br><span class="line">  	<span class="comment"># key0 为第一组的密文 即 key0 = cipher[0:32]</span></span><br><span class="line">	<span class="comment"># 然后以 前一个 cipher_arr[i-1]作为key 进行ecb加密</span></span><br><span class="line">	<span class="comment">#   cipher_arr[i-1] ^ cipher_arr[i]</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(plain)):</span><br><span class="line">		cipher = AES.new(cipher_arr[i-<span class="number">1</span>], AES.MODE_ECB, <span class="string">&quot;&quot;</span>)</span><br><span class="line">		cipher_arr.append(cipher.encrypt(plain[i]))</span><br><span class="line">		cipher_txt += cipher_arr[i]</span><br><span class="line">	<span class="keyword">return</span> cipher_txt</span><br><span class="line">	</span><br><span class="line"><span class="comment"># 生成256位的随机整数	</span></span><br><span class="line">key = random.getrandbits(<span class="number">256</span>)</span><br><span class="line">key = long_to_bytes(key)</span><br><span class="line"></span><br><span class="line">s = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	s = f.read()</span><br><span class="line">	f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 密文写入到flag_cipher 是已知项</span></span><br><span class="line"><span class="comment"># 长度为 6A0h = 1696</span></span><br><span class="line"><span class="comment"># 1696 / 32 = 53组</span></span><br><span class="line"><span class="comment"># 由于上一个密文作为key 参与下一次密文加密 所以长度都相同</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag_cipher&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	f.write(MyOwnCBC(key, s))</span><br><span class="line">	f.close()</span><br></pre></td></tr></table></figure>
+
+<p>plain = [plain[i:i+32] for i in range(0, len(plain), 32)] # 32位一组</p>
+<p>第一次密文 作为密钥key0参与ECB加密  key = cipher[:32]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag_cipher&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="comment"># print(len(fp.read()))</span></span><br><span class="line">    cipher = fp.read()</span><br><span class="line">    fp.close()</span><br><span class="line"></span><br><span class="line">key0 = cipher[:<span class="number">32</span>]</span><br><span class="line"><span class="built_in">print</span>(key0)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">MyOwnCBC</span>(<span class="params">key0,cipher</span>):</span><br><span class="line">    cipher = [cipher[i:i + <span class="number">32</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(cipher), <span class="number">32</span>)]</span><br><span class="line">    m = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    tmpkey = key0</span><br><span class="line">	<span class="comment"># 上一次的密文作为key参与下一次ECB</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(cipher)):</span><br><span class="line">        aes = AES.new(tmpkey,AES.MODE_ECB)</span><br><span class="line">        m += aes.decrypt(cipher[i])</span><br><span class="line">        tmpkey = cipher[i]</span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(MyOwnCBC(key0,cipher))</span><br><span class="line"><span class="comment">#b&#x27;\xe5\xdf\x94sJ\xc2\xcd\x04\xeb\xb7\xcf\x05(\xbe\x98\\\xe9\xc3^\x1f!\xfb\xea6\xdac\x1f\xfe\x901\xbb\x13&#x27;</span></span><br><span class="line"><span class="comment">#b&quot;mode of operation is an algorithm that uses a block cipher to provide an information service such as confidentiality or authenticity. A block cipher by itself is only suitable for the secure cryptographic transformation (encryption or decryption) of one fixed-length group of bits called a block. A mode of operation describes how to repeatedly apply a cipher&#x27;s single-block operation to securely transform amounts of data larger than a block.\n\nMost modes require a unique binary sequence, often called an initialization vector (IV), for each encryption operation. The IV has to be non-repeating and, for some modes, random as well. The initialization vector is used to ensure distinct ciphertexts are produced even when the same plaintext is encrypted multiple times independently with the same key. Block ciphers have one or more block size(s), but during transformation the block size is always fixed. Block cipher modes operate on whole blocks and require that the last part of the data be padded to a full block if it is smaller than the current block size. There are, however, modes that do not require padding because they effectively use a block cipher as a stream cipher.\n\nHistorically, encryption modes have been studied extensively in regard to their error propagation properties under various scenarios of data modification. Later development regarded integrity protection as an entirely separate cryptographic goal. Some modern modes of operation combine confidentiality and authenticity in an efficient way, and are known as authenticated encryption modes.\n\nAh you found it~ afctf&#123;Don&#x27;t_be_fooled_by_yourself&#125;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-253884.htm">https://bbs.kanxue.com/thread-253884.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/3239.html">https://www.cxyxiaowu.com/3239.html</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"></i><i class="fa fa-tag"></i> CTF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/undefined/" rel="prev" title="MoeCTF_WriteUp">
+      <i class="fa fa-chevron-left"></i> MoeCTF_WriteUp
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">AES基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5"><span class="nav-number">2.1.</span> <span class="nav-text">密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A1%AB%E5%85%85"><span class="nav-number">2.2.</span> <span class="nav-text">填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ECB%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">ECB模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CBC%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.2.</span> <span class="nav-text">CBC模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">AES加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AES%E5%85%B7%E4%BD%93%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">AES具体加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0%EF%BC%88AddRoundKey%EF%BC%89"><span class="nav-number">3.1.1.</span> <span class="nav-text">轮密钥加（AddRoundKey）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E6%9B%BF%E6%8D%A2%EF%BC%88SubBytes%EF%BC%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">字节替换（SubBytes）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%8C%E4%BD%8D%E7%A7%BB%EF%BC%88ShiftRows%EF%BC%89"><span class="nav-number">3.1.3.</span> <span class="nav-text">行位移（ShiftRows）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E6%B7%B7%E6%B7%86%EF%BC%88MixColumns%EF%BC%89"><span class="nav-number">3.1.4.</span> <span class="nav-text">列混淆（MixColumns）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES-ECB%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">AES-ECB模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES-CBC%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">AES-CBC模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">加密过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text">解密过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CTF%E4%B8%AD%E7%9A%84AES%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">CTF中的AES题目分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-BabyAES"><span class="nav-number">6.1.</span> <span class="nav-text">1.BabyAES</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2020%E5%B9%B4%E7%AC%AC%E4%B8%89%E5%B1%8A%E5%AE%89%E6%B4%B5%E6%9D%AF-easyaes"><span class="nav-number">6.2.</span> <span class="nav-text">2.[2020年第三届安洵杯] easyaes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-aes"><span class="nav-number">6.3.</span> <span class="nav-text">3.aes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-moectf-ez-cbc"><span class="nav-number">6.4.</span> <span class="nav-text">4.moectf ez_cbc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-moectf-ez-chain"><span class="nav-number">6.5.</span> <span class="nav-text">5.moectf ez_chain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Afctf-MyOwnCBC"><span class="nav-number">6.6.</span> <span class="nav-text">6.Afctf MyOwnCBC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">843k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">12:46</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共197.1k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
