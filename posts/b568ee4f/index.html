@@ -41,11 +41,29 @@
 <meta property="og:url" content="http://mamor5409.github.io/posts/b568ee4f/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/10.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/11.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/13.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/14.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/15.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/16.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b568ee4f/17.png">
 <meta property="article:published_time" content="2024-01-11T05:44:11.000Z">
-<meta property="article:modified_time" content="2024-01-11T05:45:00.157Z">
+<meta property="article:modified_time" content="2024-01-11T08:22:19.901Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/b568ee4f/1.png">
 
 <link rel="canonical" href="http://mamor5409.github.io/posts/b568ee4f/">
 
@@ -247,7 +265,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-11 13:44:11 / 修改时间：13:45:00" itemprop="dateCreated datePublished" datetime="2024-01-11T13:44:11+08:00">2024-01-11</time>
+              <time title="创建时间：2024-01-11 13:44:11 / 修改时间：16:22:19" itemprop="dateCreated datePublished" datetime="2024-01-11T13:44:11+08:00">2024-01-11</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,14 +290,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
+              <span>17k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
+              <span>16 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -359,11 +377,11 @@
 <p>在CTF中比较常见的为<strong>ECB模式</strong>和<strong>CBC模式</strong>，都属于分组密码算法（分组密码算法有四种模式：CBC/ECB/CFB/OCB），主要介绍下ECB模式和CBC模式。</p>
 <h5 id="ECB模式"><a href="#ECB模式" class="headerlink" title="ECB模式"></a>ECB模式</h5><p>ECB模式(电话本)，依次出来一组明文分块，每次使用相同的密钥加密。</p>
 <p>其加密模式如下所示，如果加密的明文块内容相同，那么得到的密文块也就会相同，相对来说不够安全，只适用于明文较短时。</p>
-<p>![image-20240111103200415](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103200415.png)</p>
+<p><img src="/posts/b568ee4f/1.png"></p>
 <h5 id="CBC模式"><a href="#CBC模式" class="headerlink" title="CBC模式"></a>CBC模式</h5><p>CBC模式(密文分组链接)，一次处理一组明文分块，每次使用相同的密钥加密。CBC模式主要引用了一个初始化向量(IV)来加强密码的随机性，保证相同明文通过相同密钥的加密结果不同。</p>
-<p>![image-20240111100913668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100913668.png)</p>
+<p><img src="/posts/b568ee4f/2.png"></p>
 <h3 id="AES加密流程"><a href="#AES加密流程" class="headerlink" title="AES加密流程"></a>AES加密流程</h3><p>简要步骤如下图所示：</p>
-<p>![image-20240111095635068](/Users/mamor/Library/Application Support/typora-user-images/image-20240111095635068.png)</p>
+<p><img src="/posts/b568ee4f/3.png"></p>
 <p>1.将明文按照128bit进行分组，拆分次若干个明文块；</p>
 <p>2.按照选择的填充模式对最后一块明文块进行填充；</p>
 <p>3.每个明文块利用AES加密器和密钥进行加密，得到对应的密文块；</p>
@@ -371,7 +389,7 @@
 <h4 id="AES具体加密流程"><a href="#AES具体加密流程" class="headerlink" title="AES具体加密流程"></a>AES具体加密流程</h4><p>AES算法主要有四个操作处理，分别为 轮密钥加（AddRoundKey）、字节替换（SubBytes）、行位移（ShiftRows）、列混淆（MixColumns）。</p>
 <p>在进行加密前，明文和密钥都会分组为16字节(128bit)组成的块，按照自己的先后顺序，自上而下，从左往右依次排列。加密后的密文读取也是按照这个顺序。</p>
 <p>(以下多处图片均引自<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-253884.htm">https://bbs.kanxue.com/thread-253884.htm</a> 感谢这位师傅的文章 讲解的很详细)</p>
-<p>![image-20240111100221003](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100221003.png)</p>
+<p><img src="/posts/b568ee4f/4.png"></p>
 <p>AES算法在处理轮数上也有点不同，在最后一轮中少了列混淆处理。</p>
 <p>初始轮（1）</p>
 <ul>
@@ -390,37 +408,37 @@
 <li>行位移 （ShiftRows）</li>
 <li>轮密钥加（AddRoundKey）</li>
 </ul>
-<p>![image-20240111100348613](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100348613.png)</p>
+<p><img src="/posts/b568ee4f/5.png"></p>
 <h5 id="轮密钥加（AddRoundKey）"><a href="#轮密钥加（AddRoundKey）" class="headerlink" title="轮密钥加（AddRoundKey）"></a>轮密钥加（AddRoundKey）</h5><p>根据传入的轮数 将状态矩阵与对应的W[i]异或，该过程中有两个输入参数，分别为明文和子密钥k  都是128位(bit) [16字节]。</p>
-<p>![image-20240111100439688](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100439688.png)</p>
+<p><img src="/posts/b568ee4f/6.png"></p>
 <h5 id="字节替换（SubBytes）"><a href="#字节替换（SubBytes）" class="headerlink" title="字节替换（SubBytes）"></a>字节替换（SubBytes）</h5><p>AES字节替换  简单说就是一个<strong>查表操作</strong> 。在AES中定义了一个S盒和 逆S盒</p>
-<p>![image-20240111100520753](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100520753.png)</p>
-<p>![image-20240111100529234](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100529234.png)</p>
-<p>![image-20240111100548783](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100548783.png)</p>
+<p><img src="/posts/b568ee4f/7.png"></p>
+<p><img src="/posts/b568ee4f/8.png"></p>
+<p><img src="/posts/b568ee4f/9.png"></p>
 <p>如上图 a[0,0]是 0x12  查s盒  [1,2]处 得到 0xC9；a[0,1]是 0xAB  查s盒 [A,B]处 也就是 [10,11] 得到  0x62。</p>
 <p>如果是逆s盒 那方法也是相同，以 0xC9为例， 查逆s盒 [C,9] 即 [13,9]，对应表中值为 0x12 </p>
 <h5 id="行位移（ShiftRows）"><a href="#行位移（ShiftRows）" class="headerlink" title="行位移（ShiftRows）"></a>行位移（ShiftRows）</h5><p>行位移  将输入的数据作为一个4x4矩阵进行处理  可以理解为 左循环位移 操作</p>
 <p>第一行保持不变，第二行左移1字节 ，第三行左移2字节，第四行左移3字节</p>
-<p>![image-20240111100626447](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100626447.png)</p>
+<p><img src="/posts/b568ee4f/10.png"></p>
 <p>逆向行位移</p>
 <p>第一行保持不变，第二行右移1字节，第三行右移2字节，第四行右移3字节</p>
-<p>![image-20240111100655484](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100655484.png)</p>
+<p><img src="/posts/b568ee4f/11.png"></p>
 <h5 id="列混淆（MixColumns）"><a href="#列混淆（MixColumns）" class="headerlink" title="列混淆（MixColumns）"></a>列混淆（MixColumns）</h5><p>列混合变换就是矩阵相乘，行位移后的状态矩阵和修补矩阵(fixed matrix) 做矩阵相乘，得出输出列。</p>
-<p>![image-20240111100738668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100738668.png)</p>
+<p><img src="/posts/b568ee4f/12.png"></p>
 <p>逆向列混淆</p>
 <p>在解密的逆向列混淆中 与正向列混淆的 左乘矩阵不同，互为逆矩阵。【即 数据矩阵同时乘这两个矩阵后不会发生变化】</p>
-<p>![image-20240111100750801](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100750801.png)</p>
-<h3 id="AES-ECB模式"><a href="#AES-ECB模式" class="headerlink" title="AES-ECB模式"></a>AES-ECB模式</h3><p>![image-20240111103200415](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103200415.png)</p>
+<p><img src="/posts/b568ee4f/13.png"></p>
+<h3 id="AES-ECB模式"><a href="#AES-ECB模式" class="headerlink" title="AES-ECB模式"></a>AES-ECB模式</h3><p><img src="/posts/b568ee4f/14.png"></p>
 <p>1.明文经过填充后，分为不同的组block，以组的方式对数据进行处理</p>
 <p>2.密钥Key对明文块进行块加密，得到密文块</p>
 <p>3.密文块拼接后得到加密后的密文</p>
-<h3 id="AES-CBC模式"><a href="#AES-CBC模式" class="headerlink" title="AES-CBC模式"></a>AES-CBC模式</h3><h4 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h4><p>![image-20240111100913668](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100913668.png)</p>
+<h3 id="AES-CBC模式"><a href="#AES-CBC模式" class="headerlink" title="AES-CBC模式"></a>AES-CBC模式</h3><h4 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h4><p><img src="/posts/b568ee4f/15.png"></p>
 <p>1.明文经过填充后，分为不同的组block，以组的方式对数据进行处理</p>
 <p>2.初始化向量 IV 首先和第一组明文进行 XOR 得到中间值 Midvalue</p>
 <p>3.采用密钥Key对中间值Midvalue进行块加密，删除第一组加密的密文</p>
 <p>4.第一组加密的密文 作为第二组的初始化向量IV，参与第二组的明文异或操作</p>
 <p>5.依次进行块加密，最终将得到的每一块密文拼接成密文</p>
-<h4 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h4><p>![image-20240111100947893](/Users/mamor/Library/Application Support/typora-user-images/image-20240111100947893.png)</p>
+<h4 id="解密过程"><a href="#解密过程" class="headerlink" title="解密过程"></a>解密过程</h4><p><img src="/posts/b568ee4f/16.png"></p>
 <ol>
 <li>将密文进行分组，第一组得到的是初始化向量，从第二组开始才是真正的密文</li>
 <li>使用加密密钥Key对密文的第一组进行解密，得到中间值Midvalue</li>
@@ -458,7 +476,7 @@
 <p>= bytes(2 * chr (2) ) -&gt; 0x02 0x02</p>
 <p>3.iv = flag[5:-1] 即flag{iv} 求出iv即flag</p>
 <p>4.已知明文后21字节 根据分组 每组16字节 所以已知最后一块明文 及 倒数第二块后5字节明文</p>
-<p>![image-20240111103759978](/Users/mamor/Library/Application Support/typora-user-images/image-20240111103759978.png)</p>
+<p><img src="/posts/b568ee4f/17.png"></p>
 <p>在CBC中 与ECB相比 多的部分为IV 异或一步</p>
 <p>密文 ^ key (AES_ECB)  ^ IV → 明文</p>
 <p>最后一块的明文已知，key 可通过爆破后三位</p>
@@ -506,8 +524,6 @@
 <p>plain = [plain[i:i+32] for i in range(0, len(plain), 32)] # 32位一组</p>
 <p>第一次密文 作为密钥key0参与ECB加密  key = cipher[:32]</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag_cipher&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    <span class="comment"># print(len(fp.read()))</span></span><br><span class="line">    cipher = fp.read()</span><br><span class="line">    fp.close()</span><br><span class="line"></span><br><span class="line">key0 = cipher[:<span class="number">32</span>]</span><br><span class="line"><span class="built_in">print</span>(key0)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">MyOwnCBC</span>(<span class="params">key0,cipher</span>):</span><br><span class="line">    cipher = [cipher[i:i + <span class="number">32</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(cipher), <span class="number">32</span>)]</span><br><span class="line">    m = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    tmpkey = key0</span><br><span class="line">	<span class="comment"># 上一次的密文作为key参与下一次ECB</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="built_in">len</span>(cipher)):</span><br><span class="line">        aes = AES.new(tmpkey,AES.MODE_ECB)</span><br><span class="line">        m += aes.decrypt(cipher[i])</span><br><span class="line">        tmpkey = cipher[i]</span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(MyOwnCBC(key0,cipher))</span><br><span class="line"><span class="comment">#b&#x27;\xe5\xdf\x94sJ\xc2\xcd\x04\xeb\xb7\xcf\x05(\xbe\x98\\\xe9\xc3^\x1f!\xfb\xea6\xdac\x1f\xfe\x901\xbb\x13&#x27;</span></span><br><span class="line"><span class="comment">#b&quot;mode of operation is an algorithm that uses a block cipher to provide an information service such as confidentiality or authenticity. A block cipher by itself is only suitable for the secure cryptographic transformation (encryption or decryption) of one fixed-length group of bits called a block. A mode of operation describes how to repeatedly apply a cipher&#x27;s single-block operation to securely transform amounts of data larger than a block.\n\nMost modes require a unique binary sequence, often called an initialization vector (IV), for each encryption operation. The IV has to be non-repeating and, for some modes, random as well. The initialization vector is used to ensure distinct ciphertexts are produced even when the same plaintext is encrypted multiple times independently with the same key. Block ciphers have one or more block size(s), but during transformation the block size is always fixed. Block cipher modes operate on whole blocks and require that the last part of the data be padded to a full block if it is smaller than the current block size. There are, however, modes that do not require padding because they effectively use a block cipher as a stream cipher.\n\nHistorically, encryption modes have been studied extensively in regard to their error propagation properties under various scenarios of data modification. Later development regarded integrity protection as an entirely separate cryptographic goal. Some modern modes of operation combine confidentiality and authenticity in an efficient way, and are known as authenticated encryption modes.\n\nAh you found it~ afctf&#123;Don&#x27;t_be_fooled_by_yourself&#125;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n&quot;</span></span><br></pre></td></tr></table></figure>
-
-
 
 
 
@@ -582,7 +598,10 @@
     <a href="/posts/undefined/" rel="prev" title="MoeCTF_WriteUp">
       <i class="fa fa-chevron-left"></i> MoeCTF_WriteUp
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/bb5a57d9/" rel="next" title="NSSCrypto-01">
+      NSSCrypto-01 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -657,20 +676,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-count">165</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -714,12 +733,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">843k</span>
+    <span title="站点总字数">897k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">12:46</span>
+    <span title="站点阅读时长">13:36</span>
 </div>
 
 <!--
@@ -730,7 +749,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共197.1k字</span>
+  <span class="post-count">博客全站共201.5k字</span>
 </div>
 -->
         
