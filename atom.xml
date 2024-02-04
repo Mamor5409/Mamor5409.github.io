@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-03T07:30:37.004Z</updated>
+  <updated>2024-02-04T00:52:10.790Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,21 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>NSSCrypto-01</title>
-    <link href="http://mamor5409.github.io/posts/bb5a57d9/"/>
-    <id>http://mamor5409.github.io/posts/bb5a57d9/</id>
-    <published>2024-02-03T03:35:22.000Z</published>
-    <updated>2024-02-03T07:30:37.004Z</updated>
+    <title>NSSCrypto-02</title>
+    <link href="http://mamor5409.github.io/posts/22530663/"/>
+    <id>http://mamor5409.github.io/posts/22530663/</id>
+    <published>2024-02-04T00:52:10.000Z</published>
+    <updated>2024-02-04T00:52:10.790Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
-    <category term="CTF Crypto" scheme="http://mamor5409.github.io/categories/CTF-Crypto/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NSSCTF Crypto 01</title>
+    <link href="http://mamor5409.github.io/posts/bb5a57d9/"/>
+    <id>http://mamor5409.github.io/posts/bb5a57d9/</id>
+    <published>2024-02-03T03:35:22.000Z</published>
+    <updated>2024-02-04T00:51:48.144Z</updated>
     
     
-    <category term="CTF Crypto" scheme="http://mamor5409.github.io/tags/CTF-Crypto/"/>
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="CTF,Crypto" scheme="http://mamor5409.github.io/categories/CTF-Crypto/"/>
+    
+    
+    <category term="CTF,Crypto" scheme="http://mamor5409.github.io/tags/CTF-Crypto/"/>
     
   </entry>
   
@@ -346,25 +361,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>APC注入_NtTestAlert</title>
-    <link href="http://mamor5409.github.io/posts/5788eae8/"/>
-    <id>http://mamor5409.github.io/posts/5788eae8/</id>
-    <published>2022-12-11T01:36:18.000Z</published>
-    <updated>2022-12-11T01:50:00.321Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
     
   </entry>
   
