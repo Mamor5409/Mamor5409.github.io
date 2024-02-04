@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-04T03:52:41.104Z</updated>
+  <updated>2024-02-04T04:00:29.401Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>DES子密钥逆推初始密钥</title>
+    <link href="http://mamor5409.github.io/posts/9047dc7c/"/>
+    <id>http://mamor5409.github.io/posts/9047dc7c/</id>
+    <published>2024-02-04T03:58:30.000Z</published>
+    <updated>2024-02-04T04:00:29.401Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
+    
+  </entry>
+  
+  <entry>
     <title>DES加密</title>
     <link href="http://mamor5409.github.io/posts/64eed679/"/>
     <id>http://mamor5409.github.io/posts/64eed679/</id>
     <published>2024-02-04T03:40:20.000Z</published>
-    <updated>2024-02-04T03:52:41.104Z</updated>
+    <updated>2024-02-04T03:53:01.248Z</updated>
     
     
     <summary type="html"> </summary>
@@ -40,7 +59,7 @@
     <link href="http://mamor5409.github.io/posts/45673d72/"/>
     <id>http://mamor5409.github.io/posts/45673d72/</id>
     <published>2024-02-04T01:17:40.000Z</published>
-    <updated>2024-02-04T01:25:42.516Z</updated>
+    <updated>2024-02-04T03:57:37.594Z</updated>
     
     
     <summary type="html"> </summary>
@@ -340,25 +359,6 @@
     <id>http://mamor5409.github.io/posts/7a4de097/</id>
     <published>2022-12-11T01:51:18.000Z</published>
     <updated>2022-12-11T02:10:41.831Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>进程伪装</title>
-    <link href="http://mamor5409.github.io/posts/a8a7b84c/"/>
-    <id>http://mamor5409.github.io/posts/a8a7b84c/</id>
-    <published>2022-12-11T01:51:05.000Z</published>
-    <updated>2022-12-11T02:10:41.832Z</updated>
     
     
     <summary type="html"> </summary>
