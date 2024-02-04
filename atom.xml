@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-04T00:52:10.790Z</updated>
+  <updated>2024-02-04T01:09:38.616Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,17 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>NSSCrypto-02</title>
-    <link href="http://mamor5409.github.io/posts/22530663/"/>
-    <id>http://mamor5409.github.io/posts/22530663/</id>
-    <published>2024-02-04T00:52:10.000Z</published>
-    <updated>2024-02-04T00:52:10.790Z</updated>
+    <title>密码学大佬Blog记录</title>
+    <link href="http://mamor5409.github.io/posts/aee69506/"/>
+    <id>http://mamor5409.github.io/posts/aee69506/</id>
+    <published>2024-02-04T01:02:07.000Z</published>
+    <updated>2024-02-04T01:09:38.616Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NSSCTF Crypto 02</title>
+    <link href="http://mamor5409.github.io/posts/22530663/"/>
+    <id>http://mamor5409.github.io/posts/22530663/</id>
+    <published>2024-02-04T00:52:10.000Z</published>
+    <updated>2024-02-04T01:13:01.408Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
@@ -36,17 +59,17 @@
     <link href="http://mamor5409.github.io/posts/bb5a57d9/"/>
     <id>http://mamor5409.github.io/posts/bb5a57d9/</id>
     <published>2024-02-03T03:35:22.000Z</published>
-    <updated>2024-02-04T00:51:48.144Z</updated>
+    <updated>2024-02-04T00:57:17.570Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
-    <category term="CTF,Crypto" scheme="http://mamor5409.github.io/categories/CTF-Crypto/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
     
     
-    <category term="CTF,Crypto" scheme="http://mamor5409.github.io/tags/CTF-Crypto/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
@@ -346,21 +369,6 @@
     
     
     <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码混淆</title>
-    <link href="http://mamor5409.github.io/posts/3497b4c5/"/>
-    <id>http://mamor5409.github.io/posts/3497b4c5/</id>
-    <published>2022-12-11T01:36:28.000Z</published>
-    <updated>2022-12-11T01:50:00.325Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
