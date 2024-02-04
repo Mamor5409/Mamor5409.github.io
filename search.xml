@@ -239,6 +239,109 @@
       </tags>
   </entry>
   <entry>
+    <title>DES加密</title>
+    <url>/posts/64eed679/</url>
+    <content><![CDATA[<h1 id="DES算法简介"><a href="#DES算法简介" class="headerlink" title="DES算法简介"></a>DES算法简介</h1><p>DES   是一种典型的分组密码，【将固定长度的明文通过一系列复杂的操作变成同样长度密文的算法】</p>
+<p>在运行一次DES算法后 只能对<strong>64位长度</strong>的数据进行加密操作，所以不适用于对大数据进行处理。</p>
+<p>对称加密算法 使用相同的密码进行加密与解密。</p>
+<p>明文：64位</p>
+<p>密文：64位</p>
+<p>密钥：64位【实际 <strong>56</strong> 位 每8位中含一位奇偶校验位 8,16,24…64】</p>
+<p>使用Feistel框架，采用16轮循环加密</p>
+<h1 id="DES算法原理"><a href="#DES算法原理" class="headerlink" title="DES算法原理"></a>DES算法原理</h1><h2 id="Feistel网络"><a href="#Feistel网络" class="headerlink" title="Feistel网络"></a>Feistel网络</h2><p>Feistel cipher 也叫做Luby–Rackoff分组密码 DES就使用的该方法，加密和解密操作相似，需要进行多轮的加解密操作。</p>
+<p>在Feistel网络中 加密的各个步骤称为 轮 ， 整个加密过程就是进行若干轮的循环。</p>
+<p><img src="/posts/64eed679/1.png"></p>
+<p>一轮过程具体如下：</p>
+<p>1.将输入的64bit 分成两组32bit【记作左侧、右侧】</p>
+<p>2.将右侧数据直接发送到右侧输出中</p>
+<p>3.将右侧数据发送给轮函数，轮函数通过子密钥和右侧数据 进行运算处理生成加密的比特序列</p>
+<p>4.将处理后的数据与左侧数据进行XOR，将加密结果作为左侧输出数据</p>
+<p>从上图可看出，右侧数据并没有进行加密，因此需要用不同的子密钥进行若干轮处理，并将每次处理前左右侧数据对调。【最后一轮中不再进行左右侧数据对调】</p>
+<h2 id="DES加密流程"><a href="#DES加密流程" class="headerlink" title="DES加密流程"></a>DES加密流程</h2><p>DES加密流程如下图所示：</p>
+<p><img src="/posts/64eed679/2.png"></p>
+<p>简要概括为：</p>
+<p>1.将明文进行 初始置换IP</p>
+<p>2.进行16轮加密处理</p>
+<p>3.进行 逆初始置换IP-1 ，输出密文</p>
+<p>-—————————————————–</p>
+<ul>
+<li>明文处理阶段</li>
+</ul>
+<p>明文初始置换【64位】 置换后明文分2组【32位】</p>
+<ul>
+<li><p>子密钥生成阶段</p>
+</li>
+<li><p>加密阶段</p>
+</li>
+<li><p>密文逆置换阶段</p>
+</li>
+</ul>
+<p>将上述操作的密文进行逆置换得到最终密文</p>
+<p>-—————————————————-</p>
+<p>具体流程如下：</p>
+<h3 id="初始置换"><a href="#初始置换" class="headerlink" title="初始置换"></a>初始置换</h3><p>IP置换 将输入的64位数据块重新组合，并分为L0 R0两组，每部分32位【实际分组中 前32位数据为L组 后32位数据位R组】</p>
+<p>初始置换表如下：</p>
+<p><img src="/posts/64eed679/3.png"></p>
+<p>首先将64位明文数据 按从左到右，从上到下排列为8x8矩阵。</p>
+<p>0行0列出58 表示将第58位上的数值置换到0,0处的值  总共需要置换64次得到最终结果。</p>
+<h3 id="轮函数F"><a href="#轮函数F" class="headerlink" title="轮函数F"></a>轮函数F</h3><p>DES中</p>
+<p><img src="/posts/64eed679/4.png"></p>
+<p>可简单概括为如下步骤：</p>
+<p>1.将32位 R组进行拓展置换，生成48位数据;</p>
+<p>2.将置换生成的48位数据与48位的子密钥进行异或，得到48位运算结果;</p>
+<p>3.将48位运算结果分成8组，每组6位，进行s盒置换得到4位的数据;</p>
+<p>4.将8个4bit的数据合并得到32位数据;</p>
+<p>5.将32位数据进行P置换 最终得到32位处理结果。</p>
+<h4 id="拓展置换"><a href="#拓展置换" class="headerlink" title="拓展置换"></a>拓展置换</h4><p>通过拓展置换，将输入数据长度从32位【4x8】变为48位【6x8】，在两边分别加一列拓展的重复数据。</p>
+<p><img src="/posts/64eed679/5.png"></p>
+<h4 id="S盒置换"><a href="#S盒置换" class="headerlink" title="S盒置换"></a>S盒置换</h4><p>在s盒置换之前需要将异或运算的结果进行分组【48位】，从前往后分成8组，每组6bit数据，每组对应一个S盒表。【s1~s8盒表内容如下】</p>
+<p><img src="/posts/64eed679/6.png"></p>
+<p><img src="/posts/64eed679/7.png"></p>
+<p>都是由 4x16矩阵构成，所以可以以4bit来表示。</p>
+<p>在拓展置换后的数中，第一个bit称为MSB，最后一bit称为为LSB，第一个bit权重最高，中间4bit为原始数据，最后一个bit权重最低。</p>
+<p>MSB位和LSB位构成的二进制表示s盒中行号，中间原始数据的二进制表示列号</p>
+<p><img src="/posts/64eed679/8.png"></p>
+<h4 id="P置换"><a href="#P置换" class="headerlink" title="P置换"></a>P置换</h4><p>P置换和初始置换大似相同</p>
+<p><img src="/posts/64eed679/9.png"></p>
+<p>最终输出 32位数据</p>
+<h3 id="逆初始置换"><a href="#逆初始置换" class="headerlink" title="逆初始置换"></a>逆初始置换</h3><p>F函数输出的32位数据 与 L[i]组数据进行按位异或运算，得到32位运算结果，最后把结果赋值给R[i+1]。R[i]组32位数据会直接赋值给L[i+1]【不做任何改变】</p>
+<p>这样就完成了一轮DES算法。经过16轮处理后得到最后一组数据L[16]、R[16]。</p>
+<p>R[i+1] = L[i] ^ F(R[i],K[i])</p>
+<p>L[i+1] = R[i]</p>
+<p>R[16]作为前32位数据，L[16]作为后32位数据 合并得到64位数据，然后进行逆初始值置值处理【和初始置换相似】 最终得到加密的密文。</p>
+<p><img src="/posts/64eed679/10.png"></p>
+<h2 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h2><p>输入密钥64位【实际56位，根据置换表得到密钥 28位x2】</p>
+<p><img src="/posts/64eed679/11.png"></p>
+<h3 id="PC-1置换"><a href="#PC-1置换" class="headerlink" title="PC-1置换"></a>PC-1置换</h3><p><img src="/posts/64eed679/12.png"></p>
+<p>PC-1【PERMUTED CHOICE 1 】置换表是一个 7x8矩阵，</p>
+<p>前28位分为一组记作C组，后28位为另一组记作 D组。</p>
+<h3 id="左移处理"><a href="#左移处理" class="headerlink" title="左移处理"></a>左移处理</h3><p>当i=1,2,9,16轮时，C、D两组向左移一位，其他轮C、D两组向左移2位。</p>
+<p><img src="/posts/64eed679/13.png"></p>
+<h3 id="PC-2置换"><a href="#PC-2置换" class="headerlink" title="PC-2置换"></a>PC-2置换</h3><p>在进行PC-2置换前，将左移后的C D两组数据【28bit】合并，形成56bit的数据块，PC-2 置换表是一个 6x8矩阵，经过PC-2置换后会变成一个48bit的子密钥。</p>
+<p><img src="/posts/64eed679/14.png"></p>
+<h1 id="3DES"><a href="#3DES" class="headerlink" title="3DES"></a>3DES</h1><p>参考 <a href="https://blog.csdn.net/qq_41137136/article/details/86416849">https://blog.csdn.net/qq_41137136/article/details/86416849</a></p>
+<p>DES加密的一种模式，基于DES的对称加密算法，使用三条不同的64【56】位密钥对数据进行三次加密【56x3=168】。</p>
+<p>设Ek()和Dk()代表DES算法的加密和解密过程，K代表DES算法使用的<a href="https://so.csdn.net/so/search?q=%E5%AF%86%E9%92%A5&spm=1001.2101.3001.7020">密钥</a>，P代表明文，C代表密表，这样，</p>
+<p>　　3DES加密过程为：C=E(K1,D(K2,E(K1,P))，</p>
+<p>　　3DES解密过程为：P=D(K1,E(K2,D(K1,C))</p>
+<p>K1、K2、K3决定了算法的安全性，若三个密钥互不相同，本质上就相当于用一个长为168位的密钥进行加密。多年来，它在对付强力攻击时是比较安全的。若数据对安全性要求不那么高，K1可以等于K3。在这种情况下，密钥的有效长度为112位。</p>
+<p><img src="/posts/64eed679/15.png"></p>
+<p><img src="/posts/64eed679/16.png"></p>
+<p>如果三个密钥都相同，则3DES等价于DES;</p>
+<p>如果有两个不同的密钥，则这种3DES称为DES-EDE2;</p>
+<p>如果有三个不同的密钥，则这种3DES称为DES-EDE3.【EDE表示加密-解密-加密的过程】</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://bbs.kanxue.com/thread-269299.htm">https://bbs.kanxue.com/thread-269299.htm</a></p>
+<p><a href="https://bbs.kanxue.com/thread-253558.htm">https://bbs.kanxue.com/thread-253558.htm</a></p>
+<p><a href="https://www.xuenixiang.com/thread-2477-1-1.html">https://www.xuenixiang.com/thread-2477-1-1.html</a></p>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NSSCTF Crypto 01</title>
     <url>/posts/bb5a57d9/</url>
     <content><![CDATA[<p>记录下近期在NSSCTF Crypto的刷题记录  …. 密码学新手菜鸡简单记录。数学基础不是很好 还在慢慢补……</p>
@@ -437,109 +540,6 @@
 
 
 
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DES加密</title>
-    <url>/posts/64eed679/</url>
-    <content><![CDATA[<h1 id="DES算法简介"><a href="#DES算法简介" class="headerlink" title="DES算法简介"></a>DES算法简介</h1><p>DES   是一种典型的分组密码，【将固定长度的明文通过一系列复杂的操作变成同样长度密文的算法】</p>
-<p>在运行一次DES算法后 只能对<strong>64位长度</strong>的数据进行加密操作，所以不适用于对大数据进行处理。</p>
-<p>对称加密算法 使用相同的密码进行加密与解密。</p>
-<p>明文：64位</p>
-<p>密文：64位</p>
-<p>密钥：64位【实际 <strong>56</strong> 位 每8位中含一位奇偶校验位 8,16,24…64】</p>
-<p>使用Feistel框架，采用16轮循环加密</p>
-<h1 id="DES算法原理"><a href="#DES算法原理" class="headerlink" title="DES算法原理"></a>DES算法原理</h1><h2 id="Feistel网络"><a href="#Feistel网络" class="headerlink" title="Feistel网络"></a>Feistel网络</h2><p>Feistel cipher 也叫做Luby–Rackoff分组密码 DES就使用的该方法，加密和解密操作相似，需要进行多轮的加解密操作。</p>
-<p>在Feistel网络中 加密的各个步骤称为 轮 ， 整个加密过程就是进行若干轮的循环。</p>
-<p><img src="/posts/64eed679/1.png"></p>
-<p>一轮过程具体如下：</p>
-<p>1.将输入的64bit 分成两组32bit【记作左侧、右侧】</p>
-<p>2.将右侧数据直接发送到右侧输出中</p>
-<p>3.将右侧数据发送给轮函数，轮函数通过子密钥和右侧数据 进行运算处理生成加密的比特序列</p>
-<p>4.将处理后的数据与左侧数据进行XOR，将加密结果作为左侧输出数据</p>
-<p>从上图可看出，右侧数据并没有进行加密，因此需要用不同的子密钥进行若干轮处理，并将每次处理前左右侧数据对调。【最后一轮中不再进行左右侧数据对调】</p>
-<h2 id="DES加密流程"><a href="#DES加密流程" class="headerlink" title="DES加密流程"></a>DES加密流程</h2><p>DES加密流程如下图所示：</p>
-<p><img src="/posts/64eed679/2.png"></p>
-<p>简要概括为：</p>
-<p>1.将明文进行 初始置换IP</p>
-<p>2.进行16轮加密处理</p>
-<p>3.进行 逆初始置换IP-1 ，输出密文</p>
-<p>-—————————————————–</p>
-<ul>
-<li>明文处理阶段</li>
-</ul>
-<p>明文初始置换【64位】 置换后明文分2组【32位】</p>
-<ul>
-<li><p>子密钥生成阶段</p>
-</li>
-<li><p>加密阶段</p>
-</li>
-<li><p>密文逆置换阶段</p>
-</li>
-</ul>
-<p>将上述操作的密文进行逆置换得到最终密文</p>
-<p>-—————————————————-</p>
-<p>具体流程如下：</p>
-<h3 id="初始置换"><a href="#初始置换" class="headerlink" title="初始置换"></a>初始置换</h3><p>IP置换 将输入的64位数据块重新组合，并分为L0 R0两组，每部分32位【实际分组中 前32位数据为L组 后32位数据位R组】</p>
-<p>初始置换表如下：</p>
-<p><img src="/posts/64eed679/3.png"></p>
-<p>首先将64位明文数据 按从左到右，从上到下排列为8x8矩阵。</p>
-<p>0行0列出58 表示将第58位上的数值置换到0,0处的值  总共需要置换64次得到最终结果。</p>
-<h3 id="轮函数F"><a href="#轮函数F" class="headerlink" title="轮函数F"></a>轮函数F</h3><p>DES中</p>
-<p><img src="/posts/64eed679/4.png"></p>
-<p>可简单概括为如下步骤：</p>
-<p>1.将32位 R组进行拓展置换，生成48位数据;</p>
-<p>2.将置换生成的48位数据与48位的子密钥进行异或，得到48位运算结果;</p>
-<p>3.将48位运算结果分成8组，每组6位，进行s盒置换得到4位的数据;</p>
-<p>4.将8个4bit的数据合并得到32位数据;</p>
-<p>5.将32位数据进行P置换 最终得到32位处理结果。</p>
-<h4 id="拓展置换"><a href="#拓展置换" class="headerlink" title="拓展置换"></a>拓展置换</h4><p>通过拓展置换，将输入数据长度从32位【4x8】变为48位【6x8】，在两边分别加一列拓展的重复数据。</p>
-<p><img src="/posts/64eed679/5.png"></p>
-<h4 id="S盒置换"><a href="#S盒置换" class="headerlink" title="S盒置换"></a>S盒置换</h4><p>在s盒置换之前需要将异或运算的结果进行分组【48位】，从前往后分成8组，每组6bit数据，每组对应一个S盒表。【s1~s8盒表内容如下】</p>
-<p><img src="/posts/64eed679/6.png"></p>
-<p><img src="/posts/64eed679/7.png"></p>
-<p>都是由 4x16矩阵构成，所以可以以4bit来表示。</p>
-<p>在拓展置换后的数中，第一个bit称为MSB，最后一bit称为为LSB，第一个bit权重最高，中间4bit为原始数据，最后一个bit权重最低。</p>
-<p>MSB位和LSB位构成的二进制表示s盒中行号，中间原始数据的二进制表示列号</p>
-<p><img src="/posts/64eed679/8.png"></p>
-<h4 id="P置换"><a href="#P置换" class="headerlink" title="P置换"></a>P置换</h4><p>P置换和初始置换大似相同</p>
-<p><img src="/posts/64eed679/9.png"></p>
-<p>最终输出 32位数据</p>
-<h3 id="逆初始置换"><a href="#逆初始置换" class="headerlink" title="逆初始置换"></a>逆初始置换</h3><p>F函数输出的32位数据 与 L[i]组数据进行按位异或运算，得到32位运算结果，最后把结果赋值给R[i+1]。R[i]组32位数据会直接赋值给L[i+1]【不做任何改变】</p>
-<p>这样就完成了一轮DES算法。经过16轮处理后得到最后一组数据L[16]、R[16]。</p>
-<p>R[i+1] = L[i] ^ F(R[i],K[i])</p>
-<p>L[i+1] = R[i]</p>
-<p>R[16]作为前32位数据，L[16]作为后32位数据 合并得到64位数据，然后进行逆初始值置值处理【和初始置换相似】 最终得到加密的密文。</p>
-<p><img src="/posts/64eed679/10.png"></p>
-<h2 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h2><p>输入密钥64位【实际56位，根据置换表得到密钥 28位x2】</p>
-<p><img src="/posts/64eed679/11.png"></p>
-<h3 id="PC-1置换"><a href="#PC-1置换" class="headerlink" title="PC-1置换"></a>PC-1置换</h3><p><img src="/posts/64eed679/12.png"></p>
-<p>PC-1【PERMUTED CHOICE 1 】置换表是一个 7x8矩阵，</p>
-<p>前28位分为一组记作C组，后28位为另一组记作 D组。</p>
-<h3 id="左移处理"><a href="#左移处理" class="headerlink" title="左移处理"></a>左移处理</h3><p>当i=1,2,9,16轮时，C、D两组向左移一位，其他轮C、D两组向左移2位。</p>
-<p><img src="/posts/64eed679/13.png"></p>
-<h3 id="PC-2置换"><a href="#PC-2置换" class="headerlink" title="PC-2置换"></a>PC-2置换</h3><p>在进行PC-2置换前，将左移后的C D两组数据【28bit】合并，形成56bit的数据块，PC-2 置换表是一个 6x8矩阵，经过PC-2置换后会变成一个48bit的子密钥。</p>
-<p><img src="/posts/64eed679/14.png"></p>
-<h1 id="3DES"><a href="#3DES" class="headerlink" title="3DES"></a>3DES</h1><p>参考 <a href="https://blog.csdn.net/qq_41137136/article/details/86416849">https://blog.csdn.net/qq_41137136/article/details/86416849</a></p>
-<p>DES加密的一种模式，基于DES的对称加密算法，使用三条不同的64【56】位密钥对数据进行三次加密【56x3=168】。</p>
-<p>设Ek()和Dk()代表DES算法的加密和解密过程，K代表DES算法使用的<a href="https://so.csdn.net/so/search?q=%E5%AF%86%E9%92%A5&spm=1001.2101.3001.7020">密钥</a>，P代表明文，C代表密表，这样，</p>
-<p>　　3DES加密过程为：C=E(K1,D(K2,E(K1,P))，</p>
-<p>　　3DES解密过程为：P=D(K1,E(K2,D(K1,C))</p>
-<p>K1、K2、K3决定了算法的安全性，若三个密钥互不相同，本质上就相当于用一个长为168位的密钥进行加密。多年来，它在对付强力攻击时是比较安全的。若数据对安全性要求不那么高，K1可以等于K3。在这种情况下，密钥的有效长度为112位。</p>
-<p><img src="/posts/64eed679/15.png"></p>
-<p><img src="/posts/64eed679/16.png"></p>
-<p>如果三个密钥都相同，则3DES等价于DES;</p>
-<p>如果有两个不同的密钥，则这种3DES称为DES-EDE2;</p>
-<p>如果有三个不同的密钥，则这种3DES称为DES-EDE3.【EDE表示加密-解密-加密的过程】</p>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://bbs.kanxue.com/thread-269299.htm">https://bbs.kanxue.com/thread-269299.htm</a></p>
-<p><a href="https://bbs.kanxue.com/thread-253558.htm">https://bbs.kanxue.com/thread-253558.htm</a></p>
-<p><a href="https://www.xuenixiang.com/thread-2477-1-1.html">https://www.xuenixiang.com/thread-2477-1-1.html</a></p>
 ]]></content>
       <categories>
         <category>Crypto</category>
