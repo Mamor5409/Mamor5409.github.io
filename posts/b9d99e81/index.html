@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Diffie-Hellman算法">
+<meta property="og:url" content="http://mamor5409.github.io/posts/b9d99e81/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b9d99e81/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b9d99e81/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/b9d99e81/3.png">
+<meta property="article:published_time" content="2024-02-04T05:59:06.000Z">
+<meta property="article:modified_time" content="2024-02-04T06:03:58.306Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="Crypto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/b9d99e81/1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/b9d99e81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Diffie-Hellman算法 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/b9d99e81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Diffie-Hellman算法
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-04 13:59:06 / 修改时间：14:03:58" itemprop="dateCreated datePublished" datetime="2024-02-04T13:59:06+08:00">2024-02-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考文章 <a target="_blank" rel="noopener" href="https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/">https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/</a></p>
+<h3 id="Diffie-Hellman算法"><a href="#Diffie-Hellman算法" class="headerlink" title="Diffie-Hellman算法"></a>Diffie-Hellman算法</h3><p>秘钥交换算法 是一种建立秘钥的方法，而不是加密方法，所以一般需要结合其他一种加密算法使用</p>
+<p>幂模运算</p>
+<p>整数b(底数)的e次方(指数) 除以正整数m(模) 所得的余数c 称为幂模</p>
+<p><img src="/posts/b9d99e81/1.png"></p>
+<h4 id="DHKE协议的过程"><a href="#DHKE协议的过程" class="headerlink" title="DHKE协议的过程"></a>DHKE协议的过程</h4><p>下面两个图相对很好理解</p>
+<p><img src="/posts/b9d99e81/2.png"></p>
+<p><img src="/posts/b9d99e81/3.png"></p>
+<p>原根： <a target="_blank" rel="noopener" href="https://blog.csdn.net/dreamzuora/article/details/52744471">https://blog.csdn.net/dreamzuora/article/details/52744471</a></p>
+<blockquote>
+<p>假设一个数 g 是P的原根，那么 g^i mod P 的结果两个不同，且有 g∈(1,P) i∈(1,P) 那么g可以称为P的一个原根</p>
+<p>即 g^i mod p ≠ g^j mod p (p为素数) 且 i≠j i,j∈(1,p-1) 则g为p的原根</p>
+</blockquote>
+<p>光滑数：可约数分解为小素数乘积的正整数</p>
+<p>一般来说 素数600位以上时，很难被破解。当素数较小时，存在暴力破解的风险</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p>My buddies Whitfield and Martin were trying to share a secret key between  themselves, and I was able to eavesdrop on their conversation. I bet I  could probably figure out their shared secret with a little math…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p = 69691</span><br><span class="line">g = 1001</span><br><span class="line">A = 17016</span><br><span class="line">B = 47643</span><br></pre></td></tr></table></figure>
+
+<p>Note: submit either the shared secret or the shared secret wrapped in utflag{}</p>
+<p>g^i mod p = A -&gt; i (b)</p>
+<p>g^i mod p = B -&gt; i （a)</p>
+<p>分别算出 A B的私钥i i取值在 1~p</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">K = B^a mod p = A ^ b mod p</span><br><span class="line"> </span><br><span class="line"><span class="built_in">pow</span>(B,a,p) <span class="built_in">pow</span>(A,b,p)</span><br><span class="line"> </span><br><span class="line">p=<span class="number">69691</span></span><br><span class="line">g=<span class="number">1001</span></span><br><span class="line">A=<span class="number">17016</span></span><br><span class="line">B=<span class="number">47643</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># g^i mod p  = A   -&gt; i</span></span><br><span class="line"><span class="comment"># g^i mod p = B   -&gt; i</span></span><br><span class="line"><span class="comment"># 分别算出 A B的私钥i    i取值在 1~p</span></span><br><span class="line"><span class="comment"># K = B^a mod p = A ^ b mod p</span></span><br><span class="line"><span class="comment"># K = pow(B,a,p)    K = pow(A,b,p)</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">pow</span>(g,i,p) == A :</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;a:&quot;</span>,i,<span class="string">&quot;\t K=&quot;</span>,<span class="built_in">pow</span>(B,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">pow</span>(g,i,p) == B:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;b:&quot;</span>,i,<span class="string">&quot;\t K=&quot;</span>,<span class="built_in">pow</span>(A,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">         </span><br><span class="line"><span class="comment"># a: 12552   K= 53919</span></span><br><span class="line"><span class="comment"># b: 7919    K= 53919</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="flag-exchange-【-这个还是不太懂-后面学明白了再回来看】"><a href="#flag-exchange-【-这个还是不太懂-后面学明白了再回来看】" class="headerlink" title="flag_exchange 【 这个还是不太懂 后面学明白了再回来看】"></a>flag_exchange 【 这个还是不太懂 后面学明白了再回来看】</h4><p>看完这道例题 就稍微有点印象了 当然不是完全懂 再看下对应的题目</p>
+<p>之前的moectf flag_exchange 也是使用该加密算法<code>         </code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> getrandbits</span><br><span class="line">  </span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> fs:</span><br><span class="line">    flag = fs.read().strip()</span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">diffie_hellman</span>(<span class="params">p, flag</span>):</span><br><span class="line">    alice_privKey = getrandbits(<span class="number">1024</span>)</span><br><span class="line">    alice_pubKey = <span class="built_in">pow</span>(<span class="number">7</span>, alice_privKey, p)</span><br><span class="line">    bob_privKey = getrandbits(<span class="number">1024</span>)</span><br><span class="line">    bob_pubKey = <span class="built_in">pow</span>(<span class="number">7</span>, bob_privKey, p)</span><br><span class="line">    <span class="comment"># aK =  7^ak mod p</span></span><br><span class="line">    <span class="comment"># bK =  7^bk mod p</span></span><br><span class="line">  </span><br><span class="line">    superkey = <span class="built_in">pow</span>(bob_pubKey, alice_privKey, p)</span><br><span class="line">    <span class="comment"># K = bK ^ ak mod p</span></span><br><span class="line">    m = <span class="built_in">int</span>.from_bytes(flag, <span class="string">&#x27;big&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> (m * superkey) % p, alice_pubKey, bob_pubKey</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># m*SK mod p    aK     bK</span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Callable</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chall</span>(<span class="params"><span class="built_in">input</span>:<span class="type">Callable</span>[[<span class="built_in">str</span>],<span class="literal">None</span>], <span class="built_in">print</span>:<span class="type">Callable</span>[[<span class="built_in">str</span>],<span class="literal">None</span>]</span>):</span><br><span class="line">    p = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;P = &quot;</span>))</span><br><span class="line">    <span class="comment"># 大素数p</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(p) <span class="keyword">and</span> p.bit_length() &gt;= <span class="number">1024</span>:</span><br><span class="line">        c, alice_pubKey, bob_pubKey = diffie_hellman(p, flag)</span><br><span class="line">        <span class="comment">#  c = m*SK mod p  =&gt;  m = c*Sk^-1 mod p</span></span><br><span class="line">         </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Alice&#x27;s public key: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(alice_pubKey))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Bob&#x27;s public key: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(bob_pubKey))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Ciphertext: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(c))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Invalid P&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>生成一个光滑素数p</p>
+<p>g = 7</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">B = 7 ^ b mod p</span><br><span class="line">A = 7 ^ a mod p </span><br><span class="line">这里的 A B 是由自定义a  b 计算而来</span><br><span class="line"></span><br><span class="line">随后可得superkey </span><br><span class="line">SK = B^a mod p </span><br><span class="line">算出superkey </span><br><span class="line">#  c = m*SK mod p  =&gt;  m = c*SK^-1 mod p</span><br><span class="line">m即flag</span><br></pre></td></tr></table></figure>
+
+<p>WP 有点看不懂 感觉A B c是自己定义生成的 如果是自己生产的话 那就比较好理解</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sage</span></span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 构造一个很光滑的p，即p可以分解成许多小素数之积</span></span><br><span class="line">p = <span class="number">1</span></span><br><span class="line">i = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> isPrime(p+<span class="number">1</span>) ==<span class="literal">False</span> <span class="keyword">or</span> p.bit_length()&lt;<span class="number">1024</span> :</span><br><span class="line">    p *= i</span><br><span class="line">    i = gmpy2.next_prime(i)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#print(p+1) 取p+1为对应素数p</span></span><br><span class="line"><span class="comment"># A B c ??? 感觉像是自己构造生成的</span></span><br><span class="line"> </span><br><span class="line">g = <span class="number">7</span></span><br><span class="line">p = <span class="number">20404068993016374194542464172774607695659797117423121913227131032339026169175929902244453757410468728842929862271605567818821685490676661985389839958622802465986881376139404138376153096103140834665563646740160279755212317501356863003638612390661668406235422311783742390510526587257026500302696834793248526734305801634165948702506367176701233298064616663553716975429048751575597150417381063934255689124486029492908966644747931</span></span><br><span class="line">A = <span class="number">20336091449271352050000450320351597189353592062279377142884247684088072216754371140723688503847322269500056016823378486967669507529408071986247421480538070427020298314420596325895121922786822444746298488308935254197730980462214370281102952073051791017954008911348128021296665124600273965642418702110947948173149809724203543773244607616601110670126605337319276524135448598308833199821995622969372761107826550795621362415457182</span></span><br><span class="line">B = <span class="number">3016038452071464751422492594184606815201979377859418872430468328543181786920301668755954977729921559697635702877324759319811639923934643618711315555467453055288843246623654939387741368313873206560664229687375070952935800932126812264287402142801364732994539469801252414404987968911552061069354407508916590343552775560281691608737262245571829068155383159065889848197300894149747651679644288337413872066182471443965426404626423</span></span><br><span class="line">c = <span class="number">8101058129734054038632640353434785588447342802920921913999474154497466343094694993166042668700504613189281291125022077749043805204765309971981658929422844998392130190493145455241084775180221325627765838099393607299071835294706132501949635214088146102721237571159346281928107966372652823580266088579392328383545323322931789769149936581855383571990955947284354676448353798975087410774586309247023597516943906734455833918792577</span></span><br><span class="line"> </span><br><span class="line">a = discrete_log(mod(A,p),mod(g,p))</span><br><span class="line"> </span><br><span class="line">b = discrete_log(mod(B,p),mod(g,p))</span><br><span class="line"><span class="comment"># print(a)</span></span><br><span class="line"><span class="comment"># print(b)</span></span><br><span class="line"> </span><br><span class="line">superkey = <span class="built_in">pow</span>(B, a, p)</span><br><span class="line"> </span><br><span class="line">p = gmpy2.mpz(p)</span><br><span class="line">superkey = gmpy2.mpz(superkey)</span><br><span class="line"> </span><br><span class="line">d = gmpy2.invert(superkey,p) % p</span><br><span class="line">m = c*d % p</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="built_in">int</span>(m)))</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"></i><i class="fa fa-tag"></i> Crypto</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/9047dc7c/" rel="prev" title="DES子密钥逆推初始密钥 - 待完成">
+      <i class="fa fa-chevron-left"></i> DES子密钥逆推初始密钥 - 待完成
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Diffie-Hellman%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Diffie-Hellman算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DHKE%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">DHKE协议的过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">例题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag-exchange-%E3%80%90-%E8%BF%99%E4%B8%AA%E8%BF%98%E6%98%AF%E4%B8%8D%E5%A4%AA%E6%87%82-%E5%90%8E%E9%9D%A2%E5%AD%A6%E6%98%8E%E7%99%BD%E4%BA%86%E5%86%8D%E5%9B%9E%E6%9D%A5%E7%9C%8B%E3%80%91"><span class="nav-number">1.3.</span> <span class="nav-text">flag_exchange 【 这个还是不太懂 后面学明白了再回来看】</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">943k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14:17</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共210.7k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

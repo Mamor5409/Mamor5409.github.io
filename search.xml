@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Diffie-Hellman算法</title>
+    <url>/posts/b9d99e81/</url>
+    <content><![CDATA[<p>参考文章 <a href="https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/">https://fishni.github.io/2021/03/16/Crypto-02-Diffie-Hellman%EF%BC%88DH%EF%BC%89%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2/</a></p>
+<h3 id="Diffie-Hellman算法"><a href="#Diffie-Hellman算法" class="headerlink" title="Diffie-Hellman算法"></a>Diffie-Hellman算法</h3><p>秘钥交换算法 是一种建立秘钥的方法，而不是加密方法，所以一般需要结合其他一种加密算法使用</p>
+<p>幂模运算</p>
+<p>整数b(底数)的e次方(指数) 除以正整数m(模) 所得的余数c 称为幂模</p>
+<p><img src="/posts/b9d99e81/1.png"></p>
+<h4 id="DHKE协议的过程"><a href="#DHKE协议的过程" class="headerlink" title="DHKE协议的过程"></a>DHKE协议的过程</h4><p>下面两个图相对很好理解</p>
+<p><img src="/posts/b9d99e81/2.png"></p>
+<p><img src="/posts/b9d99e81/3.png"></p>
+<p>原根： <a href="https://blog.csdn.net/dreamzuora/article/details/52744471">https://blog.csdn.net/dreamzuora/article/details/52744471</a></p>
+<blockquote>
+<p>假设一个数 g 是P的原根，那么 g^i mod P 的结果两个不同，且有 g∈(1,P) i∈(1,P) 那么g可以称为P的一个原根</p>
+<p>即 g^i mod p ≠ g^j mod p (p为素数) 且 i≠j i,j∈(1,p-1) 则g为p的原根</p>
+</blockquote>
+<p>光滑数：可约数分解为小素数乘积的正整数</p>
+<p>一般来说 素数600位以上时，很难被破解。当素数较小时，存在暴力破解的风险</p>
+<h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p>My buddies Whitfield and Martin were trying to share a secret key between  themselves, and I was able to eavesdrop on their conversation. I bet I  could probably figure out their shared secret with a little math…</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">p = 69691</span><br><span class="line">g = 1001</span><br><span class="line">A = 17016</span><br><span class="line">B = 47643</span><br></pre></td></tr></table></figure>
+
+<p>Note: submit either the shared secret or the shared secret wrapped in utflag{}</p>
+<p>g^i mod p = A -&gt; i (b)</p>
+<p>g^i mod p = B -&gt; i （a)</p>
+<p>分别算出 A B的私钥i i取值在 1~p</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">K = B^a mod p = A ^ b mod p</span><br><span class="line"> </span><br><span class="line"><span class="built_in">pow</span>(B,a,p) <span class="built_in">pow</span>(A,b,p)</span><br><span class="line"> </span><br><span class="line">p=<span class="number">69691</span></span><br><span class="line">g=<span class="number">1001</span></span><br><span class="line">A=<span class="number">17016</span></span><br><span class="line">B=<span class="number">47643</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># g^i mod p  = A   -&gt; i</span></span><br><span class="line"><span class="comment"># g^i mod p = B   -&gt; i</span></span><br><span class="line"><span class="comment"># 分别算出 A B的私钥i    i取值在 1~p</span></span><br><span class="line"><span class="comment"># K = B^a mod p = A ^ b mod p</span></span><br><span class="line"><span class="comment"># K = pow(B,a,p)    K = pow(A,b,p)</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">pow</span>(g,i,p) == A :</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;a:&quot;</span>,i,<span class="string">&quot;\t K=&quot;</span>,<span class="built_in">pow</span>(B,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">pow</span>(g,i,p) == B:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;b:&quot;</span>,i,<span class="string">&quot;\t K=&quot;</span>,<span class="built_in">pow</span>(A,i,p))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">         </span><br><span class="line"><span class="comment"># a: 12552   K= 53919</span></span><br><span class="line"><span class="comment"># b: 7919    K= 53919</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="flag-exchange-【-这个还是不太懂-后面学明白了再回来看】"><a href="#flag-exchange-【-这个还是不太懂-后面学明白了再回来看】" class="headerlink" title="flag_exchange 【 这个还是不太懂 后面学明白了再回来看】"></a>flag_exchange 【 这个还是不太懂 后面学明白了再回来看】</h4><p>看完这道例题 就稍微有点印象了 当然不是完全懂 再看下对应的题目</p>
+<p>之前的moectf flag_exchange 也是使用该加密算法<code>         </code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> getrandbits</span><br><span class="line">  </span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.txt&quot;</span>,<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> fs:</span><br><span class="line">    flag = fs.read().strip()</span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">diffie_hellman</span>(<span class="params">p, flag</span>):</span><br><span class="line">    alice_privKey = getrandbits(<span class="number">1024</span>)</span><br><span class="line">    alice_pubKey = <span class="built_in">pow</span>(<span class="number">7</span>, alice_privKey, p)</span><br><span class="line">    bob_privKey = getrandbits(<span class="number">1024</span>)</span><br><span class="line">    bob_pubKey = <span class="built_in">pow</span>(<span class="number">7</span>, bob_privKey, p)</span><br><span class="line">    <span class="comment"># aK =  7^ak mod p</span></span><br><span class="line">    <span class="comment"># bK =  7^bk mod p</span></span><br><span class="line">  </span><br><span class="line">    superkey = <span class="built_in">pow</span>(bob_pubKey, alice_privKey, p)</span><br><span class="line">    <span class="comment"># K = bK ^ ak mod p</span></span><br><span class="line">    m = <span class="built_in">int</span>.from_bytes(flag, <span class="string">&#x27;big&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> (m * superkey) % p, alice_pubKey, bob_pubKey</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># m*SK mod p    aK     bK</span></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Callable</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chall</span>(<span class="params"><span class="built_in">input</span>:<span class="type">Callable</span>[[<span class="built_in">str</span>],<span class="literal">None</span>], <span class="built_in">print</span>:<span class="type">Callable</span>[[<span class="built_in">str</span>],<span class="literal">None</span>]</span>):</span><br><span class="line">    p = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;P = &quot;</span>))</span><br><span class="line">    <span class="comment"># 大素数p</span></span><br><span class="line">    <span class="keyword">if</span> isPrime(p) <span class="keyword">and</span> p.bit_length() &gt;= <span class="number">1024</span>:</span><br><span class="line">        c, alice_pubKey, bob_pubKey = diffie_hellman(p, flag)</span><br><span class="line">        <span class="comment">#  c = m*SK mod p  =&gt;  m = c*Sk^-1 mod p</span></span><br><span class="line">         </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Alice&#x27;s public key: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(alice_pubKey))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Bob&#x27;s public key: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(bob_pubKey))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Ciphertext: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(c))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Invalid P&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>生成一个光滑素数p</p>
+<p>g = 7</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">B = 7 ^ b mod p</span><br><span class="line">A = 7 ^ a mod p </span><br><span class="line">这里的 A B 是由自定义a  b 计算而来</span><br><span class="line"></span><br><span class="line">随后可得superkey </span><br><span class="line">SK = B^a mod p </span><br><span class="line">算出superkey </span><br><span class="line">#  c = m*SK mod p  =&gt;  m = c*SK^-1 mod p</span><br><span class="line">m即flag</span><br></pre></td></tr></table></figure>
+
+<p>WP 有点看不懂 感觉A B c是自己定义生成的 如果是自己生产的话 那就比较好理解</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#sage</span></span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 构造一个很光滑的p，即p可以分解成许多小素数之积</span></span><br><span class="line">p = <span class="number">1</span></span><br><span class="line">i = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> isPrime(p+<span class="number">1</span>) ==<span class="literal">False</span> <span class="keyword">or</span> p.bit_length()&lt;<span class="number">1024</span> :</span><br><span class="line">    p *= i</span><br><span class="line">    i = gmpy2.next_prime(i)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#print(p+1) 取p+1为对应素数p</span></span><br><span class="line"><span class="comment"># A B c ??? 感觉像是自己构造生成的</span></span><br><span class="line"> </span><br><span class="line">g = <span class="number">7</span></span><br><span class="line">p = <span class="number">20404068993016374194542464172774607695659797117423121913227131032339026169175929902244453757410468728842929862271605567818821685490676661985389839958622802465986881376139404138376153096103140834665563646740160279755212317501356863003638612390661668406235422311783742390510526587257026500302696834793248526734305801634165948702506367176701233298064616663553716975429048751575597150417381063934255689124486029492908966644747931</span></span><br><span class="line">A = <span class="number">20336091449271352050000450320351597189353592062279377142884247684088072216754371140723688503847322269500056016823378486967669507529408071986247421480538070427020298314420596325895121922786822444746298488308935254197730980462214370281102952073051791017954008911348128021296665124600273965642418702110947948173149809724203543773244607616601110670126605337319276524135448598308833199821995622969372761107826550795621362415457182</span></span><br><span class="line">B = <span class="number">3016038452071464751422492594184606815201979377859418872430468328543181786920301668755954977729921559697635702877324759319811639923934643618711315555467453055288843246623654939387741368313873206560664229687375070952935800932126812264287402142801364732994539469801252414404987968911552061069354407508916590343552775560281691608737262245571829068155383159065889848197300894149747651679644288337413872066182471443965426404626423</span></span><br><span class="line">c = <span class="number">8101058129734054038632640353434785588447342802920921913999474154497466343094694993166042668700504613189281291125022077749043805204765309971981658929422844998392130190493145455241084775180221325627765838099393607299071835294706132501949635214088146102721237571159346281928107966372652823580266088579392328383545323322931789769149936581855383571990955947284354676448353798975087410774586309247023597516943906734455833918792577</span></span><br><span class="line"> </span><br><span class="line">a = discrete_log(mod(A,p),mod(g,p))</span><br><span class="line"> </span><br><span class="line">b = discrete_log(mod(B,p),mod(g,p))</span><br><span class="line"><span class="comment"># print(a)</span></span><br><span class="line"><span class="comment"># print(b)</span></span><br><span class="line"> </span><br><span class="line">superkey = <span class="built_in">pow</span>(B, a, p)</span><br><span class="line"> </span><br><span class="line">p = gmpy2.mpz(p)</span><br><span class="line">superkey = gmpy2.mpz(superkey)</span><br><span class="line"> </span><br><span class="line">d = gmpy2.invert(superkey,p) % p</span><br><span class="line">m = c*d % p</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="built_in">int</span>(m)))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DES子密钥逆推初始密钥 - 待完成</title>
     <url>/posts/9047dc7c/</url>
     <content><![CDATA[<p><a href="https://www.freebuf.com/news/topnews/219723.html">https://www.freebuf.com/news/topnews/219723.html</a></p>
@@ -236,6 +281,57 @@
       </categories>
       <tags>
         <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CTFd搭建</title>
+    <url>/posts/40446ce/</url>
+    <content><![CDATA[<ol>
+<li><p>切换国内源</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp /etc/apt/source.list /etc/apt/source.list.bak</span><br><span class="line">vim /etc/apt/source.list </span><br><span class="line">注释替换为</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse </span><br><span class="line">然后sudo apt update   sudo apt upgrade </span><br></pre></td></tr></table></figure></li>
+<li><p>安装pip</p>
+<p><code>sudo apt install pip</code></p>
+</li>
+<li><p>安装git</p>
+<p><code>apt-get install git -y</code></p>
+</li>
+<li><p>安装curl</p>
+<p><code>apt-get install curl -y</code></p>
+</li>
+<li><p>安装docker </p>
+<p><code>curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun</code></p>
+</li>
+<li><p>安装docker-compose</p>
+</li>
+<li><p>docker集群设置</p>
+</li>
+</ol>
+<p>​        <code>docker swarm init</code>  # 初始化</p>
+<p>​        <code>docker node ls</code> # 查看节点ID</p>
+<p>​        <code>docker node update --label-add name=linux-1  &lt;节点ID&gt;</code>  # 添加别名</p>
+<p>8.拷贝已经修改过的ctfd_3.5.0 然后进入 第一层目录  sudo docker-compose build </p>
+<p>​        <code>sudo docker-compose up -d</code> 启动docker</p>
+<p>9.访问web端进行初始化配置</p>
+<p>10.配置ctfd-whale</p>
+<p><img src="/posts/40446ce/1.png"></p>
+<p><img src="/posts/40446ce/2.png"></p>
+<p>这里修改对应的 frp direct ip Address</p>
+<hr>
+<p>docker-compose 报错 TypeError: kwargs_from_env() got an unexpected keyword argument ‘ssl_version’</p>
+<p>解决方案 ：  pip install docker==6.1.3</p>
+<p><img src="/posts/40446ce/3.png"></p>
+<p><a href="https://blog.csdn.net/dl1456074580/article/details/135209246">https://blog.csdn.net/dl1456074580/article/details/135209246</a></p>
+<p>参考文章</p>
+<p><a href="https://www.zhaoj.in/read-6333.html">https://www.zhaoj.in/read-6333.html</a></p>
+<p><a href="https://www.anyiblog.top/2023/04/13/20230413/">https://www.anyiblog.top/2023/04/13/20230413/</a></p>
+]]></content>
+      <categories>
+        <category>CTFd</category>
+      </categories>
+      <tags>
+        <tag>CTFd</tag>
       </tags>
   </entry>
   <entry>
@@ -779,6 +875,39 @@
       <tags>
         <tag>CTF</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>PoolParty_Windows线程池注入</title>
+    <url>/posts/df681750/</url>
+    <content><![CDATA[<p>参考文章</p>
+<p><a href="https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA">https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA</a></p>
+<p><a href="https://xz.aliyun.com/t/13184">https://xz.aliyun.com/t/13184</a> 这篇文章也不错 对原文的翻译</p>
+<p><a href="https://github.com/SafeBreach-Labs/PoolParty">https://github.com/SafeBreach-Labs/PoolParty</a></p>
+<p>因为之前没去详细接触过Windows核心编程 线程池这些的 所以再看文章的时候有点地方不太好懂。。</p>
+<p>看了下原项目作者的代码也很难懂 <a href="https://github.com/0xEr3bus/PoolPartyBof">https://github.com/0xEr3bus/PoolPartyBof</a> 这个bof的项目则相对好理解些</p>
+<p>可以用权限维持时使用该bof注入进程</p>
+<p>现在感觉有时候bof确实要好用些 不过自己写起来调试太麻烦 ：|</p>
+<p><a href="https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA">https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA</a> 这篇也解释了实现方法，并将bof项目的代码稍加修改成c，</p>
+<p>通过python对shellcode 利用aes 32位随机key进行加密后转base64生成sc.h文件</p>
+<p>![image-20240204135246901](/Users/mamor/Library/Application Support/typora-user-images/image-20240204135246901.png)</p>
+<p>放到loaderz中解密即可 然后 利用poolparty进行进程注入【当然在注入时 杀软可能会对Explorer.exe等严格把控，需根据情况选择注入进程】</p>
+<p>常见的代码注入 主要分三步： 分配/修改空间、写入shellcode、执行进程/线程</p>
+<p>正常情况下 申请内容空间或写入shellcode并不会被管控，杀软会在执行进程/线程时进行严格监控。</p>
+<p>poolparty 主要利用用户态下 Windows的可信线程池机制 解决了执行时的问题，以规避杀软EDR的检测。</p>
+<p>![image-20240204135230477](/Users/mamor/Library/Application Support/typora-user-images/image-20240204135230477.png)</p>
+<p>看了下bof中的代码思路：</p>
+<p>1.获取进程PID</p>
+<p>2.劫持句柄</p>
+<p>3.申请shellcode的内存空间</p>
+<p>4.写入shellcode</p>
+<p>5.执行【主要在这步中有所区别】 这里没具体了解过详细的Windows线程池，所以有些代码看上去有些困难[需要再花费精力去找相关文档</p>
+<p>在bof中给出了5种额外的方式</p>
+<p><a href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_4.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_4.c</a> TP_IO</p>
+<p><a href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_5.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_5.c</a> TP_ALPC</p>
+<p><a href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_6.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_6.c</a> TP_JOB</p>
+<p><a href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_7.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_7.c</a> TP_DIRECT</p>
+<p><a href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_8.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_8.c</a> TP_TIMER</p>
+]]></content>
   </entry>
   <entry>
     <title>MoeCTF_WriteUp</title>

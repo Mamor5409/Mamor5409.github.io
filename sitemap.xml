@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mamor5409.github.io/posts/40446ce/</loc>
+    
+    <lastmod>2024-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/b9d99e81/</loc>
+    
+    <lastmod>2024-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/df681750/</loc>
+    
+    <lastmod>2024-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/posts/bb5a57d9/</loc>
     
     <lastmod>2024-02-04</lastmod>
@@ -1912,6 +1939,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://mamor5409.github.io/tags/CTFd/</loc>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -2245,6 +2279,13 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E6%9D%82%E8%AE%B0/</loc>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/CTFd/</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

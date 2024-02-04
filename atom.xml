@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-04T04:01:28.533Z</updated>
+  <updated>2024-02-04T06:03:58.306Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Diffie-Hellman算法</title>
+    <link href="http://mamor5409.github.io/posts/b9d99e81/"/>
+    <id>http://mamor5409.github.io/posts/b9d99e81/</id>
+    <published>2024-02-04T05:59:06.000Z</published>
+    <updated>2024-02-04T06:03:58.306Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
+    
+  </entry>
   
   <entry>
     <title>DES子密钥逆推初始密钥 - 待完成</title>
@@ -93,6 +112,25 @@
   </entry>
   
   <entry>
+    <title>CTFd搭建</title>
+    <link href="http://mamor5409.github.io/posts/40446ce/"/>
+    <id>http://mamor5409.github.io/posts/40446ce/</id>
+    <published>2024-02-01T10:09:14.000Z</published>
+    <updated>2024-02-04T06:05:10.710Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="CTFd" scheme="http://mamor5409.github.io/categories/CTFd/"/>
+    
+    
+    <category term="CTFd" scheme="http://mamor5409.github.io/tags/CTFd/"/>
+    
+  </entry>
+  
+  <entry>
     <title>DES加密</title>
     <link href="http://mamor5409.github.io/posts/64eed679/"/>
     <id>http://mamor5409.github.io/posts/64eed679/</id>
@@ -146,6 +184,21 @@
     
     
     <category term="CTF" scheme="http://mamor5409.github.io/tags/CTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PoolParty_Windows线程池注入</title>
+    <link href="http://mamor5409.github.io/posts/df681750/"/>
+    <id>http://mamor5409.github.io/posts/df681750/</id>
+    <published>2024-01-04T06:25:58.000Z</published>
+    <updated>2024-02-04T05:58:52.069Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
     
   </entry>
   
@@ -312,63 +365,6 @@
     
     
     <category term="VEH" scheme="http://mamor5409.github.io/tags/VEH/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Syscall-使用系统调用规避杀软Hook</title>
-    <link href="http://mamor5409.github.io/posts/b3138fd/"/>
-    <id>http://mamor5409.github.io/posts/b3138fd/</id>
-    <published>2023-02-16T10:00:24.000Z</published>
-    <updated>2023-03-05T04:26:39.057Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Syscall" scheme="http://mamor5409.github.io/categories/Syscall/"/>
-    
-    
-    <category term="Syscall" scheme="http://mamor5409.github.io/tags/Syscall/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>进程自创建</title>
-    <link href="http://mamor5409.github.io/posts/e5191117/"/>
-    <id>http://mamor5409.github.io/posts/e5191117/</id>
-    <published>2022-12-11T01:51:25.000Z</published>
-    <updated>2022-12-11T02:10:41.832Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>父进程欺骗</title>
-    <link href="http://mamor5409.github.io/posts/7a4de097/"/>
-    <id>http://mamor5409.github.io/posts/7a4de097/</id>
-    <published>2022-12-11T01:51:18.000Z</published>
-    <updated>2022-12-11T02:10:41.831Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/categories/Bypass/"/>
-    
-    
-    <category term="Bypass" scheme="http://mamor5409.github.io/tags/Bypass/"/>
     
   </entry>
   
