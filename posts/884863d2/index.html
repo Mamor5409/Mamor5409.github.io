@@ -42,7 +42,7 @@
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-27T06:48:45.000Z">
-<meta property="article:modified_time" content="2022-03-31T06:52:40.382Z">
+<meta property="article:modified_time" content="2022-03-31T06:52:42.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 
@@ -252,7 +252,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-31 14:52:40" itemprop="dateModified" datetime="2022-03-31T14:52:40+08:00">2022-03-31</time>
+                <time title="修改时间：2022-03-31 14:52:42" itemprop="dateModified" datetime="2022-03-31T14:52:42+08:00">2022-03-31</time>
               </span>
 
           
@@ -293,7 +293,7 @@
 <p>  2.检查异常端口、进程<br>    netstat -ano 检查端口连接情况<br>    使用任务管理器或者 process exp/processmon 等查看进程<br>  3.检查启动项、计划任务、服务</p>
 <p>  4.检查系统相关信息、版本、补丁<br>    systeminfo<br>  5.查找可疑目录及文件<br>    可以通过 %UserProfile%\Recent 查看最近访问，查看浏览器下载目录/历史记录/修改文件的时间<br>  6.日志分析<br>    eventvwr.msc 导出到LogParser</p>
 <p>Linux入侵排查思路<br>  &lt;1&gt; 账号安全<br>    who 查看当前登录用户（tty本地登陆 pts远程登录）<br>    w   查看系统信息，想知道某一时刻用户的行为<br>    cat /etc/passwd 用户信息文件<br>      root:x:0:0:root:/root:/bin/bash<br>      account:password:UID:GID:GECOS:directory:shell<br>      用户名：密码：用户ID：组ID：用户说明：家目录：登陆之后shell<br>      注意：无密码只允许本机登陆，远程不允许登陆</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;passwd 存储一般的用户信息，任何人都可以访问；</span><br><span class="line">&#x2F;etc&#x2F;shadow 存储用户的密码信息，只有 root 用户可以访问</span><br><span class="line"></span><br><span class="line">cat &#x2F;etc&#x2F;shadow 影子文件</span><br><span class="line">  root:$6$oGs1PqhL2p3ZetrE$X7o7bzoouHQVSEmSgsYN5UD4.kMHx6qgbTqwNVC5oOAouXvcjQSt.Ft7ql1WpkopY0UV9ajBwUt1DpYxTCVvI&#x2F;:16809:0:99999:7:::</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd 存储一般的用户信息，任何人都可以访问；</span><br><span class="line">/etc/shadow 存储用户的密码信息，只有 root 用户可以访问</span><br><span class="line"></span><br><span class="line">cat /etc/shadow 影子文件</span><br><span class="line">  root:$6$oGs1PqhL2p3ZetrE$X7o7bzoouHQVSEmSgsYN5UD4.kMHx6qgbTqwNVC5oOAouXvcjQSt.Ft7ql1WpkopY0UV9ajBwUt1DpYxTCVvI/:16809:0:99999:7:::</span><br></pre></td></tr></table></figure>
 
 <p>用户名：加密密码：密码最后一次修改日期：两次密码的修改时间间隔：密码有效期：密码修改到期到的警告天数：密码过期之后的宽限天数：账号失效时间：保留</p>
 <p>  &lt;2&gt; 历史命令<br>      通过 .bash_history 查看帐号执行过的系统命令<br>      1、root的历史命令 histroy<br>      2、打开 /home 各帐号目录下的 .bash_history，查看普通帐号的历史命令<br>      <code>history -c</code> 清除历史操作命令(但此命令并不会清除保存在文件中的记录，需要手动删除.bash_profile文件中的记录)</p>
@@ -319,9 +319,9 @@
 <h3 id="Windows在应急响应中的安全日志以及对应场景"><a href="#Windows在应急响应中的安全日志以及对应场景" class="headerlink" title="Windows在应急响应中的安全日志以及对应场景"></a>Windows在应急响应中的安全日志以及对应场景</h3><h3 id="设备误报如何处理"><a href="#设备误报如何处理" class="headerlink" title="设备误报如何处理"></a>设备误报如何处理</h3><h3 id="Windows和Linux的日志文件放在哪里"><a href="#Windows和Linux的日志文件放在哪里" class="headerlink" title="Windows和Linux的日志文件放在哪里"></a>Windows和Linux的日志文件放在哪里</h3><p>  Windows 主要有以下三类日志记录系统事件：应用程序日志、系统日志和安全日志<br>    系统日志：<code>%SystemRoot%\System32\Winevt\Logs\System.evtx</code><br>    应用程序日志：<code>%SystemRoot%\System32\Winevt\Logs\Application.evtx</code><br>    安全日志：<code>%SystemRoot%\System32\Winevt\Logs\Security.evtx</code><br>  Linux<br>    日志默认存放位置：<code>/var/log/</code><br>    查看日志配置情况：<code>more /etc/rsyslog.conf</code></p>
 <p> 常见中间件的配置文件路径</p>
 <p>  <code>apache：/etc/httpd/conf</code><br>  <code>nginx：/etc/nginx</code><br>  <code>iis7：C:\Windows\System32\inetsrv\config\</code></p>
-<h3 id="如何查看系统内存shell"><a href="#如何查看系统内存shell" class="headerlink" title="如何查看系统内存shell"></a>如何查看系统内存shell</h3><h3 id="Java-内存马排查"><a href="#Java-内存马排查" class="headerlink" title="Java 内存马排查"></a>Java 内存马排查</h3><h3 id="如何修改WEB端口？如果不能修改端口还有什么利用方法？"><a href="#如何修改WEB端口？如果不能修改端口还有什么利用方法？" class="headerlink" title="如何修改WEB端口？如果不能修改端口还有什么利用方法？"></a>如何修改WEB端口？如果不能修改端口还有什么利用方法？</h3><h3 id="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"><a href="#获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈" class="headerlink" title="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"></a>获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Windows：</span><br><span class="line">  C:\boot.ini &#x2F;&#x2F;查看系统版本</span><br><span class="line">  C:\Windows\System32\inetsrv\MetaBase.xml &#x2F;&#x2F;IIS配置文件</span><br><span class="line">  C:\Windows\repair\sam &#x2F;&#x2F;存储系统初次安装的密码</span><br><span class="line">  C:\Program Files\mysql\my.ini &#x2F;&#x2F;Mysql配置</span><br><span class="line">  C:\Program Files\mysql\data\mysql\user.MYD &#x2F;&#x2F;Mysql root</span><br><span class="line">  C:\Windows\php.ini &#x2F;&#x2F;php配置信息</span><br><span class="line">  C:\Windows\my.ini &#x2F;&#x2F;Mysql配置信息</span><br><span class="line">  C:\Windows\win.ini &#x2F;&#x2F;Windows系统的一个基本系统配置文件</span><br></pre></td></tr></table></figure>
+<h3 id="如何查看系统内存shell"><a href="#如何查看系统内存shell" class="headerlink" title="如何查看系统内存shell"></a>如何查看系统内存shell</h3><h3 id="Java-内存马排查"><a href="#Java-内存马排查" class="headerlink" title="Java 内存马排查"></a>Java 内存马排查</h3><h3 id="如何修改WEB端口？如果不能修改端口还有什么利用方法？"><a href="#如何修改WEB端口？如果不能修改端口还有什么利用方法？" class="headerlink" title="如何修改WEB端口？如果不能修改端口还有什么利用方法？"></a>如何修改WEB端口？如果不能修改端口还有什么利用方法？</h3><h3 id="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"><a href="#获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈" class="headerlink" title="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"></a>获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Windows：</span><br><span class="line">  C:\boot.ini //查看系统版本</span><br><span class="line">  C:\Windows\System32\inetsrv\MetaBase.xml //IIS配置文件</span><br><span class="line">  C:\Windows\repair\sam //存储系统初次安装的密码</span><br><span class="line">  C:\Program Files\mysql\my.ini //Mysql配置</span><br><span class="line">  C:\Program Files\mysql\data\mysql\user.MYD //Mysql root</span><br><span class="line">  C:\Windows\php.ini //php配置信息</span><br><span class="line">  C:\Windows\my.ini //Mysql配置信息</span><br><span class="line">  C:\Windows\win.ini //Windows系统的一个基本系统配置文件</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Linux：</span><br><span class="line">  &#x2F;root&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">  &#x2F;root&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">  &#x2F;root&#x2F;.ssh&#x2F;id_ras.keystore</span><br><span class="line">  &#x2F;root&#x2F;.ssh&#x2F;known_hosts &#x2F;&#x2F;记录每个访问计算机用户的公钥</span><br><span class="line">  &#x2F;etc&#x2F;passwd</span><br><span class="line">  &#x2F;etc&#x2F;shadow</span><br><span class="line">  &#x2F;etc&#x2F;my.cnf &#x2F;&#x2F;mysql配置文件</span><br><span class="line">  &#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf &#x2F;&#x2F;apache配置文件</span><br><span class="line">  &#x2F;root&#x2F;.bash_history &#x2F;&#x2F;用户历史命令记录文件</span><br><span class="line">  &#x2F;root&#x2F;.mysql_history &#x2F;&#x2F;mysql历史命令记录文件</span><br><span class="line">  &#x2F;proc&#x2F;mounts &#x2F;&#x2F;记录系统挂载设备</span><br><span class="line">  &#x2F;porc&#x2F;config.gz &#x2F;&#x2F;内核配置文件</span><br><span class="line">  &#x2F;var&#x2F;lib&#x2F;mlocate&#x2F;mlocate.db &#x2F;&#x2F;全文件路径</span><br><span class="line">  &#x2F;porc&#x2F;self&#x2F;cmdline &#x2F;&#x2F;当前进程的cmdline参数</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Linux：</span><br><span class="line">  /root/.ssh/authorized_keys</span><br><span class="line">  /root/.ssh/id_rsa</span><br><span class="line">  /root/.ssh/id_ras.keystore</span><br><span class="line">  /root/.ssh/known_hosts //记录每个访问计算机用户的公钥</span><br><span class="line">  /etc/passwd</span><br><span class="line">  /etc/shadow</span><br><span class="line">  /etc/my.cnf //mysql配置文件</span><br><span class="line">  /etc/httpd/conf/httpd.conf //apache配置文件</span><br><span class="line">  /root/.bash_history //用户历史命令记录文件</span><br><span class="line">  /root/.mysql_history //mysql历史命令记录文件</span><br><span class="line">  /proc/mounts //记录系统挂载设备</span><br><span class="line">  /porc/config.gz //内核配置文件</span><br><span class="line">  /var/lib/mlocate/mlocate.db //全文件路径</span><br><span class="line">  /porc/self/cmdline //当前进程的cmdline参数</span><br></pre></td></tr></table></figure>
 
 <h3 id="windows端口进程间转换"><a href="#windows端口进程间转换" class="headerlink" title="windows端口进程间转换"></a>windows端口进程间转换</h3><p>  netstat -ano | findstr “port”查看目前的网络连接，定位可疑的 ESTABLISHED<br>  根据netstat定位出的 pid，再通过tasklist命令进行进程定位tasklist | findstr “PID”</p>
 <h3 id="文件上传攻击特征？"><a href="#文件上传攻击特征？" class="headerlink" title="文件上传攻击特征？"></a>文件上传攻击特征？</h3><p>  上传文件的接口  对用户上传文件类型校验不严格</p>
@@ -519,7 +519,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -532,7 +532,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -576,12 +576,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -592,7 +592,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

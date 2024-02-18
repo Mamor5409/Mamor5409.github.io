@@ -270,7 +270,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>930</span>
+              <span>910</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -291,7 +291,7 @@
 
       
         <h3 id="wireshark默认显示方式"><a href="#wireshark默认显示方式" class="headerlink" title="wireshark默认显示方式"></a>wireshark默认显示方式</h3><p><img src="/posts/6c4c4fdf/1.png" alt="截图"></p>
-<h3 id="wireshark中-默认的列"><a href="#wireshark中-默认的列" class="headerlink" title="wireshark中 默认的列"></a>wireshark中 默认的列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">No. ：捕获的数据帧序号，第一帧始终为 1。</span><br><span class="line">Time ：从捕获的第一帧开始的计算的时间（单位为纳秒），第一帧标记为 0.000000。</span><br><span class="line">Source ：源地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Destination ：目的地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Protocol ：以太网帧、IP数据包、TCP分片所使用的协议（ARP、DNS、TCP、HTTP等）。</span><br><span class="line">Length ：数据帧长度（单位为字节）。</span><br></pre></td></tr></table></figure>
+<h3 id="wireshark中-默认的列"><a href="#wireshark中-默认的列" class="headerlink" title="wireshark中 默认的列"></a>wireshark中 默认的列</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">No. ：捕获的数据帧序号，第一帧始终为 1。</span><br><span class="line">Time ：从捕获的第一帧开始的计算的时间（单位为纳秒），第一帧标记为 0.000000。</span><br><span class="line">Source ：源地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Destination ：目的地址，通常是 IPv4、IPv6 或者 以太网地址。</span><br><span class="line">Protocol ：以太网帧、IP数据包、TCP分片所使用的协议（ARP、DNS、TCP、HTTP等）。</span><br><span class="line">Length ：数据帧长度（单位为字节）。</span><br></pre></td></tr></table></figure>
 
 <h4 id="隐藏不需要的列"><a href="#隐藏不需要的列" class="headerlink" title="隐藏不需要的列"></a>隐藏不需要的列</h4><p>可以通过右键标题栏 选择隐藏不需要的列</p>
 <h4 id="删除不需要的列"><a href="#删除不需要的列" class="headerlink" title="删除不需要的列"></a>删除不需要的列</h4><p>如果有些列用不到 可以选择该列后右键 -&gt; Remove This Column 进行删除</p>
@@ -313,7 +313,7 @@
 <br>
 
 <p>eg</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ip.addr eq 192.168.10.195 and ip.addr &#x3D;&#x3D; 192.168.10.1</span><br><span class="line"></span><br><span class="line">http.request &amp;&amp; ip.addr &#x3D;&#x3D; 192.168.10.195</span><br><span class="line"></span><br><span class="line">http.request || http.response</span><br><span class="line"></span><br><span class="line">dns.qry.name contains microsoft or dns.qry.name contains windows</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ip.addr eq 192.168.10.195 and ip.addr == 192.168.10.1</span><br><span class="line"></span><br><span class="line">http.request &amp;&amp; ip.addr == 192.168.10.195</span><br><span class="line"></span><br><span class="line">http.request || http.response</span><br><span class="line"></span><br><span class="line">dns.qry.name contains microsoft or dns.qry.name contains windows</span><br></pre></td></tr></table></figure>
 
 <br>
 
@@ -470,7 +470,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -483,7 +483,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -527,12 +527,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -543,7 +543,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

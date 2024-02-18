@@ -308,16 +308,16 @@
 <li>安装SDK</li>
 <li>安装WDK</li>
 </ol>
-<h3 id="DriverDemo"><a href="#DriverDemo" class="headerlink" title="DriverDemo"></a>DriverDemo</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ntddk.h&quot;</span></span></span><br><span class="line"><span class="function">VOID <span class="title">DriverUnload</span><span class="params">(PDRIVER_OBJECT DriverObject)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]Driver Upload,Driver Object Address:%p&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">NTSTATUS <span class="title">DriverEntry</span><span class="params">( PDRIVER_OBJECT DriverObject,PUNICODE_STRING  RegistryPath)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//KdBreakPoint();</span></span><br><span class="line">    DbgPrint(<span class="string">&quot;[%ws]Hello Kernel World\n&quot;</span>,__FUNCTIONW__);</span><br><span class="line">    <span class="keyword">if</span> (RegistryPath != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]所在注册表位置:%wZ\n&quot;</span>, __FUNCTIONW__,RegistryPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]驱动对象地址:%p\n&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">        DriverObject-&gt;DriverUnload = DriverUnload;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="DriverDemo"><a href="#DriverDemo" class="headerlink" title="DriverDemo"></a>DriverDemo</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ntddk.h&quot;</span></span></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT DriverObject)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]Driver Upload,Driver Object Address:%p&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">( PDRIVER_OBJECT DriverObject,PUNICODE_STRING  RegistryPath)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//KdBreakPoint();</span></span><br><span class="line">    DbgPrint(<span class="string">&quot;[%ws]Hello Kernel World\n&quot;</span>,__FUNCTIONW__);</span><br><span class="line">    <span class="keyword">if</span> (RegistryPath != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]所在注册表位置:%wZ\n&quot;</span>, __FUNCTIONW__,RegistryPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]驱动对象地址:%p\n&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">        DriverObject-&gt;DriverUnload = DriverUnload;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="error-MSB8040-此项目需要缓解了-Spectre-漏洞的库"><a href="#error-MSB8040-此项目需要缓解了-Spectre-漏洞的库" class="headerlink" title="error MSB8040: 此项目需要缓解了 Spectre 漏洞的库"></a>error MSB8040: 此项目需要缓解了 Spectre 漏洞的库</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hack747/p/16398455.html">https://www.cnblogs.com/hack747/p/16398455.html</a></p>
 <p>安装对应版本的Spectre缓解库</p>
 <p><img src="/posts/39878b26/1.png" alt="img"></p>
 <h4 id="MyDriver1-inf-error-1297-Device-driver-does-not-install-on-any-devices"><a href="#MyDriver1-inf-error-1297-Device-driver-does-not-install-on-any-devices" class="headerlink" title="MyDriver1.inf : error 1297: Device driver does not install on any devices"></a>MyDriver1.inf : error 1297: Device driver does not install on any devices</h4><p>删除.inf文件重新编译即可</p>
 <h3 id="驱动签名禁用"><a href="#驱动签名禁用" class="headerlink" title="驱动签名禁用"></a>驱动签名禁用</h3><p><a target="_blank" rel="noopener" href="https://zh.theihccforum.com/how-disable-driver-signature-enforcement-windows-10">https://zh.theihccforum.com/how-disable-driver-signature-enforcement-windows-10</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcdedit &#x2F;set nointegritychecks on</span><br><span class="line">bcdedit &#x2F;set testsigning on</span><br><span class="line">bcdedit &#x2F;set loadoptions DDISABLE_INTEGRITY_CHECKS</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set nointegritychecks on</span><br><span class="line">bcdedit /set testsigning on</span><br><span class="line">bcdedit /set loadoptions DDISABLE_INTEGRITY_CHECKS</span><br></pre></td></tr></table></figure>
 
-<h3 id="驱动加载运行"><a href="#驱动加载运行" class="headerlink" title="驱动加载运行"></a>驱动加载运行</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sc create scdemo binPath=<span class="string">&quot;c:\demo.sys&quot;</span> type= kernel start= demand</span><br><span class="line">sc start scdemo</span><br><span class="line">sc stop scdemo</span><br><span class="line">sc <span class="keyword">delete</span> scdemo</span><br></pre></td></tr></table></figure>
+<h3 id="驱动加载运行"><a href="#驱动加载运行" class="headerlink" title="驱动加载运行"></a>驱动加载运行</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sc create scdemo binPath=<span class="string">&quot;c:\demo.sys&quot;</span> type= kernel start= demand</span><br><span class="line">sc start scdemo</span><br><span class="line">sc stop scdemo</span><br><span class="line">sc delete scdemo</span><br></pre></td></tr></table></figure>
 
 
 
@@ -494,7 +494,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +507,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -551,12 +551,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -567,7 +567,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

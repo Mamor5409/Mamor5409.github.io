@@ -317,7 +317,7 @@
 <p>然后打开PRocessExp查看 可以看到Path处已经被改成了cmd<br><img src="/posts/a8a7b84c/7.png"></p>
 <p>0x70处的CommandLine同理<br><code>eu 0x201cbea2388 &quot;C:\\Windows\\system32\\cmd.exe&quot;</code>eb 0x201cbea2388+0x36 0x0<code> </code>eb 0x201cbea1d70 0x36<code> </code><br><img src="/posts/a8a7b84c/8.png"></p>
 <p>打开一个processexp 查看变化 可以看到已经改成了cmd<br><img src="/posts/a8a7b84c/9.png"></p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Windows.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;winternl.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NTSTATUS</span><span class="params">(*pNtQueryInformationProcess)</span> <span class="params">(HANDLE, PROCESSINFOCLASS, PVOID, ULONG, PULONG)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hPRocess = GetCurrentProcess();</span><br><span class="line">	PROCESS_BASIC_INFORMATION ProcessInformation;</span><br><span class="line">	ULONG len = <span class="number">0</span>;</span><br><span class="line">	HINSTANCE ntdll;</span><br><span class="line">	pNtQueryInformationProcess NtQueryInformationProcess;</span><br><span class="line">	<span class="keyword">wchar_t</span> commandline[] = <span class="string">L&quot;C:\\windows\\system32\\notepad.exe&quot;</span>;</span><br><span class="line">	ntdll = LoadLibrary(TEXT(<span class="string">&quot;Ntdll.dll&quot;</span>));</span><br><span class="line">	  </span><br><span class="line">	<span class="comment">//解析ntdll.dll中NtQueryInformationProcess的地址</span></span><br><span class="line">	NtQueryInformationProcess = (pNtQueryInformationProcess)GetProcAddress(ntdll, <span class="string">&quot;NtQueryInformationProcess&quot;</span>);</span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//获取_PEB对象</span></span><br><span class="line">	(NtQueryInformationProcess)(hPRocess, ProcessBasicInformation, &amp;ProcessInformation, <span class="keyword">sizeof</span>(ProcessInformation), &amp;len);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//替换命令行和映像路径名</span></span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;CommandLine.Buffer = commandline;</span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;ImagePathName.Buffer = commandline;</span><br><span class="line">	<span class="comment">//修改长度</span></span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;CommandLine.Length = <span class="keyword">sizeof</span>(commandline);</span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;ImagePathName.Length = <span class="keyword">sizeof</span>(commandline);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Windows.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;winternl.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">NTSTATUS</span><span class="params">(*pNtQueryInformationProcess)</span> <span class="params">(HANDLE, PROCESSINFOCLASS, PVOID, ULONG, PULONG)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	HANDLE hPRocess = GetCurrentProcess();</span><br><span class="line">	PROCESS_BASIC_INFORMATION ProcessInformation;</span><br><span class="line">	ULONG len = <span class="number">0</span>;</span><br><span class="line">	HINSTANCE ntdll;</span><br><span class="line">	pNtQueryInformationProcess NtQueryInformationProcess;</span><br><span class="line">	<span class="type">wchar_t</span> commandline[] = <span class="string">L&quot;C:\\windows\\system32\\notepad.exe&quot;</span>;</span><br><span class="line">	ntdll = LoadLibrary(TEXT(<span class="string">&quot;Ntdll.dll&quot;</span>));</span><br><span class="line">	  </span><br><span class="line">	<span class="comment">//解析ntdll.dll中NtQueryInformationProcess的地址</span></span><br><span class="line">	NtQueryInformationProcess = (pNtQueryInformationProcess)GetProcAddress(ntdll, <span class="string">&quot;NtQueryInformationProcess&quot;</span>);</span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//获取_PEB对象</span></span><br><span class="line">	(NtQueryInformationProcess)(hPRocess, ProcessBasicInformation, &amp;ProcessInformation, <span class="keyword">sizeof</span>(ProcessInformation), &amp;len);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//替换命令行和映像路径名</span></span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;CommandLine.Buffer = commandline;</span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;ImagePathName.Buffer = commandline;</span><br><span class="line">	<span class="comment">//修改长度</span></span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;CommandLine.Length = <span class="keyword">sizeof</span>(commandline);</span><br><span class="line">	ProcessInformation.PebBaseAddress-&gt;ProcessParameters-&gt;ImagePathName.Length = <span class="keyword">sizeof</span>(commandline);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/posts/a8a7b84c/10.png"></p>
 <hr>
@@ -471,7 +471,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -484,7 +484,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">51</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -528,12 +528,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">1m</span>
+    <span title="站点总字数">984k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15:11</span>
+    <span title="站点阅读时长">14:55</span>
 </div>
 
 <!--
@@ -544,7 +544,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共221.6k字</span>
+  <span class="post-count">博客全站共218.1k字</span>
 </div>
 -->
         
