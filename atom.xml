@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-04T04:01:28.533Z</updated>
+  <updated>2024-02-18T01:09:43.567Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>近日杂记</title>
+    <link href="http://mamor5409.github.io/posts/undefined/"/>
+    <id>http://mamor5409.github.io/posts/undefined/</id>
+    <published>2024-02-18T01:06:34.000Z</published>
+    <updated>2024-02-18T01:09:43.567Z</updated>
+    
+    
+    <summary type="html">Here&#39;s something encrypted, password is required to continue reading.</summary>
+    
+    
+    
+    
+    <category term="杂" scheme="http://mamor5409.github.io/tags/%E6%9D%82/"/>
+    
+  </entry>
   
   <entry>
     <title>DES子密钥逆推初始密钥 - 待完成</title>
@@ -203,6 +220,25 @@
   </entry>
   
   <entry>
+    <title>某电子取证WP</title>
+    <link href="http://mamor5409.github.io/posts/657ea34/"/>
+    <id>http://mamor5409.github.io/posts/657ea34/</id>
+    <published>2023-12-22T09:26:35.000Z</published>
+    <updated>2024-02-04T06:31:22.746Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="取证" scheme="http://mamor5409.github.io/categories/%E5%8F%96%E8%AF%81/"/>
+    
+    
+    <category term="取证" scheme="http://mamor5409.github.io/tags/%E5%8F%96%E8%AF%81/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MoeCTF_WriteUp</title>
     <link href="http://mamor5409.github.io/posts/undefined/"/>
     <id>http://mamor5409.github.io/posts/undefined/</id>
@@ -241,7 +277,7 @@
     <link href="http://mamor5409.github.io/posts/ee84a496/"/>
     <id>http://mamor5409.github.io/posts/ee84a496/</id>
     <published>2023-09-22T05:48:15.000Z</published>
-    <updated>2024-02-04T06:22:44.839Z</updated>
+    <updated>2024-02-04T09:29:39.063Z</updated>
     
     
     <summary type="html"> </summary>
@@ -331,40 +367,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>Disable_functions Bypass</title>
-    <link href="http://mamor5409.github.io/posts/fbcae803/"/>
-    <id>http://mamor5409.github.io/posts/fbcae803/</id>
-    <published>2023-03-11T07:53:38.000Z</published>
-    <updated>2023-03-11T08:01:49.185Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>TLSCallBack</title>
-    <link href="http://mamor5409.github.io/posts/2926e3f0/"/>
-    <id>http://mamor5409.github.io/posts/2926e3f0/</id>
-    <published>2023-03-05T04:30:09.000Z</published>
-    <updated>2023-03-05T04:33:47.043Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="TLS" scheme="http://mamor5409.github.io/categories/TLS/"/>
-    
-    
-    <category term="TLS" scheme="http://mamor5409.github.io/tags/TLS/"/>
     
   </entry>
   

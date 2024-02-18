@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="某电子取证WP">
+<meta property="og:url" content="http://mamor5409.github.io/posts/657ea34/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063429362-1a67e38b-0e1e-4828-a659-56876aeecaa3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063439315-07401b81-cc1e-4cba-892f-1eec9270cb89.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063449489-a66c8029-1fac-4691-8b0a-1d9190603c09.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063456770-ca6478e3-73f7-4e02-89f6-47c311c2880c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063470195-42b2c668-e645-4a72-833f-2d281c594d1a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063514798-957a81f6-45e0-4df5-a857-2b2ff8b472a0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063522642-77dc82e6-fa38-474f-9492-bfe25a1b3652.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063537576-690bc4a2-cda6-4097-b46e-7eede13e6b1a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063561645-0ce8fe9f-c8a7-4f55-badc-67af3bb1988e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063585322-eb9df81a-e672-45f3-a2a6-c76f45705a4f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063620464-b00ceccb-369f-41b0-8bc6-efbd2baf872b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063635900-36d0c04d-7c1f-4de3-9e95-2c8c083edd9b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063652321-10d9e32f-4646-4b94-9865-def60ecbe795.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063707331-ea450272-1b10-4bf8-bd59-0594ce0eeaa0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063734888-a5c6f87d-b93d-4360-9828-417b5f763a23.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063771341-4e0e033b-f2c5-4eea-ad94-e63cbbd3afd6.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063808314-c0196a33-6da5-49b6-864d-3918d351fcc1.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063833700-95291d41-ddc5-4bc1-8814-7501abc4712c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063866700-bc9d927c-9c6b-443f-8ed4-3c4136e6b5d5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063882575-77a89ac8-35da-4680-8534-b7a4a9308d0c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063894250-6f2c03df-70d2-4bae-a662-78b2d1a05f66.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063916172-d78cc47e-cca7-4384-86de-1a18ad83b3c0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063925071-3b171778-c496-45b9-8707-fd6678470c2c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063934804-731277c5-5c96-48ed-9715-f087dc58c4ff.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063943231-8cac913b-b6fa-4c9c-8431-3c65bc03e73a.png">
+<meta property="article:published_time" content="2023-12-22T09:26:35.000Z">
+<meta property="article:modified_time" content="2024-02-04T06:31:22.746Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="取证">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063429362-1a67e38b-0e1e-4828-a659-56876aeecaa3.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/657ea34/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>某电子取证WP | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/657ea34/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          某电子取证WP
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-12-22 17:26:35" itemprop="dateCreated datePublished" datetime="2023-12-22T17:26:35+08:00">2023-12-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-04 14:31:22" itemprop="dateModified" datetime="2024-02-04T14:31:22+08:00">2024-02-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8F%96%E8%AF%81/" itemprop="url" rel="index"><span itemprop="name">取证</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>题目2-1</strong>（本题3分）</p>
+<p>提取检材压缩包的SHA256值，以此作为flag提交。</p>
+<p>Certutil -hashfile 检材2.rar sha256</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063429362-1a67e38b-0e1e-4828-a659-56876aeecaa3.png" alt="img"></p>
+<p><strong>题目2-2</strong>（本题7分）</p>
+<p>破解该检材系统的用户名及密码（均为8位以内英文加数字的弱口令），并以密码作为flag提交。</p>
+<p>FTK挂载VMDK </p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063439315-07401b81-cc1e-4cba-892f-1eec9270cb89.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063449489-a66c8029-1fac-4691-8b0a-1d9190603c09.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063456770-ca6478e3-73f7-4e02-89f6-47c311c2880c.png" alt="img"></p>
+<p>md5解密 得到 admin888</p>
+<p><strong>题目2-3</strong>（本题2分）</p>
+<p>提取该检材系统的版本号，以此作为flag提交。（示例：11.11）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063470195-42b2c668-e645-4a72-833f-2d281c594d1a.png" alt="img"></p>
+<p>也可通过FTK翻文件找到 os-relaease </p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063514798-957a81f6-45e0-4df5-a857-2b2ff8b472a0.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063522642-77dc82e6-fa38-474f-9492-bfe25a1b3652.png" alt="img"></p>
+<p>16.04</p>
+<p><strong>题目2-4</strong>（本题3分）</p>
+<p>提取该检材的网站文件目录，以此作为flag提交。</p>
+<p>/home/admin888/fund</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063537576-690bc4a2-cda6-4097-b46e-7eede13e6b1a.png" alt="img"></p>
+<p><strong>题目2-5</strong>（本题3分）</p>
+<p>提取网站对应的数据库文件名，以此作为flag提交。</p>
+<p>上一问中发现存在 db.sqlite3 数据库文件  所以 flag{db.sqlite3}</p>
+<p><strong>题目3-1</strong>（本题3分）</p>
+<p>1.恢复该检材数据，找出被删除的log文件，并以此作为flag提交。（不含后缀名）（3分）</p>
+<p>ftk直接挂载 发现log文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063561645-0ce8fe9f-c8a7-4f55-badc-67af3bb1988e.png" alt="img"></p>
+<p><strong>题目3-2</strong>（本题7分）</p>
+<p>分析日志文件，分析数据库sys_user表的插入操作次数，并以此作为flag提交。</p>
+<p>查看文件中INSERT INTO <code>sys_user</code> VALUES 出现的次数：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063585322-eb9df81a-e672-45f3-a2a6-c76f45705a4f.png" alt="img"></p>
+<p>flag{344}</p>
+<p><strong>题目3-3</strong>（本题3分）</p>
+<p>分析操作日志，发现有学生的手机号被修改，以此学生姓名作为flag提交。</p>
+<p>看到还有个mysql-bin.000001文件 ，导出进行查看</p>
+<p>题目中说的是更新操作，第一个想到的是UPDATE操作，全局搜索UPDATE，发现只有两次出现：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063620464-b00ceccb-369f-41b0-8bc6-efbd2baf872b.png" alt="img"></p>
+<p>后一个为更新student手机号操作：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063635900-36d0c04d-7c1f-4de3-9e95-2c8c083edd9b.png" alt="img"></p>
+<p>更新的student 表中的字段 id为1 ， 尝试定位Student表【直接全局搜索student】：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063652321-10d9e32f-4646-4b94-9865-def60ecbe795.png" alt="img"></p>
+<p>flag{张三}</p>
+<p><strong>题目4-1</strong>（本题3分）</p>
+<p>恢复该检材数据，找出被删除的文件，并以此文件名作为flag提交。（不含后缀名）</p>
+<p>通过R-STUDIO打开镜像 翻磁盘找到 记账2022.6.xls</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063707331-ea450272-1b10-4bf8-bd59-0594ce0eeaa0.png" alt="img"></p>
+<p>FTK加载也可以直接找到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063734888-a5c6f87d-b93d-4360-9828-417b5f763a23.png" alt="img"></p>
+<p>flag{记账2022.6}</p>
+<p><strong>题目4-2</strong>（本题7分）</p>
+<p>分析被删除的文件，破解文件密码（密码为以qw开头的10位小写英文加数字），并以此作为flag提交。</p>
+<p>shab题目 让爆破密码</p>
+<p>office2john【<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/truongkma/ctf-tools/master/John/run/office2john.py%E3%80%91%E6%8F%90%E5%8F%96hash+hashcat%E7%88%86%E7%A0%B4">https://raw.githubusercontent.com/truongkma/ctf-tools/master/John/run/office2john.py】提取hash+hashcat爆破</a></p>
+<p>使用office2john将office转换为hash</p>
+<p>python2 office2john.py 记账2022.6.xlsx &gt; 6.txt</p>
+<p>awk -F “:” ‘{print $2}’ 6.txt &gt; hash6.txt 分割转换成hash形式</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063771341-4e0e033b-f2c5-4eea-ad94-e63cbbd3afd6.png" alt="img"></p>
+<p>使用hashcat进行破解</p>
+<p>hashcat -a 3 -m 9400 –force ‘$office$<em>2007</em>20<em>128</em>16<em>f02ba736547ad5a1c36bed8d8a56b752</em>8753f6105ce9822aa806adff2c36e6e4*209409be3a4215f4fd42ab6d5ff28496e2973783’ ‘qw?h?h?h?h?h?h?h?h’ -o 6result.txt </p>
+<p>直接跑默认的构造字典时间比较久 最好是通过构造的密码本去爆破</p>
+<p>得到密码为 flag{qwer123456} </p>
+<p><strong>题目4-3</strong>（本题7分）</p>
+<p>恢复该文件，以该文件的创建时间作为flag提交。</p>
+<p>（格式：2023-12-1902:11:11，去除空格）</p>
+<p>2022-07-1409:15:07 这个是错的 推测是时区和取证磁盘时区不对</p>
+<p>但是答案有问题 （仔细看 创建时间在修改时间之后 感觉被篡改了 需要进行还原 但是问了下别人说这没啥问题）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063808314-c0196a33-6da5-49b6-864d-3918d351fcc1.png" alt="img"></p>
+<p>时区有问题 需要 -8 才能到镜像文件的时区</p>
+<p>flag{2022-07-1401:15:07}</p>
+<p><strong>题目5-1</strong>(检材2.rar-2)（本题5分）</p>
+<p>分析检材网站的管理后台，并以此URL作为flag提交。（格式：<a href="http://ip:port/xxx,全小写）">http://ip:port/xxx,全小写）</a></p>
+<p><a target="_blank" rel="noopener" href="http://192.168.181.187:8000/admin/">http://192.168.181.187:8000/admin/</a></p>
+<p>在题目2中 /home/admin888 目录下存在script.sh文件中泄露了Django开发端口 所以可以直接去访问8000端口 或者扫下端口也找得到8000端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063833700-95291d41-ddc5-4bc1-8814-7501abc4712c.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063866700-bc9d927c-9c6b-443f-8ed4-3c4136e6b5d5.png" alt="img"></p>
+<p><strong>题目5-2</strong>（本题2分）</p>
+<p>分析网站后台的超级管理员账号，以此作为flag提交。</p>
+<p>admin888</p>
+<p><strong>题目5-3</strong>（本题5分）</p>
+<p>分析网站密码的加密方式，并以此算法名称作为flag提交。</p>
+<p>进入user </p>
+<p>【pbkdf2_sha256】这个答案有问题</p>
+<p><strong>题目5-4</strong>（本题3分）</p>
+<p>分析该网站记录的银行卡信息数量，并以此作为flag提交。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063882575-77a89ac8-35da-4680-8534-b7a4a9308d0c.png" alt="img"></p>
+<p>45</p>
+<p><strong>题目5-5</strong>（本题5分）</p>
+<p>分析家庭住址在苏州的用户，并其手机号作为flag提交。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063894250-6f2c03df-70d2-4bae-a662-78b2d1a05f66.png" alt="img"></p>
+<p>15066223399</p>
+<p><strong>题目6-1</strong>(检材5)（本题3分）</p>
+<p>分析该apk获得的权限，并以此作为flag提交。（示例：存储空间）</p>
+<p>flag{位置信息、存储空间、电话、通讯录}</p>
+<p>模拟器安装apk 查看应用权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063916172-d78cc47e-cca7-4384-86de-1a18ad83b3c0.png" alt="img"></p>
+<p><strong>题目6-2</strong>（本题7分）</p>
+<p>分析该apk的首页回传地址，并以此作为flag提交。（示例：<a href="http://www.test.com:12345）">www.test.com:12345）</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.xz-2021.com:8081/">www.xz-2021.com:8081</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063925071-3b171778-c496-45b9-8707-fd6678470c2c.png" alt="img"></p>
+<p><strong>题目6-3</strong>（本题3分）</p>
+<p>分析该apk的签名类型，并以此作为flag提交。（全小写）</p>
+<p>Signature type: SHA256withRSA</p>
+<p>flag{SHA256withRSA}</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063934804-731277c5-5c96-48ed-9715-f087dc58c4ff.png" alt="img"></p>
+<p><strong>题目6-4</strong>（本题7分）</p>
+<p>分析apk的入口函数，并以此作为flag提交。（示例：com.aa.bb.cc.dd）</p>
+<p>android.intent.category.LAUNCHER</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063943231-8cac913b-b6fa-4c9c-8431-3c65bc03e73a.png" alt="img"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%8F%96%E8%AF%81/" rel="tag"></i><i class="fa fa-tag"></i> 取证</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/undefined/" rel="prev" title="MoeCTF_WriteUp">
+      <i class="fa fa-chevron-left"></i> MoeCTF_WriteUp
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/df681750/" rel="next" title="PoolParty_Windows线程池注入">
+      PoolParty_Windows线程池注入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15:10</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共221.6k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
