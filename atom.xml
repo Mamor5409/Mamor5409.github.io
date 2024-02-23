@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-23T02:45:20.546Z</updated>
+  <updated>2024-02-23T02:45:42.458Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://mamor5409.github.io/posts/8eb1c662/"/>
     <id>http://mamor5409.github.io/posts/8eb1c662/</id>
     <published>2024-02-23T02:39:29.000Z</published>
-    <updated>2024-02-23T02:45:20.546Z</updated>
+    <updated>2024-02-23T02:45:42.458Z</updated>
     
     
     <summary type="html"> </summary>
@@ -74,17 +74,17 @@
     <link href="http://mamor5409.github.io/posts/81fc4c38/"/>
     <id>http://mamor5409.github.io/posts/81fc4c38/</id>
     <published>2024-02-19T02:59:32.000Z</published>
-    <updated>2024-02-19T06:23:24.730Z</updated>
+    <updated>2024-02-23T02:57:10.020Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
-    <category term="RSA" scheme="http://mamor5409.github.io/categories/RSA/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
     
     
-    <category term="RSA" scheme="http://mamor5409.github.io/tags/RSA/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
@@ -93,7 +93,7 @@
     <link href="http://mamor5409.github.io/posts/ec30fbf3/"/>
     <id>http://mamor5409.github.io/posts/ec30fbf3/</id>
     <published>2024-02-18T01:28:28.000Z</published>
-    <updated>2024-02-23T01:35:04.937Z</updated>
+    <updated>2024-02-23T02:58:33.161Z</updated>
     
     
     <summary type="html"> </summary>
@@ -241,17 +241,17 @@
     <link href="http://mamor5409.github.io/posts/b568ee4f/"/>
     <id>http://mamor5409.github.io/posts/b568ee4f/</id>
     <published>2024-01-11T05:44:11.000Z</published>
-    <updated>2024-01-11T08:22:19.901Z</updated>
+    <updated>2024-02-23T02:57:51.297Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
-    <category term="CTF" scheme="http://mamor5409.github.io/categories/CTF/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
     
     
-    <category term="CTF" scheme="http://mamor5409.github.io/tags/CTF/"/>
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
