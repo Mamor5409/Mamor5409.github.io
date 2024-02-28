@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="RSA光滑数问题 - 待完成">
+<meta property="og:url" content="http://mamor5409.github.io/posts/20e69e95/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/20e69e95/1.png">
+<meta property="article:published_time" content="2024-02-28T09:32:24.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:34:07.610Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="Crypto">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/20e69e95/1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/20e69e95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RSA光滑数问题 - 待完成 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/20e69e95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RSA光滑数问题 - 待完成
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-28 17:32:24 / 修改时间：17:34:07" itemprop="dateCreated datePublished" datetime="2024-02-28T17:32:24+08:00">2024-02-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>简述</p>
+<p>光滑数【Smooth number】： 指 可以分解为小素数乘积的正整数</p>
+<p>B-Smooth数： 如果一个整数的所有素因子都不大于B 那称这个数位B-Smooth数【例如 12 = 2<em>2</em>3 所以 12是3-Smooth数】</p>
+<p>当p是N的因数，并且 p-1 是 光滑数，可以考虑   Pollard’s p-1 算法分解N</p>
+<p>当p是N的因数，并且 p+1 是 光滑数，可以考虑  Williams’s p+1 算法来分解N</p>
+<h3 id="p-1光滑"><a href="#p-1光滑" class="headerlink" title="p-1光滑"></a>p-1光滑</h3><p>根据费马小定理 </p>
+<p><img src="/posts/20e69e95/1.png"></p>
+<p>有：  若p ∤ a, 则a^(p−1) ≡ 1 (mod p)</p>
+<p>则有： a^t*(p−1) ≡ 1^t ≡ 1 (mod p)</p>
+<p>即   a^(p-1) -1 = k*p  【$a^{t(p-1)} - 1$ 是 $p$ 的倍数 】</p>
+<h4 id="Pollard’s-p-1算法："><a href="#Pollard’s-p-1算法：" class="headerlink" title="Pollard’s p-1算法："></a>Pollard’s p-1算法：</h4><p>如果 p-1 是很小质数的乘积  那么 n! 就能被 p-1 整除。  即 n! = t(p-1)   【 (p-1) | B! 】</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> *</span><br><span class="line">a = <span class="number">2</span></span><br><span class="line">n = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    a = powmod(a, n, N)</span><br><span class="line">    res = gcd(a-<span class="number">1</span>, N)</span><br><span class="line">    <span class="keyword">if</span> res != <span class="number">1</span> <span class="keyword">and</span> res != N:</span><br><span class="line">        q = N // res</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;p=&quot;</span>,res)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;q=&quot;</span>,q)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    n += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="NCTF2019-childRSA"><a href="#NCTF2019-childRSA" class="headerlink" title="[NCTF2019] childRSA"></a>[NCTF2019] childRSA</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> choice</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> isPrime, sieve_base <span class="keyword">as</span> primes</span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getPrime</span>(<span class="params">bits</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        n = <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> n.bit_length() &lt; bits:</span><br><span class="line">            n *= choice(primes)  <span class="comment"># primes 为前10000个素数的列表</span></span><br><span class="line">        <span class="keyword">if</span> isPrime(n + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> n + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line">m = <span class="built_in">int</span>.from_bytes(flag.encode(), <span class="string">&#x27;big&#x27;</span>)</span><br><span class="line">p, q = [getPrime(<span class="number">2048</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>)]</span><br><span class="line">n = p * q</span><br><span class="line">c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line"><span class="comment"># n = 32849718197337581823002243717057659218502519004386996660885100592872201948834155543125924395614928962750579667346279456710633774501407292473006312537723894221717638059058796679686953564471994009285384798450493756900459225040360430847240975678450171551048783818642467506711424027848778367427338647282428667393241157151675410661015044633282064056800913282016363415202171926089293431012379261585078566301060173689328363696699811123592090204578098276704877408688525618732848817623879899628629300385790344366046641825507767709276622692835393219811283244303899850483748651722336996164724553364097066493953127153066970594638491950199605713033004684970381605908909693802373826516622872100822213645899846325022476318425889580091613323747640467299866189070780620292627043349618839126919699862580579994887507733838561768581933029077488033326056066378869170169389819542928899483936705521710423905128732013121538495096959944889076705471928490092476616709838980562233255542325528398956185421193665359897664110835645928646616337700617883946369110702443135980068553511927115723157704586595844927607636003501038871748639417378062348085980873502535098755568810971926925447913858894180171498580131088992227637341857123607600275137768132347158657063692388249513</span></span><br><span class="line"><span class="comment"># c = 26308018356739853895382240109968894175166731283702927002165268998773708335216338997058314157717147131083296551313334042509806229853341488461087009955203854253313827608275460592785607739091992591431080342664081962030557042784864074533380701014585315663218783130162376176094773010478159362434331787279303302718098735574605469803801873109982473258207444342330633191849040553550708886593340770753064322410889048135425025715982196600650740987076486540674090923181664281515197679745907830107684777248532278645343716263686014941081417914622724906314960249945105011301731247324601620886782967217339340393853616450077105125391982689986178342417223392217085276465471102737594719932347242482670320801063191869471318313514407997326350065187904154229557706351355052446027159972546737213451422978211055778164578782156428466626894026103053360431281644645515155471301826844754338802352846095293421718249819728205538534652212984831283642472071669494851823123552827380737798609829706225744376667082534026874483482483127491533474306552210039386256062116345785870668331513725792053302188276682550672663353937781055621860101624242216671635824311412793495965628876036344731733142759495348248970313655381407241457118743532311394697763283681852908564387282605279108</span></span><br></pre></td></tr></table></figure>
+
+<p>p q 均属有 多个小指数乘积+1 得到    即 p-1为多个小指数的乘积。利用 Pollar’s p-1算法分解N</p>
+<p>WP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line">N = <span class="number">32849718197337581823002243717057659218502519004386996660885100592872201948834155543125924395614928962750579667346279456710633774501407292473006312537723894221717638059058796679686953564471994009285384798450493756900459225040360430847240975678450171551048783818642467506711424027848778367427338647282428667393241157151675410661015044633282064056800913282016363415202171926089293431012379261585078566301060173689328363696699811123592090204578098276704877408688525618732848817623879899628629300385790344366046641825507767709276622692835393219811283244303899850483748651722336996164724553364097066493953127153066970594638491950199605713033004684970381605908909693802373826516622872100822213645899846325022476318425889580091613323747640467299866189070780620292627043349618839126919699862580579994887507733838561768581933029077488033326056066378869170169389819542928899483936705521710423905128732013121538495096959944889076705471928490092476616709838980562233255542325528398956185421193665359897664110835645928646616337700617883946369110702443135980068553511927115723157704586595844927607636003501038871748639417378062348085980873502535098755568810971926925447913858894180171498580131088992227637341857123607600275137768132347158657063692388249513</span></span><br><span class="line">C = <span class="number">26308018356739853895382240109968894175166731283702927002165268998773708335216338997058314157717147131083296551313334042509806229853341488461087009955203854253313827608275460592785607739091992591431080342664081962030557042784864074533380701014585315663218783130162376176094773010478159362434331787279303302718098735574605469803801873109982473258207444342330633191849040553550708886593340770753064322410889048135425025715982196600650740987076486540674090923181664281515197679745907830107684777248532278645343716263686014941081417914622724906314960249945105011301731247324601620886782967217339340393853616450077105125391982689986178342417223392217085276465471102737594719932347242482670320801063191869471318313514407997326350065187904154229557706351355052446027159972546737213451422978211055778164578782156428466626894026103053360431281644645515155471301826844754338802352846095293421718249819728205538534652212984831283642472071669494851823123552827380737798609829706225744376667082534026874483482483127491533474306552210039386256062116345785870668331513725792053302188276682550672663353937781055621860101624242216671635824311412793495965628876036344731733142759495348248970313655381407241457118743532311394697763283681852908564387282605279108</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接套 Pollard&#x27;s p-1算法 求出 p q </span></span><br><span class="line"><span class="comment"># py下跑 sage跑有问题</span></span><br><span class="line">a = <span class="number">2</span></span><br><span class="line">n = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    a = powmod(a, n, N)</span><br><span class="line">    res = gcd(a - <span class="number">1</span>, N)</span><br><span class="line">    <span class="keyword">if</span> res != <span class="number">1</span> <span class="keyword">and</span> res != N:</span><br><span class="line">        q = N // res</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;p=&quot;</span>, res)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;q=&quot;</span>, q)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    n += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">d = invert(e, (res - <span class="number">1</span>) * (q - <span class="number">1</span>))</span><br><span class="line">m = <span class="built_in">pow</span>(C, d, N)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br><span class="line"><span class="comment"># b&#x27;NCTF&#123;Th3r3_ar3_1ns3cure_RSA_m0duli_7hat_at_f1rst_gl4nce_appe4r_t0_be_s3cur3&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="CryptoCTF-2022-Cantilever-60-solves"><a href="#CryptoCTF-2022-Cantilever-60-solves" class="headerlink" title="CryptoCTF 2022 Cantilever (60 solves) *"></a>CryptoCTF 2022 Cantilever (60 solves) *</h3><blockquote>
+<p>What if you can find the message? If you can, that means you are genius, because we harden our crypto system with a very modern tool!</p>
+</blockquote>
+<p>Challenge</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_primes</span>(<span class="params">nbit, imbalance</span>):</span><br><span class="line">    p = <span class="number">2</span></span><br><span class="line">    FACTORS = [p]</span><br><span class="line">    <span class="keyword">while</span> p.bit_length() &lt; nbit - <span class="number">2</span> * imbalance:</span><br><span class="line">        factor = getPrime(imbalance)</span><br><span class="line">        FACTORS.append(factor)</span><br><span class="line">        p *= factor</span><br><span class="line">    rbit = (nbit - p.bit_length()) // <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        r, s = [getPrime(rbit) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="string">&#x27;01&#x27;</span>]</span><br><span class="line">        _p = p * r * s</span><br><span class="line">        <span class="keyword">if</span> _p.bit_length() &lt; nbit: rbit += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> _p.bit_length() &gt; nbit: rbit -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> isPrime(_p + <span class="number">1</span>):</span><br><span class="line">            FACTORS.extend((r, s))</span><br><span class="line">            p = _p + <span class="number">1</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    FACTORS.sort()</span><br><span class="line">    <span class="keyword">return</span> (p, FACTORS)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">genkey</span>(<span class="params">nbit, imbalance, e</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        p, FACTORS = gen_primes(nbit // <span class="number">2</span>, imbalance)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(FACTORS) != <span class="built_in">len</span>(<span class="built_in">set</span>(FACTORS)):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        q, q_factors = gen_primes(nbit // <span class="number">2</span>, imbalance + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(q_factors) != <span class="built_in">len</span>(<span class="built_in">set</span>(q_factors)):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        factors = FACTORS + q_factors</span><br><span class="line">        <span class="keyword">if</span> e <span class="keyword">not</span> <span class="keyword">in</span> factors:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    n = p * q</span><br><span class="line">    <span class="keyword">return</span> n, (p, q)</span><br><span class="line"></span><br><span class="line">nbit = <span class="number">2048</span></span><br><span class="line">imbalance = <span class="number">19</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line">m_1 = bytes_to_long(flag[:<span class="built_in">len</span>(flag) // <span class="number">2</span>])</span><br><span class="line">m_2 = bytes_to_long(flag[<span class="built_in">len</span>(flag) // <span class="number">2</span>:])</span><br><span class="line"></span><br><span class="line">n, PRIMES = genkey(nbit, imbalance, e)</span><br><span class="line"></span><br><span class="line">c_1 = <span class="built_in">pow</span>(m_1, e, n)</span><br><span class="line">c_2 = <span class="built_in">pow</span>(e, m_2, n)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;n = <span class="subst">&#123;n&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;c_1 = <span class="subst">&#123;c_1&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;c_2 = <span class="subst">&#123;c_2&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>p-1 光滑 </p>
+<p>n  2^19-smooth</p>
+<p>利用 Pollard p-1 算法分解n</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line">N = <span class="number">7069789930583271525053215046247773438899869283661158227309691853515987055334306019600324056376312479212090202373516405860759222837585952590589336295698718699890424169542280710721069784487366121478569760563045886361884895363592898476736269784284754788133722060718026577238640218755539268465317292713320841554802703379684173485217045274942603346947299152498798736808975912326592689302969859834957202716983626393365387411319175917999258829839695189774082810459527737342402920881184864625678296442001837072332161966439361793009893108796934406114288057583563496587655548536011677451960307597573257032154009427010069578913</span></span><br><span class="line">c_1 = <span class="number">488692928085934899944055554857568564903346089951134051486941368561567330884363274156339625953702601270565654444836193796061118053575538224794730472032345171432952984560662218697488844007827176184413713651118743456250147472678673801728916283759932987216388378211555067885210167894310696549664382751443669387953644382833924884208966436685137553434532738845959014828804809425096115758364136546390809453200055265653531950423111482644330073443545410319576097902472017235065047191133112557289289189187696092145850680765843608118584107829268136014912479701945735063525799796920293418182776436767911172221104640501952880057</span></span><br><span class="line">c_2 = <span class="number">109770827223661560471527567179288748906402603483328748683689436879660543465776899146036833470531024202351087008847594392666852763100570391337823820240726499421306887565697452868723849092658743267256316770223643723095601213088336064635680075206929620159782416078143076506249031972043819429093074684182845530529249907297736582589125917235222921623698038868900282049587768700860009877737045693722732170123306528145661683416808514556360429554775212088169626620488741903267154641722293484797745665402402381445609873333905772582972140944493849645600529147490903067975300304532955461710562911203871840101407995813072692212</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接套 Pollard&#x27;s p-1算法 通过c_1 求出 p q</span></span><br><span class="line">a = <span class="number">2</span></span><br><span class="line">n = <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    a = powmod(a, n, N)</span><br><span class="line">    res = gcd(a - <span class="number">1</span>, N)</span><br><span class="line">    <span class="keyword">if</span> res != <span class="number">1</span> <span class="keyword">and</span> res != N:</span><br><span class="line">        q = N // res</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;p=&quot;</span>, res)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;q=&quot;</span>, q)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    n += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">d = invert(e, (res - <span class="number">1</span>) * (q - <span class="number">1</span>))</span><br><span class="line">m = <span class="built_in">pow</span>(c_1, d, N)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br><span class="line"></span><br><span class="line"><span class="comment"># p= 83408372012221120677052349409462320990177094246143674474872152829440524098582262384066400107950985845255268335597502228206679771838750219696329523257176739436871327238322817403970284015587320158034304282786944710043150568360761457471641695390427267786485448748458445872307883254297662715749746270343116946519</span></span><br><span class="line"><span class="comment"># q= 84761154786085445040051273337185621770653977624442810400422736258693219544281946893222923335092616440575888204882883202879374137962201839964482318483860286412488851522612902055732831909496637360268825720155284438779235801463340052531340653630637729255285872455686692027630814695155220888112228977346697309127</span></span><br><span class="line"><span class="comment"># b&#x27;CCTF&#123;5L3Ek_4s_&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>c_1 = pow(m_1, e, n)</p>
+<p>c_2 = pow(e, m_2, n)</p>
+<p>c2 = e^ m_2  mod n     e^m2 = c2 + k*n</p>
+<p>c2 e n 都已知 求m2</p>
+<p>m2 = loge(c2)</p>
+<p>利用sage   </p>
+<p>GFp = GF(p)  # 有限域</p>
+<p> log(GFp(c_2), e)</p>
+</blockquote>
+<p>离散对数 Pohlig-Hellman算法求m2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sage</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">n = <span class="number">7069789930583271525053215046247773438899869283661158227309691853515987055334306019600324056376312479212090202373516405860759222837585952590589336295698718699890424169542280710721069784487366121478569760563045886361884895363592898476736269784284754788133722060718026577238640218755539268465317292713320841554802703379684173485217045274942603346947299152498798736808975912326592689302969859834957202716983626393365387411319175917999258829839695189774082810459527737342402920881184864625678296442001837072332161966439361793009893108796934406114288057583563496587655548536011677451960307597573257032154009427010069578913</span></span><br><span class="line">c_1 = <span class="number">488692928085934899944055554857568564903346089951134051486941368561567330884363274156339625953702601270565654444836193796061118053575538224794730472032345171432952984560662218697488844007827176184413713651118743456250147472678673801728916283759932987216388378211555067885210167894310696549664382751443669387953644382833924884208966436685137553434532738845959014828804809425096115758364136546390809453200055265653531950423111482644330073443545410319576097902472017235065047191133112557289289189187696092145850680765843608118584107829268136014912479701945735063525799796920293418182776436767911172221104640501952880057</span></span><br><span class="line">c_2 = <span class="number">109770827223661560471527567179288748906402603483328748683689436879660543465776899146036833470531024202351087008847594392666852763100570391337823820240726499421306887565697452868723849092658743267256316770223643723095601213088336064635680075206929620159782416078143076506249031972043819429093074684182845530529249907297736582589125917235222921623698038868900282049587768700860009877737045693722732170123306528145661683416808514556360429554775212088169626620488741903267154641722293484797745665402402381445609873333905772582972140944493849645600529147490903067975300304532955461710562911203871840101407995813072692212</span></span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">83408372012221120677052349409462320990177094246143674474872152829440524098582262384066400107950985845255268335597502228206679771838750219696329523257176739436871327238322817403970284015587320158034304282786944710043150568360761457471641695390427267786485448748458445872307883254297662715749746270343116946519</span></span><br><span class="line">q = n // p</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> p*q == n</span><br><span class="line"></span><br><span class="line">phi = (p-<span class="number">1</span>)*(q-<span class="number">1</span>)//GCD(p-<span class="number">1</span>,q-<span class="number">1</span>)</span><br><span class="line">d1 = <span class="built_in">int</span>(inverse(e, phi))</span><br><span class="line"></span><br><span class="line">m1 = <span class="built_in">int</span>(<span class="built_in">pow</span>(<span class="built_in">int</span>(c_1), d1,n))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义有限域 GF(p) GF(q)</span></span><br><span class="line">Fp = GF(p)</span><br><span class="line">Fq = GF(q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># c2 e 转换为 GF()中的元素</span></span><br><span class="line">c2p = Fp(c_2)</span><br><span class="line">c2q = Fq(c_2)</span><br><span class="line">ep = Fp(e)</span><br><span class="line">eq = Fq(e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算 loge(c2)</span></span><br><span class="line">dp = discrete_log(c2p, ep)</span><br><span class="line">dq = discrete_log(c2q, eq)</span><br><span class="line"><span class="comment"># 中国剩余定理CRT 计算 满足 m^e = c2 mod n 的 m的值</span></span><br><span class="line">m2 = <span class="built_in">int</span>(crt([dp,dq],[p-<span class="number">1</span>,q-<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">m = long_to_bytes(m1) + long_to_bytes(m2)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m1))</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m2))</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"><span class="comment"># b&#x27;CCTF&#123;5L3Ek_4s_&#x27;</span></span><br><span class="line"><span class="comment"># b&#x27;_s1lK__Ri9H7?!&#125;&#x27;</span></span><br><span class="line"><span class="comment"># b&#x27;CCTF&#123;5L3Ek_4s__s1lK__Ri9H7?!&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="p-1光滑-1"><a href="#p-1光滑-1" class="headerlink" title="p+1光滑"></a>p+1光滑</h3><h4 id="Williams’s-p-1算法"><a href="#Williams’s-p-1算法" class="headerlink" title="Williams’s p+1算法"></a>Williams’s p+1算法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">mlucas</span>(<span class="params">v, a, n</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot; Helper function for williams_pp1().  Multiplies along a Lucas sequence modulo n. &quot;&quot;&quot;</span></span><br><span class="line">    v1, v2 = v, (v**<span class="number">2</span> - <span class="number">2</span>) % n</span><br><span class="line">    <span class="keyword">for</span> bit <span class="keyword">in</span> <span class="built_in">bin</span>(a)[<span class="number">3</span>:]: v1, v2 = ((v1**<span class="number">2</span> - <span class="number">2</span>) % n, (v1*v2 - v) % n) <span class="keyword">if</span> bit == <span class="string">&quot;0&quot;</span> <span class="keyword">else</span> ((v1*v2 - v) % n, (v2**<span class="number">2</span> - <span class="number">2</span>) % n)</span><br><span class="line">    <span class="keyword">return</span> v1</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> count(<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> primegen():</span><br><span class="line">        e = ilog(isqrt(n), p)</span><br><span class="line">        <span class="keyword">if</span> e == <span class="number">0</span>: <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> xrange(e): v = mlucas(v, p, n)</span><br><span class="line">        g = gcd(v-<span class="number">2</span>, n)</span><br><span class="line">        <span class="keyword">if</span> <span class="number">1</span> &lt; g &lt; n: <span class="keyword">return</span> g <span class="comment"># g|n</span></span><br><span class="line">        <span class="keyword">if</span> g == n: <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="综合例题"><a href="#综合例题" class="headerlink" title="综合例题"></a>综合例题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> n2s,s2n</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getPrime</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_prime</span>(<span class="params">digit</span>):</span><br><span class="line">    primes = []</span><br><span class="line">    pri = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">len</span>(primes)&lt;<span class="number">100</span>):</span><br><span class="line">        pri = gmpy2.next_prime(pri)</span><br><span class="line">        primes.append(<span class="built_in">int</span>(pri))</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        count = <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> count &lt; <span class="number">2</span>**digit:</span><br><span class="line">            count *= random.choice(primes)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span>(gmpy2.is_prime(count)):</span><br><span class="line">            <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_prime_2</span>(<span class="params">digit</span>):</span><br><span class="line">    primes = []</span><br><span class="line">    pri = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">len</span>(primes)&lt;<span class="number">100</span>):</span><br><span class="line">        pri = gmpy2.next_prime(pri)</span><br><span class="line">        primes.append(<span class="built_in">int</span>(pri))</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        count = <span class="number">2</span></span><br><span class="line">        <span class="keyword">while</span> count &lt; <span class="number">2</span>**digit:</span><br><span class="line">            count *= random.choice(primes)</span><br><span class="line">        count -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span>(gmpy2.is_prime(count)):</span><br><span class="line">            <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate</span>(<span class="params">start, modulus, a, b, c, d</span>):</span><br><span class="line">    arr = []</span><br><span class="line">    arr.append(start)</span><br><span class="line">    arr.append(start+<span class="number">1</span>)</span><br><span class="line">    arr.append(start+<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>**<span class="number">100</span>):</span><br><span class="line">        arr.append((a * arr[-<span class="number">3</span>] + b * arr[-<span class="number">2</span>] + c * arr[-<span class="number">1</span>] + d) % modulus)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">p1 = gen_prime(<span class="number">256</span>)</span><br><span class="line">q1 = getPrime(<span class="number">256</span>)</span><br><span class="line">p2 = gen_prime_2(<span class="number">256</span>)</span><br><span class="line">q2 = getPrime(<span class="number">256</span>)</span><br><span class="line"><span class="keyword">assert</span> p1 &gt; q1</span><br><span class="line"><span class="keyword">assert</span> p2 &gt; q2</span><br><span class="line">n1 = p1 * q1</span><br><span class="line">n2 = p2 * q2</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;n1 = %s&quot;</span> % <span class="built_in">str</span>(n1)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;n2 = %s&quot;</span> % <span class="built_in">str</span>(n2)</span><br><span class="line"></span><br><span class="line">r = getPrime(<span class="number">512</span>)</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;r = %s&quot;</span> % <span class="built_in">str</span>(r)</span><br><span class="line"></span><br><span class="line">flag = <span class="string">&quot;flag&#123;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#125;&quot;</span></span><br><span class="line">m = s2n(flag)</span><br><span class="line"></span><br><span class="line">arr = generate(m, r, p1, q1, p2, q2)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;arr[10**100] = %s&quot;</span> % <span class="built_in">str</span>(arr[<span class="number">10</span>**<span class="number">100</span>])</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;arr[10**100+1] = %s&quot;</span> % <span class="built_in">str</span>(arr[<span class="number">10</span>**<span class="number">100</span>+<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;arr[10**100+2] = %s&quot;</span> % <span class="built_in">str</span>(arr[<span class="number">10</span>**<span class="number">100</span>+<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># n1 = 1122627862697321019530282965736391850755580895936802291161309915792429961624747356094273651528053737694375752383507509008511083571424513544351844231796981247</span></span><br><span class="line"><span class="comment"># n2 = 42452228756074949430200119187674072800166259263276225653674599426683428744745000585507174701894408343398957593869403921976682474759688236534918012868451437</span></span><br><span class="line"><span class="comment"># r = 12562551311997602982227662257453842057851021749009292708783465660065261139703971906109320639580310598023202634257624805719964182261882169860035285540999137</span></span><br><span class="line"><span class="comment"># arr[10**100] = 4838353389408955215917845462224851356983185785715321739245030612236910363177888113470205298612968999913978808363082599570155255107799227941046736259627961</span></span><br><span class="line"><span class="comment"># arr[10**100+1] = 10699223576890057648654189340104320126576219437282628103579325446469238279292850193524138389756436672641376651989022132710127197616146958216805814995598472</span></span><br><span class="line"><span class="comment"># arr[10**100+2] = 10255743354332378416989087696439685123717830836779737961024112448965245238772080092701344614830923313888435306261206177140560579750917219609679498132161402</span></span><br></pre></td></tr></table></figure>
+
+<p>分析</p>
+<p>WP</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51507437/article/details/124205732">https://blog.csdn.net/m0_51507437/article/details/124205732</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"></i><i class="fa fa-tag"></i> Crypto</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/d50c9f22/" rel="prev" title="Windows主机资产信息收集脚本">
+      <i class="fa fa-chevron-left"></i> Windows主机资产信息收集脚本
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#p-1%E5%85%89%E6%BB%91"><span class="nav-number">1.</span> <span class="nav-text">p-1光滑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pollard%E2%80%99s-p-1%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">Pollard’s p-1算法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NCTF2019-childRSA"><span class="nav-number">2.</span> <span class="nav-text">[NCTF2019] childRSA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CryptoCTF-2022-Cantilever-60-solves"><span class="nav-number">3.</span> <span class="nav-text">CryptoCTF 2022 Cantilever (60 solves) *</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#p-1%E5%85%89%E6%BB%91-1"><span class="nav-number">4.</span> <span class="nav-text">p+1光滑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Williams%E2%80%99s-p-1%E7%AE%97%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">Williams’s p+1算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E4%BE%8B%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">综合例题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">180</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">17:10</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共234.1k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
