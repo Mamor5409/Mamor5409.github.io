@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="密码学之XOR加密">
+<meta property="og:url" content="http://mamor5409.github.io/posts/a2e01687/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-13T09:22:48.000Z">
+<meta property="article:modified_time" content="2024-03-13T09:27:45.733Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="Crypto">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/a2e01687/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>密码学之XOR加密 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/a2e01687/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密码学之XOR加密
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-03-13 17:22:48 / 修改时间：17:27:45" itemprop="dateCreated datePublished" datetime="2024-03-13T17:22:48+08:00">2024-03-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>异或加密，是密码学中的一种简单加密算法，通常会在出现在Re或Crypto中，用于已知key对flag进行逐位异或，通常会与其他加密算法一起对flag进行加密。本篇将简要介绍异或加密在CTF密码学中的应用，对题目进行简要分析。</p>
+<p>【笔者水平有限(密码学小白)，可能会有理解错误的地方，不吝赐教Orz】</p>
+<h3 id="异或运算"><a href="#异或运算" class="headerlink" title="异或运算"></a>异或运算</h3><p>异或 是一个数学运算符，缩写XOR，应用于逻辑运算，在数学中符号记作“⊕”。如果两个值不相同，那么异或结果为1；如果两个值相同，则异或结果为0。异或运算有如下性质：</p>
+<p>交换律：A⊕B=B⊕A</p>
+<p>结合律：A⊕(B⊕C)=(A⊕B)⊕C</p>
+<p>恒等律：A⊕0=A</p>
+<p>自 逆：A⊕A=0</p>
+<h3 id="DEMO1"><a href="#DEMO1" class="headerlink" title="DEMO1"></a>DEMO1</h3><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">KEY1 = a6c8b6733c9b22de7bc0253266a3867df55acde8635e19c73313</span><br><span class="line">KEY2 ^ KEY1 = 37dcb292030faa90d07eec17e3b1c6d8daf94c35d4c9191a5e1e</span><br><span class="line">KEY2 ^ KEY3 = c1545756687e7573db23aa1c3452a098b71a7fbf0fddddde5fc1</span><br><span class="line">FLAG ^ KEY1 ^ KEY3 ^ KEY2 = 04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf</span><br></pre></td></tr></table></figure>
+
+<h4 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h4><p>KEY1 ^  (KEY2 ^ KEY1) </p>
+<p>= KEY1 ^ KEY1 ^ KEY2【交换律】</p>
+<p>= 0 ^ KEY2 【自逆】</p>
+<p>= KEY2 【恒等律】</p>
+<p>同理可得 KEY2 ^ (KEY2 ^ KEY3) = KEY3 </p>
+<p>FLAG ^ KEY1 ^ KEY3 ^ KEY2 = TMP</p>
+<p>两侧同时异或KEY1 KEY2 KEY3 可得到FLAG</p>
+<h4 id="WP"><a href="#WP" class="headerlink" title="WP"></a>WP</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line">KEY1 = <span class="built_in">int</span>(<span class="string">&#x27;a6c8b6733c9b22de7bc0253266a3867df55acde8635e19c73313&#x27;</span>, <span class="number">16</span>)</span><br><span class="line">KEY2_xor_KEY1 = <span class="built_in">int</span>(<span class="string">&#x27;37dcb292030faa90d07eec17e3b1c6d8daf94c35d4c9191a5e1e&#x27;</span>, <span class="number">16</span>)</span><br><span class="line">KEY2_xor_KEY3 = <span class="built_in">int</span>(<span class="string">&#x27;c1545756687e7573db23aa1c3452a098b71a7fbf0fddddde5fc1&#x27;</span>, <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">KEY2 = KEY1 ^ KEY2_xor_KEY1</span><br><span class="line">KEY3 = KEY2 ^ KEY2_xor_KEY3</span><br><span class="line"></span><br><span class="line">FLAG = <span class="built_in">int</span>(<span class="string">&#x27;04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf&#x27;</span>, <span class="number">16</span>) ^ KEY1 ^ KEY2 ^ KEY3</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(FLAG)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(FLAG))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 159805433661873705497880084580614789222721324997857681199215485</span></span><br><span class="line"><span class="comment"># b&#x27;crypto&#123;x0r_i5_ass0c1at1v3&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2023MoeCTF-xorrrrrrrrr"><a href="#2023MoeCTF-xorrrrrrrrr" class="headerlink" title="2023MoeCTF xorrrrrrrrr"></a>2023MoeCTF xorrrrrrrrr</h3><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>DESCRIPTION: 芝士什么运算？</p>
+<p>此题包含一个result.log 和一个task.py</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">flag = <span class="built_in">open</span>(<span class="string">&#x27;flag.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line"><span class="keyword">assert</span> flag.startswith(<span class="string">b&#x27;moectf&#123;&#x27;</span>) <span class="keyword">and</span> flag.endswith(<span class="string">b&#x27;&#125;&#x27;</span>)</span><br><span class="line">article = <span class="built_in">open</span>(<span class="string">&#x27;article.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对两个字节序列进行异或操作的函数 </span></span><br><span class="line"><span class="comment"># zip(x,y)  异或运算x^y 得到的结果bytes()转换</span></span><br><span class="line">strxor = <span class="keyword">lambda</span> x,y: <span class="built_in">bytes</span>([a^b <span class="keyword">for</span> a,b <span class="keyword">in</span> <span class="built_in">zip</span>(x,y)])</span><br><span class="line"></span><br><span class="line">result = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    range_start = random.randint(<span class="number">0</span>, <span class="built_in">len</span>(article) - <span class="built_in">len</span>(flag))  <span class="comment"># 任意位置开始</span></span><br><span class="line">    mask = article[range_start:range_start + <span class="built_in">len</span>(flag)]  <span class="comment"># 开始位置 flag长度位</span></span><br><span class="line">    result.append(strxor(flag,mask))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;result.log&quot;</span>,<span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> fs:</span><br><span class="line">    fs.writelines([<span class="built_in">str</span>(i)+<span class="string">&quot;\n&quot;</span> <span class="keyword">for</span> i <span class="keyword">in</span> result])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="题目分析-1"><a href="#题目分析-1" class="headerlink" title="题目分析"></a>题目分析</h4><p>res = flag ^ mask       mask 为 article中 随机取得一段内容</p>
+<p>已知 flag的前段部分为moectf{  异或res，可以得到部分 mask 即部分文章内容碎片(7位的随机)【当时做的时候卡到这里了】</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flag1 = <span class="string">b&quot;moectf&#123;&quot;</span></span><br><span class="line">data = <span class="built_in">eval</span>(<span class="string">&quot;[&quot;</span>+<span class="string">&quot;,&quot;</span>.join(<span class="built_in">open</span>(<span class="string">&quot;result.log&quot;</span>).readlines())+<span class="string">&quot;]&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">    strxor = <span class="keyword">lambda</span> x, y: <span class="built_in">bytes</span>([a ^ b <span class="keyword">for</span> a, b <span class="keyword">in</span> <span class="built_in">zip</span>(x, y)])</span><br><span class="line">    tmps = []</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">        <span class="comment"># 已知前面部分明文</span></span><br><span class="line">        <span class="built_in">print</span>((tmp := strxor(flag1, x)))</span><br><span class="line">        tmps.append(tmp)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在这些碎片中存在多处 大似相同的片段 然后取部分内容 匹配出相似的片段【看的wp 看了好久才懂了点 太菜了…Orz】</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    tmp2 = tmps[i][<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">    <span class="comment"># print(tmp2)</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">        <span class="keyword">if</span> tmp2 <span class="keyword">in</span> tmps[j]:</span><br><span class="line">            <span class="built_in">print</span>(i,j,tmps[i],tmps[j])</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(tmps)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(tmps))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 28 33 b&#x27;ms. Spe&#x27; b&#x27;ams. Sp&#x27;</span></span><br><span class="line"><span class="comment"># 相差较小中间也包含标点符号  最像同一个片段</span></span><br><span class="line">c1 = data[<span class="number">33</span>]</span><br><span class="line">c2 = data[<span class="number">28</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># moectf&#123;</span></span><br><span class="line">flag = [<span class="built_in">ord</span>(<span class="string">&#x27;m&#x27;</span>)] + <span class="number">71</span>*[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 再次进行异或</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">72</span>):</span><br><span class="line">    flag[x] = flag[x-<span class="number">1</span>] ^ c1[x] ^ c2[x-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>(flag))</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="WP-1"><a href="#WP-1" class="headerlink" title="WP"></a>WP</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">flag1 = <span class="string">b&quot;moectf&#123;&quot;</span></span><br><span class="line">data = <span class="built_in">eval</span>(<span class="string">&quot;[&quot;</span>+<span class="string">&quot;,&quot;</span>.join(<span class="built_in">open</span>(<span class="string">&quot;result.log&quot;</span>).readlines())+<span class="string">&quot;]&quot;</span>)</span><br><span class="line"><span class="comment"># 参考wp https://github.com/XDSEC/MoeCTF_2023/blob/main/Challenges/Crypto/xorrrrrrrrr/writeup.ipynb</span></span><br><span class="line"><span class="comment"># 可得到 元素为 bytes类型的数组</span></span><br><span class="line"><span class="comment"># print(data)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">    strxor = <span class="keyword">lambda</span> x, y: <span class="built_in">bytes</span>([a ^ b <span class="keyword">for</span> a, b <span class="keyword">in</span> <span class="built_in">zip</span>(x, y)])</span><br><span class="line">    <span class="comment"># print(len(x))</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(x) == <span class="number">72</span></span><br><span class="line">    tmps = []</span><br><span class="line">    tmps2 = []</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">        <span class="comment"># 已知前面部分明文 moectf&#123;</span></span><br><span class="line">        tmp = strxor(flag1, x)</span><br><span class="line">        tmps.append(tmp)</span><br><span class="line">        <span class="comment"># You will learn how to  ... 拼不出来</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    tmp2 = tmps[i][<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">    <span class="comment"># print(tmp2)</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i+<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">        <span class="keyword">if</span> tmp2 <span class="keyword">in</span> tmps[j]:</span><br><span class="line">            <span class="built_in">print</span>(i,j,tmps[i],tmps[j])</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(tmps)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(tmps))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 28 33 b&#x27;ms. Spe&#x27; b&#x27;ams. Sp&#x27;</span></span><br><span class="line"><span class="comment"># 相差较小  中间包含同一标点 最像同一个片段</span></span><br><span class="line">c1 = data[<span class="number">33</span>]</span><br><span class="line">c2 = data[<span class="number">28</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># moectf&#123;</span></span><br><span class="line">flag = [<span class="built_in">ord</span>(<span class="string">&#x27;m&#x27;</span>)] + <span class="number">71</span>*[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">72</span>):</span><br><span class="line">    flag[x] = flag[x-<span class="number">1</span>] ^ c1[x] ^ c2[x-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(flag)</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>(flag))</span><br><span class="line"></span><br><span class="line"><span class="comment"># b&#x27;moectf&#123;W0W_y0U_HaVe_mastered_tHe_x0r_0Peart0r!_0iYlJf!M3rux9G9Vf!JoxiMl&#125;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2019-De1CTF-XORZ"><a href="#2019-De1CTF-XORZ" class="headerlink" title="2019 De1CTF XORZ"></a>2019 De1CTF XORZ</h3><h4 id="汉明距离"><a href="#汉明距离" class="headerlink" title="汉明距离"></a>汉明距离</h4><p>在做这个题目之前 先简单了解下什么是汉明距离。【看到这题一脸懵，看了WP后才懂了些】</p>
+<p>汉明距离【Hamming distance】</p>
+<p>在信息论中，两个等长字符串之间的汉明距离 是两个字符串对应位置的不同字符的个数。</p>
+<p>简单来说 汉明距离度量了通过替换字符的方式将字符串x变成y所需要的最小的替换次数。比如</p>
+<blockquote>
+<p>1011101与1001001 之间的汉明距离是2。</p>
+<p>2143896与2233796之间的汉明距离是3。</p>
+<p>“toned”与”roses”之间的汉明距离是3。</p>
+</blockquote>
+<h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> data <span class="keyword">import</span> flag,plain</span><br><span class="line"></span><br><span class="line">key=flag.strip(<span class="string">&quot;de1ctf&#123;&quot;</span>).strip(<span class="string">&quot;&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">assert</span>(<span class="built_in">len</span>(key&lt;<span class="number">38</span>))</span><br><span class="line">salt=<span class="string">&quot;WeAreDe1taTeam&quot;</span></span><br><span class="line">ki=cycle(key)</span><br><span class="line">si=cycle(salt)</span><br><span class="line">cipher = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">hex</span>(<span class="built_in">ord</span>(p) ^ <span class="built_in">ord</span>(<span class="built_in">next</span>(ki)) ^ <span class="built_in">ord</span>(<span class="built_in">next</span>(si)))[<span class="number">2</span>:].zfill(<span class="number">2</span>) <span class="keyword">for</span> p <span class="keyword">in</span> plain])</span><br><span class="line"><span class="built_in">print</span> cipher</span><br><span class="line"><span class="comment"># output:</span></span><br><span class="line"><span class="comment"># 49380d773440222d1b421b3060380c3f403c3844791b202651306721135b6229294a3c3222357e766b2f15561b35305e3c3b670e49382c295c6c170553577d3a2b791470406318315d753f03637f2b614a4f2e1c4f21027e227a4122757b446037786a7b0e37635024246d60136f7802543e4d36265c3e035a725c6322700d626b345d1d6464283a016f35714d434124281b607d315f66212d671428026a4f4f79657e34153f3467097e4e135f187a21767f02125b375563517a3742597b6c394e78742c4a725069606576777c314429264f6e330d7530453f22537f5e3034560d22146831456b1b72725f30676d0d5c71617d48753e26667e2f7a334c731c22630a242c7140457a42324629064441036c7e646208630e745531436b7c51743a36674c4f352a5575407b767a5c747176016c0676386e403a2b42356a727a04662b4446375f36265f3f124b724c6e346544706277641025063420016629225b43432428036f29341a2338627c47650b264c477c653a67043e6766152a485c7f33617264780656537e5468143f305f4537722352303c3d4379043d69797e6f3922527b24536e310d653d4c33696c635474637d0326516f745e610d773340306621105a7361654e3e392970687c2e335f3015677d4b3a724a4659767c2f5b7c16055a126820306c14315d6b59224a27311f747f336f4d5974321a22507b22705a226c6d446a37375761423a2b5c29247163046d7e47032244377508300751727126326f117f7a38670c2b23203d4f27046a5c5e1532601126292f577776606f0c6d0126474b2a73737a41316362146e581d7c1228717664091c</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="题目分析-2"><a href="#题目分析-2" class="headerlink" title="题目分析"></a>题目分析</h4><p>参考文章 <a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/161171#h2-0">https://www.anquanke.com/post/id/161171#h2-0</a></p>
+<h5 id="1-去盐"><a href="#1-去盐" class="headerlink" title="1.去盐"></a>1.去盐</h5><p>key 38个十六进制数，30个未知字符</p>
+<p>[2:].zfill(2)   si去掉前两位的0x </p>
+<p>salt key都是通过cycle()循环利用，其中salt已知，所以先考虑异或将salt去掉</p>
+<p>c = p ^ ki ^ si</p>
+<p>c ^ si = p ^ ki</p>
+<p>由于c、si均为已知的可求出来。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">c = <span class="string">&#x27;49380d773440222d1b421b3060380c3f403c3844791b202651306721135b6229294a3c3222357e766b2f15561b35305e3c3b670e49382c295c6c170553577d3a2b791470406318315d753f03637f2b614a4f2e1c4f21027e227a4122757b446037786a7b0e37635024246d60136f7802543e4d36265c3e035a725c6322700d626b345d1d6464283a016f35714d434124281b607d315f66212d671428026a4f4f79657e34153f3467097e4e135f187a21767f02125b375563517a3742597b6c394e78742c4a725069606576777c314429264f6e330d7530453f22537f5e3034560d22146831456b1b72725f30676d0d5c71617d48753e26667e2f7a334c731c22630a242c7140457a42324629064441036c7e646208630e745531436b7c51743a36674c4f352a5575407b767a5c747176016c0676386e403a2b42356a727a04662b4446375f36265f3f124b724c6e346544706277641025063420016629225b43432428036f29341a2338627c47650b264c477c653a67043e6766152a485c7f33617264780656537e5468143f305f4537722352303c3d4379043d69797e6f3922527b24536e310d653d4c33696c635474637d0326516f745e610d773340306621105a7361654e3e392970687c2e335f3015677d4b3a724a4659767c2f5b7c16055a126820306c14315d6b59224a27311f747f336f4d5974321a22507b22705a226c6d446a37375761423a2b5c29247163046d7e47032244377508300751727126326f117f7a38670c2b23203d4f27046a5c5e1532601126292f577776606f0c6d0126474b2a73737a41316362146e581d7c1228717664091c&#x27;</span></span><br><span class="line">salt = <span class="string">&quot;WeAreDe1taTeam&quot;</span></span><br><span class="line">si2 = cycle(salt)</span><br><span class="line">nosalt = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(<span class="built_in">len</span>(c)/<span class="number">2</span>)):</span><br><span class="line">    temp = c[i*<span class="number">2</span>:i*<span class="number">2</span>+<span class="number">2</span>]</span><br><span class="line">    <span class="comment"># print(binascii.a2b_hex(temp))</span></span><br><span class="line">    temphex_int = <span class="built_in">ord</span>(binascii.a2b_hex(temp).decode())</span><br><span class="line">    <span class="comment"># p = chr(temphex_int ^ ord(next(si2)) ^ ord(next(ki2)))</span></span><br><span class="line">    temp_re = <span class="built_in">hex</span>(temphex_int ^ <span class="built_in">ord</span>(<span class="built_in">next</span>(si2)))[<span class="number">2</span>:].zfill(<span class="number">2</span>)</span><br><span class="line">    nosalt = nosalt + temp_re</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-猜解密钥长度"><a href="#2-猜解密钥长度" class="headerlink" title="2.猜解密钥长度"></a>2.猜解密钥长度</h5><p>密钥key长度小于38 其中已知位数8位，所以未知位数长度小于30</p>
+<p>这里就可以用到汉明距离来猜解密钥长度。快速求解汉明距离的方法 就是 将等长字符串 进行异或。两个二进制字符异或后计算值为1的 比特位格式 就是最后的汉明距离。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hamming(&quot;1010&quot;, &quot;1111&quot;) == 2</span><br><span class="line">hamming(&quot;1111&quot;, &quot;0000&quot;) == 4</span><br><span class="line">hamming(&quot;1111&quot;, &quot;1111&quot;) == 0</span><br></pre></td></tr></table></figure>
+
+<p>大写字母A-Z ascii 65-90 65对应二进制 01000001 90对应二进制 01011010</p>
+<p>小写字母a-z ascii 97-122</p>
+<p>65对应二进制 01000001</p>
+<p>90对应二进制 01011010 字母汉明距离平均为2-3</p>
+<h6 id="汉明距离-密钥长度猜解之间的联系："><a href="#汉明距离-密钥长度猜解之间的联系：" class="headerlink" title="汉明距离 密钥长度猜解之间的联系："></a>汉明距离 密钥长度猜解之间的联系：</h6><p>两个以 Ascii编码的英文字符 之间的汉明距离是 23 所以正常英文字母的评价汉明距离为 23 【每比特】，任意字符（非纯字母）的两两汉明距离 平均为4。</p>
+<p>正确分组的密文与密文直接的汉明距离 等于明文与明文之间的汉明距离【通过按正确密钥长度分组的密文与密文异或等于明文与明文异或证明】</p>
+<p>所以 当使用正确的密钥长度后，两两字母进行计算汉明距离，这个值会趋于最小。</p>
+<h5 id="3-密文解密"><a href="#3-密文解密" class="headerlink" title="3.密文解密"></a>3.密文解密</h5><p>1.异或加密中 使用相同密钥加密的明文和密文加存在这个规律： 密文和密文异或 等于 明文和明文异或。</p>
+<p>2.空格和所有小写字母异或的结果是对应的大写字母； 空格和所有大写字母异或的结果是对应的小写字母。</p>
+<p>除空格外，有些组合可出现异或结果是大小写字母，但是空格出现时，结果在大小写字母间的概率最大。</p>
+<p>直接用文章的轮子Orz <a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/161171#h2-0">https://www.anquanke.com/post/id/161171#h2-0</a>  第一步去掉salt后即可直接使用</p>
+<h4 id="WP-2"><a href="#WP-2" class="headerlink" title="WP"></a>WP</h4><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bxor</span>(<span class="params">a, b</span>):     <span class="comment"># xor two byte strings of different lengths</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &gt; <span class="built_in">len</span>(b):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">bytes</span>([x ^ y <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(a[:<span class="built_in">len</span>(b)], b)])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">bytes</span>([x ^ y <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(a, b[:<span class="built_in">len</span>(a)])])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hamming_distance</span>(<span class="params">b1, b2</span>):</span><br><span class="line">    differing_bits = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> byte <span class="keyword">in</span> bxor(b1, b2):</span><br><span class="line">        differing_bits += <span class="built_in">bin</span>(byte).count(<span class="string">&quot;1&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> differing_bits</span><br><span class="line"></span><br><span class="line"><span class="comment"># text = &#x27;&#x27;</span></span><br><span class="line"><span class="comment"># with open(&quot;6.txt&quot;,&quot;r&quot;) as f:</span></span><br><span class="line"><span class="comment">#     for line in f:</span></span><br><span class="line"><span class="comment">#         text += line</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># b = base64.b64decode(text)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">break_single_key_xor</span>(<span class="params">text</span>):</span><br><span class="line">    key = <span class="number">0</span></span><br><span class="line">    possible_space=<span class="number">0</span></span><br><span class="line">    max_possible=<span class="number">0</span></span><br><span class="line">    letters = string.ascii_letters.encode(<span class="string">&#x27;ascii&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(text)):</span><br><span class="line">        maxpossible = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(text)):</span><br><span class="line">            <span class="keyword">if</span>(a == b):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            c = text[a] ^ text[b]</span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> letters <span class="keyword">and</span> c != <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            maxpossible += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> maxpossible&gt;max_possible:</span><br><span class="line">            max_possible=maxpossible</span><br><span class="line">            possible_space=a</span><br><span class="line">    key = text[possible_space]^ <span class="number">0x20</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">chr</span>(key)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">c=<span class="string">&#x27;49380d773440222d1b421b3060380c3f403c3844791b202651306721135b6229294a3c3222357e766b2f15561b35305e3c3b670e49382c295c6c170553577d3a2b791470406318315d753f03637f2b614a4f2e1c4f21027e227a4122757b446037786a7b0e37635024246d60136f7802543e4d36265c3e035a725c6322700d626b345d1d6464283a016f35714d434124281b607d315f66212d671428026a4f4f79657e34153f3467097e4e135f187a21767f02125b375563517a3742597b6c394e78742c4a725069606576777c314429264f6e330d7530453f22537f5e3034560d22146831456b1b72725f30676d0d5c71617d48753e26667e2f7a334c731c22630a242c7140457a42324629064441036c7e646208630e745531436b7c51743a36674c4f352a5575407b767a5c747176016c0676386e403a2b42356a727a04662b4446375f36265f3f124b724c6e346544706277641025063420016629225b43432428036f29341a2338627c47650b264c477c653a67043e6766152a485c7f33617264780656537e5468143f305f4537722352303c3d4379043d69797e6f3922527b24536e310d653d4c33696c635474637d0326516f745e610d773340306621105a7361654e3e392970687c2e335f3015677d4b3a724a4659767c2f5b7c16055a126820306c14315d6b59224a27311f747f336f4d5974321a22507b22705a226c6d446a37375761423a2b5c29247163046d7e47032244377508300751727126326f117f7a38670c2b23203d4f27046a5c5e1532601126292f577776606f0c6d0126474b2a73737a41316362146e581d7c1228717664091c&#x27;</span></span><br><span class="line">salt=<span class="string">&quot;WeAreDe1taTeam&quot;</span></span><br><span class="line">si2=cycle(salt)</span><br><span class="line">nosalt=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(<span class="built_in">len</span>(c)/<span class="number">2</span>)):</span><br><span class="line">    temp=c[i*<span class="number">2</span>:i*<span class="number">2</span>+<span class="number">2</span>]</span><br><span class="line">    <span class="comment"># print(binascii.a2b_hex(temp))</span></span><br><span class="line">    temphex_int=<span class="built_in">ord</span>(binascii.a2b_hex(temp).decode())</span><br><span class="line">    <span class="comment"># p = chr(temphex_int ^ ord(next(si2)) ^ ord(next(ki2)))</span></span><br><span class="line">    temp_re= <span class="built_in">hex</span>(temphex_int ^ <span class="built_in">ord</span>(<span class="built_in">next</span>(si2)))[<span class="number">2</span>:].zfill(<span class="number">2</span>)</span><br><span class="line">    nosalt=nosalt+temp_re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">b=binascii.a2b_hex(nosalt)</span><br><span class="line"></span><br><span class="line">normalized_distances = []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> KEYSIZE <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">40</span>):</span><br><span class="line">    <span class="comment">#我们取其中前6段计算平局汉明距离</span></span><br><span class="line">    b1 = b[: KEYSIZE]</span><br><span class="line">    b2 = b[KEYSIZE: KEYSIZE * <span class="number">2</span>]</span><br><span class="line">    b3 = b[KEYSIZE * <span class="number">2</span>: KEYSIZE * <span class="number">3</span>]</span><br><span class="line">    b4 = b[KEYSIZE * <span class="number">3</span>: KEYSIZE * <span class="number">4</span>]</span><br><span class="line">    b5 = b[KEYSIZE * <span class="number">4</span>: KEYSIZE * <span class="number">5</span>]</span><br><span class="line">    b6 = b[KEYSIZE * <span class="number">5</span>: KEYSIZE * <span class="number">6</span>]</span><br><span class="line"></span><br><span class="line">    normalized_distance = <span class="built_in">float</span>(</span><br><span class="line">        hamming_distance(b1, b2) +</span><br><span class="line">        hamming_distance(b2, b3) +</span><br><span class="line">        hamming_distance(b3, b4) +</span><br><span class="line">        hamming_distance(b4, b5) +</span><br><span class="line">        hamming_distance(b5, b6)</span><br><span class="line">    ) / (KEYSIZE * <span class="number">5</span>)</span><br><span class="line">    normalized_distances.append(</span><br><span class="line">        (KEYSIZE, normalized_distance)</span><br><span class="line">    )</span><br><span class="line">normalized_distances = <span class="built_in">sorted</span>(normalized_distances,key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> KEYSIZE,_ <span class="keyword">in</span> normalized_distances[:<span class="number">5</span>]:</span><br><span class="line">    block_bytes = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(KEYSIZE)]</span><br><span class="line">    <span class="keyword">for</span> i, byte <span class="keyword">in</span> <span class="built_in">enumerate</span>(b):</span><br><span class="line">        block_bytes[i % KEYSIZE].append(byte)</span><br><span class="line">    keys = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> bbytes <span class="keyword">in</span> block_bytes:</span><br><span class="line">            keys += break_single_key_xor(bbytes)</span><br><span class="line">        key = <span class="built_in">bytearray</span>(keys * <span class="built_in">len</span>(b), <span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        plaintext = bxor(b, key)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;keysize:&quot;</span>, KEYSIZE)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;key is:&quot;</span>, keys, <span class="string">&quot;n&quot;</span>)</span><br><span class="line">        s = <span class="built_in">bytes</span>.decode(plaintext)</span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://fitzbc.github.io/2019/08/04/De1CTF-xorz-Writeup/">https://fitzbc.github.io/2019/08/04/De1CTF-xorz-Writeup/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/161171#h2-0">https://www.anquanke.com/post/id/161171#h2-0</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"></i><i class="fa fa-tag"></i> Crypto</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/20e69e95/" rel="prev" title="RSA光滑数问题 - 待完成">
+      <i class="fa fa-chevron-left"></i> RSA光滑数问题 - 待完成
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/40c61146/" rel="next" title="密码学之流密码">
+      密码学之流密码 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">异或运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DEMO1"><span class="nav-number">3.</span> <span class="nav-text">DEMO1</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">题目分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WP"><span class="nav-number">3.3.</span> <span class="nav-text">WP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2023MoeCTF-xorrrrrrrrr"><span class="nav-number">4.</span> <span class="nav-text">2023MoeCTF xorrrrrrrrr</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90-1"><span class="nav-number">4.2.</span> <span class="nav-text">题目分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WP-1"><span class="nav-number">4.3.</span> <span class="nav-text">WP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2019-De1CTF-XORZ"><span class="nav-number">5.</span> <span class="nav-text">2019 De1CTF XORZ</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="nav-number">5.1.</span> <span class="nav-text">汉明距离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">5.2.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%88%86%E6%9E%90-2"><span class="nav-number">5.3.</span> <span class="nav-text">题目分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%8E%BB%E7%9B%90"><span class="nav-number">5.3.1.</span> <span class="nav-text">1.去盐</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E7%8C%9C%E8%A7%A3%E5%AF%86%E9%92%A5%E9%95%BF%E5%BA%A6"><span class="nav-number">5.3.2.</span> <span class="nav-text">2.猜解密钥长度</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB-%E5%AF%86%E9%92%A5%E9%95%BF%E5%BA%A6%E7%8C%9C%E8%A7%A3%E4%B9%8B%E9%97%B4%E7%9A%84%E8%81%94%E7%B3%BB%EF%BC%9A"><span class="nav-number">5.3.2.1.</span> <span class="nav-text">汉明距离 密钥长度猜解之间的联系：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%AF%86%E6%96%87%E8%A7%A3%E5%AF%86"><span class="nav-number">5.3.3.</span> <span class="nav-text">3.密文解密</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WP-2"><span class="nav-number">5.4.</span> <span class="nav-text">WP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">182</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">51</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1.2m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">18:03</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共243.8k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

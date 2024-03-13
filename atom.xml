@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-02-28T09:34:33.153Z</updated>
+  <updated>2024-03-13T09:27:59.029Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>密码学之流密码</title>
+    <link href="http://mamor5409.github.io/posts/40c61146/"/>
+    <id>http://mamor5409.github.io/posts/40c61146/</id>
+    <published>2024-03-13T09:27:59.000Z</published>
+    <updated>2024-03-13T09:27:59.029Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>密码学之XOR加密</title>
+    <link href="http://mamor5409.github.io/posts/a2e01687/"/>
+    <id>http://mamor5409.github.io/posts/a2e01687/</id>
+    <published>2024-03-13T09:22:48.000Z</published>
+    <updated>2024-03-13T09:27:45.733Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
+    
+  </entry>
   
   <entry>
     <title>RSA光滑数问题 - 待完成</title>
@@ -339,40 +373,6 @@
     
     
     <category term="CTF" scheme="http://mamor5409.github.io/tags/CTF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Escalate_Linux</title>
-    <link href="http://mamor5409.github.io/posts/c474af54/"/>
-    <id>http://mamor5409.github.io/posts/c474af54/</id>
-    <published>2023-10-23T10:43:12.000Z</published>
-    <updated>2023-10-24T01:48:13.759Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CS_Profile配置</title>
-    <link href="http://mamor5409.github.io/posts/ee84a496/"/>
-    <id>http://mamor5409.github.io/posts/ee84a496/</id>
-    <published>2023-09-22T05:48:15.000Z</published>
-    <updated>2024-02-04T09:29:39.063Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="CS" scheme="http://mamor5409.github.io/categories/CS/"/>
-    
-    
-    <category term="CS" scheme="http://mamor5409.github.io/tags/CS/"/>
     
   </entry>
   
