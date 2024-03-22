@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-03-21T10:02:36.041Z</updated>
+  <updated>2024-03-22T00:41:03.944Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://mamor5409.github.io/posts/ae3c8023/"/>
     <id>http://mamor5409.github.io/posts/ae3c8023/</id>
     <published>2024-03-21T09:41:07.000Z</published>
-    <updated>2024-03-21T10:02:36.041Z</updated>
+    <updated>2024-03-22T00:41:03.944Z</updated>
     
     
     <summary type="html"> </summary>
@@ -36,17 +36,21 @@
   </entry>
   
   <entry>
-    <title>密码学之流密码</title>
+    <title>流密码之LCG-01</title>
     <link href="http://mamor5409.github.io/posts/40c61146/"/>
     <id>http://mamor5409.github.io/posts/40c61146/</id>
     <published>2024-03-13T09:27:59.000Z</published>
-    <updated>2024-03-13T09:28:17.238Z</updated>
+    <updated>2024-03-22T00:46:54.562Z</updated>
     
     
     <summary type="html"> </summary>
     
     
     
+    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
+    
+    
+    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
