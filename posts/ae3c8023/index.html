@@ -64,8 +64,9 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/21.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/22.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/23.png">
+<meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/24.png">
 <meta property="article:published_time" content="2024-03-21T09:41:07.000Z">
-<meta property="article:modified_time" content="2024-03-22T00:41:03.944Z">
+<meta property="article:modified_time" content="2024-05-11T00:55:10.107Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="WiFi">
 <meta name="twitter:card" content="summary">
@@ -277,7 +278,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-22 08:41:03" itemprop="dateModified" datetime="2024-03-22T08:41:03+08:00">2024-03-22</time>
+                <time title="修改时间：2024-05-11 08:55:10" itemprop="dateModified" datetime="2024-05-11T08:55:10+08:00">2024-05-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,14 +303,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.1k</span>
+              <span>6.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -322,7 +323,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>前言</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>无线安全应用无所不在，企业和个人在使用开放的无线网络时，虽然知道存在安全风险，但仍然依赖于这种网络模式。为了保护用户、设备和服务系统的安全，企业安全团队必须重视无线网络的安全性。了解可能出现的无线网络攻击类型以及采取适当的保护措施至关重要。本篇将简析下Wifi安全的常见攻击手法。</p>
 <h3 id="IEEE-802-11"><a href="#IEEE-802-11" class="headerlink" title="IEEE 802.11"></a>IEEE 802.11</h3><p>802.11 体系结构包括几类主要组件， AP(Access Point，无线接入点)、STA(Station，站)、IBSS、BSS、DS、ESS。</p>
 <p>802.11标准将所有数据包分为3种：数据、管理、控制</p>
 <ul>
@@ -503,22 +504,24 @@
 <p><img src="/posts/ae3c8023/22.png"></p>
 <p>当用户输入密码时 我们便通过这种wifi调用的方式得到了wifi密码</p>
 <p><img src="/posts/ae3c8023/23.png"></p>
-<hr>
-<h4 id="密钥重装攻击"><a href="#密钥重装攻击" class="headerlink" title="密钥重装攻击"></a>密钥重装攻击</h4><p>密钥重装攻击（key reinstallation attacks，简称：KRACKs），是对用于保护Wi-Fi连接的Protected Access Protocol（WPA2）的重放攻击。</p>
-<p>在四次握手过程中的第三次握手中，AP会发送Msg3(GTK+MIC) 给Station，如果Station没有收到AP发送的消息，AP会重传Msg3；但是Station不会根据是否收到AP发送消息进行判断，会直接发出ACK，完成第四次握手。由于已经安装了PTK，所以Station回复的Msg4是一个加密后的Msg4。</p>
-<p>攻击者可以通过</p>
-<p>在数学证明上 已经证明了四次握手的安全性，四次握手保证了密钥协商是安全的、握手信息是无法篡改的。但是实际上可以多次安装相同的密钥，从而重置加密协议使用的随机数和重播计数器。</p>
-<p>实例</p>
-<p>还没来得及复现 </p>
-<p>这部分没弄完</p>
-<p>最近看了几本零零散散的无线安全的书，感觉wifi部分 现如今能利用的也就这些【更高级的也没听说过 菜狗一枚】</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>《黑客大揭秘：近源渗透测试》</p>
-<p><a target="_blank" rel="noopener" href="https://www.krackattacks.com/">https://www.krackattacks.com/</a></p>
+<h4 id="密钥重装攻击"><a href="#密钥重装攻击" class="headerlink" title="密钥重装攻击"></a>密钥重装攻击</h4><p>密钥重装攻击，其本质属于重放攻击，主要是利用 WPA/WPA2 协议在实现上的漏洞，出现在四次握手过程中。当客户端试图连接一个受保护的Wi-Fi网络时，AP将会发起四次握手完成相互认证。其中包含一个 AP 向客户端传输 Msg3 的过程，攻击者可以反复重放这一过程，导致 Nonce 被重置，继而导致传输的数据可以被攻击者解密，这便是 Krack攻击的大致流程。</p>
+<p><strong>具体原理分析如下：</strong></p>
+<p>在四次握手客户端与AP通信过程中，AP一般称为”Authenticator”，表示认证方；客户端称为”Supplicant”，表示请求方。在四次握手协议中都会生成一个会话密钥 PTK(Pairwise Transit Key)，成对传输密钥，用来加密 AP 和 Station 通讯的单播数据包，AP 与每个 Station 通信用的PTK都是唯一的。PTK的包含五部分：PMK、ANonce、SNonce、Mac(AA)、MAC(SA)，其中ANonce、SNonce为生成的随机数；MAC(AA)、MAC(SA)则为对应两端的MAC地址；PMK为主密钥，与前面四者共同组成PTK，PTK才是整个的用来加密数据的密钥。</p>
+<p>客户端在如果要发送明文数据，则需要利用 PTK 和 Nonce 生产一个密钥，这个密钥中的 Nonce 并不是前面提到的 ANonce 或 SNonce，它会随着客户端每发送一个报文，Nonce 就会自动加1， Nonce 和 PTK 混合成为密钥流后，与明文数据进行异或运算便生成了密文数据。</p>
+<p>所以在 Krack 攻击过程中 Nonce 重用，也就意味着密钥流重用。在四次握手过程中，客户端收到 AP 发来的 Msg3 后，会按照加密密钥，以用于加密数据帧。如果客户端没有收到 AP发送的 Msg3，AP 会重传 Msg3，但是 Station 并不会根据是否收到 Msg3 进行判断。 在AP重传 Msg3 之前，客户端已经在之前的 Msg4 发送后安装了 PTK，此时客户端肯定会向 AP 发送了加密数据。但由于前面重传 Msg3 导致 Nonce 被重用了，在数据加密时还是采用之前的 Nonce 值，所以客户端传输的两次数据中使用的是同一个 Nonce。</p>
+<p>在四次握手过程中发过来的明文的msg4 和重传 msg3 后的msg4 处理Authenticator 之外没有不同（msg1和msg2中的Authenticator为同一个，在msg3中则为Authenticator+1），而 Authenticator 对 Msg4 又无影响。此时攻击者有了明文的 Msg4 和对应 Msg4 的密文，明文异或密文便可得到加密时的密钥流。</p>
+<p>由于 Nonce 重置导致我们在加密数据时使用的密钥和前面的密钥流是同一个密钥，那我们就可以使用前面推到的密钥流去解密后面传输的数据，最终实现数据的解密。</p>
+<p>攻击者作为中间人，放任四次握手过程中的前三次握手，在最后一次握手是阻断msg4的传输，导致 AP 重传Msg3、密钥重装、Nonce 被重置，再根据前面的明文和密文对应关系推到出密钥流，然后通过密钥流解密被重装后加密的数据，最终实现数据解密。</p>
+<p><img src="/posts/ae3c8023/24.png"></p>
+<p>在Linux和Android系统重设定了接受加密Msg3重传，而在Windows 系统和 IOS 系统违背了 IEEE 规定的802.11标准，不会接受 Msg3 重传而逃过一劫。</p>
+<p>对于Krack的防御，对于个人用户针对Krack最方便的方法就是及时更新或安装对应补丁；对于企业用户，可以考虑采用 WIPS 的防御系统，它采用的是与攻击者类似的思路，也是采用链路攻击的方式打掉攻击者的设备而实现保护。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://www.krackattacks.com/">https://www.krackattacks.com/</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.kanxue.com/book-47-748.htm">https://www.kanxue.com/book-47-748.htm</a></p>
 <p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1819">https://forum.butian.net/share/1819</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.wevul.com/1647.html">https://www.wevul.com/1647.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2032816">https://cloud.tencent.com/developer/article/2032816</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1a1927304a4e">https://www.jianshu.com/p/1a1927304a4e</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30229178">https://zhuanlan.zhihu.com/p/30229178</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Matsec/p/15429176.html">https://www.cnblogs.com/Matsec/p/15429176.html</a></p>
+<p>《黑客大揭秘：近源渗透测试》</p>
 
     </div>
 
@@ -645,7 +648,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#IEEE-802-11"><span class="nav-number">1.</span> <span class="nav-text">IEEE 802.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86"><span class="nav-number">1.1.</span> <span class="nav-text">协议标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">802.11 加密系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WEP"><span class="nav-number">2.1.</span> <span class="nav-text">WEP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA"><span class="nav-number">2.2.</span> <span class="nav-text">WPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA2"><span class="nav-number">2.3.</span> <span class="nav-text">WPA2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA3"><span class="nav-number">2.4.</span> <span class="nav-text">WPA3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">802.11 连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-WPA2-%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">4.</span> <span class="nav-text">WPA&#x2F;WPA2 四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg1"><span class="nav-number">4.1.</span> <span class="nav-text">Msg1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg2"><span class="nav-number">4.2.</span> <span class="nav-text">Msg2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg3"><span class="nav-number">4.3.</span> <span class="nav-text">Msg3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg4"><span class="nav-number">4.4.</span> <span class="nav-text">Msg4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">常见攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E5%AD%97%E5%85%B8%E6%94%BB%E5%87%BB"><span class="nav-number">5.1.</span> <span class="nav-text">离线字典攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DeAuth-Attack"><span class="nav-number">5.2.</span> <span class="nav-text">DeAuth Attack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wi-Fi-%E9%92%93%E9%B1%BC"><span class="nav-number">5.3.</span> <span class="nav-text">Wi-Fi 钓鱼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E9%87%8D%E8%A3%85%E6%94%BB%E5%87%BB"><span class="nav-number">5.4.</span> <span class="nav-text">密钥重装攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IEEE-802-11"><span class="nav-number">2.</span> <span class="nav-text">IEEE 802.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86"><span class="nav-number">2.1.</span> <span class="nav-text">协议标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">802.11 加密系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WEP"><span class="nav-number">3.1.</span> <span class="nav-text">WEP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA"><span class="nav-number">3.2.</span> <span class="nav-text">WPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA2"><span class="nav-number">3.3.</span> <span class="nav-text">WPA2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA3"><span class="nav-number">3.4.</span> <span class="nav-text">WPA3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">802.11 连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-WPA2-%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">5.</span> <span class="nav-text">WPA&#x2F;WPA2 四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg1"><span class="nav-number">5.1.</span> <span class="nav-text">Msg1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg2"><span class="nav-number">5.2.</span> <span class="nav-text">Msg2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg3"><span class="nav-number">5.3.</span> <span class="nav-text">Msg3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg4"><span class="nav-number">5.4.</span> <span class="nav-text">Msg4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">常见攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E5%AD%97%E5%85%B8%E6%94%BB%E5%87%BB"><span class="nav-number">6.1.</span> <span class="nav-text">离线字典攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DeAuth-Attack"><span class="nav-number">6.2.</span> <span class="nav-text">DeAuth Attack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wi-Fi-%E9%92%93%E9%B1%BC"><span class="nav-number">6.3.</span> <span class="nav-text">Wi-Fi 钓鱼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E9%87%8D%E8%A3%85%E6%94%BB%E5%87%BB"><span class="nav-number">6.4.</span> <span class="nav-text">密钥重装攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -723,7 +726,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18:21</span>
+    <span title="站点阅读时长">18:22</span>
 </div>
 
 <!--
@@ -734,7 +737,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共248.4k字</span>
+  <span class="post-count">博客全站共249.2k字</span>
 </div>
 -->
         
