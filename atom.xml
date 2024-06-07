@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-05-21T10:09:44.196Z</updated>
+  <updated>2024-06-07T08:33:11.875Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>玄机应急响应-第九章-blueteam 的小心思2</title>
+    <link href="http://mamor5409.github.io/posts/b8335347/"/>
+    <id>http://mamor5409.github.io/posts/b8335347/</id>
+    <published>2024-06-06T07:44:52.000Z</published>
+    <updated>2024-06-07T08:33:11.875Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>CVE-2024-32002_Git远程代码执行漏洞复现与分析</title>
     <link href="http://mamor5409.github.io/posts/6d847069/"/>
     <id>http://mamor5409.github.io/posts/6d847069/</id>
     <published>2024-05-21T10:02:29.000Z</published>
-    <updated>2024-05-21T10:09:44.196Z</updated>
+    <updated>2024-05-21T10:16:36.186Z</updated>
     
     
     <summary type="html"> </summary>
@@ -358,21 +373,6 @@
     
     
     <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PoolParty_Windows线程池注入</title>
-    <link href="http://mamor5409.github.io/posts/df681750/"/>
-    <id>http://mamor5409.github.io/posts/df681750/</id>
-    <published>2024-01-04T06:25:58.000Z</published>
-    <updated>2024-02-04T05:58:52.069Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
     
   </entry>
   
