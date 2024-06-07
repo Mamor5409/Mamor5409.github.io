@@ -84,7 +84,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607155305869.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607155722861.png">
 <meta property="article:published_time" content="2024-06-06T07:44:52.000Z">
-<meta property="article:modified_time" content="2024-06-07T08:41:26.646Z">
+<meta property="article:modified_time" content="2024-06-07T09:05:26.536Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607150424444.png">
@@ -295,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-07 16:41:26" itemprop="dateModified" datetime="2024-06-07T16:41:26+08:00">2024-06-07</time>
+                <time title="修改时间：2024-06-07 17:05:26" itemprop="dateModified" datetime="2024-06-07T17:05:26+08:00">2024-06-07</time>
               </span>
 
           
@@ -311,7 +311,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -446,9 +446,8 @@
 <p>flag{/etc/systemd/system/svilfms.service}</p>
 <h4 id="6-修复-4000-6000-端口漏洞"><a href="#6-修复-4000-6000-端口漏洞" class="headerlink" title="6.修复 4000-6000 端口漏洞"></a>6.修复 4000-6000 端口漏洞</h4><p>5000端口 存在  Docker Register API未授权</p>
 <p>在防火墙上 配置 禁止外网访问 5000 端口</p>
+<p><code>iptables -F</code> 清除原来的【不然不起作用】</p>
 <p><code>sudo iptables -A INPUT -p tcp --dport 5000 -j DROP</code></p>
-<p>继续访问 <a target="_blank" rel="noopener" href="http://ip:5000/">http://ip:5000</a> 但是好像无效，尽管设置了iptables还能访问到</p>
-<p>看了下是在 docker-proxy中 启动5000 【描述不太准确 不会修复。。。】</p>
 <h4 id="7-修复File-Management-System漏洞"><a href="#7-修复File-Management-System漏洞" class="headerlink" title="7.修复File Management System漏洞"></a>7.修复File Management System漏洞</h4><p>FMS中存在 JWT绕过，找到对应服务使用的jar包在 home目录下  名为 fms.jar </p>
 <p>jadx-gui 打开 fms.jar</p>
 <p>检索关键词 sysadmin</p>
