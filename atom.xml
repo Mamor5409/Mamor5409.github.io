@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-06-07T09:05:26.536Z</updated>
+  <updated>2024-06-07T09:30:39.848Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -21,7 +21,22 @@
     <link href="http://mamor5409.github.io/posts/b8335347/"/>
     <id>http://mamor5409.github.io/posts/b8335347/</id>
     <published>2024-06-06T07:44:52.000Z</published>
-    <updated>2024-06-07T09:05:26.536Z</updated>
+    <updated>2024-06-07T09:30:39.848Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>k3s_docker分离部署gzctf</title>
+    <link href="http://mamor5409.github.io/posts/c2d41507/"/>
+    <id>http://mamor5409.github.io/posts/c2d41507/</id>
+    <published>2024-06-05T09:05:21.000Z</published>
+    <updated>2024-06-11T03:33:36.457Z</updated>
     
     
     <summary type="html"> </summary>
@@ -344,25 +359,6 @@
     <id>http://mamor5409.github.io/posts/b9d99e81/</id>
     <published>2024-01-17T09:31:06.000Z</published>
     <updated>2024-02-04T06:25:41.344Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CTF密码学之AES加密</title>
-    <link href="http://mamor5409.github.io/posts/b568ee4f/"/>
-    <id>http://mamor5409.github.io/posts/b568ee4f/</id>
-    <published>2024-01-11T05:44:11.000Z</published>
-    <updated>2024-02-23T02:57:51.297Z</updated>
     
     
     <summary type="html"> </summary>

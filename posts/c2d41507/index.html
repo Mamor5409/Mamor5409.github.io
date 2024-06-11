@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="k3s_docker分离部署gzctf">
+<meta property="og:url" content="http://mamor5409.github.io/posts/c2d41507/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-05T09:05:21.000Z">
+<meta property="article:modified_time" content="2024-06-11T03:33:36.457Z">
+<meta property="article:author" content="Mamor">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/c2d41507/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>k3s_docker分离部署gzctf | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/c2d41507/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k3s_docker分离部署gzctf
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-06-05 17:05:21" itemprop="dateCreated datePublished" datetime="2024-06-05T17:05:21+08:00">2024-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-11 11:33:36" itemprop="dateModified" datetime="2024-06-11T11:33:36+08:00">2024-06-11</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>k3s+docker 部署gzctf过程记录</p>
+<h2 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h2><h3 id="服务器x3"><a href="#服务器x3" class="headerlink" title="服务器x3"></a>服务器x3</h3><p>k3s-master        192.168.80.20</p>
+<p>k3s-slave        192.168.80.27(26)</p>
+<p>gzctfweb         192.168.80.28(63)</p>
+<p>别用dhcp 弄个靠后的ip桥接</p>
+<h3 id="修改用户名"><a href="#修改用户名" class="headerlink" title="修改用户名"></a>修改用户名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname gzctfweb  # gzctfweb服务器执行</span><br><span class="line">hostnamectl set-hostname k3s-master</span><br><span class="line">hostnamectl set-hostname k3s-slave</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="关闭防火墙-三台机器都执行"><a href="#关闭防火墙-三台机器都执行" class="headerlink" title="关闭防火墙  三台机器都执行"></a>关闭防火墙  三台机器都执行</h3><p>ubuntu  关闭防火墙</p>
+<p>sudo ufw disable </p>
+<p>清空iptables规则</p>
+<p>iptables -F</p>
+<h3 id="配置hosts解析"><a href="#配置hosts解析" class="headerlink" title="配置hosts解析"></a>配置hosts解析</h3><p>在k3s master和 slave中执行</p>
+<p>cat &gt;&gt;/etc/hosts&lt;&lt;EOF 192.168.80.20 k3s-master 192.168.80.27 k3s-slave  EOF</p>
+<h3 id="安装docker【k3s-master-slave执行】"><a href="#安装docker【k3s-master-slave执行】" class="headerlink" title="安装docker【k3s master\slave执行】"></a>安装docker【k3s master\slave执行】</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://releases.rancher.com/install-docker/20.10.sh | sh</span><br><span class="line">systemctl enable --now docker  # docker开启自启</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="k3s-部署-gzctf"><a href="#k3s-部署-gzctf" class="headerlink" title="k3s 部署 gzctf"></a>k3s 部署 gzctf</h2><h3 id="1-安装k3s集群"><a href="#1-安装k3s集群" class="headerlink" title="1.安装k3s集群"></a>1.安装k3s集群</h3><p>按gzctf中 下载k3s  </p>
+<p>curl -sfL <a target="_blank" rel="noopener" href="https://rancher-mirror.rancher.cn/k3s/k3s-install.sh">https://rancher-mirror.rancher.cn/k3s/k3s-install.sh</a> | INSTALL_K3S_MIRROR=cn sh -</p>
+<p>但不加配置参数 加别的额外参数会报错</p>
+<h3 id="2-安装slave节点"><a href="#2-安装slave节点" class="headerlink" title="2.安装slave节点"></a>2.安装slave节点</h3><p>在k3s-master中查看 token</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /var/lib/rancher/k3s/server/node-token </span><br><span class="line">K1049517f32c21a31aac5b53e5423386b6b0ae9b0e706b06cc1baebfe3e474929a3::server:ab280ce6ccffbd6d5c97a9036f973072</span><br></pre></td></tr></table></figure>
+
+<p>将toekn和 master对应ip填入 配置slave端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=&quot;--docker&quot; K3S_URL=https://192.168.80.20:6443 K3S_TOKEN=K1049517f32c21a31aac5b53e5423386b6b0ae9b0e706b06cc1baebfe3e474929a3::server:ab280ce6ccffbd6d5c97a9036f973072 sh -  </span><br><span class="line"></span><br><span class="line"># 开机自启</span><br><span class="line">systemctl enable --now k3s-agent.service</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-更改nodeport-端口范围【master执行】"><a href="#3-更改nodeport-端口范围【master执行】" class="headerlink" title="3.更改nodeport 端口范围【master执行】"></a>3.更改nodeport 端口范围【master执行】</h3><p>vim /etc/systemd/system/k3s.service</p>
+<p>在ExecStart = /usr/local/bin/k3s 最后写入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--kube-apiserver-arg service-node-port-range=20000-50000</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-更改k3s容器数量限制【master-slave执行】"><a href="#4-更改k3s容器数量限制【master-slave执行】" class="headerlink" title="4.更改k3s容器数量限制【master/slave执行】"></a>4.更改k3s容器数量限制【master/slave执行】</h3><p>vim /etc/rancher/k3s/kubelet.config</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: kubelet.config.k8s.io/v1beta1</span><br><span class="line">kind: KubeletConfiguration</span><br><span class="line">maxPods: 500  # 容器数量限制</span><br></pre></td></tr></table></figure>
+
+<p>vim /etc/systemd/system/k3s.service</p>
+<p>在ExecStart=/usr/local/bin/k3s最后写入如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--kubelet-arg=config=/etc/rancher/k3s/kubelet.config</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-添加docker镜像仓库【master执行】"><a href="#5-添加docker镜像仓库【master执行】" class="headerlink" title="5.添加docker镜像仓库【master执行】"></a>5.添加docker镜像仓库【master执行】</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mirrors:</span><br><span class="line">  &quot;docker.io&quot;:</span><br><span class="line">    endpoint:</span><br><span class="line">      - &quot;https://hub.docker.com&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="6-配置完成后-重启k3s集群"><a href="#6-配置完成后-重启k3s集群" class="headerlink" title="6.配置完成后 重启k3s集群"></a>6.配置完成后 重启k3s集群</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s  # master节点</span><br><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s-agent # slave节点</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="7-gzctfweb配置"><a href="#7-gzctfweb配置" class="headerlink" title="7.gzctfweb配置"></a>7.gzctfweb配置</h3><ol>
+<li>docker-compose.yml</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3.0&#x27;</span><br><span class="line">services:</span><br><span class="line">  gzctf:</span><br><span class="line">    image: gztime/gzctf:latest</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      - &quot;GZCTF_ADMIN_PASSWORD=Admin123&quot;  # gzctf管理员初始密码</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;80:8080&quot;</span><br><span class="line">    networks:</span><br><span class="line">      default:</span><br><span class="line">    volumes:</span><br><span class="line">      - &quot;./data/files:/app/files&quot;</span><br><span class="line">      - &quot;./appsettings.json:/app/appsettings.json:ro&quot;</span><br><span class="line">      - &quot;./logs:/app/log&quot;</span><br><span class="line">      # - &quot;./data/keys:/root/.aspnet/DataProtection-Keys&quot;</span><br><span class="line">      - &quot;./kube-config.yaml:/app/kube-config.yaml:ro&quot;</span><br><span class="line">      # - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span><br><span class="line">    depends_on:</span><br><span class="line">      - db</span><br><span class="line"> </span><br><span class="line">  db:</span><br><span class="line">    image: postgres:alpine</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      - &quot;POSTGRES_PASSWORD=admin123&quot;  # 数据库的密码</span><br><span class="line">    networks:</span><br><span class="line">      default:</span><br><span class="line">    volumes:</span><br><span class="line">      - &quot;./data/db:/var/lib/postgresql/data&quot;</span><br><span class="line"> </span><br><span class="line">networks:</span><br><span class="line">  default:</span><br><span class="line">    driver: bridge</span><br><span class="line">    ipam:</span><br><span class="line">      config:</span><br><span class="line">        - subnet: 192.168.12.0/24</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>appsettings.json</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;AllowedHosts&quot;: &quot;*&quot;,</span><br><span class="line">  &quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">    &quot;Database&quot;: &quot;Host=db:5432;Database=gzctf;Username=postgres;Password=admin123&quot;  //数据库的信息</span><br><span class="line">    // redis is optional</span><br><span class="line">    //&quot;RedisCache&quot;: &quot;cache:6379,password=&lt;Redis Password&gt;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Logging&quot;: &#123;</span><br><span class="line">    &quot;LogLevel&quot;: &#123;</span><br><span class="line">      &quot;Default&quot;: &quot;Information&quot;,</span><br><span class="line">      &quot;Microsoft&quot;: &quot;Warning&quot;,</span><br><span class="line">      &quot;Microsoft.Hosting.Lifetime&quot;: &quot;Information&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;EmailConfig&quot;: &#123;</span><br><span class="line">    &quot;SendMailAddress&quot;: &quot;a@a.com&quot;,</span><br><span class="line">    &quot;UserName&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Password&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Smtp&quot;: &#123;</span><br><span class="line">      &quot;Host&quot;: &quot;localhost&quot;,</span><br><span class="line">      &quot;Port&quot;: 587</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;XorKey&quot;: &quot;z&quot;,  //异或加密密钥</span><br><span class="line">  &quot;ContainerProvider&quot;: &#123;</span><br><span class="line">    &quot;Type&quot;: &quot;Kubernetes&quot;, // or &quot;Kubernetes&quot;</span><br><span class="line">    &quot;PublicEntry&quot;: &quot;192.168.80.20&quot;, // 写k3s-master的ip</span><br><span class="line">    &quot;DockerConfig&quot;: &#123;</span><br><span class="line">      // optional</span><br><span class="line">      &quot;SwarmMode&quot;: false,</span><br><span class="line">      &quot;Uri&quot;: &quot;unix:///var/run/docker.sock&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;RequestLogging&quot;: false,</span><br><span class="line">  &quot;DisableRateLimit&quot;: false,</span><br><span class="line">  &quot;RegistryConfig&quot;: &#123;</span><br><span class="line">    &quot;UserName&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Password&quot;: &quot;&quot;,</span><br><span class="line">    &quot;ServerAddress&quot;: &quot;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;GoogleRecaptcha&quot;: &#123;</span><br><span class="line">    &quot;VerifyAPIAddress&quot;: &quot;https://www.recaptcha.net/recaptcha/api/siteverify&quot;,</span><br><span class="line">    &quot;Sitekey&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Secretkey&quot;: &quot;&quot;,</span><br><span class="line">    &quot;RecaptchaThreshold&quot;: &quot;0.5&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ol>
+<li>kube-config.yaml</li>
+</ol>
+<p>在master机器中 cat /etc/rancher/k3s/k3s.yaml 在web机器中另存为 kube-config.yaml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">clusters:</span><br><span class="line">- cluster:</span><br><span class="line">    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUzTVRZNE9ESTBNamN3SGhjTk1qUXdOVEk0TURjME56QTNXaGNOTXpRd05USTJNRGMwTnpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUzTVRZNE9ESTBNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFRNm9sRE53c3RUN2k5S1A3VXUyZzdmNlRnZ3AycnVHMWxubWJMWFRNeSsKb3hHZmVBUDRGam0rYzBJd0JMY1JyRnVXcVZlZ1g2T0x4dzRvRkMzS3NRM2tvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVXMvSUZtaGRNeGsrNGc2TkFXMnU3CjJGU1M3eXN3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnR1lqYkFUYnBrWGQydEZ6c3FUamdFc0VWdmx6UWNsK1EKdzV6SWIvWC9ZZkVDSVFDc3dtek1rSVhYbEJ2dm51OTQxNS9rNFdoY2p2aEhyWThCRTRzQkZtMWZjZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K</span><br><span class="line">    server: https://192.168.80.20:6443  //写k3s-master的ip:porthttps://127.0.0.1:6443</span><br><span class="line">  name: default</span><br><span class="line">contexts:</span><br><span class="line">- context:</span><br><span class="line">    cluster: default</span><br><span class="line">    user: default</span><br><span class="line">  name: default</span><br><span class="line">current-context: default</span><br><span class="line">kind: Config</span><br><span class="line">preferences: &#123;&#125;</span><br><span class="line">users:</span><br><span class="line">- name: default</span><br><span class="line">  user:</span><br><span class="line">    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrVENDQVRlZ0F3SUJBZ0lJYS8xZEwxMXNkUkV3Q2dZSUtvWkl6ajBFQXdJd0l6RWhNQjhHQTFVRUF3d1kKYXpOekxXTnNhV1Z1ZEMxallVQXhOekUyT0RneU5ESTNNQjRYRFRJME1EVXlPREEzTkRjd04xb1hEVEkxTURVeQpPREEzTkRjd04xb3dNREVYTUJVR0ExVUVDaE1PYzNsemRHVnRPbTFoYzNSbGNuTXhGVEFUQmdOVkJBTVRESE41CmMzUmxiVHBoWkcxcGJqQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJISFlIbDMvL0EybnZ3alAKNDUxeHU0REhDbUtacTY4aXRqUHhJSkdaaE5MWU1yY1pXWnZjZWFZN1FXeERvZi9KcVJUekdGY3RPUXV3V1NNOQpvd1NJd1IralNEQkdNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBakFmCkJnTlZIU01FR0RBV2dCUll1YmlPTUZNZHhFb0Z2bVRDeGFIaHdhODBkVEFLQmdncWhrak9QUVFEQWdOSUFEQkYKQWlBOU5tL0lPdTBqQ25aNGtjaWJqTEdCSUgyRFllMmdLNklWb3ppQXdrZXQxZ0loQU5qdlJSUzEvYitRU1c3eAp3TktBYUQrTkdTbXhmd1dHZWJ5aGtmZVJvMGhuCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0KLS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJlRENDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdFkyeHAKWlc1MExXTmhRREUzTVRZNE9ESTBNamN3SGhjTk1qUXdOVEk0TURjME56QTNXaGNOTXpRd05USTJNRGMwTnpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRZMnhwWlc1MExXTmhRREUzTVRZNE9ESTBNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFSa29zNWYyU2pWNWhHWHhTMERoMlZUR01FMktYV3gzb0NWSWhzY3JCYXQKdlRaZjJmSi9oRHZNeTlOTmdpMHlTMW9CWnBvNVQwTkJLY25YZ0lnNlN1ZnFvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVVdMbTRqakJUSGNSS0JiNWt3c1doCjRjR3ZOSFV3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUlXbHcraUNkL25uZjRJaittekFlSHZNbDc0Q2o4V0kKRnBYM3djcjcyTytxQWlFQXZiT2dRT0RVNExFdWdxRCtGSHRYdWVtTHBSeHdDK2thTjJNN3JyVEJzRzA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K</span><br><span class="line">    client-key-data: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUVOQUJ1bktoZk5BNzVoUlVrMmF2Y0lHb2xJcXM3Ymp1ckk1aEhRdWNhTEJvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFY2RnZVhmLzhEYWUvQ00vam5YRzdnTWNLWXBtcnJ5SzJNL0Vna1ptRTB0Z3l0eGxabTl4NQpwanRCYkVPaC84bXBGUE1ZVnkwNUM3QlpJejJqQklqQkh3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=</span><br></pre></td></tr></table></figure>
+
+<p>配置完成后 启动 gzctf</p>
+<p>docker-compose -f  docker-compose.yml up   #前台运行【-d 后台运行】</p>
+<p>docker-compose -f  docker-compose.yml stop  #停止</p>
+<p>docker-compose -f  docker-compose.yml rm   #删除</p>
+<p>Admin/Admin123</p>
+<h2 id="题目配置"><a href="#题目配置" class="headerlink" title="题目配置"></a>题目配置</h2><p>部署web pwn</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52820087/article/details/127851116">https://blog.csdn.net/qq_52820087/article/details/127851116</a></p>
+<p>CTF本地靶场搭建——基于阿里云ACR实现动态flag题型的创建</p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1526499">https://developer.aliyun.com/article/1526499</a> </p>
+<p>如何优雅的使用Docker出一道动态flag的CTF题-GZCTF</p>
+<p><a target="_blank" rel="noopener" href="https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/">https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/</a></p>
+<p>在k3s master中 构建题目 然后上穿到docker中   具体方法参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52820087/article/details/127851116">https://blog.csdn.net/qq_52820087/article/details/127851116</a></p>
+<p>目前存在问题  配置的为 k3s主的ip  然后生成的为 主的ip 但是实际上开的所 slave机器的</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>GZCTF隐藏积分榜记录 <a target="_blank" rel="noopener" href="https://www.zhaoj.in/read-8947.html">https://www.zhaoj.in/read-8947.html</a></p>
+<p>GZCTF平台对接QQ机器人 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Joooook/p/18152428">https://www.cnblogs.com/Joooook/p/18152428</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/CTF-Archives/GZCTFBOT">https://github.com/CTF-Archives/GZCTFBOT</a></p>
+<hr>
+<h2 id="开启流量捕获"><a href="#开启流量捕获" class="headerlink" title="开启流量捕获"></a>开启流量捕获</h2><p>捕获队伍解题流量 需开启平台代理</p>
+<p>平台代理配置  <a target="_blank" rel="noopener" href="https://docs.ctf.gzti.me/zh/guide/platform-proxy">https://docs.ctf.gzti.me/zh/guide/platform-proxy</a></p>
+<p>在 appsettings.json 中，找到 ContainerProvider 节点，进行如下配置：</p>
+<p>{  “ContainerProvider”: {    “PortMappingType”: “PlatformProxy”,    “EnableTrafficCapture”: false  } }</p>
+<p>然后使用 websocket进行连接</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/6d847069/" rel="prev" title="CVE-2024-32002_Git远程代码执行漏洞复现与分析">
+      <i class="fa fa-chevron-left"></i> CVE-2024-32002_Git远程代码执行漏洞复现与分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/b8335347/" rel="next" title="玄机应急响应-第九章-blueteam 的小心思2">
+      玄机应急响应-第九章-blueteam 的小心思2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">准备阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8x3"><span class="nav-number">1.1.</span> <span class="nav-text">服务器x3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D"><span class="nav-number">1.2.</span> <span class="nav-text">修改用户名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E9%83%BD%E6%89%A7%E8%A1%8C"><span class="nav-number">1.3.</span> <span class="nav-text">关闭防火墙  三台机器都执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEhosts%E8%A7%A3%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">配置hosts解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker%E3%80%90k3s-master-slave%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">1.5.</span> <span class="nav-text">安装docker【k3s master\slave执行】</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k3s-%E9%83%A8%E7%BD%B2-gzctf"><span class="nav-number">2.</span> <span class="nav-text">k3s 部署 gzctf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85k3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.1.</span> <span class="nav-text">1.安装k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85slave%E8%8A%82%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2.安装slave节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9B%B4%E6%94%B9nodeport-%E7%AB%AF%E5%8F%A3%E8%8C%83%E5%9B%B4%E3%80%90master%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.3.</span> <span class="nav-text">3.更改nodeport 端口范围【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%9B%B4%E6%94%B9k3s%E5%AE%B9%E5%99%A8%E6%95%B0%E9%87%8F%E9%99%90%E5%88%B6%E3%80%90master-slave%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.4.</span> <span class="nav-text">4.更改k3s容器数量限制【master&#x2F;slave执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B7%BB%E5%8A%A0docker%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93%E3%80%90master%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.5.</span> <span class="nav-text">5.添加docker镜像仓库【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E9%85%8D%E7%BD%AE%E5%AE%8C%E6%88%90%E5%90%8E-%E9%87%8D%E5%90%AFk3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.6.</span> <span class="nav-text">6.配置完成后 重启k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-gzctfweb%E9%85%8D%E7%BD%AE"><span class="nav-number">2.7.</span> <span class="nav-text">7.gzctfweb配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">题目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%B5%81%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">5.</span> <span class="nav-text">开启流量捕获</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1.2m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">18:38</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共253.6k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+
