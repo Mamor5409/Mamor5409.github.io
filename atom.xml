@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-11-19T10:23:11.869Z</updated>
+  <updated>2024-11-22T02:05:52.153Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>mac文件损坏无法打开解决方案</title>
+    <link href="http://mamor5409.github.io/posts/bfc83caa/"/>
+    <id>http://mamor5409.github.io/posts/bfc83caa/</id>
+    <published>2024-11-22T02:02:06.000Z</published>
+    <updated>2024-11-22T02:05:52.153Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>利用ddddocr实现验证码识别登录爆破</title>
     <link href="http://mamor5409.github.io/posts/125e1be2/"/>
     <id>http://mamor5409.github.io/posts/125e1be2/</id>
     <published>2024-11-18T05:56:46.000Z</published>
-    <updated>2024-11-19T10:23:11.869Z</updated>
+    <updated>2024-11-19T10:27:20.540Z</updated>
     
     
     <summary type="html"> </summary>
@@ -324,25 +339,6 @@
     <id>http://mamor5409.github.io/posts/aee69506/</id>
     <published>2024-02-04T01:02:07.000Z</published>
     <updated>2024-02-04T01:13:34.466Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>NSSCTF Crypto 02</title>
-    <link href="http://mamor5409.github.io/posts/22530663/"/>
-    <id>http://mamor5409.github.io/posts/22530663/</id>
-    <published>2024-02-04T00:52:10.000Z</published>
-    <updated>2024-02-04T03:39:32.563Z</updated>
     
     
     <summary type="html"> </summary>
