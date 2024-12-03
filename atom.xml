@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-11-22T02:05:52.153Z</updated>
+  <updated>2024-12-03T08:52:12.694Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>SDL浅析</title>
+    <link href="http://mamor5409.github.io/posts/7ac4ce41/"/>
+    <id>http://mamor5409.github.io/posts/7ac4ce41/</id>
+    <published>2024-12-03T08:43:22.000Z</published>
+    <updated>2024-12-03T08:52:12.694Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>mac文件损坏无法打开解决方案</title>
     <link href="http://mamor5409.github.io/posts/bfc83caa/"/>
     <id>http://mamor5409.github.io/posts/bfc83caa/</id>
     <published>2024-11-22T02:02:06.000Z</published>
-    <updated>2024-11-22T02:05:52.153Z</updated>
+    <updated>2024-11-22T02:06:16.000Z</updated>
     
     
     <summary type="html"> </summary>
@@ -320,25 +335,6 @@
     <id>http://mamor5409.github.io/posts/9047dc7c/</id>
     <published>2024-02-04T03:58:30.000Z</published>
     <updated>2024-02-04T05:45:09.286Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>密码学大佬Blog记录</title>
-    <link href="http://mamor5409.github.io/posts/aee69506/"/>
-    <id>http://mamor5409.github.io/posts/aee69506/</id>
-    <published>2024-02-04T01:02:07.000Z</published>
-    <updated>2024-02-04T01:13:34.466Z</updated>
     
     
     <summary type="html"> </summary>
