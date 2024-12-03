@@ -4,7 +4,7 @@
     <title>SDL浅析</title>
     <url>/posts/7ac4ce41/</url>
     <content><![CDATA[<h2 id="软件开发生命周期"><a href="#软件开发生命周期" class="headerlink" title="软件开发生命周期"></a>软件开发生命周期</h2><p>（SDLC) 软件开发生命周期（SDLC, software development life cycle)，包含软件从开始到发布的不同阶段，旨在提高待开发软件的质量和效率。常划分为以下六个阶段：需求分析 (Analysis)，设计 (Design)，开发 (Implementation)，测试 (Testing)，部署 (Deployment) 和 维护 (Maintenance)。 </p>
-<h3 id="一、SDLC阶段"><a href="#一、SDLC阶段" class="headerlink" title="一、SDLC阶段"></a>一、SDLC阶段</h3><ul>
+<h3 id="SDLC阶段"><a href="#SDLC阶段" class="headerlink" title="SDLC阶段"></a>SDLC阶段</h3><ul>
 <li><p>1.需求分析(Analysis): 需求分析是软件开发过程中最重要和基础的环节。该阶段所有利益相关方(如：产品经理、业务需求方、开发者等)就软件需求(解决哪些问题)及可行性(能否被解决)进行讨论，并将所搜集到信息记录软件需求文档中(SRS, Software Requirement Specification)。 </p>
 </li>
 <li><p>2.产品设计(Design): 根据上一阶段记录的软件需求文档，设计出能满足相关需求的体系架构。该阶段定义交互和数据透传流程。 </p>
@@ -19,7 +19,7 @@
 </li>
 </ul>
 <p><img src="/posts/7ac4ce41/1.png"></p>
-<h3 id="二、DevSecOps"><a href="#二、DevSecOps" class="headerlink" title="二、DevSecOps"></a>二、DevSecOps</h3><p>在传统的软件开发中，安全性测试是一个独立于软件开发生命周期（SDLC）的过程。安全团队只有在构建软件后才能发现安全漏洞。这导致仍有大量隐藏漏洞遗留，同时也增加了安全风险。</p>
+<h3 id="DevSecOps"><a href="#DevSecOps" class="headerlink" title="DevSecOps"></a>DevSecOps</h3><p>在传统的软件开发中，安全性测试是一个独立于软件开发生命周期（SDLC）的过程。安全团队只有在构建软件后才能发现安全漏洞。这导致仍有大量隐藏漏洞遗留，同时也增加了安全风险。</p>
 <p>DevSecOps是将安全从软件开发生命周期的早期阶段就融入到开发流程中，强调的是在软件开发过程中持续集成和自动化安全实践。它通过紧密协作来确保安全、开发和运维团队能够更有效地一起工作，实现快速、安全、可靠的软件交付。 </p>
 <p>DevSecOps 是在软件开发过程的每个阶段集成安全测试的实践。它包括鼓励开发人员、安全专家和运营团队之间协作的工具和流程，以构建能够承受现代威胁的软件。此外，它还确保诸如代码审查、架构分析和渗透测试等安全保障活动能够参与到开发工作当中。 </p>
 <p>简单来说，SDLC为软件开发的流程提供了一个基础框架，而DevSecOps则是在这个框架内加入了安全元素，两者共同确保软件产品不仅功能强大，而且安全可靠。</p>
