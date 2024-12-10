@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2024-12-03T09:45:38.968Z</updated>
+  <updated>2024-12-10T02:32:57.739Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mac下java多版本切换</title>
+    <link href="http://mamor5409.github.io/posts/af09971b/"/>
+    <id>http://mamor5409.github.io/posts/af09971b/</id>
+    <published>2024-12-10T02:28:14.000Z</published>
+    <updated>2024-12-10T02:32:57.739Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+    <category term="Mac" scheme="http://mamor5409.github.io/tags/Mac/"/>
+    
+  </entry>
   
   <entry>
     <title>SDL浅析</title>
@@ -326,25 +343,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>DES子密钥逆推初始密钥 - 待完成</title>
-    <link href="http://mamor5409.github.io/posts/9047dc7c/"/>
-    <id>http://mamor5409.github.io/posts/9047dc7c/</id>
-    <published>2024-02-04T03:58:30.000Z</published>
-    <updated>2024-02-04T05:45:09.286Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   
