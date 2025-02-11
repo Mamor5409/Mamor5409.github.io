@@ -293,7 +293,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -313,67 +313,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段        192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.144</p>
-</blockquote>
-<h4 id="nmap扫网段"><a href="#nmap扫网段" class="headerlink" title="nmap扫网段"></a>nmap扫网段</h4><p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
+        <h3 id="信息收集">信息收集</h3>
+<h4 id="环境">环境</h4>
 <blockquote>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 19:58 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.000079s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.144<br>Host is up (0.00054s latency).<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25 seconds</p>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.144</p>
 </blockquote>
-<h4 id="nmap扫端口"><a href="#nmap扫端口" class="headerlink" title="nmap扫端口"></a>nmap扫端口</h4><p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
+<h4 id="nmap扫网段">nmap扫网段</h4>
+<p><code>sudo nmap 192.168.18.0/24 -sP</code></p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-11 20:00 CST<br>Nmap scan report for 192.168.18.144<br>Host is up (0.0012s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)<br>80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))<br>MAC Address: 00:0C:29:77:56:7F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.91 seconds</p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-11 19:58 CST Nmap
+scan report for 192.168.18.2 Host is up (0.000079s latency). MAC
+Address: 00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.144
+Host is up (0.00054s latency). MAC Address: 00:0C:29:77:56:7F (VMware)
+Nmap scan report for 192.168.18.254 Host is up (0.00017s latency). MAC
+Address: 00:50:56:FD:0E:3D (VMware) Nmap scan report for 192.168.18.131
+Host is up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.25
+seconds</p>
+</blockquote>
+<h4 id="nmap扫端口">nmap扫端口</h4>
+<p><code>sudo nmap 192.168.18.144 -p- -sV</code></p>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.144 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-11 20:00 CST Nmap scan report for
+192.168.18.144 Host is up (0.0012s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 5.9p1 Debian
+5ubuntu1.4 (Ubuntu Linux; protocol 2.0) 80/tcp open http Apache httpd
+2.2.22 ((Ubuntu)) MAC Address: 00:0C:29:77:56:7F (VMware) Service Info:
+OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 7.91 seconds</p>
 </blockquote>
 <p>开放了22端口和80端口</p>
-<h4 id="dirsearch扫描目录"><a href="#dirsearch扫描目录" class="headerlink" title="dirsearch扫描目录"></a>dirsearch扫描目录</h4><p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
+<h4 id="dirsearch扫描目录">dirsearch扫描目录</h4>
+<p><code>sudo python3 dirsearch.py -u 192.168.18.144</code></p>
 <blockquote>
-<p>[20:25:23] 200 -  307B  - /add<br>[20:25:23] 200 -  307B  - /add.php<br>[20:25:25] 200 -    1B  - /c<br>[20:25:25] 403 -  290B  - /cgi-bin/<br>[20:25:27] 403 -  286B  - /doc/<br>[20:25:27] 403 -  301B  - /doc/en/changes.html<br>[20:25:27] 403 -  290B  - /doc/api/<br>[20:25:27] 403 -  300B  - /doc/stable.version<br>[20:25:27] 200 -    3KB - /head.php<br>[20:25:28] 200 -    1KB - /images/<br>[20:25:28] 301 -  317B  - /images  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.144/images/">http://192.168.18.144/images/</a><br>[20:25:28] 200 -   47KB - /in<br>[20:25:28] 200 -    3KB - /index<br>[20:25:28] 200 -    3KB - /index.php </p>
-<p>[20:25:29] 302 -    2KB - /panel  -&gt;  index.php<br>[20:25:29] 302 -    2KB - /panel.php  -&gt;  index.php<br>[20:25:30] 200 -    8KB - /phpmy/<br>[20:25:31] 403 -  296B  - /server-status/<br>[20:25:31] 403 -  295B  - /server-status<br>[20:25:31] 200 -    1B  - /show<br>[20:25:32] 200 -   72B  - /test<br>[20:25:32] 200 -   72B  - /test.php    </p>
+<p>[20:25:23] 200 - 307B - /add<br>
+[20:25:23] 200 - 307B - /add.php<br>
+[20:25:25] 200 - 1B - /c<br>
+[20:25:25] 403 - 290B - /cgi-bin/<br>
+[20:25:27] 403 - 286B - /doc/<br>
+[20:25:27] 403 - 301B - /doc/en/changes.html [20:25:27] 403 - 290B -
+/doc/api/ [20:25:27] 403 - 300B - /doc/stable.version [20:25:27] 200 -
+3KB - /head.php<br>
+[20:25:28] 200 - 1KB - /images/<br>
+[20:25:28] 301 - 317B - /images -&gt; http://192.168.18.144/images/
+[20:25:28] 200 - 47KB - /in<br>
+[20:25:28] 200 - 3KB - /index<br>
+[20:25:28] 200 - 3KB - /index.php</p>
+<p>[20:25:29] 302 - 2KB - /panel -&gt; index.php<br>
+[20:25:29] 302 - 2KB - /panel.php -&gt; index.php<br>
+[20:25:30] 200 - 8KB - /phpmy/<br>
+[20:25:31] 403 - 296B - /server-status/<br>
+[20:25:31] 403 - 295B - /server-status [20:25:31] 200 - 1B - /show<br>
+[20:25:32] 200 - 72B - /test<br>
+[20:25:32] 200 - 72B - /test.php</p>
 </blockquote>
 <p>扫出</p>
-<p><code>add.php</code>     文件上传</p>
+<p><code>add.php</code> 文件上传</p>
 <p><img src="/posts/827ecdf7/add.png"></p>
 <p><code>head.php</code> 貌似没啥东西 就一背景图</p>
 <p><img src="/posts/827ecdf7/head.png"></p>
 <p><code>test.php</code> 文件包含</p>
 <p><img src="/posts/827ecdf7/test.png"></p>
-<p><code>phpmy</code>        phpmyadmin登录页面</p>
+<p><code>phpmy</code> phpmyadmin登录页面</p>
 <p><img src="/posts/827ecdf7/phpmy.png"></p>
-<p><code>in</code>            phpinfo()</p>
+<p><code>in</code> phpinfo()</p>
 <p><img src="/posts/827ecdf7/phpinfo.png"></p>
 <blockquote>
-<p>allow_url_fopen    On<br>allow_url_include    Off<br>mysql版本为5.5.38</p>
+<p>allow_url_fopen On<br>
+allow_url_include Off mysql版本为5.5.38</p>
 </blockquote>
-<h4 id="用dirb扫描目录"><a href="#用dirb扫描目录" class="headerlink" title="用dirb扫描目录"></a>用dirb扫描目录</h4><blockquote>
-<p> —- Scanning URL: <a target="_blank" rel="noopener" href="http://192.168.18.144/">http://192.168.18.144/</a> —-</p>
+<h4 id="用dirb扫描目录">用dirb扫描目录</h4>
+<blockquote>
+<p>---- Scanning URL: http://192.168.18.144/ ----</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/add">http://192.168.18.144/add</a> (CODE:200|SIZE:307)                                                          </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/c">http://192.168.18.144/c</a> (CODE:200|SIZE:1)                                                              </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/cgi-bin/">http://192.168.18.144/cgi-bin/</a> (CODE:403|SIZE:290)                                                     </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/head">http://192.168.18.144/head</a> (CODE:200|SIZE:2793)<br>==&gt; DIRECTORY: <a target="_blank" rel="noopener" href="http://192.168.18.144/images/">http://192.168.18.144/images/</a>                                                             </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/in">http://192.168.18.144/in</a> (CODE:200|SIZE:47554)                                                         </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/index">http://192.168.18.144/index</a> (CODE:200|SIZE:3267)                                                       </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/index.php">http://192.168.18.144/index.php</a> (CODE:200|SIZE:3267)                                                   </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/panel">http://192.168.18.144/panel</a> (CODE:302|SIZE:2469)                                                       </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/server-status">http://192.168.18.144/server-status</a> (CODE:403|SIZE:295)                                                </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/show">http://192.168.18.144/show</a> (CODE:200|SIZE:1)                                                           </li>
-<li><a target="_blank" rel="noopener" href="http://192.168.18.144/test">http://192.168.18.144/test</a> (CODE:200|SIZE:72)                                                          </li>
+<li>http://192.168.18.144/add (CODE:200|SIZE:307)<br>
+</li>
+<li>http://192.168.18.144/c (CODE:200|SIZE:1)<br>
+</li>
+<li>http://192.168.18.144/cgi-bin/ (CODE:403|SIZE:290)<br>
+</li>
+<li>http://192.168.18.144/head (CODE:200|SIZE:2793)<br>
+==&gt; DIRECTORY: http://192.168.18.144/images/<br>
+</li>
+<li>http://192.168.18.144/in (CODE:200|SIZE:47554)<br>
+</li>
+<li>http://192.168.18.144/index (CODE:200|SIZE:3267)<br>
+</li>
+<li>http://192.168.18.144/index.php (CODE:200|SIZE:3267)<br>
+</li>
+<li>http://192.168.18.144/panel (CODE:302|SIZE:2469)<br>
+</li>
+<li>http://192.168.18.144/server-status (CODE:403|SIZE:295)<br>
+</li>
+<li>http://192.168.18.144/show (CODE:200|SIZE:1)<br>
+</li>
+<li>http://192.168.18.144/test (CODE:200|SIZE:72)</li>
 </ul>
 </blockquote>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h4><p>进入主页，有一个登录框，并提示sql注入</p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<h4 id="sql注入">sql注入</h4>
+<p>进入主页，有一个登录框，并提示sql注入</p>
 <p><img src="/posts/827ecdf7/index.png"></p>
 <p>尝试下sql注入，用sqlmap跑一下</p>
-<p><code>sqlmap -u &#39;http://192.168.18.144/&#39;  --method POST --data &#39;un=admin&amp;os=admin&amp;login=let%27s+login&#39; --batch --dbms mysql </code></p>
+<p><code>sqlmap -u 'http://192.168.18.144/'  --method POST --data 'un=admin&amp;os=admin&amp;login=let%27s+login' --batch --dbms mysql</code></p>
 <p>没扫出来注入点</p>
-<br>
-
-<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><p>传一个图片马试试，或许后面会用到</p>
-<br>
-
-<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><p>在<code>test.php</code>get请求 传参 <code>?file=/etc/passwd</code>没反应</p>
+<p><br></p>
+<h4 id="文件上传">文件上传</h4>
+<p>传一个图片马试试，或许后面会用到</p>
+<p><br></p>
+<h4 id="文件包含">文件包含</h4>
+<p>在<code>test.php</code>get请求 传参
+<code>?file=/etc/passwd</code>没反应</p>
 <p>使用post传参<code>file=/etc/passwd</code>会弹出一个下载文件窗口</p>
 <p>文件内容为<code>/etc/passwd</code>的输出内容</p>
 <p>使用burp抓包，把get包改为post包</p>
@@ -382,23 +436,41 @@
 <p>ica:x:1000:1000:ica,,,:/home/ica:/bin/bash</p>
 </blockquote>
 <p>发现一个<code>ica</code>的用户，可以登录ssh</p>
-<br>
-
-
-<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code> <code>index.php</code> <code>test.php</code> <code>show.php</code> <code>c.php</code></p>
-<p><img src="/posts/827ecdf7/addphp.png"><br>在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息</p>
-<h4 id="后台登录"><a href="#后台登录" class="headerlink" title="后台登录"></a>后台登录</h4><h5 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h5><p><img src="/posts/827ecdf7/cphp.png"><br>在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect(&quot;127.0.0.1&quot;,&quot;billu&quot;,&quot;b0x_billu&quot;,&quot;ica_lab&quot;);</code></p>
-<blockquote>
-<p>用户名 billu密码 b0x_billu数据库名 ica_lab</p>
-</blockquote>
-<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一 使用phpmyadmin中账号<br><img src="/posts/827ecdf7/auth.png"><br>在anth表中得到一个账户 biLLu hEx_it使用此账户成功登录到后台</p>
-<h5 id="思路二-SQL注入再尝试查看index-php的源码"><a href="#思路二-SQL注入再尝试查看index-php的源码" class="headerlink" title="思路二 SQL注入再尝试查看index.php的源码"></a>思路二 SQL注入再尝试查看index.php的源码</h5><p><img src="/posts/827ecdf7/sqli.png"><br><code>select * from auth where pass=\&#39;&#39;.$pass=.&#39;\&#39; and uname=\&#39;&#39;.$uname.&#39;\&#39;</code><br>前面使用str_replace 将单引号全部过滤掉了，<br><code>select   from auth where pass=&#39; &#39; and uname=&#39; &#39;</code><br>输入<code>pass=admin\   uname= or 1=1 --+</code><br>即 <code>select  from auth where pass=&#39;admin\&#39; and uname=&#39; or 1=1 --+&#39;</code><br>成功登录文件上传<br><img src="/posts/827ecdf7/login.png"><br>审计一下panel.php<br>页面有两个功能 show users 和 add users 对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code><br>当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证<br><code>move_uploaded_file($_FILES[&#39;image&#39;][&#39;tmp_name&#39;], &#39;uploaded_images/&#39;.$_FILES[&#39;image&#39;][&#39;name&#39;])</code>可以看到上传图片的路径为uploaded_images/</p>
-<p>这里传马多次都没传成功，有时间再试试吧….</p>
-<h4 id="得到root权限思路二"><a href="#得到root权限思路二" class="headerlink" title="得到root权限思路二"></a>得到root权限思路二</h4><p>phpmyadmin的配置文件为<code>config.inc.php</code> 使用任意文件下载去下载改配置文件<br><img src="/posts/827ecdf7/download_phpmyconf.png"><br><img src="/posts/827ecdf7/phpmyconf.png"><br>得到一个root账户root roottoor使用ssh登录 ssh <a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#x31;&#x34;&#52;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#56;&#x2e;&#x31;&#x34;&#52;</a>成功登录root用户</p>
-<p>Reference</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_52049485/article/details/112248860">https://blog.csdn.net/weixin_52049485/article/details/112248860</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/PANDA-Mosen/p/13217674.html">https://www.cnblogs.com/PANDA-Mosen/p/13217674.html</a><br><a target="_blank" rel="noopener" href="https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/">https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</a></p>
-</blockquote>
+<p><br></p>
+<p>同时用这种方法去下载<code>add.php</code>,<code>in.php</code>
+<code>index.php</code> <code>test.php</code> <code>show.php</code>
+<code>c.php</code></p>
+<p><img src="/posts/827ecdf7/addphp.png">
+在add.php中有文件上传的代码，没有经过任何处理，可以考虑去上传图片马在in.php中是phpinfo信息
+#### 后台登录 ##### 思路一 <img src="/posts/827ecdf7/cphp.png">
+在c.php中发现了mysql数据库的账户信息<code>$conn = mysqli_connect("127.0.0.1","billu","b0x_billu","ica_lab");</code>
+&gt; 用户名 billu密码 b0x_billu数据库名 ica_lab</p>
+<p>使用这个账户去尝试登录phpmyadmin，成功登录,并得到phpmyadmin版本为3.4.7登录后台思路一
+使用phpmyadmin中账号 <img src="/posts/827ecdf7/auth.png"> 在anth表中得到一个账户 biLLu
+hEx_it使用此账户成功登录到后台</p>
+<h5 id="思路二-sql注入再尝试查看index.php的源码">思路二
+SQL注入再尝试查看index.php的源码</h5>
+<p><img src="/posts/827ecdf7/sqli.png">
+<code>select * from auth where pass=\''.$pass=.'\' and uname=\''.$uname.'\'</code>
+前面使用str_replace 将单引号全部过滤掉了，
+<code>select   from auth where pass=' ' and uname=' '</code>
+输入<code>pass=admin\   uname= or 1=1 --+</code> 即
+<code>select  from auth where pass='admin\' and uname=' or 1=1 --+'</code>
+成功登录文件上传 <img src="/posts/827ecdf7/login.png"> 审计一下panel.php
+页面有两个功能 show users 和 add users
+对于文件上传使用了白名单机制，只允许上传<code>jpeg,jpg,gif,png</code>
+当要上传一张图片是，会先判断后缀名是否正确，如果正确，还有一个mime验证
+<code>move_uploaded_file($_FILES['image']['tmp_name'], 'uploaded_images/'.$_FILES['image']['name'])</code>可以看到上传图片的路径为uploaded_images/</p>
+<p>这里传马多次都没传成功，有时间再试试吧....</p>
+<h4 id="得到root权限思路二">得到root权限思路二</h4>
+<p>phpmyadmin的配置文件为<code>config.inc.php</code>
+使用任意文件下载去下载改配置文件 <img src="/posts/827ecdf7/download_phpmyconf.png">
+<img src="/posts/827ecdf7/phpmyconf.png"> 得到一个root账户root roottoor使用ssh登录 ssh
+root@192.168.18.144成功登录root用户</p>
+<p>Reference
+&gt;https://blog.csdn.net/weixin_52049485/article/details/112248860
+&gt;https://www.cnblogs.com/PANDA-Mosen/p/13217674.html
+&gt;https://mengsec.com/2018/04/11/Vulnhub-billub0x-Writeup/</p>
 
     </div>
 
@@ -528,7 +600,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">nmap扫网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">nmap扫端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫描目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8dirb%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">用dirb扫描目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.3.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95"><span class="nav-number">2.4.</span> <span class="nav-text">后台登录</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%B8%80"><span class="nav-number">2.4.1.</span> <span class="nav-text">思路一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%BA%8C-SQL%E6%B3%A8%E5%85%A5%E5%86%8D%E5%B0%9D%E8%AF%95%E6%9F%A5%E7%9C%8Bindex-php%E7%9A%84%E6%BA%90%E7%A0%81"><span class="nav-number">2.4.2.</span> <span class="nav-text">思路二 SQL注入再尝试查看index.php的源码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%97%E5%88%B0root%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF%E4%BA%8C"><span class="nav-number">2.5.</span> <span class="nav-text">得到root权限思路二</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">nmap扫网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">nmap扫端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫描目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8dirb%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95"><span class="nav-number">1.5.</span> <span class="nav-text">用dirb扫描目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">2.3.</span> <span class="nav-text">文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%E4%BA%8C-sql%E6%B3%A8%E5%85%A5%E5%86%8D%E5%B0%9D%E8%AF%95%E6%9F%A5%E7%9C%8Bindex.php%E7%9A%84%E6%BA%90%E7%A0%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">思路二
+SQL注入再尝试查看index.php的源码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%97%E5%88%B0root%E6%9D%83%E9%99%90%E6%80%9D%E8%B7%AF%E4%BA%8C"><span class="nav-number">2.4.</span> <span class="nav-text">得到root权限思路二</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -544,7 +617,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -592,7 +665,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -606,7 +679,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -617,7 +690,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -757,6 +830,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

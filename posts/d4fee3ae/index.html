@@ -292,8 +292,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><code>hexo g </code> == <code>hexo generate </code> #生产静态网页<br><code>hexo s </code> == <code>hexo server</code> #启动服务预览<br><code>hexo d</code> == <code>hexo deploy</code> #部署<br><code>hexo clean</code> #清除缓存</p>
-<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p><code>hexo new post “标题”</code>  新建一篇文章  然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code> hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
+        <p><code>hexo g</code> == <code>hexo generate</code> #生产静态网页
+<code>hexo s</code> == <code>hexo server</code> #启动服务预览
+<code>hexo d</code> == <code>hexo deploy</code> #部署
+<code>hexo clean</code> #清除缓存</p>
+<h3 id="写文章">写文章</h3>
+<p><code>hexo new post “标题”</code> 新建一篇文章
+然后会在_post目录下找到新增的.md文件，用此文件来存方所习得内容编写完markdown文件后，根目录下输入<code>hexo g</code>生产静态页面。输入<code>hexo s</code>本地预览效果，<code>hexo d</code>上传至GitHub</p>
 
     </div>
 
@@ -439,7 +444,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +492,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -501,7 +506,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -512,7 +517,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -652,6 +657,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

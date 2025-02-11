@@ -43,7 +43,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mamor5409.github.io/posts/dabd444/1.png">
 <meta property="article:published_time" content="2022-12-11T01:50:35.000Z">
-<meta property="article:modified_time" content="2022-12-11T02:10:41.827Z">
+<meta property="article:modified_time" content="2022-12-11T02:10:41.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="Bypass">
 <meta name="twitter:card" content="summary">
@@ -294,18 +294,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="重载-text节对ntdll脱钩"><a href="#重载-text节对ntdll脱钩" class="headerlink" title="重载.text节对ntdll脱钩"></a>重载.text节对ntdll脱钩</h4><p>杀软会对ntdll进入内核的函数进行挂钩，从而实现检测和阻止，但是好像很少有杀软会去ntdll进行挂钩，这里主要学习一下这种思路。将ntdll读取到内存，然后读取覆盖.text节</p>
+        <h4 id="重载.text节对ntdll脱钩">重载.text节对ntdll脱钩</h4>
+<p>杀软会对ntdll进入内核的函数进行挂钩，从而实现检测和阻止，但是好像很少有杀软会去ntdll进行挂钩，这里主要学习一下这种思路。将ntdll读取到内存，然后读取覆盖.text节</p>
 <p><img src="/posts/dabd444/1.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">unhook</span><span class="params">()</span>&#123;</span><br><span class="line">&#123;</span><br><span class="line">	MODULEINFO mInfo = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	HANDLE hProcess = GetCurrentProcess();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//get address of ntdll in virtual memory </span></span><br><span class="line">	<span class="comment">//获取ntdll在内存中的地址</span></span><br><span class="line">	HMODULE hNtdll = GetModuleHandleA(<span class="string">&quot;ntdll.dll&quot;</span>);</span><br><span class="line">	GetModuleInformation(hProcess, hNtdll, &amp;mInfo, <span class="keyword">sizeof</span>(mInfo));</span><br><span class="line">	LPVOID lpNtdllbase = (LPVOID)mInfo.lpBaseOfDll;</span><br><span class="line">	</span><br><span class="line">	HANDLE hNtdllfile = CreateFileA(<span class="string">&quot;C:\\windows\\system32\\ntdll.dll&quot;</span>, GENERIC_READ, FILE_SHARE_READ, <span class="literal">NULL</span>, OPEN_EXISTING, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	HANDLE hNtdllMapping = CreateFileMapping(hNtdllfile, <span class="literal">NULL</span>, PAGE_READONLY | SEC_IMAGE, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	LPVOID lpNtdllmaping = MapViewOfFile(hNtdllMapping, FILE_MAP_READ, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	PIMAGE_DOS_HEADER pDosheader = (PIMAGE_DOS_HEADER)lpNtdllbase;</span><br><span class="line">	PIMAGE_NT_HEADERS pNtheader = (PIMAGE_NT_HEADERS)((DWORD_PTR)lpNtdllbase + pDosheader-&gt;e_lfanew);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (WORD i = <span class="number">0</span>; i &lt; pNtheader-&gt;FileHeader.NumberOfSections; i++) &#123;</span><br><span class="line">		PIMAGE_SECTION_HEADER pSectionheader = (PIMAGE_SECTION_HEADER)((DWORD_PTR)IMAGE_FIRST_SECTION(pNtheader) + ((DWORD_PTR)IMAGE_SIZEOF_SECTION_HEADER * i));</span><br><span class="line">	<span class="comment">//找到.text</span></span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">strcmp</span>((<span class="type">char</span>*)pSectionheader-&gt;Name, (<span class="type">char</span>*)<span class="string">&quot;.text&quot;</span>)) &#123;</span><br><span class="line">			DWORD oldProtection = <span class="number">0</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="type">bool</span> isProtected = VirtualProtect((LPVOID)((DWORD_PTR)lpNtdllbase + (DWORD_PTR)pSectionheader-&gt;VirtualAddress), pSectionheader-&gt;Misc.VirtualSize, PAGE_EXECUTE_READWRITE, &amp;oldProtection);</span><br><span class="line">			</span><br><span class="line">			<span class="built_in">memcpy</span>((LPVOID)((DWORD_PTR)lpNtdllbase + (DWORD_PTR)pSectionheader-&gt;VirtualAddress), (LPVOID)((DWORD_PTR)lpNtdllmaping + (DWORD_PTR)pSectionheader-&gt;VirtualAddress), pSectionheader-&gt;Misc.VirtualSize);</span><br><span class="line">			</span><br><span class="line">			isProtected = VirtualProtect((LPVOID)((DWORD_PTR)lpNtdllbase + (DWORD_PTR)pSectionheader-&gt;VirtualAddress), pSectionheader-&gt;Misc.VirtualSize, oldProtection, <span class="literal">NULL</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	CloseHandle(hNtdllfile);</span><br><span class="line">	CloseHandle(lpNtdllmaping);</span><br><span class="line">	<span class="comment">//FreeLibrary(hNtdll);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//return 0;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEREF( name )*(UINT_PTR *)(name)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEREF_64( name )*(DWORD64 *)(name)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEREF_32( name )*(DWORD *)(name)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEREF_16( name )*(WORD *)(name)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEREF_8( name )*(BYTE *)(name)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">NTSTATUS</span><span class="params">(NTAPI* pNtAllocateVirtualMemory)</span><span class="params">(</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	PVOID* BaseAddress,</span></span><br><span class="line"><span class="params">	ULONG_PTR ZeroBits,</span></span><br><span class="line"><span class="params">	PSIZE_T RegionSize,</span></span><br><span class="line"><span class="params">	ULONG AllocationType,</span></span><br><span class="line"><span class="params">	ULONG Protect)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实现GetProcessAddress 源代码在下面链接</span></span><br><span class="line"><span class="comment">//https://github.com/stephenfewer/ReflectiveDLLInjection/blob/master/inject/src/GetProcAddressR.c</span></span><br><span class="line">FARPROC WINAPI <span class="title function_">GetProcAddressR</span><span class="params">(HANDLE hModule, LPCSTR lpProcName)</span></span><br><span class="line">&#123;</span><br><span class="line">	UINT_PTR uiLibraryAddress = <span class="number">0</span>;</span><br><span class="line">	FARPROC fpResult = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hModule == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	uiLibraryAddress = (UINT_PTR)hModule;</span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		UINT_PTR uiAddressArray = <span class="number">0</span>;</span><br><span class="line">		UINT_PTR uiNameArray = <span class="number">0</span>;</span><br><span class="line">		UINT_PTR uiNameOrdinals = <span class="number">0</span>;</span><br><span class="line">		PIMAGE_NT_HEADERS pNtHeaders = <span class="literal">NULL</span>;</span><br><span class="line">		PIMAGE_DATA_DIRECTORY pDataDirectory = <span class="literal">NULL</span>;</span><br><span class="line">		PIMAGE_EXPORT_DIRECTORY pExportDirectory = <span class="literal">NULL</span>;</span><br><span class="line">		</span><br><span class="line">		pNtHeaders = (PIMAGE_NT_HEADERS)(uiLibraryAddress + ((PIMAGE_DOS_HEADER)uiLibraryAddress)-&gt;e_lfanew);</span><br><span class="line">		pDataDirectory = (PIMAGE_DATA_DIRECTORY)&amp;pNtHeaders-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT];</span><br><span class="line">		pExportDirectory = (PIMAGE_EXPORT_DIRECTORY)(uiLibraryAddress + pDataDirectory-&gt;VirtualAddress);</span><br><span class="line">		uiAddressArray = (uiLibraryAddress + pExportDirectory-&gt;AddressOfFunctions);</span><br><span class="line">		uiNameArray = (uiLibraryAddress + pExportDirectory-&gt;AddressOfNames);</span><br><span class="line">		uiNameOrdinals = (uiLibraryAddress + pExportDirectory-&gt;AddressOfNameOrdinals);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (((DWORD)lpProcName &amp; <span class="number">0xFFFF0000</span>) == <span class="number">0x00000000</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			uiAddressArray += ((IMAGE_ORDINAL((DWORD)lpProcName) - pExportDirectory-&gt;Base) * <span class="keyword">sizeof</span>(DWORD));</span><br><span class="line">			fpResult = (FARPROC)(uiLibraryAddress + DEREF_32(uiAddressArray));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">		&#123;</span><br><span class="line">			DWORD dwCounter = pExportDirectory-&gt;NumberOfNames;</span><br><span class="line">			<span class="keyword">while</span> (dwCounter--)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">char</span>* cpExportedFunctionName = (<span class="type">char</span>*)(uiLibraryAddress + DEREF_32(uiNameArray));</span><br><span class="line">				<span class="comment">//</span></span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">strcmp</span>(cpExportedFunctionName, lpProcName) == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					uiAddressArray += (DEREF_16(uiNameOrdinals) * <span class="keyword">sizeof</span>(DWORD));</span><br><span class="line">					fpResult = (FARPROC)(uiLibraryAddress + DEREF_32(uiAddressArray));</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				uiNameArray += <span class="keyword">sizeof</span>(DWORD);</span><br><span class="line">				uiNameOrdinals += <span class="keyword">sizeof</span>(WORD);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	__except (EXCEPTION_EXECUTE_HANDLER)</span><br><span class="line">	&#123;</span><br><span class="line">		fpResult = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fpResult;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">//创建共享内存映射一个ntdll</span></span><br><span class="line">	<span class="comment">//使用CreateFileA 打开文件</span></span><br><span class="line">	HANDLE hNtdllfile = CreateFileA(<span class="string">&quot;c:\\windows\\system32\\ntdll.dll&quot;</span>, GENERIC_READ, FILE_SHARE_READ, <span class="literal">NULL</span>, OPEN_EXISTING, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="comment">//创建共享内存的内存映射对象</span></span><br><span class="line">	HANDLE hNtdllMapping = CreateFileMapping(hNtdllfile, <span class="literal">NULL</span>, PAGE_READONLY | SEC_IMAGE, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="comment">//得到该内存空间的映射地址</span></span><br><span class="line">	LPVOID lpNtdllmaping = MapViewOfFile(hNtdllMapping, FILE_MAP_READ, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	pNtAllocateVirtualMemory NtAllocateVirtualMemory = (pNtAllocateVirtualMemory)GetProcAddressR((HMODULE)lpNtdllmaping, <span class="string">&quot;NtAllocateVirtualMemory&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> err = GetLastError();</span><br><span class="line">	LPVOID Address = <span class="literal">NULL</span>;</span><br><span class="line">	SIZE_T uSize = <span class="number">0x1000</span>;</span><br><span class="line">	NTSTATUS status = NtAllocateVirtualMemory(GetCurrentProcess(), &amp;Address, <span class="number">0</span>, &amp;uSize, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://idiotc4t.com/defense-evasion/reload-ntdll-.text-section">https://idiotc4t.com/defense-evasion/reload-ntdll-.text-section</a><br><a target="_blank" rel="noopener" href="https://idiotc4t.com/defense-evasion/load-ntdll-too">https://idiotc4t.com/defense-evasion/load-ntdll-too</a></p>
+<h4 id="references">References</h4>
+<p>https://idiotc4t.com/defense-evasion/reload-ntdll-.text-section
+https://idiotc4t.com/defense-evasion/load-ntdll-too</p>
 
     </div>
 
@@ -435,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD-text%E8%8A%82%E5%AF%B9ntdll%E8%84%B1%E9%92%A9"><span class="nav-number">1.</span> <span class="nav-text">重载.text节对ntdll脱钩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD.text%E8%8A%82%E5%AF%B9ntdll%E8%84%B1%E9%92%A9"><span class="nav-number">1.</span> <span class="nav-text">重载.text节对ntdll脱钩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -451,7 +447,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -499,7 +495,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -513,7 +509,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -524,7 +520,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -664,6 +660,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

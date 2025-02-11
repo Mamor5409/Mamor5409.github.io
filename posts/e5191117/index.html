@@ -43,7 +43,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mamor5409.github.io/posts/e5191117/1.png">
 <meta property="article:published_time" content="2022-12-11T01:51:25.000Z">
-<meta property="article:modified_time" content="2022-12-11T02:10:41.832Z">
+<meta property="article:modified_time" content="2022-12-11T02:10:41.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="Bypass">
 <meta name="twitter:card" content="summary">
@@ -295,10 +295,16 @@
 
       
         <p>通过父进程创建一个同名的子进程（进程的自创建）</p>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>1、获取父进程的模块路径<br>2、父进程以挂起状态创建子进程（需要注意，因为是父进程实现自我创建，也就是说父进程创建的进程也是他自己，所以当父进程以挂起状态创建子进程的时候，父进程此时本身也是处于挂起状态的）<br>3、获取此时父进程的进程上下文来当作子进程的上下文<br>4、设置子进程上下文的Eip/RIp(x64)<br>5、恢复现场(设置上下文，恢复线程)</p>
+<h4 id="实现">实现</h4>
+<p>1、获取父进程的模块路径
+2、父进程以挂起状态创建子进程（需要注意，因为是父进程实现自我创建，也就是说父进程创建的进程也是他自己，所以当父进程以挂起状态创建子进程的时候，父进程此时本身也是处于挂起状态的）
+3、获取此时父进程的进程上下文来当作子进程的上下文
+4、设置子进程上下文的Eip/RIp(x64) 5、恢复现场(设置上下文，恢复线程)</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tchar.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> <span class="keyword">warning</span>(disable:4996)</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">ChildProcess</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	MessageBoxA(<span class="literal">NULL</span>, <span class="string">&quot;子进程创建成功&quot;</span>, <span class="string">&quot;子进程创建成功&quot;</span>, MB_OK);</span><br><span class="line">	Sleep(<span class="number">3000</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;This is child process&quot;</span>);</span><br><span class="line">	ExitProcess(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	TCHAR szPath[MAX_PATH] = &#123; <span class="number">0</span>, &#125;;</span><br><span class="line">	STARTUPINFO si = &#123; <span class="keyword">sizeof</span>(STARTUPINFO), &#125;;<span class="comment">//STARTUPINFO的第一个元素必须初始化为该结构体的大小</span></span><br><span class="line">	PROCESS_INFORMATION pi = &#123; <span class="number">0</span>, &#125;;</span><br><span class="line">	CONTEXT ctx = &#123; <span class="number">0</span>, &#125;;</span><br><span class="line">	  </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;This is Father Process!\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//1.获取父进程模块</span></span><br><span class="line">	<span class="keyword">if</span> (!GetModuleFileName(<span class="literal">NULL</span>, szPath, <span class="keyword">sizeof</span>(TCHAR) * MAX_PATH)) </span><br><span class="line">	<span class="comment">//当第一个参数为NULL的时候，会返回当前进程的文件路径，第二个参数指向缓冲区，第三个参数指明缓冲区的大小</span></span><br><span class="line">	&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;GetModuleFileName() failed! [%d]\n&quot;</span>, GetLastError());</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//2.创建挂起的新进程</span></span><br><span class="line">	<span class="comment">//设置使用多字符集 这里主要是使用W版本的  找了半个晚上的错误才发现。。。。</span></span><br><span class="line">	BOOL bRet = CreateProcessW((LPWSTR)szPath, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, FALSE, CREATE_SUSPENDED, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;si, &amp;pi);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (!bRet) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;CreateProcessW() failed! [%d]\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//设置线程上下文</span></span><br><span class="line">	ctx.ContextFlags = CONTEXT_FULL;</span><br><span class="line">	<span class="comment">//3.获取子进程的线程上下文</span></span><br><span class="line">	GetThreadContext(pi.hThread, &amp;ctx);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//4.设置子进程的上下文，将ctx结构体里边的eip选项指向定义的函数（也就是将当前的eip指向子进程，直接执行子进程的函数）</span></span><br><span class="line">	ctx.Eip = (DWORD)ChildProcess;</span><br><span class="line">	<span class="comment">//如果是x64 则使用Rip</span></span><br><span class="line">	<span class="comment">//ctx.Rip = (DWORD64)ChildProcess;</span></span><br><span class="line">	SetThreadContext(pi.hThread, &amp;ctx);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//5.恢复现场</span></span><br><span class="line">	<span class="keyword">if</span>( FALSE == ResumeThread(pi.hThread)) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;ResumeThread Failed! [%d]\n&quot;</span>,GetLastError());</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	WaitForSingleObject(pi.hProcess, INFINITE);</span><br><span class="line">	CloseHandle(pi.hProcess);</span><br><span class="line">	CloseHandle(pi.hThread);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id><a href="#" class="headerlink" title></a><img src="/posts/e5191117/1.png"></h4><h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/annhf/article/details/1272601">https://blog.csdn.net/annhf/article/details/1272601</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sxr__nc/article/details/106199728">https://blog.csdn.net/sxr__nc/article/details/106199728</a></p>
+<h4 id="section"><img src="/posts/e5191117/1.png"></h4>
+<h4 id="references">References</h4>
+<p>https://blog.csdn.net/annhf/article/details/1272601
+https://blog.csdn.net/sxr__nc/article/details/106199728</p>
 
     </div>
 
@@ -428,7 +434,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -444,7 +450,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -492,7 +498,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -506,7 +512,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -517,7 +523,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -657,6 +663,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

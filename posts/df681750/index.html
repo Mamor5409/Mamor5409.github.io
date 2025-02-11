@@ -41,10 +41,13 @@
 <meta property="og:url" content="http://mamor5409.github.io/posts/df681750/index.html">
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://mamor5409.github.io/Users/mamor/Library/Application%20Support/typora-user-images/image-20240204135246901.png">
+<meta property="og:image" content="http://mamor5409.github.io/Users/mamor/Library/Application%20Support/typora-user-images/image-20240204135230477.png">
 <meta property="article:published_time" content="2024-01-04T06:25:58.000Z">
-<meta property="article:modified_time" content="2024-02-04T05:58:52.069Z">
+<meta property="article:modified_time" content="2024-02-04T05:58:52.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mamor5409.github.io/Users/mamor/Library/Application%20Support/typora-user-images/image-20240204135246901.png">
 
 <link rel="canonical" href="http://mamor5409.github.io/posts/df681750/">
 
@@ -268,7 +271,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -289,33 +292,53 @@
 
       
         <p>参考文章</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA">https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/13184">https://xz.aliyun.com/t/13184</a> 这篇文章也不错 对原文的翻译</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/SafeBreach-Labs/PoolParty">https://github.com/SafeBreach-Labs/PoolParty</a></p>
-<p>因为之前没去详细接触过Windows核心编程 线程池这些的 所以再看文章的时候有点地方不太好懂。。</p>
-<p>看了下原项目作者的代码也很难懂 <a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof">https://github.com/0xEr3bus/PoolPartyBof</a> 这个bof的项目则相对好理解些</p>
+<p>https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA</p>
+<p>https://xz.aliyun.com/t/13184 这篇文章也不错 对原文的翻译</p>
+<p>https://github.com/SafeBreach-Labs/PoolParty</p>
+<p>因为之前没去详细接触过Windows核心编程 线程池这些的
+所以再看文章的时候有点地方不太好懂。。</p>
+<p>看了下原项目作者的代码也很难懂
+https://github.com/0xEr3bus/PoolPartyBof 这个bof的项目则相对好理解些</p>
 <p>可以用权限维持时使用该bof注入进程</p>
 <p>现在感觉有时候bof确实要好用些 不过自己写起来调试太麻烦 ：|</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA">https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA</a> 这篇也解释了实现方法，并将bof项目的代码稍加修改成c，</p>
-<p>通过python对shellcode 利用aes 32位随机key进行加密后转base64生成sc.h文件</p>
-<p>![image-20240204135246901](/Users/mamor/Library/Application Support/typora-user-images/image-20240204135246901.png)</p>
-<p>放到loaderz中解密即可 然后 利用poolparty进行进程注入【当然在注入时 杀软可能会对Explorer.exe等严格把控，需根据情况选择注入进程】</p>
-<p>常见的代码注入 主要分三步： 分配/修改空间、写入shellcode、执行进程/线程</p>
-<p>正常情况下 申请内容空间或写入shellcode并不会被管控，杀软会在执行进程/线程时进行严格监控。</p>
-<p>poolparty 主要利用用户态下 Windows的可信线程池机制 解决了执行时的问题，以规避杀软EDR的检测。</p>
-<p>![image-20240204135230477](/Users/mamor/Library/Application Support/typora-user-images/image-20240204135230477.png)</p>
+<p>https://mp.weixin.qq.com/s/GEZZ5XPmbJ39c5i9GmvxRA
+这篇也解释了实现方法，并将bof项目的代码稍加修改成c，</p>
+<p>通过python对shellcode 利用aes
+32位随机key进行加密后转base64生成sc.h文件</p>
+<figure>
+<img src="/Users/mamor/Library/Application%20Support/typora-user-images/image-20240204135246901.png" alt="image-20240204135246901">
+<figcaption aria-hidden="true">image-20240204135246901</figcaption>
+</figure>
+<p>放到loaderz中解密即可 然后 利用poolparty进行进程注入【当然在注入时
+杀软可能会对Explorer.exe等严格把控，需根据情况选择注入进程】</p>
+<p>常见的代码注入 主要分三步：
+分配/修改空间、写入shellcode、执行进程/线程</p>
+<p>正常情况下
+申请内容空间或写入shellcode并不会被管控，杀软会在执行进程/线程时进行严格监控。</p>
+<p>poolparty 主要利用用户态下 Windows的可信线程池机制
+解决了执行时的问题，以规避杀软EDR的检测。</p>
+<figure>
+<img src="/Users/mamor/Library/Application%20Support/typora-user-images/image-20240204135230477.png" alt="image-20240204135230477">
+<figcaption aria-hidden="true">image-20240204135230477</figcaption>
+</figure>
 <p>看了下bof中的代码思路：</p>
 <p>1.获取进程PID</p>
 <p>2.劫持句柄</p>
 <p>3.申请shellcode的内存空间</p>
 <p>4.写入shellcode</p>
-<p>5.执行【主要在这步中有所区别】 这里没具体了解过详细的Windows线程池，所以有些代码看上去有些困难[需要再花费精力去找相关文档</p>
+<p>5.执行【主要在这步中有所区别】
+这里没具体了解过详细的Windows线程池，所以有些代码看上去有些困难[需要再花费精力去找相关文档</p>
 <p>在bof中给出了5种额外的方式</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_4.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_4.c</a> TP_IO</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_5.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_5.c</a> TP_ALPC</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_6.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_6.c</a> TP_JOB</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_7.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_7.c</a> TP_DIRECT</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_8.c">https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_8.c</a> TP_TIMER</p>
+<p>https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_4.c
+TP_IO</p>
+<p>https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_5.c
+TP_ALPC</p>
+<p>https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_6.c
+TP_JOB</p>
+<p>https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_7.c
+TP_DIRECT</p>
+<p>https://github.com/0xEr3bus/PoolPartyBof/blob/main/src/Varient_8.c
+TP_TIMER</p>
 
     </div>
 
@@ -456,7 +479,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -504,7 +527,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -518,7 +541,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -529,7 +552,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -669,6 +692,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

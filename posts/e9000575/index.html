@@ -272,7 +272,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>793</span>
+              <span>805</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -292,13 +292,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="现在是不是上大学，4月份是否有时间，"><a href="#现在是不是上大学，4月份是否有时间，" class="headerlink" title="现在是不是上大学，4月份是否有时间，"></a>现在是不是上大学，4月份是否有时间，</h3><p>答: 现在大三在读，4月份有时间可以出来</p>
-<h3 id="介绍下简历里的经历"><a href="#介绍下简历里的经历" class="headerlink" title="介绍下简历里的经历"></a>介绍下简历里的经历</h3><p>答: 钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin 然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell<br>然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。<br>由于系统是window2008 且使用的phpstudy自行搭建的 之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，<br>在msconfig中开启了mysql服务，但是还是无法正常登陆。<br>netstat -ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。<br>查看事件查看器去看一些异常<br>id<br>4624 账号登陆成功<br>4625 账号登陆失败<br>4720 创建账号<br>4726 删除账号</p>
-<h3 id="有没有过相关的护网经验"><a href="#有没有过相关的护网经验" class="headerlink" title="有没有过相关的护网经验"></a>有没有过相关的护网经验</h3><p>答: 没有过hw经验，但是我会去学习去了解</p>
-<h3 id="是否有使用过安全产品"><a href="#是否有使用过安全产品" class="headerlink" title="是否有使用过安全产品"></a>是否有使用过安全产品</h3><p>答: 只接触过D盾，别的设备没接触过</p>
-<h3 id="说一下常见的端口和漏洞"><a href="#说一下常见的端口和漏洞" class="headerlink" title="说一下常见的端口和漏洞"></a>说一下常见的端口和漏洞</h3><p>答:<br>1433 mssql<br>1521 orcale<br>3306 mysql<br>4376 Redis未授权访<br>7001 weblogic 反序列化<br>445 永恒之蓝</p>
-<h3 id="说一下常用的安全工具的流量特征"><a href="#说一下常用的安全工具的流量特征" class="headerlink" title="说一下常用的安全工具的流量特征"></a>说一下常用的安全工具的流量特征</h3><p>答:<br>awvs的在header url body 三项中都会有a%#-wvs<br>sqlmap的 会在ua显示sqlmap级版本号 和 sqlmap网址<br>appscan url header和bkdy中都会有appscan<br>然后说了下菜刀大多使用base64编码，eval和assert会被隔开</p>
-<h3 id="说一下冰蝎的流量特征"><a href="#说一下冰蝎的流量特征" class="headerlink" title="说一下冰蝎的流量特征"></a>说一下冰蝎的流量特征</h3><p>答: 这个有点不记得了<br>注:(冰蝎<br>1.content-type一定为application/octet-stream<br>2.内置17个UA Mozilla4/5<br>3.payload定长且无随机填充部分(padding)<br>)</p>
+        <h3 id="现在是不是上大学4月份是否有时间">现在是不是上大学，4月份是否有时间，</h3>
+<p>答: 现在大三在读，4月份有时间可以出来 ### 介绍下简历里的经历 答:
+钓鱼的服务器之前在qq群里看到过，进行信息搜集扫到phpmyadmin
+然后爆破<span id="more"></span>之后开启写入日志的设置 写入webshell
+然后就说了下那次图书馆的一次不完整的溯源经历，时间有些久了记得不是很清楚，而且那时候第一次接触这个，主要有两个现象，一是正常登陆时会被注销，二是mysql无法正常启动。
+由于系统是window2008 且使用的phpstudy自行搭建的
+之前有过被入侵的记录，也存在着一些被非法添加的账号，然后就在注册表中删除了一系列的账户，
+在msconfig中开启了mysql服务，但是还是无法正常登陆。 netstat
+-ano看了下开启的端口，发现开启了80 Apache 808 iis 135端口。
+查看事件查看器去看一些异常 id 4624 账号登陆成功 4625 账号登陆失败 4720
+创建账号 4726 删除账号</p>
+<h3 id="有没有过相关的护网经验">有没有过相关的护网经验</h3>
+<p>答: 没有过hw经验，但是我会去学习去了解 ### 是否有使用过安全产品 答:
+只接触过D盾，别的设备没接触过 ### 说一下常见的端口和漏洞 答: 1433 mssql
+1521 orcale 3306 mysql<br>
+4376 Redis未授权访 7001 weblogic 反序列化 445 永恒之蓝</p>
+<h3 id="说一下常用的安全工具的流量特征">说一下常用的安全工具的流量特征</h3>
+<p>答: awvs的在header url body 三项中都会有a%#-wvs sqlmap的
+会在ua显示sqlmap级版本号 和 sqlmap网址 appscan url
+header和bkdy中都会有appscan
+然后说了下菜刀大多使用base64编码，eval和assert会被隔开 ###
+说一下冰蝎的流量特征 答: 这个有点不记得了 注:(冰蝎
+1.content-type一定为application/octet-stream 2.内置17个UA Mozilla4/5
+3.payload定长且无随机填充部分(padding) )</p>
 
     </div>
 
@@ -428,7 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E4%B8%8A%E5%A4%A7%E5%AD%A6%EF%BC%8C4%E6%9C%88%E4%BB%BD%E6%98%AF%E5%90%A6%E6%9C%89%E6%97%B6%E9%97%B4%EF%BC%8C"><span class="nav-number">1.</span> <span class="nav-text">现在是不是上大学，4月份是否有时间，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%8B%E7%AE%80%E5%8E%86%E9%87%8C%E7%9A%84%E7%BB%8F%E5%8E%86"><span class="nav-number">2.</span> <span class="nav-text">介绍下简历里的经历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E8%BF%87%E7%9B%B8%E5%85%B3%E7%9A%84%E6%8A%A4%E7%BD%91%E7%BB%8F%E9%AA%8C"><span class="nav-number">3.</span> <span class="nav-text">有没有过相关的护网经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E5%90%A6%E6%9C%89%E4%BD%BF%E7%94%A8%E8%BF%87%E5%AE%89%E5%85%A8%E4%BA%A7%E5%93%81"><span class="nav-number">4.</span> <span class="nav-text">是否有使用过安全产品</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E5%B8%B8%E8%A7%81%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%92%8C%E6%BC%8F%E6%B4%9E"><span class="nav-number">5.</span> <span class="nav-text">说一下常见的端口和漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81"><span class="nav-number">6.</span> <span class="nav-text">说一下常用的安全工具的流量特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E5%86%B0%E8%9D%8E%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81"><span class="nav-number">7.</span> <span class="nav-text">说一下冰蝎的流量特征</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E6%98%AF%E4%B8%8D%E6%98%AF%E4%B8%8A%E5%A4%A7%E5%AD%A64%E6%9C%88%E4%BB%BD%E6%98%AF%E5%90%A6%E6%9C%89%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">现在是不是上大学，4月份是否有时间，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%B2%A1%E6%9C%89%E8%BF%87%E7%9B%B8%E5%85%B3%E7%9A%84%E6%8A%A4%E7%BD%91%E7%BB%8F%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">有没有过相关的护网经验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E4%B8%80%E4%B8%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81"><span class="nav-number">3.</span> <span class="nav-text">说一下常用的安全工具的流量特征</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -444,7 +461,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -492,7 +509,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -506,7 +523,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -517,7 +534,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -657,6 +674,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

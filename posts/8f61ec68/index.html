@@ -48,7 +48,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/8f61ec68/5.jpg">
 <meta property="og:image" content="http://mamor5409.github.io/posts/8f61ec68/6.jpg">
 <meta property="article:published_time" content="2024-02-14T05:52:53.000Z">
-<meta property="article:modified_time" content="2024-11-18T05:59:45.292Z">
+<meta property="article:modified_time" content="2024-11-18T05:59:45.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/8f61ec68/1.jpg">
@@ -295,28 +295,48 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Proxy-pool"><a href="#Proxy-pool" class="headerlink" title="Proxy_pool"></a><em>Proxy_pool</em></h3><p>项目 <a target="_blank" rel="noopener" href="https://github.com/jhao104/proxy_pool/tree/master">https://github.com/jhao104/proxy_pool/tree/master</a></p>
+        <h3 id="proxy_pool"><em>Proxy_pool</em></h3>
+<p>项目 https://github.com/jhao104/proxy_pool/tree/master</p>
 <p>安装redis 并运行 ./redis-serve</p>
 <p>cd proxy_pool</p>
 <p>pip3 install -r requirements.txt</p>
 <p>vim setting.py</p>
 <p>修改redis密码</p>
-<p><img src="/posts/8f61ec68/1.jpg" alt="img"></p>
+<figure>
+<img src="/posts/8f61ec68/1.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>./start.sh 运行即可</p>
-<p><img src="/posts/8f61ec68/2.jpg" alt="img"></p>
-<p>每次访问 这个api接口 都会得到不同的代理池IP  <a target="_blank" rel="noopener" href="http://127.0.0.1:5010/get/">http://127.0.0.1:5010/get/</a></p>
-<p><img src="/posts/8f61ec68/3.jpg" alt="img"></p>
-<p>后续可根据需要重新再代码基础上正则 或者 额外加方法 输出ip:port即可</p>
+<figure>
+<img src="/posts/8f61ec68/2.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>每次访问 这个api接口 都会得到不同的代理池IP
+http://127.0.0.1:5010/get/</p>
+<figure>
+<img src="/posts/8f61ec68/3.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>后续可根据需要重新再代码基础上正则 或者 额外加方法
+输出ip:port即可</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getRdmProxyIP</span>():</span><br><span class="line"></span><br><span class="line">    req = requests.get(url=<span class="string">&quot;http://192.168.80.96:5010/get&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(req.content)</span><br><span class="line">    resp_str = req.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    resp_json = json.loads(resp_str)</span><br><span class="line">    <span class="comment"># 判断是否为 https</span></span><br><span class="line">    is_https = resp_json.get(<span class="string">&quot;https&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># 提取 proxy</span></span><br><span class="line">    proxy = resp_json.get(<span class="string">&quot;proxy&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="comment"># 输出结果</span></span><br><span class="line">    protocol = <span class="string">&quot;https&quot;</span> <span class="keyword">if</span> is_https <span class="keyword">else</span> <span class="string">&quot;http&quot;</span></span><br><span class="line">    <span class="comment"># print(f&quot;&#123;protocol&#125;://&#123;proxy&#125;&quot;)</span></span><br><span class="line">    res = <span class="string">f&quot;<span class="subst">&#123;protocol&#125;</span>://<span class="subst">&#123;proxy&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getAllProxyIP</span>():</span><br><span class="line">    proxys = []</span><br><span class="line">    req = requests.get(url=<span class="string">&quot;http://192.168.80.96:5010/all&quot;</span>)</span><br><span class="line">    <span class="comment"># print(req.content)</span></span><br><span class="line">    resp_str = req.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    resp_jsons = json.loads(resp_str)</span><br><span class="line">    <span class="comment"># print(len(resp_jsons))</span></span><br><span class="line">    <span class="keyword">for</span> json_obj <span class="keyword">in</span> resp_jsons:</span><br><span class="line">        <span class="comment"># 判断是否为 https</span></span><br><span class="line">        is_https = json_obj.get(<span class="string">&quot;https&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">        <span class="comment"># 提取 proxy</span></span><br><span class="line">        proxy = json_obj.get(<span class="string">&quot;proxy&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="comment"># 输出结果</span></span><br><span class="line">        protocol = <span class="string">&quot;https&quot;</span> <span class="keyword">if</span> is_https <span class="keyword">else</span> <span class="string">&quot;http&quot;</span></span><br><span class="line">        <span class="comment"># print(f&quot;&#123;protocol&#125;://&#123;proxy&#125;&quot;)</span></span><br><span class="line">        proxys.append(<span class="string">f&quot;<span class="subst">&#123;protocol&#125;</span>://<span class="subst">&#123;proxy&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> proxys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># RdmIP = getRdmProxyIP()</span></span><br><span class="line">    <span class="comment"># print(RdmIP)</span></span><br><span class="line">    proxy_list = getAllProxyIP()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] 当前可用免费代理共&#x27;</span>,<span class="built_in">len</span>(proxy_list),<span class="string">&#x27;个&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(proxy_list)</span><br><span class="line"></span><br><span class="line">    random_proxy = random.choice(proxy_list)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(random_proxy)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> random_proxy.startswith(<span class="string">&#x27;https&#x27;</span>):</span><br><span class="line">        proxy = &#123;<span class="string">&#x27;https&#x27;</span>: random_proxy&#125;</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        proxy = &#123;<span class="string">&#x27;http&#x27;</span>: random_proxy&#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(proxy)</span><br><span class="line"></span><br><span class="line">    req = requests.get(url=<span class="string">&quot;http://ipinfo.io&quot;</span>,proxies=proxy)</span><br><span class="line">    <span class="keyword">if</span> req.status_code == <span class="number">200</span>:</span><br><span class="line">        resp = req.content</span><br><span class="line">        <span class="built_in">print</span>(resp)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[-] error, bad status_code：&quot;</span>,req.status_code)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/8f61ec68/s4.jpg" alt="img"></p>
-<p>在免费的代理中 有部分仍不可用 会返回404notfound 或者请求失败等  免费代理池还是存在不能用的问题。【毕竟白嫖的 能用就行吧】</p>
-<p>跑了20次 成功13次 勉强还算行吧  50次 成功37次</p>
+<figure>
+<img src="/posts/8f61ec68/s4.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>在免费的代理中 有部分仍不可用 会返回404notfound 或者请求失败等
+免费代理池还是存在不能用的问题。【毕竟白嫖的 能用就行吧】</p>
+<p>跑了20次 成功13次 勉强还算行吧 50次 成功37次</p>
 <p>https的基本上不行 之前都去掉了</p>
-<p><img src="/posts/8f61ec68/5.jpg" alt="img"></p>
+<figure>
+<img src="/posts/8f61ec68/5.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getRdmProxyIP</span>():</span><br><span class="line">    req = requests.get(url=<span class="string">&quot;http://192.168.80.96:5010/get&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(req.content)</span><br><span class="line">    resp_str = req.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    resp_json = json.loads(resp_str)</span><br><span class="line">    <span class="comment"># 判断是否为 https</span></span><br><span class="line">    is_https = resp_json.get(<span class="string">&quot;https&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># 提取 proxy</span></span><br><span class="line">    proxy = resp_json.get(<span class="string">&quot;proxy&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="comment"># 输出结果</span></span><br><span class="line">    protocol = <span class="string">&quot;https&quot;</span> <span class="keyword">if</span> is_https <span class="keyword">else</span> <span class="string">&quot;http&quot;</span></span><br><span class="line">    <span class="comment"># print(f&quot;&#123;protocol&#125;://&#123;proxy&#125;&quot;)</span></span><br><span class="line">    res = <span class="string">f&quot;<span class="subst">&#123;protocol&#125;</span>://<span class="subst">&#123;proxy&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getAllProxyIP</span>():</span><br><span class="line">    proxys = []</span><br><span class="line">    req = requests.get(url=<span class="string">&quot;http://192.168.80.96:5010/all&quot;</span>)</span><br><span class="line">    <span class="comment"># print(req.content)</span></span><br><span class="line">    resp_str = req.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    resp_jsons = json.loads(resp_str)</span><br><span class="line">    <span class="comment"># print(len(resp_jsons))</span></span><br><span class="line">    <span class="keyword">for</span> json_obj <span class="keyword">in</span> resp_jsons:</span><br><span class="line">        <span class="comment"># 判断是否为 https</span></span><br><span class="line">        is_https = json_obj.get(<span class="string">&quot;https&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">        <span class="comment"># 如果是 https 则跳过</span></span><br><span class="line">        <span class="keyword">if</span> is_https:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="comment"># 提取 proxy</span></span><br><span class="line">        proxy = json_obj.get(<span class="string">&quot;proxy&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="comment"># 输出结果</span></span><br><span class="line">        protocol = <span class="string">&quot;https&quot;</span> <span class="keyword">if</span> is_https <span class="keyword">else</span> <span class="string">&quot;http&quot;</span></span><br><span class="line">        <span class="comment"># print(f&quot;&#123;protocol&#125;://&#123;proxy&#125;&quot;)</span></span><br><span class="line">        proxys.append(<span class="string">f&quot;<span class="subst">&#123;protocol&#125;</span>://<span class="subst">&#123;proxy&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> proxys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="comment"># RdmIP = getRdmProxyIP()</span></span><br><span class="line">    <span class="comment"># print(RdmIP)</span></span><br><span class="line">    proxy_list = getAllProxyIP()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[+] 当前可用免费代理共&#x27;</span>, <span class="built_in">len</span>(proxy_list), <span class="string">&#x27;个&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(proxy_list)</span><br><span class="line"></span><br><span class="line">    successnum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">50</span>):</span><br><span class="line"></span><br><span class="line">        random_proxy = random.choice(proxy_list)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># print(random_proxy)</span></span><br><span class="line">        <span class="keyword">match</span> = re.<span class="keyword">match</span>(<span class="string">r&#x27;http://(\d+\.\d+\.\d+\.\d+):\d+&#x27;</span>, random_proxy)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">match</span>:  ip_address = <span class="keyword">match</span>.group(<span class="number">1</span>)</span><br><span class="line">        ip_bytes = <span class="built_in">bytes</span>(ip_address, <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> random_proxy.startswith(<span class="string">&#x27;https&#x27;</span>):</span><br><span class="line">            proxy = &#123;<span class="string">&#x27;https&#x27;</span>: random_proxy&#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            proxy = &#123;<span class="string">&#x27;http&#x27;</span>: random_proxy&#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(proxy)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            req = requests.get(url=<span class="string">&quot;http://ipinfo.io&quot;</span>, proxies=proxy)</span><br><span class="line">            <span class="keyword">if</span> req.status_code == <span class="number">200</span>:</span><br><span class="line">                resp = req.content</span><br><span class="line">                <span class="comment"># print(resp)</span></span><br><span class="line">                <span class="comment"># print(ip_bytes)</span></span><br><span class="line">                <span class="keyword">if</span> ip_bytes <span class="keyword">in</span> resp:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;[+] success!&#x27;</span>,ip_address)</span><br><span class="line">                    successnum += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;[-] error, bad status_code：&quot;</span>, req.status_code)</span><br><span class="line">        <span class="keyword">except</span> requests.Timeout:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Timeout error: The request timed out&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Request error: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(successnum)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/8f61ec68/6.jpg" alt="img"></p>
+<figure>
+<img src="/posts/8f61ec68/6.jpg" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>整体效果 成功率60%左右</p>
 
     </div>
@@ -443,7 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy-pool"><span class="nav-number">1.</span> <span class="nav-text">Proxy_pool</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy_pool"><span class="nav-number">1.</span> <span class="nav-text">Proxy_pool</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -459,7 +479,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +527,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -521,7 +541,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -532,7 +552,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -672,6 +692,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

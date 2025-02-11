@@ -43,7 +43,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mamor5409.github.io/posts/843cce96/1.png">
 <meta property="article:published_time" content="2022-10-17T03:34:27.000Z">
-<meta property="article:modified_time" content="2022-10-17T03:41:13.589Z">
+<meta property="article:modified_time" content="2022-10-17T03:41:13.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="用户态注入">
 <meta name="twitter:card" content="summary">
@@ -295,9 +295,11 @@
 
       
         <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> <span class="keyword">warning</span>(disable:4996)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Data</span> &#123;</span></span><br><span class="line">	FARPROC func[<span class="number">2</span>];  <span class="comment">//loadlibraryA GetProcAddress 地址</span></span><br><span class="line">	<span class="type">char</span> buffer[<span class="number">4</span>][<span class="number">128</span>];  <span class="comment">//二级指针</span></span><br><span class="line"></span><br><span class="line">&#125; _DATA ,*THREAD_PARAM ;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义 loadlibraryA函数指针</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">WINBASEAPI</span></span><br><span class="line"><span class="comment">_Ret_maybenull_</span></span><br><span class="line"><span class="comment">HMODULE</span></span><br><span class="line"><span class="comment">WINAPI</span></span><br><span class="line"><span class="comment">LoadLibraryA(</span></span><br><span class="line"><span class="comment">	_In_ LPCSTR lpLibFileName</span></span><br><span class="line"><span class="comment">);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">HMODULE</span><span class="params">(WINAPI* loadLibraryA)</span><span class="params">(LPCSTR lpLibFileName)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义 GetProcAddress指针</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">WINBASEAPI</span></span><br><span class="line"><span class="comment">FARPROC</span></span><br><span class="line"><span class="comment">WINAPI</span></span><br><span class="line"><span class="comment">GetProcAddress(</span></span><br><span class="line"><span class="comment">	_In_ HMODULE hModule,</span></span><br><span class="line"><span class="comment">	_In_ LPCSTR lpProcName</span></span><br><span class="line"><span class="comment">	);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">HMODULE</span><span class="params">(WINAPI* getProcAddress)</span><span class="params">(HMODULE hModule, LPCSTR lpProcName)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MessageBoxA</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">WINUSERAPI</span></span><br><span class="line"><span class="comment">int</span></span><br><span class="line"><span class="comment">WINAPI</span></span><br><span class="line"><span class="comment">MessageBoxA(</span></span><br><span class="line"><span class="comment">	_In_opt_ HWND hWnd,</span></span><br><span class="line"><span class="comment">	_In_opt_ LPCSTR lpText,</span></span><br><span class="line"><span class="comment">	_In_opt_ LPCSTR lpCaption,</span></span><br><span class="line"><span class="comment">	_In_ UINT uType);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">int</span> <span class="params">(WINAPI* messageBoxA)</span><span class="params">( </span></span><br><span class="line"><span class="params">	HWND hWnd,</span></span><br><span class="line"><span class="params">	LPCSTR lpText,</span></span><br><span class="line"><span class="params">	LPCSTR lpCaption,</span></span><br><span class="line"><span class="params">	UINT uType)</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DWORD WINAPI <span class="title function_">shellCode</span><span class="params">(LPVOID lparam)</span> &#123;</span><br><span class="line">	THREAD_PARAM param = (THREAD_PARAM)lparam;   <span class="comment">//定义成指针类型</span></span><br><span class="line">	HMODULE hmod = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="comment">//加载user32.dll </span></span><br><span class="line">	<span class="comment">// param-&gt;func[0]   loadlibraryA</span></span><br><span class="line">	<span class="comment">//param-&gt;buffer[0]  user32.dll</span></span><br><span class="line">	hmod = ((loadLibraryA)param-&gt;func[<span class="number">0</span>])(param-&gt;buffer[<span class="number">0</span>]); 	<span class="comment">// loadlibraryA()</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取messageBoxA</span></span><br><span class="line">	<span class="comment">//param-&gt;func[1]  GetProcAddress</span></span><br><span class="line">	<span class="comment">//param.buffer[1] &quot;MessageBoxA&quot;</span></span><br><span class="line">	<span class="comment">//param.buffer[2] &quot;title&quot;</span></span><br><span class="line">	<span class="comment">//param.buffer[3] &quot;text&quot;</span></span><br><span class="line">	FARPROC messageboxfun = (FARPROC)((getProcAddress)param-&gt;func[<span class="number">1</span>])(hmod, param-&gt;buffer[<span class="number">1</span>]);</span><br><span class="line">	<span class="comment">//MessageBoxA弹窗</span></span><br><span class="line">	((messageBoxA)messageboxfun)(<span class="literal">NULL</span>, param-&gt;buffer[<span class="number">2</span>], param-&gt;buffer[<span class="number">3</span>], <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">injectCode</span><span class="params">(<span class="type">int</span> pid)</span> &#123;</span><br><span class="line">	_DATA param = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	LPVOID remoteBuf[<span class="number">2</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	HMODULE hmod = GetModuleHandleA(<span class="string">&quot;kernel32.dll&quot;</span>);</span><br><span class="line">	param.func[<span class="number">0</span>] = GetProcAddress(hmod, <span class="string">&quot;LoadLibraryA&quot;</span>);</span><br><span class="line">	param.func[<span class="number">1</span>] = GetProcAddress(hmod, <span class="string">&quot;GetProcAddress&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">strcpy</span>(param.buffer[<span class="number">0</span>], <span class="string">&quot;user32.dll&quot;</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>(param.buffer[<span class="number">1</span>], <span class="string">&quot;MessageBoxA&quot;</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>(param.buffer[<span class="number">2</span>], <span class="string">&quot;title&quot;</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>(param.buffer[<span class="number">3</span>], <span class="string">&quot;text&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//打开进程</span></span><br><span class="line">	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS,FALSE,pid );</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == hProcess) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//分配Param结构体内存</span></span><br><span class="line">	<span class="type">int</span> size = <span class="keyword">sizeof</span>(_DATA);</span><br><span class="line">	remoteBuf[<span class="number">0</span>] = VirtualAllocEx(hProcess, <span class="literal">NULL</span>, size, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	<span class="comment">//把数据写入目标内存</span></span><br><span class="line">	WriteProcessMemory(hProcess, remoteBuf[<span class="number">0</span>], &amp;param, size, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将代码写入到目标内存</span></span><br><span class="line">	size = (DWORD)injectCode - (DWORD)shellCode; <span class="comment">//得到shellcode代码大小</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, size);</span><br><span class="line">	remoteBuf[<span class="number">1</span>] = VirtualAllocEx(hProcess, <span class="literal">NULL</span>, size, MEM_COMMIT, PAGE_EXECUTE_READWRITE);</span><br><span class="line">	WriteProcessMemory(hProcess, remoteBuf[<span class="number">1</span>], shellCode, size, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	HANDLE thread = CreateRemoteThread(hProcess, <span class="literal">NULL</span>, <span class="number">0</span>, remoteBuf[<span class="number">1</span>], remoteBuf[<span class="number">0</span>], <span class="number">0</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == thread) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	WaitForSingleObject(thread,INFINITE);</span><br><span class="line">	CloseHandle(thread);</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*if (argc != 2)</span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">		printf(&quot;请输入pid&quot;);</span></span><br><span class="line"><span class="comment">		return;</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	int pid = atol(argv[1]);*/</span></span><br><span class="line">	injectCode(<span class="number">13968</span>);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>需要在release下生成</p>
-<p><img src="/posts/843cce96/1.png" alt="img"></p>
+<figure>
+<img src="/posts/843cce96/1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 
     </div>
 
@@ -442,7 +444,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -490,7 +492,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -504,7 +506,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -515,7 +517,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -655,6 +657,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

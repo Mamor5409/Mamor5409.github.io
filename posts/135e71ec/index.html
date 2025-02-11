@@ -305,27 +305,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><blockquote>
-<p>Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）<br>Apache Shiro是一款开源安全框架，提供身份验证、授权、密码学和会话管理。Shiro框架直观、易用，同时也能提供健壮的安全性。<br>Apache Shiro 1.2.4及以前版本中，加密的用户信息序列化后存储在名为remember-me的Cookie中。攻击者可以使用Shiro的默认密钥伪造用户Cookie，触发Java反序列化漏洞，进而在目标机器上执行任意命令。</p>
+        <h3 id="漏洞说明">漏洞说明</h3>
+<blockquote>
+<p>Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437） Apache
+Shiro是一款开源安全框架，提供身份验证、授权、密码学和会话管理。Shiro框架直观、易用，同时也能提供健壮的安全性。
+Apache Shiro
+1.2.4及以前版本中，加密的用户信息序列化后存储在名为remember-me的Cookie中。攻击者可以使用Shiro的默认密钥伪造用户Cookie，触发Java反序列化漏洞，进而在目标机器上执行任意命令。</p>
 </blockquote>
-<p>shiro 提供了RememberMe功能，对rememberMe的cookie做了加密处理，当用户成功登录后shiro在CookieRememberMeManaer类中将cookie中rememberMe字段内容分别进行 <strong>序列化，AES加密，base64编码。</strong></p>
-<p>相对的，在识别身份是会对cookie的RememberMe字段进行解密处理，解密顺序为    <strong>获取RememberMe cookie ，base64解密， AES解密， 反序列化</strong></p>
-<p>所以可以构造一个恶意对象，对其序列化，AES加密，base64编码之后作为cookie的RememberMe 字段发送出去，shiro会将RememberMe进行解密并反序列化，从而造成反序列化漏洞.</p>
-<br>
-
-<br>
-
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>kali : 192.168.87.128</p>
+<p>shiro
+提供了RememberMe功能，对rememberMe的cookie做了加密处理，当用户成功登录后shiro在CookieRememberMeManaer类中将cookie中rememberMe字段内容分别进行
+<strong>序列化，AES加密，base64编码。</strong></p>
+<p>相对的，在识别身份是会对cookie的RememberMe字段进行解密处理，解密顺序为
+<strong>获取RememberMe cookie ，base64解密， AES解密，
+反序列化</strong></p>
+<p>所以可以构造一个恶意对象，对其序列化，AES加密，base64编码之后作为cookie的RememberMe
+字段发送出去，shiro会将RememberMe进行解密并反序列化，从而造成反序列化漏洞.</p>
+<p><br></p>
+<p><br></p>
+<h3 id="漏洞复现">漏洞复现</h3>
+<p>kali : 192.168.87.128</p>
 <p>Ubuntu : 192.168.87.129</p>
-<p><code>docker-compose up -d</code> 访问<code>192.168.87.129:8080</code></p>
+<p><code>docker-compose up -d</code>
+访问<code>192.168.87.129:8080</code></p>
 <p>使用burpsuite抓包，勾选rememberme,账号密码分别为<code>admin</code>,<code>vulhub</code></p>
 <p><img src="/posts/135e71ec/bp1.png"></p>
 <p>提交表单后,可以看到set-cookie的remeberMe=deleteMe</p>
-<br>
-
+<p><br></p>
 <p><img src="/posts/135e71ec/1.PNG"></p>
 <p><img src="/posts/135e71ec/2.PNG"></p>
-<p>在kali上开启监听 </p>
+<p>在kali上开启监听</p>
 <p><code>nc -lvvp 6666</code></p>
 <p><img src="/posts/135e71ec/3.PNG"></p>
 <p><img src="/posts/135e71ec/4.PNG"></p>
@@ -475,7 +483,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -523,7 +531,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -537,7 +545,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -548,7 +556,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -688,6 +696,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

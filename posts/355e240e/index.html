@@ -280,7 +280,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -300,15 +300,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h3><table>
+        <h3 id="find命令">find命令</h3>
+<table>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr>
 <th>选项</th>
 <th></th>
 </tr>
 </thead>
-<tbody><tr>
-<td>–help  -help</td>
+<tbody>
+<tr>
+<td>--help -help</td>
 <td>帮助</td>
 </tr>
 <tr>
@@ -321,11 +327,12 @@
 </tr>
 <tr>
 <td>-type</td>
-<td>只寻找符合指定的文件类型的文件,  d 目录       f 文件        c 字符设备文件         b 块设备文件</td>
+<td>只寻找符合指定的文件类型的文件, d 目录 f 文件 c 字符设备文件 b
+块设备文件</td>
 </tr>
 <tr>
 <td>-print</td>
-<td>将文件或目录名称列出到标准输出。格式为每列一个名称，每个名称前皆有”./“字符串</td>
+<td>将文件或目录名称列出到标准输出。格式为每列一个名称，每个名称前皆有"./"字符串</td>
 </tr>
 <tr>
 <td>-prune</td>
@@ -341,14 +348,17 @@
 </tr>
 <tr>
 <td>-exec</td>
-<td>find命令对匹配的文件执行该参数所给出的shell命令。相应命令的形式为’command’ { } ;，注意{ }和\；之间的空格</td>
+<td>find命令对匹配的文件执行该参数所给出的shell命令。相应命令的形式为’command’
+{ } ;，注意{ }和；之间的空格</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>实例</p>
 <p><code>find .</code> 列出当前目录及子目录下的所有文件和文件夹</p>
-<p><code>find .  -name  &quot;*-txt&quot;</code>  找出当前文件加下的.txt文件</p>
-<p><code>find . -nmae &quot;*.txt&quot; -o -name &quot;*.py&quot;</code> 找出当前文件夹下的.txt文件和子目录下的.py文件</p>
-<p><code>find . ! -name  &quot;*-txt&quot; </code> 找出当前目录下不为.txt的文件</p>
+<p><code>find .  -name  "*-txt"</code> 找出当前文件加下的.txt文件</p>
+<p><code>find . -nmae "*.txt" -o -name "*.py"</code>
+找出当前文件夹下的.txt文件和子目录下的.py文件</p>
+<p><code>find . ! -name  "*-txt"</code> 找出当前目录下不为.txt的文件</p>
 <p><code>find . -type &lt;类型参数&gt;</code></p>
 <table>
 <thead>
@@ -357,7 +367,8 @@
 <th>含义</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>f</td>
 <td>普通文件</td>
 </tr>
@@ -385,55 +396,75 @@
 <td>c</td>
 <td>字符设备</td>
 </tr>
-</tbody></table>
-<p><code>find . -type f -name &quot;*-txt&quot;  -delete </code> 删除匹配的txt文件</p>
-<p><code>find  -perm -777  -type f | sort</code> 查找权限为777的文件或目录并排序</p>
-<p><code>find -type f -name &quot;*.txt&quot; -exec cat &#123;&#125; \; &gt; all.txt</code> 将所有的txt文件拼接并写入到all.txt</p>
-<p>单行命令的-exec无法执行多个命令，执行多行命令的话就需要创建一个test.sh  这里为了方便直接给777权限 <code>chmod 777 test.sh</code></p>
+</tbody>
+</table>
+<p><code>find . -type f -name "*-txt"  -delete</code>
+删除匹配的txt文件</p>
+<p><code>find  -perm -777  -type f | sort</code>
+查找权限为777的文件或目录并排序</p>
+<p><code>find -type f -name "*.txt" -exec cat &#123;&#125; \; &gt; all.txt</code>
+将所有的txt文件拼接并写入到all.txt</p>
+<p>单行命令的-exec无法执行多个命令，执行多行命令的话就需要创建一个test.sh
+这里为了方便直接给777权限 <code>chmod 777 test.sh</code></p>
 <p>test.sh 内容为下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br><span class="line">cat all.txt</span><br></pre></td></tr></table></figure>
-
-<p><code>find &#39;all.txt&#39; -exec  ./test.sh  &#123;&#125; \;</code></p>
+<p><code>find 'all.txt' -exec  ./test.sh  &#123;&#125; \;</code></p>
 <p><img src="/posts/355e240e/find_exec_sh.png"></p>
-<h3 id="2-gt-dev-null"><a href="#2-gt-dev-null" class="headerlink" title="2&gt; /dev/null"></a>2&gt; /dev/null</h3><br>
-
+<h3 id="devnull">2&gt; /dev/null</h3>
+<p><br></p>
 <p>文件描述符</p>
-<p>0    标准输入(stdin)</p>
-<p>1    标准输出(stdout)</p>
-<p>2    标准错误(stderror)</p>
+<p>0 标准输入(stdin)</p>
+<p>1 标准输出(stdout)</p>
+<p>2 标准错误(stderror)</p>
 <p>重定向</p>
 <p><code>&gt;</code> 清空文件 再写入内容</p>
 <p><code>&gt;&gt;</code> 追加到文件尾部</p>
-<p><code>2&gt;/dev/null</code><br>意思就是把错误输出到“黑洞”</p>
+<p><code>2&gt;/dev/null</code> 意思就是把错误输出到“黑洞”</p>
 <p><code>&gt;/dev/null 2&gt;&amp;1</code></p>
-<p>默认情况是1，也就是等同于1&gt;/dev/null 2&gt;&amp;1。意思就是把标准输出重定向到“黑洞”，还把错误输出2重定向到标准输出1，也就是标准输出和错误输出都进了“黑洞”<br><code>2&gt;&amp;1 &gt;/dev/null</code><br>意思就是把错误输出2重定向到标准出书1，也就是屏幕，标准输出进了“黑洞”，也就是标准输出进了黑洞，错误输出打印到屏幕</p>
-<h3 id="Linux下的权限"><a href="#Linux下的权限" class="headerlink" title="Linux下的权限"></a>Linux下的权限</h3><p>Linux下权限的属组有 拥有者 、群组 、其它组 三种，设置不同的rwx权限。</p>
+<p>默认情况是1，也就是等同于1&gt;/dev/null
+2&gt;&amp;1。意思就是把标准输出重定向到“黑洞”，还把错误输出2重定向到标准输出1，也就是标准输出和错误输出都进了“黑洞”
+<code>2&gt;&amp;1 &gt;/dev/null</code>
+意思就是把错误输出2重定向到标准出书1，也就是屏幕，标准输出进了“黑洞”，也就是标准输出进了黑洞，错误输出打印到屏幕</p>
+<h3 id="linux下的权限">Linux下的权限</h3>
+<p>Linux下权限的属组有 拥有者 、群组 、其它组
+三种，设置不同的rwx权限。</p>
 <p>Linux下文件的权限类型一般包括读，写，执行，即r，w，x。</p>
 <blockquote>
-<p>r=4，w=2，x=1<br>rwx = 4 + 2 + 1 = 7<br>rw = 4 + 2 = 6<br>rx = 4 +1 = 5</p>
+<p>r=4，w=2，x=1 rwx = 4 + 2 + 1 = 7 rw = 4 + 2 = 6 rx = 4 +1 = 5</p>
 </blockquote>
 <p>一般表示一个文件所有权限详情的有两种方式</p>
 <p>一种是十进制，十进制的常用表示形式</p>
 <blockquote>
-<p>-rw——- (600)    只有拥有者有读写权限。<br>-rw-r–r– (644)    只有拥有者有读写权限；而属组用户和其他用户只有读权限。<br>-rwx—— (700)    只有拥有者有读、写、执行权限。<br>-rwxr-xr-x (755)    拥有者有读、写、执行权限；而属组用户和其他用户只有读、执行权限。<br>-rwx–x–x (711)    拥有者有读、写、执行权限；而属组用户和其他用户只有执行权限。<br>-rw-rw-rw- (666)    所有用户都有文件读、写权限。<br>-rwxrwxrwx (777)    所有用户都有读、写、执行权限。</p>
+<p>-rw------- (600) 只有拥有者有读写权限。 -rw-r--r-- (644)
+只有拥有者有读写权限；而属组用户和其他用户只有读权限。 -rwx------ (700)
+只有拥有者有读、写、执行权限。 -rwxr-xr-x (755)
+拥有者有读、写、执行权限；而属组用户和其他用户只有读、执行权限。
+-rwx--x--x (711)
+拥有者有读、写、执行权限；而属组用户和其他用户只有执行权限。 -rw-rw-rw-
+(666) 所有用户都有文件读、写权限。 -rwxrwxrwx (777)
+所有用户都有读、写、执行权限。</p>
 </blockquote>
 <p>另一种是十二进制</p>
-<p>linux除了设置正常的读写操作权限外，还有关于一类设置也是涉及到权限，叫做Linxu附加权限。包括 SET位权限（suid，sgid）和粘滞位权限（sticky）</p>
+<p>linux除了设置正常的读写操作权限外，还有关于一类设置也是涉及到权限，叫做Linxu附加权限。包括
+SET位权限（suid，sgid）和粘滞位权限（sticky）</p>
 <p>s权限(SetUID，SetGID)</p>
-<p>SetUID    只能应用于二进制可执行文件*</p>
-<p>SetGID    可应用于二进制可执行文件*和目录</p>
+<p>SetUID 只能应用于二进制可执行文件*</p>
+<p>SetGID 可应用于二进制可执行文件*和目录</p>
 <p>4代表SetUID，2代表SetGID，6则是两者都置位</p>
 <p><code>chmod 4777 xxx</code></p>
 <p><code>chmod 2777 xxx</code></p>
 <p><code>chmod 6777 xxx</code></p>
-<p><code>chmod </code></p>
-<br>
-
-<h3 id="find提权"><a href="#find提权" class="headerlink" title="find提权"></a>find提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45596239/article/details/102844386">https://blog.csdn.net/weixin_45596239/article/details/102844386</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44912169/article/details/105845909">https://blog.csdn.net/weixin_44912169/article/details/105845909</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/gramdog/article/details/80374119">https://blog.csdn.net/gramdog/article/details/80374119</a><br><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/find/">https://gtfobins.github.io/gtfobins/find/</a></p>
+<p><code>chmod</code></p>
+<p><br></p>
+<h3 id="find提权">find提权</h3>
+<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://blog.csdn.net/weixin_45596239/article/details/102844386
+https://blog.csdn.net/weixin_44912169/article/details/105845909
+https://blog.csdn.net/gramdog/article/details/80374119
+https://gtfobins.github.io/gtfobins/find/</p>
 </blockquote>
 
     </div>
@@ -564,7 +595,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#find%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">find命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-gt-dev-null"><span class="nav-number">2.</span> <span class="nav-text">2&gt; &#x2F;dev&#x2F;null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E4%B8%8B%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">Linux下的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">find提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#find%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">find命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#devnull"><span class="nav-number">2.</span> <span class="nav-text">2&gt; &#x2F;dev&#x2F;null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux%E4%B8%8B%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">Linux下的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">find提权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -580,7 +611,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -628,7 +659,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -642,7 +673,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -653,7 +684,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -793,6 +824,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

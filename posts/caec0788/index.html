@@ -43,7 +43,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mamor5409.github.io/posts/caec0788/1.png">
 <meta property="article:published_time" content="2022-10-27T14:18:22.000Z">
-<meta property="article:modified_time" content="2022-10-27T14:29:46.480Z">
+<meta property="article:modified_time" content="2022-10-27T14:29:46.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="R3Hook">
 <meta name="twitter:card" content="summary">
@@ -294,9 +294,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>Ring3层下的Inline Hook是最常用的Hook手段之一，是一种通过修改机器码的方式来实现hook的技术。</strong></p>
-<p>JMP的地址 (88881234) – 代码地址 (010073bb) – 5（字节） = 机器码跳转地址 (E9 87879e74)</p>
-<h5 id="jmp跳转的地址-自己实现的函数地址-（jmp所在的地址-5"><a href="#jmp跳转的地址-自己实现的函数地址-（jmp所在的地址-5" class="headerlink" title="jmp跳转的地址=自己实现的函数地址-（jmp所在的地址+5)"></a><strong>jmp跳转的地址=自己实现的函数地址-（jmp所在的地址+5)</strong></h5><h4 id><a href="#" class="headerlink" title></a></h4><h4 id="1-需要手动脱钩"><a href="#1-需要手动脱钩" class="headerlink" title="1.   需要手动脱钩"></a>1.   需要手动脱钩</h4><ol>
+        <p><strong>Ring3层下的Inline
+Hook是最常用的Hook手段之一，是一种通过修改机器码的方式来实现hook的技术。</strong></p>
+<p>JMP的地址 (88881234) – 代码地址 (010073bb) – 5（字节） =
+机器码跳转地址 (E9 87879e74)</p>
+<h5 id="jmp跳转的地址自己实现的函数地址-jmp所在的地址5"><strong>jmp跳转的地址=自己实现的函数地址-（jmp所在的地址+5)</strong></h5>
+<h4 id="section"></h4>
+<h4 id="需要手动脱钩">1. 需要手动脱钩</h4>
+<ol type="1">
 <li>构造跳转指令。</li>
 <li>在内存中找到要Hook函数地址，并保存要Hook位置处的前5字节。</li>
 <li>将构造的跳转指令写入需Hook的位置处。</li>
@@ -306,9 +311,12 @@
 <li>继续Hook住原来的位置。</li>
 </ol>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">int</span> <span class="params">(WINAPI* lPMessageBoxA)</span><span class="params">(HWND, LPCSTR, LPCSTR, UINT)</span>;</span><br><span class="line"></span><br><span class="line">BYTE olddata32[<span class="number">5</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"><span class="type">void</span> <span class="title function_">hook</span><span class="params">()</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">unhook</span><span class="params">()</span>;</span><br><span class="line"><span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> WINAPI <span class="title function_">MyMessageBoxA</span><span class="params">(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)</span> &#123;</span><br><span class="line">	<span class="comment">//调用原来的MessageBoxA API  先脱钩</span></span><br><span class="line">	unhook();</span><br><span class="line">	lPMessageBoxA messagebox = (DWORD)GetProcAddress(GetModuleHandle(<span class="string">&quot;user32.dll&quot;</span>), <span class="string">&quot;MessageBoxA&quot;</span>);</span><br><span class="line">	<span class="type">int</span> ret = messagebox(<span class="number">0</span>, <span class="string">&quot;Hook&quot;</span>, <span class="string">&quot;Hook&quot;</span>, <span class="number">0</span>);</span><br><span class="line">	num++;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;MessageBox被调用%d次\n&quot;</span>,num);</span><br><span class="line">	hook();<span class="comment">//函数中之前再次hok 为了拦截下次调用</span></span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">hook</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">//获取MessageBox的地址</span></span><br><span class="line">	DWORD messagebox = (DWORD)GetProcAddress(GetModuleHandle(<span class="string">&quot;user32.dll&quot;</span>), <span class="string">&quot;MessageBoxA&quot;</span>);</span><br><span class="line">	BYTE data[<span class="number">5</span>] = &#123; <span class="number">0xe9</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span> &#125;;  <span class="comment">//&#123; 0xe9, &#125;默认初始化为0 0xe9-&gt;jmp</span></span><br><span class="line">	DWORD offset = (DWORD)MyMessageBoxA - messagebox - <span class="number">5</span>; <span class="comment">//计算jmp跳转的偏移量</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//保存前五个字节数据</span></span><br><span class="line">	<span class="built_in">memcpy</span>(olddata32, messagebox, <span class="number">5</span>);</span><br><span class="line">	<span class="comment">//把偏移量与 JMP指令拼接</span></span><br><span class="line">	<span class="built_in">memcpy</span>(&amp;data[<span class="number">1</span>], &amp;offset, <span class="number">4</span>); <span class="comment">//4个与jmp指令拼接</span></span><br><span class="line">	<span class="comment">//memcpy(data+1, &amp;offset, 4);  也可以这样写</span></span><br><span class="line"></span><br><span class="line">	DWORD oldProtected = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//将内存改为可读可写可执行</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;oldProtected);</span><br><span class="line">	<span class="built_in">memcpy</span>(messagebox, data, <span class="number">5</span>);</span><br><span class="line">	<span class="comment">//还原内存属性</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, oldProtected, &amp;oldProtected);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//脱钩</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">unhook</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">//获取MessageBox的地址</span></span><br><span class="line">	DWORD messagebox = (DWORD)GetProcAddress(GetModuleHandle(<span class="string">&quot;user32.dll&quot;</span>), <span class="string">&quot;MessageBoxA&quot;</span>);</span><br><span class="line"></span><br><span class="line">	DWORD oldProtected = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//将内存改为可读可写可执行</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;oldProtected);</span><br><span class="line">	<span class="built_in">memcpy</span>(messagebox, olddata32, <span class="keyword">sizeof</span>(olddata32));</span><br><span class="line">	<span class="comment">//还原内存属性</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, oldProtected, &amp;oldProtected);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	hook();</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		MessageBoxA(<span class="number">0</span>, <span class="string">&quot;正常调用MessageBoxA&quot;</span>, <span class="string">&quot;未Hook&quot;</span>, <span class="number">0</span>);</span><br><span class="line">		Sleep(<span class="number">2000</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/caec0788/1.png" alt="img"></p>
-<h4 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h4><p>将三条指令保存起来</p>
+<figure>
+<img src="/posts/caec0788/1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="section-1">2.</h4>
+<p>将三条指令保存起来</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">DWORD jump = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">_declspec(naked) <span class="type">int</span> _stdcall <span class="title function_">Transfer</span><span class="params">(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)</span> &#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		mov edi, edi</span><br><span class="line">		push ebp</span><br><span class="line">		mov ebp, esp</span><br><span class="line">		mov ebx, jump</span><br><span class="line">		jmp ebx</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BYTE olddata32[<span class="number">5</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"><span class="type">void</span> <span class="title function_">hook</span><span class="params">()</span>;</span><br><span class="line"><span class="type">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> WINAPI <span class="title function_">MyMessageBoxA</span><span class="params">(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)</span> &#123;</span><br><span class="line">	</span><br><span class="line">	num++;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;MessageBox被调用%d次\n&quot;</span>, num);</span><br><span class="line">	<span class="type">char</span>* text = <span class="string">&quot;Hook&quot;</span>; </span><br><span class="line">	</span><br><span class="line">	hook();<span class="comment">//函数中之前再次hok 为了拦截下次调用</span></span><br><span class="line">	<span class="keyword">return</span> Transfer( hWnd,  text, text,  uType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//挂钩</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">hook</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">//获取MessageBox的地址</span></span><br><span class="line">	DWORD messagebox = (DWORD)GetProcAddress(GetModuleHandle(<span class="string">&quot;user32.dll&quot;</span>), <span class="string">&quot;MessageBoxA&quot;</span>);</span><br><span class="line"></span><br><span class="line">	DWORD value = (DWORD)MyMessageBoxA - messagebox - <span class="number">5</span>; <span class="comment">//计算jmp跳转的偏移量</span></span><br><span class="line"></span><br><span class="line">	DWORD oldProtected = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//将内存改为可读可写可执行</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;oldProtected);</span><br><span class="line">	</span><br><span class="line">	jump = messagebox + <span class="number">5</span>;  <span class="comment">//+5 越过jmp指令  | mov edi edi| push ebp | mov ebp, esp</span></span><br><span class="line">	_asm &#123;</span><br><span class="line">		mov eax,messagebox</span><br><span class="line">		mov byte ptr [eax], <span class="number">0xe9</span>    <span class="comment">//jmp</span></span><br><span class="line">		inc eax </span><br><span class="line">		<span class="comment">//后面还有4个字节 用一个寄存器存储</span></span><br><span class="line">		mov ebx, value </span><br><span class="line">		mov dword ptr [eax], ebx</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//还原内存属性</span></span><br><span class="line">	VirtualProtect(messagebox, <span class="number">5</span>, oldProtected, &amp;oldProtected);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	hook();</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)	&#123;</span><br><span class="line">		MessageBoxA(<span class="number">0</span>, <span class="string">&quot;正常调用MessageBoxA&quot;</span>, <span class="string">&quot;未Hook&quot;</span>, <span class="number">0</span>);</span><br><span class="line">		Sleep(<span class="number">2000</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -439,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#jmp%E8%B7%B3%E8%BD%AC%E7%9A%84%E5%9C%B0%E5%9D%80-%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80-%EF%BC%88jmp%E6%89%80%E5%9C%A8%E7%9A%84%E5%9C%B0%E5%9D%80-5"><span class="nav-number">1.</span> <span class="nav-text">jmp跳转的地址&#x3D;自己实现的函数地址-（jmp所在的地址+5)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number"></span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%9C%80%E8%A6%81%E6%89%8B%E5%8A%A8%E8%84%B1%E9%92%A9"><span class="nav-number"></span> <span class="nav-text">1.   需要手动脱钩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2"><span class="nav-number"></span> <span class="nav-text">2.</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#jmp%E8%B7%B3%E8%BD%AC%E7%9A%84%E5%9C%B0%E5%9D%80%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%87%BD%E6%95%B0%E5%9C%B0%E5%9D%80-jmp%E6%89%80%E5%9C%A8%E7%9A%84%E5%9C%B0%E5%9D%805"><span class="nav-number">1.</span> <span class="nav-text">jmp跳转的地址&#x3D;自己实现的函数地址-（jmp所在的地址+5)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number"></span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%89%8B%E5%8A%A8%E8%84%B1%E9%92%A9"><span class="nav-number"></span> <span class="nav-text">1. 需要手动脱钩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section-1"><span class="nav-number"></span> <span class="nav-text">2.</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -455,7 +463,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -503,7 +511,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -517,7 +525,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -528,7 +536,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -668,6 +676,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

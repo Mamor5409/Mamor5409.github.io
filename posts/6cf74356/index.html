@@ -292,15 +292,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="官网下载"><a href="#官网下载" class="headerlink" title="官网下载"></a>官网下载</h3><p><code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code> 选择下载java8 最新版为<code>jdk-8u291-linux-x64.tar.gz</code></p>
-<h3 id="Jdk-传到kali并解压"><a href="#Jdk-传到kali并解压" class="headerlink" title="Jdk 传到kali并解压"></a>Jdk 传到kali并解压</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/java</span><br><span class="line">mv jdk-8u291-linux-x64.tar.gz /usr/local/java</span><br><span class="line">cd /usr/local/java</span><br><span class="line">sudo tar -zxvf jdk-8u281-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装并注册"><a href="#安装并注册" class="headerlink" title="安装并注册"></a>安装并注册</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">update-alternatives --install /usr/bin/java java /usr/local/java/jdk1.8.0_291/bin/java 1</span><br><span class="line">update-alternatives --install /usr/bin/javac javac /usr/local/java/jdk1.8.0_291/bin/javac 1</span><br><span class="line">update-alternatives --set java /usr/local/java/jdk1.8.0_291/bin/java</span><br><span class="line">update-alternatives --set javac /usr/local/java/jdk1.8.0_291/bin/javac</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看java版本"><a href="#查看java版本" class="headerlink" title="查看java版本"></a>查看java版本</h3><p><code>java -version</code></p>
+        <h3 id="官网下载">官网下载</h3>
+<p><code>https://www.oracle.com/technetwork/java/javase/downloads/index.html</code>
+选择下载java8 最新版为<code>jdk-8u291-linux-x64.tar.gz</code></p>
+<h3 id="jdk-传到kali并解压">Jdk 传到kali并解压</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/java</span><br><span class="line">mv jdk-8u291-linux-x64.tar.gz /usr/local/java</span><br><span class="line">cd /usr/local/java</span><br><span class="line">sudo tar -zxvf jdk-8u281-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+<h3 id="安装并注册">安装并注册</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">update-alternatives --install /usr/bin/java java /usr/local/java/jdk1.8.0_291/bin/java 1</span><br><span class="line">update-alternatives --install /usr/bin/javac javac /usr/local/java/jdk1.8.0_291/bin/javac 1</span><br><span class="line">update-alternatives --set java /usr/local/java/jdk1.8.0_291/bin/java</span><br><span class="line">update-alternatives --set javac /usr/local/java/jdk1.8.0_291/bin/javac</span><br></pre></td></tr></table></figure>
+<h3 id="查看java版本">查看java版本</h3>
+<p><code>java -version</code></p>
 <blockquote>
-<p>Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true</p>
-<p>java version “1.8.0_291”<br>Java(TM) SE Runtime Environment (build 1.8.0_291-b10)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.291-b10, mixed mode)</p>
+<p>Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on
+-Dswing.aatext=true</p>
+<p>java version "1.8.0_291" Java(TM) SE Runtime Environment (build
+1.8.0_291-b10) Java HotSpot(TM) 64-Bit Server VM (build 25.291-b10,
+mixed mode)</p>
 </blockquote>
 
     </div>
@@ -431,7 +437,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">官网下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jdk-%E4%BC%A0%E5%88%B0kali%E5%B9%B6%E8%A7%A3%E5%8E%8B"><span class="nav-number">2.</span> <span class="nav-text">Jdk 传到kali并解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%B9%B6%E6%B3%A8%E5%86%8C"><span class="nav-number">3.</span> <span class="nav-text">安装并注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bjava%E7%89%88%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">查看java版本</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">官网下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdk-%E4%BC%A0%E5%88%B0kali%E5%B9%B6%E8%A7%A3%E5%8E%8B"><span class="nav-number">2.</span> <span class="nav-text">Jdk 传到kali并解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%B9%B6%E6%B3%A8%E5%86%8C"><span class="nav-number">3.</span> <span class="nav-text">安装并注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bjava%E7%89%88%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">查看java版本</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -447,7 +453,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -495,7 +501,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -509,7 +515,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -520,7 +526,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -660,6 +666,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

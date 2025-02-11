@@ -67,7 +67,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063934804-731277c5-5c96-48ed-9715-f087dc58c4ff.png">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063943231-8cac913b-b6fa-4c9c-8431-3c65bc03e73a.png">
 <meta property="article:published_time" content="2023-12-22T09:26:35.000Z">
-<meta property="article:modified_time" content="2024-02-04T06:31:22.746Z">
+<meta property="article:modified_time" content="2024-02-04T06:31:22.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="取证">
 <meta name="twitter:card" content="summary">
@@ -304,7 +304,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -327,113 +327,193 @@
         <p><strong>题目2-1</strong>（本题3分）</p>
 <p>提取检材压缩包的SHA256值，以此作为flag提交。</p>
 <p>Certutil -hashfile 检材2.rar sha256</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063429362-1a67e38b-0e1e-4828-a659-56876aeecaa3.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063429362-1a67e38b-0e1e-4828-a659-56876aeecaa3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目2-2</strong>（本题7分）</p>
 <p>破解该检材系统的用户名及密码（均为8位以内英文加数字的弱口令），并以密码作为flag提交。</p>
-<p>FTK挂载VMDK </p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063439315-07401b81-cc1e-4cba-892f-1eec9270cb89.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063449489-a66c8029-1fac-4691-8b0a-1d9190603c09.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063456770-ca6478e3-73f7-4e02-89f6-47c311c2880c.png" alt="img"></p>
+<p>FTK挂载VMDK</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063439315-07401b81-cc1e-4cba-892f-1eec9270cb89.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063449489-a66c8029-1fac-4691-8b0a-1d9190603c09.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063456770-ca6478e3-73f7-4e02-89f6-47c311c2880c.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>md5解密 得到 admin888</p>
 <p><strong>题目2-3</strong>（本题2分）</p>
 <p>提取该检材系统的版本号，以此作为flag提交。（示例：11.11）</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063470195-42b2c668-e645-4a72-833f-2d281c594d1a.png" alt="img"></p>
-<p>也可通过FTK翻文件找到 os-relaease </p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063514798-957a81f6-45e0-4df5-a857-2b2ff8b472a0.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063522642-77dc82e6-fa38-474f-9492-bfe25a1b3652.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063470195-42b2c668-e645-4a72-833f-2d281c594d1a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>也可通过FTK翻文件找到 os-relaease</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063514798-957a81f6-45e0-4df5-a857-2b2ff8b472a0.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063522642-77dc82e6-fa38-474f-9492-bfe25a1b3652.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>16.04</p>
 <p><strong>题目2-4</strong>（本题3分）</p>
 <p>提取该检材的网站文件目录，以此作为flag提交。</p>
 <p>/home/admin888/fund</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063537576-690bc4a2-cda6-4097-b46e-7eede13e6b1a.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063537576-690bc4a2-cda6-4097-b46e-7eede13e6b1a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目2-5</strong>（本题3分）</p>
 <p>提取网站对应的数据库文件名，以此作为flag提交。</p>
-<p>上一问中发现存在 db.sqlite3 数据库文件  所以 flag{db.sqlite3}</p>
+<p>上一问中发现存在 db.sqlite3 数据库文件 所以 flag{db.sqlite3}</p>
 <p><strong>题目3-1</strong>（本题3分）</p>
 <p>1.恢复该检材数据，找出被删除的log文件，并以此作为flag提交。（不含后缀名）（3分）</p>
 <p>ftk直接挂载 发现log文件</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063561645-0ce8fe9f-c8a7-4f55-badc-67af3bb1988e.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063561645-0ce8fe9f-c8a7-4f55-badc-67af3bb1988e.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目3-2</strong>（本题7分）</p>
 <p>分析日志文件，分析数据库sys_user表的插入操作次数，并以此作为flag提交。</p>
 <p>查看文件中INSERT INTO <code>sys_user</code> VALUES 出现的次数：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063585322-eb9df81a-e672-45f3-a2a6-c76f45705a4f.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063585322-eb9df81a-e672-45f3-a2a6-c76f45705a4f.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>flag{344}</p>
 <p><strong>题目3-3</strong>（本题3分）</p>
 <p>分析操作日志，发现有学生的手机号被修改，以此学生姓名作为flag提交。</p>
 <p>看到还有个mysql-bin.000001文件 ，导出进行查看</p>
 <p>题目中说的是更新操作，第一个想到的是UPDATE操作，全局搜索UPDATE，发现只有两次出现：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063620464-b00ceccb-369f-41b0-8bc6-efbd2baf872b.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063620464-b00ceccb-369f-41b0-8bc6-efbd2baf872b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>后一个为更新student手机号操作：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063635900-36d0c04d-7c1f-4de3-9e95-2c8c083edd9b.png" alt="img"></p>
-<p>更新的student 表中的字段 id为1 ， 尝试定位Student表【直接全局搜索student】：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063652321-10d9e32f-4646-4b94-9865-def60ecbe795.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063635900-36d0c04d-7c1f-4de3-9e95-2c8c083edd9b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>更新的student 表中的字段 id为1 ，
+尝试定位Student表【直接全局搜索student】：</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063652321-10d9e32f-4646-4b94-9865-def60ecbe795.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>flag{张三}</p>
 <p><strong>题目4-1</strong>（本题3分）</p>
 <p>恢复该检材数据，找出被删除的文件，并以此文件名作为flag提交。（不含后缀名）</p>
 <p>通过R-STUDIO打开镜像 翻磁盘找到 记账2022.6.xls</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063707331-ea450272-1b10-4bf8-bd59-0594ce0eeaa0.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063707331-ea450272-1b10-4bf8-bd59-0594ce0eeaa0.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>FTK加载也可以直接找到</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063734888-a5c6f87d-b93d-4360-9828-417b5f763a23.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063734888-a5c6f87d-b93d-4360-9828-417b5f763a23.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>flag{记账2022.6}</p>
 <p><strong>题目4-2</strong>（本题7分）</p>
 <p>分析被删除的文件，破解文件密码（密码为以qw开头的10位小写英文加数字），并以此作为flag提交。</p>
 <p>shab题目 让爆破密码</p>
-<p>office2john【<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/truongkma/ctf-tools/master/John/run/office2john.py%E3%80%91%E6%8F%90%E5%8F%96hash+hashcat%E7%88%86%E7%A0%B4">https://raw.githubusercontent.com/truongkma/ctf-tools/master/John/run/office2john.py】提取hash+hashcat爆破</a></p>
+<p>office2john【https://raw.githubusercontent.com/truongkma/ctf-tools/master/John/run/office2john.py】提取hash+hashcat爆破</p>
 <p>使用office2john将office转换为hash</p>
 <p>python2 office2john.py 记账2022.6.xlsx &gt; 6.txt</p>
-<p>awk -F “:” ‘{print $2}’ 6.txt &gt; hash6.txt 分割转换成hash形式</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063771341-4e0e033b-f2c5-4eea-ad94-e63cbbd3afd6.png" alt="img"></p>
+<p>awk -F ":" '{print $2}' 6.txt &gt; hash6.txt 分割转换成hash形式</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063771341-4e0e033b-f2c5-4eea-ad94-e63cbbd3afd6.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>使用hashcat进行破解</p>
-<p>hashcat -a 3 -m 9400 –force ‘$office$<em>2007</em>20<em>128</em>16<em>f02ba736547ad5a1c36bed8d8a56b752</em>8753f6105ce9822aa806adff2c36e6e4*209409be3a4215f4fd42ab6d5ff28496e2973783’ ‘qw?h?h?h?h?h?h?h?h’ -o 6result.txt </p>
+<p>hashcat -a 3 -m 9400 --force '<span class="math inline">\(office\)</span><em>2007</em>20<em>128</em>16<em>f02ba736547ad5a1c36bed8d8a56b752</em>8753f6105ce9822aa806adff2c36e6e4*209409be3a4215f4fd42ab6d5ff28496e2973783'
+'qw?h?h?h?h?h?h?h?h' -o 6result.txt</p>
 <p>直接跑默认的构造字典时间比较久 最好是通过构造的密码本去爆破</p>
-<p>得到密码为 flag{qwer123456} </p>
+<p>得到密码为 flag{qwer123456}</p>
 <p><strong>题目4-3</strong>（本题7分）</p>
 <p>恢复该文件，以该文件的创建时间作为flag提交。</p>
 <p>（格式：2023-12-1902:11:11，去除空格）</p>
 <p>2022-07-1409:15:07 这个是错的 推测是时区和取证磁盘时区不对</p>
-<p>但是答案有问题 （仔细看 创建时间在修改时间之后 感觉被篡改了 需要进行还原 但是问了下别人说这没啥问题）</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063808314-c0196a33-6da5-49b6-864d-3918d351fcc1.png" alt="img"></p>
+<p>但是答案有问题 （仔细看 创建时间在修改时间之后 感觉被篡改了
+需要进行还原 但是问了下别人说这没啥问题）</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063808314-c0196a33-6da5-49b6-864d-3918d351fcc1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>时区有问题 需要 -8 才能到镜像文件的时区</p>
 <p>flag{2022-07-1401:15:07}</p>
 <p><strong>题目5-1</strong>(检材2.rar-2)（本题5分）</p>
-<p>分析检材网站的管理后台，并以此URL作为flag提交。（格式：<a href="http://ip:port/xxx,全小写）">http://ip:port/xxx,全小写）</a></p>
-<p><a target="_blank" rel="noopener" href="http://192.168.181.187:8000/admin/">http://192.168.181.187:8000/admin/</a></p>
-<p>在题目2中 /home/admin888 目录下存在script.sh文件中泄露了Django开发端口 所以可以直接去访问8000端口 或者扫下端口也找得到8000端口</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063833700-95291d41-ddc5-4bc1-8814-7501abc4712c.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063866700-bc9d927c-9c6b-443f-8ed4-3c4136e6b5d5.png" alt="img"></p>
+<p>分析检材网站的管理后台，并以此URL作为flag提交。（格式：http://ip:port/xxx,全小写）</p>
+<p>http://192.168.181.187:8000/admin/</p>
+<p>在题目2中 /home/admin888
+目录下存在script.sh文件中泄露了Django开发端口 所以可以直接去访问8000端口
+或者扫下端口也找得到8000端口</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063833700-95291d41-ddc5-4bc1-8814-7501abc4712c.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063866700-bc9d927c-9c6b-443f-8ed4-3c4136e6b5d5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目5-2</strong>（本题2分）</p>
 <p>分析网站后台的超级管理员账号，以此作为flag提交。</p>
 <p>admin888</p>
 <p><strong>题目5-3</strong>（本题5分）</p>
 <p>分析网站密码的加密方式，并以此算法名称作为flag提交。</p>
-<p>进入user </p>
+<p>进入user</p>
 <p>【pbkdf2_sha256】这个答案有问题</p>
 <p><strong>题目5-4</strong>（本题3分）</p>
 <p>分析该网站记录的银行卡信息数量，并以此作为flag提交。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063882575-77a89ac8-35da-4680-8534-b7a4a9308d0c.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063882575-77a89ac8-35da-4680-8534-b7a4a9308d0c.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>45</p>
 <p><strong>题目5-5</strong>（本题5分）</p>
 <p>分析家庭住址在苏州的用户，并其手机号作为flag提交。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063894250-6f2c03df-70d2-4bae-a662-78b2d1a05f66.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063894250-6f2c03df-70d2-4bae-a662-78b2d1a05f66.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>15066223399</p>
 <p><strong>题目6-1</strong>(检材5)（本题3分）</p>
 <p>分析该apk获得的权限，并以此作为flag提交。（示例：存储空间）</p>
 <p>flag{位置信息、存储空间、电话、通讯录}</p>
 <p>模拟器安装apk 查看应用权限</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063916172-d78cc47e-cca7-4384-86de-1a18ad83b3c0.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063916172-d78cc47e-cca7-4384-86de-1a18ad83b3c0.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目6-2</strong>（本题7分）</p>
-<p>分析该apk的首页回传地址，并以此作为flag提交。（示例：<a href="http://www.test.com:12345）">www.test.com:12345）</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.xz-2021.com:8081/">www.xz-2021.com:8081</a></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063925071-3b171778-c496-45b9-8707-fd6678470c2c.png" alt="img"></p>
+<p>分析该apk的首页回传地址，并以此作为flag提交。（示例：www.test.com:12345）</p>
+<p>www.xz-2021.com:8081</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063925071-3b171778-c496-45b9-8707-fd6678470c2c.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目6-3</strong>（本题3分）</p>
 <p>分析该apk的签名类型，并以此作为flag提交。（全小写）</p>
 <p>Signature type: SHA256withRSA</p>
 <p>flag{SHA256withRSA}</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063934804-731277c5-5c96-48ed-9715-f087dc58c4ff.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063934804-731277c5-5c96-48ed-9715-f087dc58c4ff.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><strong>题目6-4</strong>（本题7分）</p>
 <p>分析apk的入口函数，并以此作为flag提交。（示例：com.aa.bb.cc.dd）</p>
 <p>android.intent.category.LAUNCHER</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063943231-8cac913b-b6fa-4c9c-8431-3c65bc03e73a.png" alt="img"></p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1703063943231-8cac913b-b6fa-4c9c-8431-3c65bc03e73a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 
     </div>
 
@@ -578,7 +658,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -626,7 +706,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -640,7 +720,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -651,7 +731,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -791,6 +871,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

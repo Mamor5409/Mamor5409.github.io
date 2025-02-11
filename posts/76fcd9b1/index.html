@@ -298,39 +298,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/7ggXt0TkEuN2SabVin5oLA">https://mp.weixin.qq.com/s/7ggXt0TkEuN2SabVin5oLA</a></p>
-<p>python  pyinstaller 打包exe免杀</p>
-<h3 id="pyinstaller"><a href="#pyinstaller" class="headerlink" title="pyinstaller"></a>pyinstaller</h3><p><code>https://www.virustotal.com/gui/file/8bc40da35383f54998be34e32c0ff22e25dd9c4c8f5df1c10e6f0bb9e431c8b0?nocache=1</code>    3/69</p>
-<h3 id="py2exe"><a href="#py2exe" class="headerlink" title="py2exe"></a>py2exe</h3><p>使用py2exe 打包完文件后 会生成多个文件 二 pyinstaller 会生产一个exe</p>
-<p><code>https://www.virustotal.com/gui/file/823d00a6d1ab82bbfaa5e997d5192b72cca7dba0e9b2d18d69ecf15e75fff9e7?nocache=1</code>  5/69</p>
-<h3 id="反编译pyinstaller打包的exe文件"><a href="#反编译pyinstaller打包的exe文件" class="headerlink" title="反编译pyinstaller打包的exe文件"></a>反编译pyinstaller打包的exe文件</h3><p><a target="_blank" rel="noopener" href="https://github.com/countercept/Python-exe-unpacker">https://github.com/countercept/Python-exe-unpacker</a></p>
+        <p>https://mp.weixin.qq.com/s/7ggXt0TkEuN2SabVin5oLA</p>
+<p>python pyinstaller 打包exe免杀</p>
+<h3 id="pyinstaller">pyinstaller</h3>
+<p><code>https://www.virustotal.com/gui/file/8bc40da35383f54998be34e32c0ff22e25dd9c4c8f5df1c10e6f0bb9e431c8b0?nocache=1</code>
+3/69</p>
+<h3 id="py2exe">py2exe</h3>
+<p>使用py2exe 打包完文件后 会生成多个文件 二 pyinstaller
+会生产一个exe</p>
+<p><code>https://www.virustotal.com/gui/file/823d00a6d1ab82bbfaa5e997d5192b72cca7dba0e9b2d18d69ecf15e75fff9e7?nocache=1</code>
+5/69</p>
+<h3 id="反编译pyinstaller打包的exe文件">反编译pyinstaller打包的exe文件</h3>
+<p>https://github.com/countercept/Python-exe-unpacker</p>
 <p>pyinstaller在打包pyc时，会去掉pyc的<code>magic</code>和<code>时间戳</code>。需要进行手工修复。pyinstaller在打包的系统库的时候是不会去掉magic的，所以查看一下系统库的magic即可</p>
 <p>在将exe 转换为pyc文件有两种方法 如下</p>
-<h4 id="将-exe-文件转换为-pyc-文件"><a href="#将-exe-文件转换为-pyc-文件" class="headerlink" title="将 exe 文件转换为 pyc 文件"></a>将 exe 文件转换为 pyc 文件</h4><h5 id="使用-pyinstxtractor-py"><a href="#使用-pyinstxtractor-py" class="headerlink" title="使用 pyinstxtractor.py"></a>使用 pyinstxtractor.py</h5><p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/pyinstallerextractor/">https://sourceforge.net/projects/pyinstallerextractor/</a></p>
+<h4 id="将-exe-文件转换为-pyc-文件">将 exe 文件转换为 pyc 文件</h4>
+<h5 id="使用-pyinstxtractor.py">使用 pyinstxtractor.py</h5>
+<p>https://sourceforge.net/projects/pyinstallerextractor/</p>
 <p>将exe 和 pyinstxtractor.py 放在同一目录下</p>
 <p><code>python pyinstxtractor.py test.exe</code></p>
 <p>然后会生成</p>
-<p><img src="/posts/76fcd9b1/1.PNG" alt="截图"></p>
-<br>
-
-<h5 id="使用pyi-archive-viewer"><a href="#使用pyi-archive-viewer" class="headerlink" title="使用pyi-archive_viewer"></a>使用pyi-archive_viewer</h5><p>二是使用pyi-archive_viewer命令（需要安装pyinstaller）</p>
+<figure>
+<img src="/posts/76fcd9b1/1.PNG" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h5 id="使用pyi-archive_viewer">使用pyi-archive_viewer</h5>
+<p>二是使用pyi-archive_viewer命令（需要安装pyinstaller）</p>
 <p><code>pyi-archive_viewer test.exe</code></p>
-<p><img src="/posts/76fcd9b1/pyi-archive_viewer1.PNG" alt="截图"></p>
-<p><img src="/posts/76fcd9b1/pyi-archive_viewer2.PNG" alt="截图"></p>
-<p>这样会生成一个test2.pyc文件 然后恢复被pyinstaller 打包后删除的字节</p>
-<h4 id="修复pyc-文件"><a href="#修复pyc-文件" class="headerlink" title="修复pyc 文件"></a>修复pyc 文件</h4><p>在<code>test.exe_extracted</code>文件下 存在struct 和 test 两文件<br><img src="/posts/76fcd9b1/3.PNG" alt="截图"></p>
-<p>使用010editor打开 将struct的第一行插入到test的第一行<br><img src="/posts/76fcd9b1/4.PNG" alt="截图"><br><img src="/posts/76fcd9b1/5.PNG" alt="截图"></p>
-<p>添加后<br><img src="/posts/76fcd9b1/6.PNG" alt="截图"><br> 另存为test.pyc即可</p>
-<h4 id="将pyc文件转换为python代码"><a href="#将pyc文件转换为python代码" class="headerlink" title="将pyc文件转换为python代码"></a>将pyc文件转换为python代码</h4><h5 id="在线pyc反编译"><a href="#在线pyc反编译" class="headerlink" title="在线pyc反编译"></a>在线pyc反编译</h5><p> <a target="_blank" rel="noopener" href="https://tool.lu/pyc">https://tool.lu/pyc</a></p>
-<p><img src="/posts/76fcd9b1/7.PNG" alt="截图"></p>
-<h5 id="使用-uncompyle6"><a href="#使用-uncompyle6" class="headerlink" title="使用 uncompyle6"></a>使用 <code>uncompyle6</code></h5><p> (需要使用pip 安装 <code>pip install uncompyle6</code>  但是不支持python3.9版本) </p>
-<p><code>uncompyle6 test.pyc</code> 即可查看python代码<br><img src="/posts/76fcd9b1/8.PNG" alt="截图"><br>也可以将内容保存到test.py <code>uncompyle6 test.pyc &gt; test.py</code></p>
-<p>踩坑：<br>（在使用时 由于本机内python环境比较复杂  有三个环境 结果搞得版本不统一 然后一直报错pyc的magic 失败 看了下<a target="_blank" rel="noopener" href="https://fishc.com.cn/forum.php?mod=viewthread&tid=131172&highlight=pyc+%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD">https://fishc.com.cn/forum.php?mod=viewthread&amp;tid=131172&amp;highlight=pyc%2B%B7%B4%BB%E3%B1%E0</a> 意识到了这个问题） 在虚拟机上就可以成功避免这种问题</p>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10450#toc-11">https://xz.aliyun.com/t/10450#toc-11</a></p>
-<p><a target="_blank" rel="noopener" href="https://fishc.com.cn/thread-131172-1-1.html">https://fishc.com.cn/thread-131172-1-1.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://jishuin.proginn.com/p/763bfbd69fa1">https://jishuin.proginn.com/p/763bfbd69fa1</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cxymm.net/article/qq_36078992/103596170">https://www.cxymm.net/article/qq_36078992/103596170</a></p>
+<figure>
+<img src="/posts/76fcd9b1/pyi-archive_viewer1.PNG" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/76fcd9b1/pyi-archive_viewer2.PNG" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>这样会生成一个test2.pyc文件 然后恢复被pyinstaller
+打包后删除的字节</p>
+<h4 id="修复pyc-文件">修复pyc 文件</h4>
+<p>在<code>test.exe_extracted</code>文件下 存在struct 和 test 两文件
+<img src="/posts/76fcd9b1/3.PNG" alt="截图"></p>
+<p>使用010editor打开 将struct的第一行插入到test的第一行 <img src="/posts/76fcd9b1/4.PNG" alt="截图"> <img src="/posts/76fcd9b1/5.PNG" alt="截图"></p>
+<p>添加后 <img src="/posts/76fcd9b1/6.PNG" alt="截图"> 另存为test.pyc即可</p>
+<h4 id="将pyc文件转换为python代码">将pyc文件转换为python代码</h4>
+<h5 id="在线pyc反编译">在线pyc反编译</h5>
+<p><a target="_blank" rel="noopener" href="https://tool.lu/pyc">https://tool.lu/pyc</a></p>
+<figure>
+<img src="/posts/76fcd9b1/7.PNG" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h5 id="使用-uncompyle6">使用 <code>uncompyle6</code></h5>
+<p>(需要使用pip 安装 <code>pip install uncompyle6</code>
+但是不支持python3.9版本)</p>
+<p><code>uncompyle6 test.pyc</code> 即可查看python代码 <img src="/posts/76fcd9b1/8.PNG" alt="截图"> 也可以将内容保存到test.py
+<code>uncompyle6 test.pyc &gt; test.py</code></p>
+<p>踩坑： （在使用时 由于本机内python环境比较复杂 有三个环境
+结果搞得版本不统一 然后一直报错pyc的magic 失败 看了下<a target="_blank" rel="noopener" href="https://fishc.com.cn/forum.php?mod=viewthread&amp;tid=131172&amp;highlight=pyc%2B%B7%B4%BB%E3%B1%E0">https://fishc.com.cn/forum.php?mod=viewthread&amp;tid=131172&amp;highlight=pyc%2B%B7%B4%BB%E3%B1%E0</a>
+意识到了这个问题） 在虚拟机上就可以成功避免这种问题</p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://xz.aliyun.com/t/10450#toc-11</p>
+<p>https://fishc.com.cn/thread-131172-1-1.html</p>
+<p>https://jishuin.proginn.com/p/763bfbd69fa1</p>
+<p>https://www.cxymm.net/article/qq_36078992/103596170</p>
 </blockquote>
 
     </div>
@@ -457,7 +488,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pyinstaller"><span class="nav-number">1.</span> <span class="nav-text">pyinstaller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#py2exe"><span class="nav-number">2.</span> <span class="nav-text">py2exe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91pyinstaller%E6%89%93%E5%8C%85%E7%9A%84exe%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">反编译pyinstaller打包的exe文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86-exe-%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BA-pyc-%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">将 exe 文件转换为 pyc 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-pyinstxtractor-py"><span class="nav-number">3.1.1.</span> <span class="nav-text">使用 pyinstxtractor.py</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8pyi-archive-viewer"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用pyi-archive_viewer</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dpyc-%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">修复pyc 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86pyc%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BApython%E4%BB%A3%E7%A0%81"><span class="nav-number">3.3.</span> <span class="nav-text">将pyc文件转换为python代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BFpyc%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="nav-number">3.3.1.</span> <span class="nav-text">在线pyc反编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-uncompyle6"><span class="nav-number">3.3.2.</span> <span class="nav-text">使用 uncompyle6</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pyinstaller"><span class="nav-number">1.</span> <span class="nav-text">pyinstaller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#py2exe"><span class="nav-number">2.</span> <span class="nav-text">py2exe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91pyinstaller%E6%89%93%E5%8C%85%E7%9A%84exe%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">反编译pyinstaller打包的exe文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86-exe-%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BA-pyc-%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">将 exe 文件转换为 pyc 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-pyinstxtractor.py"><span class="nav-number">3.1.1.</span> <span class="nav-text">使用 pyinstxtractor.py</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8pyi-archive_viewer"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用pyi-archive_viewer</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dpyc-%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">修复pyc 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86pyc%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B8%BApython%E4%BB%A3%E7%A0%81"><span class="nav-number">3.3.</span> <span class="nav-text">将pyc文件转换为python代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BFpyc%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="nav-number">3.3.1.</span> <span class="nav-text">在线pyc反编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-uncompyle6"><span class="nav-number">3.3.2.</span> <span class="nav-text">使用 uncompyle6</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -473,7 +504,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -521,7 +552,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -535,7 +566,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -546,7 +577,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -686,6 +717,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

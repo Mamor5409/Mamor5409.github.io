@@ -298,40 +298,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="清理时间痕迹"><a href="#清理时间痕迹" class="headerlink" title="清理时间痕迹"></a>清理时间痕迹</h3><h4 id="伪造文件修改时间"><a href="#伪造文件修改时间" class="headerlink" title="伪造文件修改时间"></a>伪造文件修改时间</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">edit_time</span><span class="params">(<span class="variable">$path</span>)</span></span>&#123;<span class="variable">$date1</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$date2</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$date3</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).lastaccesstime=<span class="variable">$date1</span>.LastWriteTime;</span><br><span class="line"><span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).creationtime=<span class="variable">$date2</span>.LastWriteTime ;</span><br><span class="line"><span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).lastwritetime=<span class="variable">$date3</span>.LastWriteTime&#125;;</span><br><span class="line">edit_time(<span class="string">&quot;D:\test&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="伪造日志时间"><a href="#伪造日志时间" class="headerlink" title="伪造日志时间"></a>伪造日志时间</h4><p>使用eventcreate 详见下。</p>
-<h3 id="清理用户痕迹"><a href="#清理用户痕迹" class="headerlink" title="清理用户痕迹"></a>清理用户痕迹</h3><h4 id="清理3389痕迹"><a href="#清理3389痕迹" class="headerlink" title="清理3389痕迹"></a>清理3389痕迹</h4><h3 id="清理操作痕迹"><a href="#清理操作痕迹" class="headerlink" title="清理操作痕迹"></a>清理操作痕迹</h3><h4 id="日志相关知识"><a href="#日志相关知识" class="headerlink" title="日志相关知识"></a>日志相关知识</h4><h5 id="产生流程"><a href="#产生流程" class="headerlink" title="产生流程"></a>产生流程</h5><ul>
+        <h3 id="清理时间痕迹">清理时间痕迹</h3>
+<h4 id="伪造文件修改时间">伪造文件修改时间</h4>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">edit_time</span><span class="params">(<span class="variable">$path</span>)</span></span>&#123;<span class="variable">$date1</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$date2</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$date3</span> =<span class="built_in">Get-ChildItem</span> |</span><br><span class="line"><span class="built_in">Select</span> LastWriteTime|<span class="built_in">Get-Random</span>;<span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).lastaccesstime=<span class="variable">$date1</span>.LastWriteTime;</span><br><span class="line"><span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).creationtime=<span class="variable">$date2</span>.LastWriteTime ;</span><br><span class="line"><span class="variable">$</span>(<span class="built_in">Get-Item</span> <span class="variable">$path</span>).lastwritetime=<span class="variable">$date3</span>.LastWriteTime&#125;;</span><br><span class="line">edit_time(<span class="string">&quot;D:\test&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="伪造日志时间">伪造日志时间</h4>
+<p>使用eventcreate 详见下。</p>
+<h3 id="清理用户痕迹">清理用户痕迹</h3>
+<h4 id="清理3389痕迹">清理3389痕迹</h4>
+<h3 id="清理操作痕迹">清理操作痕迹</h3>
+<h4 id="日志相关知识">日志相关知识</h4>
+<h5 id="产生流程">产生流程</h5>
+<ul>
 <li><code>svchost.exe</code>（svchost.exe有些专门记录用于记录日志的线程启动日志记录功能）</li>
 <li><code>内存堆</code>（记录的操作会缓存为一段内存内容）</li>
 <li><code>wevtutil.exe</code>（将内存内容通过wevtutil.exe解析为xml文档）</li>
 <li><code>日志</code>（将xml转换为可读的日志）</li>
 </ul>
-<h5 id="日志类型"><a href="#日志类型" class="headerlink" title="日志类型"></a>日志类型</h5><h6 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h6><p>位置 : <code>%SystemRoot%\System32\Winevt\Logs\Security.evtx</code></p>
+<h5 id="日志类型">日志类型</h5>
+<p>###### Security</p>
+<p>位置 :
+<code>%SystemRoot%\System32\Winevt\Logs\Security.evtx</code></p>
 <p>安全相关的事件，如 用户权限变更登录、注销，文件/文件夹访问</p>
-<h6 id="System"><a href="#System" class="headerlink" title="System"></a>System</h6><p>位置: <code>%SystemRoot%\System32\Winevt\Logs\System.evtx</code></p>
+<h6 id="system">System</h6>
+<p>位置: <code>%SystemRoot%\System32\Winevt\Logs\System.evtx</code></p>
 <p>系统进程、设备、磁盘活动等</p>
-<h6 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h6><p>位置: <code>%SystemRoot%\System32\Winevt\Logs\Application.evtx</code></p>
+<h6 id="application">Application</h6>
+<p>位置:
+<code>%SystemRoot%\System32\Winevt\Logs\Application.evtx</code></p>
 <p>包含操作系统安装的应用程序软件相关的事件</p>
-<h6 id="应用程序及服务日志"><a href="#应用程序及服务日志" class="headerlink" title="应用程序及服务日志"></a>应用程序及服务日志</h6><p>远程桌面客户端连接、无线网络、有线网路、设备安装等相关日志。</p>
-<h5 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h5><p><code>eventvwr</code></p>
-<h5 id="伪造日志"><a href="#伪造日志" class="headerlink" title="伪造日志"></a>伪造日志</h5><p><code>eventcreate</code></p>
+<h6 id="应用程序及服务日志">应用程序及服务日志</h6>
+<p>远程桌面客户端连接、无线网络、有线网路、设备安装等相关日志。</p>
+<h5 id="查看日志">查看日志</h5>
+<p><code>eventvwr</code></p>
+<h5 id="伪造日志">伪造日志</h5>
+<p><code>eventcreate</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">eventcreate -l system -so administrator -t warning -d &quot;this is a test&quot; -id 500</span><br><span class="line"></span><br><span class="line">-t  warning / error / information / success</span><br><span class="line">-id  1-1000</span><br><span class="line">-so 可以自定义  来源</span><br><span class="line">具体语法如下</span><br><span class="line">eventcreate [/s Computer [/u Domain\User [/p Password]] &#123;[/l &#123;APPLICATION|SYSTEM&#125;]|[/so SrcName]&#125; /t &#123;ERROR|WARNING|INFORMATION|SUCCESSAUDIT|FAILUREAUDIT&#125; /id EventID /d Description</span><br><span class="line"></span><br><span class="line">使用</span><br><span class="line">eventcreate -l system(日志类型) -so administrator（谁生成的） -t warning（等级） -d &quot;this is a test&quot;（日志内容） -id 500（id号）</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="日志清理"><a href="#日志清理" class="headerlink" title="日志清理"></a>日志清理</h4><ul>
-<li>1.查看事件查看器—-手动清理</li>
+<h4 id="日志清理">日志清理</h4>
+<ul>
+<li>1.查看事件查看器----手动清理</li>
 <li>2.cmd命令删除日志</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wevtutil el 列出系统中所有日志名称</span><br><span class="line">wevtutil cl system 清理系统日志</span><br><span class="line">wevtutil cl application 清理应用程序日志</span><br><span class="line">wevtutil cl security 清理安全日志</span><br></pre></td></tr></table></figure>
-
 <p>凡是操作都会留下痕迹，哪怕是删除日志，也会留下一条删除日志的日志</p>
 <ul>
 <li>3.powershell命令删除</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PowerShell -Command &quot;&amp; &#123;Clear-Eventlog -Log Application,System,Security&#125;&quot;</span><br><span class="line"></span><br><span class="line"># 下面这个在powershell下运行 需要.net版本3.5</span><br><span class="line">Get-WinEvent -ListLog Application,Setup,Security -Force | % &#123;Wevtutil.exe cl $_.Logname&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>4.msf删除日志</li>
 </ul>
@@ -339,29 +351,17 @@
 <ul>
 <li>5.单条日志的清理</li>
 </ul>
-<p>见下篇，主要参考三好学生大佬的文章[<a target="_blank" rel="noopener" href="https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-Windows%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%88%A0%E9%99%A4]">https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-Windows%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%88%A0%E9%99%A4]</a>~</p>
-<h4 id="停止记录日志"><a href="#停止记录日志" class="headerlink" title="停止记录日志"></a>停止记录日志</h4><h5 id="基于powershell"><a href="#基于powershell" class="headerlink" title="基于powershell"></a>基于powershell</h5><p>项目地址 <a target="_blank" rel="noopener" href="https://github.com/hlldz/Phant0m">https://github.com/hlldz/Phant0m</a>  会直接杀掉线程</p>
+<p>见下篇，主要参考三好学生大佬的文章[https://3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-Windows%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%88%A0%E9%99%A4]~</p>
+<h4 id="停止记录日志">停止记录日志</h4>
+<h5 id="基于powershell">基于powershell</h5>
+<p>项目地址 https://github.com/hlldz/Phant0m 会直接杀掉线程</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#修改powershell权限</span><br><span class="line">Get-ExecutionPolicy</span><br><span class="line">Set-ExecutionPolicy unrestricted</span><br><span class="line"></span><br><span class="line">Import-Module .\Invoke-Phant0m.ps1</span><br><span class="line">Invoke-Phant0m</span><br><span class="line">#效果一般</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="基于C"><a href="#基于C" class="headerlink" title="基于C"></a>基于C</h5><p>项目地址 <a target="_blank" rel="noopener" href="https://github.com/QAX-A-Team/EventCleaner">https://github.com/QAX-A-Team/EventCleaner</a> 相比上面 这个可以暂停日志记录线程 也可以恢复线程</p>
+<h5 id="基于c">基于C</h5>
+<p>项目地址 https://github.com/QAX-A-Team/EventCleaner 相比上面
+这个可以暂停日志记录线程 也可以恢复线程</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#暂停线程</span><br><span class="line">EventCleaner suspend</span><br><span class="line">#恢复线程</span><br><span class="line">EventCleaner normal</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h4 id="文件的覆写删除"><a href="#文件的覆写删除" class="headerlink" title="文件的覆写删除"></a>文件的覆写删除</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cipher /W:D:\test 	</span><br><span class="line">#会对删除文件后留下的空间进行3此覆盖操作 先写入0x00 再写入0xFF 最后写入随意数字</span><br><span class="line"></span><br><span class="line">format G:/P：4</span><br><span class="line">#对G盘数据进行格式化处理后进行4次覆写</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
+<h4 id="文件的覆写删除">文件的覆写删除</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cipher /W:D:\test 	</span><br><span class="line">#会对删除文件后留下的空间进行3此覆盖操作 先写入0x00 再写入0xFF 最后写入随意数字</span><br><span class="line"></span><br><span class="line">format G:/P：4</span><br><span class="line">#对G盘数据进行格式化处理后进行4次覆写</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -491,7 +491,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%97%B6%E9%97%B4%E7%97%95%E8%BF%B9"><span class="nav-number">1.</span> <span class="nav-text">清理时间痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4"><span class="nav-number">1.1.</span> <span class="nav-text">伪造文件修改时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%97%A5%E5%BF%97%E6%97%B6%E9%97%B4"><span class="nav-number">1.2.</span> <span class="nav-text">伪造日志时间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E7%94%A8%E6%88%B7%E7%97%95%E8%BF%B9"><span class="nav-number">2.</span> <span class="nav-text">清理用户痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E7%90%863389%E7%97%95%E8%BF%B9"><span class="nav-number">2.1.</span> <span class="nav-text">清理3389痕迹</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%93%8D%E4%BD%9C%E7%97%95%E8%BF%B9"><span class="nav-number">3.</span> <span class="nav-text">清理操作痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">3.1.</span> <span class="nav-text">日志相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">产生流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.2.</span> <span class="nav-text">日志类型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Security"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">Security</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#System"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">System</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Application"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">应用程序及服务日志</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.3.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.4.</span> <span class="nav-text">伪造日志</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">日志清理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97"><span class="nav-number">3.3.</span> <span class="nav-text">停止记录日志</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Epowershell"><span class="nav-number">3.3.1.</span> <span class="nav-text">基于powershell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EC"><span class="nav-number">3.3.2.</span> <span class="nav-text">基于C</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E8%A6%86%E5%86%99%E5%88%A0%E9%99%A4"><span class="nav-number">3.4.</span> <span class="nav-text">文件的覆写删除</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%97%B6%E9%97%B4%E7%97%95%E8%BF%B9"><span class="nav-number">1.</span> <span class="nav-text">清理时间痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4"><span class="nav-number">1.1.</span> <span class="nav-text">伪造文件修改时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%97%A5%E5%BF%97%E6%97%B6%E9%97%B4"><span class="nav-number">1.2.</span> <span class="nav-text">伪造日志时间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E7%94%A8%E6%88%B7%E7%97%95%E8%BF%B9"><span class="nav-number">2.</span> <span class="nav-text">清理用户痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E7%90%863389%E7%97%95%E8%BF%B9"><span class="nav-number">2.1.</span> <span class="nav-text">清理3389痕迹</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%93%8D%E4%BD%9C%E7%97%95%E8%BF%B9"><span class="nav-number">3.</span> <span class="nav-text">清理操作痕迹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">3.1.</span> <span class="nav-text">日志相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">产生流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.2.</span> <span class="nav-text">日志类型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#system"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">System</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#application"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8F%8A%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">应用程序及服务日志</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.3.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%AA%E9%80%A0%E6%97%A5%E5%BF%97"><span class="nav-number">3.1.4.</span> <span class="nav-text">伪造日志</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%B8%85%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">日志清理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97"><span class="nav-number">3.3.</span> <span class="nav-text">停止记录日志</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Epowershell"><span class="nav-number">3.3.1.</span> <span class="nav-text">基于powershell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Ec"><span class="nav-number">3.3.2.</span> <span class="nav-text">基于C</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E8%A6%86%E5%86%99%E5%88%A0%E9%99%A4"><span class="nav-number">3.4.</span> <span class="nav-text">文件的覆写删除</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -507,7 +507,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -555,7 +555,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -569,7 +569,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -580,7 +580,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -720,6 +720,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

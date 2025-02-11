@@ -298,7 +298,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>国家企业信用信息公示系统 网址：<a target="_blank" rel="noopener" href="http://www.gsxt.gov.cn/index.html">http://www.gsxt.gov.cn/index.html</a><br>香港查册中心网址：<a target="_blank" rel="noopener" href="https://www.icris.cr.gov.hk/csci/">https://www.icris.cr.gov.hk/csci/</a><br>台湾商工行政务服务入口网<a target="_blank" rel="noopener" href="https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do">https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do</a><br>英国工商信息<a target="_blank" rel="noopener" href="https://www.gov.uk/government/organisations/companies-house">https://www.gov.uk/government/organisations/companies-house</a><br>美国工商信息网址：<a target="_blank" rel="noopener" href="http://www.wysk.com/index/">http://www.wysk.com/index/</a><br>新加坡工商信息网站：<a target="_blank" rel="noopener" href="https://www.acra.gov.sg/home/">https://www.acra.gov.sg/home/</a><br>澳大利亚工商信息网址：<a target="_blank" rel="noopener" href="http://abr.business.gov.au/">http://abr.business.gov.au</a><br>印度工商信息 网址：<a target="_blank" rel="noopener" href="http://www.mca.gov.in/">http://www.mca.gov.in</a><br>第三方企业查询网站  网址：<a target="_blank" rel="noopener" href="https://www.tianyancha.com/">https://www.tianyancha.com/</a><br>企查查 网址：<a target="_blank" rel="noopener" href="https://www.qcc.com/">https://www.qcc.com/</a><br>爱企查 网址：<a target="_blank" rel="noopener" href="https://www.qcc.com/">https://www.qcc.com/</a><br>启信宝  网址：<a target="_blank" rel="noopener" href="https://www.qixin.com/">https://www.qixin.com/</a><br>Opencorporates 网址：<a target="_blank" rel="noopener" href="https://opencorporates.com/">https://opencorporates.com/</a> 可查询全球公司基本工商信息。<br>Google  <a target="_blank" rel="noopener" href="https://www.google.co.jp/">https://www.google.co.jp/</a><br>百度 网址：<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com/</a></p>
+        <p>国家企业信用信息公示系统 网址：http://www.gsxt.gov.cn/index.html
+香港查册中心网址：https://www.icris.cr.gov.hk/csci/
+台湾商工行政务服务入口网https://findbiz.nat.gov.tw/fts/query/QueryBar/queryInit.do
+英国工商信息https://www.gov.uk/government/organisations/companies-house
+美国工商信息网址：http://www.wysk.com/index/
+新加坡工商信息网站：https://www.acra.gov.sg/home/
+澳大利亚工商信息网址：http://abr.business.gov.au 印度工商信息
+网址：http://www.mca.gov.in 第三方企业查询网站
+网址：https://www.tianyancha.com/ 企查查 网址：https://www.qcc.com/
+爱企查 网址：https://www.qcc.com/ 启信宝 网址：https://www.qixin.com/
+Opencorporates 网址：https://opencorporates.com/
+可查询全球公司基本工商信息。 Google https://www.google.co.jp/ 百度
+网址：https://www.baidu.com/</p>
 
     </div>
 
@@ -443,7 +455,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -491,7 +503,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -505,7 +517,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -516,7 +528,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -656,6 +668,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

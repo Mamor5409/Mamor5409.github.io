@@ -268,7 +268,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>514</span>
+              <span>460</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -289,18 +289,24 @@
 
       
         <p>直接查询自己需要的数据，然后通过正则表达式进行匹配 用于盲注中</p>
-<br>
-
-<p>regexp ‘^[a-z]’ 判断一个表的第一个字符串是否在a-z中</p>
-<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA=&quot;security&quot; AND table_name REGEXP &#39;^[a-z]&#39; LIMIT 0,1) </code>    # 判断第一个字符是不是 a-z</p>
-<br>
-
+<p><br></p>
+<p>regexp ‘<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>’
+判断一个表的第一个字符串是否在a-z中</p>
+<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA="security" AND table_name REGEXP '^[a-z]' LIMIT 0,1)</code>
+# 判断第一个字符是不是 a-z</p>
+<p><br></p>
 <p>regexp ‘^e’ 判断第一个字符串是否为e</p>
-<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA=&quot;security&quot; AND table_name REGEXP &#39;^e&#39; LIMIT 0,1) </code> # 判断第一个字符是不是 e</p>
-<br>
-
+<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA="security" AND table_name REGEXP '^e' LIMIT 0,1)</code>
+# 判断第一个字符是不是 e</p>
+<p><br></p>
 <p>regexp ‘^e[a-z]’ 判断一个表的第二个字符串是否在a-z中</p>
-<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA=&quot;security&quot; AND table_name REGEXP &#39;^e[a-z]&#39; LIMIT 0,1)</code></p>
+<p><code>and 1=(SELECT 1 FROM information_schema.tables WHERE TABLE_SCHEMA="security" AND table_name REGEXP '^e[a-z]' LIMIT 0,1)</code></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>a-z<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
     </div>
 
@@ -441,7 +447,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -489,7 +495,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -503,7 +509,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -514,7 +520,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -654,6 +660,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

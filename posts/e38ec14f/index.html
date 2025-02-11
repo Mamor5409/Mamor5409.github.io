@@ -292,7 +292,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>前言:这个是在boss上hr昨天联系的我，然后今天下午通知我晚上进行面试…说的主要是研究比赛之类的，我说这个我不是很擅长，然后就尝试一下吧</p>
+        <p>前言:这个是在boss上hr昨天联系的我，然后今天下午通知我晚上进行面试...说的主要是研究比赛之类的，我说这个我不是很擅长，然后就尝试一下吧</p>
 <hr>
 <p>1.自我介绍</p>
 <p>2.个人规划</p>
@@ -300,31 +300,32 @@
 <p>4.你认为什么是一道优秀的题目</p>
 <p>回答的主要意思就是希望题目更贴近于实际环境</p>
 <p>5.时间盲注用到的函数有哪些？如果sleep被禁用了还有什么函数可以替代</p>
-<p>if sleep substr ，问sleep的替代函数时没想到，之前没接触过然后查了下是<code>benchmark</code></p>
+<p>if sleep substr
+，问sleep的替代函数时没想到，之前没接触过然后查了下是<code>benchmark</code></p>
 <p>6.什么是二次注入</p>
 <p>第一次注入后数据中存在脏数据，然后再次调用时没有对存在脏数据的数据进行检测，执行了数据库命令，从而使造成了数据库的注入</p>
 <p>7.了解反序列化吗，说一下反序列化漏洞的原理</p>
 <p>反序列化就是将字符数据转换为对象进行存储，然后再反序列化的</p>
 <p>之前接触过shiro反序列化，fastjosn，weblogic</p>
-<p>拿shiro反序列化举例子，shiro的RememberMe字段的值会先进行序列化，然后再进行AES加密，在进行base64加密。相对的，解密过程则是先对RememberMe的值进行base64解密，AES解密，反序列化。那么可以将构造恶意代码的语句放到Shiro的Cookie RememberMe中，被shiro服务器进行解析时，会进行反序列化，最后恶意代码会被执行从而造成反序列化漏洞。</p>
+<p>拿shiro反序列化举例子，shiro的RememberMe字段的值会先进行序列化，然后再进行AES加密，在进行base64加密。相对的，解密过程则是先对RememberMe的值进行base64解密，AES解密，反序列化。那么可以将构造恶意代码的语句放到Shiro的Cookie
+RememberMe中，被shiro服务器进行解析时，会进行反序列化，最后恶意代码会被执行从而造成反序列化漏洞。</p>
 <p>8.说一下你印象较深的题目</p>
-<p>我说了下之前4月份有接触过ssti，但是问我ssti的原理的时候就想不出来了…(在不正确使用模板引擎进行渲染时，会造成模板注入)</p>
+<p>我说了下之前4月份有接触过ssti，但是问我ssti的原理的时候就想不出来了...(在不正确使用模板引擎进行渲染时，会造成模板注入)</p>
 <p>9.XSS分类，说一下弹xss的语句有哪些?</p>
 <p>反射型，存储型，DOM型</p>
-<p>然后我就说了可以用script JavaScript frame 之类的，然后师傅让我说下具体的写法，然后就简单说了下，师傅说这样写的话大多数是无法执行的</p>
+<p>然后我就说了可以用script JavaScript frame
+之类的，然后师傅让我说下具体的写法，然后就简单说了下，师傅说这样写的话大多数是无法执行的</p>
 <p>10.csrf和ssrf哪个危害更大一些？ssrf该如何防御</p>
 <p>ssrf可以内容读取，探测内网；csrf可以盗取cookie，然后我说应该是csrf吧（虽然知道他们的作用，但是还是拿不定主意）然后师傅有问了下才确定是ssrf危害大。</p>
 <p>然后问ssrf如何防御</p>
 <p>11.泄漏类题目有接触过吗，接触过哪些</p>
 <p>当时只想到了git泄漏，面试完突然想到了svn泄漏和DS_store泄漏</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.hg源码泄漏</span><br><span class="line">.git源码泄露</span><br><span class="line">.DS_Store泄漏</span><br><span class="line">svn泄漏</span><br></pre></td></tr></table></figure>
-
 <p>12.有什么问题要提问吗</p>
-<p>当时只想到了刚才问的sleep函数的替代函数….别的都想不起来了，大脑一片空白…….</p>
-<br>
-
+<p>当时只想到了刚才问的sleep函数的替代函数....别的都想不起来了，大脑一片空白.......</p>
+<p><br></p>
 <hr>
-<p>感觉应该是凉凉了，面试挺突然的，没做啥准备，而且这个实习是比赛方面的，作为签到型选手几率更渺茫了…wuwuwu….先把红日靶场搞完，好好准备秋招了！</p>
+<p>感觉应该是凉凉了，面试挺突然的，没做啥准备，而且这个实习是比赛方面的，作为签到型选手几率更渺茫了...wuwuwu....先把红日靶场搞完，好好准备秋招了！</p>
 
     </div>
 
@@ -469,7 +470,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -517,7 +518,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -531,7 +532,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -542,7 +543,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -682,6 +683,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

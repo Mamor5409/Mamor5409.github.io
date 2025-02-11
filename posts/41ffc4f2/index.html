@@ -317,19 +317,25 @@
 
       
         <p>单条日志清理</p>
-<p> 参考三好大佬的文章 </p>
-<p><a target="_blank" rel="noopener" href="https://3gstudent.github.io/Windows-XML-Event-Log-(EVTX)%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E6%B8%85%E9%99%A4-%E4%B8%80-%E5%88%A0%E9%99%A4%E6%80%9D%E8%B7%AF%E4%B8%8E%E5%AE%9E%E4%BE%8B">https://3gstudent.github.io/Windows-XML-Event-Log-(EVTX)%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E6%B8%85%E9%99%A4-%E4%B8%80-%E5%88%A0%E9%99%A4%E6%80%9D%E8%B7%AF%E4%B8%8E%E5%AE%9E%E4%BE%8B</a></p>
-<h3 id="evtx基础知识"><a href="#evtx基础知识" class="headerlink" title="evtx基础知识"></a>evtx基础知识</h3><p>参考<code> https://github.com/libyal/libevtx/blob/main/documentation/Windows XML Event Log (EVTX).asciidoc</code> </p>
+<p>参考三好大佬的文章</p>
+<p>https://3gstudent.github.io/Windows-XML-Event-Log-(EVTX)%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E6%B8%85%E9%99%A4-%E4%B8%80-%E5%88%A0%E9%99%A4%E6%80%9D%E8%B7%AF%E4%B8%8E%E5%AE%9E%E4%BE%8B</p>
+<h3 id="evtx基础知识">evtx基础知识</h3>
+<p>参考<code>https://github.com/libyal/libevtx/blob/main/documentation/Windows XML Event Log (EVTX).asciidoc</code></p>
 <p>evtx文件结构包含3部分</p>
 <ul>
 <li>file header</li>
 <li>chunks</li>
 <li>trailing empty values</li>
 </ul>
-<h4 id="file-header"><a href="#file-header" class="headerlink" title="file header"></a>file header</h4><p><a target="_blank" rel="noopener" href="https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#2-file-header">https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#2-file-header</a></p>
-<h3 id="chunks"><a href="#chunks" class="headerlink" title="chunks"></a>chunks</h3><p><a target="_blank" rel="noopener" href="https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#3-chunk">https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#3-chunk</a></p>
-<h4 id="trailing-empty-values"><a href="#trailing-empty-values" class="headerlink" title="trailing empty values"></a>trailing empty values</h4><p><a target="_blank" rel="noopener" href="https://github.com/libyal/libevtx/blob/master/documentation/Windows%20XML%20Event%20Log%20%28EVTX%29.asciidoc#32-event-record">https://github.com/libyal/libevtx/blob/master/documentation/Windows%20XML%20Event%20Log%20%28EVTX%29.asciidoc#32-event-record</a></p>
-<h3 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h3><h4 id="查看日志文件"><a href="#查看日志文件" class="headerlink" title="查看日志文件"></a>查看日志文件</h4><ul>
+<h4 id="file-header">file header</h4>
+<p>https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#2-file-header</p>
+<h3 id="chunks">chunks</h3>
+<p>https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#3-chunk</p>
+<h4 id="trailing-empty-values">trailing empty values</h4>
+<p>https://github.com/libyal/libevtx/blob/master/documentation/Windows%20XML%20Event%20Log%20%28EVTX%29.asciidoc#32-event-record</p>
+<h3 id="具体操作">具体操作</h3>
+<h4 id="查看日志文件">查看日志文件</h4>
+<ul>
 <li>使用事件查看器查看</li>
 </ul>
 <p><img src="/posts/41ffc4f2/1.png"></p>
@@ -339,42 +345,60 @@
 <ul>
 <li>使用python脚本查看</li>
 </ul>
-<p>可以使用该工具 <a target="_blank" rel="noopener" href="https://github.com/williballenthin/python-evtx">https://github.com/williballenthin/python-evtx</a></p>
+<p>可以使用该工具 https://github.com/williballenthin/python-evtx</p>
 <p><code>python evtx_record_structure.py System.evtx 1915</code></p>
 <p><img src="/posts/41ffc4f2/3.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\TEST\Desktop&gt;python evtx_record_structure.py System.evtx 1915</span><br><span class="line">00000000: 2A 2A 00 00 38 01 00 00  7B 07 00 00 00 00 00 00  **..8...&#123;.......</span><br><span class="line">00000010: 23 EB 07 A2 D4 FB D3 01  0F 01 01 00 0C 01 65 CE  #.............e.</span><br><span class="line">00000020: 1B C7 EE 0D 00 00 14 00  00 00 01 00 04 00 01 00  ................</span><br><span class="line">00000030: 04 00 02 00 06 00 02 00  06 00 02 00 06 00 08 00  ................</span><br><span class="line">00000040: 15 00 08 00 11 00 00 00  00 00 04 00 08 00 04 00  ................</span><br><span class="line">00000050: 08 00 08 00 0A 00 01 00  04 00 00 00 00 00 00 00  ................</span><br><span class="line">00000060: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................</span><br><span class="line">00000070: 00 00 00 00 00 00 8B 00  21 00 04 00 00 00 7C 1B  ........!.....|.</span><br><span class="line">00000080: 00 40 00 00 00 00 00 00  80 80 23 EB 07 A2 D4 FB  .@........#.....</span><br><span class="line">00000090: D3 01 D8 01 00 00 9C 07  00 00 7B 07 00 00 00 00  ..........&#123;.....</span><br><span class="line">000000A0: 00 00 00 0F 01 01 00 0C  01 DE E1 DC 34 6C 11 00  ............4l..</span><br><span class="line">000000B0: 00 04 00 00 00 4E 00 01  00 08 00 01 00 04 00 08  .....N..........</span><br><span class="line">000000C0: 00 0E 00 0E 00 42 00 61  00 63 00 6B 00 67 00 72  .....B.a.c.k.g.r</span><br><span class="line">000000D0: 00 6F 00 75 00 6E 00 64  00 20 00 49 00 6E 00 74  .o.u.n.d. .I.n.t</span><br><span class="line">000000E0: 00 65 00 6C 00 6C 00 69  00 67 00 65 00 6E 00 74  .e.l.l.i.g.e.n.t</span><br><span class="line">000000F0: 00 20 00 54 00 72 00 61  00 6E 00 73 00 66 00 65  . .T.r.a.n.s.f.e</span><br><span class="line">00000100: 00 72 00 20 00 53 00 65  00 72 00 76 00 69 00 63  .r. .S.e.r.v.i.c</span><br><span class="line">00000110: 00 65 00 63 6B 28 57 D0  8F 4C 88 0E 00 00 00 42  .e.ck(W..L.....B</span><br><span class="line">00000120: 00 49 00 54 00 53 00 2F  00 34 00 00 00 00 00 00  .I.T.S./.4......</span><br><span class="line">00000130: 15 00 00 00 38 01 00 00                           ....8...</span><br><span class="line">record(absolute_offset=8776)</span><br><span class="line">RootNode(offset=0x18)</span><br><span class="line">  StreamStartNode(offset=0x18)</span><br><span class="line">  TemplateInstanceNode(offset=0x1c, resident=False)</span><br><span class="line">  Substitutions(offset=0x26)</span><br><span class="line">    UnsignedByteTypeNode(offset=0x7a) --&gt; 4</span><br><span class="line">    UnsignedByteTypeNode(offset=0x7b) --&gt; 0</span><br><span class="line">    UnsignedWordTypeNode(offset=0x7c) --&gt; 0</span><br><span class="line">    UnsignedWordTypeNode(offset=0x7e) --&gt; 7036</span><br><span class="line">    UnsignedWordTypeNode(offset=0x80) --&gt; 16384</span><br><span class="line">    Hex64TypeNode(offset=0x82) --&gt; 0x8080000000000000</span><br><span class="line">    FiletimeTypeNode(offset=0x8a) --&gt; 2018-06-04 07:21:19.394281</span><br><span class="line">    NullTypeNode(offset=0x92)</span><br><span class="line">    UnsignedDwordTypeNode(offset=0x92) --&gt; 472</span><br><span class="line">    UnsignedDwordTypeNode(offset=0x96) --&gt; 1948</span><br><span class="line">    UnsignedQwordTypeNode(offset=0x9a) --&gt; 1915</span><br><span class="line">    UnsignedByteTypeNode(offset=0xa2) --&gt; 0</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    NullTypeNode(offset=0xa3)</span><br><span class="line">    BXmlTypeNode(offset=0xa3) --&gt;</span><br><span class="line">      RootNode(offset=0xa3)</span><br><span class="line">        StreamStartNode(offset=0xa3)</span><br><span class="line">        TemplateInstanceNode(offset=0xa7, resident=False)</span><br><span class="line">        Substitutions(offset=0xb1)</span><br><span class="line">          WstringTypeNode(offset=0xc5) --&gt; Background Intelligent Transfer Servi</span><br><span class="line">ce</span><br><span class="line">          WstringTypeNode(offset=0x113) --&gt; 正在运行</span><br><span class="line">          UnsignedDwordTypeNode(offset=0x11b) --&gt; 14</span><br><span class="line">          BinaryTypeNode(offset=0x11f) --&gt; QgBJAFQAUwAvADQAAAA=</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;Event xmlns=&quot;http://schemas.microsoft.com/win/2004/08/events/event&quot;&gt;&lt;System&gt;&lt;Pr</span><br><span class="line">ovider Name=&quot;Service Control Manager&quot; Guid=&quot;&#123;555908d1-a6d7-4695-8e1e-26931d2012f</span><br><span class="line">4&#125;&quot; EventSourceName=&quot;Service Control Manager&quot;&gt;&lt;/Provider&gt;</span><br><span class="line">&lt;EventID Qualifiers=&quot;16384&quot;&gt;7036&lt;/EventID&gt;</span><br><span class="line">&lt;Version&gt;0&lt;/Version&gt;</span><br><span class="line">&lt;Level&gt;4&lt;/Level&gt;</span><br><span class="line">&lt;Task&gt;0&lt;/Task&gt;</span><br><span class="line">&lt;Opcode&gt;0&lt;/Opcode&gt;</span><br><span class="line">&lt;Keywords&gt;0x8080000000000000&lt;/Keywords&gt;</span><br><span class="line">&lt;TimeCreated SystemTime=&quot;2018-06-04 07:21:19.394281&quot;&gt;&lt;/TimeCreated&gt;</span><br><span class="line">&lt;EventRecordID&gt;1915&lt;/EventRecordID&gt;</span><br><span class="line">&lt;Correlation ActivityID=&quot;&quot; RelatedActivityID=&quot;&quot;&gt;&lt;/Correlation&gt;</span><br><span class="line">&lt;Execution ProcessID=&quot;472&quot; ThreadID=&quot;1948&quot;&gt;&lt;/Execution&gt;</span><br><span class="line">&lt;Channel&gt;System&lt;/Channel&gt;</span><br><span class="line">&lt;Computer&gt;WIN-E8C6J8CN50O&lt;/Computer&gt;</span><br><span class="line">&lt;Security UserID=&quot;&quot;&gt;&lt;/Security&gt;</span><br><span class="line">&lt;/System&gt;</span><br><span class="line">&lt;EventData&gt;&lt;Data Name=&quot;param1&quot;&gt;Background Intelligent Transfer Service&lt;/Data&gt;</span><br><span class="line">&lt;Data Name=&quot;param2&quot;&gt;&amp;#27491;&amp;#22312;&amp;#36816;&amp;#34892;&lt;/Data&gt;</span><br><span class="line">&lt;Binary&gt;QgBJAFQAUwAvADQAAAA=&lt;/Binary&gt;</span><br><span class="line">&lt;/EventData&gt;</span><br><span class="line">&lt;/Event&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="删除单条日志思路——覆盖"><a href="#删除单条日志思路——覆盖" class="headerlink" title="删除单条日志思路——覆盖"></a>删除单条日志思路——覆盖</h4><p>修改日志 Event Record size长度，然后覆盖掉下一条日志，这样windows在解析日志时，下一条日志就会被隐藏，从而实现所谓的单条目录的删除</p>
-<p><img src="/posts/41ffc4f2/4.png" alt="从大佬那里抄的图"></p>
+<h4 id="删除单条日志思路覆盖">删除单条日志思路——覆盖</h4>
+<p>修改日志 Event Record
+size长度，然后覆盖掉下一条日志，这样windows在解析日志时，下一条日志就会被隐藏，从而实现所谓的单条目录的删除</p>
+<figure>
+<img src="/posts/41ffc4f2/4.png" alt="从大佬那里抄的图">
+<figcaption aria-hidden="true">从大佬那里抄的图</figcaption>
+</figure>
 <p>具体方法:</p>
 <ul>
-<li><p>1.file header中的Next record identifier减一</p>
-</li>
-<li><p>2.重新计算file header 中的 chunksum</p>
-</li>
+<li><p>1.file header中的Next record identifier减一</p></li>
+<li><p>2.重新计算file header 中的 chunksum</p></li>
 <li><p>3.修改Event Record:</p>
-<p>重新计算待删除Event Record前后长度，更新后续Event Record的Event record identifier</p>
-</li>
-<li><p>4.更新ElfChnk，</p>
-</li>
+<p>重新计算待删除Event Record前后长度，更新后续Event Record的Event
+record identifier</p></li>
+<li><p>4.更新ElfChnk，</p></li>
 </ul>
-<h4 id="删除单条日志的实例"><a href="#删除单条日志的实例" class="headerlink" title="删除单条日志的实例"></a>删除单条日志的实例</h4><p>实例样本 <a target="_blank" rel="noopener" href="https://github.com/3gstudent/Eventlogedit-evtx--Evolution/blob/master/System.evtx">https://github.com/3gstudent/Eventlogedit-evtx--Evolution/blob/master/System.evtx</a></p>
-<h5 id="File-header-Next-record-identifier值-1"><a href="#File-header-Next-record-identifier值-1" class="headerlink" title="File header   Next record identifier值 -1"></a>File header   Next record identifier值 -1</h5><p>这里采用小端序 0x077c  减一后为 0x77b</p>
-<p><img src="/posts/41ffc4f2/5.png" alt="修改后"></p>
-<h5 id="重新计算checksum值"><a href="#重新计算checksum值" class="headerlink" title="重新计算checksum值"></a>重新计算checksum值</h5><p><img src="/posts/41ffc4f2/6.png" alt="原值"></p>
+<h4 id="删除单条日志的实例">删除单条日志的实例</h4>
+<p>实例样本
+https://github.com/3gstudent/Eventlogedit-evtx--Evolution/blob/master/System.evtx</p>
+<h5 id="file-header-next-record-identifier值--1">File header Next record
+identifier值 -1</h5>
+<p>这里采用小端序 0x077c 减一后为 0x77b</p>
+<figure>
+<img src="/posts/41ffc4f2/5.png" alt="修改后">
+<figcaption aria-hidden="true">修改后</figcaption>
+</figure>
+<h5 id="重新计算checksum值">重新计算checksum值</h5>
+<figure>
+<img src="/posts/41ffc4f2/6.png" alt="原值">
+<figcaption aria-hidden="true">原值</figcaption>
+</figure>
 <p>计算前120bytes 的 CRC32，直接引用大佬的脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii   </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">crc2hex</span>(<span class="params">crc</span>):   </span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;%08x&#x27;</span> % (binascii.crc32(binascii.a2b_hex(crc)) &amp; <span class="number">0xffffffff</span>)     </span><br><span class="line"></span><br><span class="line">d=<span class="string">&#x27;456C6646696C6500000000000000000000000000000000007B0700000000000080000000010003000010010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&#x27;</span>  </span><br><span class="line"><span class="built_in">print</span>(crc2hex(d)</span><br></pre></td></tr></table></figure>
-
-<p>得到结果为 <code>ccc94756</code> 然后进行替换 </p>
+<p>得到结果为 <code>ccc94756</code> 然后进行替换</p>
 <p><img src="/posts/41ffc4f2/7.png"></p>
-<h5 id="修改Event-Record"><a href="#修改Event-Record" class="headerlink" title="修改Event Record"></a>修改Event Record</h5><h5 id="重新计算待删除Event-Record前后长度，更新后续Event-Record的Event-record-identifier"><a href="#重新计算待删除Event-Record前后长度，更新后续Event-Record的Event-record-identifier" class="headerlink" title="重新计算待删除Event Record前后长度，更新后续Event Record的Event record identifier"></a>重新计算待删除Event Record前后长度，更新后续Event Record的Event record identifier</h5><p><img src="/posts/41ffc4f2/8.png"></p>
-<p>Event record头为 0x2a\0x2a\0x00\0x00 在010editor搜索一下 找到Event record头</p>
-<p>途中的 0x0778 对应值为 1912 这个是日志中的第一条日志，这里要删除1915 那么去找到  0x077b值对应的EventRecord（第四条日志）</p>
-<p><img src="/posts/41ffc4f2/10.png" alt="第四条日志"></p>
-<p>长度为 0x0138h  EventRecord ID 为 0x77bh(1915)</p>
-<p>结尾处的值为EventRecord 长度 0x138h 在后面需要覆盖后也要修改这个值</p>
+<h5 id="修改event-record">修改Event Record</h5>
+<h5 id="重新计算待删除event-record前后长度更新后续event-record的event-record-identifier">重新计算待删除Event
+Record前后长度，更新后续Event Record的Event record identifier</h5>
+<p><img src="/posts/41ffc4f2/8.png"></p>
+<p>Event record头为 0x2a\0x2a\0x00\0x00 在010editor搜索一下 找到Event
+record头</p>
+<p>途中的 0x0778 对应值为 1912 这个是日志中的第一条日志，这里要删除1915
+那么去找到 0x077b值对应的EventRecord（第四条日志）</p>
+<figure>
+<img src="/posts/41ffc4f2/10.png" alt="第四条日志">
+<figcaption aria-hidden="true">第四条日志</figcaption>
+</figure>
+<p>长度为 0x0138h EventRecord ID 为 0x77bh(1915)</p>
+<p>结尾处的值为EventRecord 长度 0x138h
+在后面需要覆盖后也要修改这个值</p>
 <p>再找到第三条日志</p>
 <p><img src="/posts/41ffc4f2/11.png"></p>
 <p>长度为 0x0480h EventRecord ID为 0x77ah (1914)</p>
@@ -383,22 +407,28 @@
 <p><img src="/posts/41ffc4f2/12.png"></p>
 <p>然后更新第四条日志最后面的长度 从0x138h 改为 0x5b8h</p>
 <p><img src="/posts/41ffc4f2/13.png"></p>
-<h5 id="更新ElfChnk"><a href="#更新ElfChnk" class="headerlink" title="更新ElfChnk"></a>更新ElfChnk</h5><p><img src="/posts/41ffc4f2/15.png"></p>
+<h5 id="更新elfchnk">更新ElfChnk</h5>
+<p><img src="/posts/41ffc4f2/15.png"></p>
 <p><img src="/posts/41ffc4f2/16.png"></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#31-chunk-header">https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#31-chunk-header</a></p>
-<p>在测试日志中只有一个Elfchnk 但别的可能会有多个ElfChnk 需要找到对应的 ElfChnk </p>
+<p>https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc#31-chunk-header</p>
+<p>在测试日志中只有一个Elfchnk 但别的可能会有多个ElfChnk 需要找到对应的
+ElfChnk</p>
 <p><img src="/posts/41ffc4f2/14.png"></p>
-<p>修改<code>last Event record number</code>  0x04h -1 =  0x03h </p>
-<p>修改<code>last Event record identifier</code> 0x77bh -1 = 0x77ah </p>
-<p>修改<code>Last event record data offset</code>  0x1248h =&gt;  0xDC8h</p>
-<p>为第三条Event Record(最后一条)相对于ElfChuk的偏移长度   </p>
-<p>ElfChnk 为 0x1000h 第三条开始位置为 0x1DC8h  所以偏移量为 0xDC8h</p>
-<p>修改<code>Event records checksum</code> 0xD3D3DE43h =&gt;  0xF92FEDB9h</p>
-<p><code>Event records checksum</code> 为所有Event records 的校验和 这里需要计算三条的 </p>
-<p>计算过程 抽时间算一下 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`</p>
+<p>修改<code>last Event record number</code> 0x04h -1 = 0x03h</p>
+<p>修改<code>last Event record identifier</code> 0x77bh -1 = 0x77ah</p>
+<p>修改<code>Last event record data offset</code> 0x1248h =&gt;
+0xDC8h</p>
+<p>为第三条Event Record(最后一条)相对于ElfChuk的偏移长度</p>
+<p>ElfChnk 为 0x1000h 第三条开始位置为 0x1DC8h 所以偏移量为 0xDC8h</p>
+<p>修改<code>Event records checksum</code> 0xD3D3DE43h =&gt;
+0xF92FEDB9h</p>
+<p><code>Event records checksum</code> 为所有Event records 的校验和
+这里需要计算三条的</p>
+<p>计算过程 抽时间算一下
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`</p>
 <p>计算后为 <code>0xF92FEDB9h</code></p>
-<p>修改<code> Checksum</code>  0xEB4C47BFh =&gt; 0x3CE0BF8h</p>
-<p>计算前120 和128-512 处的CRC32值  结果为 <code>0x3CE0BF8h</code></p>
+<p>修改<code>Checksum</code> 0xEB4C47BFh =&gt; 0x3CE0BF8h</p>
+<p>计算前120 和128-512 处的CRC32值 结果为 <code>0x3CE0BF8h</code></p>
 <p><img src="/posts/41ffc4f2/17.png"></p>
 <p>另存后打开 可以看到 第四条我们想要删除的日志已经成功隐藏</p>
 <p><img src="/posts/41ffc4f2/18.png"></p>
@@ -531,7 +561,9 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#evtx%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">evtx基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#file-header"><span class="nav-number">1.1.</span> <span class="nav-text">file header</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunks"><span class="nav-number">2.</span> <span class="nav-text">chunks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#trailing-empty-values"><span class="nav-number">2.1.</span> <span class="nav-text">trailing empty values</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">查看日志文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E6%80%9D%E8%B7%AF%E2%80%94%E2%80%94%E8%A6%86%E7%9B%96"><span class="nav-number">3.2.</span> <span class="nav-text">删除单条日志思路——覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.3.</span> <span class="nav-text">删除单条日志的实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#File-header-Next-record-identifier%E5%80%BC-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">File header   Next record identifier值 -1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A1%E7%AE%97checksum%E5%80%BC"><span class="nav-number">3.3.2.</span> <span class="nav-text">重新计算checksum值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9Event-Record"><span class="nav-number">3.3.3.</span> <span class="nav-text">修改Event Record</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A1%E7%AE%97%E5%BE%85%E5%88%A0%E9%99%A4Event-Record%E5%89%8D%E5%90%8E%E9%95%BF%E5%BA%A6%EF%BC%8C%E6%9B%B4%E6%96%B0%E5%90%8E%E7%BB%ADEvent-Record%E7%9A%84Event-record-identifier"><span class="nav-number">3.3.4.</span> <span class="nav-text">重新计算待删除Event Record前后长度，更新后续Event Record的Event record identifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0ElfChnk"><span class="nav-number">3.3.5.</span> <span class="nav-text">更新ElfChnk</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#evtx%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">evtx基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#file-header"><span class="nav-number">1.1.</span> <span class="nav-text">file header</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chunks"><span class="nav-number">2.</span> <span class="nav-text">chunks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#trailing-empty-values"><span class="nav-number">2.1.</span> <span class="nav-text">trailing empty values</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">查看日志文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E6%80%9D%E8%B7%AF%E8%A6%86%E7%9B%96"><span class="nav-number">3.2.</span> <span class="nav-text">删除单条日志思路——覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E6%9D%A1%E6%97%A5%E5%BF%97%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.3.</span> <span class="nav-text">删除单条日志的实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#file-header-next-record-identifier%E5%80%BC--1"><span class="nav-number">3.3.1.</span> <span class="nav-text">File header Next record
+identifier值 -1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A1%E7%AE%97checksum%E5%80%BC"><span class="nav-number">3.3.2.</span> <span class="nav-text">重新计算checksum值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9event-record"><span class="nav-number">3.3.3.</span> <span class="nav-text">修改Event Record</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E8%AE%A1%E7%AE%97%E5%BE%85%E5%88%A0%E9%99%A4event-record%E5%89%8D%E5%90%8E%E9%95%BF%E5%BA%A6%E6%9B%B4%E6%96%B0%E5%90%8E%E7%BB%ADevent-record%E7%9A%84event-record-identifier"><span class="nav-number">3.3.4.</span> <span class="nav-text">重新计算待删除Event
+Record前后长度，更新后续Event Record的Event record identifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0elfchnk"><span class="nav-number">3.3.5.</span> <span class="nav-text">更新ElfChnk</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -547,7 +579,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -595,7 +627,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -609,7 +641,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -620,7 +652,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -760,6 +792,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

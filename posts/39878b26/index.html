@@ -52,7 +52,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/39878b26/9.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/39878b26/10.png">
 <meta property="article:published_time" content="2022-10-27T14:19:09.000Z">
-<meta property="article:modified_time" content="2022-10-27T14:29:46.482Z">
+<meta property="article:modified_time" content="2022-10-27T14:29:46.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="驱动">
 <meta name="twitter:card" content="summary">
@@ -303,52 +303,94 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="驱动环境安装"><a href="#驱动环境安装" class="headerlink" title="驱动环境安装"></a>驱动环境安装</h3><ol>
+        <h3 id="驱动环境安装">驱动环境安装</h3>
+<ol type="1">
 <li>安装Vs2022</li>
 <li>安装SDK</li>
 <li>安装WDK</li>
 </ol>
-<h3 id="DriverDemo"><a href="#DriverDemo" class="headerlink" title="DriverDemo"></a>DriverDemo</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ntddk.h&quot;</span></span></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT DriverObject)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]Driver Upload,Driver Object Address:%p&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">( PDRIVER_OBJECT DriverObject,PUNICODE_STRING  RegistryPath)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//KdBreakPoint();</span></span><br><span class="line">    DbgPrint(<span class="string">&quot;[%ws]Hello Kernel World\n&quot;</span>,__FUNCTIONW__);</span><br><span class="line">    <span class="keyword">if</span> (RegistryPath != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]所在注册表位置:%wZ\n&quot;</span>, __FUNCTIONW__,RegistryPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]驱动对象地址:%p\n&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">        DriverObject-&gt;DriverUnload = DriverUnload;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="error-MSB8040-此项目需要缓解了-Spectre-漏洞的库"><a href="#error-MSB8040-此项目需要缓解了-Spectre-漏洞的库" class="headerlink" title="error MSB8040: 此项目需要缓解了 Spectre 漏洞的库"></a>error MSB8040: 此项目需要缓解了 Spectre 漏洞的库</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hack747/p/16398455.html">https://www.cnblogs.com/hack747/p/16398455.html</a></p>
+<h3 id="driverdemo">DriverDemo</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ntddk.h&quot;</span></span></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT DriverObject)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]Driver Upload,Driver Object Address:%p&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">( PDRIVER_OBJECT DriverObject,PUNICODE_STRING  RegistryPath)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//KdBreakPoint();</span></span><br><span class="line">    DbgPrint(<span class="string">&quot;[%ws]Hello Kernel World\n&quot;</span>,__FUNCTIONW__);</span><br><span class="line">    <span class="keyword">if</span> (RegistryPath != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]所在注册表位置:%wZ\n&quot;</span>, __FUNCTIONW__,RegistryPath);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (DriverObject != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        DbgPrint(<span class="string">&quot;[%ws]驱动对象地址:%p\n&quot;</span>, __FUNCTIONW__,DriverObject);</span><br><span class="line">        DriverObject-&gt;DriverUnload = DriverUnload;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="error-msb8040-此项目需要缓解了-spectre-漏洞的库">error MSB8040:
+此项目需要缓解了 Spectre 漏洞的库</h4>
+<p>https://www.cnblogs.com/hack747/p/16398455.html</p>
 <p>安装对应版本的Spectre缓解库</p>
-<p><img src="/posts/39878b26/1.png" alt="img"></p>
-<h4 id="MyDriver1-inf-error-1297-Device-driver-does-not-install-on-any-devices"><a href="#MyDriver1-inf-error-1297-Device-driver-does-not-install-on-any-devices" class="headerlink" title="MyDriver1.inf : error 1297: Device driver does not install on any devices"></a>MyDriver1.inf : error 1297: Device driver does not install on any devices</h4><p>删除.inf文件重新编译即可</p>
-<h3 id="驱动签名禁用"><a href="#驱动签名禁用" class="headerlink" title="驱动签名禁用"></a>驱动签名禁用</h3><p><a target="_blank" rel="noopener" href="https://zh.theihccforum.com/how-disable-driver-signature-enforcement-windows-10">https://zh.theihccforum.com/how-disable-driver-signature-enforcement-windows-10</a></p>
+<figure>
+<img src="/posts/39878b26/1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="mydriver1.inf-error-1297-device-driver-does-not-install-on-any-devices">MyDriver1.inf
+: error 1297: Device driver does not install on any devices</h4>
+<p>删除.inf文件重新编译即可</p>
+<h3 id="驱动签名禁用">驱动签名禁用</h3>
+<p>https://zh.theihccforum.com/how-disable-driver-signature-enforcement-windows-10</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set nointegritychecks on</span><br><span class="line">bcdedit /set testsigning on</span><br><span class="line">bcdedit /set loadoptions DDISABLE_INTEGRITY_CHECKS</span><br></pre></td></tr></table></figure>
-
-<h3 id="驱动加载运行"><a href="#驱动加载运行" class="headerlink" title="驱动加载运行"></a>驱动加载运行</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sc create scdemo binPath=<span class="string">&quot;c:\demo.sys&quot;</span> type= kernel start= demand</span><br><span class="line">sc start scdemo</span><br><span class="line">sc stop scdemo</span><br><span class="line">sc delete scdemo</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="使用Drover-Loader-Unloader-加载驱动"><a href="#使用Drover-Loader-Unloader-加载驱动" class="headerlink" title="使用Drover Loader/Unloader 加载驱动"></a>使用Drover Loader/Unloader 加载驱动</h3><p><img src="/posts/39878b26/2.png" alt="img"></p>
+<h3 id="驱动加载运行">驱动加载运行</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sc create scdemo binPath=<span class="string">&quot;c:\demo.sys&quot;</span> type= kernel start= demand</span><br><span class="line">sc start scdemo</span><br><span class="line">sc stop scdemo</span><br><span class="line">sc delete scdemo</span><br></pre></td></tr></table></figure>
+<h3 id="使用drover-loaderunloader-加载驱动">使用Drover Loader/Unloader
+加载驱动</h3>
+<figure>
+<img src="/posts/39878b26/2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>可以使用debugview查看加载内容</p>
-<p><img src="/posts/39878b26/3.png" alt="img"></p>
-<h3 id="MacOs下-Windbg-view-双机调试配置"><a href="#MacOs下-Windbg-view-双机调试配置" class="headerlink" title="MacOs下 Windbg view 双机调试配置"></a>MacOs下 Windbg view 双机调试配置</h3><h4 id="Net"><a href="#Net" class="headerlink" title="Net"></a>Net</h4><p>net相对于使用串口较为简单设置些</p>
+<figure>
+<img src="/posts/39878b26/3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="macos下-windbg-view-双机调试配置">MacOs下 Windbg view
+双机调试配置</h3>
+<h4 id="net">Net</h4>
+<p>net相对于使用串口较为简单设置些</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调试机器	： 192.168.181.130</span></span><br><span class="line"><span class="comment">//被调试机器 	： 192.168.181.138</span></span><br><span class="line"><span class="comment">//被调试机下生成key</span></span><br><span class="line">bcdedit /debug on</span><br><span class="line">bcdedit /dbgsettings net hostip:<span class="number">192.168</span><span class="number">.181</span><span class="number">.130</span> port:<span class="number">50010</span></span><br><span class="line">Key=<span class="number">3</span>cb9a0g3w94mp<span class="number">.1</span>pnw6lxz6ohti<span class="number">.38</span>p3gpzpdrc7k.qqgcqkf16kuv</span><br><span class="line"></span><br><span class="line"><span class="comment">//在调试机windbg下attach to kernel进行net连接</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/39878b26/4.png" alt="img"></p>
-<p><img src="/posts/39878b26/5.png" alt="img"></p>
-<h4 id="Com"><a href="#Com" class="headerlink" title="Com"></a>Com</h4><h5 id="1-找到对应的虚拟机-vmx文件进行修改"><a href="#1-找到对应的虚拟机-vmx文件进行修改" class="headerlink" title="1.找到对应的虚拟机.vmx文件进行修改"></a>1.找到对应的虚拟机.vmx文件进行修改</h5><p>被调试机器设置</p>
+<figure>
+<img src="/posts/39878b26/4.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="/posts/39878b26/5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="com">Com</h4>
+<h5 id="找到对应的虚拟机.vmx文件进行修改">1.找到对应的虚拟机.vmx文件进行修改</h5>
+<p>被调试机器设置</p>
 <p>将原有的 serial0项删除替换</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">serial0.fileType = <span class="string">&quot;thinprint&quot;</span></span><br><span class="line">serial0.fileName = <span class="string">&quot;thinprint&quot;</span></span><br><span class="line">serial0.fileName = <span class="string">&quot;/Users/&#123;name&#125;/com1&quot;</span></span><br><span class="line">serial0.present = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line">serial0.fileType = <span class="string">&quot;pipe&quot;</span></span><br><span class="line">serial0.yieldOnMsrRead = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line">serial0.startConnected = <span class="string">&quot;TRUE&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>调试机器设置</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">serial0.fileType = <span class="string">&quot;thinprint&quot;</span></span><br><span class="line">serial0.fileName = <span class="string">&quot;thinprint&quot;</span></span><br><span class="line">serial0.present = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line">serial0.present = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line">serial0.fileType = <span class="string">&quot;pipe&quot;</span></span><br><span class="line">serial0.fileName = <span class="string">&quot;/Users/&#123;name&#125;/com1&quot;</span></span><br><span class="line">serial0.yieldOnMsrRead = <span class="string">&quot;TRUE&quot;</span></span><br><span class="line">serial0.tryNoRxLoss = <span class="string">&quot;FALSE&quot;</span></span><br><span class="line">serial0.pipe.endPoint = <span class="string">&quot;client&quot;</span></span><br></pre></td></tr></table></figure>
-
 <p>{name}替换为自己电脑的用户名</p>
-<h5 id="2-被调试机设置开启串口-管理员cmd运行以下命令"><a href="#2-被调试机设置开启串口-管理员cmd运行以下命令" class="headerlink" title="2. 被调试机设置开启串口 管理员cmd运行以下命令"></a>2. 被调试机设置开启串口 管理员cmd运行以下命令</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /<span class="class"><span class="keyword">enum</span> <span class="title">ACTIVE</span></span></span><br><span class="line"><span class="class"><span class="title">bcdedit</span> /<span class="title">dbgsettings</span> <span class="title">serial</span> <span class="title">baudrate</span>:</span><span class="number">115200</span> debugport:<span class="number">1</span></span><br><span class="line">bcdedit /copy &#123;current&#125; /d <span class="string">&quot;Windows Debug Entry&quot;</span></span><br><span class="line">    </span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;上一行的id&#125;</span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;f08931ce<span class="number">-554</span>a<span class="number">-11</span>ed<span class="number">-850</span>e-c773c5b7f7b1&#125;</span><br><span class="line"></span><br><span class="line">bcdedit /debug &#123;上一行的id&#125; ON</span><br><span class="line">bcdedit /debug  &#123;f08931ce<span class="number">-554</span>a<span class="number">-11</span>ed<span class="number">-850</span>e-c773c5b7f7b1&#125; ON</span><br><span class="line"></span><br><span class="line">bcdedit -<span class="built_in">set</span> TESTSIGNING on</span><br><span class="line">bcdedit /dbgsettings</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/39878b26/6.png" alt="img"></p>
+<h5 id="被调试机设置开启串口-管理员cmd运行以下命令">2.
+被调试机设置开启串口 管理员cmd运行以下命令</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /<span class="class"><span class="keyword">enum</span> <span class="title">ACTIVE</span></span></span><br><span class="line"><span class="class"><span class="title">bcdedit</span> /<span class="title">dbgsettings</span> <span class="title">serial</span> <span class="title">baudrate</span>:</span><span class="number">115200</span> debugport:<span class="number">1</span></span><br><span class="line">bcdedit /copy &#123;current&#125; /d <span class="string">&quot;Windows Debug Entry&quot;</span></span><br><span class="line">    </span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;上一行的id&#125;</span><br><span class="line">bcdedit /displayorder &#123;current&#125; &#123;f08931ce<span class="number">-554</span>a<span class="number">-11</span>ed<span class="number">-850</span>e-c773c5b7f7b1&#125;</span><br><span class="line"></span><br><span class="line">bcdedit /debug &#123;上一行的id&#125; ON</span><br><span class="line">bcdedit /debug  &#123;f08931ce<span class="number">-554</span>a<span class="number">-11</span>ed<span class="number">-850</span>e-c773c5b7f7b1&#125; ON</span><br><span class="line"></span><br><span class="line">bcdedit -<span class="built_in">set</span> TESTSIGNING on</span><br><span class="line">bcdedit /dbgsettings</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/posts/39878b26/6.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>设置完成后重启系统 选择第二项</p>
-<p><img src="/posts/39878b26/7.png" alt="img"></p>
-<h5 id="3-调试机设置"><a href="#3-调试机设置" class="headerlink" title="3.调试机设置"></a>3.调试机设置</h5><p>计算机管理 - 设备管理器- 端口-通信端口-端口设置   设置为115200</p>
-<p><img src="/posts/39878b26/8.png" alt="img"></p>
-<h5 id="4-调试机windbg-kernel-Debugging-com连接进行调试"><a href="#4-调试机windbg-kernel-Debugging-com连接进行调试" class="headerlink" title="4.调试机windbg kernel Debugging com连接进行调试"></a>4.调试机windbg kernel Debugging com连接进行调试</h5><p><img src="/posts/39878b26/9.png" alt="img"></p>
-<h4 id="使用VirtualKD-Redux（×）"><a href="#使用VirtualKD-Redux（×）" class="headerlink" title="使用VirtualKD-Redux（×）"></a>使用VirtualKD-Redux（×）</h4><p>在mac下使用虚拟机通过该方法尝试时没能成功 </p>
-<p><a target="_blank" rel="noopener" href="https://github.com/4d61726b/VirtualKD-Redux">https://github.com/4d61726b/VirtualKD-Redux</a></p>
+<figure>
+<img src="/posts/39878b26/7.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h5 id="调试机设置">3.调试机设置</h5>
+<p>计算机管理 - 设备管理器- 端口-通信端口-端口设置 设置为115200</p>
+<figure>
+<img src="/posts/39878b26/8.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h5 id="调试机windbg-kernel-debugging-com连接进行调试">4.调试机windbg
+kernel Debugging com连接进行调试</h5>
+<figure>
+<img src="/posts/39878b26/9.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="使用virtualkd-redux">使用VirtualKD-Redux（×）</h4>
+<p>在mac下使用虚拟机通过该方法尝试时没能成功</p>
+<p>https://github.com/4d61726b/VirtualKD-Redux</p>
 <p>安装重启后 进入该模式F8关闭签名后会一直卡死。。。</p>
-<p><img src="/posts/39878b26/10.png" alt="img"></p>
+<figure>
+<img src="/posts/39878b26/10.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 
     </div>
 
@@ -478,7 +520,13 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">驱动环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DriverDemo"><span class="nav-number">2.</span> <span class="nav-text">DriverDemo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#error-MSB8040-%E6%AD%A4%E9%A1%B9%E7%9B%AE%E9%9C%80%E8%A6%81%E7%BC%93%E8%A7%A3%E4%BA%86-Spectre-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">error MSB8040: 此项目需要缓解了 Spectre 漏洞的库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyDriver1-inf-error-1297-Device-driver-does-not-install-on-any-devices"><span class="nav-number">2.2.</span> <span class="nav-text">MyDriver1.inf : error 1297: Device driver does not install on any devices</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%AD%BE%E5%90%8D%E7%A6%81%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">驱动签名禁用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E5%8A%A0%E8%BD%BD%E8%BF%90%E8%A1%8C"><span class="nav-number">4.</span> <span class="nav-text">驱动加载运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Drover-Loader-Unloader-%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">使用Drover Loader&#x2F;Unloader 加载驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MacOs%E4%B8%8B-Windbg-view-%E5%8F%8C%E6%9C%BA%E8%B0%83%E8%AF%95%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">MacOs下 Windbg view 双机调试配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Net"><span class="nav-number">6.1.</span> <span class="nav-text">Net</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Com"><span class="nav-number">6.2.</span> <span class="nav-text">Com</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%89%BE%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA-vmx%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E4%BF%AE%E6%94%B9"><span class="nav-number">6.2.1.</span> <span class="nav-text">1.找到对应的虚拟机.vmx文件进行修改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E8%A2%AB%E8%B0%83%E8%AF%95%E6%9C%BA%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%90%AF%E4%B8%B2%E5%8F%A3-%E7%AE%A1%E7%90%86%E5%91%98cmd%E8%BF%90%E8%A1%8C%E4%BB%A5%E4%B8%8B%E5%91%BD%E4%BB%A4"><span class="nav-number">6.2.2.</span> <span class="nav-text">2. 被调试机设置开启串口 管理员cmd运行以下命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E8%B0%83%E8%AF%95%E6%9C%BA%E8%AE%BE%E7%BD%AE"><span class="nav-number">6.2.3.</span> <span class="nav-text">3.调试机设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E8%B0%83%E8%AF%95%E6%9C%BAwindbg-kernel-Debugging-com%E8%BF%9E%E6%8E%A5%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95"><span class="nav-number">6.2.4.</span> <span class="nav-text">4.调试机windbg kernel Debugging com连接进行调试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8VirtualKD-Redux%EF%BC%88%C3%97%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">使用VirtualKD-Redux（×）</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">驱动环境安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#driverdemo"><span class="nav-number">2.</span> <span class="nav-text">DriverDemo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#error-msb8040-%E6%AD%A4%E9%A1%B9%E7%9B%AE%E9%9C%80%E8%A6%81%E7%BC%93%E8%A7%A3%E4%BA%86-spectre-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">error MSB8040:
+此项目需要缓解了 Spectre 漏洞的库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mydriver1.inf-error-1297-device-driver-does-not-install-on-any-devices"><span class="nav-number">2.2.</span> <span class="nav-text">MyDriver1.inf
+: error 1297: Device driver does not install on any devices</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%AD%BE%E5%90%8D%E7%A6%81%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">驱动签名禁用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E5%8A%A0%E8%BD%BD%E8%BF%90%E8%A1%8C"><span class="nav-number">4.</span> <span class="nav-text">驱动加载运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8drover-loaderunloader-%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">使用Drover Loader&#x2F;Unloader
+加载驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#macos%E4%B8%8B-windbg-view-%E5%8F%8C%E6%9C%BA%E8%B0%83%E8%AF%95%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">MacOs下 Windbg view
+双机调试配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#net"><span class="nav-number">6.1.</span> <span class="nav-text">Net</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#com"><span class="nav-number">6.2.</span> <span class="nav-text">Com</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA.vmx%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E4%BF%AE%E6%94%B9"><span class="nav-number">6.2.1.</span> <span class="nav-text">1.找到对应的虚拟机.vmx文件进行修改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A2%AB%E8%B0%83%E8%AF%95%E6%9C%BA%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%90%AF%E4%B8%B2%E5%8F%A3-%E7%AE%A1%E7%90%86%E5%91%98cmd%E8%BF%90%E8%A1%8C%E4%BB%A5%E4%B8%8B%E5%91%BD%E4%BB%A4"><span class="nav-number">6.2.2.</span> <span class="nav-text">2.
+被调试机设置开启串口 管理员cmd运行以下命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E6%9C%BA%E8%AE%BE%E7%BD%AE"><span class="nav-number">6.2.3.</span> <span class="nav-text">3.调试机设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E6%9C%BAwindbg-kernel-debugging-com%E8%BF%9E%E6%8E%A5%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95"><span class="nav-number">6.2.4.</span> <span class="nav-text">4.调试机windbg
+kernel Debugging com连接进行调试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8virtualkd-redux"><span class="nav-number">6.3.</span> <span class="nav-text">使用VirtualKD-Redux（×）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -494,7 +542,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -542,7 +590,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -556,7 +604,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -567,7 +615,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -707,6 +755,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

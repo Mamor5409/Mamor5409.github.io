@@ -43,7 +43,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://mamor5409.github.io/posts/7a4de097/1.png">
 <meta property="article:published_time" content="2022-12-11T01:51:18.000Z">
-<meta property="article:modified_time" content="2022-12-11T02:10:41.831Z">
+<meta property="article:modified_time" content="2022-12-11T02:10:41.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="Bypass">
 <meta name="twitter:card" content="summary">
@@ -294,18 +294,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>父进程欺骗 即创建一个进程，然后指定其他进程作为该新建进程的父进程<br>父进程<code>(PPID)</code>欺骗方法可以绕过 <code>AV/EDR</code>检测，使其认为是 <code>lsass.exe</code> 这样的合法进程在进行活动。它通过欺骗进程的 <code>PID</code> 以匹配其父进程的 <code>PID</code> 来做到这一点。这种方法可能带来的另一个好处是，如果父进程以 <code>SYSTEM</code> 权限运行，则可以凭借访问令牌的继承，使其子进程也具有相同的 <code>SYSTEM</code> 权限。</p>
+        <p>父进程欺骗 即创建一个进程，然后指定其他进程作为该新建进程的父进程
+父进程<code>(PPID)</code>欺骗方法可以绕过
+<code>AV/EDR</code>检测，使其认为是 <code>lsass.exe</code>
+这样的合法进程在进行活动。它通过欺骗进程的 <code>PID</code>
+以匹配其父进程的 <code>PID</code>
+来做到这一点。这种方法可能带来的另一个好处是，如果父进程以
+<code>SYSTEM</code>
+权限运行，则可以凭借访问令牌的继承，使其子进程也具有相同的
+<code>SYSTEM</code> 权限。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">进程：**在 `Windows` 中，应用程序由一个或多个进程组成。简单来说，当前正在运行的程序的一部分称为进程。不同的应用程序可能会使用相同的进程(如`cmd.exe`)，并且为避免歧义，会分配一个整数来区分一个进程和另一个进程。该整数称为`PID`。</span><br><span class="line"></span><br><span class="line">PID：代表进程标识符 (`PID`)，它是正在运行的进程的数字表示。`Windows` 中通过 `GetCurrentProcessID()` 函数返回指定进程的 `PID`。</span><br><span class="line"></span><br><span class="line">父进程：父进程是可以派生多个子进程的进程。例如，命令`explorer.exe /e,/root,&quot;C：WINDOWSSystem32cmd.exe&quot;`将派生`cmd.exe`作为父进程`explorer.exe`的子进程。在代码中，父进程可以使用`fork()`系统调用来派生子进程。</span><br><span class="line"></span><br><span class="line">PPID：代表父进程标识符(`PPID`)，它是提供给父进程的数字表示形式。任何包含子进程的进程都存在父子关系。</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用CreateProcessA进行欺骗"><a href="#使用CreateProcessA进行欺骗" class="headerlink" title="使用CreateProcessA进行欺骗"></a>使用CreateProcessA进行欺骗</h4><p>CreateProcessA函数允许用户创建新进程，默认情况下，会通过其继承的父进程完成创建。该函数有一个名为“lpStartupInfo”的参数，该参数允许使用者自定义要使用的父进程。<br>lpStartupInfo参数指向一个名为“STARTUPINFOEX”的结构体，该结构包含变量“lpAttributeList”，这个变量在初始化时可以调用“UpdateProcThreadAttribute”回调函数进行属性添加，可以通过“PROC_THREAD_ATTRIBUTE_PARENT_PROCESS”属性从而对父进程进行设置。</p>
-<pre><code>如果在dwCreationFlags中EXTENDED_STARTUPINFO_PRESENT标准，那么lpStartupInfo传入的就会是一个名为STARTUPINFOEXA的结构体，而这个结构体能指定父进程的相关信息，最终传入的PPID会被写入到新进程_eprocess结构体的InheritedFromUniqueProcessId位置
-</code></pre>
-<h5 id="寻找explorer-exe进程的ID"><a href="#寻找explorer-exe进程的ID" class="headerlink" title="寻找explorer.exe进程的ID"></a>寻找explorer.exe进程的ID</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DWORD <span class="title function_">FindExplorerPID</span><span class="params">()</span> &#123;</span><br><span class="line">    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>);</span><br><span class="line">    PROCESSENTRY32 process = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    process.dwSize = <span class="keyword">sizeof</span>(process);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Process32First(snapshot, &amp;process)) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!wcscmp(process.szExeFile, <span class="string">L&quot;explorer.exe&quot;</span>))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">while</span> (Process32Next(snapshot, &amp;process));</span><br><span class="line">    &#125;</span><br><span class="line">    CloseHandle(snapshot);</span><br><span class="line">    <span class="keyword">return</span> process.th32ProcessID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="使用createprocessa进行欺骗">使用CreateProcessA进行欺骗</h4>
+<p>CreateProcessA函数允许用户创建新进程，默认情况下，会通过其继承的父进程完成创建。该函数有一个名为“lpStartupInfo”的参数，该参数允许使用者自定义要使用的父进程。
+lpStartupInfo参数指向一个名为“STARTUPINFOEX”的结构体，该结构包含变量“lpAttributeList”，这个变量在初始化时可以调用“UpdateProcThreadAttribute”回调函数进行属性添加，可以通过“PROC_THREAD_ATTRIBUTE_PARENT_PROCESS”属性从而对父进程进行设置。</p>
+<pre><code>如果在dwCreationFlags中EXTENDED_STARTUPINFO_PRESENT标准，那么lpStartupInfo传入的就会是一个名为STARTUPINFOEXA的结构体，而这个结构体能指定父进程的相关信息，最终传入的PPID会被写入到新进程_eprocess结构体的InheritedFromUniqueProcessId位置</code></pre>
+<h5 id="寻找explorer.exe进程的id">寻找explorer.exe进程的ID</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DWORD <span class="title function_">FindExplorerPID</span><span class="params">()</span> &#123;</span><br><span class="line">    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, <span class="number">0</span>);</span><br><span class="line">    PROCESSENTRY32 process = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    process.dwSize = <span class="keyword">sizeof</span>(process);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Process32First(snapshot, &amp;process)) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!wcscmp(process.szExeFile, <span class="string">L&quot;explorer.exe&quot;</span>))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">while</span> (Process32Next(snapshot, &amp;process));</span><br><span class="line">    &#125;</span><br><span class="line">    CloseHandle(snapshot);</span><br><span class="line">    <span class="keyword">return</span> process.th32ProcessID;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	STARTUPINFOEXA si;</span><br><span class="line">	PROCESS_INFORMATION pi;</span><br><span class="line">	SIZE_T attributeSize;</span><br><span class="line">	ZeroMemory(&amp;si, <span class="keyword">sizeof</span>(STARTUPINFOEXA));</span><br><span class="line">	si.StartupInfo.cb = <span class="keyword">sizeof</span>(STARTUPINFOEXA);</span><br><span class="line">	  </span><br><span class="line">	HANDLE parentProcessHandle = OpenProcess(MAXIMUM_ALLOWED, <span class="literal">false</span>, FindExplorerPID());</span><br><span class="line">	</span><br><span class="line">	InitializeProcThreadAttributeList(<span class="literal">NULL</span>, <span class="number">1</span>, <span class="number">0</span>, &amp;attributeSize);</span><br><span class="line">	si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), <span class="number">0</span>, attributeSize);</span><br><span class="line">	InitializeProcThreadAttributeList(si.lpAttributeList, <span class="number">1</span>, <span class="number">0</span>, &amp;attributeSize);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//添加父进程属性</span></span><br><span class="line">	<span class="keyword">if</span> (!UpdateProcThreadAttribute(si.lpAttributeList, <span class="number">0</span>, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &amp;parentProcessHandle, <span class="keyword">sizeof</span>(HANDLE), <span class="literal">NULL</span>, <span class="literal">NULL</span>)) &#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;UpdateProcThreadAttribute Failed!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*如果在dwCreationFlags中EXTENDED_STARTUPINFO_PRESENT标准，那么lpStartupInfo传入的就会是一个名为STARTUPINFOEXA的结构体，</span></span><br><span class="line"><span class="comment">	而这个结构体能指定父进程的相关信息，</span></span><br><span class="line"><span class="comment">	最终传入的PPID会被写入到新进程_eprocess结构体的InheritedFromUniqueProcessId位置*/</span></span><br><span class="line">	<span class="comment">//CreateProcessA(NULL, (LPSTR)&quot;notepad&quot;, NULL, NULL, TRUE, EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &amp;si.StartupInfo, &amp;pi);</span></span><br><span class="line">	<span class="comment">//CreateProcessA(&quot;notepad.exe&quot;, NULL, NULL, NULL, TRUE, CREATE_SUSPENDED | CREATE_NO_WINDOW | EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &amp;si.StartupInfo, &amp;pi);</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//EXTENDED_STARTUPINFO_PRESENT 继承父进程信息</span></span><br><span class="line">	CreateProcessA(<span class="string">&quot;C:\\Program Files\\internet explorer\\iexplore.exe&quot;</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>,TRUE, EXTENDED_STARTUPINFO_PRESENT, <span class="literal">NULL</span>, <span class="literal">NULL</span>, (LPSTARTUPINFOA)&amp;si, <span class="literal">NULL</span>);</span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/7a4de097/1.png"></p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://blog.f-secure.com/detecting-parent-pid-spoofing/">https://blog.f-secure.com/detecting-parent-pid-spoofing/</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/8387">https://xz.aliyun.com/t/8387</a><br><a target="_blank" rel="noopener" href="https://idiotc4t.com/defense-evasion/fake-ppid">https://idiotc4t.com/defense-evasion/fake-ppid</a></p>
+<h4 id="references">References</h4>
+<p>https://blog.f-secure.com/detecting-parent-pid-spoofing/
+https://xz.aliyun.com/t/8387
+https://idiotc4t.com/defense-evasion/fake-ppid</p>
 <hr>
 
     </div>
@@ -436,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CreateProcessA%E8%BF%9B%E8%A1%8C%E6%AC%BA%E9%AA%97"><span class="nav-number">1.</span> <span class="nav-text">使用CreateProcessA进行欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BB%E6%89%BEexplorer-exe%E8%BF%9B%E7%A8%8B%E7%9A%84ID"><span class="nav-number">1.1.</span> <span class="nav-text">寻找explorer.exe进程的ID</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8createprocessa%E8%BF%9B%E8%A1%8C%E6%AC%BA%E9%AA%97"><span class="nav-number">1.</span> <span class="nav-text">使用CreateProcessA进行欺骗</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BB%E6%89%BEexplorer.exe%E8%BF%9B%E7%A8%8B%E7%9A%84id"><span class="nav-number">1.1.</span> <span class="nav-text">寻找explorer.exe进程的ID</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -452,7 +462,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -500,7 +510,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -514,7 +524,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -525,7 +535,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -665,6 +675,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

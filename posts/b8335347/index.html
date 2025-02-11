@@ -84,7 +84,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607155305869.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607155722861.png">
 <meta property="article:published_time" content="2024-06-06T07:44:52.000Z">
-<meta property="article:modified_time" content="2024-06-07T09:30:39.848Z">
+<meta property="article:modified_time" content="2024-06-07T09:44:05.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/b8335347/image-20240607150424444.png">
@@ -295,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-06-07 17:30:39" itemprop="dateModified" datetime="2024-06-07T17:30:39+08:00">2024-06-07</time>
+                <time title="修改时间：2024-06-07 17:44:05" itemprop="dateModified" datetime="2024-06-07T17:44:05+08:00">2024-06-07</time>
               </span>
 
           
@@ -311,14 +311,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -331,143 +331,308 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>做了半天多 水平有限 修复类的 不会修复  可只看前5个带flag的WP</p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>ssh 端口 2222</p>
-<ol>
-<li>nacos 的 key 为多少 flag{base64decodekey}   flag{xjnacos2023penguinedisecflagflagflag}</li>
-<li>nacos配置文件的 flag  flag{9d7ffcef-bcd1-4f4b-9a2d-d51862484168}</li>
-<li>File Management System的 flag    flag{d6c578d4a41a141d731fe7c36c8c0f77}</li>
-<li>root 密码多少 flag{password}  flag{imArGcj9}</li>
-<li>黑客留下的 backdoor 后门的绝对路径  flag{/etc/systemd/system/evilfms.service}</li>
+        <p>做了半天多 水平有限 修复类的 不会修复 可只看前5个带flag的WP</p>
+<h3 id="题目">题目</h3>
+<p>ssh 端口 2222</p>
+<ol type="1">
+<li>nacos 的 key 为多少 flag{base64decodekey}
+flag{xjnacos2023penguinedisecflagflagflag}</li>
+<li>nacos配置文件的 flag flag{9d7ffcef-bcd1-4f4b-9a2d-d51862484168}</li>
+<li>File Management System的 flag
+flag{d6c578d4a41a141d731fe7c36c8c0f77}</li>
+<li>root 密码多少 flag{password} flag{imArGcj9}</li>
+<li>黑客留下的 backdoor 后门的绝对路径
+flag{/etc/systemd/system/evilfms.service}</li>
 <li>修复 4000-6000 端口漏洞</li>
 <li>修复File Management System漏洞</li>
 <li>清理黑客留下的backdoor</li>
 </ol>
-<h3 id="解题过程"><a href="#解题过程" class="headerlink" title="解题过程"></a>解题过程</h3><p>这个题需要先渗透 后应急</p>
-<p>扫描器扫下IP 发现存在3个WEB服务  5000(未知)、8082(FMS)、8848(Nacos)</p>
-<p><img src="/posts/b8335347/image-20240607150424444.png" alt="image-20240607150424444"></p>
-<p><img src="/posts/b8335347/image-20240607150412632.png" alt="image-20240607150412632"></p>
-<h4 id="1-nacos-的-key-为多少-flag-base64decodekey"><a href="#1-nacos-的-key-为多少-flag-base64decodekey" class="headerlink" title="1. nacos 的 key 为多少 flag{base64decodekey}."></a>1. nacos 的 key 为多少 flag{base64decodekey}.</h4><p><a target="_blank" rel="noopener" href="http://43.192.63.251:5000/">http://43.192.63.251:5000/</a> 访问为空白页面  dirsearch扫下目录</p>
-<p><img src="/posts/b8335347/image-20240607150459841.png" alt="image-20240607150459841"></p>
-<p><img src="/posts/b8335347/image-20240607150553591.png" alt="image-20240607150553591"> </p>
+<h3 id="解题过程">解题过程</h3>
+<p>这个题需要先渗透 后应急</p>
+<p>扫描器扫下IP 发现存在3个WEB服务
+5000(未知)、8082(FMS)、8848(Nacos)</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150424444.png" alt="image-20240607150424444">
+<figcaption aria-hidden="true">image-20240607150424444</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607150412632.png" alt="image-20240607150412632">
+<figcaption aria-hidden="true">image-20240607150412632</figcaption>
+</figure>
+<h4 id="nacos-的-key-为多少-flagbase64decodekey.">1. nacos 的 key 为多少
+flag{base64decodekey}.</h4>
+<p>http://43.192.63.251:5000/ 访问为空白页面 dirsearch扫下目录</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150459841.png" alt="image-20240607150459841">
+<figcaption aria-hidden="true">image-20240607150459841</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607150553591.png" alt="image-20240607150553591">
+<figcaption aria-hidden="true">image-20240607150553591</figcaption>
+</figure>
 <p>根据特征网上发现为Docker Registry API未授权访问漏洞.</p>
 <blockquote>
-<p>Docker Remote API 是一个取代远程命令行界面（rcli）的REST API。存在问题的版本分别为 1.3 和 1.6因为权限控制等问题导致可以通过 docker client 或者 http 直接请求就可以访问这个 API，通过这个接口，我们可以新建 container，删除已有 container，甚至是获取宿主机的 shell。</p>
+<p>Docker Remote API 是一个取代远程命令行界面（rcli）的REST
+API。存在问题的版本分别为 1.3 和 1.6因为权限控制等问题导致可以通过
+docker client 或者 http 直接请求就可以访问这个
+API，通过这个接口，我们可以新建 container，删除已有
+container，甚至是获取宿主机的 shell。</p>
 </blockquote>
 <p>获取指定仓库中镜像的tag列表</p>
-<p><img src="/posts/b8335347/image-20240607150614083.png" alt="image-20240607150614083"></p>
-<p>利用工具下载容器  <a target="_blank" rel="noopener" href="https://github.com/NotSoSecure/docker_fetch/">https://github.com/NotSoSecure/docker_fetch/</a></p>
-<p>python docker_image_fetch.py -u  <a target="_blank" rel="noopener" href="http://43.192.63.251:5000/">http://43.192.63.251:5000</a> </p>
-<p><img src="/posts/b8335347/image-20240607150632918.png" alt="image-20240607150632918"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607150614083.png" alt="image-20240607150614083">
+<figcaption aria-hidden="true">image-20240607150614083</figcaption>
+</figure>
+<p>利用工具下载容器 https://github.com/NotSoSecure/docker_fetch/</p>
+<p>python docker_image_fetch.py -u http://43.192.63.251:5000</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150632918.png" alt="image-20240607150632918">
+<figcaption aria-hidden="true">image-20240607150632918</figcaption>
+</figure>
 <p>下载后 将 .tar.gz 文件 解压可看到目录结构</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in *.tar.gz; do tar -xzvf $i; done</span><br></pre></td></tr></table></figure>
-
 <p>解压后如下</p>
-<p><img src="/posts/b8335347/image-20240607150645891.png" alt="image-20240607150645891"></p>
-<p>翻文件 查找nacos敏感文件  find . -name conf </p>
-<p><img src="/posts/b8335347/image-20240607150720121.png" alt="image-20240607150720121"></p>
-<p>在home目录下发现 nacos 在  applicantion.properties中找到key </p>
-<p><img src="/posts/b8335347/image-20240607150802463.png" alt="image-20240607150802463"></p>
-<p><img src="/posts/b8335347/image-20240607150848515.png" alt="image-20240607150848515"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607150645891.png" alt="image-20240607150645891">
+<figcaption aria-hidden="true">image-20240607150645891</figcaption>
+</figure>
+<p>翻文件 查找nacos敏感文件 find . -name conf</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150720121.png" alt="image-20240607150720121">
+<figcaption aria-hidden="true">image-20240607150720121</figcaption>
+</figure>
+<p>在home目录下发现 nacos 在 applicantion.properties中找到key</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150802463.png" alt="image-20240607150802463">
+<figcaption aria-hidden="true">image-20240607150802463</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607150848515.png" alt="image-20240607150848515">
+<figcaption aria-hidden="true">image-20240607150848515</figcaption>
+</figure>
 <p>解密得到 flag{xjnacos2023penguinedisecflagflagflag}</p>
-<h4 id="2-nacos配置文件的-flag"><a href="#2-nacos配置文件的-flag" class="headerlink" title="2. nacos配置文件的 flag"></a>2. nacos配置文件的 flag</h4><p>在nacos的 conf目录下 发现数据库密码 奈何无法解密 无法利用</p>
-<p><img src="/posts/b8335347/image-20240607150958932.png" alt="image-20240607150958932"></p>
+<h4 id="nacos配置文件的-flag">2. nacos配置文件的 flag</h4>
+<p>在nacos的 conf目录下 发现数据库密码 奈何无法解密 无法利用</p>
+<figure>
+<img src="/posts/b8335347/image-20240607150958932.png" alt="image-20240607150958932">
+<figcaption aria-hidden="true">image-20240607150958932</figcaption>
+</figure>
 <p>去拉下私有仓库</p>
-<p><img src="/posts/b8335347/image-20240607151020319.png" alt="image-20240607151020319"></p>
-<p>试了好几种方法 最终解决方案参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/programmer-tlh/p/10996443.html">https://www.cnblogs.com/programmer-tlh/p/10996443.html</a></p>
-<p><img src="/posts/b8335347/image-20240607151037999.png" alt="image-20240607151037999"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607151020319.png" alt="image-20240607151020319">
+<figcaption aria-hidden="true">image-20240607151020319</figcaption>
+</figure>
+<p>试了好几种方法 最终解决方案参考
+https://www.cnblogs.com/programmer-tlh/p/10996443.html</p>
+<figure>
+<img src="/posts/b8335347/image-20240607151037999.png" alt="image-20240607151037999">
+<figcaption aria-hidden="true">image-20240607151037999</figcaption>
+</figure>
 <p>启动docker 进入容器</p>
-<p><img src="/posts/b8335347/image-20240607151059502.png" alt="image-20240607151059502"></p>
-<p><del>好像没啥用</del>  接着在网上找nacos相关漏洞，在github发现了这个  nacos Default token</p>
-<p><img src="/posts/b8335347/image-20240607151139077.png" alt="image-20240607151139077"></p>
-<p>那么 如果在本地部署一个nacos 然后将配置文件改为和 容器相同的环境 ， 通过默认账号登录获取到 accesstoken。</p>
+<figure>
+<img src="/posts/b8335347/image-20240607151059502.png" alt="image-20240607151059502">
+<figcaption aria-hidden="true">image-20240607151059502</figcaption>
+</figure>
+<p><del>好像没啥用</del> 接着在网上找nacos相关漏洞，在github发现了这个
+nacos Default token</p>
+<figure>
+<img src="/posts/b8335347/image-20240607151139077.png" alt="image-20240607151139077">
+<figcaption aria-hidden="true">image-20240607151139077</figcaption>
+</figure>
+<p>那么 如果在本地部署一个nacos 然后将配置文件改为和 容器相同的环境 ，
+通过默认账号登录获取到 accesstoken。</p>
 <p>可不可以用这个 AccessToken去登录到靶机的后台中呢？？？</p>
-<p>翻到这篇文章 <a target="_blank" rel="noopener" href="https://blog.csdn.net/y995zq/article/details/137668381">https://blog.csdn.net/y995zq/article/details/137668381</a>  文章提到可以去修改登录后的响应包 </p>
-<p>于是想在本地docker中试一下能不能按文章的思路去获取AccessToken 然后在靶机上利用【因为都是利用的同一个靶机，他们的nacos配置文件(key)都是同一个。】</p>
+<p>翻到这篇文章 https://blog.csdn.net/y995zq/article/details/137668381
+文章提到可以去修改登录后的响应包</p>
+<p>于是想在本地docker中试一下能不能按文章的思路去获取AccessToken
+然后在靶机上利用【因为都是利用的同一个靶机，他们的nacos配置文件(key)都是同一个。】</p>
 <p>在本地docker登录 但是由于不知道账号密码 无法直接登录。</p>
 <p>然后在docker中的nacos中进行配置关闭鉴权</p>
-<p><img src="/posts/b8335347/image-20240607151458400.png" alt="image-20240607151458400"></p>
-<p>关闭后发现没有任何有效数据可以利用，然后又在 applicantion. 中恢复了鉴权。恢复鉴权后nacos的密码将会被重置为nacos，因此成功登录到了nacos的后台。</p>
-<p><img src="/posts/b8335347/image-20240607151704577.png" alt="image-20240607151704577"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607151458400.png" alt="image-20240607151458400">
+<figcaption aria-hidden="true">image-20240607151458400</figcaption>
+</figure>
+<p>关闭后发现没有任何有效数据可以利用，然后又在 applicantion.
+中恢复了鉴权。恢复鉴权后nacos的密码将会被重置为nacos，因此成功登录到了nacos的后台。</p>
+<figure>
+<img src="/posts/b8335347/image-20240607151704577.png" alt="image-20240607151704577">
+<figcaption aria-hidden="true">image-20240607151704577</figcaption>
+</figure>
 <p>F12 拿到 accessToken</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYWNvcyIsImV4cCI6MTcxNzc0MTkyNn0.3j_90EB5peq10xsqMYSwapYDEKa3iCujD7o19hmTaek&quot;,&quot;tokenTtl&quot;:18000,&quot;globalAdmin&quot;:true,&quot;username&quot;:&quot;nacos&quot;&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/b8335347/image-20240607151727920.png" alt="image-20240607151727920"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607151727920.png" alt="image-20240607151727920">
+<figcaption aria-hidden="true">image-20240607151727920</figcaption>
+</figure>
 <p>在nacos中进行登录时，如果账号密码不正确 将会返回403</p>
-<p><img src="/posts/b8335347/image-20240607151833009.png" alt="image-20240607151833009"></p>
-<p>回到互联网上的靶机nacos ,参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/y995zq/article/details/137668381">https://blog.csdn.net/y995zq/article/details/137668381</a> 的拦截返回包，我们拦截后进行修改，</p>
-<p><img src="/posts/b8335347/image-20240607152144161.png" alt="image-20240607152144161"></p>
-<p>将403改成200 然后将 返回内容设置为 acessToken </p>
-<p><img src="/posts/b8335347/image-20240607152011644.png" alt="image-20240607152011644"></p>
-<p><img src="/posts/b8335347/image-20240607152029700.png" alt="image-20240607152029700"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607151833009.png" alt="image-20240607151833009">
+<figcaption aria-hidden="true">image-20240607151833009</figcaption>
+</figure>
+<p>回到互联网上的靶机nacos
+,参考https://blog.csdn.net/y995zq/article/details/137668381
+的拦截返回包，我们拦截后进行修改，</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152144161.png" alt="image-20240607152144161">
+<figcaption aria-hidden="true">image-20240607152144161</figcaption>
+</figure>
+<p>将403改成200 然后将 返回内容设置为 acessToken</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152011644.png" alt="image-20240607152011644">
+<figcaption aria-hidden="true">image-20240607152011644</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607152029700.png" alt="image-20240607152029700">
+<figcaption aria-hidden="true">image-20240607152029700</figcaption>
+</figure>
 <p>然后放包 成功登录到nacos的后台</p>
-<p><img src="/posts/b8335347/image-20240607152107469.png" alt="image-20240607152107469"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607152107469.png" alt="image-20240607152107469">
+<figcaption aria-hidden="true">image-20240607152107469</figcaption>
+</figure>
 <p>在ADMIN_CONFIG中找到flag 及 file-managerpassword</p>
-<p><img src="/posts/b8335347/image-20240607152223432.png" alt="image-20240607152223432"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607152223432.png" alt="image-20240607152223432">
+<figcaption aria-hidden="true">image-20240607152223432</figcaption>
+</figure>
 <p>flag{9d7ffcef-bcd1-4f4b-9a2d-d51862484168}</p>
 <p>file-managerpassword</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file-manager:</span><br><span class="line">  name: admin</span><br><span class="line">  password: xj2023@1578921@123</span><br><span class="line">  jwtkey: 123456</span><br><span class="line">#flag&#123;9d7ffcef-bcd1-4f4b-9a2d-d51862484168&#125;</span><br></pre></td></tr></table></figure>
-
-<p>还有 mysql 配置【但是在docker里面好像没有mysql…，后续登录到ssh中也未发现存在mysql】</p>
-<p><img src="/posts/b8335347/image-20240607152343544.png" alt="image-20240607152343544"></p>
-<h4 id="3-File-Management-System的-flag"><a href="#3-File-Management-System的-flag" class="headerlink" title="3.File Management System的 flag"></a>3.File Management System的 flag</h4><p>在Nacos中翻到FMS的账号密码 访问8082端口</p>
-<p><img src="/posts/b8335347/image-20240607152431126.png" alt="image-20240607152431126"></p>
+<p>还有 mysql
+配置【但是在docker里面好像没有mysql...，后续登录到ssh中也未发现存在mysql】</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152343544.png" alt="image-20240607152343544">
+<figcaption aria-hidden="true">image-20240607152343544</figcaption>
+</figure>
+<h4 id="file-management-system的-flag">3.File Management System的
+flag</h4>
+<p>在Nacos中翻到FMS的账号密码 访问8082端口</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152431126.png" alt="image-20240607152431126">
+<figcaption aria-hidden="true">image-20240607152431126</figcaption>
+</figure>
 <p>提示权限不够 要求用sysadmin123456进行登录</p>
-<p>抓包看到是jwt认证，将name从admin改成sysadmin123456 在签名中使用jwtkey 123456</p>
-<p><img src="/posts/b8335347/image-20240607152517662.png" alt="image-20240607152517662"></p>
-<p>生成  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJob3N0IiwibmFtZSI6InN5c2FkbWluMTIzNDU2IiwiZXhwIjoxNzE3NzMyNDU3LCJpYXQiOjE3MTc3MjUyNTd9.cUzyE8BizVxrRwVk1J_YFIUr2ED272TTGb_6ki0vvOc</p>
+<p>抓包看到是jwt认证，将name从admin改成sysadmin123456 在签名中使用jwtkey
+123456</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152517662.png" alt="image-20240607152517662">
+<figcaption aria-hidden="true">image-20240607152517662</figcaption>
+</figure>
+<p>生成
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJob3N0IiwibmFtZSI6InN5c2FkbWluMTIzNDU2IiwiZXhwIjoxNzE3NzMyNDU3LCJpYXQiOjE3MTc3MjUyNTd9.cUzyE8BizVxrRwVk1J_YFIUr2ED272TTGb_6ki0vvOc</p>
 <p>去替换burp请求包中的token去创建目录，发现创建成功，说明方法可行，执行时成功为sysadmin123456用户。</p>
-<p><img src="/posts/b8335347/image-20240607152609216.png" alt="image-20240607152609216"></p>
-<p>然后重新把请求包的 token改成修改后的 jwt 刷新成功为高权限的 sysadmin123456，看到里面包含一个运维账号、图片及一个txt</p>
-<p><img src="/posts/b8335347/image-20240607152625661.png" alt="image-20240607152625661"></p>
-<p>下载运维账号表  保护大量IP及 root密码  但是不知道那个密码是有效的 去爆破下ssh 2222</p>
-<p><img src="/posts/b8335347/image-20240607152651482.png" alt="image-20240607152651482"></p>
-<p>翻完了三个文件 但是还没有找到flag …</p>
-<p>传个文件试试. 在hae插件里面 设置了个 flag关键字 翻下History </p>
-<p>在上传成功后 找到flag </p>
-<p><img src="/posts/b8335347/image-20240607152811728.png" alt="image-20240607152811728"></p>
-<p>  flag{d6c578d4a41a141d731fe7c36c8c0f77}</p>
-<h4 id="4-root-密码多少-flag-password"><a href="#4-root-密码多少-flag-password" class="headerlink" title="4.root 密码多少 flag{password}"></a>4.root 密码多少 flag{password}</h4><p>FMS 里面给了 root 密码 但是 有很多ip的 </p>
+<figure>
+<img src="/posts/b8335347/image-20240607152609216.png" alt="image-20240607152609216">
+<figcaption aria-hidden="true">image-20240607152609216</figcaption>
+</figure>
+<p>然后重新把请求包的 token改成修改后的 jwt 刷新成功为高权限的
+sysadmin123456，看到里面包含一个运维账号、图片及一个txt</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152625661.png" alt="image-20240607152625661">
+<figcaption aria-hidden="true">image-20240607152625661</figcaption>
+</figure>
+<p>下载运维账号表 保护大量IP及 root密码 但是不知道那个密码是有效的
+去爆破下ssh 2222</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152651482.png" alt="image-20240607152651482">
+<figcaption aria-hidden="true">image-20240607152651482</figcaption>
+</figure>
+<p>翻完了三个文件 但是还没有找到flag ...</p>
+<p>传个文件试试. 在hae插件里面 设置了个 flag关键字 翻下History</p>
+<p>在上传成功后 找到flag</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152811728.png" alt="image-20240607152811728">
+<figcaption aria-hidden="true">image-20240607152811728</figcaption>
+</figure>
+<p>flag{d6c578d4a41a141d731fe7c36c8c0f77}</p>
+<h4 id="root-密码多少-flagpassword">4.root 密码多少 flag{password}</h4>
+<p>FMS 里面给了 root 密码 但是 有很多ip的</p>
 <p>把密码提取出来作为字典去爆破</p>
 <p>本来用超级弱口令工具的 把ssh端口改成2222 但是扫描还是扫不出来 恼!</p>
 <p>换hydra试试</p>
-<p>└─$ hydra -l root -P 2222.txt   -t 4  ssh://52.83.41.206 -s 2222</p>
-<p><img src="/posts/b8335347/image-20240607152851297.png" alt="image-20240607152851297"></p>
+<p>└─$ hydra -l root -P 2222.txt -t 4 ssh://52.83.41.206 -s 2222</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152851297.png" alt="image-20240607152851297">
+<figcaption aria-hidden="true">image-20240607152851297</figcaption>
+</figure>
 <p>找到root 密码 imArGcj9</p>
 <p>flag{imArGcj9}</p>
-<h4 id="5-黑客留下的-backdoor-后门的绝对路径"><a href="#5-黑客留下的-backdoor-后门的绝对路径" class="headerlink" title="5.黑客留下的 backdoor 后门的绝对路径"></a>5.黑客留下的 backdoor 后门的绝对路径</h4><p>登录ssh  注意ssh端口是2222！  密码为 imArGcj9</p>
-<p><img src="/posts/b8335347/image-20240607152939260.png" alt="image-20240607152939260"></p>
-<p>查看账号和相关文件备份，没发现啥有用信息。找了下计划任务 启动项 没找到东西【在/etc/shadow 和 shadow/.bak中 看到一个_apt账号感觉有点可疑】 </p>
-<p><img src="/posts/b8335347/image-20240607153007705.png" alt="image-20240607153007705"></p>
-<p><img src="/posts/b8335347/image-20240607153059757.png" alt="image-20240607153059757"></p>
-<p>找下 nacos\ fms相关，发现一个 evilfms.service </p>
-<p>其路径为 ./etc/systemd/system/multi-user.target.wants/evilfms.service【但是此题的问题描述有问题，应该是让提交恶意后面的绝对路径 尝试了好几次 最终确定 flag{/etc/systemd/system/svilfms.service}</p>
-<p><img src="/posts/b8335347/image-20240607153115444.png" alt="image-20240607153115444"></p>
+<h4 id="黑客留下的-backdoor-后门的绝对路径">5.黑客留下的 backdoor
+后门的绝对路径</h4>
+<p>登录ssh 注意ssh端口是2222！ 密码为 imArGcj9</p>
+<figure>
+<img src="/posts/b8335347/image-20240607152939260.png" alt="image-20240607152939260">
+<figcaption aria-hidden="true">image-20240607152939260</figcaption>
+</figure>
+<p>查看账号和相关文件备份，没发现啥有用信息。找了下计划任务 启动项
+没找到东西【在/etc/shadow 和 shadow/.bak中
+看到一个_apt账号感觉有点可疑】</p>
+<figure>
+<img src="/posts/b8335347/image-20240607153007705.png" alt="image-20240607153007705">
+<figcaption aria-hidden="true">image-20240607153007705</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607153059757.png" alt="image-20240607153059757">
+<figcaption aria-hidden="true">image-20240607153059757</figcaption>
+</figure>
+<p>找下 nacos fms相关，发现一个 evilfms.service</p>
+<p>其路径为
+./etc/systemd/system/multi-user.target.wants/evilfms.service【但是此题的问题描述有问题，应该是让提交恶意后面的绝对路径
+尝试了好几次 最终确定 flag{/etc/systemd/system/svilfms.service}</p>
+<figure>
+<img src="/posts/b8335347/image-20240607153115444.png" alt="image-20240607153115444">
+<figcaption aria-hidden="true">image-20240607153115444</figcaption>
+</figure>
 <p>flag{/etc/systemd/system/svilfms.service}</p>
-<h4 id="6-修复-4000-6000-端口漏洞"><a href="#6-修复-4000-6000-端口漏洞" class="headerlink" title="6.修复 4000-6000 端口漏洞"></a>6.修复 4000-6000 端口漏洞</h4><p>5000端口 存在  Docker Register API未授权</p>
+<h4 id="修复-4000-6000-端口漏洞">6.修复 4000-6000 端口漏洞</h4>
+<p>5000端口 存在 Docker Register API未授权</p>
 <p>在防火墙上 配置 禁止外网访问 5000 端口</p>
 <p><code>iptables -F</code> 清除原来的【不然不起作用】</p>
 <p><code>sudo iptables -A INPUT -p tcp --dport 5000 -j DROP</code></p>
-<h4 id="7-修复File-Management-System漏洞"><a href="#7-修复File-Management-System漏洞" class="headerlink" title="7.修复File Management System漏洞"></a>7.修复File Management System漏洞</h4><p>FMS中存在 JWT绕过，找到对应服务使用的jar包在 home目录下  名为 fms.jar </p>
+<h4 id="修复file-management-system漏洞">7.修复File Management
+System漏洞</h4>
+<p>FMS中存在 JWT绕过，找到对应服务使用的jar包在 home目录下 名为
+fms.jar</p>
 <p>jadx-gui 打开 fms.jar</p>
 <p>检索关键词 sysadmin</p>
-<p><img src="/posts/b8335347/image-20240607154232266.png" alt="image-20240607154232266"></p>
-<p><img src="/posts/b8335347/image-20240607160249508.png" alt="image-20240607160249508"></p>
+<figure>
+<img src="/posts/b8335347/image-20240607154232266.png" alt="image-20240607154232266">
+<figcaption aria-hidden="true">image-20240607154232266</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607160249508.png" alt="image-20240607160249508">
+<figcaption aria-hidden="true">image-20240607160249508</figcaption>
+</figure>
 <p>jwt这块 需要加校验</p>
 <p>【不会修】o.0</p>
-<h4 id="8-清理黑客留下的backdoor"><a href="#8-清理黑客留下的backdoor" class="headerlink" title="8.清理黑客留下的backdoor"></a>8.清理黑客留下的backdoor</h4><p>后门被清了？？？ o.0 还是没设置后门呢</p>
-<p>cat /etc/systemed/system/evilfms.service </p>
-<p><img src="/posts/b8335347/image-20240607153442790.png" alt="image-20240607153442790"></p>
+<h4 id="清理黑客留下的backdoor">8.清理黑客留下的backdoor</h4>
+<p>后门被清了？？？ o.0 还是没设置后门呢</p>
+<p>cat /etc/systemed/system/evilfms.service</p>
+<figure>
+<img src="/posts/b8335347/image-20240607153442790.png" alt="image-20240607153442790">
+<figcaption aria-hidden="true">image-20240607153442790</figcaption>
+</figure>
 <p>公网访问 这个url http://<IP>:8082/assets/images/fti/txt.png</IP></p>
 <p>下载下来 010editor看了下 就是个png 并不是elf文件</p>
 <p>在靶机上运行 也自然不是那个 ”后门“</p>
-<p><img src="/posts/b8335347/image-20240607155014549.png" alt="image-20240607155014549"></p>
-<p><img src="/posts/b8335347/image-20240607155305869.png" alt="image-20240607155305869"></p>
-<p>在jadx中找到该路径下 也是正常文件 o.0?!! 【不知是没有后门 还是没找到 弄了很久先不弄这个了】</p>
-<p><img src="/posts/b8335347/image-20240607155722861.png" alt="image-20240607155722861"></p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/programmer-tlh/p/10996443.html">https://www.cnblogs.com/programmer-tlh/p/10996443.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/y995zq/article/details/137668381">https://blog.csdn.net/y995zq/article/details/137668381</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-carey/p/18055849#tid-nzXisP">https://www.cnblogs.com/f-carey/p/18055849#tid-nzXisP</a></p>
+<figure>
+<img src="/posts/b8335347/image-20240607155014549.png" alt="image-20240607155014549">
+<figcaption aria-hidden="true">image-20240607155014549</figcaption>
+</figure>
+<figure>
+<img src="/posts/b8335347/image-20240607155305869.png" alt="image-20240607155305869">
+<figcaption aria-hidden="true">image-20240607155305869</figcaption>
+</figure>
+<p>在jadx中找到该路径下 也是正常文件 o.0?!! 【不知是没有后门 还是没找到
+弄了很久先不弄这个了】</p>
+<figure>
+<img src="/posts/b8335347/image-20240607155722861.png" alt="image-20240607155722861">
+<figcaption aria-hidden="true">image-20240607155722861</figcaption>
+</figure>
+<h3 id="references">References</h3>
+<p>https://www.cnblogs.com/programmer-tlh/p/10996443.html</p>
+<p>https://blog.csdn.net/y995zq/article/details/137668381</p>
+<p>https://www.cnblogs.com/f-carey/p/18055849#tid-nzXisP</p>
 
     </div>
 
@@ -593,7 +758,11 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-nacos-%E7%9A%84-key-%E4%B8%BA%E5%A4%9A%E5%B0%91-flag-base64decodekey"><span class="nav-number">2.1.</span> <span class="nav-text">1. nacos 的 key 为多少 flag{base64decodekey}.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-nacos%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84-flag"><span class="nav-number">2.2.</span> <span class="nav-text">2. nacos配置文件的 flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-File-Management-System%E7%9A%84-flag"><span class="nav-number">2.3.</span> <span class="nav-text">3.File Management System的 flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-root-%E5%AF%86%E7%A0%81%E5%A4%9A%E5%B0%91-flag-password"><span class="nav-number">2.4.</span> <span class="nav-text">4.root 密码多少 flag{password}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E9%BB%91%E5%AE%A2%E7%95%99%E4%B8%8B%E7%9A%84-backdoor-%E5%90%8E%E9%97%A8%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">2.5.</span> <span class="nav-text">5.黑客留下的 backdoor 后门的绝对路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E4%BF%AE%E5%A4%8D-4000-6000-%E7%AB%AF%E5%8F%A3%E6%BC%8F%E6%B4%9E"><span class="nav-number">2.6.</span> <span class="nav-text">6.修复 4000-6000 端口漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E4%BF%AE%E5%A4%8DFile-Management-System%E6%BC%8F%E6%B4%9E"><span class="nav-number">2.7.</span> <span class="nav-text">7.修复File Management System漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E6%B8%85%E7%90%86%E9%BB%91%E5%AE%A2%E7%95%99%E4%B8%8B%E7%9A%84backdoor"><span class="nav-number">2.8.</span> <span class="nav-text">8.清理黑客留下的backdoor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nacos-%E7%9A%84-key-%E4%B8%BA%E5%A4%9A%E5%B0%91-flagbase64decodekey."><span class="nav-number">2.1.</span> <span class="nav-text">1. nacos 的 key 为多少
+flag{base64decodekey}.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nacos%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84-flag"><span class="nav-number">2.2.</span> <span class="nav-text">2. nacos配置文件的 flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#file-management-system%E7%9A%84-flag"><span class="nav-number">2.3.</span> <span class="nav-text">3.File Management System的
+flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#root-%E5%AF%86%E7%A0%81%E5%A4%9A%E5%B0%91-flagpassword"><span class="nav-number">2.4.</span> <span class="nav-text">4.root 密码多少 flag{password}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%91%E5%AE%A2%E7%95%99%E4%B8%8B%E7%9A%84-backdoor-%E5%90%8E%E9%97%A8%E7%9A%84%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">2.5.</span> <span class="nav-text">5.黑客留下的 backdoor
+后门的绝对路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D-4000-6000-%E7%AB%AF%E5%8F%A3%E6%BC%8F%E6%B4%9E"><span class="nav-number">2.6.</span> <span class="nav-text">6.修复 4000-6000 端口漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8Dfile-management-system%E6%BC%8F%E6%B4%9E"><span class="nav-number">2.7.</span> <span class="nav-text">7.修复File Management
+System漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E9%BB%91%E5%AE%A2%E7%95%99%E4%B8%8B%E7%9A%84backdoor"><span class="nav-number">2.8.</span> <span class="nav-text">8.清理黑客留下的backdoor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -609,7 +778,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -657,7 +826,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -671,7 +840,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -682,7 +851,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -822,6 +991,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

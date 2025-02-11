@@ -42,7 +42,7 @@
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-24T03:16:50.000Z">
-<meta property="article:modified_time" content="2022-10-08T04:28:12.450Z">
+<meta property="article:modified_time" content="2022-10-08T04:28:12.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
@@ -298,12 +298,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="进程遍历"><a href="#进程遍历" class="headerlink" title="进程遍历"></a>进程遍历</h4><p>效果类似于tasklist</p>
+        <h4 id="进程遍历">进程遍历</h4>
+<p>效果类似于tasklist</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    HANDLE hd =  CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,<span class="number">0</span>);  <span class="comment">//遍历所有进程</span></span><br><span class="line">    PROCESSENTRY32 pe;</span><br><span class="line">    pe.dwSize = <span class="keyword">sizeof</span>(pe);</span><br><span class="line"></span><br><span class="line">    Process32First(hd, &amp;pe);</span><br><span class="line">    <span class="keyword">while</span> (Process32Next(hd, &amp;pe)) &#123;</span><br><span class="line">        <span class="comment">//szExeFile是WCHAR宽字符型，把%s改成%ls就可以了  如果使用%s只会显示第一个字母(我这里默认字符集是使用Unicode字符集)</span></span><br><span class="line">        <span class="comment">// 或者将项目字符集修改为 未设置即可</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%ls      %d\n&quot;</span>, pe.szExeFile, pe.th32ProcessID);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    CloseHandle(hd);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="进程关闭"><a href="#进程关闭" class="headerlink" title="进程关闭"></a>进程关闭</h4><p>强制 关闭进程/线程   TerminateProcess()</p>
+<h4 id="进程关闭">进程关闭</h4>
+<p>强制 关闭进程/线程 TerminateProcess()</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> _CRT_SECURE_NO_DEPRECATE 1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _CRT_NONSTDC_NO_DEPRECATE 1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;TlHelp32.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	HANDLE hd =  CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,<span class="number">0</span>);  <span class="comment">//遍历所有进程</span></span><br><span class="line">	PROCESSENTRY32 pe;</span><br><span class="line">	pe.dwSize = <span class="keyword">sizeof</span>(pe);</span><br><span class="line"></span><br><span class="line">	Process32First(hd, &amp;pe);</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span>* name = <span class="string">&quot;cmd.exe&quot;</span>;</span><br><span class="line">	<span class="keyword">while</span> (Process32Next(hd, &amp;pe)) &#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//printf(&quot;%s      %d\n&quot;, pe.szExeFile, pe.th32ProcessID);</span></span><br><span class="line">		HANDLE ClosedProcess = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pe.th32ProcessID);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> ((stricmp(<span class="string">&quot;cmd.exe&quot;</span>,pe.szExeFile))== <span class="number">0</span>) &#123;<span class="comment">// stricmp i 忽略大小写</span></span><br><span class="line">			<span class="comment">//stricmp 要在前面加上两行注释 不然会报错  #define _CRT_SECURE_NO_DEPRECATE 1 和 #define _CRT_NONSTDC_NO_DEPRECATE 1</span></span><br><span class="line"></span><br><span class="line">			TerminateProcess(ClosedProcess, <span class="number">-1</span>);</span><br><span class="line">			</span><br><span class="line">		&#125; </span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	CloseHandle(hd);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -450,7 +449,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -498,7 +497,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -512,7 +511,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -523,7 +522,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -663,6 +662,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

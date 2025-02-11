@@ -47,7 +47,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/9aa42a48/13-4.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/9aa42a48/13-5.png">
 <meta property="article:published_time" content="2022-10-07T07:09:51.000Z">
-<meta property="article:modified_time" content="2022-10-08T04:33:21.127Z">
+<meta property="article:modified_time" content="2022-10-08T04:33:21.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
@@ -304,7 +304,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="动态获取API入口地址方法"><a href="#动态获取API入口地址方法" class="headerlink" title="动态获取API入口地址方法"></a>动态获取API入口地址方法</h4><p>通常想要动态获取Api函数的地址，需要调用LoadlibraryA() 和GetProcAddress()函数动态获取。LoadlibraryA()用来加载API对应的dll，GetProcAddress()用来获取API函数对应的入口地址。</p>
+        <h4 id="动态获取api入口地址方法">动态获取API入口地址方法</h4>
+<p>通常想要动态获取Api函数的地址，需要调用LoadlibraryA()
+和GetProcAddress()函数动态获取。LoadlibraryA()用来加载API对应的dll，GetProcAddress()用来获取API函数对应的入口地址。</p>
 <p>LoadLibraryA()和GetProcAddress()都是在kernel32.dll下引出的函数，在kernel32引出表中，所以需要先找到kernel32地址才能再去找kernel32的引出表地址。</p>
 <p>一般有三种方法去找kernel32的基地址</p>
 <ul>
@@ -312,42 +314,50 @@
 <li>seh异常处理链表搜索</li>
 <li>TEB(Thread Environment Block)搜索</li>
 </ul>
-<h5 id="暴力搜索法"><a href="#暴力搜索法" class="headerlink" title="暴力搜索法"></a>暴力搜索法</h5><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/witty/archive/2012/03/27/2419725.html">https://www.cnblogs.com/witty/archive/2012/03/27/2419725.html</a></p>
+<h5 id="暴力搜索法">暴力搜索法</h5>
+<p>https://www.cnblogs.com/witty/archive/2012/03/27/2419725.html</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">.386</span>		</span><br><span class="line">.model flat,stdcall		</span><br><span class="line">option casemap:none		</span><br><span class="line">	</span><br><span class="line">include		windows.inc</span><br><span class="line"></span><br><span class="line">.data </span><br><span class="line">	lpKernel32 dd <span class="number">0</span></span><br><span class="line"></span><br><span class="line">.code </span><br><span class="line">	GetKernelBase proc uses esi edi dwKernel:dword</span><br><span class="line"></span><br><span class="line">		local kernelbase:dword</span><br><span class="line">		mov edi, dwKernel</span><br><span class="line">		and edi, <span class="number">0f</span>fff0000h   ; 初始化页</span><br><span class="line">		.<span class="keyword">while</span> TRUE</span><br><span class="line">			.<span class="keyword">if</span> word ptr [edi] == IMAGE_DOS_SIGNATURE  ;等于MZ?</span><br><span class="line">			mov esi, edi </span><br><span class="line">			add esi, [esi+IMAGE_DOS_HEADER.e_lfanew]	; esi+<span class="number">3</span>ch</span><br><span class="line">				.<span class="keyword">if</span> word ptr [esi] == IMAGE_NT_SIGNATURE   ;等于PE?</span><br><span class="line">					mov kernelbase, edi</span><br><span class="line">					.<span class="keyword">break</span></span><br><span class="line">				.endif</span><br><span class="line">			.endif</span><br><span class="line">			sub edi, <span class="number">010000</span>h    ;暴力搜索内存 <span class="number">64</span>kb 即每次减少<span class="number">64</span>kb</span><br><span class="line">		.<span class="keyword">break</span>	.<span class="keyword">if</span> edi &lt; <span class="number">070000000</span>h ;基地址小于<span class="number">70000000</span>h退出</span><br><span class="line">		.endw</span><br><span class="line">		</span><br><span class="line">		mov eax, kernelbase ; 存到寄存器中再返回</span><br><span class="line">		ret</span><br><span class="line">	GetKernelBase endp</span><br><span class="line"></span><br><span class="line">main proc</span><br><span class="line"></span><br><span class="line">	invoke GetKernelBase, [esp]</span><br><span class="line">	mov lpKernel32, eax</span><br><span class="line">	ret</span><br><span class="line"></span><br><span class="line">main endp</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br></pre></td><td class="code"><pre><span class="line">;找到导出表 找到导出表中 NumberOfNames字段（存放着导出函数的总个数）用这个个数构建一个循环</span><br><span class="line">;在 AddressOfNames   执行函数名称地址表 </span><br><span class="line">;循环中将每一项定义的函数名与所要搜索的函数名进行比较</span><br><span class="line">;如果没找到任何一个函数名符合 表示文件中没有该指定名称的函数</span><br><span class="line">;如果找到相符合的函数名 那么就几下这个函数名在字符串地址表中的索引值，然后在AddressOfNameOrdinals指向的数组中使用同样的索引值</span><br><span class="line">;使用该索引值 在AddressOfFunctions字段指向的函数入口地址表中获取的RVA即函数入口地址RVA</span><br><span class="line"></span><br><span class="line"><span class="number">.386</span>		</span><br><span class="line">.model flat,stdcall		</span><br><span class="line">option casemap:none		</span><br><span class="line">	</span><br><span class="line">include		windows.inc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">.data </span><br><span class="line">	lpKernel32 dd <span class="number">0</span></span><br><span class="line">	szUser32 db <span class="string">&#x27;user32.dll&#x27;</span>,<span class="number">0</span></span><br><span class="line">	lpUser32 dd <span class="number">0</span></span><br><span class="line">	szMessageBoxA db <span class="string">&#x27;MessageBoxA&#x27;</span>,<span class="number">0</span></span><br><span class="line">	lpMessageBoxA dd <span class="number">0</span></span><br><span class="line">	szLoadLibraryA db <span class="string">&#x27;LoadLibraryA&#x27;</span>,<span class="number">0</span></span><br><span class="line">	lpLoadLibraryA dd <span class="number">0</span></span><br><span class="line">	szExitProcess db <span class="string">&#x27;ExitProcess&#x27;</span>,<span class="number">0</span></span><br><span class="line">	lpExitProcess dd <span class="number">0</span></span><br><span class="line">	szGetProcAddress db <span class="string">&#x27;GetProcAddress&#x27;</span>,<span class="number">0</span></span><br><span class="line">	lpGetProcAddress dd <span class="number">0</span></span><br><span class="line"></span><br><span class="line">	hola db <span class="string">&#x27;hola!&#x27;</span></span><br><span class="line"></span><br><span class="line">.code </span><br><span class="line"></span><br><span class="line">	GetKernelBase proc uses esi edi dwKernel:dword</span><br><span class="line"></span><br><span class="line">		local kernelbase:dword</span><br><span class="line">		mov edi, dwKernel</span><br><span class="line">		and edi, <span class="number">0f</span>fff0000h   ; 初始化页</span><br><span class="line">		.<span class="keyword">while</span> TRUE</span><br><span class="line">			.<span class="keyword">if</span> word ptr [edi] == IMAGE_DOS_SIGNATURE  ;等于MZ?</span><br><span class="line">			mov esi, edi </span><br><span class="line">			add esi, [esi+IMAGE_DOS_HEADER.e_lfanew]	; [esi+<span class="number">3</span>ch]</span><br><span class="line">				.<span class="keyword">if</span> word ptr [esi] == IMAGE_NT_SIGNATURE   ;等于PE?</span><br><span class="line">					mov kernelbase, edi</span><br><span class="line">					.<span class="keyword">break</span></span><br><span class="line">				.endif</span><br><span class="line">			.endif</span><br><span class="line">			sub edi, <span class="number">010000</span>h    ;暴力搜索内存 <span class="number">64</span>kb 即每次减少<span class="number">64</span>kb   </span><br><span class="line">				;kernel32.dll的块对齐值是<span class="number">00001000</span>h, 并且一般DLL以<span class="number">1</span>M为边界，通过<span class="number">10000</span>h (<span class="number">64</span>k) 作为跨度</span><br><span class="line">		.<span class="keyword">break</span>	.<span class="keyword">if</span> edi &lt; <span class="number">070000000</span>h ;基地址小于<span class="number">70000000</span>h退出</span><br><span class="line">		.endw</span><br><span class="line">		</span><br><span class="line">		mov eax, kernelbase ; 存到寄存器中再返回</span><br><span class="line">		ret</span><br><span class="line">	GetKernelBase endp</span><br><span class="line"></span><br><span class="line">;hMoudle 基地址</span><br><span class="line">	GetApi proc hModule:dword, szApiname:dword</span><br><span class="line">		local apilen:dword	;local声明局部遍历</span><br><span class="line">		local apibase:dword</span><br><span class="line"></span><br><span class="line">		pushad</span><br><span class="line">		;计算api字符长度</span><br><span class="line">		mov esi, szApiname</span><br><span class="line">		mov edx, esi</span><br><span class="line">countStr:</span><br><span class="line">		cmp byte ptr [esi], <span class="number">0</span> ;字符串末尾是否为<span class="number">0</span></span><br><span class="line">		jz countStrOver</span><br><span class="line">		inc esi;还没结束继续</span><br><span class="line">		jmp countStr</span><br><span class="line"></span><br><span class="line">countStrOver:</span><br><span class="line">		inc esi</span><br><span class="line">		sub esi, edx ;减去首地址得到长度</span><br><span class="line">		mov apilen, esi</span><br><span class="line"></span><br><span class="line">		;找到导出表地址</span><br><span class="line">		mov esi, hModule;拿到模块基地址		一般esi存放指针、地址</span><br><span class="line">		add esi, [esi+<span class="number">3</span>ch];	+<span class="number">3</span>ch定位到NT_HEADERS</span><br><span class="line">		assume esi:ptr IMAGE_NT_HEADERS ;</span><br><span class="line">		</span><br><span class="line">		mov esi,[esi].OptionalHeader.DataDirectory.VirtualAddress;得到导出表RVA</span><br><span class="line">		add esi, hModule;加上基地址 定位到地址</span><br><span class="line"></span><br><span class="line">		assume esi:ptr IMAGE_EXPORT_DIRECTORY; 让esi 指向 Kernel32.dll 的导出表</span><br><span class="line"></span><br><span class="line">		mov ebx, [esi].AddressOfNames; </span><br><span class="line">		add ebx, hModule</span><br><span class="line"></span><br><span class="line">		xor edx, edx ;计数函数 先初始化</span><br><span class="line">		.repeat</span><br><span class="line">			push esi</span><br><span class="line">			mov edi, [ebx]</span><br><span class="line">			add edi, hModule; 指向AddressOfNames指向的数组</span><br><span class="line">			mov esi, szApiname</span><br><span class="line">			mov ecx, apilen</span><br><span class="line">			cld  ;设置方向标志 正向</span><br><span class="line">			repz cmpsb ;开始遍历查找      rep(重复)z(相等) ds:esi和es:edi 所指向的两个字节相等(zf=<span class="number">1</span>) 就继续比较  如果不相等就停止循环</span><br><span class="line"></span><br><span class="line">			.<span class="keyword">if</span> ZERO? ; 找到了    ZERO?是否置位 相当于 <span class="keyword">if</span>(zf==<span class="number">1</span>)</span><br><span class="line">				pop esi ; 恢复esi  esi指向导出表</span><br><span class="line">				jmp findOver</span><br><span class="line">			.endif</span><br><span class="line">			;如果没找到</span><br><span class="line">			pop esi ; 恢复esi  esi指向导出表</span><br><span class="line">			add ebx,<span class="number">4</span> ;下一个函数名称 每个函数地址占<span class="number">4</span>个字节</span><br><span class="line">			inc edx; 计数函数加<span class="number">1</span></span><br><span class="line"></span><br><span class="line">		.until edx &gt;= [esi].NumberOfNames ;遍历完后没有找到 退出   NumberOfNames函数名称总数量</span><br><span class="line">		jmp _Exit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">findOver:</span><br><span class="line">		sub ebx, hModule; 减去基地址 得到RVA</span><br><span class="line">		sub ebx, [esi].AddressOfNames;得到匹配函数字符串首地址 相当于数组起始地址的偏移量</span><br><span class="line"></span><br><span class="line">		;除以<span class="number">2</span>，用这个偏移量+AddressOfNameOrdinals指向的数组首地址找到索引</span><br><span class="line">		shr ebx,<span class="number">1</span> </span><br><span class="line">		add ebx,[esi].AddressOfNameOrdinals;加上算出来的偏移量找到和AddressOfNames对应的那一项</span><br><span class="line">		add ebx,hModule</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		movzx eax,word ptr [ebx];取出AddressOfNameOrdinals那一项存放的索引  word movzx高位拓展<span class="number">0</span></span><br><span class="line">		shl eax,<span class="number">2</span>;乘以<span class="number">4</span>   索引值x4个字节+</span><br><span class="line">		add eax,[esi].AddressOfFunctions;AddressOfFunctions指向函数RVA地址表起始地址，加上这个偏移量取出AddressOfNameOrdinals给出索引的那一项</span><br><span class="line">		add eax,hModule</span><br><span class="line"></span><br><span class="line">		;API<span class="number">&#x27;</span>s Address = ( API<span class="number">&#x27;</span>s Ordinal * <span class="number">4</span> ) + AddressOfFunctions<span class="number">&#x27;</span> VA + Kernel32 imagebase</span><br><span class="line"></span><br><span class="line">		mov eax,[eax];得到函数的RVA</span><br><span class="line">		add eax,hModule;加上kernel32基地址得到函数入口地址VA</span><br><span class="line">		mov apibase,eax</span><br><span class="line"></span><br><span class="line">_Exit:</span><br><span class="line">		assume esi:nothing ;不再使用esi寄存器作为指针时  用assume esi:nothing取消定义 释放掉。</span><br><span class="line">		popad</span><br><span class="line">		mov eax, apibase</span><br><span class="line">		ret</span><br><span class="line"></span><br><span class="line">	GetApi endp</span><br><span class="line"></span><br><span class="line">main proc</span><br><span class="line"></span><br><span class="line">	;得到kernel32基地址</span><br><span class="line">	invoke GetKernelBase, [esp]</span><br><span class="line">	mov lpKernel32, eax</span><br><span class="line">	</span><br><span class="line">	;获取API</span><br><span class="line">	invoke GetApi, lpKernel32, addr szLoadLibraryA</span><br><span class="line">	mov lpLoadLibraryA, eax</span><br><span class="line">	</span><br><span class="line">	invoke GetApi, lpKernel32, addr szGetProcAddress</span><br><span class="line">	mov lpGetProcAddress, eax</span><br><span class="line"></span><br><span class="line">	invoke GetApi,lpKernel32,addr szExitProcess</span><br><span class="line">	mov lpExitProcess,eax</span><br><span class="line"></span><br><span class="line">	;载入user32.dll</span><br><span class="line">	push offset szUser32</span><br><span class="line">	call [lpLoadLibraryA]</span><br><span class="line">	mov lpUser32,eax</span><br><span class="line"></span><br><span class="line">	;获取user32.dll中的MessageBoxA</span><br><span class="line">	push offset szMessageBoxA</span><br><span class="line">	push lpUser32</span><br><span class="line">	call [lpGetProcAddress]</span><br><span class="line">	mov lpMessageBoxA,eax</span><br><span class="line">	</span><br><span class="line">	push MB_OK </span><br><span class="line">	push  offset hola</span><br><span class="line">	push  offset hola</span><br><span class="line">	push <span class="literal">NULL</span></span><br><span class="line">	call [lpMessageBoxA]</span><br><span class="line"></span><br><span class="line">	push <span class="number">0</span></span><br><span class="line">	call [lpExitProcess]</span><br><span class="line"></span><br><span class="line">main endp</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>在VS2022下编译有问题 然后又换到了vs2017 成功通过找api地址的方式去调用MessageBoxA函数</p>
+<p>在VS2022下编译有问题 然后又换到了vs2017
+成功通过找api地址的方式去调用MessageBoxA函数</p>
 <p><img src="/posts/9aa42a48/13-1.png"></p>
-<h5 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h5><p>待完善补充…</p>
-<h5 id="TEB搜索"><a href="#TEB搜索" class="headerlink" title="TEB搜索"></a>TEB搜索</h5><p>此方法是通过TEB获得PEB结构地址，然后再获得PEB_LDR_DATA结构地址，然后遍历模块列表，查找kernel32.dll模块的基地址。</p>
-<p>fs寄存器指向TEB结构，<code>TEB+0X30</code>偏移处指向PEB结构，<code>PEB+0x0c</code>偏移处指向<code>PEB_LDR_DATA</code>结构，<code>PEB_LDR_DATA+0x1c</code>偏移处存放着程序加载的动态链接库地址。 找到的第一个地址为<code>ntdll.dll</code> 第二个为<code>kernel32.dll</code></p>
-<p>使用dt _teb 查看teb结构 可以看到在0x30偏移处存储着PEB结构的地址，然后在查看peb结构</p>
+<h5 id="seh">SEH</h5>
+<p>待完善补充...</p>
+<h5 id="teb搜索">TEB搜索</h5>
+<p>此方法是通过TEB获得PEB结构地址，然后再获得PEB_LDR_DATA结构地址，然后遍历模块列表，查找kernel32.dll模块的基地址。</p>
+<p>fs寄存器指向TEB结构，<code>TEB+0X30</code>偏移处指向PEB结构，<code>PEB+0x0c</code>偏移处指向<code>PEB_LDR_DATA</code>结构，<code>PEB_LDR_DATA+0x1c</code>偏移处存放着程序加载的动态链接库地址。
+找到的第一个地址为<code>ntdll.dll</code>
+第二个为<code>kernel32.dll</code></p>
+<p>使用dt _teb 查看teb结构
+可以看到在0x30偏移处存储着PEB结构的地址，然后在查看peb结构</p>
 <p><img src="/posts/9aa42a48/13-2.png"></p>
-<p>peb结构在0x0c地址处存储着 _PEB_LDR_DATA结构地址，然后查看_PEB_LDR_DATA结构</p>
-<p><img src="/posts/9aa42a48/13-3.png" alt="img"></p>
-<p>通过 _PEB_LDR_DATA 拿到保存模块信息结构体的链表 _LIST_ENTRT </p>
+<p>peb结构在0x0c地址处存储着
+_PEB_LDR_DATA结构地址，然后查看_PEB_LDR_DATA结构</p>
+<figure>
+<img src="/posts/9aa42a48/13-3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>通过 _PEB_LDR_DATA 拿到保存模块信息结构体的链表 _LIST_ENTRT</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">lkd&gt; dt _PEB_LDR_DATA</span><br><span class="line">nt!_PEB_LDR_DATA</span><br><span class="line">   +<span class="number">0x000</span> Length           : Uint4B</span><br><span class="line">   +<span class="number">0x004</span> Initialized      : UChar</span><br><span class="line">   +<span class="number">0x008</span> SsHandle         : Ptr32 Void</span><br><span class="line">   +<span class="number">0x00c</span> InLoadOrderModuleList : _LIST_ENTRY</span><br><span class="line">   +<span class="number">0x014</span> InMemoryOrderModuleList : _LIST_ENTRY</span><br><span class="line">   +<span class="number">0x01c</span> InInitializationOrderModuleList : _LIST_ENTRY</span><br><span class="line">   +<span class="number">0x024</span> EntryInProgress  : Ptr32 Void</span><br><span class="line">   ....</span><br></pre></td></tr></table></figure>
-
 <p><code>_LIST_ENTRY</code>有三种不同方式排列的双向链表</p>
-<p><img src="/posts/9aa42a48/13-4.png" alt="img"></p>
+<figure>
+<img src="/posts/9aa42a48/13-4.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><code>Flink</code>表示从前往后， <code>Blink</code>表示从后往前</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	DWORD kernel32str = <span class="number">0</span>;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		mov eax, fs: [<span class="number">30</span>h]				<span class="comment">//拿到peb</span></span><br><span class="line">		mov eax, dword ptr [eax + <span class="number">0</span>ch]	<span class="comment">//拿到_PEB_LDR_DATA</span></span><br><span class="line">		mov eax, dword ptr [eax + <span class="number">0</span>ch]	<span class="comment">//获取InLoadOrderModuleList地址</span></span><br><span class="line"></span><br><span class="line">		mov eax, [eax]</span><br><span class="line">		mov eax, [eax]</span><br><span class="line"></span><br><span class="line">		mov ebx, dword ptr [eax + <span class="number">18</span>h]</span><br><span class="line">		mov kernel32str, ebx</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%0x&quot;</span>, kernel32str);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DWORD kernel32str = <span class="number">0</span>;</span><br><span class="line">	_asm &#123;</span><br><span class="line"></span><br><span class="line">		mov eax, fs:[<span class="number">30</span>h]				<span class="comment">//peb</span></span><br><span class="line">		mov eax, dword ptr [eax + <span class="number">0</span>ch]	<span class="comment">//</span></span><br><span class="line">		mov esi, dword ptr [eax + <span class="number">1</span>ch]	<span class="comment">//InInitializationOrderLinks</span></span><br><span class="line">        <span class="comment">//Get InInitializationOrderModuleList.Flink, </span></span><br><span class="line">        <span class="comment">//此时eax指向的是ntdll模块的InInitializationOrderModuleList线性地址。</span></span><br><span class="line">        <span class="comment">//所以我们获得它的下一个则是kernel32.dll</span></span><br><span class="line">            </span><br><span class="line">		lodsd <span class="comment">//可以优化</span></span><br><span class="line">		mov eax, dword ptr [eax + <span class="number">8</span>h]	<span class="comment">//</span></span><br><span class="line">		mov kernel32str, ebx</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%X&quot;</span>, kernel32str);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/posts/9aa42a48/13-5.png" alt="img"></p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/witty/archive/2012/03/23/2413890.html">https://www.cnblogs.com/witty/archive/2012/03/23/2413890.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35426012/article/details/102711275">https://blog.csdn.net/qq_35426012/article/details/102711275</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/whypp/article/details/5681172">https://blog.csdn.net/whypp/article/details/5681172</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/b_h_l/article/details/30506955">https://blog.csdn.net/b_h_l/article/details/30506955</a></p>
-<p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/7102343426070298660#heading-3">笔记]Windows安全之《三》注入技术之 Shellcode注入 - 掘金</a></p>
+<figure>
+<img src="/posts/9aa42a48/13-5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="references">References</h4>
+<p>https://www.cnblogs.com/witty/archive/2012/03/23/2413890.html</p>
+<p>https://blog.csdn.net/qq_35426012/article/details/102711275</p>
+<p>https://blog.csdn.net/whypp/article/details/5681172</p>
+<p>https://blog.csdn.net/b_h_l/article/details/30506955</p>
+<p>[<a target="_blank" rel="noopener" href="https://juejin.cn/post/7102343426070298660#heading-3">笔记]Windows安全之《三》注入技术之
+Shellcode注入 - 掘金</a></p>
 
     </div>
 
@@ -477,7 +487,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96API%E5%85%A5%E5%8F%A3%E5%9C%B0%E5%9D%80%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">动态获取API入口地址方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9A%B4%E5%8A%9B%E6%90%9C%E7%B4%A2%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">暴力搜索法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SEH"><span class="nav-number">1.2.</span> <span class="nav-text">SEH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TEB%E6%90%9C%E7%B4%A2"><span class="nav-number">1.3.</span> <span class="nav-text">TEB搜索</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96api%E5%85%A5%E5%8F%A3%E5%9C%B0%E5%9D%80%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">动态获取API入口地址方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9A%B4%E5%8A%9B%E6%90%9C%E7%B4%A2%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">暴力搜索法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#seh"><span class="nav-number">1.2.</span> <span class="nav-text">SEH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#teb%E6%90%9C%E7%B4%A2"><span class="nav-number">1.3.</span> <span class="nav-text">TEB搜索</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">2.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -493,7 +503,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -541,7 +551,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -555,7 +565,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -566,7 +576,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -706,6 +716,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

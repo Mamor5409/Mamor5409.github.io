@@ -281,7 +281,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>558</span>
+              <span>565</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -301,44 +301,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Hashcat –help 参看hashcat 帮助文档 </p>
-<br>
-
-<p>-m  表示散列算法类型</p>
+        <p>Hashcat --help 参看hashcat 帮助文档</p>
+<p><br></p>
+<p>-m 表示散列算法类型</p>
 <p>-m 1000 （NTLM）</p>
 <p><img src="/posts/de6bd435/Hash_modes.png"></p>
-<p>-a  指定破解模式，常用 straight 字典破解 和 brute-force 暴力破解</p>
+<p>-a 指定破解模式，常用 straight 字典破解 和 brute-force 暴力破解</p>
 <blockquote>
-<p>0 = Straight        //字典破解</p>
-<p>1 = Combination        //组合破解</p>
-<p>3 = Brute-force        //掩码暴力破解</p>
-<p>6 = Hybrid Wordlist + Mask        </p>
+<p>0 = Straight //字典破解</p>
+<p>1 = Combination //组合破解</p>
+<p>3 = Brute-force //掩码暴力破解</p>
+<p>6 = Hybrid Wordlist + Mask</p>
 <p>7 = Hybrid Mask + Wordlist</p>
 <p>9 = Association</p>
 </blockquote>
 <p><img src="/posts/de6bd435/Hash_Attack.png"></p>
-<br>
-
-<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p><code>hashcat -a 0 -m xx &lt;hashfile&gt; &lt;zidian1&gt; &lt;zidian2&gt;</code></p>
+<p><br></p>
+<h4 id="常用命令">常用命令</h4>
+<p><code>hashcat -a 0 -m xx &lt;hashfile&gt; &lt;zidian1&gt; &lt;zidian2&gt;</code></p>
 <blockquote>
-<p>-m                           指定哈希类型</p>
-<p>-a                            指定破解模式</p>
-<p>-V                            查看版本信息</p>
-<p>-o                            将输出结果储存到指定文件</p>
-<p>–force                     忽略警告</p>
-<p>–show                    仅显示破解的hash密码和对应的明文</p>
-<p>–remove                 从源文件中删除破解成功的hash</p>
-<p>–username             忽略hash表中的用户名</p>
-<p>-b                             测试计算机破解速度和相关硬件信息</p>
-<p>-O                            限制密码长度</p>
-<p>-T                            设置线程数</p>
-<p>-r                             使用规则文件</p>
-<p>-1                             自定义字符集  -1 0123asd     ?1={0123asd}</p>
-<p>-2                             自定义字符集  -2 0123asd    ?2={0123asd}</p>
-<p>-3                             自定义字符集  -3 0123asd    ?3={0123asd}</p>
-<p>-i                              启用增量破解模式</p>
-<p>–increment-min       设置密码最小长度</p>
-<p>–increment-max      设置密码最大长度</p>
+<p>-m 指定哈希类型</p>
+<p>-a 指定破解模式</p>
+<p>-V 查看版本信息</p>
+<p>-o 将输出结果储存到指定文件</p>
+<p>--force 忽略警告</p>
+<p>--show 仅显示破解的hash密码和对应的明文</p>
+<p>--remove 从源文件中删除破解成功的hash</p>
+<p>--username 忽略hash表中的用户名</p>
+<p>-b 测试计算机破解速度和相关硬件信息</p>
+<p>-O 限制密码长度</p>
+<p>-T 设置线程数</p>
+<p>-r 使用规则文件</p>
+<p>-1 自定义字符集 -1 0123asd ?1={0123asd}</p>
+<p>-2 自定义字符集 -2 0123asd ?2={0123asd}</p>
+<p>-3 自定义字符集 -3 0123asd ?3={0123asd}</p>
+<p>-i 启用增量破解模式</p>
+<p>--increment-min 设置密码最小长度</p>
+<p>--increment-max 设置密码最大长度</p>
 </blockquote>
 
     </div>
@@ -485,7 +484,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +532,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -547,7 +546,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -558,7 +557,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -698,6 +697,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

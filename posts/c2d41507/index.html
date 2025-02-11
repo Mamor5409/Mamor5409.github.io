@@ -42,7 +42,7 @@
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-05T09:05:21.000Z">
-<meta property="article:modified_time" content="2024-06-11T03:33:36.457Z">
+<meta property="article:modified_time" content="2024-06-11T03:33:36.000Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 
@@ -289,99 +289,94 @@
 
       
         <p>k3s+docker 部署gzctf过程记录</p>
-<h2 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h2><h3 id="服务器x3"><a href="#服务器x3" class="headerlink" title="服务器x3"></a>服务器x3</h3><p>k3s-master        192.168.80.20</p>
-<p>k3s-slave        192.168.80.27(26)</p>
-<p>gzctfweb         192.168.80.28(63)</p>
+<h2 id="准备阶段">准备阶段</h2>
+<h3 id="服务器x3">服务器x3</h3>
+<p>k3s-master 192.168.80.20</p>
+<p>k3s-slave 192.168.80.27(26)</p>
+<p>gzctfweb 192.168.80.28(63)</p>
 <p>别用dhcp 弄个靠后的ip桥接</p>
-<h3 id="修改用户名"><a href="#修改用户名" class="headerlink" title="修改用户名"></a>修改用户名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname gzctfweb  # gzctfweb服务器执行</span><br><span class="line">hostnamectl set-hostname k3s-master</span><br><span class="line">hostnamectl set-hostname k3s-slave</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="关闭防火墙-三台机器都执行"><a href="#关闭防火墙-三台机器都执行" class="headerlink" title="关闭防火墙  三台机器都执行"></a>关闭防火墙  三台机器都执行</h3><p>ubuntu  关闭防火墙</p>
-<p>sudo ufw disable </p>
+<h3 id="修改用户名">修改用户名</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname gzctfweb  # gzctfweb服务器执行</span><br><span class="line">hostnamectl set-hostname k3s-master</span><br><span class="line">hostnamectl set-hostname k3s-slave</span><br></pre></td></tr></table></figure>
+<h3 id="关闭防火墙-三台机器都执行">关闭防火墙 三台机器都执行</h3>
+<p>ubuntu 关闭防火墙</p>
+<p>sudo ufw disable</p>
 <p>清空iptables规则</p>
 <p>iptables -F</p>
-<h3 id="配置hosts解析"><a href="#配置hosts解析" class="headerlink" title="配置hosts解析"></a>配置hosts解析</h3><p>在k3s master和 slave中执行</p>
-<p>cat &gt;&gt;/etc/hosts&lt;&lt;EOF 192.168.80.20 k3s-master 192.168.80.27 k3s-slave  EOF</p>
-<h3 id="安装docker【k3s-master-slave执行】"><a href="#安装docker【k3s-master-slave执行】" class="headerlink" title="安装docker【k3s master\slave执行】"></a>安装docker【k3s master\slave执行】</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://releases.rancher.com/install-docker/20.10.sh | sh</span><br><span class="line">systemctl enable --now docker  # docker开启自启</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="k3s-部署-gzctf"><a href="#k3s-部署-gzctf" class="headerlink" title="k3s 部署 gzctf"></a>k3s 部署 gzctf</h2><h3 id="1-安装k3s集群"><a href="#1-安装k3s集群" class="headerlink" title="1.安装k3s集群"></a>1.安装k3s集群</h3><p>按gzctf中 下载k3s  </p>
-<p>curl -sfL <a target="_blank" rel="noopener" href="https://rancher-mirror.rancher.cn/k3s/k3s-install.sh">https://rancher-mirror.rancher.cn/k3s/k3s-install.sh</a> | INSTALL_K3S_MIRROR=cn sh -</p>
+<h3 id="配置hosts解析">配置hosts解析</h3>
+<p>在k3s master和 slave中执行</p>
+<p>cat &gt;&gt;/etc/hosts&lt;&lt;EOF 192.168.80.20 k3s-master
+192.168.80.27 k3s-slave EOF</p>
+<h3 id="安装dockerk3s-master">安装docker【k3s master】</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://releases.rancher.com/install-docker/20.10.sh | sh</span><br><span class="line">systemctl enable --now docker  # docker开启自启</span><br></pre></td></tr></table></figure>
+<h2 id="k3s-部署-gzctf">k3s 部署 gzctf</h2>
+<h3 id="安装k3s集群">1.安装k3s集群</h3>
+<p>按gzctf中 下载k3s</p>
+<p>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh |
+INSTALL_K3S_MIRROR=cn sh -</p>
 <p>但不加配置参数 加别的额外参数会报错</p>
-<h3 id="2-安装slave节点"><a href="#2-安装slave节点" class="headerlink" title="2.安装slave节点"></a>2.安装slave节点</h3><p>在k3s-master中查看 token</p>
+<h3 id="安装slave节点">2.安装slave节点</h3>
+<p>在k3s-master中查看 token</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /var/lib/rancher/k3s/server/node-token </span><br><span class="line">K1049517f32c21a31aac5b53e5423386b6b0ae9b0e706b06cc1baebfe3e474929a3::server:ab280ce6ccffbd6d5c97a9036f973072</span><br></pre></td></tr></table></figure>
-
 <p>将toekn和 master对应ip填入 配置slave端</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn INSTALL_K3S_EXEC=&quot;--docker&quot; K3S_URL=https://192.168.80.20:6443 K3S_TOKEN=K1049517f32c21a31aac5b53e5423386b6b0ae9b0e706b06cc1baebfe3e474929a3::server:ab280ce6ccffbd6d5c97a9036f973072 sh -  </span><br><span class="line"></span><br><span class="line"># 开机自启</span><br><span class="line">systemctl enable --now k3s-agent.service</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-更改nodeport-端口范围【master执行】"><a href="#3-更改nodeport-端口范围【master执行】" class="headerlink" title="3.更改nodeport 端口范围【master执行】"></a>3.更改nodeport 端口范围【master执行】</h3><p>vim /etc/systemd/system/k3s.service</p>
+<h3 id="更改nodeport-端口范围master执行">3.更改nodeport
+端口范围【master执行】</h3>
+<p>vim /etc/systemd/system/k3s.service</p>
 <p>在ExecStart = /usr/local/bin/k3s 最后写入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--kube-apiserver-arg service-node-port-range=20000-50000</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="4-更改k3s容器数量限制【master-slave执行】"><a href="#4-更改k3s容器数量限制【master-slave执行】" class="headerlink" title="4.更改k3s容器数量限制【master/slave执行】"></a>4.更改k3s容器数量限制【master/slave执行】</h3><p>vim /etc/rancher/k3s/kubelet.config</p>
+<h3 id="更改k3s容器数量限制masterslave执行">4.更改k3s容器数量限制【master/slave执行】</h3>
+<p>vim /etc/rancher/k3s/kubelet.config</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: kubelet.config.k8s.io/v1beta1</span><br><span class="line">kind: KubeletConfiguration</span><br><span class="line">maxPods: 500  # 容器数量限制</span><br></pre></td></tr></table></figure>
-
 <p>vim /etc/systemd/system/k3s.service</p>
 <p>在ExecStart=/usr/local/bin/k3s最后写入如下内容：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--kubelet-arg=config=/etc/rancher/k3s/kubelet.config</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="5-添加docker镜像仓库【master执行】"><a href="#5-添加docker镜像仓库【master执行】" class="headerlink" title="5.添加docker镜像仓库【master执行】"></a>5.添加docker镜像仓库【master执行】</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mirrors:</span><br><span class="line">  &quot;docker.io&quot;:</span><br><span class="line">    endpoint:</span><br><span class="line">      - &quot;https://hub.docker.com&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="6-配置完成后-重启k3s集群"><a href="#6-配置完成后-重启k3s集群" class="headerlink" title="6.配置完成后 重启k3s集群"></a>6.配置完成后 重启k3s集群</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s  # master节点</span><br><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s-agent # slave节点</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="7-gzctfweb配置"><a href="#7-gzctfweb配置" class="headerlink" title="7.gzctfweb配置"></a>7.gzctfweb配置</h3><ol>
+<h3 id="添加docker镜像仓库master执行">5.添加docker镜像仓库【master执行】</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mirrors:</span><br><span class="line">  &quot;docker.io&quot;:</span><br><span class="line">    endpoint:</span><br><span class="line">      - &quot;https://hub.docker.com&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="配置完成后-重启k3s集群">6.配置完成后 重启k3s集群</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s  # master节点</span><br><span class="line">systemctl daemon-reload &amp;&amp; systemctl restart k3s-agent # slave节点</span><br></pre></td></tr></table></figure>
+<h3 id="gzctfweb配置">7.gzctfweb配置</h3>
+<ol type="1">
 <li>docker-compose.yml</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3.0&#x27;</span><br><span class="line">services:</span><br><span class="line">  gzctf:</span><br><span class="line">    image: gztime/gzctf:latest</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      - &quot;GZCTF_ADMIN_PASSWORD=Admin123&quot;  # gzctf管理员初始密码</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;80:8080&quot;</span><br><span class="line">    networks:</span><br><span class="line">      default:</span><br><span class="line">    volumes:</span><br><span class="line">      - &quot;./data/files:/app/files&quot;</span><br><span class="line">      - &quot;./appsettings.json:/app/appsettings.json:ro&quot;</span><br><span class="line">      - &quot;./logs:/app/log&quot;</span><br><span class="line">      # - &quot;./data/keys:/root/.aspnet/DataProtection-Keys&quot;</span><br><span class="line">      - &quot;./kube-config.yaml:/app/kube-config.yaml:ro&quot;</span><br><span class="line">      # - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span><br><span class="line">    depends_on:</span><br><span class="line">      - db</span><br><span class="line"> </span><br><span class="line">  db:</span><br><span class="line">    image: postgres:alpine</span><br><span class="line">    restart: always</span><br><span class="line">    environment:</span><br><span class="line">      - &quot;POSTGRES_PASSWORD=admin123&quot;  # 数据库的密码</span><br><span class="line">    networks:</span><br><span class="line">      default:</span><br><span class="line">    volumes:</span><br><span class="line">      - &quot;./data/db:/var/lib/postgresql/data&quot;</span><br><span class="line"> </span><br><span class="line">networks:</span><br><span class="line">  default:</span><br><span class="line">    driver: bridge</span><br><span class="line">    ipam:</span><br><span class="line">      config:</span><br><span class="line">        - subnet: 192.168.12.0/24</span><br></pre></td></tr></table></figure>
-
-
-
-<ol>
+<ol type="1">
 <li>appsettings.json</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;AllowedHosts&quot;: &quot;*&quot;,</span><br><span class="line">  &quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">    &quot;Database&quot;: &quot;Host=db:5432;Database=gzctf;Username=postgres;Password=admin123&quot;  //数据库的信息</span><br><span class="line">    // redis is optional</span><br><span class="line">    //&quot;RedisCache&quot;: &quot;cache:6379,password=&lt;Redis Password&gt;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Logging&quot;: &#123;</span><br><span class="line">    &quot;LogLevel&quot;: &#123;</span><br><span class="line">      &quot;Default&quot;: &quot;Information&quot;,</span><br><span class="line">      &quot;Microsoft&quot;: &quot;Warning&quot;,</span><br><span class="line">      &quot;Microsoft.Hosting.Lifetime&quot;: &quot;Information&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;EmailConfig&quot;: &#123;</span><br><span class="line">    &quot;SendMailAddress&quot;: &quot;a@a.com&quot;,</span><br><span class="line">    &quot;UserName&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Password&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Smtp&quot;: &#123;</span><br><span class="line">      &quot;Host&quot;: &quot;localhost&quot;,</span><br><span class="line">      &quot;Port&quot;: 587</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;XorKey&quot;: &quot;z&quot;,  //异或加密密钥</span><br><span class="line">  &quot;ContainerProvider&quot;: &#123;</span><br><span class="line">    &quot;Type&quot;: &quot;Kubernetes&quot;, // or &quot;Kubernetes&quot;</span><br><span class="line">    &quot;PublicEntry&quot;: &quot;192.168.80.20&quot;, // 写k3s-master的ip</span><br><span class="line">    &quot;DockerConfig&quot;: &#123;</span><br><span class="line">      // optional</span><br><span class="line">      &quot;SwarmMode&quot;: false,</span><br><span class="line">      &quot;Uri&quot;: &quot;unix:///var/run/docker.sock&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;RequestLogging&quot;: false,</span><br><span class="line">  &quot;DisableRateLimit&quot;: false,</span><br><span class="line">  &quot;RegistryConfig&quot;: &#123;</span><br><span class="line">    &quot;UserName&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Password&quot;: &quot;&quot;,</span><br><span class="line">    &quot;ServerAddress&quot;: &quot;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;GoogleRecaptcha&quot;: &#123;</span><br><span class="line">    &quot;VerifyAPIAddress&quot;: &quot;https://www.recaptcha.net/recaptcha/api/siteverify&quot;,</span><br><span class="line">    &quot;Sitekey&quot;: &quot;&quot;,</span><br><span class="line">    &quot;Secretkey&quot;: &quot;&quot;,</span><br><span class="line">    &quot;RecaptchaThreshold&quot;: &quot;0.5&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<ol>
+<ol type="1">
 <li>kube-config.yaml</li>
 </ol>
-<p>在master机器中 cat /etc/rancher/k3s/k3s.yaml 在web机器中另存为 kube-config.yaml</p>
+<p>在master机器中 cat /etc/rancher/k3s/k3s.yaml 在web机器中另存为
+kube-config.yaml</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">clusters:</span><br><span class="line">- cluster:</span><br><span class="line">    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUzTVRZNE9ESTBNamN3SGhjTk1qUXdOVEk0TURjME56QTNXaGNOTXpRd05USTJNRGMwTnpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUzTVRZNE9ESTBNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFRNm9sRE53c3RUN2k5S1A3VXUyZzdmNlRnZ3AycnVHMWxubWJMWFRNeSsKb3hHZmVBUDRGam0rYzBJd0JMY1JyRnVXcVZlZ1g2T0x4dzRvRkMzS3NRM2tvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVXMvSUZtaGRNeGsrNGc2TkFXMnU3CjJGU1M3eXN3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnR1lqYkFUYnBrWGQydEZ6c3FUamdFc0VWdmx6UWNsK1EKdzV6SWIvWC9ZZkVDSVFDc3dtek1rSVhYbEJ2dm51OTQxNS9rNFdoY2p2aEhyWThCRTRzQkZtMWZjZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K</span><br><span class="line">    server: https://192.168.80.20:6443  //写k3s-master的ip:porthttps://127.0.0.1:6443</span><br><span class="line">  name: default</span><br><span class="line">contexts:</span><br><span class="line">- context:</span><br><span class="line">    cluster: default</span><br><span class="line">    user: default</span><br><span class="line">  name: default</span><br><span class="line">current-context: default</span><br><span class="line">kind: Config</span><br><span class="line">preferences: &#123;&#125;</span><br><span class="line">users:</span><br><span class="line">- name: default</span><br><span class="line">  user:</span><br><span class="line">    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrVENDQVRlZ0F3SUJBZ0lJYS8xZEwxMXNkUkV3Q2dZSUtvWkl6ajBFQXdJd0l6RWhNQjhHQTFVRUF3d1kKYXpOekxXTnNhV1Z1ZEMxallVQXhOekUyT0RneU5ESTNNQjRYRFRJME1EVXlPREEzTkRjd04xb1hEVEkxTURVeQpPREEzTkRjd04xb3dNREVYTUJVR0ExVUVDaE1PYzNsemRHVnRPbTFoYzNSbGNuTXhGVEFUQmdOVkJBTVRESE41CmMzUmxiVHBoWkcxcGJqQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJISFlIbDMvL0EybnZ3alAKNDUxeHU0REhDbUtacTY4aXRqUHhJSkdaaE5MWU1yY1pXWnZjZWFZN1FXeERvZi9KcVJUekdGY3RPUXV3V1NNOQpvd1NJd1IralNEQkdNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBakFmCkJnTlZIU01FR0RBV2dCUll1YmlPTUZNZHhFb0Z2bVRDeGFIaHdhODBkVEFLQmdncWhrak9QUVFEQWdOSUFEQkYKQWlBOU5tL0lPdTBqQ25aNGtjaWJqTEdCSUgyRFllMmdLNklWb3ppQXdrZXQxZ0loQU5qdlJSUzEvYitRU1c3eAp3TktBYUQrTkdTbXhmd1dHZWJ5aGtmZVJvMGhuCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0KLS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJlRENDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdFkyeHAKWlc1MExXTmhRREUzTVRZNE9ESTBNamN3SGhjTk1qUXdOVEk0TURjME56QTNXaGNOTXpRd05USTJNRGMwTnpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRZMnhwWlc1MExXTmhRREUzTVRZNE9ESTBNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFSa29zNWYyU2pWNWhHWHhTMERoMlZUR01FMktYV3gzb0NWSWhzY3JCYXQKdlRaZjJmSi9oRHZNeTlOTmdpMHlTMW9CWnBvNVQwTkJLY25YZ0lnNlN1ZnFvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVVdMbTRqakJUSGNSS0JiNWt3c1doCjRjR3ZOSFV3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUlXbHcraUNkL25uZjRJaittekFlSHZNbDc0Q2o4V0kKRnBYM3djcjcyTytxQWlFQXZiT2dRT0RVNExFdWdxRCtGSHRYdWVtTHBSeHdDK2thTjJNN3JyVEJzRzA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K</span><br><span class="line">    client-key-data: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUVOQUJ1bktoZk5BNzVoUlVrMmF2Y0lHb2xJcXM3Ymp1ckk1aEhRdWNhTEJvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFY2RnZVhmLzhEYWUvQ00vam5YRzdnTWNLWXBtcnJ5SzJNL0Vna1ptRTB0Z3l0eGxabTl4NQpwanRCYkVPaC84bXBGUE1ZVnkwNUM3QlpJejJqQklqQkh3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=</span><br></pre></td></tr></table></figure>
-
 <p>配置完成后 启动 gzctf</p>
-<p>docker-compose -f  docker-compose.yml up   #前台运行【-d 后台运行】</p>
-<p>docker-compose -f  docker-compose.yml stop  #停止</p>
-<p>docker-compose -f  docker-compose.yml rm   #删除</p>
+<p>docker-compose -f docker-compose.yml up #前台运行【-d 后台运行】</p>
+<p>docker-compose -f docker-compose.yml stop #停止</p>
+<p>docker-compose -f docker-compose.yml rm #删除</p>
 <p>Admin/Admin123</p>
-<h2 id="题目配置"><a href="#题目配置" class="headerlink" title="题目配置"></a>题目配置</h2><p>部署web pwn</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52820087/article/details/127851116">https://blog.csdn.net/qq_52820087/article/details/127851116</a></p>
+<h2 id="题目配置">题目配置</h2>
+<p>部署web pwn</p>
+<p>https://blog.csdn.net/qq_52820087/article/details/127851116</p>
 <p>CTF本地靶场搭建——基于阿里云ACR实现动态flag题型的创建</p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1526499">https://developer.aliyun.com/article/1526499</a> </p>
+<p>https://developer.aliyun.com/article/1526499</p>
 <p>如何优雅的使用Docker出一道动态flag的CTF题-GZCTF</p>
-<p><a target="_blank" rel="noopener" href="https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/">https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/</a></p>
-<p>在k3s master中 构建题目 然后上穿到docker中   具体方法参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52820087/article/details/127851116">https://blog.csdn.net/qq_52820087/article/details/127851116</a></p>
-<p>目前存在问题  配置的为 k3s主的ip  然后生成的为 主的ip 但是实际上开的所 slave机器的</p>
-<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>GZCTF隐藏积分榜记录 <a target="_blank" rel="noopener" href="https://www.zhaoj.in/read-8947.html">https://www.zhaoj.in/read-8947.html</a></p>
-<p>GZCTF平台对接QQ机器人 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Joooook/p/18152428">https://www.cnblogs.com/Joooook/p/18152428</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/CTF-Archives/GZCTFBOT">https://github.com/CTF-Archives/GZCTFBOT</a></p>
+<p><a target="_blank" rel="noopener" href="https://sj1t.cn/2024/01/04/动态Flag实现/">https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/</a></p>
+<p>在k3s master中 构建题目 然后上穿到docker中
+具体方法参考https://blog.csdn.net/qq_52820087/article/details/127851116</p>
+<p>目前存在问题 配置的为 k3s主的ip 然后生成的为 主的ip 但是实际上开的所
+slave机器的</p>
+<h2 id="拓展">拓展</h2>
+<p>GZCTF隐藏积分榜记录 https://www.zhaoj.in/read-8947.html</p>
+<p>GZCTF平台对接QQ机器人 https://www.cnblogs.com/Joooook/p/18152428</p>
+<p>https://github.com/CTF-Archives/GZCTFBOT</p>
 <hr>
-<h2 id="开启流量捕获"><a href="#开启流量捕获" class="headerlink" title="开启流量捕获"></a>开启流量捕获</h2><p>捕获队伍解题流量 需开启平台代理</p>
-<p>平台代理配置  <a target="_blank" rel="noopener" href="https://docs.ctf.gzti.me/zh/guide/platform-proxy">https://docs.ctf.gzti.me/zh/guide/platform-proxy</a></p>
-<p>在 appsettings.json 中，找到 ContainerProvider 节点，进行如下配置：</p>
-<p>{  “ContainerProvider”: {    “PortMappingType”: “PlatformProxy”,    “EnableTrafficCapture”: false  } }</p>
+<h2 id="开启流量捕获">开启流量捕获</h2>
+<p>捕获队伍解题流量 需开启平台代理</p>
+<p>平台代理配置 https://docs.ctf.gzti.me/zh/guide/platform-proxy</p>
+<p>在 appsettings.json 中，找到 ContainerProvider
+节点，进行如下配置：</p>
+<p>{ "ContainerProvider": { "PortMappingType": "PlatformProxy",
+"EnableTrafficCapture": false } }</p>
 <p>然后使用 websocket进行连接</p>
 
     </div>
@@ -508,7 +503,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">准备阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8x3"><span class="nav-number">1.1.</span> <span class="nav-text">服务器x3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D"><span class="nav-number">1.2.</span> <span class="nav-text">修改用户名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E9%83%BD%E6%89%A7%E8%A1%8C"><span class="nav-number">1.3.</span> <span class="nav-text">关闭防火墙  三台机器都执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEhosts%E8%A7%A3%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">配置hosts解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker%E3%80%90k3s-master-slave%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">1.5.</span> <span class="nav-text">安装docker【k3s master\slave执行】</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k3s-%E9%83%A8%E7%BD%B2-gzctf"><span class="nav-number">2.</span> <span class="nav-text">k3s 部署 gzctf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85k3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.1.</span> <span class="nav-text">1.安装k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85slave%E8%8A%82%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2.安装slave节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9B%B4%E6%94%B9nodeport-%E7%AB%AF%E5%8F%A3%E8%8C%83%E5%9B%B4%E3%80%90master%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.3.</span> <span class="nav-text">3.更改nodeport 端口范围【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%9B%B4%E6%94%B9k3s%E5%AE%B9%E5%99%A8%E6%95%B0%E9%87%8F%E9%99%90%E5%88%B6%E3%80%90master-slave%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.4.</span> <span class="nav-text">4.更改k3s容器数量限制【master&#x2F;slave执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B7%BB%E5%8A%A0docker%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93%E3%80%90master%E6%89%A7%E8%A1%8C%E3%80%91"><span class="nav-number">2.5.</span> <span class="nav-text">5.添加docker镜像仓库【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E9%85%8D%E7%BD%AE%E5%AE%8C%E6%88%90%E5%90%8E-%E9%87%8D%E5%90%AFk3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.6.</span> <span class="nav-text">6.配置完成后 重启k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-gzctfweb%E9%85%8D%E7%BD%AE"><span class="nav-number">2.7.</span> <span class="nav-text">7.gzctfweb配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">题目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%B5%81%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">5.</span> <span class="nav-text">开启流量捕获</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E9%98%B6%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">准备阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8x3"><span class="nav-number">1.1.</span> <span class="nav-text">服务器x3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D"><span class="nav-number">1.2.</span> <span class="nav-text">修改用户名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E9%83%BD%E6%89%A7%E8%A1%8C"><span class="nav-number">1.3.</span> <span class="nav-text">关闭防火墙 三台机器都执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEhosts%E8%A7%A3%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">配置hosts解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85dockerk3s-master"><span class="nav-number">1.5.</span> <span class="nav-text">安装docker【k3s master】</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k3s-%E9%83%A8%E7%BD%B2-gzctf"><span class="nav-number">2.</span> <span class="nav-text">k3s 部署 gzctf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85k3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.1.</span> <span class="nav-text">1.安装k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85slave%E8%8A%82%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2.安装slave节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9nodeport-%E7%AB%AF%E5%8F%A3%E8%8C%83%E5%9B%B4master%E6%89%A7%E8%A1%8C"><span class="nav-number">2.3.</span> <span class="nav-text">3.更改nodeport
+端口范围【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9k3s%E5%AE%B9%E5%99%A8%E6%95%B0%E9%87%8F%E9%99%90%E5%88%B6masterslave%E6%89%A7%E8%A1%8C"><span class="nav-number">2.4.</span> <span class="nav-text">4.更改k3s容器数量限制【master&#x2F;slave执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0docker%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93master%E6%89%A7%E8%A1%8C"><span class="nav-number">2.5.</span> <span class="nav-text">5.添加docker镜像仓库【master执行】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%8C%E6%88%90%E5%90%8E-%E9%87%8D%E5%90%AFk3s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.6.</span> <span class="nav-text">6.配置完成后 重启k3s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gzctfweb%E9%85%8D%E7%BD%AE"><span class="nav-number">2.7.</span> <span class="nav-text">7.gzctfweb配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">题目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%B5%81%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">5.</span> <span class="nav-text">开启流量捕获</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -524,7 +520,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -572,7 +568,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -586,7 +582,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -597,7 +593,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -737,6 +733,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

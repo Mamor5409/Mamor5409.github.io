@@ -310,17 +310,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><p>shiro采用了AES-128-CBC的模式对cookie进行加密，这种加密方式可以使用Padding Oracle Attack( Oracle 填充攻击 ) ,用户可以通过这种方式构造恶意的RememberMe字段，并重新请求网站，进行反序列化攻击，从而达到任意代码执行.</p>
-<p>影响版本: Apache Shiro  1.2.5, 1.2.6, 1.3.0, 1.3.1, 1.3.2, 1.4.0-RC2, 1.4.0, 1.4.1版本</p>
-<br>
-
-<br>
-
-<h3 id="AES加密"><a href="#AES加密" class="headerlink" title="AES加密"></a>AES加密</h3><p>AES/128/CBC/PKCS5Padding 加密</p>
-<p>AES是一款对称加密 ,分组加密算法，这个书上有介绍过，不过最近书没在旁边，参考了下师傅们博客 </p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28205153/article/details/55798628">https://blog.csdn.net/qq_28205153/article/details/55798628</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/3239.html">https://www.cxyxiaowu.com/3239.html</a></p>
-<h4 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h4><p>AES的加密标准中，每个分组的 长度固定为128bits(16Bytes)，密钥长度为128bits,192bits,256bits,不同的密钥长度有不同的加密轮数,根据长度不同可以分为AES-128,AES-192,AES-256.</p>
+        <h3 id="漏洞说明">漏洞说明</h3>
+<p>shiro采用了AES-128-CBC的模式对cookie进行加密，这种加密方式可以使用Padding
+Oracle Attack( Oracle 填充攻击 )
+,用户可以通过这种方式构造恶意的RememberMe字段，并重新请求网站，进行反序列化攻击，从而达到任意代码执行.</p>
+<p>影响版本: Apache Shiro 1.2.5, 1.2.6, 1.3.0, 1.3.1, 1.3.2, 1.4.0-RC2,
+1.4.0, 1.4.1版本</p>
+<p><br></p>
+<p><br></p>
+<h3 id="aes加密">AES加密</h3>
+<p>AES/128/CBC/PKCS5Padding 加密</p>
+<p>AES是一款对称加密
+,分组加密算法，这个书上有介绍过，不过最近书没在旁边，参考了下师傅们博客</p>
+<p>https://blog.csdn.net/qq_28205153/article/details/55798628</p>
+<p>https://www.cxyxiaowu.com/3239.html</p>
+<h4 id="基本结构">基本结构</h4>
+<p>AES的加密标准中，每个分组的
+长度固定为128bits(16Bytes)，密钥长度为128bits,192bits,256bits,不同的密钥长度有不同的加密轮数,根据长度不同可以分为AES-128,AES-192,AES-256.</p>
 <table>
 <thead>
 <tr>
@@ -330,7 +336,8 @@
 <th>加密轮数</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>AES-128</td>
 <td>128bits</td>
 <td>128bits</td>
@@ -348,147 +355,165 @@
 <td>128bits</td>
 <td>14</td>
 </tr>
-</tbody></table>
-<h4 id="加密步骤"><a href="#加密步骤" class="headerlink" title="加密步骤"></a>加密步骤</h4><p>初始轮        </p>
+</tbody>
+</table>
+<h4 id="加密步骤">加密步骤</h4>
+<p>初始轮</p>
 <ul>
 <li>轮密钥加（AddRoundKey）</li>
 </ul>
-<p>普通轮        </p>
+<p>普通轮</p>
 <ul>
-<li>字节替换    （SubBytes）</li>
+<li>字节替换 （SubBytes）</li>
 <li>行位移（ShiftRows）</li>
 <li>列混淆（MixColumns）</li>
 <li>轮密钥加（AddRoundKey）</li>
 </ul>
-<p>最终轮        </p>
+<p>最终轮</p>
 <ul>
 <li>字节替换 （SubBytes）</li>
 <li>行位移 （ShiftRows）</li>
 <li>轮密钥加（AddRoundKey）</li>
 </ul>
 <p>具体加密步骤详解如下</p>
-<h5 id="字节替换（SubBytes）"><a href="#字节替换（SubBytes）" class="headerlink" title="字节替换（SubBytes）"></a>字节替换（SubBytes）</h5><p>AES 字节替换的过程可以理解为一个查表的过程,AES提供了S盒和逆S盒，</p>
-<p>字节的高四位作为行，字节底四位为列值，然后根据s盒中的对应的值作为输出，图中给出例如，加密时输出的字节S1为0x12，查S盒的第1行 ，第2列，得到的值为 0xc9</p>
+<h5 id="字节替换subbytes">字节替换（SubBytes）</h5>
+<p>AES 字节替换的过程可以理解为一个查表的过程,AES提供了S盒和逆S盒，</p>
+<p>字节的高四位作为行，字节底四位为列值，然后根据s盒中的对应的值作为输出，图中给出例如，加密时输出的字节S1为0x12，查S盒的第1行
+，第2列，得到的值为 0xc9</p>
 <p>0xAB，查S盒第A行，第B列，得到值为0x62</p>
 <p><img src="/posts/700536f4/s.png"></p>
 <p><img src="/posts/700536f4/%5Es.png"></p>
 <p><img src="/posts/700536f4/SubBytes.png"></p>
 <p><img src="/posts/700536f4/SubBytes2.png"></p>
-<h5 id="行位移（ShiftRows）"><a href="#行位移（ShiftRows）" class="headerlink" title="行位移（ShiftRows）"></a>行位移（ShiftRows）</h5><p>行位移，可以理解为左循环移位的操作</p>
+<h5 id="行位移shiftrows">行位移（ShiftRows）</h5>
+<p>行位移，可以理解为左循环移位的操作</p>
 <p><img src="/posts/700536f4/ShiftRows.png"></p>
 <p><img src="/posts/700536f4/ShiftRows2.PNG"></p>
 <p>行位移的逆变换相反，为左循环位移</p>
-<h5 id="列混淆（MixColumns）"><a href="#列混淆（MixColumns）" class="headerlink" title="列混淆（MixColumns）"></a>列混淆（MixColumns）</h5><p>列混合变换  就是矩阵相乘,行位移后的状态矩阵盒固定矩阵相乘</p>
+<h5 id="列混淆mixcolumns">列混淆（MixColumns）</h5>
+<p>列混合变换 就是矩阵相乘,行位移后的状态矩阵盒固定矩阵相乘</p>
 <p><img src="/posts/700536f4/MixColumns.png"></p>
-<h5 id="轮密钥加（AddRoundKey）"><a href="#轮密钥加（AddRoundKey）" class="headerlink" title="轮密钥加（AddRoundKey）"></a>轮密钥加（AddRoundKey）</h5><p>轮密钥加时i将128为的轮密钥Ki和相同状态的矩阵中的数据逐位进行异或运算</p>
+<h5 id="轮密钥加addroundkey">轮密钥加（AddRoundKey）</h5>
+<p>轮密钥加时i将128为的轮密钥Ki和相同状态的矩阵中的数据逐位进行异或运算</p>
 <p><img src="/posts/700536f4/AddRoundKey.png"></p>
 <p>a[i,j]与k[i,j]异或，输出b[i,j]</p>
-<br>
-
-<h4 id="加密模式"><a href="#加密模式" class="headerlink" title="加密模式"></a>加密模式</h4><p>AES分组加密的加密模式，共五种可选加密模式</p>
+<p><br></p>
+<h4 id="加密模式">加密模式</h4>
+<p>AES分组加密的加密模式，共五种可选加密模式</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ECS ( Electronic Codebook Book , 电话本模式 )</span><br><span class="line">CBC ( Cipher Block Chaining , 密码分组链接模式 )</span><br><span class="line">CTR ( Counter , 计算器模式 )</span><br><span class="line">CFB ( Cipher FeedBack , 密码反馈模式 )</span><br><span class="line">OFB ( Output FeedBack , 输出反馈模式 )</span><br></pre></td></tr></table></figure>
-
 <p>在shiro中使用的为CBC的加密模式，</p>
 <blockquote>
-<p>CBC加密模式: 将明文切分成若干小段 , 然后每一段分别与上一段的密文进行异或运算 , 再与密钥进行加密 , 生成本段明文的密文 , 这段密文用于下一段明文的加密</p>
-<p>第一段明文没有对应的密文，保证分组的唯一性，CBC加密模式使用了初始化向量（IV , Initialization Vector）初始化向量是一个固定长度的随机数 , 该向量会作为密文第一个块 , 随密文一同传输 .</p>
-<p>在 CBC 模式中 , 初始化向量( IV ) 的长度与分组大小相同 , 为 16 Bytes( 128 bits ) , 因为链接模式中的异或操作是等长操作</p>
+<p>CBC加密模式: 将明文切分成若干小段 ,
+然后每一段分别与上一段的密文进行异或运算 , 再与密钥进行加密 ,
+生成本段明文的密文 , 这段密文用于下一段明文的加密</p>
+<p>第一段明文没有对应的密文，保证分组的唯一性，CBC加密模式使用了初始化向量（IV
+, Initialization Vector）初始化向量是一个固定长度的随机数 ,
+该向量会作为密文第一个块 , 随密文一同传输 .</p>
+<p>在 CBC 模式中 , 初始化向量( IV ) 的长度与分组大小相同 , 为 16 Bytes(
+128 bits ) , 因为链接模式中的异或操作是等长操作</p>
 </blockquote>
 <p><img src="/posts/700536f4/aes_Cbc_encryption-squashed.jpg"></p>
 <p><img src="/posts/700536f4/aes_Cbc_decryption.png"></p>
-<h5 id="加密模式对应的填充方式"><a href="#加密模式对应的填充方式" class="headerlink" title="加密模式对应的填充方式"></a>加密模式对应的填充方式</h5><p>填充有六种：NoPadding, PKCS#5, PKCS#7, ISO 10126, ANSI X9.23和ZerosPadding</p>
+<h5 id="加密模式对应的填充方式">加密模式对应的填充方式</h5>
+<p>填充有六种：NoPadding, PKCS#5, PKCS#7, ISO 10126, ANSI
+X9.23和ZerosPadding</p>
 <ul>
 <li><p>Nopadding</p>
-<p>  不进行填充</p>
-</li>
+<p>不进行填充</p></li>
 <li><p>PKCS#7 &amp; PKCS#5</p>
-<p>  缺少几个字节就填充几个字节，值为填充的字节数  </p>
-</li>
+<p>缺少几个字节就填充几个字节，值为填充的字节数</p></li>
 </ul>
 <blockquote>
-<p>例如,AAAAAAAA  BBBBBBBB CCCCCCCC    刚好分成3个分组<br>        AAAAAAAA  BBBBBBBB CCCCC            缺少3个字节 所以使用 0x03进行填充<br>       (这里例子的A B C 均视为一个字节)</p>
+<p>例如,AAAAAAAA BBBBBBBB CCCCCCCC 刚好分成3个分组 AAAAAAAA BBBBBBBB
+CCCCC 缺少3个字节 所以使用 0x03进行填充 (这里例子的A B C
+均视为一个字节)</p>
 </blockquote>
 <blockquote>
-<p>不同在于PKCS5限定了块大小为8bytes而PKCS7没有限定，在AES加密当中严格来说是不能使用pkcs5的，因为AES的块大小是16bytes而pkcs5只能用于8bytes，通常我们在AES加密中所说的pkcs5指的就是pkcs7！    —-在知乎上看到的</p>
+<p>不同在于PKCS5限定了块大小为8bytes而PKCS7没有限定，在AES加密当中严格来说是不能使用pkcs5的，因为AES的块大小是16bytes而pkcs5只能用于8bytes，通常我们在AES加密中所说的pkcs5指的就是pkcs7！
+----在知乎上看到的</p>
 </blockquote>
 <ul>
 <li><p>ISO 10126</p>
-<p>  最后一个字节是填充的字节数（包括最后一字节），其他全部填随机数</p>
-</li>
+<p>最后一个字节是填充的字节数（包括最后一字节），其他全部填随机数</p></li>
 </ul>
 <blockquote>
 <p>直接引用师傅的例子</p>
-<p>… | DD DD DD DD DD DD DD DD | DD DD DD DD 81 A6 23 04 | … </p>
+<p>... | DD DD DD DD DD DD DD DD | DD DD DD DD 81 A6 23 04 | ...</p>
 </blockquote>
 <ul>
 <li><p>ANSI X9.23</p>
-<p>  和ISO 10126差不多，最后一个字节是填充的字节数，区别在 这种方法填充的其他字节都是0，而不是随机数</p>
-</li>
+<p>和ISO 10126差不多，最后一个字节是填充的字节数，区别在
+这种方法填充的其他字节都是0，而不是随机数</p></li>
 <li><p>ZerosPadding</p>
-<p>  缺少的字节全部使用 <code>0x00</code>填充</p>
-</li>
+<p>缺少的字节全部使用 <code>0x00</code>填充</p></li>
 </ul>
-<br>
-
-<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>AES加密大体上有所了解了，再回到shiro上来，看一下 AES/CBC/PKCS5Padding 即可</p>
+<p><br></p>
+<h3 id="漏洞分析">漏洞分析</h3>
+<p>AES加密大体上有所了解了，再回到shiro上来，看一下 AES/CBC/PKCS5Padding
+即可</p>
 <p><img src="/posts/700536f4/PKCS5Padding.png"></p>
-<br>
-
-<h4 id="Padding-Oracle-Attack-填充-Oracle-攻击"><a href="#Padding-Oracle-Attack-填充-Oracle-攻击" class="headerlink" title="Padding Oracle Attack( 填充 Oracle 攻击 )"></a>Padding Oracle Attack( 填充 Oracle 攻击 )</h4><p>是指使用密文的填充验证信息来进行解密的攻击方法,也就是通过加密数据解密后验证填充是否正确的方式</p>
+<p><br></p>
+<h4 id="padding-oracle-attack-填充-oracle-攻击">Padding Oracle Attack(
+填充 Oracle 攻击 )</h4>
+<p>是指使用密文的填充验证信息来进行解密的攻击方法,也就是通过加密数据解密后验证填充是否正确的方式</p>
 <p>例如</p>
 <p>用户去请求 <code>http://www.example.com?id=xxxxxxxxxxx</code></p>
 <p>服务端接收客户端发送的数据后，会对参数值进行AES解密处理:</p>
 <ul>
-<li>密文无效        =&gt;    用户不存在。返回http 500</li>
-<li>密文有效,填充有效        =&gt;    用户存在，登陆成功。返回htto 200</li>
-<li>密文有效,填充无效        =&gt;    自定义报错。返回http 30X</li>
+<li>密文无效 =&gt; 用户不存在。返回http 500</li>
+<li>密文有效,填充有效 =&gt; 用户存在，登陆成功。返回htto 200</li>
+<li>密文有效,填充无效 =&gt; 自定义报错。返回http 30X</li>
 </ul>
 <p>所以可以通过对填充进行爆破来确定有效的填充值</p>
-<br>
-
+<p><br></p>
 <p><img src="/posts/700536f4/aes_Cbc_decryption.png"></p>
 <p>Ciphertext通过Key解密为Midvalue,然后midvalue和IV进行异或处理得到Plaintext</p>
-<p>那可以去创建一个FuzzIV 让它与Midvalue进行异或运算，得到Plaintext后再去验证填充是否有效</p>
-<p>PKCS5Padding 中 padding的有效范围为0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 到 0x08 0x08 0x08 0x08 0x08 0x08 0x08 0x08 之间</p>
+<p>那可以去创建一个FuzzIV
+让它与Midvalue进行异或运算，得到Plaintext后再去验证填充是否有效</p>
+<p>PKCS5Padding 中 padding的有效范围为0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x00 到 0x08 0x08 0x08 0x08 0x08 0x08 0x08 0x08 之间</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FuzzIV[i] ^ Midvalue[i] = 0x01  =&gt; Midvalue[i] = FuzzIV[i] ^ 0x01</span><br><span class="line"> ===&gt;</span><br><span class="line">IV[i] ^ Midvalue[i] = Plaintext[i] =&gt; Plaintext[i] = IV[i] ^ FuzzIV[i] ^ 0x01</span><br></pre></td></tr></table></figure>
-
-<p>最终得到 <code>Plaintext[i] = IV[i] ^ FuzzIV[i] ^ 0x01</code>, 而IV和FuzzIV是已知的，所以可以得到Plaintext的值,这就是 Padding Oracle Attack 的攻击原理</p>
-<br>
-
-<h3 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h3><h4 id="漏洞搭建"><a href="#漏洞搭建" class="headerlink" title="漏洞搭建"></a>漏洞搭建</h4><p>获取dockfile</p>
-<p><code>git clone https://github.com/3ndz/Shiro-721.git</code><br><code>cd Shiro-721/Docker</code></p>
+<p>最终得到 <code>Plaintext[i] = IV[i] ^ FuzzIV[i] ^ 0x01</code>,
+而IV和FuzzIV是已知的，所以可以得到Plaintext的值,这就是 Padding Oracle
+Attack 的攻击原理</p>
+<p><br></p>
+<h3 id="漏洞复现">漏洞复现</h3>
+<h4 id="漏洞搭建">漏洞搭建</h4>
+<p>获取dockfile</p>
+<p><code>git clone https://github.com/3ndz/Shiro-721.git</code>
+<code>cd Shiro-721/Docker</code></p>
 <p>构建并运行</p>
-<p><code>docker build -t shiro-721 .  </code></p>
+<p><code>docker build -t shiro-721 .</code></p>
 <p><code>docker run -p 8080:8080 -d shiro-721</code></p>
-<p>尝试登录  root/secret，勾选RememberMe</p>
+<p>尝试登录 root/secret，勾选RememberMe</p>
 <p><img src="/posts/700536f4/login_success_rem.png"></p>
 <p>可以看到 <code>Set-Cookie: rememberMe=deleteMe</code></p>
-<br>
-
-<h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>使用burp抓取rememberMe</p>
+<p><br></p>
+<h4 id="漏洞利用">漏洞利用</h4>
+<p>使用burp抓取rememberMe</p>
 <p><img src="/posts/700536f4/exp1.png"></p>
-<p>需要爆破很长时间… …用了半个多小时…</p>
+<p>需要爆破很长时间... ...用了半个多小时...</p>
 <p><img src="/posts/700536f4/exp2.png"></p>
 <p><img src="/posts/700536f4/exp3.png"></p>
 <p>最终成功反弹shell</p>
-<br>
-
-<h3 id="漏洞防御"><a href="#漏洞防御" class="headerlink" title="漏洞防御"></a>漏洞防御</h3><ul>
+<p><br></p>
+<h3 id="漏洞防御">漏洞防御</h3>
+<ul>
 <li>升级 Shiro版本</li>
 <li>使用waf拦截过于频繁访问的ip</li>
 <li>使用waf拦截Cookie中长度过大的RememberMe值</li>
 <li>升级jdk版本</li>
 </ul>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.guildhab.top/2020/11/cve-2019-12422-shiro721-apache-shiro-rememberme-padding-oracle-1-4-1-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-%E5%88%86%E6%9E%90-%E4%B8%8A/">https://www.guildhab.top/2020/11/cve-2019-12422-shiro721-apache-shiro-rememberme-padding-oracle-1-4-1-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-%E5%88%86%E6%9E%90-%E4%B8%8A/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/14077791.html">https://www.cnblogs.com/backlion/p/14077791.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/m1tang/gqsay7/qwegln">https://www.yuque.com/m1tang/gqsay7/qwegln</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1yX4y1V75c">https://www.bilibili.com/video/BV1yX4y1V75c</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/3239.html">https://www.cxyxiaowu.com/3239.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28205153/article/details/55798628">https://blog.csdn.net/qq_28205153/article/details/55798628</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/131324301">https://zhuanlan.zhihu.com/p/131324301</a></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://www.guildhab.top/2020/11/cve-2019-12422-shiro721-apache-shiro-rememberme-padding-oracle-1-4-1-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E-%E5%88%86%E6%9E%90-%E4%B8%8A/</p>
+<p>https://www.cnblogs.com/backlion/p/14077791.html</p>
+<p>https://www.yuque.com/m1tang/gqsay7/qwegln</p>
+<p>https://www.bilibili.com/video/BV1yX4y1V75c</p>
+<p>https://www.cxyxiaowu.com/3239.html</p>
+<p>https://blog.csdn.net/qq_28205153/article/details/55798628</p>
+<p>https://zhuanlan.zhihu.com/p/131324301</p>
 </blockquote>
 
     </div>
@@ -620,7 +645,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AES%E5%8A%A0%E5%AF%86"><span class="nav-number">2.</span> <span class="nav-text">AES加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">基本结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.</span> <span class="nav-text">加密步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E6%9B%BF%E6%8D%A2%EF%BC%88SubBytes%EF%BC%89"><span class="nav-number">2.2.1.</span> <span class="nav-text">字节替换（SubBytes）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%8C%E4%BD%8D%E7%A7%BB%EF%BC%88ShiftRows%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">行位移（ShiftRows）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E6%B7%B7%E6%B7%86%EF%BC%88MixColumns%EF%BC%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">列混淆（MixColumns）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0%EF%BC%88AddRoundKey%EF%BC%89"><span class="nav-number">2.2.4.</span> <span class="nav-text">轮密钥加（AddRoundKey）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">加密模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A1%AB%E5%85%85%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">加密模式对应的填充方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Padding-Oracle-Attack-%E5%A1%AB%E5%85%85-Oracle-%E6%94%BB%E5%87%BB"><span class="nav-number">3.1.</span> <span class="nav-text">Padding Oracle Attack( 填充 Oracle 攻击 )</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%90%AD%E5%BB%BA"><span class="nav-number">4.1.</span> <span class="nav-text">漏洞搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E9%98%B2%E5%BE%A1"><span class="nav-number">5.</span> <span class="nav-text">漏洞防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#aes%E5%8A%A0%E5%AF%86"><span class="nav-number">2.</span> <span class="nav-text">AES加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">基本结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.</span> <span class="nav-text">加密步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E6%9B%BF%E6%8D%A2subbytes"><span class="nav-number">2.2.1.</span> <span class="nav-text">字节替换（SubBytes）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%8C%E4%BD%8D%E7%A7%BBshiftrows"><span class="nav-number">2.2.2.</span> <span class="nav-text">行位移（ShiftRows）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E6%B7%B7%E6%B7%86mixcolumns"><span class="nav-number">2.2.3.</span> <span class="nav-text">列混淆（MixColumns）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0addroundkey"><span class="nav-number">2.2.4.</span> <span class="nav-text">轮密钥加（AddRoundKey）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">加密模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A1%AB%E5%85%85%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text">加密模式对应的填充方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#padding-oracle-attack-%E5%A1%AB%E5%85%85-oracle-%E6%94%BB%E5%87%BB"><span class="nav-number">3.1.</span> <span class="nav-text">Padding Oracle Attack(
+填充 Oracle 攻击 )</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%90%AD%E5%BB%BA"><span class="nav-number">4.1.</span> <span class="nav-text">漏洞搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">4.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E9%98%B2%E5%BE%A1"><span class="nav-number">5.</span> <span class="nav-text">漏洞防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -636,7 +662,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -684,7 +710,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -698,7 +724,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -709,7 +735,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -849,6 +875,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

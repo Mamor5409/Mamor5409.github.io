@@ -66,7 +66,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/23.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/ae3c8023/24.png">
 <meta property="article:published_time" content="2024-03-21T09:41:07.000Z">
-<meta property="article:modified_time" content="2024-05-11T00:55:10.107Z">
+<meta property="article:modified_time" content="2024-05-11T00:55:10.000Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="WiFi">
 <meta name="twitter:card" content="summary">
@@ -303,7 +303,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.2k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -323,65 +323,98 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>无线安全应用无所不在，企业和个人在使用开放的无线网络时，虽然知道存在安全风险，但仍然依赖于这种网络模式。为了保护用户、设备和服务系统的安全，企业安全团队必须重视无线网络的安全性。了解可能出现的无线网络攻击类型以及采取适当的保护措施至关重要。本篇将简析下Wifi安全的常见攻击手法。</p>
-<h3 id="IEEE-802-11"><a href="#IEEE-802-11" class="headerlink" title="IEEE 802.11"></a>IEEE 802.11</h3><p>802.11 体系结构包括几类主要组件， AP(Access Point，无线接入点)、STA(Station，站)、IBSS、BSS、DS、ESS。</p>
+        <h3 id="前言">前言</h3>
+<p>无线安全应用无所不在，企业和个人在使用开放的无线网络时，虽然知道存在安全风险，但仍然依赖于这种网络模式。为了保护用户、设备和服务系统的安全，企业安全团队必须重视无线网络的安全性。了解可能出现的无线网络攻击类型以及采取适当的保护措施至关重要。本篇将简析下Wifi安全的常见攻击手法。</p>
+<h3 id="ieee-802.11">IEEE 802.11</h3>
+<p>802.11 体系结构包括几类主要组件， AP(Access
+Point，无线接入点)、STA(Station，站)、IBSS、BSS、DS、ESS。</p>
 <p>802.11标准将所有数据包分为3种：数据、管理、控制</p>
 <ul>
 <li>数据帧：用于传输用户数据，如文件、视频或音频等。</li>
 <li>管理帧：用于管理和维护网络，执行诸如扫描、连接和身份验证等功能。</li>
 <li>控制帧：用于控制数据传输过程，包括管理数据传输速率和流动，以及处理碰撞等。</li>
 </ul>
-<h4 id="协议标准"><a href="#协议标准" class="headerlink" title="协议标准"></a>协议标准</h4><p>在802.11标准中有多种不同的规范，每种规范都提供不同的数据传输速率、频率范围和安全特性。802.11标准已成为最为广泛的WLAN技术，并得到了各种设备的广泛支持。</p>
+<h4 id="协议标准">协议标准</h4>
+<p>在802.11标准中有多种不同的规范，每种规范都提供不同的数据传输速率、频率范围和安全特性。802.11标准已成为最为广泛的WLAN技术，并得到了各种设备的广泛支持。</p>
 <ul>
-<li>Wi-Fi 1 = IEEE 802.11b：支持2.4GHz频段的无线局域网协议，最高速率为11 Mbps。</li>
-<li>Wi-Fi 2 = IEEE 802.11a：支持5GHz频段的无线局域网协议，最高速率为54 Mbps。</li>
-<li>Wi-Fi 3 = IEEE 802.11g：支持2.4GHz频段的无线局域网协议，最高速率为54 Mbps。</li>
-<li>Wi-Fi 4 = IEEE 802.11n：支持2.4GHz和5GHz频段的无线局域网协议，最高速率为600 Mbps。</li>
-<li>Wi-Fi 5 = IEEE 802.11ac：支持5GHz频段的无线局域网协议，最高速率可达1.3 Gbps。</li>
-<li>Wi-Fi 6 = IEEE 802.11ax：支持2.4GHz和5GHz频段的无线局域网协议，最高速率可达10 Gbps。</li>
+<li>Wi-Fi 1 = IEEE 802.11b：支持2.4GHz频段的无线局域网协议，最高速率为11
+Mbps。</li>
+<li>Wi-Fi 2 = IEEE 802.11a：支持5GHz频段的无线局域网协议，最高速率为54
+Mbps。</li>
+<li>Wi-Fi 3 = IEEE 802.11g：支持2.4GHz频段的无线局域网协议，最高速率为54
+Mbps。</li>
+<li>Wi-Fi 4 = IEEE
+802.11n：支持2.4GHz和5GHz频段的无线局域网协议，最高速率为600 Mbps。</li>
+<li>Wi-Fi 5 = IEEE
+802.11ac：支持5GHz频段的无线局域网协议，最高速率可达1.3 Gbps。</li>
+<li>Wi-Fi 6 = IEEE
+802.11ax：支持2.4GHz和5GHz频段的无线局域网协议，最高速率可达10
+Gbps。</li>
 </ul>
 <p>2.4GHz与5GHz频段优缺点对比如下：</p>
 <p><img src="/posts/ae3c8023/1.png"></p>
-<p>在802.11b 802.11g 802.11n标准中，2.4GHz频段被划分为14个信道，1~13信道无需申请可以随意使用。</p>
+<p>在802.11b 802.11g
+802.11n标准中，2.4GHz频段被划分为14个信道，1~13信道无需申请可以随意使用。</p>
 <p>每个信道的有效带宽为20MHz【实际带宽22MHz，其中2MHz为隔离频带】，相邻信道的中心频点间隔为5MHz，因此在多个信道之间会存在重叠的频率。</p>
-<p>干扰最小的新的有3组，可同下图看出（1、6、11  和  2、7、12 和 3、8、13）</p>
+<p>干扰最小的新的有3组，可同下图看出（1、6、11 和 2、7、12 和
+3、8、13）</p>
 <p>图自 《黑客大揭秘：近源渗透测试》</p>
 <p><img src="/posts/ae3c8023/2.png"></p>
-<h3 id="802-11-加密系统"><a href="#802-11-加密系统" class="headerlink" title="802.11 加密系统"></a>802.11 加密系统</h3><p>无线网络的安全协议通常包括 WEP、WPA、WPA2、WPA3，其中较为安全的是WPA2和WPA3。使用WPA2/WPA3加密可以确保数据传输的安全性，避免被攻击者窃取或篡改。同时在使用时，建议使用高强度密码以增加被破解的难度。</p>
-<h4 id="WEP"><a href="#WEP" class="headerlink" title="WEP"></a>WEP</h4><p>全称是 Wired Equivalent Privacy，有线等效保密。WEP的核心采用RC4加密，加密密钥长度有64位、128位和152位。</p>
+<h3 id="加密系统">802.11 加密系统</h3>
+<p>无线网络的安全协议通常包括
+WEP、WPA、WPA2、WPA3，其中较为安全的是WPA2和WPA3。使用WPA2/WPA3加密可以确保数据传输的安全性，避免被攻击者窃取或篡改。同时在使用时，建议使用高强度密码以增加被破解的难度。</p>
+<h4 id="wep">WEP</h4>
+<p>全称是 Wired Equivalent
+Privacy，有线等效保密。WEP的核心采用RC4加密，加密密钥长度有64位、128位和152位。</p>
 <p>其中有24bit的IV偏移向量，有效密钥长度为40位、104位、128位。IV位于每个802.11帧头部的字段，在加解密过程中使用。</p>
-<h4 id="WPA"><a href="#WPA" class="headerlink" title="WPA"></a>WPA</h4><p>全称是 WiFi Protected Access，WiFi访问保护，常用的无线网络认证机制之一。WPA有两种不同的模式：</p>
+<h4 id="wpa">WPA</h4>
+<p>全称是 WiFi Protected
+Access，WiFi访问保护，常用的无线网络认证机制之一。WPA有两种不同的模式：</p>
 <ul>
 <li>企业模式 WPA-EAP</li>
 <li>个人模式 WPA-PSK</li>
 </ul>
 <p>WPA使用256位密钥，相比于WEP标准中使用的64位和128位密钥，并且在WPA中使用动态密钥加密，破解起来要比WEP困难。在WPA中密码越复杂，安全性越高。</p>
-<p>TKIP算法 虽然比起WEP有巨大进步，但是其仍是基于相同的RC4加密算法进行的，也很容易存在相同的问题。</p>
-<h4 id="WPA2"><a href="#WPA2" class="headerlink" title="WPA2"></a>WPA2</h4><p>WPA2 使用AES加密算法取代了WPA中的RC4，也使用更强完整性校验算法CCMP。</p>
-<p>是WPA的高级版本，用两种更强大的加密和身份验证机制取代了RC4和TKIP（临时密钥完整性协议，Temporal Key Integrity Protocol）：AES（advanced encryption standard，高级加密标准） 和分别使用密码块链接消息身份验证代码协议 ( CCMP ) 的计数器模式。</p>
-<p>WAP2 对于家庭网络较为使用，但对于企业网络很脆弱。攻击者可以访问使用WPA2保护的网络，访问网络后他们可以访问密码。字典攻击是WPA2密码最容易受到攻击的部分，可以利用</p>
+<p>TKIP算法
+虽然比起WEP有巨大进步，但是其仍是基于相同的RC4加密算法进行的，也很容易存在相同的问题。</p>
+<h4 id="wpa2">WPA2</h4>
+<p>WPA2
+使用AES加密算法取代了WPA中的RC4，也使用更强完整性校验算法CCMP。</p>
+<p>是WPA的高级版本，用两种更强大的加密和身份验证机制取代了RC4和TKIP（临时密钥完整性协议，Temporal
+Key Integrity Protocol）：AES（advanced encryption
+standard，高级加密标准） 和分别使用密码块链接消息身份验证代码协议 ( CCMP
+) 的计数器模式。</p>
+<p>WAP2
+对于家庭网络较为使用，但对于企业网络很脆弱。攻击者可以访问使用WPA2保护的网络，访问网络后他们可以访问密码。字典攻击是WPA2密码最容易受到攻击的部分，可以利用</p>
 <p>airomon-ng对密码进行破解攻击。</p>
-<h4 id="WPA3"><a href="#WPA3" class="headerlink" title="WPA3"></a>WPA3</h4><p>Wi-Fi Protected Access Version 3 Wi-Fi访问保护3代 2018年提出的新安全标准，采用AES-GCMP加密方式，缓解了WPA2中存在的技术缺陷，环境类KRACK攻击和deauth等无线攻击带来的影响，大大提高了配置、身份验证、加密上的安全性。</p>
+<h4 id="wpa3">WPA3</h4>
+<p>Wi-Fi Protected Access Version 3 Wi-Fi访问保护3代
+2018年提出的新安全标准，采用AES-GCMP加密方式，缓解了WPA2中存在的技术缺陷，环境类KRACK攻击和deauth等无线攻击带来的影响，大大提高了配置、身份验证、加密上的安全性。</p>
 <p>WAP3有两种安全模式：</p>
 <ul>
 <li>WAP3个人模式：提供 128 位加密，使用 WPA-PSK/预共享密钥。</li>
 <li>WAP3企业模式：提供 192 位加密，使用 AAA/RADIUS 认证服务器。</li>
 </ul>
-<h3 id="802-11-连接过程"><a href="#802-11-连接过程" class="headerlink" title="802.11 连接过程"></a>802.11 连接过程</h3><p>接入点（AP）和无线客户端之间的连接包含3个过程：扫描、认证、关联。完成安全性校验后 AP向Station 发起四次握手。</p>
+<h3 id="连接过程">802.11 连接过程</h3>
+<p>接入点（AP）和无线客户端之间的连接包含3个过程：扫描、认证、关联。完成安全性校验后
+AP向Station 发起四次握手。</p>
 <ul>
 <li><p>扫描（探测）：Station扫描所在区域存在的802.11网络</p>
-<p>Station主动发送Req包，AP收到Req帧后回复Rsp帧</p>
-</li>
+<p>Station主动发送Req包，AP收到Req帧后回复Rsp帧</p></li>
 <li><p>认证：Station与AP进行认证</p>
-<p>AP确认 Station是不是802.11设备 确认彼此可以正常通讯</p>
-</li>
+<p>AP确认 Station是不是802.11设备 确认彼此可以正常通讯</p></li>
 <li><p>关联： Station与AP进行关联</p>
-<p>Station与AP关联以便获得网络的访问权，关联成功后Station会收到AP的响应，包含成功的状态码和关联标识符</p>
-</li>
+<p>Station与AP关联以便获得网络的访问权，关联成功后Station会收到AP的响应，包含成功的状态码和关联标识符</p></li>
 </ul>
-<h3 id="WPA-WPA2-四次握手"><a href="#WPA-WPA2-四次握手" class="headerlink" title="WPA/WPA2 四次握手"></a>WPA/WPA2 四次握手</h3><p>无线Wifi的四次握手就是 key exchange的过程。整个过程分为身份认证（authentication）、关联（association）和安全验证（security validation）。四次握手不是直接将密码发送到 AP，而是通过 EAPOL（Extensible authentication protocol over LAN）进行消息交换。下面将简单介绍下四次握手的流程。</p>
+<h3 id="wpawpa2-四次握手">WPA/WPA2 四次握手</h3>
+<p>无线Wifi的四次握手就是 key
+exchange的过程。整个过程分为身份认证（authentication）、关联（association）和安全验证（security
+validation）。四次握手不是直接将密码发送到 AP，而是通过
+EAPOL（Extensible authentication protocol over
+LAN）进行消息交换。下面将简单介绍下四次握手的流程。</p>
 <p><img src="/posts/ae3c8023/3.png"></p>
-<h4 id="Msg1"><a href="#Msg1" class="headerlink" title="Msg1"></a>Msg1</h4><ul>
+<h4 id="msg1">Msg1</h4>
+<ul>
 <li>AP</li>
 </ul>
 <p>AP生成一个随机数ANonce 广播发送给Station</p>
@@ -389,8 +422,9 @@
 <li>Sta</li>
 </ul>
 <p>Sta接收AP发送的随机数ANonce，计算生产PTK(Sta)</p>
-<p>提取PTK的前16字节KCK  计算出MIC(Sta)</p>
-<h4 id="Msg2"><a href="#Msg2" class="headerlink" title="Msg2"></a>Msg2</h4><ul>
+<p>提取PTK的前16字节KCK 计算出MIC(Sta)</p>
+<h4 id="msg2">Msg2</h4>
+<ul>
 <li>Sta</li>
 </ul>
 <p>Sta发送SNonce和MIC(sta)给AP</p>
@@ -400,7 +434,8 @@
 <p>AP收到Snoce后计算生成PTK(AP)</p>
 <p>根据PTK的前16字节KCK 生成MIC(AP)</p>
 <p>通过比对MIC(AP)和MIC(Sta)校验来PTK(AP)和PTK(Sta)，如果一致则进行下一步握手</p>
-<h4 id="Msg3"><a href="#Msg3" class="headerlink" title="Msg3"></a>Msg3</h4><ul>
+<h4 id="msg3">Msg3</h4>
+<ul>
 <li>AP</li>
 </ul>
 <p>AP根据GMK、ANonce、AP Mac 生成 GTK，使用PTK中间16字节KCK加密GTK</p>
@@ -412,7 +447,8 @@
 </ul>
 <p>验证MIC(AP)与MIC(Sta)</p>
 <p>将AP发送的加密后的GTK使用PTK中间16字节KEK进行解密</p>
-<h4 id="Msg4"><a href="#Msg4" class="headerlink" title="Msg4"></a>Msg4</h4><ul>
+<h4 id="msg4">Msg4</h4>
+<ul>
 <li>Sta</li>
 </ul>
 <p>发送最后一次EAPOL-KEY给AP 进行最终认证</p>
@@ -421,14 +457,16 @@
 </ul>
 <p>接收Sta发送的EAPOL-KEY进行认证，认证通过则代表握手成功。</p>
 <p>如果认证成功 双方将安装各种计算出来的GTK和PTK 完成四次握手。</p>
-<h3 id="常见攻击方式"><a href="#常见攻击方式" class="headerlink" title="常见攻击方式"></a>常见攻击方式</h3><h4 id="离线字典攻击"><a href="#离线字典攻击" class="headerlink" title="离线字典攻击"></a>离线字典攻击</h4><p>可通过aircrack-ng 对WPA-PSK 进行密码破解</p>
+<h3 id="常见攻击方式">常见攻击方式</h3>
+<h4 id="离线字典攻击">离线字典攻击</h4>
+<p>可通过aircrack-ng 对WPA-PSK 进行密码破解</p>
 <p>查看可用的无线网卡 <code>sudo airmon-ng</code></p>
 <p><img src="/posts/ae3c8023/4.png"></p>
 <p>指定无线网卡开启监听模式 <code>airmon-ng start wlan0</code></p>
 <p><img src="/posts/ae3c8023/5.png"></p>
-<p>查看网卡是否开启监控 <code>ifconfig </code></p>
+<p>查看网卡是否开启监控 <code>ifconfig</code></p>
 <p><img src="/posts/ae3c8023/6.png"></p>
-<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code> </p>
+<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code></p>
 <p><img src="/posts/ae3c8023/7.png"></p>
 <blockquote>
 <p>BSSID ：无线AP的硬件地址</p>
@@ -439,41 +477,46 @@
 </blockquote>
 <p>使用参数过滤扫描列表，确定扫描目标</p>
 <blockquote>
-<p>使用命令：airodump-ng -w &lt;扫描结果保存的文件名&gt; -c &lt;无线网络信道&gt; –bssid &lt;目标无线 AP 的硬件地址&gt; &lt;处于监听模式的网卡名称&gt;</p>
+<p>使用命令：airodump-ng -w <扫描结果保存的文件名> -c <无线网络信道>
+--bssid <目标无线 ap 的硬件地址> <处于监听模式的网卡名称></处于监听模式的网卡名称></目标无线></无线网络信道></扫描结果保存的文件名></p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airodump-ng -w output -c 11 --bssid E2:D7:74:C2:F9:44  wlan0mon </span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/ae3c8023/8.png"></p>
 <p>使用aireplay-ng 对目标wifi发起攻击</p>
 <blockquote>
-<p>使用命令：aireplay-ng -&lt;攻击模式&gt; &lt;攻击次数&gt; -a &lt;无线AP硬件地址&gt; -c &lt;用户设备硬件地址&gt; &lt;处于监听模式的网卡名称&gt;</p>
+<p>使用命令：aireplay-ng -<攻击模式> <攻击次数> -a <无线AP硬件地址> -c
+<用户设备硬件地址> <处于监听模式的网卡名称></处于监听模式的网卡名称></用户设备硬件地址></无线AP硬件地址></攻击次数></攻击模式></p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo aireplay-ng -0 2 -a E2:D7:74:C2:F9:44 -c 56:D1:E9:EB:EA:2F  wlan0mon</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/ae3c8023/9.png"></p>
-<p>发起攻击后，当airodump-ng 成功监听到了握手包，退出抓包后可以进行爆破。在桌面下生成了output-01.cap</p>
+<p>发起攻击后，当airodump-ng
+成功监听到了握手包，退出抓包后可以进行爆破。在桌面下生成了output-01.cap</p>
 <p><img src="/posts/ae3c8023/10.png"></p>
 <p>使用aircrack-ng 暴力破解wifi密码</p>
 <blockquote>
-<p>aircrack-ng -w 密码字典 &lt;包含握手包的 cap 文件&gt;</p>
+<p>aircrack-ng -w 密码字典 <包含握手包的 cap 文件></包含握手包的></p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo aircrack-ng -w pass.txt output-01.cap</span><br></pre></td></tr></table></figure>
-
 <p><img src="/posts/ae3c8023/11.png"></p>
 <p>这里的密码还需要跟着实际情况去构造，成不成功主要取决于密码字典的强度。</p>
-<h4 id="DeAuth-Attack"><a href="#DeAuth-Attack" class="headerlink" title="DeAuth Attack"></a>DeAuth Attack</h4><p>Wifi中断攻击，攻击原理： Wi-Fi关联数据帧没有被加密，导致攻击者可以伪造管理帧，从而让攻击者可以发送人员 取消认证的数据包强行切断AP与客户端之间的连接。</p>
+<h4 id="deauth-attack">DeAuth Attack</h4>
+<p>Wifi中断攻击，攻击原理：
+Wi-Fi关联数据帧没有被加密，导致攻击者可以伪造管理帧，从而让攻击者可以发送人员
+取消认证的数据包强行切断AP与客户端之间的连接。</p>
 <p>1.查看可用的无线网卡 <code>sudo airmon-ng</code></p>
 <p><img src="/posts/ae3c8023/12.png"></p>
 <p>2.指定无线网卡开启监听模式 <code>airmon-ng start wlan0</code></p>
 <p><img src="/posts/ae3c8023/13.png"></p>
-<p>3.airodump-ng wlan0 对当前环境无线网络进行嗅探 根据ESSIS获取攻击目标MAC</p>
-<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code> </p>
+<p>3.airodump-ng wlan0 对当前环境无线网络进行嗅探
+根据ESSIS获取攻击目标MAC</p>
+<p>扫描附近的无线网络 <code>sudo airodump-ng wlan0mon</code></p>
 <p><img src="/posts/ae3c8023/14.png"></p>
 <p>找到测试目标wifi Se及连接手机的MAC地址</p>
 <p>WIFI MAC 26:04:1C:39:46:7F</p>
-<p>Station MAC  A2:B4:63:18:D6:C2</p>
+<p>Station MAC A2:B4:63:18:D6:C2</p>
 <p>4.利用 airreplay-ng 进行 DeAuth 攻击</p>
-<p>sudo aireplay-ng -0 100 -a 26:04:1C:39:46:7F -c A2:B4:63:18:D6:C2 -D wlan0mon</p>
+<p>sudo aireplay-ng -0 100 -a 26:04:1C:39:46:7F -c A2:B4:63:18:D6:C2 -D
+wlan0mon</p>
 <p>-0 选择DeAuth攻击模式</p>
 <p>-a AP的MAC地址</p>
 <p>-c 指定目标机器的mac地址</p>
@@ -481,8 +524,9 @@
 <p><img src="/posts/ae3c8023/15.png"></p>
 <p>攻击成功后 连接目标网络的机器都会被断开连接。</p>
 <p><img src="/posts/ae3c8023/16.png"></p>
-<h4 id="Wi-Fi-钓鱼"><a href="#Wi-Fi-钓鱼" class="headerlink" title="Wi-Fi 钓鱼"></a>Wi-Fi 钓鱼</h4><p>Wifiphisher</p>
-<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/wifiphisher/wifiphisher">https://github.com/wifiphisher/wifiphisher</a></p>
+<h4 id="wi-fi-钓鱼">Wi-Fi 钓鱼</h4>
+<p>Wifiphisher</p>
+<p>项目地址：https://github.com/wifiphisher/wifiphisher</p>
 <p>工作原理：</p>
 <ul>
 <li>嗅探附件无线区域内的AP，并创建一个伪造的AP</li>
@@ -504,23 +548,52 @@
 <p><img src="/posts/ae3c8023/22.png"></p>
 <p>当用户输入密码时 我们便通过这种wifi调用的方式得到了wifi密码</p>
 <p><img src="/posts/ae3c8023/23.png"></p>
-<h4 id="密钥重装攻击"><a href="#密钥重装攻击" class="headerlink" title="密钥重装攻击"></a>密钥重装攻击</h4><p>密钥重装攻击，其本质属于重放攻击，主要是利用 WPA/WPA2 协议在实现上的漏洞，出现在四次握手过程中。当客户端试图连接一个受保护的Wi-Fi网络时，AP将会发起四次握手完成相互认证。其中包含一个 AP 向客户端传输 Msg3 的过程，攻击者可以反复重放这一过程，导致 Nonce 被重置，继而导致传输的数据可以被攻击者解密，这便是 Krack攻击的大致流程。</p>
+<h4 id="密钥重装攻击">密钥重装攻击</h4>
+<p>密钥重装攻击，其本质属于重放攻击，主要是利用 WPA/WPA2
+协议在实现上的漏洞，出现在四次握手过程中。当客户端试图连接一个受保护的Wi-Fi网络时，AP将会发起四次握手完成相互认证。其中包含一个
+AP 向客户端传输 Msg3 的过程，攻击者可以反复重放这一过程，导致 Nonce
+被重置，继而导致传输的数据可以被攻击者解密，这便是
+Krack攻击的大致流程。</p>
 <p><strong>具体原理分析如下：</strong></p>
-<p>在四次握手客户端与AP通信过程中，AP一般称为”Authenticator”，表示认证方；客户端称为”Supplicant”，表示请求方。在四次握手协议中都会生成一个会话密钥 PTK(Pairwise Transit Key)，成对传输密钥，用来加密 AP 和 Station 通讯的单播数据包，AP 与每个 Station 通信用的PTK都是唯一的。PTK的包含五部分：PMK、ANonce、SNonce、Mac(AA)、MAC(SA)，其中ANonce、SNonce为生成的随机数；MAC(AA)、MAC(SA)则为对应两端的MAC地址；PMK为主密钥，与前面四者共同组成PTK，PTK才是整个的用来加密数据的密钥。</p>
-<p>客户端在如果要发送明文数据，则需要利用 PTK 和 Nonce 生产一个密钥，这个密钥中的 Nonce 并不是前面提到的 ANonce 或 SNonce，它会随着客户端每发送一个报文，Nonce 就会自动加1， Nonce 和 PTK 混合成为密钥流后，与明文数据进行异或运算便生成了密文数据。</p>
-<p>所以在 Krack 攻击过程中 Nonce 重用，也就意味着密钥流重用。在四次握手过程中，客户端收到 AP 发来的 Msg3 后，会按照加密密钥，以用于加密数据帧。如果客户端没有收到 AP发送的 Msg3，AP 会重传 Msg3，但是 Station 并不会根据是否收到 Msg3 进行判断。 在AP重传 Msg3 之前，客户端已经在之前的 Msg4 发送后安装了 PTK，此时客户端肯定会向 AP 发送了加密数据。但由于前面重传 Msg3 导致 Nonce 被重用了，在数据加密时还是采用之前的 Nonce 值，所以客户端传输的两次数据中使用的是同一个 Nonce。</p>
-<p>在四次握手过程中发过来的明文的msg4 和重传 msg3 后的msg4 处理Authenticator 之外没有不同（msg1和msg2中的Authenticator为同一个，在msg3中则为Authenticator+1），而 Authenticator 对 Msg4 又无影响。此时攻击者有了明文的 Msg4 和对应 Msg4 的密文，明文异或密文便可得到加密时的密钥流。</p>
-<p>由于 Nonce 重置导致我们在加密数据时使用的密钥和前面的密钥流是同一个密钥，那我们就可以使用前面推到的密钥流去解密后面传输的数据，最终实现数据的解密。</p>
-<p>攻击者作为中间人，放任四次握手过程中的前三次握手，在最后一次握手是阻断msg4的传输，导致 AP 重传Msg3、密钥重装、Nonce 被重置，再根据前面的明文和密文对应关系推到出密钥流，然后通过密钥流解密被重装后加密的数据，最终实现数据解密。</p>
+<p>在四次握手客户端与AP通信过程中，AP一般称为"Authenticator"，表示认证方；客户端称为"Supplicant"，表示请求方。在四次握手协议中都会生成一个会话密钥
+PTK(Pairwise Transit Key)，成对传输密钥，用来加密 AP 和 Station
+通讯的单播数据包，AP 与每个 Station
+通信用的PTK都是唯一的。PTK的包含五部分：PMK、ANonce、SNonce、Mac(AA)、MAC(SA)，其中ANonce、SNonce为生成的随机数；MAC(AA)、MAC(SA)则为对应两端的MAC地址；PMK为主密钥，与前面四者共同组成PTK，PTK才是整个的用来加密数据的密钥。</p>
+<p>客户端在如果要发送明文数据，则需要利用 PTK 和 Nonce
+生产一个密钥，这个密钥中的 Nonce 并不是前面提到的 ANonce 或
+SNonce，它会随着客户端每发送一个报文，Nonce 就会自动加1， Nonce 和 PTK
+混合成为密钥流后，与明文数据进行异或运算便生成了密文数据。</p>
+<p>所以在 Krack 攻击过程中 Nonce
+重用，也就意味着密钥流重用。在四次握手过程中，客户端收到 AP 发来的 Msg3
+后，会按照加密密钥，以用于加密数据帧。如果客户端没有收到 AP发送的
+Msg3，AP 会重传 Msg3，但是 Station 并不会根据是否收到 Msg3 进行判断。
+在AP重传 Msg3 之前，客户端已经在之前的 Msg4 发送后安装了
+PTK，此时客户端肯定会向 AP 发送了加密数据。但由于前面重传 Msg3 导致
+Nonce 被重用了，在数据加密时还是采用之前的 Nonce
+值，所以客户端传输的两次数据中使用的是同一个 Nonce。</p>
+<p>在四次握手过程中发过来的明文的msg4 和重传 msg3 后的msg4
+处理Authenticator
+之外没有不同（msg1和msg2中的Authenticator为同一个，在msg3中则为Authenticator+1），而
+Authenticator 对 Msg4 又无影响。此时攻击者有了明文的 Msg4 和对应 Msg4
+的密文，明文异或密文便可得到加密时的密钥流。</p>
+<p>由于 Nonce
+重置导致我们在加密数据时使用的密钥和前面的密钥流是同一个密钥，那我们就可以使用前面推到的密钥流去解密后面传输的数据，最终实现数据的解密。</p>
+<p>攻击者作为中间人，放任四次握手过程中的前三次握手，在最后一次握手是阻断msg4的传输，导致
+AP 重传Msg3、密钥重装、Nonce
+被重置，再根据前面的明文和密文对应关系推到出密钥流，然后通过密钥流解密被重装后加密的数据，最终实现数据解密。</p>
 <p><img src="/posts/ae3c8023/24.png"></p>
-<p>在Linux和Android系统重设定了接受加密Msg3重传，而在Windows 系统和 IOS 系统违背了 IEEE 规定的802.11标准，不会接受 Msg3 重传而逃过一劫。</p>
-<p>对于Krack的防御，对于个人用户针对Krack最方便的方法就是及时更新或安装对应补丁；对于企业用户，可以考虑采用 WIPS 的防御系统，它采用的是与攻击者类似的思路，也是采用链路攻击的方式打掉攻击者的设备而实现保护。</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p><a target="_blank" rel="noopener" href="https://www.krackattacks.com/">https://www.krackattacks.com/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.kanxue.com/book-47-748.htm">https://www.kanxue.com/book-47-748.htm</a></p>
-<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1819">https://forum.butian.net/share/1819</a></p>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2032816">https://cloud.tencent.com/developer/article/2032816</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1a1927304a4e">https://www.jianshu.com/p/1a1927304a4e</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30229178">https://zhuanlan.zhihu.com/p/30229178</a></p>
+<p>在Linux和Android系统重设定了接受加密Msg3重传，而在Windows 系统和 IOS
+系统违背了 IEEE 规定的802.11标准，不会接受 Msg3 重传而逃过一劫。</p>
+<p>对于Krack的防御，对于个人用户针对Krack最方便的方法就是及时更新或安装对应补丁；对于企业用户，可以考虑采用
+WIPS
+的防御系统，它采用的是与攻击者类似的思路，也是采用链路攻击的方式打掉攻击者的设备而实现保护。</p>
+<h3 id="references">References</h3>
+<p>https://www.krackattacks.com/</p>
+<p>https://www.kanxue.com/book-47-748.htm</p>
+<p>https://forum.butian.net/share/1819</p>
+<p>https://cloud.tencent.com/developer/article/2032816</p>
+<p>https://www.jianshu.com/p/1a1927304a4e</p>
+<p>https://zhuanlan.zhihu.com/p/30229178</p>
 <p>《黑客大揭秘：近源渗透测试》</p>
 
     </div>
@@ -651,7 +724,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IEEE-802-11"><span class="nav-number">2.</span> <span class="nav-text">IEEE 802.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86"><span class="nav-number">2.1.</span> <span class="nav-text">协议标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">802.11 加密系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WEP"><span class="nav-number">3.1.</span> <span class="nav-text">WEP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA"><span class="nav-number">3.2.</span> <span class="nav-text">WPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA2"><span class="nav-number">3.3.</span> <span class="nav-text">WPA2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WPA3"><span class="nav-number">3.4.</span> <span class="nav-text">WPA3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#802-11-%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">802.11 连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WPA-WPA2-%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">5.</span> <span class="nav-text">WPA&#x2F;WPA2 四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg1"><span class="nav-number">5.1.</span> <span class="nav-text">Msg1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg2"><span class="nav-number">5.2.</span> <span class="nav-text">Msg2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg3"><span class="nav-number">5.3.</span> <span class="nav-text">Msg3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Msg4"><span class="nav-number">5.4.</span> <span class="nav-text">Msg4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">常见攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E5%AD%97%E5%85%B8%E6%94%BB%E5%87%BB"><span class="nav-number">6.1.</span> <span class="nav-text">离线字典攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DeAuth-Attack"><span class="nav-number">6.2.</span> <span class="nav-text">DeAuth Attack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Wi-Fi-%E9%92%93%E9%B1%BC"><span class="nav-number">6.3.</span> <span class="nav-text">Wi-Fi 钓鱼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E9%87%8D%E8%A3%85%E6%94%BB%E5%87%BB"><span class="nav-number">6.4.</span> <span class="nav-text">密钥重装攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ieee-802.11"><span class="nav-number">2.</span> <span class="nav-text">IEEE 802.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86"><span class="nav-number">2.1.</span> <span class="nav-text">协议标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">802.11 加密系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#wep"><span class="nav-number">3.1.</span> <span class="nav-text">WEP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wpa"><span class="nav-number">3.2.</span> <span class="nav-text">WPA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wpa2"><span class="nav-number">3.3.</span> <span class="nav-text">WPA2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wpa3"><span class="nav-number">3.4.</span> <span class="nav-text">WPA3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">802.11 连接过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wpawpa2-%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">5.</span> <span class="nav-text">WPA&#x2F;WPA2 四次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#msg1"><span class="nav-number">5.1.</span> <span class="nav-text">Msg1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msg2"><span class="nav-number">5.2.</span> <span class="nav-text">Msg2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msg3"><span class="nav-number">5.3.</span> <span class="nav-text">Msg3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#msg4"><span class="nav-number">5.4.</span> <span class="nav-text">Msg4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">常见攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E5%AD%97%E5%85%B8%E6%94%BB%E5%87%BB"><span class="nav-number">6.1.</span> <span class="nav-text">离线字典攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deauth-attack"><span class="nav-number">6.2.</span> <span class="nav-text">DeAuth Attack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wi-fi-%E9%92%93%E9%B1%BC"><span class="nav-number">6.3.</span> <span class="nav-text">Wi-Fi 钓鱼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E9%87%8D%E8%A3%85%E6%94%BB%E5%87%BB"><span class="nav-number">6.4.</span> <span class="nav-text">密钥重装攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">7.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -667,7 +740,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -715,7 +788,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -729,7 +802,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -740,7 +813,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -880,6 +953,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

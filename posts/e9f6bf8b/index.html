@@ -292,34 +292,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="参与角色"><a href="#参与角色" class="headerlink" title="参与角色"></a>参与角色</h3><ul>
+        <h3 id="参与角色">参与角色</h3>
+<ul>
 <li>Client</li>
 <li>Server</li>
-<li>KDC<ul>
+<li>KDC
+<ul>
 <li>AD：存储所有Client的白名单，用于验证Client身份</li>
 <li>AS：为Client生成TGT 服务</li>
 <li>TGS：为Client生成某个服务的Ticket</li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><p>AS：身份认证服务，用于验证Client身份</p>
+<h3 id="名词解释">名词解释</h3>
+<p>AS：身份认证服务，用于验证Client身份</p>
 <p>KDC：密钥分发中心</p>
 <p>TGT：票据中心，访问TGS的票据</p>
 <p>TGS：票据授权服务</p>
 <p>ST：访问Server的票据</p>
 <p>SessionKey：临时会话密钥a，AS生成发送给客户端(随机密钥)</p>
 <p>ServerSessionKey：临时会话密钥b，TGS生成发送给客户端(随机密钥)</p>
-<h3 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h3><h4 id="Client-向KDC-AS申请TGT"><a href="#Client-向KDC-AS申请TGT" class="headerlink" title="Client 向KDC-AS申请TGT"></a>Client 向KDC-AS申请TGT</h4><h5 id="Client-gt-KDC-AS-AS-REQ"><a href="#Client-gt-KDC-AS-AS-REQ" class="headerlink" title="Client -&gt; KDC-AS (AS_REQ)"></a>Client -&gt; KDC-AS (AS_REQ)</h5><p>发送AS_REQ：(被Client加密的时间戳, 客户端信息, 服务器端信息)</p>
+<h3 id="具体流程">具体流程</h3>
+<h4 id="client-向kdc-as申请tgt">Client 向KDC-AS申请TGT</h4>
+<h5 id="client---kdc-as-as_req">Client -&gt; KDC-AS (AS_REQ)</h5>
+<p>发送AS_REQ：(被Client加密的时间戳, 客户端信息, 服务器端信息)</p>
 <p>KDC-AS进行认证 看是否在白名单中</p>
-<h5 id="KDC-AS-gt-Client-AS-REP"><a href="#KDC-AS-gt-Client-AS-REP" class="headerlink" title="KDC-AS -&gt; Client(AS_REP)"></a>KDC-AS -&gt; Client(AS_REP)</h5><p>如果认证通过，AS会随机生成一个字符串 <strong>Sessionkey</strong></p>
+<h5 id="kdc-as---clientas_rep">KDC-AS -&gt; Client(AS_REP)</h5>
+<p>如果认证通过，AS会随机生成一个字符串 <strong>Sessionkey</strong></p>
 <p>发送两条消息</p>
-<p>T(C)   Client Pass Hash(SessionKey)  ,用于后续与TGS服务通信</p>
-<pre><code>发送 SessionKey 
-</code></pre>
-<p>TGT   KDC Pass Hash(SessionKey, Client信息) ，作为向TGS申请票据的凭证</p>
-<pre><code>发送 SessionKey Client信息 结束时间
-</code></pre>
-<h4 id="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"><a href="#Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket" class="headerlink" title="Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket"></a>Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</h4><h5 id="Client-gt-KDC-TGS-TGS-REQ"><a href="#Client-gt-KDC-TGS-TGS-REQ" class="headerlink" title="Client -&gt; KDC-TGS (TGS_REQ)"></a>Client -&gt; KDC-TGS (TGS_REQ)</h5><p>客户端使用NTLM Hash解密T(C) 得到<strong>SessionKey</strong></p>
+<p>T(C) Client Pass Hash(SessionKey) ,用于后续与TGS服务通信</p>
+<pre><code>发送 SessionKey </code></pre>
+<p>TGT KDC Pass Hash(SessionKey, Client信息)
+，作为向TGS申请票据的凭证</p>
+<pre><code>发送 SessionKey Client信息 结束时间</code></pre>
+<h4 id="client得到tgt后向kdc请求访问server的权限通过client得到的tgt判断是否可以拥有访问server的权限如果可以就给client访问server权限的ticket">Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</h4>
+<h5 id="client---kdc-tgs-tgs_req">Client -&gt; KDC-TGS (TGS_REQ)</h5>
+<p>客户端使用NTLM Hash解密T(C) 得到<strong>SessionKey</strong></p>
 <p>Client 向 TGS 发送消息</p>
 <pre><code>TGT
 
@@ -327,24 +334,30 @@ SessionKey(Client信息,时间戳) 可以记作认证因子，使用SessionKey�
 
 Client信息
 
-Server信息
-</code></pre>
-<h5 id="KDC-TGS-gt-Client-TGS-REP"><a href="#KDC-TGS-gt-Client-TGS-REP" class="headerlink" title="KDC-TGS -&gt; Client(TGS_REP)"></a>KDC-TGS -&gt; Client(TGS_REP)</h5><p>KDC使用NTLMHash解密 TGT 得到 (SessionKey，Client信息，结束时间)</p>
+Server信息</code></pre>
+<h5 id="kdc-tgs---clienttgs_rep">KDC-TGS -&gt; Client(TGS_REP)</h5>
+<p>KDC使用NTLMHash解密 TGT 得到 (SessionKey，Client信息，结束时间)</p>
 <p>然后使用SessionKey解密 认证因子 得到(Client信息，时间戳)</p>
-<p>校验 时间戳与当前时间 和解密TGT后的Client信息与SessionKey解密后的Client信息</p>
-<p>校验通过后，会判断客户端有没有权限访问服务端    </p>
+<p>校验 时间戳与当前时间
+和解密TGT后的Client信息与SessionKey解密后的Client信息</p>
+<p>校验通过后，会判断客户端有没有权限访问服务端</p>
 <p>认证通过后，KDC 会生成ServerSessionKey(随机生成)</p>
 <p>发送RGS_REP:</p>
-<p>SessionKey(ServerSessionKey, Client信息，票据到期时间)  （使用SessionKey加密的ServerSessionKey ）</p>
-<p>ST (ServerSessionKey, 客户信息 ，票据到期时间)  </p>
+<p>SessionKey(ServerSessionKey, Client信息，票据到期时间)
+（使用SessionKey加密的ServerSessionKey ）</p>
+<p>ST (ServerSessionKey, 客户信息 ，票据到期时间)</p>
 <p>票据到期时间可以理解成TGS生命周期</p>
-<h4 id="Client得到ST后，可以访问server"><a href="#Client得到ST后，可以访问server" class="headerlink" title="Client得到ST后，可以访问server"></a>Client得到ST后，可以访问server</h4><p>Client 收到信息后，使⽤Session Key解密获得 (ServerSessionKey, Client信息，TGS生命周期）</p>
-<h5 id="Client-gt-Server-AP-REQ"><a href="#Client-gt-Server-AP-REQ" class="headerlink" title="Client -&gt; Server (AP-REQ)"></a>Client -&gt; Server (AP-REQ)</h5><p>发送AP-REQ:</p>
+<h4 id="client得到st后可以访问server">Client得到ST后，可以访问server</h4>
+<p>Client 收到信息后，使⽤Session Key解密获得 (ServerSessionKey,
+Client信息，TGS生命周期）</p>
+<h5 id="client---server-ap-req">Client -&gt; Server (AP-REQ)</h5>
+<p>发送AP-REQ:</p>
 <pre><code>ST
 
-ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用ServerSessionKey加密
-</code></pre>
-<h5 id="Server-gt-Client-AP-REP"><a href="#Server-gt-Client-AP-REP" class="headerlink" title="Server -&gt; Client(AP-REP)"></a>Server -&gt; Client(AP-REP)</h5><p>Server使用NTLM Hash解密ST 得到 (ServerSessionKey,  Client信息，票据到期时间)</p>
+ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用ServerSessionKey加密</code></pre>
+<h5 id="server---clientap-rep">Server -&gt; Client(AP-REP)</h5>
+<p>Server使用NTLM Hash解密ST 得到 (ServerSessionKey,
+Client信息，票据到期时间)</p>
 <p>用ServerSessionKey解密认证因子2 得到 (Client信息，票据到期时间)</p>
 <p>然后再校验时间戳和Client信息</p>
 <p>校验通过后，客户端即可访问服务端</p>
@@ -477,7 +490,7 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%A7%92%E8%89%B2"><span class="nav-number">1.</span> <span class="nav-text">参与角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">具体流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Client-%E5%90%91KDC-AS%E7%94%B3%E8%AF%B7TGT"><span class="nav-number">3.1.</span> <span class="nav-text">Client 向KDC-AS申请TGT</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Client-gt-KDC-AS-AS-REQ"><span class="nav-number">3.1.1.</span> <span class="nav-text">Client -&gt; KDC-AS (AS_REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#KDC-AS-gt-Client-AS-REP"><span class="nav-number">3.1.2.</span> <span class="nav-text">KDC-AS -&gt; Client(AS_REP)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Client%E5%BE%97%E5%88%B0TGT%E5%90%8E%EF%BC%8C%E5%90%91KDC%E8%AF%B7%E6%B1%82%E8%AE%BF%E9%97%AEserver%E7%9A%84%E6%9D%83%E9%99%90%E3%80%82%E9%80%9A%E8%BF%87Client%E5%BE%97%E5%88%B0%E7%9A%84TGT%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E6%8B%A5%E6%9C%89%E8%AE%BF%E9%97%AEServer%E7%9A%84%E6%9D%83%E9%99%90%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%8F%AF%E4%BB%A5%E5%B0%B1%E7%BB%99Client%E8%AE%BF%E9%97%AEServer%E6%9D%83%E9%99%90%E7%9A%84ticket"><span class="nav-number">3.2.</span> <span class="nav-text">Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Client-gt-KDC-TGS-TGS-REQ"><span class="nav-number">3.2.1.</span> <span class="nav-text">Client -&gt; KDC-TGS (TGS_REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#KDC-TGS-gt-Client-TGS-REP"><span class="nav-number">3.2.2.</span> <span class="nav-text">KDC-TGS -&gt; Client(TGS_REP)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Client%E5%BE%97%E5%88%B0ST%E5%90%8E%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AEserver"><span class="nav-number">3.3.</span> <span class="nav-text">Client得到ST后，可以访问server</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Client-gt-Server-AP-REQ"><span class="nav-number">3.3.1.</span> <span class="nav-text">Client -&gt; Server (AP-REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Server-gt-Client-AP-REP"><span class="nav-number">3.3.2.</span> <span class="nav-text">Server -&gt; Client(AP-REP)</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%A7%92%E8%89%B2"><span class="nav-number">1.</span> <span class="nav-text">参与角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">具体流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#client-%E5%90%91kdc-as%E7%94%B3%E8%AF%B7tgt"><span class="nav-number">3.1.</span> <span class="nav-text">Client 向KDC-AS申请TGT</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#client---kdc-as-as_req"><span class="nav-number">3.1.1.</span> <span class="nav-text">Client -&gt; KDC-AS (AS_REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#kdc-as---clientas_rep"><span class="nav-number">3.1.2.</span> <span class="nav-text">KDC-AS -&gt; Client(AS_REP)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#client%E5%BE%97%E5%88%B0tgt%E5%90%8E%E5%90%91kdc%E8%AF%B7%E6%B1%82%E8%AE%BF%E9%97%AEserver%E7%9A%84%E6%9D%83%E9%99%90%E9%80%9A%E8%BF%87client%E5%BE%97%E5%88%B0%E7%9A%84tgt%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E6%8B%A5%E6%9C%89%E8%AE%BF%E9%97%AEserver%E7%9A%84%E6%9D%83%E9%99%90%E5%A6%82%E6%9E%9C%E5%8F%AF%E4%BB%A5%E5%B0%B1%E7%BB%99client%E8%AE%BF%E9%97%AEserver%E6%9D%83%E9%99%90%E7%9A%84ticket"><span class="nav-number">3.2.</span> <span class="nav-text">Client得到TGT后，向KDC请求访问server的权限。通过Client得到的TGT判断是否可以拥有访问Server的权限，如果可以就给Client访问Server权限的ticket</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#client---kdc-tgs-tgs_req"><span class="nav-number">3.2.1.</span> <span class="nav-text">Client -&gt; KDC-TGS (TGS_REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#kdc-tgs---clienttgs_rep"><span class="nav-number">3.2.2.</span> <span class="nav-text">KDC-TGS -&gt; Client(TGS_REP)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#client%E5%BE%97%E5%88%B0st%E5%90%8E%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AEserver"><span class="nav-number">3.3.</span> <span class="nav-text">Client得到ST后，可以访问server</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#client---server-ap-req"><span class="nav-number">3.3.1.</span> <span class="nav-text">Client -&gt; Server (AP-REQ)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#server---clientap-rep"><span class="nav-number">3.3.2.</span> <span class="nav-text">Server -&gt; Client(AP-REP)</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -493,7 +506,7 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -541,7 +554,7 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -555,7 +568,7 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -566,7 +579,7 @@ ServerSessionKey(客户信息, 票据到期时间) 记作认证因子2，使用S
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -706,6 +719,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

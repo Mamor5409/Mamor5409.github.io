@@ -288,28 +288,49 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="首先要验证网站是否存在CDN"><a href="#首先要验证网站是否存在CDN" class="headerlink" title="首先要验证网站是否存在CDN"></a>首先要验证网站是否存在CDN</h3><h4 id="一般可以通过多地ping-看对应的IP是否唯一"><a href="#一般可以通过多地ping-看对应的IP是否唯一" class="headerlink" title="一般可以通过多地ping 看对应的IP是否唯一"></a>一般可以通过多地ping 看对应的IP是否唯一</h4><p><a target="_blank" rel="noopener" href="http://ping.chinaz.com/">http://ping.chinaz.com/</a><br><a target="_blank" rel="noopener" href="http://ping.aizhan.com/">http://ping.aizhan.com/</a><br><a target="_blank" rel="noopener" href="http://ce.cloud.360.cn/">http://ce.cloud.360.cn/</a></p>
-<h3 id="绕过CDN查真实IP"><a href="#绕过CDN查真实IP" class="headerlink" title="绕过CDN查真实IP"></a>绕过CDN查真实IP</h3><h4 id="查历史CDN记录"><a href="#查历史CDN记录" class="headerlink" title="查历史CDN记录"></a>查历史CDN记录</h4><p><a target="_blank" rel="noopener" href="https://dnsdb.io/zh-cn/">https://dnsdb.io/zh-cn/</a> 查询DNS</p>
-<p><a target="_blank" rel="noopener" href="https://sitereport.netcraft.com/?url=">https://sitereport.netcraft.com/?url=</a> </p>
-<p><a target="_blank" rel="noopener" href="https://tools.ipip.net/cdn.php">https://tools.ipip.net/cdn.php</a></p>
-<h4 id="查询子域名"><a href="#查询子域名" class="headerlink" title="查询子域名"></a>查询子域名</h4><p>有些网站可能只会对主站或部分大流量子站做CDN，而很多小站或者子站刚好又和主站在同一台服务器或者同一个C端中，就可以通过查找子域名来寻找真实ip</p>
-<h5 id="在线子域名机器"><a href="#在线子域名机器" class="headerlink" title="在线子域名机器"></a>在线子域名机器</h5><p><code>https://dnsdb.io/zh-cn/</code> 输入 baidu.com type:A 就可以搜集其子域名和ip</p>
-<h5 id="google语法"><a href="#google语法" class="headerlink" title="google语法"></a>google语法</h5><p><code>site:baidu.com -www</code>  可以查看排除www的子域名</p>
-<h5 id="子域名扫描器"><a href="#子域名扫描器" class="headerlink" title="子域名扫描器"></a>子域名扫描器</h5><ul>
+        <h3 id="首先要验证网站是否存在cdn">首先要验证网站是否存在CDN</h3>
+<h4 id="一般可以通过多地ping-看对应的ip是否唯一">一般可以通过多地ping
+看对应的IP是否唯一</h4>
+<p>http://ping.chinaz.com/ http://ping.aizhan.com/
+http://ce.cloud.360.cn/</p>
+<h3 id="绕过cdn查真实ip">绕过CDN查真实IP</h3>
+<h4 id="查历史cdn记录">查历史CDN记录</h4>
+<p>https://dnsdb.io/zh-cn/ 查询DNS</p>
+<p>https://sitereport.netcraft.com/?url=</p>
+<p>https://tools.ipip.net/cdn.php</p>
+<h4 id="查询子域名">查询子域名</h4>
+<p>有些网站可能只会对主站或部分大流量子站做CDN，而很多小站或者子站刚好又和主站在同一台服务器或者同一个C端中，就可以通过查找子域名来寻找真实ip</p>
+<h5 id="在线子域名机器">在线子域名机器</h5>
+<p><code>https://dnsdb.io/zh-cn/</code> 输入 baidu.com type:A
+就可以搜集其子域名和ip</p>
+<h5 id="google语法">google语法</h5>
+<p><code>site:baidu.com -www</code> 可以查看排除www的子域名</p>
+<h5 id="子域名扫描器">子域名扫描器</h5>
+<ul>
 <li>layer子域名挖掘机</li>
 <li>lijiejie的subdomainbrute</li>
 </ul>
-<h4 id="使用Fofa-shodan-zoomeye"><a href="#使用Fofa-shodan-zoomeye" class="headerlink" title="使用Fofa shodan zoomeye"></a>使用Fofa shodan zoomeye</h4><p>一般常用Fofa 可以通过 title body  ip 等语法进行查询</p>
-<h4 id="利用SSL证书寻找真实IP"><a href="#利用SSL证书寻找真实IP" class="headerlink" title="利用SSL证书寻找真实IP"></a>利用SSL证书寻找真实IP</h4><p>可以使用 <code>https://censys.io/</code> 进行查询</p>
-<h4 id="通过icon-hash查ip"><a href="#通过icon-hash查ip" class="headerlink" title="通过icon hash查ip"></a>通过icon hash查ip</h4><p>一般先将 favicon.ico 保存到本地，然后上传到fofa上即可</p>
-<h4 id="使用国外主机解析域名"><a href="#使用国外主机解析域名" class="headerlink" title="使用国外主机解析域名"></a>使用国外主机解析域名</h4><p>有些国内的CDN厂可能只做了国内线路，而针对国外的线路可能几乎没有，所以尝试使用国外的主机去访问可能会得到真实ip</p>
-<h4 id="通过网站漏洞查找真实ip"><a href="#通过网站漏洞查找真实ip" class="headerlink" title="通过网站漏洞查找真实ip"></a>通过网站漏洞查找真实ip</h4><p>可以通过phpinfo之类的探针，xss. ssrf, 命令执行反弹shell 源码泄漏 敏感信息泄漏之类</p>
-<h4 id="F5-LTM解码法（还没尝试过，抽时间测试下）"><a href="#F5-LTM解码法（还没尝试过，抽时间测试下）" class="headerlink" title="F5 LTM解码法（还没尝试过，抽时间测试下）"></a>F5 LTM解码法（还没尝试过，抽时间测试下）</h4><p>当服务器使用F5 LTM做负载均衡时，通过对set-cookie关键字的解码真实ip也可被获取，例如：Set-Cookie: BIGipServerpool_8.29_8030=487098378.24095.0000，先把第一小节的十进制数即487098378取出来，然后将其转为十六进制数1d08880a，接着从后至前，以此取四位数出来，也就是0a.88.08.1d，最后依次把他们转为十进制数10.136.8.29，也就是最后的真实ip。</p>
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qiudabai/p/9763739.html">https://www.cnblogs.com/qiudabai/p/9763739.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33440472">https://zhuanlan.zhihu.com/p/33440472</a></p>
+<h4 id="使用fofa-shodan-zoomeye">使用Fofa shodan zoomeye</h4>
+<p>一般常用Fofa 可以通过 title body ip 等语法进行查询</p>
+<h4 id="利用ssl证书寻找真实ip">利用SSL证书寻找真实IP</h4>
+<p>可以使用 <code>https://censys.io/</code> 进行查询</p>
+<h4 id="通过icon-hash查ip">通过icon hash查ip</h4>
+<p>一般先将 favicon.ico 保存到本地，然后上传到fofa上即可</p>
+<h4 id="使用国外主机解析域名">使用国外主机解析域名</h4>
+<p>有些国内的CDN厂可能只做了国内线路，而针对国外的线路可能几乎没有，所以尝试使用国外的主机去访问可能会得到真实ip</p>
+<h4 id="通过网站漏洞查找真实ip">通过网站漏洞查找真实ip</h4>
+<p>可以通过phpinfo之类的探针，xss. ssrf, 命令执行反弹shell 源码泄漏
+敏感信息泄漏之类</p>
+<h4 id="f5-ltm解码法还没尝试过抽时间测试下">F5
+LTM解码法（还没尝试过，抽时间测试下）</h4>
+<p>当服务器使用F5
+LTM做负载均衡时，通过对set-cookie关键字的解码真实ip也可被获取，例如：Set-Cookie:
+BIGipServerpool_8.29_8030=487098378.24095.0000，先把第一小节的十进制数即487098378取出来，然后将其转为十六进制数1d08880a，接着从后至前，以此取四位数出来，也就是0a.88.08.1d，最后依次把他们转为十进制数10.136.8.29，也就是最后的真实ip。</p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://www.cnblogs.com/qiudabai/p/9763739.html</p>
+<p>https://zhuanlan.zhihu.com/p/33440472</p>
 </blockquote>
 
     </div>
@@ -436,7 +457,9 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E8%A6%81%E9%AA%8C%E8%AF%81%E7%BD%91%E7%AB%99%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8CDN"><span class="nav-number">1.</span> <span class="nav-text">首先要验证网站是否存在CDN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E5%A4%9A%E5%9C%B0ping-%E7%9C%8B%E5%AF%B9%E5%BA%94%E7%9A%84IP%E6%98%AF%E5%90%A6%E5%94%AF%E4%B8%80"><span class="nav-number">1.1.</span> <span class="nav-text">一般可以通过多地ping 看对应的IP是否唯一</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E7%9C%9F%E5%AE%9EIP"><span class="nav-number">2.</span> <span class="nav-text">绕过CDN查真实IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E5%8E%86%E5%8F%B2CDN%E8%AE%B0%E5%BD%95"><span class="nav-number">2.1.</span> <span class="nav-text">查历史CDN记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.2.</span> <span class="nav-text">查询子域名</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E5%AD%90%E5%9F%9F%E5%90%8D%E6%9C%BA%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">在线子域名机器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#google%E8%AF%AD%E6%B3%95"><span class="nav-number">2.2.2.</span> <span class="nav-text">google语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="nav-number">2.2.3.</span> <span class="nav-text">子域名扫描器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Fofa-shodan-zoomeye"><span class="nav-number">2.3.</span> <span class="nav-text">使用Fofa shodan zoomeye</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8SSL%E8%AF%81%E4%B9%A6%E5%AF%BB%E6%89%BE%E7%9C%9F%E5%AE%9EIP"><span class="nav-number">2.4.</span> <span class="nav-text">利用SSL证书寻找真实IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87icon-hash%E6%9F%A5ip"><span class="nav-number">2.5.</span> <span class="nav-text">通过icon hash查ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%A4%96%E4%B8%BB%E6%9C%BA%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.6.</span> <span class="nav-text">使用国外主机解析域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BD%91%E7%AB%99%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9Eip"><span class="nav-number">2.7.</span> <span class="nav-text">通过网站漏洞查找真实ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#F5-LTM%E8%A7%A3%E7%A0%81%E6%B3%95%EF%BC%88%E8%BF%98%E6%B2%A1%E5%B0%9D%E8%AF%95%E8%BF%87%EF%BC%8C%E6%8A%BD%E6%97%B6%E9%97%B4%E6%B5%8B%E8%AF%95%E4%B8%8B%EF%BC%89"><span class="nav-number">2.8.</span> <span class="nav-text">F5 LTM解码法（还没尝试过，抽时间测试下）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E8%A6%81%E9%AA%8C%E8%AF%81%E7%BD%91%E7%AB%99%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8cdn"><span class="nav-number">1.</span> <span class="nav-text">首先要验证网站是否存在CDN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E5%A4%9A%E5%9C%B0ping-%E7%9C%8B%E5%AF%B9%E5%BA%94%E7%9A%84ip%E6%98%AF%E5%90%A6%E5%94%AF%E4%B8%80"><span class="nav-number">1.1.</span> <span class="nav-text">一般可以通过多地ping
+看对应的IP是否唯一</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87cdn%E6%9F%A5%E7%9C%9F%E5%AE%9Eip"><span class="nav-number">2.</span> <span class="nav-text">绕过CDN查真实IP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E5%8E%86%E5%8F%B2cdn%E8%AE%B0%E5%BD%95"><span class="nav-number">2.1.</span> <span class="nav-text">查历史CDN记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.2.</span> <span class="nav-text">查询子域名</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E5%AD%90%E5%9F%9F%E5%90%8D%E6%9C%BA%E5%99%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">在线子域名机器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#google%E8%AF%AD%E6%B3%95"><span class="nav-number">2.2.2.</span> <span class="nav-text">google语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="nav-number">2.2.3.</span> <span class="nav-text">子域名扫描器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8fofa-shodan-zoomeye"><span class="nav-number">2.3.</span> <span class="nav-text">使用Fofa shodan zoomeye</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8ssl%E8%AF%81%E4%B9%A6%E5%AF%BB%E6%89%BE%E7%9C%9F%E5%AE%9Eip"><span class="nav-number">2.4.</span> <span class="nav-text">利用SSL证书寻找真实IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87icon-hash%E6%9F%A5ip"><span class="nav-number">2.5.</span> <span class="nav-text">通过icon hash查ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%A4%96%E4%B8%BB%E6%9C%BA%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.6.</span> <span class="nav-text">使用国外主机解析域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BD%91%E7%AB%99%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9Eip"><span class="nav-number">2.7.</span> <span class="nav-text">通过网站漏洞查找真实ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#f5-ltm%E8%A7%A3%E7%A0%81%E6%B3%95%E8%BF%98%E6%B2%A1%E5%B0%9D%E8%AF%95%E8%BF%87%E6%8A%BD%E6%97%B6%E9%97%B4%E6%B5%8B%E8%AF%95%E4%B8%8B"><span class="nav-number">2.8.</span> <span class="nav-text">F5
+LTM解码法（还没尝试过，抽时间测试下）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -452,7 +475,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -500,7 +523,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -514,7 +537,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -525,7 +548,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -665,6 +688,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

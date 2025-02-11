@@ -42,7 +42,7 @@
 <meta property="og:site_name" content="Mamor&#39;s Blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-10T02:28:14.000Z">
-<meta property="article:modified_time" content="2024-12-10T02:32:57.739Z">
+<meta property="article:modified_time" content="2024-12-10T02:33:23.250Z">
 <meta property="article:author" content="Mamor">
 <meta property="article:tag" content="Mac">
 <meta name="twitter:card" content="summary">
@@ -247,7 +247,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-12-10 10:28:14 / 修改时间：10:32:57" itemprop="dateCreated datePublished" datetime="2024-12-10T10:28:14+08:00">2024-12-10</time>
+              <time title="创建时间：2024-12-10 10:28:14 / 修改时间：10:33:23" itemprop="dateCreated datePublished" datetime="2024-12-10T10:28:14+08:00">2024-12-10</time>
             </span>
 
           
@@ -284,11 +284,13 @@
 
       
         <p>mac修完了，没装完环境，在这里简单记录下。（防止以后再重装后导出乱找比较麻烦）</p>
-<p>安装java8和java11对应版本 .dmg后 在 /Library/Java/JavaVirtualMachines/ 目录下会存在 相应目录 jdk-1.8.jdk 和 jdk-11.jdk</p>
-<p><code>vim ~/.zprofile</code>  【本机是这个profile 在~/目录下找到对应的 profile文件修改即可】</p>
+<p>安装java8和java11对应版本 .dmg后 在
+/Library/Java/JavaVirtualMachines/ 目录下会存在 相应目录 jdk-1.8.jdk 和
+jdk-11.jdk</p>
+<p><code>vim ~/.zprofile</code> 【本机是这个profile 在~/目录下找到对应的
+profile文件修改即可】</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk-1.8.jdk/Contents/Home</span><br><span class="line"><span class="built_in">export</span> JAVA_11_HOME=/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home</span><br><span class="line"><span class="built_in">alias</span> jdk8=<span class="string">&#x27;export JAVA_HOME=$JAVA_8_HOME&#x27;</span></span><br><span class="line"><span class="built_in">alias</span> jdk11=<span class="string">&#x27;export JAVA_HOME=$JAVA_11_HOME&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>source ~/.bash_profile </code></p>
+<p><code>source ~/.bash_profile</code></p>
 <p>在命令行输入 jdk8 或 jdk11会切换到对应版本</p>
 
     </div>
@@ -357,7 +359,10 @@
     <a href="/posts/7ac4ce41/" rel="prev" title="SDL浅析">
       <i class="fa fa-chevron-left"></i> SDL浅析
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/58d3432d/" rel="next" title="动态分值函数">
+      动态分值函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -431,7 +436,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -479,7 +484,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -493,7 +498,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -504,7 +509,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -644,6 +649,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

