@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mamor5409.github.io/posts/1e8ed701/</loc>
+    
+    <lastmod>2025-04-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/93f95c54/</loc>
+    
+    <lastmod>2025-04-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://mamor5409.github.io/posts/a0e2d364/</loc>
     
     <lastmod>2025-04-07</lastmod>
@@ -2181,6 +2199,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://mamor5409.github.io/tags/COM/</loc>
+    <lastmod>2025-04-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -2542,6 +2567,13 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2025-04-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/COM/</loc>
     <lastmod>2025-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
