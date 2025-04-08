@@ -366,20 +366,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-count">54</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-count">55</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -428,7 +428,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">19:31</span>
+    <span title="站点阅读时长">19:51</span>
 </div>
 
 <!--
@@ -439,7 +439,7 @@
 <!--
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共277.8k字</span>
+  <span class="post-count">博客全站共281.3k字</span>
 </div>
 -->
         
@@ -677,7 +677,11 @@ if (windowWidth > 768) {
 
 </html>
 
-       document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+  },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
               const display = !!node.type.match(/; *mode=display/);
               const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
               const text = document.createTextNode('');
