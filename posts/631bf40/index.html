@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Dota_128px_1143945_easyicon.net.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mamor5409.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Memlabs 内存取证学习">
+<meta property="og:url" content="http://mamor5409.github.io/posts/631bf40/index.html">
+<meta property="og:site_name" content="Mamor&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223204479-e7eb1a8b-f549-4fef-b01a-770069b46092.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223223412-01ebd724-90ee-4a82-ba34-7e0899982a92.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223249108-e877403d-da16-4908-8e1e-8b458e39ab99.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223267498-179f9a65-7b4b-4cf0-93a3-f1bfd2bce2ed.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223317764-34e48d30-4c51-4f46-aa85-bf617d1acb98.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223331974-27838e69-2fdd-4893-9414-92cac8c9f9b2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223345721-235415ad-9ff5-4402-b685-e484fbed1b57.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223365861-1a2772cb-2e52-4cc1-913f-28736d7ebefe.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223379492-dc07e607-2e23-4920-b69e-f726883e5bf9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223393506-2925b164-5d14-423d-a7cc-92d48335e4d5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223414197-629314d8-78c8-4557-be6e-852cf71122d9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223433805-298e5148-d36f-491a-b4f3-8d65b2f24c40.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223444481-f801aeda-9127-4ecf-b402-9ba1c3ab4e7a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223462020-f437d921-83c4-4cba-8a53-e3169fec1746.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223567180-dd757349-6701-43af-814c-e94792d17011.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223581294-48ce7716-955e-4e00-9826-9ae395f6acb7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223596885-3d1fa49e-1674-4792-95fa-00a51bb3b959.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223609877-e04ffab4-5fd1-4d1e-acd1-3ac2e7756719.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223627996-c939879c-d59f-4a24-94ea-3e9f2db77e10.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223638878-bd192768-d36d-4f10-aeb9-182678f54574.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223651013-e648ee7c-e0c0-451c-a10c-72b8ede4f476.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223664545-1ffa579c-eb33-4e65-a611-c926b92a996b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223686988-3abfd1d4-fcd0-4b42-8bc9-44f976ceb53a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223698533-dc6df2f7-4749-4d23-abf4-b0368eeb47f5.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223712480-9c9b9df8-95d5-4da8-9582-257a3c39dea0.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223729326-9a5ec1c2-8863-4247-a400-43adb38fa08b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223740520-1fc28529-4d56-4fc9-a2ea-2216061dd7f2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223748950-aa606947-103d-43ed-a79a-f2d649d47f4f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223759603-b1a8597a-ba01-40cd-a80b-b9839c08e564.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223770094-8f7af9e7-2b2e-44d2-a719-0d7d9612812b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223782596-aec9f6d9-5938-4f08-83b2-447a023464f9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223943990-847e127d-4a87-4a81-af17-80f5d258c14b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223886999-74f691b3-970f-4871-82e6-50ed6af51c8e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223987260-6e130e43-be68-45e2-a63a-b9ba83edd0fb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224020454-5f5b02cd-d78c-4423-9486-f52ea20adac8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224037353-6f2cbeb6-c8d7-4aeb-bb11-e9cac62d3e02.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224110923-e61a0d42-382d-4209-963a-b88884e26071.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224127500-d4449425-aaff-440e-8d13-6496a511716b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224197255-88581bb9-79a4-4560-a82e-46a4e955310a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224214348-1b77b266-65cd-4cfb-b36f-a764c8a17af7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224238156-13c5dcb4-d9b6-4968-8760-0490b1f9e5ab.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224257072-2096edcc-4033-4b1f-9758-a0e4cf7ea4ea.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224303477-198cfa12-ad28-468d-a284-f1bb770aca9d.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224313877-34c6ec7f-4695-48aa-a4b8-8671b98d7824.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224333644-a0273039-8f82-4b54-a5dc-fbf036223b63.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224345593-22d82d02-1b84-4c8c-b582-4684aecaf3a3.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224353908-9e932d11-571e-4195-b268-1b333c093bbb.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225300422-d0f75ac1-6262-4d4a-868a-24fa1b4c5153.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225283904-c2bff603-5f01-4f6f-b99c-273a8e45fb87.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225244260-f9c9af56-1648-49e7-a1ad-c3bea406621f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225259293-780f0f43-73d3-45a1-902d-f1db7b156cd2.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225555275-cb99bb57-ef91-41a4-b2ab-a58c1f1b4fda.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225664894-6dab74f3-a76b-4bd9-975c-c76abc48a305.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225684297-60146a1d-7a01-4098-83e3-eda26f9ce981.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225945495-689676e5-eb69-447a-baf1-c6670013c59a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226205981-1a45f327-75c8-43f1-8a33-e749d224f148.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226526917-26c84985-1494-4af6-aa1e-e003a292d7e7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226588852-5a17c123-41dd-4fbf-b123-4a296c3d2469.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226954804-2f4c936f-83f3-429b-b036-51b0c2b17f3c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687227005528-cf003daa-eda6-4d0a-af40-d572fbe991bd.png">
+<meta property="article:published_time" content="2023-06-20T01:12:46.000Z">
+<meta property="article:modified_time" content="2025-04-08T01:03:46.232Z">
+<meta property="article:author" content="Mamor">
+<meta property="article:tag" content="Memlabs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223204479-e7eb1a8b-f549-4fef-b01a-770069b46092.png">
+
+<link rel="canonical" href="http://mamor5409.github.io/posts/631bf40/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Memlabs 内存取证学习 | Mamor's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Mamor's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mamor's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mamor5409.github.io/posts/631bf40/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kabi.jpg">
+      <meta itemprop="name" content="Mamor">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mamor's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Memlabs 内存取证学习
+        </h1>
+
+        <div class="post-meta">
+
+			
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-20 09:12:46" itemprop="dateCreated datePublished" datetime="2023-06-20T09:12:46+08:00">2023-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-04-08 09:03:46" itemprop="dateModified" datetime="2025-04-08T09:03:46+08:00">2025-04-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Memlabs/" itemprop="url" rel="index"><span itemprop="name">Memlabs</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description"> </div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="memlabs---01">Memlabs - 01</h3>
+<h4 id="challenge-description"><strong>Challenge
+description</strong></h4>
+<p>My sister's computer crashed. We were very fortunate to recover this
+memory dump. Your job is get all her important files from the system.
+From what we remember, we suddenly saw a black window pop up with some
+thing being executed. When the crash happened, she was trying to draw
+something. Thats all we remember from the time of crash.</p>
+<p><strong>Note</strong>: This challenge is composed of 3 flags.</p>
+<p>查看镜像信息</p>
+<p>./volatility -f MemoryDump_Lab1.raw imageinfo</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223204479-e7eb1a8b-f549-4fef-b01a-770069b46092.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看命令行操作</p>
+<p>./volatility -f MemoryDump_Lab1.raw --profile=Win7SP1x64 cmdscan</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223223412-01ebd724-90ee-4a82-ba34-7e0899982a92.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看命令行会话</p>
+<p>./volatility -f MemoryDump_Lab1.raw --profile=Win7SP1x64 consoles</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223249108-e877403d-da16-4908-8e1e-8b458e39ab99.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>一串可以的base64编码 解密一下得到一个flag</p>
+<p>flag{th1s_1s_th3_1st_st4g3!!!}</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223267498-179f9a65-7b4b-4cf0-93a3-f1bfd2bce2ed.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看进程信息</p>
+<p>./volatility -f MemoryDump_Lab1.raw --profile=Win7SP1x64 pslist</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223317764-34e48d30-4c51-4f46-aa85-bf617d1acb98.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>cmd 1984</p>
+<p>mspaint 2424</p>
+<p>WinRAR 1512</p>
+<p>./volatility -f MemoryDump_Lab1.raw --profile=Win7SP1x64 cmdline -p
+1984,2424,1512</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223331974-27838e69-2fdd-4893-9414-92cac8c9f9b2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>dump下 mspaint的内存信息</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223345721-235415ad-9ff5-4402-b685-e484fbed1b57.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>将dump下的2424.dmp内存文件 使用 GIMP
+查看dump下的图片，把后缀改成.data</p>
+<p>调整高度、宽度 然后垂直翻转得到一个图片flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223365861-1a2772cb-2e52-4cc1-913f-28736d7ebefe.png" alt="img"> <img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223379492-dc07e607-2e23-4920-b69e-f726883e5bf9.png" alt="img"></p>
+<p>前面分别通过cmd和mspaint得到了前两个flag，还有一个flag，去看下winrar是否有有效信息可以利用</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223393506-2925b164-5d14-423d-a7cc-92d48335e4d5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>通过filescan 找下 Important.rar</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223414197-629314d8-78c8-4557-be6e-852cf71122d9.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>dump下来 然后重命名为Important.rar 尝试打开，但是有密码。。 <img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223433805-298e5148-d36f-491a-b4f3-8d65b2f24c40.png" alt="img"></p>
+<p>利用volatility去dumphash ntlmhash看看能不能得到我们想要的密码</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223444481-f801aeda-9127-4ecf-b402-9ba1c3ab4e7a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>去进行ntml解密，用了下tools的 <a target="_blank" rel="noopener" href="https://www.t00ls.com/md5-decode.html">https://www.t00ls.com/md5-decode.html#</a></p>
+<p>31d6cfe0d16ae931b73c59d7e0c089c0 - 空</p>
+<p>4943abb39473a6f32c11301f4987e7e0 - smartnet123</p>
+<p>f0fc3d257814e08fea06e63c5762ebd5 - 没查到</p>
+<p>f4ff64c8baac57d22f22edc681055ba6 - goodmorningindia</p>
+<p>然后把解密的ntlm去尝试，都错了。。。</p>
+<p>看了下wp 是最后一个ntlm 全部大写后就是压缩包密码。。。</p>
+<p>得到压缩包内容，是一个flag3.png</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223462020-f437d921-83c4-4cba-8a53-e3169fec1746.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>这样就拿到了全部的flag</p>
+<p>具体思路</p>
+<p>1.通过vol先去判断 镜像信息</p>
+<p>2.查看进程、命令行操作、文件 找可疑进程、文件</p>
+<p>3.dump 指定进程的内存文件</p>
+<h3 id="memlabs---02">Memlabs - 02</h3>
+<h4 id="challenge-description-1"><strong>Challenge
+description</strong></h4>
+<p>One of the clients of our company, lost the access to his system due
+to an unknown error. He is supposedly a very popular "environmental"
+activist. As a part of the investigation, he told us that his go to
+applications are browsers, his password managers etc. We hope that you
+can dig into this memory dump and find his important stuff and give it
+back to us.</p>
+<p><strong>Note</strong>: This challenge is composed of 3 flags.</p>
+<p>根据题目描述 应该是要 浏览器信息 密码啥的</p>
+<p>查看镜像信息</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223567180-dd757349-6701-43af-814c-e94792d17011.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看cmd输出 没找到啥有效信息</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223581294-48ce7716-955e-4e00-9826-9ae395f6acb7.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>看看环境变量</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223596885-3d1fa49e-1674-4792-95fa-00a51bb3b959.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>然后ai base64下得到第一个flag</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223609877-e04ffab4-5fd1-4d1e-acd1-3ac2e7756719.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<hr>
+<p>查看进程</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223627996-c939879c-d59f-4a24-94ea-3e9f2db77e10.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>chrome.exe 2296\2304\2476\2964\2572\1632</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223638878-bd192768-d36d-4f10-aeb9-182678f54574.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>还看到一个notepad进程 由于是win7 不支持notepad插件
+，所以dump下来看看有啥东西 「没看出有啥flag来」</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223651013-e648ee7c-e0c0-451c-a10c-72b8ede4f476.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>KeePass.exe进程 看看是啥东西?搜了下 是一个存储用户名密码的</p>
+<p>找下相关的文件</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223664545-1ffa579c-eb33-4e65-a611-c926b92a996b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>额 没啥特别的，看了下keepass的拓展名是 .kdbx 看看有相关的文件</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223686988-3abfd1d4-fcd0-4b42-8bc9-44f976ceb53a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>找到了 dump下来看看 改回原后缀名</p>
+<p>需要用keepass打开 去下载一个keepass2 然后打开</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223698533-dc6df2f7-4749-4d23-abf4-b0368eeb47f5.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>但是需要密码 去内存里找下密码 看看dumphash</p>
+<p>还是1里面的hash 试了下 都不太行</p>
+<p>看看有没相关文件</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223712480-9c9b9df8-95d5-4da8-9582-257a3c39dea0.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>除了KeePass 还有个Password.png dump下来看看</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223729326-9a5ec1c2-8863-4247-a400-43adb38fa08b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>改成png 看看 右下角有个密码！！</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223740520-1fc28529-4d56-4fc9-a2ea-2216061dd7f2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223748950-aa606947-103d-43ed-a79a-f2d649d47f4f.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>P4SSw0rd_123</p>
+<p>然后可以打开Keepass的文件了！</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223759603-b1a8597a-ba01-40cd-a80b-b9839c08e564.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>这两个下面有文件</p>
+<p>General下 虽然password是隐藏的 但是可以拷贝看到，但并不是在这里</p>
+<p>nothing here bro</p>
+<p>not here bro :)</p>
+<p>your princess is in another castle</p>
+<p>boom boom :)</p>
+<p>在回收站里面的密码处有个flag</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223770094-8f7af9e7-2b2e-44d2-a719-0d7d9612812b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>Password</p>
+<p>12345</p>
+<p>flag{w0w_th1s_1s_Th3_SeC0nD_ST4g3_!!}</p>
+<p>成功拿到flag flag{w0w_th1s_1s_Th3_SeC0nD_ST4g3_!!}</p>
+<hr>
+<p>再去看看题目给的提示 浏览器记录</p>
+<p>查看ie浏览器历史记录 利用自身的插件 iehistory查看
+但是「好像有bug」看不到。。。</p>
+<p>然后还有chrome浏览器 试试第三方插件的 chromehistory</p>
+<p>然后报错用不了 说是 没找到csv模块。。。</p>
+<p>没啥思路了 直接filescan | grep chrome 看一下。。</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223782596-aec9f6d9-5938-4f08-83b2-447a023464f9.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>找到个history 那就filescan 找找History相关的看看还有别的没</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223943990-847e127d-4a87-4a81-af17-80f5d258c14b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>淦！必须单引号和双反斜杠。。</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223886999-74f691b3-970f-4871-82e6-50ed6af51c8e.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>没别的特殊的 就先dump这个</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687223987260-6e130e43-be68-45e2-a63a-b9ba83edd0fb.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>我记着之前时候去查看记录是用的 SQLiteDatabaseBrowser，先去官网下一个
+https://sqlitebrowser.org/dl/</p>
+<p>然后把文件拖进去即可</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224020454-5f5b02cd-d78c-4423-9486-f52ea20adac8.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>找下浏览记录里是否有flag</p>
+<p>找到一个奇怪的浏览记录</p>
+<p>https://mega.nz/#F!TrgSQQTS!H0ZrUzF0B-ZKNM3y9E76lg</p>
+<p>访问后有个zip文件夹 Important.zip 应该就是flag了</p>
+<p>下载 但是。。 换个热点ok了</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224037353-6f2cbeb6-c8d7-4aeb-bb11-e9cac62d3e02.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>lab1的flag3 小写 的sha1加密</p>
+<p>flag{w3ll_3rd_stage_was_easy}</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224110923-e61a0d42-382d-4209-963a-b88884e26071.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>6045dd90029719a039fd2d2ebcca718439dd100a</p>
+<p>得到flag</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224127500-d4449425-aaff-440e-8d13-6496a511716b.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="memlabs---03">Memlabs - 03</h3>
+<h2 id="challenge-description-2"><strong>Challenge
+Description</strong></h2>
+<p>A malicious script encrypted a very secret piece of information I had
+on my system. Can you recover the information for me please?</p>
+<p><strong>Note-1</strong>: This challenge is composed of only 1 flag.
+The flag split into 2 parts.</p>
+<p><strong>Note-2</strong>: You'll need the first half of the flag to
+get the second.</p>
+<p>You will need this additional tool to solve the challenge,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install steghide</span><br></pre></td></tr></table></figure>
+<p>题目描述 重要文件被加密了，需要得到一个flag，但是flag被分成了两份</p>
+<p>先查看镜像信息 支持 Win7SP1x86</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224197255-88581bb9-79a4-4560-a82e-46a4e955310a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看进程 只看到两个notepad</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224214348-1b77b266-65cd-4cfb-b36f-a764c8a17af7.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看cmd操作</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224238156-13c5dcb4-d9b6-4968-8760-0490b1f9e5ab.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>找下这两个文件</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224257072-2096edcc-4033-4b1f-9758-a0e4cf7ea4ea.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>dump下来</p>
+<p>vip.txt内容为 am1gd2V4M20wXGs3b2U= base64解密得到 l1gwex20m0_k7oe
+看似没啥用</p>
+<p>evilscript.py.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xor</span>(<span class="params">s</span>):</span><br><span class="line">    a = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">chr</span>(<span class="built_in">ord</span>(i)^<span class="number">3</span>) <span class="keyword">for</span> i <span class="keyword">in</span> s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encoder</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x.encode(<span class="string">&quot;base64&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&quot;C:\\Users\\hello\\Desktop\\vip.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">    arr = sys.argv[<span class="number">1</span>]</span><br><span class="line">    arr = encoder(xor(arr))</span><br><span class="line">    f.write(arr)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+<p>所以vip.txt的内容先被 xor 3 加密 然后在进行base64加密 ，根据ai
+得到原输入为 hello 「纯属放p。。。」</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224303477-198cfa12-ad28-468d-a284-f1bb770aca9d.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224313877-34c6ec7f-4695-48aa-a4b8-8671b98d7824.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>得到flag前半部分 inctf{0n3_h4lf</p>
+<hr>
+<p>目前只找到了加密脚本，但是并没有找到被加密的文件...然后卡住了额
+回去看看描述，忘了了给的提示，需要借助 steghide</p>
+<p>stefhide是一款隐写工具 一般隐写都会讲信息写在图片中</p>
+<p>先找下有没有可疑的图片</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224333644-a0273039-8f82-4b54-a5dc-fbf036223b63.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>一个RW 的桌面图片有点可疑 dump下来看看</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224345593-22d82d02-1b84-4c8c-b582-4684aecaf3a3.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>使用steghide
+查看下，但是需要密码，先试试之前的前半段flag，不行的话再去找密码。</p>
+<p>发现前段flag就是解压密码，然后得到了一个文件，获得最后一半flag</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687224353908-9e932d11-571e-4195-b268-1b333c093bbb.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>最终flag inctf{0n3_h4lf_1s_n0t_3n0ugh}</p>
+<h3 id="memlabs---04">Memlabs - 04</h3>
+<h3 id="challenge-description-3">Challenge Description</h3>
+<p>My system was recently compromised. The Hacker stole a lot of
+information but he also deleted a very important file of mine. I have no
+idea on how to recover it. The only evidence we have, at this point of
+time is this memory dump. Please help me.</p>
+<p><strong>Note</strong>: This challenge is composed of only 1 flag.</p>
+<p>题目描述 主机被黑客入侵，并删除了部分文件</p>
+<p>查看镜像信息</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225300422-d0f75ac1-6262-4d4a-868a-24fa1b4c5153.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看命令行操作</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225283904-c2bff603-5f01-4f6f-b99c-273a8e45fb87.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225244260-f9c9af56-1648-49e7-a1ad-c3bea406621f.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>查看进程</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225259293-780f0f43-73d3-45a1-902d-f1db7b156cd2.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>看到过StikyNot.exe 是微软的 Windows Tablet PC 便笺工具</p>
+<p>没发现啥，就看看ie历史记录吧</p>
+<p>封装版的iehistory有bug 看不了。。</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225555275-cb99bb57-ef91-41a4-b2ab-a58c1f1b4fda.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>去kali看下</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225664894-6dab74f3-a76b-4bd9-975c-c76abc48a305.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225684297-60146a1d-7a01-4098-83e3-eda26f9ce981.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>找到些本地的访问记录</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/flag.txt.txt</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/secrets.txt</p>
+<p>eminem@file:///C:/Program%20Files/Reference%20Assemblies/Microsoft/Framework/v3.0/RedistList/Important.txt.txt</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/flag.txt.txt</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/Important.txt.txt</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/New%20Text%20Document.txt</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/Screenshot1.png</p>
+<p>eminem@file:///C:/Users/eminem/Desktop/Important.txt</p>
+<p>filescan 去找下相关文件是否存在</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687225945495-689676e5-eb69-447a-baf1-c6670013c59a.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>只找到过Important.txt和 Screenshot1.png dump下来看看。</p>
+<p>Important.txt没成功dump下来，根据题目推测可能被删除了</p>
+<p>只dump下来了Screenshot1。</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226205981-1a45f327-75c8-43f1-8a33-e749d224f148.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>试试是不是可以拉长图片 改下分辨率</p>
+<p>原像素为 1366x334</p>
+<p>去010editor里面改下 把高度改成500「0x0258」看看</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226526917-26c84985-1494-4af6-aa1e-e003a292d7e7.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226588852-5a17c123-41dd-4fbf-b123-4a296c3d2469.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>虽然可以改 但是并没有我们想要的东西。</p>
+<hr>
+<p>额。。卡住了 不知道咋做了 去看下别人的wp 找下思路...</p>
+<p>在ntfs下面可能会存储$DATA数据</p>
+<p>https://www.sans.org/blog/resident-data-residue-in-ntfs-mft-entries/</p>
+<hr>
+<p>需要用到mtfparser 去看看 ntfs下面</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687226954804-2f4c936f-83f3-429b-b036-51b0c2b17f3c.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>在看看前后的内容</p>
+<p>./volatility -f MemoryDump_Lab4.raw --profile Win7SP1x64 mftparser |
+grep -C 30 "Important.txt"</p>
+<figure>
+<img src="https://cdn.nlark.com/yuque/0/2023/png/22657900/1687227005528-cf003daa-eda6-4d0a-af40-d572fbe991bd.png" alt="img">
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>然后拿到flag
+inctf{1_is_n0t_EQu4l_7o_2_bUt_th1s_d0s3nt_m4ke_s3ns3}</p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+<div>
+
+  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 💖 🌞 本 文 结 束 😚 感 谢 您 的 阅 读 🌞 💖 -------------</div>
+    
+</div>
+
+</div>
+
+<div>
+      
+        
+      
+</div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Memlabs/" rel="tag"></i><i class="fa fa-tag"></i> Memlabs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/d2fe5b0/" rel="prev" title="hexo_error_at_node:internal/main/run_main_module">
+      <i class="fa fa-chevron-left"></i> hexo_error_at_node:internal/main/run_main_module
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/ee84a496/" rel="next" title="CS_Profile配置">
+      CS_Profile配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#memlabs---01"><span class="nav-number">1.</span> <span class="nav-text">Memlabs - 01</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#challenge-description"><span class="nav-number">1.1.</span> <span class="nav-text">Challenge
+description</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memlabs---02"><span class="nav-number">2.</span> <span class="nav-text">Memlabs - 02</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#challenge-description-1"><span class="nav-number">2.1.</span> <span class="nav-text">Challenge
+description</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memlabs---03"><span class="nav-number">3.</span> <span class="nav-text">Memlabs - 03</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#challenge-description-2"><span class="nav-number"></span> <span class="nav-text">Challenge
+Description</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#memlabs---04"><span class="nav-number">1.</span> <span class="nav-text">Memlabs - 04</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#challenge-description-3"><span class="nav-number">2.</span> <span class="nav-text">Challenge Description</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mamor"
+      src="/images/kabi.jpg">
+  <p class="site-author-name" itemprop="name">Mamor</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">204</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Mamor5409" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Mamor5409" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/mamor" title="Yuque → https:&#x2F;&#x2F;www.yuque.com&#x2F;mamor" rel="noopener" target="_blank"><i class="yuque fa-fw"></i>Yuque</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mamor</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">1.3m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:59</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+<!--
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共284.2k字</span>
+</div>
+-->
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+    </div>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/love.js"></script>
+<!--单击显示文字-->
+<script type="text/javascript" src="/js/ClickShowText.js"></script>
+
+<script type="text/javascript">
+var windowWidth = $(window).width();
+if (windowWidth > 768) {
+    document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+}
+</script>
+
+
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+
+<a href="https://mamor5409.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+
+
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+</html>
+

@@ -6,7 +6,7 @@
   <link href="http://mamor5409.github.io/atom.xml" rel="self"/>
   
   <link href="http://mamor5409.github.io/"/>
-  <updated>2025-04-07T09:32:13.361Z</updated>
+  <updated>2025-04-08T01:03:46.233Z</updated>
   <id>http://mamor5409.github.io/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>UserAdd</title>
+    <link href="http://mamor5409.github.io/posts/cbc51a3e/"/>
+    <id>http://mamor5409.github.io/posts/cbc51a3e/</id>
+    <published>2025-04-11T09:51:02.000Z</published>
+    <updated>2025-04-08T01:03:46.233Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>boshs 使用</title>
+    <link href="http://mamor5409.github.io/posts/2a298dd2/"/>
+    <id>http://mamor5409.github.io/posts/2a298dd2/</id>
+    <published>2025-04-08T01:05:12.000Z</published>
+    <updated>2025-04-08T01:06:20.419Z</updated>
+    
+    
+    <summary type="html"> </summary>
+    
+    
+    
+    <category term="bochs" scheme="http://mamor5409.github.io/categories/bochs/"/>
+    
+    
+    <category term="bochs" scheme="http://mamor5409.github.io/tags/bochs/"/>
+    
+  </entry>
   
   <entry>
     <title>2025蓝队监测分享</title>
@@ -305,44 +339,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>NSS Crypto-03</title>
-    <link href="http://mamor5409.github.io/posts/555436f5/"/>
-    <id>http://mamor5409.github.io/posts/555436f5/</id>
-    <published>2024-02-21T01:24:23.000Z</published>
-    <updated>2024-02-22T00:53:54.000Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RSA中e与phi不互素问题</title>
-    <link href="http://mamor5409.github.io/posts/81fc4c38/"/>
-    <id>http://mamor5409.github.io/posts/81fc4c38/</id>
-    <published>2024-02-19T02:59:32.000Z</published>
-    <updated>2024-03-07T03:57:47.000Z</updated>
-    
-    
-    <summary type="html"> </summary>
-    
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/categories/Crypto/"/>
-    
-    
-    <category term="Crypto" scheme="http://mamor5409.github.io/tags/Crypto/"/>
     
   </entry>
   

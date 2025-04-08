@@ -2,7 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://mamor5409.github.io/posts/dde711df/</loc>
+    <loc>http://mamor5409.github.io/posts/2a298dd2/</loc>
+    
+    <lastmod>2025-04-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/cbc51a3e/</loc>
+    
+    <lastmod>2025-04-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/631bf40/</loc>
+    
+    <lastmod>2025-04-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/242d0295/</loc>
     
     <lastmod>2025-04-08</lastmod>
     
@@ -20,7 +47,7 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/242d0295/</loc>
+    <loc>http://mamor5409.github.io/posts/dde711df/</loc>
     
     <lastmod>2025-04-08</lastmod>
     
@@ -2240,6 +2267,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://mamor5409.github.io/tags/Memlabs/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/tags/bochs/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -2615,6 +2656,20 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/PRC/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/Memlabs/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/categories/bochs/</loc>
     <lastmod>2025-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
