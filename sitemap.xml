@@ -20,15 +20,6 @@
   </url>
   
   <url>
-    <loc>http://mamor5409.github.io/posts/2a298dd2/</loc>
-    
-    <lastmod>2025-04-08</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/242d0295/</loc>
     
     <lastmod>2025-04-08</lastmod>
@@ -2274,13 +2265,6 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>http://mamor5409.github.io/tags/bochs/</loc>
-    <lastmod>2025-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
@@ -2663,13 +2647,6 @@
   
   <url>
     <loc>http://mamor5409.github.io/categories/Memlabs/</loc>
-    <lastmod>2025-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://mamor5409.github.io/categories/bochs/</loc>
     <lastmod>2025-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
