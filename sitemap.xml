@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://mamor5409.github.io/posts/2a298dd2/</loc>
-    
-    <lastmod>2025-04-08</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://mamor5409.github.io/posts/cbc51a3e/</loc>
     
     <lastmod>2025-04-08</lastmod>
@@ -21,6 +12,15 @@
   
   <url>
     <loc>http://mamor5409.github.io/posts/631bf40/</loc>
+    
+    <lastmod>2025-04-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://mamor5409.github.io/posts/2a298dd2/</loc>
     
     <lastmod>2025-04-08</lastmod>
     
